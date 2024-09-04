@@ -1,13 +1,44 @@
 {
-  "name": "playground",
-  "version": "0.0.1",
+  "name": "readium-playground",
   "description": "Play with the capabilities of the Readium Web toolkit",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": ["readium", "demo", "web reader"],
-  "author": "Henry <chocolatkey@gmail.com>",
+  "keywords": [
+    "readium",
+    "demo",
+    "web reader"
+  ],
+  "license": "BSD-3-Clause",
+  "version": "0.1.0",
   "private": true,
-  "license": "BSD-3-Clause"
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "deploy": "npx @cloudflare/next-on-pages@1 && npx wrangler pages deploy ./.vercel/output/static",
+    "preinstall": "npx only-allow pnpm"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.13.1",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@juggle/resize-observer": "^3.4.0",
+    "@mui/icons-material": "^6.0.2",
+    "@mui/material": "^6.0.2",
+    "@mui/material-nextjs": "^6.0.2",
+    "@mui/material-pigment-css": "^6.0.2",
+    "css-selector-generator": "^3.6.8",
+    "next": "14.2.7",
+    "path-browserify": "^1.0.1",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@pigment-css/nextjs-plugin": "^0.0.21",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.7",
+    "typescript": "^5"
+  }
 }
