@@ -148,17 +148,17 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
                 const clone = template.content.cloneNode(true) as HTMLElement;
 
                 // Link
-                const element = clone.querySelector("md-list-item")!;
-                element.href = `javascript:control('goTo', '${item.href}')`;
+                const element: unknown = clone.querySelector("md-list-item")!;
+                (element as HTMLAnchorElement).href = `javascript:control('goTo', '${item.href}')`;
 
                 // Title
-                const headlineSlot = element.querySelector(
+                const headlineSlot = (element as HTMLElement).querySelector(
                   "div[slot=headline]"
                 ) as HTMLDivElement;
                 headlineSlot.innerText = item.title || "[Untitled]";
 
                 // Href for debugging
-                const supportingTextSlot = element.querySelector(
+                const supportingTextSlot = (element as HTMLElement).querySelector(
                   "div[slot=supporting-text]"
                 ) as HTMLDivElement;
                 supportingTextSlot.innerText = item.href;
