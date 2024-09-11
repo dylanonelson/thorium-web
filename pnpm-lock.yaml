@@ -32,6 +32,15 @@ importers:
       '@mui/material-pigment-css':
         specifier: ^6.0.2
         version: 6.0.2(@emotion/react@11.13.3(@types/react@18.3.5)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.5)(react@18.3.1))(@types/react@18.3.5)(react@18.3.1))(@types/react@18.3.5)(react@18.3.1)(typescript@5.5.4)
+      '@readium/navigator':
+        specifier: link:src/readium/ts-toolkit/navigator
+        version: link:src/readium/ts-toolkit/navigator
+      '@readium/navigator-html-injectables':
+        specifier: link:src/readium/ts-toolkit/navigator-html-injectables
+        version: link:src/readium/ts-toolkit/navigator-html-injectables
+      '@readium/shared':
+        specifier: link:src/readium/ts-toolkit/shared
+        version: link:src/readium/ts-toolkit/shared
       css-selector-generator:
         specifier: ^3.6.8
         version: 3.6.8

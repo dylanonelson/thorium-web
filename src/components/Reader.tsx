@@ -10,15 +10,13 @@ import "./reader.css";
 import {
   BasicTextSelection,
   FrameClickEvent,
-} from "@readium/navigator-html-injectables/src/modules/ReflowablePeripherals";
-import { EpubNavigator, EpubNavigatorListeners } from "@readium/navigator/src/epub/EpubNavigator";
-import { Locator, Manifest, Publication } from "@readium/shared/src/publication";
-import FrameManager from "@readium/navigator/src/epub/frame/FrameManager";
-import FXLFrameManager from "@readium/navigator/src/epub/fxl/FXLFrameManager";
+} from "@readium/navigator-html-injectables/modules/ReflowablePeripherals";
+import { EpubNavigator, EpubNavigatorListeners } from "@readium/navigator";
+import { Locator, Manifest, Publication, Fetcher, HttpFetcher } from "@readium/shared";
+import FrameManager from "@readium/navigator/epub/frame/FrameManager";
+import FXLFrameManager from "@readium/navigator/epub/fxl/FXLFrameManager";
 import Peripherals from "@/helpers/peripherals";
 import { useEffect, useRef } from "react";
-import { HttpFetcher } from "@/readium/ts-toolkit/shared/src/fetcher/HttpFetcher";
-import { Fetcher } from "@/readium/ts-toolkit/shared/src/fetcher";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
