@@ -184,6 +184,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     };
   }, [rawManifest, selfHref]);
 
+  const control = (command: any, data?: any) => {
+    window.dispatchEvent(
+      new CustomEvent("reader-control", { detail: {
+        command: command,
+        data: data
+      }})
+    );
+  }
+
   return (
     <>
       <header id="top-bar" aria-label="Top Bar">
@@ -220,7 +229,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         <IconButton
           title="Go left"
           onClick={() => {
-            // control('goLeft')
+            control("goLeft")
           }}
         >
           <ArrowBackIcon></ArrowBackIcon>
@@ -228,7 +237,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         <IconButton
           title="Go right"
           onClick={() => {
-            // control('goRight')
+            control("goRight")
           }}
         >
           <ArrowForwardIcon></ArrowForwardIcon>
