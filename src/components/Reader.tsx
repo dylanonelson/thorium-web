@@ -10,11 +10,9 @@ import "./reader.css";
 import {
   BasicTextSelection,
   FrameClickEvent,
-} from "@readium/navigator-html-injectables/modules/ReflowablePeripherals";
-import { EpubNavigator, EpubNavigatorListeners } from "@readium/navigator";
+} from "@readium/navigator-html-injectables";
+import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher } from "@readium/shared";
-import FrameManager from "@readium/navigator/epub/frame/FrameManager";
-import FXLFrameManager from "@readium/navigator/epub/fxl/FXLFrameManager";
 import Peripherals from "@/helpers/peripherals";
 import { useEffect, useRef } from "react";
 
