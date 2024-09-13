@@ -12,10 +12,16 @@ import Peripherals from "@/helpers/peripherals";
 import { useEffect, useRef } from "react";
 import { ReaderFooter } from "./ReaderFooter";
 import { ReaderHeader } from "./ReaderHeader";
+import { autoPaginate } from "@/helpers/autoPaginate";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
   let nav: EpubNavigator | undefined;
+
+  let colCount: number = 1;
+  let colWidth: number | string;
+  let lineLength: number = 400;
+  let pageGutter: number = 20;
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -40,17 +46,30 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           ? nav.goBackward(true, () => {}) 
           : nav.goForward(true, () => {});
       },
+      resize: () => {
+        handleResize();
+      }
     });
+
+    const handleResize = () => {
+      if (nav && container.current) {
+        const pagination = autoPaginate(container.current.clientWidth, lineLength);
+        colCount = pagination.colCount;
+        colWidth = pagination.colWidth;
+
+        nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+          if (frameManager) {
+            frameManager.window.document.documentElement.style.setProperty("--RS__colCount", `${colCount}`);
+            frameManager.window.document.documentElement.style.setProperty("--RS__colWidth", (typeof colWidth === "string" ? `${colWidth}`: `${colWidth}vw`));
+            frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${pageGutter}px`);
+          }
+        });
+      }
+    };
 
     const listeners: EpubNavigatorListeners = {
       frameLoaded: function (_wnd: Window): void {
-        /*nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager) => {
-                        frameManager.msg!.send(
-                            "set_property",
-                            ["--USER__colCount", 1],
-                            (ok: boolean) => (ok ? {} : {})
-                        );
-                    })*/
+        handleResize()
         nav._cframes.forEach(
           (frameManager: FrameManager | FXLFrameManager | undefined) => {
             if (frameManager) p.observe(frameManager.window);

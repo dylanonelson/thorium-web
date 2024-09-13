@@ -1,12 +1,15 @@
 // Peripherals based on XBReader
 
+import { debounce } from "./debounce";
+
 export interface PCallbacks {
   moveTo: (direction: "left" | "right") => void;
   goProgression: (shiftKey?: boolean) => void;
+  resize: () => void;
 }
 
 export default class Peripherals {
-  private readonly observers = ["keyup", "keydown"];
+  private readonly observers = ["keyup", "keydown", "resize"];
   private targets: EventTarget[] = [];
   private readonly callbacks: PCallbacks;
 
@@ -37,7 +40,11 @@ export default class Peripherals {
     if (!item) return;
     if (this.targets.includes(item)) return;
     this.observers.forEach((EventName) => {
-      item.addEventListener(EventName, (this as any)["on" + EventName], false);
+      if (EventName === "resize") {
+        item.addEventListener(EventName, debounce((this as any)["on" + EventName], 500), false);
+      } else {
+        item.addEventListener(EventName, (this as any)["on" + EventName], false);
+      }
     });
     this.targets.push(item);
   }
@@ -49,5 +56,9 @@ export default class Peripherals {
   onkeydown(e: KeyboardEvent) {
     if (e.code === "ArrowRight") this.callbacks.moveTo("right");
     else if (e.code === "ArrowLeft") this.callbacks.moveTo("left");
+  }
+
+  onresize() {
+    this.callbacks.resize();
   }
 }
