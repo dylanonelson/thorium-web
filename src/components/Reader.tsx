@@ -38,8 +38,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       menu: (_show) => {
         // No UI that hides/shows at the moment
       },
-      goProgression: (_shiftKey) => {
-        nav.goForward(true, () => {});
+      goProgression: (shiftKey) => {
+        shiftKey 
+          ? nav.goBackward(true, () => {}) 
+          : nav.goForward(true, () => {});
       },
     });
 
