@@ -35,9 +35,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           nav.goLeft(true, () => {});
         }
       },
-      menu: (_show) => {
-        // No UI that hides/shows at the moment
-      },
       goProgression: (shiftKey) => {
         shiftKey 
           ? nav.goBackward(true, () => {}) 
@@ -90,7 +87,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       },
       textSelected: function (_selection: BasicTextSelection): void {},
     };
-    console.log("load new nav!", selfHref, rawManifest);
     const nav = new EpubNavigator(container.current!, publication, listeners);
     nav.load().then(() => {
       p.observe(window);
@@ -113,59 +109,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
               console.error("Link not found", detail.data);
               return;
             }
-            nav.goLink(link, true, (ok) => {
-              // Hide TOC dialog if navigation was a success
-              if (ok)
-                (
-                  document.getElementById("toc-dialog") as HTMLDialogElement
-                ).close();
-            });
-            break;
-          case "settings":
-            (
-              document.getElementById("settings-dialog") as HTMLDialogElement
-            ).show();
-            break;
-          case "toc":
-            // Seed TOC
-            const container = document.getElementById(
-              "toc-list"
-            ) as HTMLElement;
-            container
-              .querySelectorAll(":scope > md-list-item, :scope > md-divider")
-              .forEach((e) => e.remove()); // Clear TOC
-
-            if (nav.publication.tableOfContents) {
-              const template = container.querySelector(
-                "template"
-              ) as HTMLTemplateElement;
-              nav.publication.tableOfContents.items.forEach((item) => {
-                const clone = template.content.cloneNode(true) as HTMLElement;
-
-                // Link
-                const element: unknown = clone.querySelector("md-list-item")!;
-                (element as HTMLAnchorElement).href = `javascript:control('goTo', '${item.href}')`;
-
-                // Title
-                const headlineSlot = (element as HTMLElement).querySelector(
-                  "div[slot=headline]"
-                ) as HTMLDivElement;
-                headlineSlot.innerText = item.title || "[Untitled]";
-
-                // Href for debugging
-                const supportingTextSlot = (element as HTMLElement).querySelector(
-                  "div[slot=supporting-text]"
-                ) as HTMLDivElement;
-                supportingTextSlot.innerText = item.href;
-
-                container.appendChild(clone);
-              });
-            } else {
-              container.innerText = "TOC is empty";
-            }
-
-            // Show the TOC dialog
-            (document.getElementById("toc-dialog") as HTMLDialogElement).show();
+            nav.goLink(link, true, () => {});
             break;
           default:
             console.error("Unknown reader-control event", ev);
@@ -175,7 +119,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     return () => {
       // Cleanup TODO!
-      console.log("destroy nav");
       p.destroy();
       nav.destroy();
     };

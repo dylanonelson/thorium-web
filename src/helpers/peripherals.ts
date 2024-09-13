@@ -2,7 +2,6 @@
 
 export interface PCallbacks {
   moveTo: (direciton: "left" | "right") => void;
-  menu: (show?: boolean) => void;
   goProgression: (shiftKey?: boolean) => void;
 }
 
@@ -45,7 +44,6 @@ export default class Peripherals {
 
   onkeyup(e: KeyboardEvent) {
     if (e.code === "Space") this.callbacks.goProgression(e.shiftKey);
-    if (e.code === "Enter") this.callbacks.menu(true);
   }
 
   onkeydown(e: KeyboardEvent) {
