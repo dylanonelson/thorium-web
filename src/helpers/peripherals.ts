@@ -1,7 +1,7 @@
 // Peripherals based on XBReader
 
 export interface PCallbacks {
-  moveTo: (direciton: "left" | "right") => void;
+  moveTo: (direction: "left" | "right") => void;
   goProgression: (shiftKey?: boolean) => void;
 }
 
