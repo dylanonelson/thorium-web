@@ -1,10 +1,5 @@
 "use client";
 
-import { IconButton } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ListIcon from "@mui/icons-material/List";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import "./reader.css";
 
 import {
@@ -15,6 +10,8 @@ import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } 
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher } from "@readium/shared";
 import Peripherals from "@/helpers/peripherals";
 import { useEffect, useRef } from "react";
+import { ReaderFooter } from "./ReaderFooter";
+import { ReaderHeader } from "./ReaderHeader";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -182,65 +179,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     };
   }, [rawManifest, selfHref]);
 
-  const control = (command: any, data?: any) => {
-    window.dispatchEvent(
-      new CustomEvent("reader-control", { detail: {
-        command: command,
-        data: data
-      }})
-    );
-  }
-
   return (
     <>
-      <header id="top-bar" aria-label="Top Bar">
-        <h3 aria-label="Publication title">
-          {nav
-            ? nav.publication.metadata.title.getTranslation("en")
-            : "Loading..."}
-        </h3>
-        <div>
-          <IconButton
-            title="Table of Contents"
-            onClick={() => {
-              // control('toc')
-            }}
-          >
-            <ListIcon></ListIcon>
-          </IconButton>
-          <IconButton
-            title="Settings"
-            onClick={() => {
-              // control('settings')
-            }}
-          >
-            <SettingsIcon></SettingsIcon>
-          </IconButton>
-        </div>
-      </header>
+      <ReaderHeader title = { nav?.publication.metadata.title.getTranslation("en") } />
 
       <div id="wrapper">
         <main id="container" ref={container} aria-label="Publication"></main>
       </div>
 
-      <footer id="bottom-bar" aria-label="Bottom Bar">
-        <IconButton
-          title="Go left"
-          onClick={() => {
-            control("goLeft")
-          }}
-        >
-          <ArrowBackIcon></ArrowBackIcon>
-        </IconButton>
-        <IconButton
-          title="Go right"
-          onClick={() => {
-            control("goRight")
-          }}
-        >
-          <ArrowForwardIcon></ArrowForwardIcon>
-        </IconButton>
-      </footer>
+      <ReaderFooter/>
     </>
   );
 };
