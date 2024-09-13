@@ -23,7 +23,7 @@ body {
 }
 
 #top-bar {
-  justify-content: space-between;
+  justify-content: center;
   padding: 0 1em;
 }
 
