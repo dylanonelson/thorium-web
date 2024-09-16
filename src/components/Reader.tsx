@@ -13,15 +13,11 @@ import { useEffect, useRef } from "react";
 import { ReaderFooter } from "./ReaderFooter";
 import { ReaderHeader } from "./ReaderHeader";
 import { autoPaginate } from "@/helpers/autoPaginate";
+import { RSdefaults } from "@/defaults";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
   let nav: EpubNavigator | undefined;
-
-  let colCount: number = 1;
-  let colWidth: number | string;
-  let lineLength: number = 400;
-  let pageGutter: number = 20;
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -53,15 +49,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     const handleResize = () => {
       if (nav && container.current) {
-        const pagination = autoPaginate(container.current.clientWidth, lineLength);
-        colCount = pagination.colCount;
-        colWidth = pagination.colWidth;
+        const pagination = autoPaginate(RSdefaults.breakpoint, container.current.clientWidth, RSdefaults.lineLength);
 
         nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
           if (frameManager) {
-            frameManager.window.document.documentElement.style.setProperty("--RS__colCount", `${colCount}`);
-            frameManager.window.document.documentElement.style.setProperty("--RS__colWidth", (typeof colWidth === "string" ? `${colWidth}`: `${colWidth}vw`));
-            frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${pageGutter}px`);
+            frameManager.window.document.documentElement.style.setProperty("--RS__colCount", `${pagination.colCount}`);
+            frameManager.window.document.documentElement.style.setProperty("--RS__colWidth", (typeof pagination.colWidth === "string" ? `${pagination.colWidth}`: `${pagination.colWidth}vw`));
+            frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${RSdefaults.pageGutter}px`);
           }
         });
       }
