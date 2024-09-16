@@ -9,7 +9,7 @@ export interface PCallbacks {
 }
 
 export default class Peripherals {
-  private readonly observers = ["keyup", "keydown", "resize"];
+  private readonly observers = ["keyup", "keydown", "resize", "orientationchange"];
   private targets: EventTarget[] = [];
   private readonly callbacks: PCallbacks;
 
@@ -59,6 +59,10 @@ export default class Peripherals {
   }
 
   onresize() {
+    this.callbacks.resize();
+  }
+
+  onorientationchange() {
     this.callbacks.resize();
   }
 }
