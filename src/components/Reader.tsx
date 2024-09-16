@@ -7,7 +7,7 @@ import {
   FrameClickEvent,
 } from "@readium/navigator-html-injectables";
 import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
-import { Locator, Manifest, Publication, Fetcher, HttpFetcher } from "@readium/shared";
+import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout } from "@readium/shared";
 import Peripherals from "@/helpers/peripherals";
 import { useEffect, useRef } from "react";
 import { ReaderFooter } from "./ReaderFooter";
@@ -61,9 +61,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       }
     };
 
+    const initReadingEnv = () => {
+      if (nav.layout === EPUBLayout.reflowable) {
+        handleResize();
+      }
+    }
+
     const listeners: EpubNavigatorListeners = {
       frameLoaded: function (_wnd: Window): void {
-        handleResize()
+        initReadingEnv();
         nav._cframes.forEach(
           (frameManager: FrameManager | FXLFrameManager | undefined) => {
             if (frameManager) p.observe(frameManager.window);
