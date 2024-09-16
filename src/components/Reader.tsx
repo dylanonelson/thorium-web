@@ -54,7 +54,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
           if (frameManager) {
             frameManager.window.document.documentElement.style.setProperty("--RS__colCount", `${pagination.colCount}`);
-            frameManager.window.document.documentElement.style.setProperty("--RS__colWidth", (typeof pagination.colWidth === "string" ? `${pagination.colWidth}`: `${pagination.colWidth}vw`));
+            frameManager.window.document.documentElement.style.setProperty("--RS__colWidth", `${pagination.colWidth}`);
             frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${RSdefaults.pageGutter}px`);
           }
         });
