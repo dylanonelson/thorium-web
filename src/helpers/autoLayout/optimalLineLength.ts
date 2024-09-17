@@ -31,8 +31,9 @@ export const getOptimalLineLength = (typo: LineLengthTypography): number => {
       ctx.font = `${fontSize}px ${typo.fontFace}`;
 
       // Not supported in Safari
-      ctx.letterSpacing = letterSpacing.toString() + "px";
-      // ctx.wordSpacing = "0";
+      if (Object.hasOwn(ctx, "letterSpacing")) {
+        ctx.letterSpacing = letterSpacing.toString() + "px";
+      }
 
       return Math.round(ctx.measureText(txt).width + padding);
     }
