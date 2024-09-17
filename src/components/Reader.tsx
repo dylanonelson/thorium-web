@@ -14,6 +14,7 @@ import { ReaderFooter } from "./ReaderFooter";
 import { ReaderHeader } from "./ReaderHeader";
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { RSdefaults } from "@/defaults";
+import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -47,22 +48,21 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       }
     });
 
+    let optimalLineLength: number;
+
     const handleResize = () => {
       if (nav && container.current) {
         const pagination = autoPaginate({
           breakpoint: RSdefaults.breakpoint, 
           width: container.current.clientWidth, 
-          typo: {
-            chars: RSdefaults.lineLength,
-            pageGutter: RSdefaults.pageGutter
-          }
+          lineLength: optimalLineLength
         });
 
         nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
           if (frameManager) {
             frameManager.window.document.documentElement.style.setProperty("--RS__colCount", `${pagination.colCount}`);
             frameManager.window.document.documentElement.style.setProperty("--RS__colWidth", `${pagination.colWidth}`);
-            frameManager.window.document.documentElement.style.setProperty("--RS__defaultLineLength", `${pagination.optimalLineLength}px`);
+            frameManager.window.document.documentElement.style.setProperty("--RS__defaultLineLength", `${optimalLineLength}px`);
             frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${RSdefaults.pageGutter}px`);
           }
         });
@@ -71,6 +71,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     const initReadingEnv = () => {
       if (nav.layout === EPUBLayout.reflowable) {
+        optimalLineLength = getOptimalLineLength({
+          chars: RSdefaults.lineLength,
+          pageGutter: RSdefaults.pageGutter
+        });
         handleResize();
       }
     }
