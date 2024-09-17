@@ -53,7 +53,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           breakpoint: RSdefaults.breakpoint, 
           width: container.current.clientWidth, 
           typo: {
-            chars: RSdefaults.lineLength
+            chars: RSdefaults.lineLength,
+            pageGutter: RSdefaults.pageGutter
           }
         });
 
