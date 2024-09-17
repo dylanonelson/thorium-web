@@ -12,7 +12,7 @@ import Peripherals from "@/helpers/peripherals";
 import { useEffect, useRef } from "react";
 import { ReaderFooter } from "./ReaderFooter";
 import { ReaderHeader } from "./ReaderHeader";
-import { autoPaginate } from "@/helpers/autoPaginate";
+import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { RSdefaults } from "@/defaults";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
@@ -49,12 +49,19 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     const handleResize = () => {
       if (nav && container.current) {
-        const pagination = autoPaginate(RSdefaults.breakpoint, container.current.clientWidth, RSdefaults.lineLength);
+        const pagination = autoPaginate({
+          breakpoint: RSdefaults.breakpoint, 
+          width: container.current.clientWidth, 
+          typo: {
+            chars: RSdefaults.lineLength
+          }
+        });
 
         nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
           if (frameManager) {
             frameManager.window.document.documentElement.style.setProperty("--RS__colCount", `${pagination.colCount}`);
             frameManager.window.document.documentElement.style.setProperty("--RS__colWidth", `${pagination.colWidth}`);
+            frameManager.window.document.documentElement.style.setProperty("--RS__defaultLineLength", `${pagination.optimalLineLength}px`);
             frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${RSdefaults.pageGutter}px`);
           }
         });
