@@ -1,5 +1,6 @@
 export interface LineLengthTypography {
   chars: number;
+  pageGutter?: number;
   fontFace?: string;
   fontSize?: number;
   letterSpacing?: number;
@@ -12,6 +13,7 @@ export interface LineLengthTypography {
 export const getOptimalLineLength = (typo: LineLengthTypography): number => {
   const fontSize = typo.fontSize || 16;
   const letterSpacing = typo.letterSpacing || 0;
+  const padding = typo.pageGutter ? typo.pageGutter * 2 : 0;
 
   if (typo.fontFace) {
     // We know the font and can use canvas as a proxy
@@ -32,12 +34,12 @@ export const getOptimalLineLength = (typo: LineLengthTypography): number => {
       ctx.letterSpacing = letterSpacing.toString() + "px";
       // ctx.wordSpacing = "0";
 
-      return Math.round(ctx.measureText(txt).width);
+      return Math.round(ctx.measureText(txt).width + padding);
     }
   }
 
   // It’s impractical or impossible to get the font in canvas 
   // so we assume it’s 0.5em wide by 1em tall
 
-  return Math.round(typo.chars * ((fontSize * 0.5) + letterSpacing));
+  return Math.round((typo.chars * ((fontSize * 0.5) + letterSpacing)) + padding);
 }
