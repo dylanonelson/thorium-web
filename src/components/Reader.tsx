@@ -59,7 +59,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             frameManager.window.document.documentElement.style.setProperty("--RS__colCount", `${colCount}`);
             // Remove once v2 is merged
             frameManager.window.document.documentElement.style.setProperty("--RS__colWidth", `${"auto"}`);
-            frameManager.window.document.documentElement.style.setProperty("--RS__defaultLineLength", `${optimalLineLength}px`);
+            frameManager.window.document.documentElement.style.setProperty("--RS__defaultLineLength", `${optimalLineLength}rem`);
             frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${RSdefaults.pageGutter}px`);
           }
         });
