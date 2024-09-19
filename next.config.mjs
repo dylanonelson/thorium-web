@@ -9,10 +9,6 @@ const nextConfig = {
   experimental: {
     typedRoutes: true,
     webpackBuildWorker: true,
-  },
-  webpack: (config) => {
-    config.resolve.alias['readium-css'] = path.resolve(__dirname, 'src/readium/readium-css');
-    return config;
   }
 };
 

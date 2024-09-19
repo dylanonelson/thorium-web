@@ -1,7 +1,7 @@
 "use client";
 
 import "./reader.css";
-import RSfonts from "../RSfonts.json";
+import fontStacks from "readium-css/css/fontStacks.json";
 
 import {
   BasicTextSelection,
@@ -71,7 +71,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       if (nav.layout === EPUBLayout.reflowable) {
         optimalLineLength = getOptimalLineLength({
           chars: RSdefaults.lineLength,
-          fontFace: RSfonts["--RS__oldStyleTf"],
+          fontFace: fontStacks.RS__oldStyleTf,
           pageGutter: RSdefaults.pageGutter
         });
         handleResize();
