@@ -1,7 +1,12 @@
+export interface customFont {
+  name: string;
+  url: string;
+}
+
 export interface LineLengthTypography {
   chars: number;
   pageGutter?: number;
-  fontFace?: string;
+  fontFace?: string | customFont;
   letterSpacing?: number;
   wordSpacing?: number;
 }
@@ -14,32 +19,41 @@ export const getOptimalLineLength = (typo: LineLengthTypography): number => {
   const letterSpacing = typo.letterSpacing || 0;
   const padding = typo.pageGutter ? typo.pageGutter * 2 : 0;
 
-  if (typo.fontFace) {
-    // We know the font and can use canvas as a proxy
-    // to get the optimal width for the number of characters
+  const getApproximation = () => {
+    return Math.round((typo.chars * ((defaultFontSize * 0.5) + letterSpacing)) + padding) / defaultFontSize;
+  }
 
-    const canvas = document.createElement("canvas");
+  const getMeasureText = (canvas: HTMLCanvasElement, fontFace: string) => {
     const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
-
     if (ctx) {
       // ch based on 0
       const txt = "0".repeat(typo.chars);
-
-      // Needs loading of fonts
-      // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font#loading_fonts_with_the_css_font_loading_api
-      ctx.font = `${defaultFontSize}px ${typo.fontFace}`;
-
+      ctx.font = `${defaultFontSize}px ${fontFace}`;
       // Not supported in Safari
       if (Object.hasOwn(ctx, "letterSpacing")) {
         ctx.letterSpacing = letterSpacing.toString() + "px";
       }
-
       return Math.round(ctx.measureText(txt).width + padding) / defaultFontSize;
+    }
+    return getApproximation();
+  }
+
+  if (typo.fontFace) {
+    // We know the font and can use canvas as a proxy
+    // to get the optimal width for the number of characters
+    const canvas = document.createElement("canvas");
+    if (typeof typo.fontFace === "string") {
+      return getMeasureText(canvas, typo.fontFace);
+    } else if (typo.fontFace.name && typo.fontFace.url) {
+      const customFont = new FontFace(typo.fontFace.name, `url(${typo.fontFace.url})`);
+      customFont.load().then(() => {
+        document.fonts.add(customFont);
+        return getMeasureText(canvas, customFont.family)
+      })
     }
   }
 
   // It’s impractical or impossible to get the font in canvas 
   // so we assume it’s 0.5em wide by 1em tall
-
-  return Math.round((typo.chars * ((defaultFontSize * 0.5) + letterSpacing)) + padding) / defaultFontSize;
+  return getApproximation();
 }
