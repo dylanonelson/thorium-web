@@ -44,12 +44,16 @@ export const getOptimalLineLength = (typo: LineLengthTypography): number => {
     const canvas = document.createElement("canvas");
     if (typeof typo.fontFace === "string") {
       return getMeasureText(canvas, typo.fontFace);
-    } else if (typo.fontFace.name && typo.fontFace.url) {
+    } else {
       const customFont = new FontFace(typo.fontFace.name, `url(${typo.fontFace.url})`);
-      customFont.load().then(() => {
-        document.fonts.add(customFont);
-        return getMeasureText(canvas, customFont.family)
-      })
+      customFont.load().then(
+        () => {
+          document.fonts.add(customFont);
+          return getMeasureText(canvas, customFont.family)
+        },
+        (_err) => {
+          return getApproximation();
+        });
     }
   }
 
