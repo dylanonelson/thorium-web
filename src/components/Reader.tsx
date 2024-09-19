@@ -1,7 +1,7 @@
 "use client";
 
 import "./reader.css";
-import fontStacks from "readium-css/css/fontStacks.json";
+import fontStacks from "readium-css/css/vars/fontStacks.json";
 
 import {
   BasicTextSelection,

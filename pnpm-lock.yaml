@@ -77,7 +77,7 @@ importers:
         version: 14.2.7(eslint@8.57.0)(typescript@5.5.4)
       readium-css:
         specifier: github:readium/readium-css#json
-        version: https://codeload.github.com/readium/readium-css/tar.gz/f13333f305ae64e108f1b32c2c77a4e17a6e23cb
+        version: https://codeload.github.com/readium/readium-css/tar.gz/0035fc0a560400143fc1aaccc29bc559b5fce791
       typescript:
         specifier: ^5
         version: 5.5.4
@@ -1624,8 +1624,8 @@ packages:
     resolution: {integrity: sha512-GkMg9uOTpIWWKbSsgwb5fA4EavTR+SG/PMPoAY8hkhHfEEY0/vqljY+XHqtDf2cr2IJtoNRDbrrEpZUiZCkYRw==}
     engines: {node: '>= 14.16.0'}
 
-  readium-css@https://codeload.github.com/readium/readium-css/tar.gz/f13333f305ae64e108f1b32c2c77a4e17a6e23cb:
-    resolution: {tarball: https://codeload.github.com/readium/readium-css/tar.gz/f13333f305ae64e108f1b32c2c77a4e17a6e23cb}
+  readium-css@https://codeload.github.com/readium/readium-css/tar.gz/0035fc0a560400143fc1aaccc29bc559b5fce791:
+    resolution: {tarball: https://codeload.github.com/readium/readium-css/tar.gz/0035fc0a560400143fc1aaccc29bc559b5fce791}
     version: 2.0.0-alpha.1
 
   reflect.getprototypeof@1.0.6:
@@ -3830,7 +3830,7 @@ snapshots:
   readdirp@4.0.1:
     optional: true
 
-  readium-css@https://codeload.github.com/readium/readium-css/tar.gz/f13333f305ae64e108f1b32c2c77a4e17a6e23cb: {}
+  readium-css@https://codeload.github.com/readium/readium-css/tar.gz/0035fc0a560400143fc1aaccc29bc559b5fce791: {}
 
   reflect.getprototypeof@1.0.6:
     dependencies:
