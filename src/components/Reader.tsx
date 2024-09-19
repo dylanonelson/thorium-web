@@ -1,6 +1,7 @@
 "use client";
 
 import "./reader.css";
+import RSfonts from "../RSfonts.json";
 
 import {
   BasicTextSelection,
@@ -70,6 +71,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       if (nav.layout === EPUBLayout.reflowable) {
         optimalLineLength = getOptimalLineLength({
           chars: RSdefaults.lineLength,
+          fontFace: RSfonts["--RS__oldStyleTf"],
           pageGutter: RSdefaults.pageGutter
         });
         handleResize();
