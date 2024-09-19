@@ -29,11 +29,17 @@ export const getOptimalLineLength = (typo: LineLengthTypography): number => {
       // ch based on 0
       const txt = "0".repeat(typo.chars);
       ctx.font = `${defaultFontSize}px ${fontFace}`;
+
       // Not supported in Safari
       if (Object.hasOwn(ctx, "letterSpacing")) {
         ctx.letterSpacing = letterSpacing.toString() + "px";
+        return Math.round(ctx.measureText(txt).width + padding) / defaultFontSize;
+      } else {
+        // Instead of filling text with an offset for each character
+        // We simply add it to the measured width
+        return Math.round(ctx.measureText(txt).width + (letterSpacing * (typo.chars - 1)) + padding) / defaultFontSize;
       }
-      return Math.round(ctx.measureText(txt).width + padding) / defaultFontSize;
+      
     }
     return getApproximation();
   }
