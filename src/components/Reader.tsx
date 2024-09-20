@@ -14,7 +14,7 @@ import { useEffect, useRef } from "react";
 import { ReaderFooter } from "./ReaderFooter";
 import { ReaderHeader } from "./ReaderHeader";
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
-import { RSdefaults } from "@/defaults";
+import { RSPrefs } from "@/preferences";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
@@ -53,7 +53,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     const handleResize = () => {
       if (nav && container.current) {
-        const colCount = autoPaginate(RSdefaults.breakpoint, container.current.clientWidth, optimalLineLength);
+        const colCount = autoPaginate(RSPrefs.breakpoint, container.current.clientWidth, optimalLineLength);
 
         nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
           if (frameManager) {
@@ -61,7 +61,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             // Remove once v2 is merged
             frameManager.window.document.documentElement.style.setProperty("--RS__colWidth", `${"auto"}`);
             frameManager.window.document.documentElement.style.setProperty("--RS__defaultLineLength", `${optimalLineLength}rem`);
-            frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${RSdefaults.pageGutter}px`);
+            frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${RSPrefs.pageGutter}px`);
           }
         });
       }
@@ -70,9 +70,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     const initReadingEnv = () => {
       if (nav.layout === EPUBLayout.reflowable) {
         optimalLineLength = getOptimalLineLength({
-          chars: RSdefaults.lineLength,
+          chars: RSPrefs.lineLength,
           fontFace: fontStacks.RS__oldStyleTf,
-          pageGutter: RSdefaults.pageGutter,
+          pageGutter: RSPrefs.pageGutter,
         //  letterSpacing: 2,
         //  wordSpacing: 2,
         //  sample: "It will be seen that this mere painstaking burrower and grub-worm of a poor devil of a Sub-Sub appears to have gone through the long Vaticans and street-stalls of the earth, picking up whatever random allusions to whales he could anyways find in any book whatsoever, sacred or profane. Therefore you must not, in every case at least, take the higgledy-piggledy whale statements, however authentic, in these extracts, for veritable gospel cetology. Far from it. As touching the ancient authors generally, as well as the poets here appearing, these extracts are solely valuable or entertaining, as affording a glancing bird’s eye view of what has been promiscuously said, thought, fancied, and sung of Leviathan, by many nations and generations, including our own."
