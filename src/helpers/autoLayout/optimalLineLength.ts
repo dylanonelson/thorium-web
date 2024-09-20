@@ -19,11 +19,11 @@ export const getOptimalLineLength = (typo: LineLengthTypography): number => {
   const letterSpacing = typo.letterSpacing || 0;
   const padding = typo.pageGutter ? typo.pageGutter * 2 : 0;
 
-  const getApproximation = () => {
-    return Math.round((typo.chars * ((defaultFontSize * 0.5) + letterSpacing)) + padding) / defaultFontSize;
-  }
+  // It’s impractical or impossible to get the font in canvas 
+  // so we assume it’s 0.5em wide by 1em tall
+  let optimalLineLength = Math.round((typo.chars * ((defaultFontSize * 0.5) + letterSpacing)) + padding) / defaultFontSize;
 
-  const getMeasureText = (canvas: HTMLCanvasElement, fontFace: string) => {
+  const measureText = (canvas: HTMLCanvasElement, fontFace: string) => {
     const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
     if (ctx) {
       // ch based on 0
@@ -33,15 +33,13 @@ export const getOptimalLineLength = (typo: LineLengthTypography): number => {
       // Not supported in Safari
       if (Object.hasOwn(ctx, "letterSpacing")) {
         ctx.letterSpacing = letterSpacing.toString() + "px";
-        return Math.round(ctx.measureText(txt).width + padding) / defaultFontSize;
+        optimalLineLength = Math.round(ctx.measureText(txt).width + padding) / defaultFontSize;
       } else {
         // Instead of filling text with an offset for each character
         // We simply add it to the measured width
-        return Math.round(ctx.measureText(txt).width + (letterSpacing * (typo.chars - 1)) + padding) / defaultFontSize;
+        optimalLineLength = Math.round(ctx.measureText(txt).width + (letterSpacing * (typo.chars - 1)) + padding) / defaultFontSize;
       }
-      
     }
-    return getApproximation();
   }
 
   if (typo.fontFace) {
@@ -49,21 +47,17 @@ export const getOptimalLineLength = (typo: LineLengthTypography): number => {
     // to get the optimal width for the number of characters
     const canvas = document.createElement("canvas");
     if (typeof typo.fontFace === "string") {
-      return getMeasureText(canvas, typo.fontFace);
+      measureText(canvas, typo.fontFace);
     } else {
       const customFont = new FontFace(typo.fontFace.name, `url(${typo.fontFace.url})`);
       customFont.load().then(
         () => {
           document.fonts.add(customFont);
-          return getMeasureText(canvas, customFont.family)
+          measureText(canvas, customFont.family)
         },
-        (_err) => {
-          return getApproximation();
-        });
+        (_err) => {});
     }
   }
 
-  // It’s impractical or impossible to get the font in canvas 
-  // so we assume it’s 0.5em wide by 1em tall
-  return getApproximation();
+  return optimalLineLength;
 }
