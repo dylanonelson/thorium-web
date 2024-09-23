@@ -10,6 +10,7 @@ export interface LineLengthTypography {
   fontFace?: string | customFont;
   letterSpacing?: number;
   wordSpacing?: number;
+  isCJK?: boolean;
 }
 
 // We’re “embracing” design limitations of the ch length
@@ -38,8 +39,8 @@ export const getOptimalLineLength = (typo: LineLengthTypography): number => {
   const measureText = (canvas: HTMLCanvasElement, fontFace: string) => {
     const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
     if (ctx) {
-      // ch based on 0
-      let txt = "0".repeat(typo.chars);
+      // ch based on 0, ic based on water ideograph
+      let txt = typo.isCJK ? "水".repeat(typo.chars) : "0".repeat(typo.chars);
       ctx.font = `${defaultFontSize}px ${fontFace}`;
 
       if (typo.sample && typo.sample.length >= typo.chars) {
