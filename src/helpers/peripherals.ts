@@ -1,6 +1,6 @@
 // Peripherals based on XBReader
 
-import { debounce } from "./debounce";
+import debounce from "debounce";
 
 export interface PCallbacks {
   moveTo: (direction: "left" | "right") => void;

@@ -30,6 +30,7 @@
     "@readium/navigator-html-injectables": "link:src/readium/ts-toolkit/navigator-html-injectables",
     "@readium/shared": "link:src/readium/ts-toolkit/shared",
     "css-selector-generator": "^3.6.8",
+    "debounce": "^2.1.1",
     "next": "14.2.7",
     "path-browserify": "^1.0.1",
     "react": "^18",
