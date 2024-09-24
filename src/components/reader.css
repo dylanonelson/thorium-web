@@ -102,3 +102,13 @@ div:has(> .readium-navigator-iframe.blank)::after {
   transform: translateY(-50%);
   right: 5px;
 }
+
+.hidden {
+  opacity: 0;
+}
+
+.arrow button:hover {
+  opacity: 1;
+  transition: all 200ms;
+  background-color: #DEDEDE;
+}

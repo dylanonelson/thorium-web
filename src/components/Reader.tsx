@@ -10,7 +10,7 @@ import {
 import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout } from "@readium/shared";
 import Peripherals from "@/helpers/peripherals";
-import { useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ReaderFooter } from "./ReaderFooter";
 import { ReaderHeader } from "./ReaderHeader";
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
@@ -24,6 +24,9 @@ import { control } from "../helpers/control";
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
   let nav: EpubNavigator | undefined;
+
+  const [immersive, setImmersive] = useState(false);
+  const [fullscreen, setFullscren] = useState(false);
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -103,7 +106,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         return false;
       },
       zoom: function (_scale: number): void {},
-      miscPointer: function (_amount: number): void {},
+      miscPointer: function (_amount: number): void {
+        setImmersive(immersive => !immersive);
+      },
 
       customEvent: function (_key: string, _data: unknown): void {},
       handleLocator: function (locator: Locator): boolean {
@@ -168,13 +173,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       </div>
 
       <div className="arrow" id="arrow-left">
-        <button onClick={() => { control("goLeft")} }>
+        <button onClick={() => { control("goLeft")} } className={(immersive || fullscreen) ? "hidden": ""}>
           <LeftArrow />
         </button>
       </div>
 
       <div className="arrow" id="arrow-right">
-        <button onClick={() => { control("goRight")} }>
+        <button onClick={() => { control("goRight")} } className={(immersive || fullscreen) ? "hidden": ""}>
           <RightArrow />
         </button>
       </div>
