@@ -27,6 +27,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const [immersive, setImmersive] = useState(false);
   const [fullscreen, setFullscren] = useState(false);
+  const [publicationStart, setPublicationStart] = useState(true);
+  const [publicationEnd, setPublicationEnd] = useState(false);
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -98,6 +100,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       },
       positionChanged: function (_locator: Locator): void {
         window.focus();
+        if (_locator.locations.totalProgression === 0) {
+          setPublicationStart(true);
+        } else {
+          setPublicationStart(false);
+        }
       },
       tap: function (_e: FrameClickEvent): boolean {
         return false;
@@ -173,7 +180,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       </div>
 
       <div className="arrow" id="arrow-left">
-        <button title="Placeholder" aria-label="aria-placeholder" onClick={() => { control("goLeft")} } className={(immersive || fullscreen) ? "hidden": ""}>
+        <button title="Placeholder" aria-label="aria-placeholder" onClick={() => { control("goLeft")} } className={(immersive || fullscreen || publicationStart) ? "hidden": ""} disabled={publicationStart ? true : false}>
           <LeftArrow aria-hidden="true" focusable="false"/>
         </button>
       </div>
