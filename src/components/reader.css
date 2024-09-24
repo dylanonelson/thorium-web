@@ -119,7 +119,7 @@ div:has(> .readium-navigator-iframe.blank)::after {
   opacity: 0;
 }
 
-.arrow button:hover {
+.arrow button:not(:disabled):hover {
   opacity: 1;
   transition: all 200ms;
   background-color: var(--secondary-color);
