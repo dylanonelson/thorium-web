@@ -70,3 +70,35 @@ div:has(> .readium-navigator-iframe.blank)::after {
   border-top-color: black;
   animation: loading 2s linear infinite;
 }
+
+.arrow {
+  position: absolute;
+}
+
+.arrow button {
+  -webkit-appearance: none;
+  border-radius: 0;
+  text-align: inherit;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  color: inherit;
+  font: inherit;
+
+  width: 3rem;
+  height: 3rem;
+}
+
+#arrow-left {
+  top: 50vh;
+  transform: translateY(-50%);
+  left: 5px;
+}
+
+#arrow-right {
+  top: 50vh;
+  transform: translateY(-50%);
+  right: 5px;
+}

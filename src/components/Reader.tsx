@@ -17,6 +17,10 @@ import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { RSPrefs } from "@/preferences";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 
+import LeftArrow from "./assets/icons/baseline-arrow_left_ios-24px.svg";
+import RightArrow from "./assets/icons/baseline-arrow_forward_ios-24px.svg";
+import { control } from "../helpers/control";
+
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
   let nav: EpubNavigator | undefined;
@@ -161,6 +165,18 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
       <div id="wrapper">
         <main id="container" ref={container} aria-label="Publication"></main>
+      </div>
+
+      <div className="arrow" id="arrow-left">
+        <button onClick={() => { control("goLeft")} }>
+          <LeftArrow />
+        </button>
+      </div>
+
+      <div className="arrow" id="arrow-right">
+        <button onClick={() => { control("goRight")} }>
+          <RightArrow />
+        </button>
       </div>
 
       <ReaderFooter/>
