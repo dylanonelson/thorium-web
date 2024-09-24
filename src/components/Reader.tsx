@@ -173,14 +173,14 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       </div>
 
       <div className="arrow" id="arrow-left">
-        <button onClick={() => { control("goLeft")} } className={(immersive || fullscreen) ? "hidden": ""}>
-          <LeftArrow />
+        <button title="Placeholder" aria-label="aria-placeholder" onClick={() => { control("goLeft")} } className={(immersive || fullscreen) ? "hidden": ""}>
+          <LeftArrow aria-hidden="true" focusable="false"/>
         </button>
       </div>
 
       <div className="arrow" id="arrow-right">
-        <button onClick={() => { control("goRight")} } className={(immersive || fullscreen) ? "hidden": ""}>
-          <RightArrow />
+        <button title="Placeholder" aria-label="aria-placeholder" onClick={() => { control("goRight")} } className={(immersive || fullscreen) ? "hidden": ""}>
+          <RightArrow aria-hidden="true" focusable="false"/>
         </button>
       </div>
 
