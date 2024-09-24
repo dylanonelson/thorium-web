@@ -1,3 +1,10 @@
+/* Borrowed from Thorium src/renderer/assets/styles/variable.scss */
+:root {
+  --primary-color: #4d4d4d;
+  --secondary-color: white;
+  --disabled-color: #767676;
+}
+
 html,
 body {
   min-height: 100%;
@@ -91,6 +98,11 @@ div:has(> .readium-navigator-iframe.blank)::after {
   height: 3rem;
 }
 
+.arrow button svg {
+  fill: var(--primary-color);
+  stroke: var(--primary-color);
+}
+
 #arrow-left {
   top: 50vh;
   transform: translateY(-50%);
@@ -110,5 +122,5 @@ div:has(> .readium-navigator-iframe.blank)::after {
 .arrow button:hover {
   opacity: 1;
   transition: all 200ms;
-  background-color: #DEDEDE;
+  background-color: var(--secondary-color);
 }
