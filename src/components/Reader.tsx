@@ -100,11 +100,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       },
       positionChanged: function (_locator: Locator): void {
         window.focus();
+        
+        // Start of publication
         if (_locator.locations.totalProgression === 0) {
           setPublicationStart(true);
         } else {
           setPublicationStart(false);
         }
+
+        // End of publication TBD
       },
       tap: function (_e: FrameClickEvent): boolean {
         return false;
@@ -186,7 +190,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       </div>
 
       <div className="arrow" id="arrow-right">
-        <button title="Placeholder" aria-label="aria-placeholder" onClick={() => { control("goRight")} } className={(immersive || fullscreen) ? "hidden": ""}>
+        <button title="Placeholder" aria-label="aria-placeholder" onClick={() => { control("goRight")} } className={(immersive || fullscreen || publicationEnd) ? "hidden": ""} disabled={publicationEnd ? true : false}>
           <RightArrow aria-hidden="true" focusable="false"/>
         </button>
       </div>

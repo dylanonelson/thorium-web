@@ -96,11 +96,16 @@ div:has(> .readium-navigator-iframe.blank)::after {
 
   width: 3rem;
   height: 3rem;
+  pointer-events: auto;
 }
 
 .arrow button svg {
   fill: var(--primary-color);
   stroke: var(--primary-color);
+}
+
+.arrow button:disabled {
+  pointer-events: none;
 }
 
 #arrow-left {
