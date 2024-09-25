@@ -180,11 +180,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     <>
       <ReaderHeader title = { nav?.publication.metadata.title.getTranslation("en") } />
 
-      <div id="wrapper">
-        <main id="container" ref={container} aria-label="Publication"></main>
-      </div>
-
-      <div className="arrow" id="arrow-left">
+      <nav className="arrow-container" id="arrow-left">
         <button 
           title={Locale.reader.navigation.moveBackward} 
           aria-label={Locale.reader.navigation.moveBackward} 
@@ -193,9 +189,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           disabled={publicationStart ? true : false}>
           <LeftArrow aria-hidden="true" focusable="false"/>
         </button>
+      </nav>
+
+      <div id="wrapper">
+        <main id="container" ref={container} aria-label="Publication"></main>
       </div>
 
-      <div className="arrow" id="arrow-right">
+      <nav className="arrow-container" id="arrow-right">
         <button 
           title={Locale.reader.navigation.moveForward}
           aria-label={Locale.reader.navigation.moveForward}
@@ -204,7 +204,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           disabled={publicationEnd ? true : false}>
           <RightArrow aria-hidden="true" focusable="false"/>
         </button>
-      </div>
+      </nav>
 
       <ReaderFooter/>
     </>
