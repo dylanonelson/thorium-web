@@ -178,7 +178,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   return (
     <>
-      <ReaderHeader title = { nav?.publication.metadata.title.getTranslation("en") } />
+      <ReaderHeader 
+        className={immersive ? "immersive" : ""} 
+        title = { nav?.publication.metadata.title.getTranslation("en") } 
+      />
 
       <nav className="arrow-container" id="arrow-left">
         <button 
@@ -206,7 +209,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         </button>
       </nav>
 
-      <ReaderFooter/>
+      <ReaderFooter
+        className={immersive ? "immersive" : ""}
+      />
     </>
   );
 };

@@ -16,7 +16,7 @@ body {
 
 body {
   margin: 0;
-  /*background: #eee;*/
+  background-color: #FFFFFF;
 }
 
 #bottom-bar,
@@ -27,11 +27,23 @@ body {
   align-items: center;
   gap: 2px;
   touch-action: manipulation;
+  background-color: #FFFFFF;
+}
+
+#bottom-bar.immersive,
+#top-bar.immersive {
+  opacity: 0.25;
 }
 
 #top-bar {
   justify-content: center;
   padding: 0 1em;
+}
+
+#top-bar h1 {
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--primary-color);
 }
 
 #wrapper {
