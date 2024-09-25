@@ -3,6 +3,8 @@
   --primary-color: #4d4d4d;
   --secondary-color: white;
   --disabled-color: #767676;
+
+  --arrow-size: 32px;
 }
 
 html,
@@ -119,8 +121,8 @@ div:has(> .readium-navigator-iframe.blank)::after {
   color: inherit;
   font: inherit;
 
-  width: 3rem;
-  height: 3rem;
+  width: var(--arrow-size);
+  height: var(--arrow-size);
   pointer-events: auto;
 }
 
