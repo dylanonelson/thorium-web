@@ -191,9 +191,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         </button>
       </nav>
 
-      <div id="wrapper">
-        <main id="container" ref={container} aria-label="Publication"></main>
-      </div>
+      <article id="wrapper" aria-label={Locale.reader.app.publicationWrapper}>
+        <div id="container" ref={container}></div>
+      </article>
 
       <nav className="arrow-container" id="arrow-right">
         <button 
