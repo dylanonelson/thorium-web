@@ -94,6 +94,19 @@ div:has(> .readium-navigator-iframe.blank)::after {
   position: absolute;
 }
 
+#arrow-left {
+  top: 50vh;
+  transform: translateY(-50%);
+  left: 5px;
+  z-index: 2;
+}
+
+#arrow-right {
+  top: 50vh;
+  transform: translateY(-50%);
+  right: 5px;
+}
+
 .arrow-container button {
   -webkit-appearance: none;
   border-radius: 0;
@@ -115,11 +128,6 @@ div:has(> .readium-navigator-iframe.blank)::after {
   opacity: 0.25;
 }
 
-.arrow-container button svg {
-  fill: var(--primary-color);
-  stroke: var(--primary-color);
-}
-
 .arrow-container button:disabled {
   pointer-events: none;
 }
@@ -130,19 +138,11 @@ div:has(> .readium-navigator-iframe.blank)::after {
   background-color: var(--secondary-color);
 }
 
-#arrow-left {
-  top: 50vh;
-  transform: translateY(-50%);
-  left: 5px;
-  z-index: 2;
+.arrow-container button svg {
+  fill: var(--primary-color);
+  stroke: var(--primary-color);
 }
 
-#arrow-right {
-  top: 50vh;
-  transform: translateY(-50%);
-  right: 5px;
-}
-
-.hidden {
+.arrow-hidden {
   opacity: 0;
 }

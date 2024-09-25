@@ -194,7 +194,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           title={isRTL ? Locale.reader.navigation.moveForward : Locale.reader.navigation.moveBackward} 
           aria-label={isRTL ? Locale.reader.navigation.moveForward : Locale.reader.navigation.moveBackward} 
           onClick={() => { control("goLeft")} } 
-          className={(immersive && !breakpointReached || fullscreen || publicationStart) ? "hidden": immersive ? "immersive" : ""} 
+          className={(immersive && !breakpointReached || fullscreen || publicationStart) ? "arrow-hidden": immersive ? "immersive" : ""} 
           disabled={publicationStart ? true : false}>
           <LeftArrow aria-hidden="true" focusable="false"/>
         </button>
@@ -209,7 +209,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           title={isRTL ? Locale.reader.navigation.moveBackward : Locale.reader.navigation.moveForward}
           aria-label={isRTL ? Locale.reader.navigation.moveBackward : Locale.reader.navigation.moveForward}
           onClick={() => { control("goRight")} } 
-          className={(immersive && !breakpointReached || fullscreen || publicationEnd) ? "hidden": immersive ? "immersive" : ""} 
+          className={(immersive && !breakpointReached || fullscreen || publicationEnd) ? "arrow-hidden": immersive ? "immersive" : ""} 
           disabled={publicationEnd ? true : false}>
           <RightArrow aria-hidden="true" focusable="false"/>
         </button>
