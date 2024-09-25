@@ -8,7 +8,7 @@ import {
   FrameClickEvent,
 } from "@readium/navigator-html-injectables";
 import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
-import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout } from "@readium/shared";
+import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 import Peripherals from "@/helpers/peripherals";
 import { useEffect, useState, useRef } from "react";
 import { ReaderFooter } from "./ReaderFooter";
@@ -25,6 +25,7 @@ import Locale from "../resources/locales/en.json";
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
   let nav: EpubNavigator | undefined;
+  let isRTL: boolean = false;
 
   const [immersive, setImmersive] = useState(false);
   const [fullscreen, setFullscren] = useState(false);
@@ -41,6 +42,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       manifest: manifest,
       fetcher: fetcher,
     });
+
+    isRTL = (publication.metadata.effectiveReadingProgression === ReadingProgression.rtl);
 
     const p = new Peripherals({
       moveTo: (direction) => {
@@ -188,8 +191,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
       <nav className="arrow-container" id="arrow-left">
         <button 
-          title={Locale.reader.navigation.moveBackward} 
-          aria-label={Locale.reader.navigation.moveBackward} 
+          title={isRTL ? Locale.reader.navigation.moveForward : Locale.reader.navigation.moveBackward} 
+          aria-label={isRTL ? Locale.reader.navigation.moveForward : Locale.reader.navigation.moveBackward} 
           onClick={() => { control("goLeft")} } 
           className={(immersive && !breakpointReached || fullscreen || publicationStart) ? "hidden": immersive ? "immersive" : ""} 
           disabled={publicationStart ? true : false}>
@@ -203,8 +206,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
       <nav className="arrow-container" id="arrow-right">
         <button 
-          title={Locale.reader.navigation.moveForward}
-          aria-label={Locale.reader.navigation.moveForward}
+          title={isRTL ? Locale.reader.navigation.moveBackward : Locale.reader.navigation.moveForward}
+          aria-label={isRTL ? Locale.reader.navigation.moveBackward : Locale.reader.navigation.moveForward}
           onClick={() => { control("goRight")} } 
           className={(immersive && !breakpointReached || fullscreen || publicationEnd) ? "hidden": immersive ? "immersive" : ""} 
           disabled={publicationEnd ? true : false}>
