@@ -5,7 +5,8 @@
       "header": {
         "title": "Publication Title",
         "fallback": "Publication"
-      }
+      },
+      "footer": ""
     },
     "navigation": {
       "moveForward": "Move Forward",
