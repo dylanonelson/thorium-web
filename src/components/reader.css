@@ -111,6 +111,10 @@ div:has(> .readium-navigator-iframe.blank)::after {
   pointer-events: auto;
 }
 
+.arrow-container button.immersive {
+  opacity: 0.25;
+}
+
 .arrow-container button svg {
   fill: var(--primary-color);
   stroke: var(--primary-color);
@@ -118,6 +122,12 @@ div:has(> .readium-navigator-iframe.blank)::after {
 
 .arrow-container button:disabled {
   pointer-events: none;
+}
+
+.arrow-container button:not(:disabled):hover {
+  opacity: 1;
+  transition: all 200ms;
+  background-color: var(--secondary-color);
 }
 
 #arrow-left {
@@ -135,10 +145,4 @@ div:has(> .readium-navigator-iframe.blank)::after {
 
 .hidden {
   opacity: 0;
-}
-
-.arrow button:not(:disabled):hover {
-  opacity: 1;
-  transition: all 200ms;
-  background-color: var(--secondary-color);
 }

@@ -30,6 +30,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const [fullscreen, setFullscren] = useState(false);
   const [publicationStart, setPublicationStart] = useState(true);
   const [publicationEnd, setPublicationEnd] = useState(false);
+  const [breakpointReached, setBreakpointReached] = useState(false);
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -63,6 +64,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     const handleResize = () => {
       if (nav && container.current) {
+        setBreakpointReached(RSPrefs.breakpoint < container.current!.clientWidth);
+
         const colCount = autoPaginate(RSPrefs.breakpoint, container.current.clientWidth, optimalLineLength);
 
         nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
@@ -188,7 +191,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           title={Locale.reader.navigation.moveBackward} 
           aria-label={Locale.reader.navigation.moveBackward} 
           onClick={() => { control("goLeft")} } 
-          className={(immersive || fullscreen || publicationStart) ? "hidden": ""} 
+          className={(immersive && !breakpointReached || fullscreen || publicationStart) ? "hidden": immersive ? "immersive" : ""} 
           disabled={publicationStart ? true : false}>
           <LeftArrow aria-hidden="true" focusable="false"/>
         </button>
@@ -203,7 +206,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           title={Locale.reader.navigation.moveForward}
           aria-label={Locale.reader.navigation.moveForward}
           onClick={() => { control("goRight")} } 
-          className={(immersive || fullscreen || publicationEnd) ? "hidden": ""} 
+          className={(immersive && !breakpointReached || fullscreen || publicationEnd) ? "hidden": immersive ? "immersive" : ""} 
           disabled={publicationEnd ? true : false}>
           <RightArrow aria-hidden="true" focusable="false"/>
         </button>
