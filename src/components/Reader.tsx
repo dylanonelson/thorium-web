@@ -20,6 +20,7 @@ import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import LeftArrow from "./assets/icons/baseline-arrow_left_ios-24px.svg";
 import RightArrow from "./assets/icons/baseline-arrow_forward_ios-24px.svg";
 import { control } from "../helpers/control";
+import * as Locale from "../resources/locales/en.json";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -184,13 +185,23 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       </div>
 
       <div className="arrow" id="arrow-left">
-        <button title="Placeholder" aria-label="aria-placeholder" onClick={() => { control("goLeft")} } className={(immersive || fullscreen || publicationStart) ? "hidden": ""} disabled={publicationStart ? true : false}>
+        <button 
+          title={Locale.reader.navigation.moveBackward} 
+          aria-label={Locale.reader.navigation.moveBackward} 
+          onClick={() => { control("goLeft")} } 
+          className={(immersive || fullscreen || publicationStart) ? "hidden": ""} 
+          disabled={publicationStart ? true : false}>
           <LeftArrow aria-hidden="true" focusable="false"/>
         </button>
       </div>
 
       <div className="arrow" id="arrow-right">
-        <button title="Placeholder" aria-label="aria-placeholder" onClick={() => { control("goRight")} } className={(immersive || fullscreen || publicationEnd) ? "hidden": ""} disabled={publicationEnd ? true : false}>
+        <button 
+          title={Locale.reader.navigation.moveForward}
+          aria-label={Locale.reader.navigation.moveForward}
+          onClick={() => { control("goRight")} } 
+          className={(immersive || fullscreen || publicationEnd) ? "hidden": ""} 
+          disabled={publicationEnd ? true : false}>
           <RightArrow aria-hidden="true" focusable="false"/>
         </button>
       </div>
