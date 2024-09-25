@@ -78,11 +78,11 @@ div:has(> .readium-navigator-iframe.blank)::after {
   animation: loading 2s linear infinite;
 }
 
-.arrow {
+.arrow-container {
   position: absolute;
 }
 
-.arrow button {
+.arrow-container button {
   -webkit-appearance: none;
   border-radius: 0;
   text-align: inherit;
@@ -99,12 +99,12 @@ div:has(> .readium-navigator-iframe.blank)::after {
   pointer-events: auto;
 }
 
-.arrow button svg {
+.arrow-container button svg {
   fill: var(--primary-color);
   stroke: var(--primary-color);
 }
 
-.arrow button:disabled {
+.arrow-container button:disabled {
   pointer-events: none;
 }
 
@@ -112,6 +112,7 @@ div:has(> .readium-navigator-iframe.blank)::after {
   top: 50vh;
   transform: translateY(-50%);
   left: 5px;
+  z-index: 2;
 }
 
 #arrow-right {
