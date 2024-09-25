@@ -1,13 +1,15 @@
 import React from "react";
 
+import Locale from "../resources/locales/en.json";
+
 export const ReaderHeader = ({title}: {title: string | undefined}) => {
   return (
     <>
       <header id="top-bar" aria-label="Top Bar">
-        <h3 aria-label="Publication title">
+        <h3 aria-label={Locale.reader.app.header.title}>
           {title
             ? title
-            : "Loading..."}
+            : Locale.reader.app.header.fallback}
         </h3>
       </header>
     </>

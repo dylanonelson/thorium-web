@@ -20,7 +20,7 @@ import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import LeftArrow from "./assets/icons/baseline-arrow_left_ios-24px.svg";
 import RightArrow from "./assets/icons/baseline-arrow_forward_ios-24px.svg";
 import { control } from "../helpers/control";
-import * as Locale from "../resources/locales/en.json";
+import Locale from "../resources/locales/en.json";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);

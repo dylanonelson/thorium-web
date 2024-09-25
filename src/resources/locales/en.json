@@ -1,7 +1,11 @@
 {
   "reader": {
     "app": {
-      "publicationWrapper": "You’re now in the Publication."
+      "publicationWrapper": "You’re now in the Publication.",
+      "header": {
+        "title": "Publication Title",
+        "fallback": "Publication"
+      }
     },
     "navigation": {
       "moveForward": "Move Forward",
