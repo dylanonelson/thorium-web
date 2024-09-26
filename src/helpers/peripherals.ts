@@ -50,7 +50,7 @@ export default class Peripherals {
   }
 
   onkeyup(e: KeyboardEvent) {
-    if (e.code === "Space") this.callbacks.goProgression(e.shiftKey);
+    if (e.code === "Space" && (document.activeElement?.tagName === "IFRAME" || document.activeElement?.tagName === "BODY")) this.callbacks.goProgression(e.shiftKey);
   }
 
   onkeydown(e: KeyboardEvent) {
