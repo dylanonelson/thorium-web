@@ -1,5 +1,5 @@
-/* Borrowed from Thorium src/renderer/assets/styles/variable.scss */
 :root {
+  /* Borrowed from Thorium src/renderer/assets/styles/variable.scss */
   --primary-color: #4d4d4d;
   --secondary-color: white;
   --disabled-color: #767676;

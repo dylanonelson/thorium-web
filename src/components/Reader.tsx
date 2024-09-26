@@ -195,6 +195,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           aria-label={isRTL ? Locale.reader.navigation.moveForward : Locale.reader.navigation.moveBackward} 
           onClick={() => { control("goLeft")} } 
           className={(immersive && !breakpointReached || fullscreen || publicationStart) ? "arrow-hidden": immersive ? "immersive" : ""} 
+          style={RSPrefs.arrowSize ? {"--arrow-size": RSPrefs.arrowSize + "px"} : {}} 
           disabled={publicationStart ? true : false}>
           <LeftArrow aria-hidden="true" focusable="false"/>
         </button>
@@ -210,6 +211,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           aria-label={isRTL ? Locale.reader.navigation.moveBackward : Locale.reader.navigation.moveForward}
           onClick={() => { control("goRight")} } 
           className={(immersive && !breakpointReached || fullscreen || publicationEnd) ? "arrow-hidden": immersive ? "immersive" : ""} 
+          style={RSPrefs.arrowSize ? {"--arrow-size": RSPrefs.arrowSize + "px"} : {}} 
           disabled={publicationEnd ? true : false}>
           <RightArrow aria-hidden="true" focusable="false"/>
         </button>
