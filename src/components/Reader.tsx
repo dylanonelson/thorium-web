@@ -1,6 +1,10 @@
 "use client";
 
-import "./reader.css";
+import { RSPrefs } from "@/preferences";
+import Locale from "../resources/locales/en.json";
+
+import "./assets/styles/reader.css";
+import arrowStyles from "./assets/styles/arrowButton.module.css";
 import fontStacks from "readium-css/css/vars/fontStacks.json";
 
 import {
@@ -9,17 +13,16 @@ import {
 } from "@readium/navigator-html-injectables";
 import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
+
 import Peripherals from "@/helpers/peripherals";
 import { useEffect, useState, useRef } from "react";
+
+import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
 import { ReaderHeader } from "./ReaderHeader";
-import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
-import { RSPrefs } from "@/preferences";
-import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 
-import Locale from "../resources/locales/en.json";
-import arrowStyles from "./arrows.module.css";
-import { ArrowButton } from "./ArrowButton";
+import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
+import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
