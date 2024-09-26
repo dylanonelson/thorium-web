@@ -1,0 +1,56 @@
+.container {
+  position: absolute;
+}
+
+#left {
+  top: 50vh;
+  transform: translateY(-50%);
+  left: 5px;
+  z-index: 2;
+}
+
+#right {
+  top: 50vh;
+  transform: translateY(-50%);
+  right: 5px;
+}
+
+.container button {
+  -webkit-appearance: none;
+  border-radius: 0;
+  text-align: inherit;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  color: inherit;
+  font: inherit;
+
+  width: var(--arrow-size);
+  height: var(--arrow-size);
+  pointer-events: auto;
+}
+
+.container button.immersive {
+  opacity: 0.25;
+}
+
+.container button:disabled {
+  pointer-events: none;
+}
+
+.container button:not(:disabled):hover {
+  opacity: 1;
+  transition: all 200ms;
+  background-color: var(--secondary-color);
+}
+
+.container button svg {
+  fill: var(--primary-color);
+  stroke: var(--primary-color);
+}
+
+.hidden {
+  opacity: 0;
+}
