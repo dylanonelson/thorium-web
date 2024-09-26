@@ -68,9 +68,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     const handleResize = () => {
       if (nav && container.current) {
-        setBreakpointReached(RSPrefs.breakpoint < container.current!.clientWidth);
+        const breakpointStatus = RSPrefs.breakpoint < container.current.clientWidth;
+        setBreakpointReached(breakpointStatus);
 
-        const colCount = autoPaginate(RSPrefs.breakpoint, container.current.clientWidth, optimalLineLength);
+        const containerWidth = breakpointStatus ? window.innerWidth - (2 * (RSPrefs.arrowSize || 32)) : window.innerWidth;
+        container.current.style.width = `${containerWidth}px`;
+
+        const colCount = autoPaginate(RSPrefs.breakpoint, containerWidth, optimalLineLength);
 
         nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
           if (frameManager) {
