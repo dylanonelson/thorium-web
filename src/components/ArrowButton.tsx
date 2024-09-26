@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
@@ -16,21 +16,31 @@ export interface ReaderArrowProps {
 }
 
 export const ArrowButton = (props: ReaderArrowProps) => {
+  const button = useRef<HTMLButtonElement>(null);
+
   let label = Locale.reader.navigation.moveBackward;
   if (props.direction === "right" || props.isRTL) {
     label = Locale.reader.navigation.moveForward
   }
+
+  useEffect(() => {
+    if (props.disabled && document.activeElement === button.current) {
+      button.current!.blur()
+    }
+  })
   
   return (
     <>
      <button 
-          title={label} 
-          aria-label={label} 
-          onClick={() => { props.direction === "left" ? control("goLeft") : control("goRight")} } 
-          className={props.className} 
-          style={RSPrefs.arrowSize ? {"--arrow-size": RSPrefs.arrowSize + "px"} : {}} 
-          disabled={props.disabled}>
-          {props.direction === "left" ? <LeftArrow aria-hidden="true" focusable="false"/> : <RightArrow aria-hidden="true" focusable="false"/>}
-        </button>
+        ref={button}
+        title={label} 
+        aria-label={label} 
+        onClick={() => { props.direction === "left" ? control("goLeft") : control("goRight")} } 
+        className={props.className} 
+        style={RSPrefs.arrowSize ? {"--arrow-size": RSPrefs.arrowSize + "px"} : {}} 
+        disabled={props.disabled}
+        tabIndex={props.disabled ? -1 : 0}>
+        {props.direction === "left" ? <LeftArrow aria-hidden="true" focusable="false"/> : <RightArrow aria-hidden="true" focusable="false"/>}
+      </button>
     </>);
 }
