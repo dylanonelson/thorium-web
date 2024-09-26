@@ -17,11 +17,9 @@ import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { RSPrefs } from "@/preferences";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 
-import LeftArrow from "./assets/icons/baseline-arrow_left_ios-24px.svg";
-import RightArrow from "./assets/icons/baseline-arrow_forward_ios-24px.svg";
-import { control } from "../helpers/control";
 import Locale from "../resources/locales/en.json";
 import arrowStyles from "./arrows.module.css";
+import { ArrowButton } from "./ArrowButton";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -196,15 +194,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       />
 
       <nav className={arrowStyles.container} id={arrowStyles.left}>
-        <button 
-          title={isRTL ? Locale.reader.navigation.moveForward : Locale.reader.navigation.moveBackward} 
-          aria-label={isRTL ? Locale.reader.navigation.moveForward : Locale.reader.navigation.moveBackward} 
-          onClick={() => { control("goLeft")} } 
+        <ArrowButton 
+          direction="left" 
           className={(immersive && !breakpointReached || fullscreen || publicationStart) ? arrowStyles.hidden : immersive ? arrowStyles.immersive : ""} 
-          style={RSPrefs.arrowSize ? {"--arrow-size": RSPrefs.arrowSize + "px"} : {}} 
-          disabled={publicationStart ? true : false}>
-          <LeftArrow aria-hidden="true" focusable="false"/>
-        </button>
+          isRTL={isRTL} 
+          disabled={publicationStart}
+        />
       </nav>
 
       <article id="wrapper" aria-label={Locale.reader.app.publicationWrapper}>
@@ -212,15 +207,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       </article>
 
       <nav className={arrowStyles.container} id={arrowStyles.right}>
-        <button 
-          title={isRTL ? Locale.reader.navigation.moveBackward : Locale.reader.navigation.moveForward}
-          aria-label={isRTL ? Locale.reader.navigation.moveBackward : Locale.reader.navigation.moveForward}
-          onClick={() => { control("goRight")} } 
+        <ArrowButton 
+          direction="right" 
           className={(immersive && !breakpointReached || fullscreen || publicationEnd) ? arrowStyles.hidden : immersive ? arrowStyles.immersive : ""} 
-          style={RSPrefs.arrowSize ? {"--arrow-size": RSPrefs.arrowSize + "px"} : {}} 
-          disabled={publicationEnd ? true : false}>
-          <RightArrow aria-hidden="true" focusable="false"/>
-        </button>
+          isRTL={isRTL} 
+          disabled={publicationEnd}
+        />
       </nav>
 
       <ReaderFooter
