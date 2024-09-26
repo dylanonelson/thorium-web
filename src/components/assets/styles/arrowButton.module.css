@@ -42,6 +42,10 @@
   pointer-events: none;
 }
 
+.container button:focus {
+  opacity: 1;
+}
+
 .container button:not(:disabled):hover {
   opacity: 1;
   transition: all 200ms;
