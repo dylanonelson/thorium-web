@@ -1,10 +1,12 @@
 import React from "react";
 
+import { RSPrefs } from "@/preferences";
+import Locale from "../resources/locales/en.json";
+
 import LeftArrow from "./assets/icons/baseline-arrow_left_ios-24px.svg";
 import RightArrow from "./assets/icons/baseline-arrow_forward_ios-24px.svg";
+
 import { control } from "../helpers/control";
-import Locale from "../resources/locales/en.json";
-import { RSPrefs } from "@/preferences";
 
 export interface ReaderArrowProps {
   direction: "left" | "right";
