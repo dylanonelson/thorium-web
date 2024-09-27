@@ -1,6 +1,7 @@
 // Peripherals based on XBReader
 
 import debounce from "debounce";
+import { isInteractiveElement } from "./isInteractiveElement";
 
 export interface PCallbacks {
   moveTo: (direction: "left" | "right") => void;
@@ -50,7 +51,7 @@ export default class Peripherals {
   }
 
   onkeyup(e: KeyboardEvent) {
-    if (e.code === "Space" && (document.activeElement?.tagName !== "BUTTON")) this.callbacks.goProgression(e.shiftKey);
+    if (e.code === "Space" && !isInteractiveElement(document.activeElement)) this.callbacks.goProgression(e.shiftKey);
   }
 
   onkeydown(e: KeyboardEvent) {
