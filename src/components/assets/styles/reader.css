@@ -1,10 +1,8 @@
 :root {
   /* Borrowed from Thorium src/renderer/assets/styles/variable.scss */
-  --primary-color: #4d4d4d;
-  --secondary-color: white;
-  --disabled-color: #767676;
-
-  --arrow-size: 40px;
+  --color-primary: #4d4d4d;
+  --color-secondary: white;
+  --color-disabled: #767676;
 }
 
 html,
@@ -45,7 +43,7 @@ body {
 #top-bar h1 {
   font-size: 1rem;
   line-height: 1;
-  color: var(--primary-color);
+  color: var(--color-primary);
 }
 
 #wrapper {

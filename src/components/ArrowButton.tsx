@@ -7,6 +7,7 @@ import LeftArrow from "./assets/icons/baseline-arrow_left_ios-24px.svg";
 import RightArrow from "./assets/icons/baseline-arrow_forward_ios-24px.svg";
 
 import { control } from "../helpers/control";
+import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 
 export interface ReaderArrowProps {
   direction: "left" | "right";
@@ -34,7 +35,7 @@ export const ArrowButton = (props: ReaderArrowProps) => {
         aria-label={label} 
         onClick={() => { props.direction === "left" ? control("goLeft") : control("goRight")} } 
         className={props.className} 
-        style={RSPrefs.arrowSize ? {"--arrow-size": RSPrefs.arrowSize + "px"} : {}} 
+        style={propsToCSSVars(RSPrefs.theming.arrow, "arrow")} 
         disabled={props.disabled}
         tabIndex={props.disabled ? -1 : 0}>
         {props.direction === "left" ? <LeftArrow aria-hidden="true" focusable="false"/> : <RightArrow aria-hidden="true" focusable="false"/>}
