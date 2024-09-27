@@ -27,8 +27,8 @@ import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
   let nav: EpubNavigator | undefined;
-  let isRTL: boolean = false;
 
+  const [isRTL, setRTL] = useState(false);
   const [immersive, setImmersive] = useState(false);
   const [fullscreen, setFullscren] = useState(false);
   const [publicationStart, setPublicationStart] = useState(true);
@@ -45,7 +45,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       fetcher: fetcher,
     });
 
-    isRTL = (publication.metadata.effectiveReadingProgression === ReadingProgression.rtl);
+    setRTL(publication.metadata.effectiveReadingProgression === ReadingProgression.rtl);
 
     const p = new Peripherals({
       moveTo: (direction) => {
