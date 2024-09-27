@@ -46,9 +46,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       fetcher: fetcher,
     });
 
-    setRTL(publication.metadata.effectiveReadingProgression === ReadingProgression.rtl);
-
     const arrowsWidth = 2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0));
+    let optimalLineLength: number;
+    
+    setRTL(publication.metadata.effectiveReadingProgression === ReadingProgression.rtl);
 
     const p = new Peripherals({
       moveTo: (direction) => {
@@ -67,8 +68,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         handleResize();
       }
     });
-
-    let optimalLineLength: number;
 
     const handleResize = () => {
       if (nav && container.current) {
