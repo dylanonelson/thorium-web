@@ -23,6 +23,7 @@ import { ReaderHeader } from "./ReaderHeader";
 
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
+import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -46,6 +47,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     });
 
     setRTL(publication.metadata.effectiveReadingProgression === ReadingProgression.rtl);
+
+    const arrowsWidth = 2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0));
 
     const p = new Peripherals({
       moveTo: (direction) => {
@@ -72,7 +75,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         const breakpointStatus = RSPrefs.breakpoint < container.current.clientWidth;
         setBreakpointReached(breakpointStatus);
 
-        const containerWidth = breakpointStatus ? window.innerWidth - (2 * (RSPrefs.arrowSize || 32)) : window.innerWidth;
+        const containerWidth = breakpointStatus ? window.innerWidth - arrowsWidth : window.innerWidth;
         container.current.style.width = `${containerWidth}px`;
 
         const colCount = autoPaginate(RSPrefs.breakpoint, containerWidth, optimalLineLength);
@@ -81,7 +84,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           if (frameManager) {
             frameManager.window.document.documentElement.style.setProperty("--RS__colCount", `${colCount}`);
             frameManager.window.document.documentElement.style.setProperty("--RS__defaultLineLength", `${optimalLineLength}rem`);
-            frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${RSPrefs.pageGutter}px`);
+            frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${RSPrefs.typography.pageGutter}px`);
           }
         });
       }
@@ -90,9 +93,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     const initReadingEnv = () => {
       if (nav.layout === EPUBLayout.reflowable) {
         optimalLineLength = getOptimalLineLength({
-          chars: RSPrefs.lineLength,
+          chars: RSPrefs.typography.lineLength,
           fontFace: fontStacks.RS__oldStyleTf,
-          pageGutter: RSPrefs.pageGutter,
+          pageGutter: RSPrefs.typography.pageGutter,
         //  letterSpacing: 2,
         //  wordSpacing: 2,
         //  sample: "It will be seen that this mere painstaking burrower and grub-worm of a poor devil of a Sub-Sub appears to have gone through the long Vaticans and street-stalls of the earth, picking up whatever random allusions to whales he could anyways find in any book whatsoever, sacred or profane. Therefore you must not, in every case at least, take the higgledy-piggledy whale statements, however authentic, in these extracts, for veritable gospel cetology. Far from it. As touching the ancient authors generally, as well as the poets here appearing, these extracts are solely valuable or entertaining, as affording a glancing bird’s eye view of what has been promiscuously said, thought, fancied, and sung of Leviathan, by many nations and generations, including our own."
@@ -190,7 +193,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   return (
     <>
-    <main>
+    <main style={propsToCSSVars(RSPrefs.theming.color, "color")}>
       <ReaderHeader 
         className={immersive ? "immersive" : ""} 
         title = { nav?.publication.metadata.title.getTranslation("en") } 
