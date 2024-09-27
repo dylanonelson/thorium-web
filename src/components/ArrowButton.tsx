@@ -18,10 +18,7 @@ export interface ReaderArrowProps {
 export const ArrowButton = (props: ReaderArrowProps) => {
   const button = useRef<HTMLButtonElement>(null);
 
-  let label = Locale.reader.navigation.moveBackward;
-  if (props.direction === "right" || props.isRTL) {
-    label = Locale.reader.navigation.moveForward
-  }
+  const label = (props.direction === "right" || props.isRTL) ? Locale.reader.navigation.goForward : Locale.reader.navigation.goBackward;
 
   useEffect(() => {
     if (props.disabled && document.activeElement === button.current) {
