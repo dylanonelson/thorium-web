@@ -9,8 +9,8 @@
       "footer": ""
     },
     "navigation": {
-      "moveForward": "Move Forward",
-      "moveBackward": "Move Backward"
+      "goForward": "Go Forward",
+      "goBackward": "Go Backward"
     }
   }
 }
