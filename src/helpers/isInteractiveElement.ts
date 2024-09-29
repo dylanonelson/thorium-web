@@ -1,15 +1,12 @@
 export const isInteractiveElement = (element: Element | null) => {
-  let interactive = false;
-
   const iElements = ["A", "AREA", "BUTTON", "DETAILS", "INPUT", "SELECT", "TEXTAREA"];
 
-  if (element) {
-    if (iElements.includes(element.tagName)) interactive = true;
-    if (element.hasAttribute("disabled")) interactive = false;
-    if (element.hasAttribute("tabindex")) {
-      interactive = Number(element.getAttribute("tabindex")) >= 0; 
-    };
+  if (element && (element instanceof HTMLElement || element instanceof SVGElement)) {
+    if (element.closest("[inert]")) return false;
+    if (element.hasAttribute("disabled")) return false;
+    if (element.tabIndex) return element.tabIndex >= 0;
+    if (iElements.includes(element.tagName)) return true;
   }
 
-  return interactive;
+  return false;
 }
