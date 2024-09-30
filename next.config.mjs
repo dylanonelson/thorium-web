@@ -1,10 +1,10 @@
 import { createTheme } from "@mui/material";
 import { withPigment } from "@pigment-css/nextjs-plugin";
-import path from "path";
-import { fileURLToPath } from "url";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Disable React running twice as it messes up with iframes
+  reactStrictMode: false,
   experimental: {
     typedRoutes: true,
     webpackBuildWorker: true,
