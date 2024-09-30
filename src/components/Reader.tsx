@@ -24,6 +24,7 @@ import { ReaderHeader } from "./ReaderHeader";
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -35,6 +36,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const [publicationStart, setPublicationStart] = useState(true);
   const [publicationEnd, setPublicationEnd] = useState(false);
   const [breakpointReached, setBreakpointReached] = useState(false);
+
+  // self link should be used instead, but is currently set in useEffect()…
+  const [currentLocation, saveCurrentLocation] = useLocalStorage<Locator | null>(`${selfHref}-current-location`, null)
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -115,6 +119,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       },
       positionChanged: function (_locator: Locator): void {
         window.focus();
+
+        saveCurrentLocation(_locator);
         
         // Start of publication
         if (_locator.locations.totalProgression === 0) {
@@ -153,7 +159,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       },
       textSelected: function (_selection: BasicTextSelection): void {},
     };
-    const nav = new EpubNavigator(container.current!, publication, listeners);
+    const nav = new EpubNavigator(container.current!, publication, listeners, undefined, currentLocation ? currentLocation : undefined);
     nav.load().then(() => {
       p.observe(window);
 
