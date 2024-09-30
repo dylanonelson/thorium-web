@@ -42,7 +42,7 @@ export default class Peripherals {
     if (this.targets.includes(item)) return;
     this.observers.forEach((EventName) => {
       if (EventName === "resize") {
-        item.addEventListener(EventName, debounce((this as any)["on" + EventName], 250), false);
+        item.addEventListener(EventName, debounce((this as any)["on" + EventName], 250, { immediate: true }), false);
       } else {
         item.addEventListener(EventName, (this as any)["on" + EventName], false);
       }
