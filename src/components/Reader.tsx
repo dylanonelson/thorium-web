@@ -55,18 +55,22 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     
     setRTL(publication.metadata.effectiveReadingProgression === ReadingProgression.rtl);
 
+    const activateImmersiveOnAction = () => {
+      if (!immersive) setImmersive(true);
+    }
+
     const p = new Peripherals({
       moveTo: (direction) => {
         if (direction === "right") {
-          nav.goRight(true, () => {});
+          nav.goRight(true, activateImmersiveOnAction);
         } else if (direction === "left") {
-          nav.goLeft(true, () => {});
+          nav.goLeft(true, activateImmersiveOnAction);
         }
       },
       goProgression: (shiftKey) => {
         shiftKey 
-          ? nav.goBackward(true, () => {}) 
-          : nav.goForward(true, () => {});
+          ? nav.goBackward(true, activateImmersiveOnAction) 
+          : nav.goForward(true, activateImmersiveOnAction);
       },
       resize: () => {
         handleResize();
@@ -141,7 +145,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       miscPointer: function (_amount: number): void {
         setImmersive(immersive => !immersive);
       },
-
       customEvent: function (_key: string, _data: unknown): void {},
       handleLocator: function (locator: Locator): boolean {
         const href = locator.href;
