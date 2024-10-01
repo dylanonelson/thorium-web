@@ -128,6 +128,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       }
     }
 
+    const handleArrowDisabling = (locator: Locator) => {
+      if (locator.locations.position) {
+        setPublicationStart(locator.locations.position === 1);
+        if (totalPositions) {
+          setPublicationEnd(locator.locations.position === totalPositions)
+        }
+      }
+    }
+
     const listeners: EpubNavigatorListeners = {
       frameLoaded: function (_wnd: Window): void {
         initReadingEnv();
@@ -144,17 +153,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         setCurrentPosition(nav?.currentPositionNumbers);
         saveCurrentLocation(_locator);
         
-        // Start of publication
-        if (_locator.locations.totalProgression === 0) {
-          setPublicationStart(true);
-        } else {
-          setPublicationStart(false);
-        }
-
-        // End of publication TBD
-        if (_locator.locations.position && totalPositions) {
-          setPublicationEnd(_locator.locations.position === totalPositions)
-        }
+        handleArrowDisabling(_locator);
       },
       tap: function (_e: FrameClickEvent): boolean {
         return false;
