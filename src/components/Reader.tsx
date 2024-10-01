@@ -17,9 +17,9 @@ import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, Readi
 import Peripherals from "@/helpers/peripherals";
 import { useEffect, useState, useRef } from "react";
 
-import { ArrowButton } from "./ArrowButton";
-import { ReaderFooter } from "./ReaderFooter";
 import { ReaderHeader } from "./ReaderHeader";
+import { ArrowButton } from "./ArrowButton";
+import { Progression } from "./Progression";
 
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
@@ -37,8 +37,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const [publicationEnd, setPublicationEnd] = useState(false);
   const [breakpointReached, setBreakpointReached] = useState(false);
 
-  // self link should be used instead, but is currently set in useEffect()…
+  // In practice, selfHref is what is used to set the self link, which is our scope
   const [currentLocation, saveCurrentLocation] = useLocalStorage<Locator | null>(`${selfHref}-current-location`, null)
+  const [positions, setPositions] = useState<Locator[] | undefined>(undefined);
+  const [currentPosition, setCurrentPosition] = useState<number[] | undefined>(undefined);
+  const [totalPositions, setTotalPositions] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -49,6 +52,20 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       manifest: manifest,
       fetcher: fetcher,
     });
+
+    const fetchPositions = async () => {
+      const positionsJSON = publication.manifest.links.findWithMediaType("application/vnd.readium.position-list+json");
+      if (positionsJSON) {
+        const fetcher = new HttpFetcher(self.fetch.bind(self), selfHref);
+        const fetched = fetcher.get(positionsJSON);
+        const positionObj = await fetched.readAsJSON() as {total: number, positions: Locator[]};
+        setPositions(positionObj.positions);
+        setTotalPositions(positionObj.total);
+      }
+    };
+
+    fetchPositions()
+      .catch(console.error);
 
     const arrowsWidth = 2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0));
     let optimalLineLength: number;
@@ -124,6 +141,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       positionChanged: function (_locator: Locator): void {
         window.focus();
 
+        setCurrentPosition(nav?.currentPositionNumbers);
         saveCurrentLocation(_locator);
         
         // Start of publication
@@ -134,6 +152,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         }
 
         // End of publication TBD
+        if (_locator.locations.position && totalPositions) {
+          setPublicationEnd(_locator.locations.position === totalPositions)
+        }
       },
       tap: function (_e: FrameClickEvent): boolean {
         return false;
@@ -162,7 +183,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       },
       textSelected: function (_selection: BasicTextSelection): void {},
     };
-    const nav = new EpubNavigator(container.current!, publication, listeners, undefined, currentLocation ? currentLocation : undefined);
+    const nav = new EpubNavigator(container.current!, publication, listeners, positions, currentLocation ? currentLocation : undefined);
     nav.load().then(() => {
       p.observe(window);
 
@@ -229,9 +250,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         />
       </nav>
 
-      <ReaderFooter
-        className={immersive ? "immersive" : ""}
-      />
+      <aside className={immersive ? "immersive" : ""}  id="bottom-bar">
+        <Progression positionNumbers={currentPosition} totalPositions={totalPositions}/>
+      </aside>
     </main>
     </>
   );
