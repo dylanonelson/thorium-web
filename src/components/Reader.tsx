@@ -250,7 +250,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       </nav>
 
       <aside className={immersive ? "immersive" : ""}  id="bottom-bar">
-        <Progression positionNumbers={currentPosition} totalPositions={totalPositions}/>
+        {(currentPosition && totalPositions) &&
+          <Progression positionNumbers={currentPosition} totalPositions={totalPositions}/>}
       </aside>
     </main>
     </>
