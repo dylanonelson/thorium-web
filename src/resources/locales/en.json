@@ -6,7 +6,10 @@
         "title": "Publication Title",
         "fallback": "Publication"
       },
-      "footer": ""
+      "progression": {
+        "wrapper": "Current progression through the publication",
+        "numbers": "{{current}} of {{total}}"
+      }
     },
     "navigation": {
       "goForward": "Go Forward",
