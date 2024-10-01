@@ -11,7 +11,7 @@ export const Progression = ({positionNumbers, totalPositions}: {positionNumbers:
   return (
     <>
     <div id={progressionStyles.current} aria-label={Locale.reader.app.progression.wrapper}>
-      {jsonTemplate({ current: positionNumbers || "...", total:  totalPositions || "..." })}
+      {jsonTemplate({ current: positionNumbers?.length === 2 ? `${positionNumbers[0]}–${positionNumbers[1]}` : positionNumbers || "...", total:  totalPositions || "..." })}
     </div>;
     </>
   )
