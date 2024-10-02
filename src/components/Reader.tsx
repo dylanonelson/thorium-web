@@ -129,15 +129,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       }
     }
 
-    const handleArrowDisabling = (locator: Locator) => {
-      if (locator.locations.position) {
-        setPublicationStart(locator.locations.position === 1);
-        if (progression.total) {
-          setPublicationEnd(locator.locations.position === progression.total)
-        }
-      }
-    }
-
     const handleProgression = (locator: Locator) => {
       const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
       
@@ -159,7 +150,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
         handleProgression(locator);
         saveCurrentLocation(locator);
-        handleArrowDisabling(locator);
       },
       tap: function (_e: FrameClickEvent): boolean {
         return false;
