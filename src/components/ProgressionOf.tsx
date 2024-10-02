@@ -24,7 +24,7 @@ export const ProgressionOf = ({progression}: {progression: IProgression}) => {
 
   useEffect(() => {
     if (progression.total && progression.currentNumbers) {
-      setCurrent(Array.isArray(progression.currentNumbers) && progression.currentNumbers.length === 2 ? `${progression.currentNumbers[0]}–${progression.currentNumbers[1]}` : `${progression.currentNumbers}`);
+      setCurrent(progression.currentNumbers.length === 2 ? `${progression.currentNumbers[0]}–${progression.currentNumbers[1]}` : `${progression.currentNumbers}`);
       setReference(`${progression.total}`);
     } else if (progression.totalProgression !== undefined && progression.currentPublication) {
       setCurrent(`${Math.round(progression.totalProgression * 100)}%`);
