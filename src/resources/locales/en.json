@@ -7,8 +7,8 @@
         "fallback": "Publication"
       },
       "progression": {
-        "wrapper": "Current progression through the publication",
-        "numbers": "{{current}} of {{total}}"
+        "wrapper": "Current progression",
+        "of": "{{current}} of {{reference}}"
       }
     },
     "navigation": {
