@@ -33,7 +33,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const [isRTL, setRTL] = useState(false);
   const [immersive, setImmersive] = useState(false);
   const [fullscreen, setFullscren] = useState(false);
-  const [publicationStart, setPublicationStart] = useState(true);
+  const [publicationStart, setPublicationStart] = useState(false);
   const [publicationEnd, setPublicationEnd] = useState(false);
   const [breakpointReached, setBreakpointReached] = useState(false);
 
