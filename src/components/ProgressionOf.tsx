@@ -41,7 +41,7 @@ export const ProgressionOf = ({progression}: {progression: IProgression}) => {
   return (
     <>
     {(current && reference) && <div id={progressionStyles.current} aria-label={Locale.reader.app.progression.wrapper}>
-      {jsonTemplate({ current: current, reference:  reference})}
+      {jsonTemplate({ current: current, reference: reference })}
     </div>}
     </>
   )

@@ -58,7 +58,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     const fetchPositions = async () => {
       const positionsJSON = publication.manifest.links.findWithMediaType("application/vnd.readium.position-list+json");
       if (positionsJSON) {
-        const fetcher = new HttpFetcher(self.fetch.bind(self), selfHref);
+        const fetcher = new HttpFetcher(undefined, selfHref);
         const fetched = fetcher.get(positionsJSON);
         const positionObj = await fetched.readAsJSON() as {total: number, positions: Locator[]};
         setProgression(progression => progression = { ...progression, list: positionObj.positions, total: positionObj.total });
