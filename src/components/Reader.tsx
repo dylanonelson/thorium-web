@@ -19,7 +19,7 @@ import { useEffect, useState, useRef } from "react";
 
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
-import { ProgressionOf } from "./ProgressionOf";
+import { IProgression, ProgressionOf } from "./ProgressionOf";
 
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
@@ -250,8 +250,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       </nav>
 
       <aside className={immersive ? "immersive" : ""}  id="bottom-bar">
-        {(currentPosition && totalPositions) &&
-          <ProgressionOf current={currentPosition} reference={totalPositions}/>}
+        {(totalPositions || currentLocation?.locations.progression !== undefined) && <ProgressionOf 
+          current={totalPositions ? currentPosition : `${Math.round(currentLocation?.locations.progression! * 100)}%`} 
+          reference={totalPositions ? totalPositions : currentLocation?.title }
+        />}
       </aside>
     </main>
     </>

@@ -11,7 +11,7 @@ export const ProgressionOf = ({current, reference}: {current: number[] | string 
   return (
     <>
     <div id={progressionStyles.current} aria-label={Locale.reader.app.progression.wrapper}>
-      {jsonTemplate({ current: current?.length === 2 ? `${current[0]}–${current[1]}` : current || "...", reference:  reference || "..." })}
+      {jsonTemplate({ current: Array.isArray(current) && current?.length === 2 ? `${current[0]}–${current[1]}` : current || "...", reference:  reference || Locale.reader.app.progression.referenceFallback })}
     </div>
     </>
   )

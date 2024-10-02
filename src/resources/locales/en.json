@@ -8,7 +8,8 @@
       },
       "progression": {
         "wrapper": "Current progression",
-        "of": "{{current}} of {{reference}}"
+        "of": "{{current}} of {{reference}}",
+        "referenceFallback": "current chapter"
       }
     },
     "navigation": {
