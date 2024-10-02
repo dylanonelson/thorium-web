@@ -28,8 +28,8 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
-  let nav: EpubNavigator | undefined;
-
+  
+  const [publicationTitle, setPublicationTitle] = useState("");
   const [isRTL, setRTL] = useState(false);
   const [immersive, setImmersive] = useState(false);
   const [fullscreen, setFullscren] = useState(false);
@@ -39,9 +39,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   // In practice, selfHref is what is used to set the self link, which is our scope
   const [currentLocation, saveCurrentLocation] = useLocalStorage<Locator | null>(`${selfHref}-current-location`, null)
-  const [positions, setPositions] = useState<Locator[] | undefined>(undefined);
-  const [currentPosition, setCurrentPosition] = useState<number[] | undefined>(undefined);
-  const [totalPositions, setTotalPositions] = useState<number | undefined>(undefined);
+  const [progression, setProgression] = useState<IProgression>({});
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -53,14 +51,17 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       fetcher: fetcher,
     });
 
+    setPublicationTitle(publicationTitle => publicationTitle = publication.metadata.title.getTranslation("en"));
+
+    setProgression(progression => progression = { ...progression, currentPublication: publicationTitle || Locale.reader.app.progression.pubFallback});
+
     const fetchPositions = async () => {
       const positionsJSON = publication.manifest.links.findWithMediaType("application/vnd.readium.position-list+json");
       if (positionsJSON) {
         const fetcher = new HttpFetcher(self.fetch.bind(self), selfHref);
         const fetched = fetcher.get(positionsJSON);
         const positionObj = await fetched.readAsJSON() as {total: number, positions: Locator[]};
-        setPositions(positionObj.positions);
-        setTotalPositions(positionObj.total);
+        setProgression(progression => progression = { ...progression, list: positionObj.positions, total: positionObj.total });
       }
     };
 
@@ -131,10 +132,16 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     const handleArrowDisabling = (locator: Locator) => {
       if (locator.locations.position) {
         setPublicationStart(locator.locations.position === 1);
-        if (totalPositions) {
-          setPublicationEnd(locator.locations.position === totalPositions)
+        if (progression.total) {
+          setPublicationEnd(locator.locations.position === progression.total)
         }
       }
+    }
+
+    const handleProgression = (locator: Locator) => {
+      const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
+      
+      setProgression(progression => progression = { ...progression, currentNumbers: nav?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression });
     }
 
     const listeners: EpubNavigatorListeners = {
@@ -147,13 +154,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         );
         p.observe(window);
       },
-      positionChanged: function (_locator: Locator): void {
+      positionChanged: function (locator: Locator): void {
         window.focus();
 
-        setCurrentPosition(nav?.currentPositionNumbers);
-        saveCurrentLocation(_locator);
-        
-        handleArrowDisabling(_locator);
+        handleProgression(locator);
+        saveCurrentLocation(locator);
+        handleArrowDisabling(locator);
       },
       tap: function (_e: FrameClickEvent): boolean {
         return false;
@@ -182,7 +188,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       },
       textSelected: function (_selection: BasicTextSelection): void {},
     };
-    const nav = new EpubNavigator(container.current!, publication, listeners, positions, currentLocation ? currentLocation : undefined);
+    const nav = new EpubNavigator(container.current!, publication, listeners, progression.list, currentLocation ? currentLocation : undefined);
     nav.load().then(() => {
       p.observe(window);
 
@@ -224,7 +230,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     <main style={propsToCSSVars(RSPrefs.theming.color, "color")}>
       <ReaderHeader 
         className={immersive ? "immersive" : ""} 
-        title = { nav?.publication.metadata.title.getTranslation("en") } 
+        title = { publicationTitle } 
       />
 
       <nav className={arrowStyles.container} id={arrowStyles.left}>
@@ -250,10 +256,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       </nav>
 
       <aside className={immersive ? "immersive" : ""}  id="bottom-bar">
-        {(totalPositions || currentLocation?.locations.progression !== undefined) && <ProgressionOf 
-          current={totalPositions ? currentPosition : `${Math.round(currentLocation?.locations.progression! * 100)}%`} 
-          reference={totalPositions ? totalPositions : currentLocation?.title }
-        />}
+        <ProgressionOf 
+          progression={progression} 
+        />
       </aside>
     </main>
     </>
