@@ -9,7 +9,8 @@
       "progression": {
         "wrapper": "Current progression",
         "of": "{{current}} of {{reference}}",
-        "referenceFallback": "current chapter"
+        "referenceFallback": "current chapter",
+        "pubFallback": "the publication"
       }
     },
     "navigation": {
