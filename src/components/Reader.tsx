@@ -108,15 +108,17 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         const containerWidth = breakpointStatus ? window.innerWidth - arrowsWidth : window.innerWidth;
         container.current.style.width = `${containerWidth}px`;
 
-        const colCount = autoPaginate(RSPrefs.breakpoint, containerWidth, optimalLineLength);
+        if (nav.layout === EPUBLayout.reflowable) {
+          const colCount = autoPaginate(RSPrefs.breakpoint, containerWidth, optimalLineLength);
 
-        nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
-          if (frameManager) {
-            frameManager.window.document.documentElement.style.setProperty("--RS__colCount", `${colCount}`);
-            frameManager.window.document.documentElement.style.setProperty("--RS__defaultLineLength", `${optimalLineLength}rem`);
-            frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${RSPrefs.typography.pageGutter}px`);
-          }
-        });
+          nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+            if (frameManager) {
+              frameManager.window.document.documentElement.style.setProperty("--RS__colCount", `${colCount}`);
+              frameManager.window.document.documentElement.style.setProperty("--RS__defaultLineLength", `${optimalLineLength}rem`);
+              frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${RSPrefs.typography.pageGutter}px`);
+            }
+          });
+        }
       }
     };
 
