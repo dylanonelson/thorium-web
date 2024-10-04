@@ -8,7 +8,6 @@ import parseTemplate from "json-templates";
 import { Locator } from "@readium/shared";
 
 export interface IProgression {
-  list?: Locator[];
   total?: number;
   currentNumbers?: number[];
   relativeProgression?: number;
