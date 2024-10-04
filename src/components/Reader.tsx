@@ -139,6 +139,18 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       setProgression(progression => progression = { ...progression, currentNumbers: nav?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression });
     }
 
+    const handleTapClick = (event: FrameClickEvent) => {
+      const oneQuarter = ((nav._cframes.length === 2 ? nav._cframes[0]!.window.innerWidth + nav._cframes[1]!.window.innerWidth : nav._cframes[0]!.window.innerWidth) * window.devicePixelRatio) / 4;
+      if (event.x < oneQuarter) {
+        nav.goLeft(true, activateImmersiveOnAction);
+      } 
+      else if (event.x > oneQuarter * 3) {
+        nav.goRight(true, activateImmersiveOnAction);
+      } else if (oneQuarter <= event.x && event.x <= oneQuarter * 3) {
+        setImmersive(immersive => !immersive);
+      }
+    }
+
     const listeners: EpubNavigatorListeners = {
       frameLoaded: function (_wnd: Window): void {
         initReadingEnv();
@@ -156,15 +168,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         saveCurrentLocation(locator);
       },
       tap: function (_e: FrameClickEvent): boolean {
-        return false;
+        handleTapClick(_e);
+        return true;
       },
       click: function (_e: FrameClickEvent): boolean {
-        return false;
+        handleTapClick(_e);
+        return true;
       },
       zoom: function (_scale: number): void {},
-      miscPointer: function (_amount: number): void {
-        setImmersive(immersive => !immersive);
-      },
+      miscPointer: function (_amount: number): void {},
       customEvent: function (_key: string, _data: unknown): void {},
       handleLocator: function (locator: Locator): boolean {
         const href = locator.href;
