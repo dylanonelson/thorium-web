@@ -28,7 +28,6 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
-  
   const [publicationTitle, setPublicationTitle] = useState("");
   const [isRTL, setRTL] = useState(false);
   const [immersive, setImmersive] = useState(false);
@@ -51,7 +50,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       fetcher: fetcher,
     });
 
+    let positionsList: Locator[] | undefined;
+
+    const arrowsWidth = 2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0));
+    let optimalLineLength: number;
+
     setPublicationTitle(publicationTitle => publicationTitle = publication.metadata.title.getTranslation("en"));
+    setRTL(publication.metadata.effectiveReadingProgression === ReadingProgression.rtl);
 
     setProgression(progression => progression = { ...progression, currentPublication: publicationTitle || Locale.reader.app.progression.pubFallback});
 
@@ -62,7 +67,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         const fetched = fetcher.get(positionsJSON);
         try {
           const positionObj = await fetched.readAsJSON() as {total: number, positions: Locator[]};
-          setProgression(progression => progression = { ...progression, list: positionObj.positions, total: positionObj.total });
+          positionsList = positionObj.positions;
+          setProgression(progression => progression = { ...progression, total: positionObj.total });
         } catch(err) {
           console.error(err)
         }
@@ -71,11 +77,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     fetchPositions()
       .catch(console.error);
-
-    const arrowsWidth = 2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0));
-    let optimalLineLength: number;
-    
-    setRTL(publication.metadata.effectiveReadingProgression === ReadingProgression.rtl);
 
     const activateImmersiveOnAction = () => {
       if (!immersive) setImmersive(true);
@@ -194,7 +195,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       },
       textSelected: function (_selection: BasicTextSelection): void {},
     };
-    const nav = new EpubNavigator(container.current!, publication, listeners, progression.list, currentLocation ? currentLocation : undefined);
+    const nav = new EpubNavigator(container.current!, publication, listeners, positionsList, currentLocation ? currentLocation : undefined);
     nav.load().then(() => {
       p.observe(window);
 
