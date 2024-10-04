@@ -37,7 +37,10 @@
   font: inherit;
 
   width: var(--arrow-size, 40px);
-  height: var(--arrow-size, 40px);
+  /* height: var(--arrow-size, 40px); */
+  height: 50vh;
+  height: 50dvh;
+  border-radius: 5px;
   pointer-events: auto;
   box-sizing: border-box;
   padding: 5px;
