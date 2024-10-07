@@ -77,7 +77,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         try {
           const positionObj = await fetched.readAsJSON() as {total: number, positions: Locator[]};
           positionsList = positionObj.positions;
-          setProgression(progression => progression = { ...progression, total: positionObj.total });
+          setProgression(progression => progression = { ...progression, totalPositions: positionObj.total });
         } catch(err) {
           console.error(err)
         }
@@ -143,7 +143,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     const handleProgression = (locator: Locator) => {
       const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
       
-      setProgression(progression => progression = { ...progression, currentNumbers: nav.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression });
+      setProgression(progression => progression = { ...progression, currentPositions: nav.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression });
     }
 
     const handleTap = (event: FrameClickEvent) => {

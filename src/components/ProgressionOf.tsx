@@ -6,8 +6,8 @@ import progressionStyles from "./assets/styles/progression.module.css";
 import parseTemplate from "json-templates";
 
 export interface IProgression {
-  total?: number;
-  currentNumbers?: number[];
+  totalPositions?: number;
+  currentPositions?: number[];
   relativeProgression?: number;
   currentChapter?: string;
   totalProgression?: number;
@@ -20,9 +20,9 @@ export const ProgressionOf = ({progression}: {progression: IProgression}) => {
   const [reference, setReference] = useState("");
 
   useEffect(() => {
-    if (progression.total && progression.currentNumbers) {
-      setCurrent(progression.currentNumbers.length === 2 ? `${progression.currentNumbers[0]}–${progression.currentNumbers[1]}` : `${progression.currentNumbers}`);
-      setReference(`${progression.total}`);
+    if (progression.totalPositions && progression.currentPositions) {
+      setCurrent(progression.currentPositions.length === 2 ? `${progression.currentPositions[0]}–${progression.currentPositions[1]}` : `${progression.currentPositions}`);
+      setReference(`${progression.totalPositions}`);
     } else if (progression.totalProgression !== undefined && progression.currentPublication) {
       setCurrent(`${Math.round(progression.totalProgression * 100)}%`);
       setReference(progression.currentPublication);
