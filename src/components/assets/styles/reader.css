@@ -35,6 +35,11 @@ body {
   opacity: 0.25;
 }
 
+#bottom-bar:hover,
+#top-bar:hover {
+  opacity: 1;
+}
+
 #top-bar {
   justify-content: center;
   padding: 0 1em;
@@ -44,6 +49,7 @@ body {
   font-size: 1rem;
   line-height: 1;
   color: var(--color-primary);
+  font-weight: normal;
 }
 
 #wrapper {
