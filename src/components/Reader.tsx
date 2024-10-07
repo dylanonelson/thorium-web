@@ -28,13 +28,15 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
-  const [publicationTitle, setPublicationTitle] = useState("");
-  const [isRTL, setRTL] = useState(false);
+  const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
+  const publicationTitle = useRef(Locale.reader.app.header.title);
+  const isRTL = useRef(false);
+  const breakpointReached = useRef(false);
+
   const [immersive, setImmersive] = useState(false);
   const [fullscreen, setFullscren] = useState(false);
   const [publicationStart, setPublicationStart] = useState(false);
   const [publicationEnd, setPublicationEnd] = useState(false);
-  const [breakpointReached, setBreakpointReached] = useState(false);
 
   // In practice, selfHref is what is used to set the self link, which is our scope
   const [currentLocation, saveCurrentLocation] = useLocalStorage<Locator | null>(`${selfHref}-current-location`, null)
@@ -51,14 +53,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     });
 
     let positionsList: Locator[] | undefined;
-
-    const arrowsWidth = 2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0));
+    
     let optimalLineLength: number;
 
-    setPublicationTitle(publicationTitle => publicationTitle = publication.metadata.title.getTranslation("en"));
-    setRTL(publication.metadata.effectiveReadingProgression === ReadingProgression.rtl);
+    publicationTitle.current = publication.metadata.title.getTranslation("en");
+    isRTL.current = publication.metadata.effectiveReadingProgression === ReadingProgression.rtl;
 
-    setProgression(progression => progression = { ...progression, currentPublication: publicationTitle || Locale.reader.app.progression.pubFallback});
+    setProgression(progression => progression = { ...progression, currentPublication: publicationTitle.current});
 
     const fetchPositions = async () => {
       const positionsJSON = publication.manifest.links.findWithMediaType("application/vnd.readium.position-list+json");
@@ -102,10 +103,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     const handleResize = () => {
       if (nav && container.current) {
-        const breakpointStatus = RSPrefs.breakpoint < container.current.clientWidth;
-        setBreakpointReached(breakpointStatus);
+        breakpointReached.current = RSPrefs.breakpoint < container.current.clientWidth;
 
-        const containerWidth = breakpointStatus ? window.innerWidth - arrowsWidth : window.innerWidth;
+        const containerWidth = breakpointReached.current ? window.innerWidth - arrowsWidth.current : window.innerWidth;
         container.current.style.width = `${containerWidth}px`;
 
         if (nav.layout === EPUBLayout.reflowable) {
@@ -239,14 +239,14 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     <main style={propsToCSSVars(RSPrefs.theming.color, "color")}>
       <ReaderHeader 
         className={immersive ? "immersive" : ""} 
-        title = { publicationTitle } 
+        title = { publicationTitle.current } 
       />
 
       <nav className={arrowStyles.container} id={arrowStyles.left}>
         <ArrowButton 
           direction="left" 
-          className={(immersive && !breakpointReached || fullscreen || publicationStart) ? arrowStyles.hidden : immersive ? arrowStyles.immersive : ""} 
-          isRTL={isRTL} 
+          className={(immersive && !breakpointReached.current || fullscreen || publicationStart) ? arrowStyles.hidden : immersive ? arrowStyles.immersive : ""} 
+          isRTL={isRTL.current} 
           disabled={publicationStart}
         />
       </nav>
@@ -258,8 +258,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       <nav className={arrowStyles.container} id={arrowStyles.right}>
         <ArrowButton 
           direction="right" 
-          className={(immersive && !breakpointReached || fullscreen || publicationEnd) ? arrowStyles.hidden : immersive ? arrowStyles.immersive : ""} 
-          isRTL={isRTL} 
+          className={(immersive && !breakpointReached.current || fullscreen || publicationEnd) ? arrowStyles.hidden : immersive ? arrowStyles.immersive : ""} 
+          isRTL={isRTL.current} 
           disabled={publicationEnd}
         />
       </nav>
