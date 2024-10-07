@@ -42,6 +42,14 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const [currentLocation, saveCurrentLocation] = useLocalStorage<Locator | null>(`${selfHref}-current-location`, null)
   const [progression, setProgression] = useState<IProgression>({});
 
+  const activateImmersiveOnAction = () => {
+    if (!immersive) setImmersive(true);
+  }
+
+  const toggleImmersive = () => {
+    setImmersive(immersive => !immersive);
+  }
+
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
     const manifest = Manifest.deserialize(rawManifest)!;
@@ -78,10 +86,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     fetchPositions()
       .catch(console.error);
-
-    const activateImmersiveOnAction = () => {
-      if (!immersive) setImmersive(true);
-    }
 
     const p = new Peripherals({
       moveTo: (direction) => {
@@ -139,7 +143,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     const handleProgression = (locator: Locator) => {
       const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
       
-      setProgression(progression => progression = { ...progression, currentNumbers: nav?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression });
+      setProgression(progression => progression = { ...progression, currentNumbers: nav.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression });
     }
 
     const handleTapClick = (event: FrameClickEvent) => {
@@ -150,7 +154,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       else if (event.x > oneQuarter * 3) {
         nav.goRight(true, activateImmersiveOnAction);
       } else if (oneQuarter <= event.x && event.x <= oneQuarter * 3) {
-        setImmersive(immersive => !immersive);
+        toggleImmersive();
       }
     }
 
