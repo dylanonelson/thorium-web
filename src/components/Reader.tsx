@@ -146,7 +146,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       setProgression(progression => progression = { ...progression, currentNumbers: nav.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression });
     }
 
-    const handleTapClick = (event: FrameClickEvent) => {
+    const handleTap = (event: FrameClickEvent) => {
       const oneQuarter = ((nav._cframes.length === 2 ? nav._cframes[0]!.window.innerWidth + nav._cframes[1]!.window.innerWidth : nav._cframes[0]!.window.innerWidth) * window.devicePixelRatio) / 4;
       if (event.x < oneQuarter) {
         nav.goLeft(true, activateImmersiveOnAction);
@@ -175,11 +175,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         saveCurrentLocation(locator);
       },
       tap: function (_e: FrameClickEvent): boolean {
-        handleTapClick(_e);
+        handleTap(_e);
         return true;
       },
       click: function (_e: FrameClickEvent): boolean {
-        handleTapClick(_e);
+        toggleImmersive()
         return true;
       },
       zoom: function (_scale: number): void {},

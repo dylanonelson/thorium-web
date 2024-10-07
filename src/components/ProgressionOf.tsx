@@ -5,8 +5,6 @@ import progressionStyles from "./assets/styles/progression.module.css";
 
 import parseTemplate from "json-templates";
 
-import { Locator } from "@readium/shared";
-
 export interface IProgression {
   total?: number;
   currentNumbers?: number[];
