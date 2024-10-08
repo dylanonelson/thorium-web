@@ -54,5 +54,11 @@
     "eslint-config-next": "14.2.7",
     "readium-css": "github:readium/readium-css#json",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@babel/core": "7.25.2"
+  },
+  "resolutions": {
+    "@babel/core": "7.25.2"
   }
 }
