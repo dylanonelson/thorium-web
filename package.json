@@ -20,8 +20,7 @@
     "start": "next start",
     "lint": "next lint",
     "deploy": "npx @cloudflare/next-on-pages@1 && npx wrangler pages deploy",
-    "preinstall": "npx only-allow pnpm && cd ./src/readium/ts-toolkit && pnpm install",
-    "postinstall": "pnpm run build:submodules"
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
     "@emotion/cache": "^11.13.1",
