@@ -1,6 +1,3 @@
-import { createTheme } from "@mui/material";
-import { withPigment } from "@pigment-css/nextjs-plugin";
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Disable React running twice as it messes up with iframes
@@ -37,15 +34,4 @@ const nextConfig = {
   }
 };
 
-/**
- * @type {import('@pigment-css/nextjs-plugin').PigmentOptions}
- */
-const pigmentConfig = {
-  transformLibraries: ["@mui/material"],
-  theme: createTheme({
-    palette: {
-      mode: "dark",
-    },
-  }),
-};
-export default withPigment(nextConfig, pigmentConfig);
+export default nextConfig;
