@@ -18,6 +18,7 @@
       "goBackward": "Go Backward"
     },
     "settings": {
+      "readingDisplayLayout": "Layout",
       "scrolled": "Scrollable",
       "paginated": "Paginated"
     }
