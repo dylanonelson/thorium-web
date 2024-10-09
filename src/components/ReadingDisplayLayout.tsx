@@ -9,12 +9,12 @@ import settingsStyles from "./assets/styles/readerSettings.module.css";
 import { RadioGroup, Radio, Label } from "react-aria-components";
 
 export const ReadingDisplayLayout = ({ isFXL }: { isFXL: boolean }) => {
-  const [value, setValue] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
   
   return (
     <>
       <div>
-        <RadioGroup className={settingsStyles.readingDisplayLayoutPopover} orientation="horizontal" value={value} onChange={(value: string) => {setValue(value)}}>
+        <RadioGroup className={settingsStyles.readingDisplayLayoutPopover} orientation="horizontal" value={selected} onChange={setSelected}>
           <Label className={settingsStyles.readingDisplayLayoutLabel}>{Locale.reader.settings.readingDisplayLayout}</Label>
           <div className={settingsStyles.readingDisplayLayoutRadioWrapper}>
             <Radio className={settingsStyles.readingDisplayLayoutRadio} value="scroll_option" id="scroll_option" isDisabled={isFXL}>
