@@ -35,7 +35,6 @@
 
 .gearButton svg {
   fill: var(--color-primary);
-  stroke: var(--color-primary);
 }
 
 .readingDisplayLayoutPopover {
@@ -51,7 +50,6 @@
   width: var(--icon-size, 32px);
   height: var(--icon-size, 32px);
   fill: var(--color-primary);
-  stroke: var(--color-primary);
 }
 
 .readingDisplayLayoutRadio span {
