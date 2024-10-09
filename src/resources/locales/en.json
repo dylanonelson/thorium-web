@@ -16,6 +16,10 @@
     "navigation": {
       "goForward": "Go Forward",
       "goBackward": "Go Backward"
+    },
+    "settings": {
+      "scrolled": "Scrollable",
+      "paginated": "Paginated"
     }
   }
 }
