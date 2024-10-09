@@ -59,9 +59,11 @@
     "typescript": "^5"
   },
   "overrides": {
-    "@babel/core": "7.25.2"
+    "@babel/core": "7.25.2",
+    "@mui/system": "6.0.2"
   },
   "resolutions": {
-    "@babel/core": "7.25.2"
+    "@babel/core": "7.25.2",
+    "@mui/system": "6.0.2"
   }
 }
