@@ -40,10 +40,19 @@
 .readingDisplayLayoutPopover {
   background-color: var(--color-secondary);
   color: var(--color-primary);
-  text-align: center;
   padding: 20px;
+}
+
+.readingDisplayLayoutLabel {
+  display: block;
+  font-weight: bold;
+}
+
+.readingDisplayLayoutRadioWrapper {
   display: flex;
   gap: 20px;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .readingDisplayLayoutRadio svg {
