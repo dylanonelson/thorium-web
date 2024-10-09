@@ -13,6 +13,9 @@ export const RSPrefs = {
       primary: "#4d4d4d",
       secondary: "white",
       disabled: "#767676"
+    },
+    icon: {
+      size: 32, // Size of icons in px
     }
   }
 }

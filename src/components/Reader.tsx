@@ -31,6 +31,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
   const publicationTitle = useRef(Locale.reader.app.header.title);
   const isRTL = useRef(false);
+  const isFXL = useRef(false);
   const breakpointReached = useRef(false);
 
   const [immersive, setImmersive] = useState(false);
@@ -66,6 +67,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     publicationTitle.current = publication.metadata.title.getTranslation("en");
     isRTL.current = publication.metadata.effectiveReadingProgression === ReadingProgression.rtl;
+    isFXL.current = publication.metadata.getPresentation()?.layout === EPUBLayout.fixed;
 
     setProgression(progression => progression = { ...progression, currentPublication: publicationTitle.current});
 
@@ -240,10 +242,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   return (
     <>
-    <main style={propsToCSSVars(RSPrefs.theming.color, "color")}>
+    <main style={propsToCSSVars(RSPrefs.theming)}>
       <ReaderHeader 
-        className={immersive ? "immersive" : ""} 
+        className={immersive ? "immersive" : ""}
         title = { publicationTitle.current } 
+        isFXL = {isFXL.current}
       />
 
       <nav className={arrowStyles.container} id={arrowStyles.left}>
