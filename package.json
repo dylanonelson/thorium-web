@@ -28,10 +28,6 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@juggle/resize-observer": "^3.4.0",
-    "@mui/icons-material": "^6.0.2",
-    "@mui/material": "^6.0.2",
-    "@mui/material-nextjs": "^6.0.2",
-    "@mui/material-pigment-css": "^6.0.2",
     "@readium/navigator": "link:src/readium/ts-toolkit/navigator",
     "@readium/navigator-html-injectables": "link:src/readium/ts-toolkit/navigator-html-injectables",
     "@readium/shared": "link:src/readium/ts-toolkit/shared",
@@ -47,7 +43,6 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@pigment-css/nextjs-plugin": "^0.0.21",
     "@svgr/webpack": "^8.1.0",
     "@types/json-templates": "^3.0.3",
     "@types/node": "^20",
@@ -59,11 +54,9 @@
     "typescript": "^5"
   },
   "overrides": {
-    "@babel/core": "7.25.2",
-    "@mui/system": "6.0.2"
+    "@babel/core": "7.25.2"
   },
   "resolutions": {
-    "@babel/core": "7.25.2",
-    "@mui/system": "6.0.2"
+    "@babel/core": "7.25.2"
   }
 }
