@@ -3,8 +3,6 @@
   --color-primary: #4d4d4d;
   --color-secondary: white;
   --color-disabled: #767676;
-
-  --icon-size: 32px;
 }
 
 html,
@@ -23,13 +21,16 @@ body {
 
 #bottom-bar,
 #top-bar {
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: calc(var(--icon-size, 32px) * 1.5);
   gap: 2px;
   touch-action: manipulation;
   background-color: #FFFFFF;
+}
+
+#bottom-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #bottom-bar.immersive,
@@ -42,73 +43,9 @@ body {
   opacity: 1;
 }
 
-/* <Header> */
-
-#top-bar {
-  display: grid;
-  grid-template-areas: "header-left header-center header-right";
-  grid-template-columns: 1fr 3fr 1fr;
-  padding: 0 1em;
-}
-
-#top-bar h1 {
-  font-size: 1rem;
-  line-height: 1;
-  color: var(--color-primary);
-  font-weight: normal;
-  grid-area: header-center;
-  justify-self: center;
-}
-
-#top-bar .react-aria-Button {
-  grid-area: header-right;
-  width: var(--icon-size);
-  height: var(--icon-size);
-  justify-self: end;
-
-  -webkit-appearance: none;
-  appearance: none;
-  border-radius: 0;
-  text-align: inherit;
-  background: none;
-  box-shadow: none;
-  padding: 0;
-  cursor: pointer;
-  border: none;
-  color: inherit;
-  font: inherit;
-}
-
-#top-bar .react-aria-Button svg {
-  fill: var(--color-primary);
-  stroke: var(--color-primary);
-}
-
-.react-aria-Popover {
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
-  text-align: center;
-}
-
-.react-aria-Popover span {
-  display: block;
-}
-
-.react-aria-Popover .react-aria-Radio svg {
-  width: 32px;
-  height: 32px;
-}
-
-.react-aria-Popover svg {
-  fill: var(--color-primary);
-  stroke: var(--color-primary);
-}
-
-/* </Header> */
-
 #wrapper {
-  height: calc(100vh - 96px);
-  height: calc(100dvh - 96px); /* New browsers */
+  height: calc(100vh - (2 * (var(--icon-size, 32px) * 1.5)));
+  height: calc(100dvh - (2 * (var(--icon-size, 32px) * 1.5))); /* New browsers */
   display: flex;
   margin: 0;
 }
