@@ -35,7 +35,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isRTL = useRef(false);
   const isFXL = useRef(false);
   const breakpointReached = useRef(false);
-  const { isPaged, updateState } = useContext(ReaderState);
+  const { updateState } = useContext(ReaderState);
 
   const [immersive, setImmersive] = useState(false);
   const [fullscreen, setFullscren] = useState(false);
