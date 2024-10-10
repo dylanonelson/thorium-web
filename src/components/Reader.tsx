@@ -15,7 +15,7 @@ import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } 
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
 import Peripherals from "@/helpers/peripherals";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
@@ -25,6 +25,8 @@ import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import { ReadingDisplayLayoutOption } from "./ReadingDisplayLayout";
+import { ReaderState } from "@/app-context/readerState";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -33,6 +35,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isRTL = useRef(false);
   const isFXL = useRef(false);
   const breakpointReached = useRef(false);
+  const { isPaged, updateState } = useContext(ReaderState);
 
   const [immersive, setImmersive] = useState(false);
   const [fullscreen, setFullscren] = useState(false);
@@ -68,6 +71,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     publicationTitle.current = publication.metadata.title.getTranslation("en");
     isRTL.current = publication.metadata.effectiveReadingProgression === ReadingProgression.rtl;
     isFXL.current = publication.metadata.getPresentation()?.layout === EPUBLayout.fixed;
+
+    updateState({ isPaged: true });
 
     setProgression(progression => progression = { ...progression, currentPublication: publicationTitle.current});
 
@@ -107,6 +112,16 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       }
     });
 
+    const applyReadiumCSSStyles = (stylesObj: { [key: string]: string }) => {
+      nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+        if (frameManager) {
+          for (const [key, value] of Object.entries(stylesObj)) {
+            frameManager.window.document.documentElement.style.setProperty(key, value);
+          }
+        }
+      });
+    }
+
     const handleResize = () => {
       if (nav && container.current) {
         breakpointReached.current = RSPrefs.breakpoint < container.current.clientWidth;
@@ -117,12 +132,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         if (nav.layout === EPUBLayout.reflowable) {
           const colCount = autoPaginate(RSPrefs.breakpoint, containerWidth, optimalLineLength);
 
-          nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
-            if (frameManager) {
-              frameManager.window.document.documentElement.style.setProperty("--RS__colCount", `${colCount}`);
-              frameManager.window.document.documentElement.style.setProperty("--RS__defaultLineLength", `${optimalLineLength}rem`);
-              frameManager.window.document.documentElement.style.setProperty("--RS__pageGutter", `${RSPrefs.typography.pageGutter}px`);
-            }
+          applyReadiumCSSStyles({
+            "--RS__colCount": `${colCount}`,
+            "--RS__defaultLineLength": `${optimalLineLength}rem`,
+            "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
           });
         }
       }
@@ -226,6 +239,17 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
               return;
             }
             nav.goLink(link, true, () => {});
+            break;
+          case "switchDisplayLayout":
+            if (detail.data === ReadingDisplayLayoutOption.paginated) {
+              applyReadiumCSSStyles({
+                "--USER__view": "readium-paged-on"
+              })
+            } else if (detail.data === ReadingDisplayLayoutOption.scroll) {
+              applyReadiumCSSStyles({
+                "--USER__view": "readium-scroll-on"
+              })
+            }
             break;
           default:
             console.error("Unknown reader-control event", ev);

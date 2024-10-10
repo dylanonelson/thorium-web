@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import Locale from "../resources/locales/en.json";
 
@@ -6,22 +6,39 @@ import ScrollableIcon from "./assets/icons/scroll-icon.svg";
 import PaginatedIcon from "./assets/icons/page-icon.svg";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
+import { control } from "../helpers/control";
+
 import { RadioGroup, Radio, Label } from "react-aria-components";
+import { ReaderState } from "@/app-context/readerState";
+
+export enum ReadingDisplayLayoutOption { 
+  scroll = "scroll_option",
+  paginated = "page_option"
+}
 
 export const ReadingDisplayLayout = ({ isFXL }: { isFXL: boolean }) => {
-  const [selected, setSelected] = useState<string | null>(null);
+  const {isPaged, updateState} = useContext(ReaderState);
+
+  const handleChange = (value: string) => {
+    if (value === ReadingDisplayLayoutOption.paginated) {
+      updateState({ "isPaged": true });
+    } else {
+      updateState({ "isPaged": false })
+    }
+    control("switchDisplayLayout", value);
+  }
   
   return (
     <>
       <div>
-        <RadioGroup className={settingsStyles.readingDisplayLayoutPopover} orientation="horizontal" value={selected} onChange={setSelected}>
+        <RadioGroup className={settingsStyles.readingDisplayLayoutPopover} orientation="horizontal" value={isPaged ? ReadingDisplayLayoutOption.paginated : ReadingDisplayLayoutOption.scroll} onChange={handleChange}>
           <Label className={settingsStyles.readingDisplayLayoutLabel}>{Locale.reader.settings.readingDisplayLayout}</Label>
           <div className={settingsStyles.readingDisplayLayoutRadioWrapper}>
-            <Radio className={settingsStyles.readingDisplayLayoutRadio} value="scroll_option" id="scroll_option" isDisabled={isFXL}>
+            <Radio className={settingsStyles.readingDisplayLayoutRadio} value={ReadingDisplayLayoutOption.scroll} id={ReadingDisplayLayoutOption.scroll} isDisabled={isFXL}>
               <ScrollableIcon aria-hidden="true" focusable="false" />
               <span>{Locale.reader.settings.scrolled}</span>
             </Radio>
-            <Radio className={settingsStyles.readingDisplayLayoutRadio} value="page_option" id="page_option" isDisabled={false}>
+            <Radio className={settingsStyles.readingDisplayLayoutRadio} value={ReadingDisplayLayoutOption.paginated} id={ReadingDisplayLayoutOption.paginated} isDisabled={false}>
               <PaginatedIcon aria-hidden="true" focusable="false" />
               <span>{Locale.reader.settings.paginated}</span>
             </Radio>
