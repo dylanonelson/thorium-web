@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
 
-import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
+import arrowStyles from "./assets/styles/arrowButton.module.css";
 
 import LeftArrow from "./assets/icons/baseline-arrow_left_ios-24px.svg";
 import RightArrow from "./assets/icons/baseline-arrow_forward_ios-24px.svg";
 
 import { control } from "../helpers/control";
-import { propsToCSSVars } from "@/helpers/propsToCSSVars";
+import { Button, Tooltip, TooltipTrigger } from "react-aria-components";
 
 export interface ReaderArrowProps {
   direction: "left" | "right";
@@ -29,15 +29,20 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   
   return (
     <>
-     <button 
-        ref={button}
-        title={label} 
-        aria-label={label} 
-        onClick={() => { props.direction === "left" ? control("goLeft") : control("goRight")} } 
-        className={props.className} 
-        disabled={props.disabled}
-        tabIndex={props.disabled ? -1 : 0}>
-        {props.direction === "left" ? <LeftArrow aria-hidden="true" focusable="false"/> : <RightArrow aria-hidden="true" focusable="false"/>}
-      </button>
+      <TooltipTrigger>
+        <Button
+          ref={button}
+          aria-label={label}
+          onPress={() => { props.direction === "left" ? control("goLeft") : control("goRight") }}
+          className={props.className}
+          isDisabled={props.disabled}>
+          {props.direction === "left" ? <LeftArrow aria-hidden="true" focusable="false" /> : <RightArrow aria-hidden="true" focusable="false" />}
+        </Button>
+        <Tooltip
+          className={arrowStyles.arrowTooltip}
+          placement={props.direction === "left" ? "right" : "left"}>
+          {label}
+        </Tooltip>
+      </TooltipTrigger>
     </>);
 }
