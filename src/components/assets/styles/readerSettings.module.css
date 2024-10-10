@@ -2,7 +2,7 @@
   display: grid;
   grid-template-areas: "header-left header-center header-right";
   grid-template-columns: 1fr 3fr 1fr;
-  padding: 0.25rem 1em 0;
+  padding: 0.25rem 0.5rem 0;
 }
 
 .header h1 {
@@ -40,7 +40,9 @@
 .readingDisplayLayoutPopover {
   background-color: var(--color-secondary);
   color: var(--color-primary);
-  padding: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--color-primary);
 }
 
 .readingDisplayLayoutLabel {
@@ -53,6 +55,15 @@
   gap: 20px;
   margin-top: 10px;
   text-align: center;
+}
+
+.readingDisplayLayoutRadio {
+  padding: 5px;
+}
+
+.readingDisplayLayoutRadio[data-selected] {
+  background-color: #EAEAEA;
+  border-radius: 5px;
 }
 
 .readingDisplayLayoutRadio svg {
