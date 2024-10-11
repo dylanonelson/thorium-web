@@ -26,7 +26,6 @@ import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { ReadingDisplayLayoutOption } from "./ReadingDisplayLayout";
-import { ReaderState } from "@/app-context/readerState";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -35,7 +34,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isRTL = useRef(false);
   const isFXL = useRef(false);
   const breakpointReached = useRef(false);
-  const { updateState } = useContext(ReaderState);
 
   const [immersive, setImmersive] = useState(false);
   const [fullscreen, setFullscren] = useState(false);
@@ -71,8 +69,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     publicationTitle.current = publication.metadata.title.getTranslation("en");
     isRTL.current = publication.metadata.effectiveReadingProgression === ReadingProgression.rtl;
     isFXL.current = publication.metadata.getPresentation()?.layout === EPUBLayout.fixed;
-
-    updateState({ isPaged: true });
 
     setProgression(progression => progression = { ...progression, currentPublication: publicationTitle.current});
 

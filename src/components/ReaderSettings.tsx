@@ -1,17 +1,18 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import GearIcon from "./assets/icons/gear-icon.svg";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 import { Button, Dialog, DialogTrigger, Popover } from "react-aria-components"; 
-import { ReaderState } from "@/app-context/readerState";
+import { setSettingsOpen } from "@/lib/readerReducer";
+import { useAppDispatch } from "@/lib/hooks";
 
 export const ReaderSettings = ({ isFXL }: { isFXL: boolean }) => {
-  const { updateState } = useContext(ReaderState);
+  const dispatch = useAppDispatch();
 
   const toggleSettingsState = (value: boolean) => {
-    updateState({ settingsOpen: value });
+    dispatch(setSettingsOpen(value));
   }
 
   return(
