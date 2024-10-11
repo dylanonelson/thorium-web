@@ -55,8 +55,8 @@ export default class Peripherals {
   }
 
   onkeydown(e: KeyboardEvent) {
-    if (e.code === "ArrowRight") this.callbacks.moveTo("right");
-    else if (e.code === "ArrowLeft") this.callbacks.moveTo("left");
+    if (e.code === "ArrowRight" && !isInteractiveElement(document.activeElement)) this.callbacks.moveTo("right");
+    else if (e.code === "ArrowLeft" && !isInteractiveElement(document.activeElement)) this.callbacks.moveTo("left");
   }
 
   onresize() {
