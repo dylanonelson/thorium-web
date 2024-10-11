@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 
 import Locale from "../resources/locales/en.json";
 
@@ -9,7 +9,8 @@ import settingsStyles from "./assets/styles/readerSettings.module.css";
 import { control } from "../helpers/control";
 
 import { RadioGroup, Radio, Label } from "react-aria-components";
-import { ReaderState } from "@/app-context/readerState";
+import { setPaged } from "@/lib/readerReducer";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 export enum ReadingDisplayLayoutOption { 
   scroll = "scroll_option",
@@ -17,13 +18,14 @@ export enum ReadingDisplayLayoutOption {
 }
 
 export const ReadingDisplayLayout = ({ isFXL }: { isFXL: boolean }) => {
-  const {isPaged, updateState} = useContext(ReaderState);
+  const isPaged = useAppSelector(state => state.reader.isPaged);
+  const dispatch = useAppDispatch();
 
   const handleChange = (value: string) => {
     if (value === ReadingDisplayLayoutOption.paginated) {
-      updateState({ isPaged: true });
+      dispatch(setPaged(true));
     } else {
-      updateState({ isPaged: false })
+      dispatch(setPaged(false));
     }
     control("switchDisplayLayout", value);
   }
