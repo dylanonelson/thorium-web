@@ -21,9 +21,9 @@ export const ReadingDisplayLayout = ({ isFXL }: { isFXL: boolean }) => {
 
   const handleChange = (value: string) => {
     if (value === ReadingDisplayLayoutOption.paginated) {
-      updateState({ "isPaged": true });
+      updateState({ isPaged: true });
     } else {
-      updateState({ "isPaged": false })
+      updateState({ isPaged: false })
     }
     control("switchDisplayLayout", value);
   }
