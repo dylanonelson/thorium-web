@@ -6,8 +6,6 @@ import ScrollableIcon from "./assets/icons/scroll-icon.svg";
 import PaginatedIcon from "./assets/icons/page-icon.svg";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
-import { control } from "../helpers/control";
-
 import { RadioGroup, Radio, Label } from "react-aria-components";
 import { setPaged } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -27,7 +25,6 @@ export const ReadingDisplayLayout = ({ isFXL }: { isFXL: boolean }) => {
     } else {
       dispatch(setPaged(false));
     }
-    control("switchDisplayLayout", value);
   }
   
   return (

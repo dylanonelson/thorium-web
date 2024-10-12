@@ -15,10 +15,10 @@ export const readerSlice = createSlice({
   initialState,
   reducers: {
     setPaged: (state, action) => {
-      return { ...state, isPaged: action.payload }
+      state.isPaged = action.payload
     },
     setSettingsOpen: (state, action: PayloadAction<any>) => {
-      return { ...state, settingsOpen: action.payload }
+      state.settingsOpen = action.payload
     }
   }
 })
