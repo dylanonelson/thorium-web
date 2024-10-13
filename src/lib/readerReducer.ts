@@ -1,12 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface IReaderState {
+  isImmersive?: boolean;
+  isFullscreen?: boolean;
+  isFXL?: boolean;
   isPaged?: boolean;
+  isRTL?: boolean;
+  hasReachedBreakpoint?: boolean;
+  isPublicationStart?: boolean;
+  isPublicationEnd?: boolean;
   settingsOpen?: boolean;
 }
 
 const initialState: IReaderState = {
+  isImmersive: false,
+  isFullscreen: false,
+  isFXL: false,
   isPaged: true,
+  isRTL: false,
+  hasReachedBreakpoint: false,
+  isPublicationStart: false,
+  isPublicationEnd: false,
   settingsOpen: false
 }
 
@@ -14,8 +28,29 @@ export const readerSlice = createSlice({
   name: "reader",
   initialState,
   reducers: {
+    setImmersive: (state, action) => {
+      state.isImmersive = action.payload
+    },
+    setFullscreen: (state, action) => {
+      state.isFullscreen = action.payload
+    },
+    setFXL: (state, action) => {
+      state.isFXL = action.payload
+    },
     setPaged: (state, action) => {
       state.isPaged = action.payload
+    },
+    setRTL: (state, action) => {
+      state.isRTL = action.payload
+    },
+    setBreakpoint: (state, action) => {
+      state.hasReachedBreakpoint = action.payload
+    },
+    setPublicationStart: (state, action) => {
+      state.isPublicationStart = action.payload
+    },
+    setPublicationEnd: (state, action) => {
+      state.isPublicationEnd = action.payload
     },
     setSettingsOpen: (state, action: PayloadAction<any>) => {
       state.settingsOpen = action.payload
@@ -24,6 +59,6 @@ export const readerSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setPaged, setSettingsOpen } = readerSlice.actions;
+export const { setImmersive, setFullscreen, setFXL, setPaged, setRTL, setBreakpoint, setPublicationStart, setPublicationEnd, setSettingsOpen } = readerSlice.actions;
 
 export default readerSlice.reducer;

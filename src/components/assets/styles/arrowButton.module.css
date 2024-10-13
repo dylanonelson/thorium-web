@@ -46,10 +46,6 @@
   padding: 5px;
 }
 
-.container button.immersive {
-  opacity: 0.25;
-}
-
 .container button:disabled {
   pointer-events: none;
 }
@@ -75,8 +71,4 @@
   padding: 5px;
   border: 1px solid var(--color-primary);
   border-radius: 5px;
-}
-
-.hidden {
-  opacity: 0;
 }

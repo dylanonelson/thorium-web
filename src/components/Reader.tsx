@@ -5,6 +5,7 @@ import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
+import readerStateStyles from "./assets/styles/readerStates.module.css";
 import fontStacks from "readium-css/css/vars/fontStacks.json";
 
 import {
@@ -25,7 +26,8 @@ import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { useAppSelector } from "@/lib/hooks";
+import { setImmersive, setBreakpoint, setFXL, setRTL} from "@/lib/readerReducer";
+import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -37,26 +39,31 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const publicationTitle = useRef(Locale.reader.app.header.title);
 
-  const isRTL = useRef(false);
-  const isFXL = useRef(false);
-  const breakpointReached = useRef(false);
+  const dispatch = useAppDispatch();
   const isPaged = useAppSelector(state => state.reader.isPaged);
+  const isImmersive = useAppSelector(state => state.reader.isImmersive);
+  const immersive = useRef(isImmersive);
 
-  const [immersive, setImmersive] = useState(false);
-  const [fullscreen, setFullscren] = useState(false);
-  const [publicationStart, setPublicationStart] = useState(false);
-  const [publicationEnd, setPublicationEnd] = useState(false);
+  const isPublicationStart = useAppSelector(state => state.reader.isPublicationStart) || false;
+  const isPublicationEnd = useAppSelector(state => state.reader.isPublicationEnd) || false;
 
   // In practice, selfHref is what is used to set the self link, which is our scope
   const [currentLocation, saveCurrentLocation] = useLocalStorage<Locator | null>(`${selfHref}-current-location`, null)
   const [progression, setProgression] = useState<IProgression>({});
 
+  // TMP: Nasty trick to get around usage in useEffect with explicit deps
+  // i.e. isImmersive will stay the same as long as the entire navigator
+  // is not re-rendered so we have to rely on an alias…
+  useEffect(() => {
+    immersive.current = isImmersive;
+  }, [isImmersive]);
+
   const activateImmersiveOnAction = () => {
-    if (!immersive) setImmersive(true);
+    if (!immersive.current) dispatch(setImmersive(true));
   }
 
   const toggleImmersive = () => {
-    setImmersive(immersive => !immersive);
+    dispatch(setImmersive(!immersive.current));
   }
 
   const applyReadiumCSSStyles = (stylesObj: { [key: string]: string }) => {
@@ -125,8 +132,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     let positionsList: Locator[] | undefined;
 
     publicationTitle.current = publication.current.metadata.title.getTranslation("en");
-    isRTL.current = publication.current.metadata.effectiveReadingProgression === ReadingProgression.rtl;
-    isFXL.current = publication.current.metadata.getPresentation()?.layout === EPUBLayout.fixed;
+    
+    dispatch(setRTL(publication.current.metadata.effectiveReadingProgression === ReadingProgression.rtl));
+    dispatch(setFXL(publication.current.metadata.getPresentation()?.layout === EPUBLayout.fixed));
 
     setProgression(progression => progression = { ...progression, currentPublication: publicationTitle.current});
 
@@ -150,9 +158,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
       const handleResize = () => {
         if (nav && container.current) {
-          breakpointReached.current = RSPrefs.breakpoint < container.current.clientWidth;
+          const currentBreakpoint = RSPrefs.breakpoint < container.current.clientWidth
+          dispatch(setBreakpoint(currentBreakpoint));
     
-          const containerWidth = breakpointReached.current ? window.innerWidth - arrowsWidth.current : window.innerWidth;
+          const containerWidth = currentBreakpoint ? window.innerWidth - arrowsWidth.current : window.innerWidth;
           container.current.style.width = `${containerWidth}px`;
     
           if (nav.current?.layout === EPUBLayout.reflowable && optimalLineLength.current) {
@@ -276,17 +285,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     <>
     <main style={propsToCSSVars(RSPrefs.theming)}>
       <ReaderHeader 
-        className={immersive ? "immersive" : ""}
         title = { publicationTitle.current } 
-        isFXL = {isFXL.current}
       />
 
       <nav className={arrowStyles.container} id={arrowStyles.left}>
         <ArrowButton 
           direction="left" 
-          className={(immersive && !breakpointReached.current || fullscreen || publicationStart) ? arrowStyles.hidden : immersive ? arrowStyles.immersive : ""} 
-          isRTL={isRTL.current} 
-          disabled={publicationStart}
+          disabled={isPublicationStart}
         />
       </nav>
 
@@ -296,14 +301,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
       <nav className={arrowStyles.container} id={arrowStyles.right}>
         <ArrowButton 
-          direction="right" 
-          className={(immersive && !breakpointReached.current || fullscreen || publicationEnd) ? arrowStyles.hidden : immersive ? arrowStyles.immersive : ""} 
-          isRTL={isRTL.current} 
-          disabled={publicationEnd}
+          direction="right"  
+          disabled={isPublicationEnd}
         />
       </nav>
 
-      <aside className={immersive ? "immersive" : ""}  id="bottom-bar">
+      <aside className={isImmersive ? readerStateStyles.immersive : ""}  id="bottom-bar">
         <ProgressionOf 
           progression={progression} 
         />
