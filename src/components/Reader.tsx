@@ -54,6 +54,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   // TMP: Nasty trick to get around usage in useEffect with explicit deps
   // i.e. isImmersive will stay the same as long as the entire navigator
   // is not re-rendered so we have to rely on an alias…
+  // a toggle reducer wouldn’t help either, as activateImmersiveOnAction
+  // always sees isImmersive as false and fires on every keyboard action
   useEffect(() => {
     immersive.current = isImmersive;
   }, [isImmersive]);
