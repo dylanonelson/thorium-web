@@ -33,11 +33,6 @@ body {
   align-items: center;
 }
 
-#bottom-bar.immersive,
-#top-bar.immersive {
-  opacity: 0.25;
-}
-
 #bottom-bar:hover,
 #top-bar:hover {
   opacity: 1;
