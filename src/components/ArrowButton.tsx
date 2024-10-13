@@ -30,7 +30,6 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   const label = (props.direction === "right" && !isRTL || props.direction === "left" && isRTL) ? Locale.reader.navigation.goForward : Locale.reader.navigation.goBackward;
 
   const handleClassNameFromState = () => {
-    console.log(isImmersive, hasReachedBreakpoint)
     let className = "";
     if (isImmersive && !hasReachedBreakpoint || isFullscreen) {
       className = readerStateStyles.immersiveHidden;
