@@ -25,9 +25,10 @@ import { IProgression, ProgressionOf } from "./ProgressionOf";
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
-import { useLocalStorage } from "@uidotdev/usehooks";
+import { localData } from "@/helpers/localData";
 import { setImmersive, setBreakpoint, setFXL, setRTL} from "@/lib/readerReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+import debounce from "debounce";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -38,6 +39,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
 
   const publicationTitle = useRef(Locale.reader.app.header.title);
+  const localDataKey = useRef(`${selfHref}-current-location`);
 
   const dispatch = useAppDispatch();
   const isPaged = useAppSelector(state => state.reader.isPaged);
@@ -48,7 +50,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isPublicationEnd = useAppSelector(state => state.reader.isPublicationEnd) || false;
 
   // In practice, selfHref is what is used to set the self link, which is our scope
-  const [currentLocation, saveCurrentLocation] = useLocalStorage<Locator | null>(`${selfHref}-current-location`, null)
   const [progression, setProgression] = useState<IProgression>({});
 
   // TMP: Nasty trick to get around usage in useEffect with explicit deps
@@ -238,12 +239,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         );
         p.observe(window);
       },
-      positionChanged: function (locator: Locator): void {
+      positionChanged: debounce(function (locator: Locator): void {
         window.focus();
 
         handleProgression(locator);
-        saveCurrentLocation(locator);
-      },
+        localData.set(localDataKey.current, locator);
+      }, 250),
       tap: function (_e: FrameClickEvent): boolean {
         handleTap(_e);
         return true;
@@ -271,7 +272,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       },
       textSelected: function (_selection: BasicTextSelection): void {},
     };
-    nav.current = new EpubNavigator(container.current!, publication.current, listeners, positionsList, currentLocation ? currentLocation : undefined);
+    
+    const currentLocation = localData.get(localDataKey.current);
+
+    nav.current = new EpubNavigator(container.current!, publication.current, listeners, positionsList, currentLocation);
     nav.current.load().then(() => {
       p.observe(window);
     });
