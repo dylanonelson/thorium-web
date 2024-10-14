@@ -32,7 +32,6 @@
     "@readium/navigator-html-injectables": "link:src/readium/ts-toolkit/navigator-html-injectables",
     "@readium/shared": "link:src/readium/ts-toolkit/shared",
     "@reduxjs/toolkit": "^2.2.8",
-    "@uidotdev/usehooks": "^2.4.1",
     "classnames": "^2.5.1",
     "css-selector-generator": "^3.6.8",
     "debounce": "^2.1.1",
