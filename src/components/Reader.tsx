@@ -160,7 +160,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       .catch(console.error);
 
       const handleResize = () => {
-        if (nav && container.current) {
+        if (nav.current && container.current) {
           const currentBreakpoint = RSPrefs.breakpoint < container.current.clientWidth
           dispatch(setBreakpoint(currentBreakpoint));
     
