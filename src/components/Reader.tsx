@@ -238,10 +238,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     // and checking whether its translate3d has changed.
     const FXLPositionChanged = new MutationObserver((mutationsList: MutationRecord[]) => {
       for (const mutation of mutationsList) {
-        const re = /translate3d\($s*([^ ,]+)\)/;
+        const re = /translate3d\(([^)]+)\)/;
         const newVal = (mutation.target as HTMLElement).getAttribute(mutation.attributeName as string);
         const oldVal = mutation.oldValue;
-        if (newVal?.split(re)[0] !== oldVal?.split(re)[0]) {
+        if (newVal?.split(re)[1] !== oldVal?.split(re)[1]) {
           const locator = nav.current?.currentLocator;
           if (locator) {
             handleProgression(locator);
