@@ -190,6 +190,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           //  sample: "It will be seen that this mere painstaking burrower and grub-worm of a poor devil of a Sub-Sub appears to have gone through the long Vaticans and street-stalls of the earth, picking up whatever random allusions to whales he could anyways find in any book whatsoever, sacred or profane. Therefore you must not, in every case at least, take the higgledy-piggledy whale statements, however authentic, in these extracts, for veritable gospel cetology. Far from it. As touching the ancient authors generally, as well as the poets here appearing, these extracts are solely valuable or entertaining, as affording a glancing bird’s eye view of what has been promiscuously said, thought, fancied, and sung of Leviathan, by many nations and generations, including our own."
           });
           handleResize();
+        } else if (nav.current?.layout === EPUBLayout.fixed) {
+          // [TMP] Working around positionChanged not firing consistently for FXL
+          // Init’ing so that progression can be populated on first spread loaded
+          handleProgression(nav.current.currentLocator);
         }
       }
     
@@ -229,6 +233,24 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       }
     });
 
+    // [TMP] Working around positionChanged not firing consistently for FXL
+    // We’re observing the FXLFramePoolManager spine div element’s style
+    // and checking whether its translate3d has changed.
+    const FXLPositionChanged = new MutationObserver((mutationsList: MutationRecord[]) => {
+      for (const mutation of mutationsList) {
+        const re = /translate3d\($s*([^ ,]+)\)/;
+        const newVal = (mutation.target as HTMLElement).getAttribute(mutation.attributeName as string);
+        const oldVal = mutation.oldValue;
+        if (newVal?.split(re)[0] !== oldVal?.split(re)[0]) {
+          const locator = nav.current?.currentLocator;
+          if (locator) {
+            handleProgression(locator);
+            localData.set(localDataKey.current, locator)
+          }
+        }
+      }
+    });
+
     const listeners: EpubNavigatorListeners = {
       frameLoaded: function (_wnd: Window): void {
         initReadingEnv();
@@ -242,8 +264,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       positionChanged: debounce(function (locator: Locator): void {
         window.focus();
 
-        handleProgression(locator);
-        localData.set(localDataKey.current, locator);
+        // This can’t be relied upon with FXL to handleProgression at the moment,
+        // Only reflowable snappers will register the "progress" event
+        // that triggers positionChanged every time the progression changes
+        // in FXL, only first_visible_locator will, which is why it triggers when
+        // the spread has not been shown yet, but won’t if you just slid to them.
+        if (nav.current?.layout === EPUBLayout.reflowable) {
+          handleProgression(locator);
+          localData.set(localDataKey.current, locator);
+        }
       }, 250),
       tap: function (_e: FrameClickEvent): boolean {
         handleTap(_e);
@@ -278,11 +307,19 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     nav.current = new EpubNavigator(container.current!, publication.current, listeners, positionsList, currentLocation);
     nav.current.load().then(() => {
       p.observe(window);
+
+      if (nav.current?.layout === EPUBLayout.fixed) {
+        // @ts-ignore
+        FXLPositionChanged.observe((nav.current?.pool.spineElement as HTMLElement), {attributes: ["style"], attributeOldValue: true});
+      }
     });
 
     return () => {
       // Cleanup TODO!
       p.destroy();
+      if (nav.current?.layout === EPUBLayout.fixed) {
+        FXLPositionChanged.disconnect();
+      }
       nav.current?.destroy();
     };
   }, [rawManifest, selfHref]);
