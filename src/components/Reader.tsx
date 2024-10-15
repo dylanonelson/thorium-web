@@ -225,7 +225,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           : nav.current?.goForward(true, activateImmersiveOnAction);
       },
       resize: () => {
-        handleResize();
+        if (nav.current?.layout === EPUBLayout.reflowable) handleResize();
       }
     });
 
