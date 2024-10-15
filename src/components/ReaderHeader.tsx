@@ -21,7 +21,7 @@ export const ReaderHeader = ({ title }: { title: string | undefined }) => {
             ? title
             : Locale.reader.app.header.fallback}
         </h1>
-        <ReaderSettings isFXL={isFXL} />
+        {/* <ReaderSettings isFXL={isFXL} /> */}
       </header>
     </>
   );
