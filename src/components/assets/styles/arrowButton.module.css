@@ -5,6 +5,7 @@
 
 #left {
   top: 50vh;
+  top: 50dvh;
   transform: translateY(-50%);
   left: 0;
 }
@@ -15,6 +16,7 @@
 
 #right {
   top: 50vh;
+  top: 50dvh;
   transform: translateY(-50%);
   right: 0;
 }
@@ -38,8 +40,8 @@
 
   width: var(--arrow-size, 40px);
   /* height: var(--arrow-size, 40px); */
-  height: 50vh;
-  height: 50dvh;
+  height: 40vh;
+  height: 40dvh;
   border-radius: 5px;
   pointer-events: auto;
   box-sizing: border-box;
@@ -67,8 +69,8 @@
 }
 
 .arrowTooltip {
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
   padding: 5px;
-  border: 1px solid var(--color-primary);
   border-radius: 5px;
 }
