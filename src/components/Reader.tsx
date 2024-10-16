@@ -20,7 +20,8 @@ import { useEffect, useState, useRef } from "react";
 
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
-import { IProgression, ProgressionOf } from "./ProgressionOf";
+import { ReaderFooter } from "./ReaderFooter";
+import { IProgression } from "./ProgressionOf";
 
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
@@ -49,7 +50,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isPublicationStart = useAppSelector(state => state.reader.isPublicationStart) || false;
   const isPublicationEnd = useAppSelector(state => state.reader.isPublicationEnd) || false;
 
-  // In practice, selfHref is what is used to set the self link, which is our scope
   const [progression, setProgression] = useState<IProgression>({});
 
   // TMP: Nasty trick to get around usage in useEffect with explicit deps
@@ -326,34 +326,32 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   return (
     <>
-    <main style={propsToCSSVars(RSPrefs.theming)}>
+    <main style={ propsToCSSVars(RSPrefs.theming) }>
       <ReaderHeader 
-        title = { publicationTitle.current } 
+        title={ publicationTitle.current } 
       />
 
-      <nav className={arrowStyles.container} id={arrowStyles.left}>
+      <nav className={ arrowStyles.container } id={ arrowStyles.left }>
         <ArrowButton 
           direction="left" 
-          disabled={isPublicationStart}
+          disabled={ isPublicationStart }
         />
       </nav>
 
-      <article id="wrapper" aria-label={Locale.reader.app.publicationWrapper}>
-        <div id="container" ref={container}></div>
+      <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
+        <div id="container" ref={ container }></div>
       </article>
 
-      <nav className={arrowStyles.container} id={arrowStyles.right}>
+      <nav className={ arrowStyles.container } id={ arrowStyles.right }>
         <ArrowButton 
           direction="right"  
-          disabled={isPublicationEnd}
+          disabled={ isPublicationEnd }
         />
       </nav>
 
-      <aside className={isImmersive ? readerStateStyles.immersive : ""}  id="bottom-bar">
-        <ProgressionOf 
-          progression={progression} 
-        />
-      </aside>
+      <ReaderFooter 
+        progression={ progression } 
+      />
     </main>
     </>
   );

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface IReaderState {
   isImmersive?: boolean;
+  isHovering?: boolean;
   isFullscreen?: boolean;
   isFXL?: boolean;
   isPaged?: boolean;
@@ -14,6 +15,7 @@ interface IReaderState {
 
 const initialState: IReaderState = {
   isImmersive: false,
+  isHovering: false,
   isFullscreen: false,
   isFXL: false,
   isPaged: true,
@@ -30,6 +32,9 @@ export const readerSlice = createSlice({
   reducers: {
     setImmersive: (state, action) => {
       state.isImmersive = action.payload
+    },
+    setHovering: (state, action) => {
+      state.isHovering = action.payload
     },
     setFullscreen: (state, action) => {
       state.isFullscreen = action.payload
@@ -59,6 +64,17 @@ export const readerSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setImmersive, setFullscreen, setFXL, setPaged, setRTL, setBreakpoint, setPublicationStart, setPublicationEnd, setSettingsOpen } = readerSlice.actions;
+export const { 
+  setImmersive, 
+  setHovering, 
+  setFullscreen, 
+  setFXL, 
+  setPaged, 
+  setRTL, 
+  setBreakpoint, 
+  setPublicationStart, 
+  setPublicationEnd, 
+  setSettingsOpen 
+} = readerSlice.actions;
 
 export default readerSlice.reducer;
