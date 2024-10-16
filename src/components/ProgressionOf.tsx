@@ -4,6 +4,7 @@ import Locale from "../resources/locales/en.json";
 import progressionStyles from "./assets/styles/progression.module.css";
 
 import parseTemplate from "json-templates";
+import { useAppSelector } from "@/lib/hooks";
 
 export interface IProgression {
   totalPositions?: number;
@@ -14,8 +15,10 @@ export interface IProgression {
   currentPublication?: string;
 }
 
-export const ProgressionOf = ({progression}: {progression: IProgression}) => {
+export const ProgressionOf = () => {
   const jsonTemplate = parseTemplate(Locale.reader.app.progression.of);
+  const progression: IProgression = useAppSelector(state => state.publication.progression);
+
   const [current, setCurrent] = useState("");
   const [reference, setReference] = useState("");
 
@@ -37,8 +40,8 @@ export const ProgressionOf = ({progression}: {progression: IProgression}) => {
 
   return (
     <>
-    {(current && reference) && <div id={progressionStyles.current} aria-label={Locale.reader.app.progression.wrapper}>
-      {jsonTemplate({ current: current, reference: reference })}
+    {( current && reference ) && <div id={ progressionStyles.current } aria-label={ Locale.reader.app.progression.wrapper }>
+      { jsonTemplate({ current: current, reference: reference }) }
     </div>}
     </>
   )

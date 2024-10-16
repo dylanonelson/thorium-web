@@ -25,7 +25,7 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
   const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
-  const isRTL = useAppSelector(state => state.reader.isRTL) || false;
+  const isRTL = useAppSelector(state => state.publication.isRTL);
 
   const label = (props.direction === "right" && !isRTL || props.direction === "left" && isRTL) ? Locale.reader.navigation.goForward : Locale.reader.navigation.goBackward;
 
@@ -47,20 +47,20 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   
   return (
     <>
-      <TooltipTrigger>
-        <Button
-          ref={button}
-          aria-label={label}
-          onPress={() => { props.direction === "left" ? control("goLeft") : control("goRight") }}
-          className={classNames(props.className, handleClassNameFromState())}
-          isDisabled={props.disabled}>
-          {props.direction === "left" ? <LeftArrow aria-hidden="true" focusable="false" /> : <RightArrow aria-hidden="true" focusable="false" />}
-        </Button>
-        <Tooltip
-          className={arrowStyles.arrowTooltip}
-          placement={props.direction === "left" ? "right" : "left"}>
-          {label}
-        </Tooltip>
-      </TooltipTrigger>
+    <TooltipTrigger>
+      <Button
+        ref={button}
+        aria-label={label}
+        onPress={() => { props.direction === "left" ? control("goLeft") : control("goRight") }}
+        className={classNames(props.className, handleClassNameFromState())}
+        isDisabled={props.disabled}>
+        {props.direction === "left" ? <LeftArrow aria-hidden="true" focusable="false" /> : <RightArrow aria-hidden="true" focusable="false" />}
+      </Button>
+      <Tooltip
+        className={arrowStyles.arrowTooltip}
+        placement={props.direction === "left" ? "right" : "left"}>
+        {label}
+      </Tooltip>
+    </TooltipTrigger>
     </>);
 }

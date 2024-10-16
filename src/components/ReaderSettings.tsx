@@ -6,9 +6,10 @@ import settingsStyles from "./assets/styles/readerSettings.module.css";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 import { Button, Dialog, DialogTrigger, Popover } from "react-aria-components"; 
 import { setSettingsOpen } from "@/lib/readerReducer";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-export const ReaderSettings = ({ isFXL }: { isFXL: boolean }) => {
+export const ReaderSettings = () => {
+  const isFXL = useAppSelector(state => state.publication.isFXL);
   const dispatch = useAppDispatch();
 
   const toggleSettingsState = (value: boolean) => {

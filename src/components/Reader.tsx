@@ -5,7 +5,6 @@ import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
-import readerStateStyles from "./assets/styles/readerStates.module.css";
 import fontStacks from "readium-css/css/vars/fontStacks.json";
 
 import {
@@ -16,18 +15,18 @@ import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } 
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
 import Peripherals from "@/helpers/peripherals";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
-import { IProgression } from "./ProgressionOf";
 
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
-import { setImmersive, setBreakpoint, setFXL, setRTL} from "@/lib/readerReducer";
+import { setImmersive, setBreakpoint } from "@/lib/readerReducer";
+import { setFXL, setRTL, setProgression, setTitle } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import debounce from "debounce";
 
@@ -39,18 +38,17 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
 
-  const publicationTitle = useRef(Locale.reader.app.header.title);
   const localDataKey = useRef(`${selfHref}-current-location`);
 
-  const dispatch = useAppDispatch();
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const immersive = useRef(isImmersive);
 
-  const isPublicationStart = useAppSelector(state => state.reader.isPublicationStart) || false;
-  const isPublicationEnd = useAppSelector(state => state.reader.isPublicationEnd) || false;
+  const publicationTitle = useAppSelector(state => state.publication.title);
+  const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
+  const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
 
-  const [progression, setProgression] = useState<IProgression>({});
+  const dispatch = useAppDispatch();
 
   // TMP: Nasty trick to get around usage in useEffect with explicit deps
   // i.e. isImmersive will stay the same as long as the entire navigator
@@ -134,12 +132,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     let positionsList: Locator[] | undefined;
 
-    publicationTitle.current = publication.current.metadata.title.getTranslation("en");
-    
+    dispatch(setTitle(publication.current.metadata.title.getTranslation("en")));    
     dispatch(setRTL(publication.current.metadata.effectiveReadingProgression === ReadingProgression.rtl));
     dispatch(setFXL(publication.current.metadata.getPresentation()?.layout === EPUBLayout.fixed));
 
-    setProgression(progression => progression = { ...progression, currentPublication: publicationTitle.current});
+    dispatch(setProgression({ currentPublication: publicationTitle }));
 
     const fetchPositions = async () => {
       const positionsJSON = publication.current?.manifest.links.findWithMediaType("application/vnd.readium.position-list+json");
@@ -149,7 +146,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         try {
           const positionObj = await fetched.readAsJSON() as {total: number, positions: Locator[]};
           positionsList = positionObj.positions;
-          setProgression(progression => progression = { ...progression, totalPositions: positionObj.total });
+          dispatch(setProgression( { totalPositions: positionObj.total }));
         } catch(err) {
           console.error(err)
         }
@@ -159,62 +156,63 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     fetchPositions()
       .catch(console.error);
 
-      const handleResize = () => {
-        if (nav.current && container.current) {
-          const currentBreakpoint = RSPrefs.breakpoint < container.current.clientWidth
-          dispatch(setBreakpoint(currentBreakpoint));
+    const handleResize = () => {
+      if (nav.current && container.current) {
+        const currentBreakpoint = RSPrefs.breakpoint < container.current.clientWidth
+        dispatch(setBreakpoint(currentBreakpoint));
     
-          if (nav.current?.layout === EPUBLayout.reflowable && optimalLineLength.current) {
-            const containerWidth = currentBreakpoint ? window.innerWidth - arrowsWidth.current : window.innerWidth;
-            container.current.style.width = `${containerWidth}px`;
+        if (nav.current?.layout === EPUBLayout.reflowable && optimalLineLength.current) {
+          const containerWidth = currentBreakpoint ? window.innerWidth - arrowsWidth.current : window.innerWidth;
+          container.current.style.width = `${containerWidth}px`;
 
-            const colCount = autoPaginate(RSPrefs.breakpoint, containerWidth, optimalLineLength.current);
+          const colCount = autoPaginate(RSPrefs.breakpoint, containerWidth, optimalLineLength.current);
     
-            applyReadiumCSSStyles({
-              "--RS__colCount": `${colCount}`,
-              "--RS__defaultLineLength": `${optimalLineLength.current}rem`,
-              "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
-            });
-          }
-        }
-      };
-    
-      const initReadingEnv = () => {
-        if (nav.current?.layout === EPUBLayout.reflowable) {
-          optimalLineLength.current = getOptimalLineLength({
-            chars: RSPrefs.typography.lineLength,
-            fontFace: fontStacks.RS__oldStyleTf,
-            pageGutter: RSPrefs.typography.pageGutter,
-          //  letterSpacing: 2,
-          //  wordSpacing: 2,
-          //  sample: "It will be seen that this mere painstaking burrower and grub-worm of a poor devil of a Sub-Sub appears to have gone through the long Vaticans and street-stalls of the earth, picking up whatever random allusions to whales he could anyways find in any book whatsoever, sacred or profane. Therefore you must not, in every case at least, take the higgledy-piggledy whale statements, however authentic, in these extracts, for veritable gospel cetology. Far from it. As touching the ancient authors generally, as well as the poets here appearing, these extracts are solely valuable or entertaining, as affording a glancing bird’s eye view of what has been promiscuously said, thought, fancied, and sung of Leviathan, by many nations and generations, including our own."
+          applyReadiumCSSStyles({
+            "--RS__colCount": `${colCount}`,
+            "--RS__defaultLineLength": `${optimalLineLength.current}rem`,
+            "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
           });
-          handleResize();
-        } else if (nav.current?.layout === EPUBLayout.fixed) {
-          // [TMP] Working around positionChanged not firing consistently for FXL
-          // Init’ing so that progression can be populated on first spread loaded
-          handleProgression(nav.current.currentLocator);
-          handleResize();
         }
       }
+    };
     
-      const handleProgression = (locator: Locator) => {
-        const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
+    const initReadingEnv = () => {
+      if (nav.current?.layout === EPUBLayout.reflowable) {
+        optimalLineLength.current = getOptimalLineLength({
+          chars: RSPrefs.typography.lineLength,
+          fontFace: fontStacks.RS__oldStyleTf,
+          pageGutter: RSPrefs.typography.pageGutter,
+        //  letterSpacing: 2,
+        //  wordSpacing: 2,
+        //  sample: "It will be seen that this mere painstaking burrower and grub-worm of a poor devil of a Sub-Sub appears to have gone through the long Vaticans and street-stalls of the earth, picking up whatever random allusions to whales he could anyways find in any book whatsoever, sacred or profane. Therefore you must not, in every case at least, take the higgledy-piggledy whale statements, however authentic, in these extracts, for veritable gospel cetology. Far from it. As touching the ancient authors generally, as well as the poets here appearing, these extracts are solely valuable or entertaining, as affording a glancing bird’s eye view of what has been promiscuously said, thought, fancied, and sung of Leviathan, by many nations and generations, including our own."
+        });
+        handleResize();
+      } else if (nav.current?.layout === EPUBLayout.fixed) {
+        // [TMP] Working around positionChanged not firing consistently for FXL
+        // Init’ing so that progression can be populated on first spread loaded
+        handleProgression(nav.current.currentLocator);
+        handleResize();
+      }
+    }
+    
+    const handleProgression = (locator: Locator) => {
+      const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
         
-        setProgression(progression => progression = { ...progression, currentPositions: nav.current?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression });
-      }
+      dispatch(setProgression( { currentPositions: nav.current?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression }));
+    }
     
-      const handleTap = (event: FrameClickEvent) => {
-        const oneQuarter = ((nav.current?._cframes.length === 2 ? nav.current._cframes[0]!.window.innerWidth + nav.current._cframes[1]!.window.innerWidth : nav.current!._cframes[0]!.window.innerWidth) * window.devicePixelRatio) / 4;
-        if (event.x < oneQuarter) {
-          nav.current?.goLeft(true, activateImmersiveOnAction);
-        } 
-        else if (event.x > oneQuarter * 3) {
-          nav.current?.goRight(true, activateImmersiveOnAction);
-        } else if (oneQuarter <= event.x && event.x <= oneQuarter * 3) {
-          toggleImmersive();
-        }
+    const handleTap = (event: FrameClickEvent) => {
+      const oneQuarter = ((nav.current?._cframes.length === 2 ? nav.current._cframes[0]!.window.innerWidth + nav.current._cframes[1]!.window.innerWidth : nav.current!._cframes[0]!.window.innerWidth) * window.devicePixelRatio) / 4;
+      
+      if (event.x < oneQuarter) {
+        nav.current?.goLeft(true, activateImmersiveOnAction);
+      } 
+      else if (event.x > oneQuarter * 3) {
+        nav.current?.goRight(true, activateImmersiveOnAction);
+      } else if (oneQuarter <= event.x && event.x <= oneQuarter * 3) {
+        toggleImmersive();
       }
+    }
 
     const p = new Peripherals({
       moveTo: (direction) => {
@@ -310,6 +308,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     const currentLocation = localData.get(localDataKey.current);
 
     nav.current = new EpubNavigator(container.current!, publication.current, listeners, positionsList, currentLocation);
+
     nav.current.load().then(() => {
       p.observe(window);
 
@@ -333,13 +332,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     <>
     <main style={ propsToCSSVars(RSPrefs.theming) }>
       <ReaderHeader 
-        title={ publicationTitle.current } 
+        title={ publicationTitle } 
       />
 
       <nav className={ arrowStyles.container } id={ arrowStyles.left }>
         <ArrowButton 
           direction="left" 
-          disabled={ isPublicationStart }
+          disabled={ atPublicationStart }
         />
       </nav>
 
@@ -350,13 +349,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       <nav className={ arrowStyles.container } id={ arrowStyles.right }>
         <ArrowButton 
           direction="right"  
-          disabled={ isPublicationEnd }
+          disabled={ atPublicationEnd }
         />
       </nav>
 
-      <ReaderFooter 
-        progression={ progression } 
-      />
+      <ReaderFooter />
     </main>
     </>
   );
