@@ -26,7 +26,7 @@ import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
 import { setImmersive, setBreakpoint } from "@/lib/readerReducer";
-import { setFXL, setRTL, setProgression, setTitle } from "@/lib/publicationReducer";
+import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import debounce from "debounce";
 
@@ -44,7 +44,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const immersive = useRef(isImmersive);
 
-  const publicationTitle = useAppSelector(state => state.publication.title);
+  const runningHead = useAppSelector(state => state.publication.runningHead);
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
 
@@ -132,11 +132,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     let positionsList: Locator[] | undefined;
 
-    dispatch(setTitle(publication.current.metadata.title.getTranslation("en")));    
+    dispatch(setRunningHead(publication.current.metadata.title.getTranslation("en")));    
     dispatch(setRTL(publication.current.metadata.effectiveReadingProgression === ReadingProgression.rtl));
     dispatch(setFXL(publication.current.metadata.getPresentation()?.layout === EPUBLayout.fixed));
 
-    dispatch(setProgression({ currentPublication: publicationTitle }));
+    dispatch(setProgression({ currentPublication: runningHead }));
 
     const fetchPositions = async () => {
       const positionsJSON = publication.current?.manifest.links.findWithMediaType("application/vnd.readium.position-list+json");
@@ -332,7 +332,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     <>
     <main style={ propsToCSSVars(RSPrefs.theming) }>
       <ReaderHeader 
-        title={ publicationTitle } 
+        runningHead={ runningHead } 
       />
 
       <nav className={ arrowStyles.container } id={ arrowStyles.left }>

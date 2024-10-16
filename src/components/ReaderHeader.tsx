@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import { ReaderSettings } from "./ReaderSettings";
 
-export const ReaderHeader = ({ title }: { title: string | undefined }) => {
+export const ReaderHeader = ({ runningHead }: { runningHead: string | undefined }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
@@ -37,10 +37,10 @@ export const ReaderHeader = ({ title }: { title: string | undefined }) => {
   return (
     <>
     <header className={classNames(settingsStyles.header, handleClassNameFromState())} id="top-bar" aria-label="Top Bar" onMouseEnter={setHover} onMouseLeave={removeHover}>
-      <h1 aria-label={Locale.reader.app.header.title}>
-        {title
-          ? title
-          : Locale.reader.app.header.fallback}
+      <h1 aria-label={Locale.reader.app.header.runningHead}>
+        {runningHead
+          ? runningHead
+          : Locale.reader.app.header.runningHeadFallback}
       </h1>
       {/* <ReaderSettings /> */}
     </header>

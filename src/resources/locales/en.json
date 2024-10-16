@@ -3,8 +3,8 @@
     "app": {
       "publicationWrapper": "You’re now in the Publication.",
       "header": {
-        "title": "Publication Title",
-        "fallback": "Publication"
+        "runningHead": "...",
+        "runningHeadFallback": "Publication"
       },
       "progression": {
         "wrapper": "Current progression",

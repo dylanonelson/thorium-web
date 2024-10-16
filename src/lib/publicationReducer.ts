@@ -4,7 +4,7 @@ import { IProgression } from '@/components/ProgressionOf';
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IPublicationState {
-  title: string;
+  runningHead: string;
   isFXL: boolean;
   isRTL: boolean;
   progression: IProgression;
@@ -13,7 +13,7 @@ interface IPublicationState {
 }
 
 const initialState: IPublicationState = {
-  title: Locale.reader.app.header.title,
+  runningHead: Locale.reader.app.header.runningHead,
   isFXL: false,
   isRTL: false,
   progression: {},
@@ -25,8 +25,8 @@ export const publicationSlice = createSlice({
   name: "publication",
   initialState,
   reducers: {
-    setTitle: (state, action) => {
-      state.title = action.payload
+    setRunningHead: (state, action) => {
+      state.runningHead = action.payload
     },
     setFXL: (state, action) => {
       state.isFXL = action.payload
@@ -48,7 +48,7 @@ export const publicationSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { 
-  setTitle,
+  setRunningHead,
   setFXL,
   setRTL,
   setProgression,
