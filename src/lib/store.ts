@@ -1,10 +1,12 @@
-import readerReducer from "@/lib/readerReducer";
 import { configureStore } from "@reduxjs/toolkit";
+import readerReducer from "@/lib/readerReducer";
+import publicationReducer from "./publicationReducer";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      reader: readerReducer
+      reader: readerReducer,
+      publication: publicationReducer
     }
   })
 }

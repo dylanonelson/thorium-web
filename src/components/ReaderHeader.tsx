@@ -15,7 +15,6 @@ export const ReaderHeader = ({ title }: { title: string | undefined }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
-  const isFXL = useAppSelector(state => state.reader.isFXL) || false;
 
   const setHover = () => {
     dispatch(setHovering(true));
@@ -37,14 +36,14 @@ export const ReaderHeader = ({ title }: { title: string | undefined }) => {
 
   return (
     <>
-      <header className={classNames(settingsStyles.header, handleClassNameFromState())} id="top-bar" aria-label="Top Bar" onMouseEnter={setHover} onMouseLeave={removeHover}>
-        <h1 aria-label={Locale.reader.app.header.title}>
-          {title
-            ? title
-            : Locale.reader.app.header.fallback}
-        </h1>
-        {/* <ReaderSettings isFXL={isFXL} /> */}
-      </header>
+    <header className={classNames(settingsStyles.header, handleClassNameFromState())} id="top-bar" aria-label="Top Bar" onMouseEnter={setHover} onMouseLeave={removeHover}>
+      <h1 aria-label={Locale.reader.app.header.title}>
+        {title
+          ? title
+          : Locale.reader.app.header.fallback}
+      </h1>
+      {/* <ReaderSettings /> */}
+    </header>
     </>
   );
 }

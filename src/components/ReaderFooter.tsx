@@ -5,9 +5,9 @@ import readerStateStyles from "./assets/styles/readerStates.module.css";
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-import { IProgression, ProgressionOf } from "./ProgressionOf";
+import { ProgressionOf } from "./ProgressionOf";
 
-export const ReaderFooter = ({ progression }: { progression: IProgression }) => {
+export const ReaderFooter = () => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
@@ -33,9 +33,7 @@ export const ReaderFooter = ({ progression }: { progression: IProgression }) => 
   return(
     <>
     <aside className={handleClassNameFromState()}  id="bottom-bar" aria-label="Bottom Bar" onMouseEnter={setHover} onMouseLeave={removeHover}>
-      <ProgressionOf 
-        progression={progression} 
-      />
+      <ProgressionOf />
     </aside>
     </>
   )
