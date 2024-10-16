@@ -164,10 +164,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           const currentBreakpoint = RSPrefs.breakpoint < container.current.clientWidth
           dispatch(setBreakpoint(currentBreakpoint));
     
-          const containerWidth = currentBreakpoint ? window.innerWidth - arrowsWidth.current : window.innerWidth;
-          container.current.style.width = `${containerWidth}px`;
-    
           if (nav.current?.layout === EPUBLayout.reflowable && optimalLineLength.current) {
+            const containerWidth = currentBreakpoint ? window.innerWidth - arrowsWidth.current : window.innerWidth;
+            container.current.style.width = `${containerWidth}px`;
+
             const colCount = autoPaginate(RSPrefs.breakpoint, containerWidth, optimalLineLength.current);
     
             applyReadiumCSSStyles({
@@ -194,6 +194,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           // [TMP] Working around positionChanged not firing consistently for FXL
           // Init’ing so that progression can be populated on first spread loaded
           handleProgression(nav.current.currentLocator);
+          handleResize();
         }
       }
     
@@ -229,7 +230,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           : nav.current?.goForward(true, activateImmersiveOnAction);
       },
       resize: () => {
-        if (nav.current?.layout === EPUBLayout.reflowable) handleResize();
+        handleResize();
       }
     });
 
