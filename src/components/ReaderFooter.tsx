@@ -1,21 +1,16 @@
 import React from "react";
 
-import Locale from "../resources/locales/en.json";
-import settingsStyles from "./assets/styles/readerSettings.module.css";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
-
-import classNames from "classnames";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-import { ReaderSettings } from "./ReaderSettings";
+import { IProgression, ProgressionOf } from "./ProgressionOf";
 
-export const ReaderHeader = ({ title }: { title: string | undefined }) => {
+export const ReaderFooter = ({ progression }: { progression: IProgression }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
-  const isFXL = useAppSelector(state => state.reader.isFXL) || false;
 
   const setHover = () => {
     dispatch(setHovering(true));
@@ -35,16 +30,13 @@ export const ReaderHeader = ({ title }: { title: string | undefined }) => {
     return className
   };
 
-  return (
+  return(
     <>
-      <header className={classNames(settingsStyles.header, handleClassNameFromState())} id="top-bar" aria-label="Top Bar" onMouseEnter={setHover} onMouseLeave={removeHover}>
-        <h1 aria-label={Locale.reader.app.header.title}>
-          {title
-            ? title
-            : Locale.reader.app.header.fallback}
-        </h1>
-        {/* <ReaderSettings isFXL={isFXL} /> */}
-      </header>
+    <aside className={handleClassNameFromState()}  id="bottom-bar" aria-label="Bottom Bar" onMouseEnter={setHover} onMouseLeave={removeHover}>
+      <ProgressionOf 
+        progression={progression} 
+      />
+    </aside>
     </>
-  );
+  )
 }

@@ -33,11 +33,6 @@ body {
   align-items: center;
 }
 
-#bottom-bar:hover,
-#top-bar:hover {
-  opacity: 1;
-}
-
 #wrapper {
   height: calc(100vh - (2 * (var(--icon-size, 32px) * 1.5)));
   height: calc(100dvh - (2 * (var(--icon-size, 32px) * 1.5))); /* New browsers */
