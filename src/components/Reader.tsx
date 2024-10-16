@@ -237,6 +237,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     // [TMP] Working around positionChanged not firing consistently for FXL
     // We’re observing the FXLFramePoolManager spine div element’s style
     // and checking whether its translate3d has changed.
+    // Sure IntersectionObserver should be the obvious one to use here,
+    // observing iframes instead of the style attribute on the spine element
+    // but there’s additional complexity to handle as a spread = 2 iframes
+    // And keeping in sync while the FramePool is re-aligning on resize can be suboptimal
     const FXLPositionChanged = new MutationObserver((mutationsList: MutationRecord[]) => {
       for (const mutation of mutationsList) {
         const re = /translate3d\(([^)]+)\)/;
