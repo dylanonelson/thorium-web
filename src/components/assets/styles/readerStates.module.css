@@ -1,0 +1,11 @@
+.immersive {
+  opacity: 0.25;
+}
+
+.immersiveHovering {
+  opacity: 1;
+}
+
+.immersiveHidden {
+  opacity: 0;
+}
