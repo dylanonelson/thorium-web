@@ -7,6 +7,7 @@ import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 import { Button, Dialog, DialogTrigger, Popover } from "react-aria-components"; 
 import { setSettingsOpen } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { ReadingDisplayCol } from "./ReadingDisplayCol";
 
 export const ReaderSettings = () => {
   const isFXL = useAppSelector(state => state.publication.isFXL);
@@ -22,8 +23,10 @@ export const ReaderSettings = () => {
       <Button className={settingsStyles.textAreaButton}>
         <TextAreaIcon aria-hidden="true" focusable="false" />
       </Button>
-      <Popover placement="bottom">
+      <Popover placement="bottom" className={settingsStyles.readerSettingsPopover}>
         <Dialog>
+          <ReadingDisplayCol />
+          <hr/>
           <ReadingDisplayLayout isFXL={isFXL} />
         </Dialog>
       </Popover>

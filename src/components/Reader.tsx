@@ -41,6 +41,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const localDataKey = useRef(`${selfHref}-current-location`);
 
   const isPaged = useAppSelector(state => state.reader.isPaged);
+  const colCount = useAppSelector(state => state.reader.colCount);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const immersive = useRef(isImmersive);
 
@@ -84,7 +85,19 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     applyReadiumCSSStyles({
       "--USER__view": "readium-scroll-on"
     })
-  }, [isPaged])
+  }, [isPaged]);
+
+  useEffect(() => {
+    if (colCount === "1" || colCount === "2") {
+      applyReadiumCSSStyles({
+        "--USER__colCount": `${colCount}`
+      })
+    } else {
+      applyReadiumCSSStyles({
+        "--USER__colCount": ""
+      })
+    }
+  }, [colCount]);
 
   const handleReaderControl = (ev: Event) => {
     const detail = (ev as CustomEvent).detail as {
@@ -161,17 +174,18 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         const currentBreakpoint = RSPrefs.breakpoint < container.current.clientWidth
         dispatch(setBreakpoint(currentBreakpoint));
     
-        if (nav.current?.layout === EPUBLayout.reflowable && optimalLineLength.current) {
+        if (nav.current?.layout === EPUBLayout.reflowable) {
           const containerWidth = currentBreakpoint ? window.innerWidth - arrowsWidth.current : window.innerWidth;
           container.current.style.width = `${containerWidth}px`;
 
-          const colCount = autoPaginate(RSPrefs.breakpoint, containerWidth, optimalLineLength.current);
+          if (colCount === "auto" && optimalLineLength.current) {
+            const colCount = autoPaginate(RSPrefs.breakpoint, containerWidth, optimalLineLength.current);
     
-          applyReadiumCSSStyles({
-            "--RS__colCount": `${colCount}`,
-            "--RS__defaultLineLength": `${optimalLineLength.current}rem`,
-            "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
-          });
+            applyReadiumCSSStyles({
+              "--RS__colCount": `${colCount}`,
+              "--RS__defaultLineLength": `${optimalLineLength.current}rem`
+            });
+          }
         }
       }
     };
@@ -185,6 +199,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         //  letterSpacing: 2,
         //  wordSpacing: 2,
         //  sample: "It will be seen that this mere painstaking burrower and grub-worm of a poor devil of a Sub-Sub appears to have gone through the long Vaticans and street-stalls of the earth, picking up whatever random allusions to whales he could anyways find in any book whatsoever, sacred or profane. Therefore you must not, in every case at least, take the higgledy-piggledy whale statements, however authentic, in these extracts, for veritable gospel cetology. Far from it. As touching the ancient authors generally, as well as the poets here appearing, these extracts are solely valuable or entertaining, as affording a glancing bird’s eye view of what has been promiscuously said, thought, fancied, and sung of Leviathan, by many nations and generations, including our own."
+        });
+        applyReadiumCSSStyles({
+          "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
         });
         handleResize();
       } else if (nav.current?.layout === EPUBLayout.fixed) {
