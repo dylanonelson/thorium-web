@@ -42,7 +42,7 @@ export const ReaderHeader = ({ runningHead }: { runningHead: string | undefined 
           ? runningHead
           : Locale.reader.app.header.runningHeadFallback}
       </h1>
-      {/* <ReaderSettings /> */}
+      <ReaderSettings />
     </header>
     </>
   );
