@@ -1,83 +1,292 @@
 "use client";
 
-import { IconButton } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ListIcon from "@mui/icons-material/List";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import "./reader.css";
+import { RSPrefs } from "@/preferences";
+import Locale from "../resources/locales/en.json";
+
+import "./assets/styles/reader.css";
+import arrowStyles from "./assets/styles/arrowButton.module.css";
+import fontStacks from "readium-css/css/vars/fontStacks.json";
 
 import {
   BasicTextSelection,
   FrameClickEvent,
-} from "@readium/navigator-html-injectables/src/modules/ReflowablePeripherals";
-import { EpubNavigator, EpubNavigatorListeners } from "@readium/navigator/src/epub/EpubNavigator";
-import { Locator, Manifest, Publication } from "@readium/shared/src/publication";
-import FrameManager from "@readium/navigator/src/epub/frame/FrameManager";
-import FXLFrameManager from "@readium/navigator/src/epub/fxl/FXLFrameManager";
+} from "@readium/navigator-html-injectables";
+import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
+import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
+
 import Peripherals from "@/helpers/peripherals";
 import { useEffect, useRef } from "react";
-import { HttpFetcher } from "@/readium/ts-toolkit/shared/src/fetcher/HttpFetcher";
-import { Fetcher } from "@/readium/ts-toolkit/shared/src/fetcher";
+
+import { ReaderHeader } from "./ReaderHeader";
+import { ArrowButton } from "./ArrowButton";
+import { ReaderFooter } from "./ReaderFooter";
+
+import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
+import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
+import { propsToCSSVars } from "@/helpers/propsToCSSVars";
+import { localData } from "@/helpers/localData";
+import { setImmersive, setBreakpoint } from "@/lib/readerReducer";
+import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
+import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+import debounce from "debounce";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
-  let nav: EpubNavigator | undefined;
+  const nav = useRef<EpubNavigator | null>(null);
+  const publication = useRef<Publication | null>(null);
+  const optimalLineLength = useRef<number | null>(null);
+
+  const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
+
+  const localDataKey = useRef(`${selfHref}-current-location`);
+
+  const isPaged = useAppSelector(state => state.reader.isPaged);
+  const isImmersive = useAppSelector(state => state.reader.isImmersive);
+  const immersive = useRef(isImmersive);
+
+  const runningHead = useAppSelector(state => state.publication.runningHead);
+  const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
+  const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
+
+  const dispatch = useAppDispatch();
+
+  // TMP: Nasty trick to get around usage in useEffect with explicit deps
+  // i.e. isImmersive will stay the same as long as the entire navigator
+  // is not re-rendered so we have to rely on an alias…
+  // a toggle reducer wouldn’t help either, as activateImmersiveOnAction
+  // always sees isImmersive as false and fires on every keyboard action
+  useEffect(() => {
+    immersive.current = isImmersive;
+  }, [isImmersive]);
+
+  const activateImmersiveOnAction = () => {
+    if (!immersive.current) dispatch(setImmersive(true));
+  }
+
+  const toggleImmersive = () => {
+    dispatch(setImmersive(!immersive.current));
+  }
+
+  const applyReadiumCSSStyles = (stylesObj: { [key: string]: string }) => {
+    nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+      if (frameManager) {
+        for (const [key, value] of Object.entries(stylesObj)) {
+          frameManager.window.document.documentElement.style.setProperty(key, value);
+        }
+      }
+    });
+  }
+
+  useEffect(() => {
+    isPaged ? applyReadiumCSSStyles({
+      "--USER__view": "readium-paged-on"
+    }) :
+    applyReadiumCSSStyles({
+      "--USER__view": "readium-scroll-on"
+    })
+  }, [isPaged])
+
+  const handleReaderControl = (ev: Event) => {
+    const detail = (ev as CustomEvent).detail as {
+      command: string;
+      data: unknown;
+    };
+    
+    switch (detail.command) {
+      case "goRight":
+        nav.current?.goRight(true, () => {});
+        break;
+      case "goLeft":
+        nav.current?.goLeft(true, () => {});
+        break;
+      case "goTo":
+        const link = nav.current?.publication.linkWithHref(detail.data as string);
+        if (!link) {
+          console.error("Link not found", detail.data);
+          return;
+        }
+        nav.current?.goLink(link, true, () => {});
+        break;
+      default:
+        console.error("Unknown reader-control event", ev);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("reader-control", handleReaderControl);
+    
+    return () => {
+      window.removeEventListener("reader-control", handleReaderControl);
+    }
+  });
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
     const manifest = Manifest.deserialize(rawManifest)!;
     manifest.setSelfLink(selfHref);
 
-    const publication = new Publication({
+    publication.current = new Publication({
       manifest: manifest,
       fetcher: fetcher,
     });
 
+    let positionsList: Locator[] | undefined;
+
+    dispatch(setRunningHead(publication.current.metadata.title.getTranslation("en")));    
+    dispatch(setRTL(publication.current.metadata.effectiveReadingProgression === ReadingProgression.rtl));
+    dispatch(setFXL(publication.current.metadata.getPresentation()?.layout === EPUBLayout.fixed));
+
+    dispatch(setProgression({ currentPublication: runningHead }));
+
+    const fetchPositions = async () => {
+      const positionsJSON = publication.current?.manifest.links.findWithMediaType("application/vnd.readium.position-list+json");
+      if (positionsJSON) {
+        const fetcher = new HttpFetcher(undefined, selfHref);
+        const fetched = fetcher.get(positionsJSON);
+        try {
+          const positionObj = await fetched.readAsJSON() as {total: number, positions: Locator[]};
+          positionsList = positionObj.positions;
+          dispatch(setProgression( { totalPositions: positionObj.total }));
+        } catch(err) {
+          console.error(err)
+        }
+      }
+    };
+
+    fetchPositions()
+      .catch(console.error);
+
+    const handleResize = () => {
+      if (nav.current && container.current) {
+        const currentBreakpoint = RSPrefs.breakpoint < container.current.clientWidth
+        dispatch(setBreakpoint(currentBreakpoint));
+    
+        if (nav.current?.layout === EPUBLayout.reflowable && optimalLineLength.current) {
+          const containerWidth = currentBreakpoint ? window.innerWidth - arrowsWidth.current : window.innerWidth;
+          container.current.style.width = `${containerWidth}px`;
+
+          const colCount = autoPaginate(RSPrefs.breakpoint, containerWidth, optimalLineLength.current);
+    
+          applyReadiumCSSStyles({
+            "--RS__colCount": `${colCount}`,
+            "--RS__defaultLineLength": `${optimalLineLength.current}rem`,
+            "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
+          });
+        }
+      }
+    };
+    
+    const initReadingEnv = () => {
+      if (nav.current?.layout === EPUBLayout.reflowable) {
+        optimalLineLength.current = getOptimalLineLength({
+          chars: RSPrefs.typography.lineLength,
+          fontFace: fontStacks.RS__oldStyleTf,
+          pageGutter: RSPrefs.typography.pageGutter,
+        //  letterSpacing: 2,
+        //  wordSpacing: 2,
+        //  sample: "It will be seen that this mere painstaking burrower and grub-worm of a poor devil of a Sub-Sub appears to have gone through the long Vaticans and street-stalls of the earth, picking up whatever random allusions to whales he could anyways find in any book whatsoever, sacred or profane. Therefore you must not, in every case at least, take the higgledy-piggledy whale statements, however authentic, in these extracts, for veritable gospel cetology. Far from it. As touching the ancient authors generally, as well as the poets here appearing, these extracts are solely valuable or entertaining, as affording a glancing bird’s eye view of what has been promiscuously said, thought, fancied, and sung of Leviathan, by many nations and generations, including our own."
+        });
+        handleResize();
+      } else if (nav.current?.layout === EPUBLayout.fixed) {
+        // [TMP] Working around positionChanged not firing consistently for FXL
+        // Init’ing so that progression can be populated on first spread loaded
+        handleProgression(nav.current.currentLocator);
+        handleResize();
+      }
+    }
+    
+    const handleProgression = (locator: Locator) => {
+      const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
+        
+      dispatch(setProgression( { currentPositions: nav.current?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression }));
+    }
+    
+    const handleTap = (event: FrameClickEvent) => {
+      const oneQuarter = ((nav.current?._cframes.length === 2 ? nav.current._cframes[0]!.window.innerWidth + nav.current._cframes[1]!.window.innerWidth : nav.current!._cframes[0]!.window.innerWidth) * window.devicePixelRatio) / 4;
+      
+      if (event.x < oneQuarter) {
+        nav.current?.goLeft(true, activateImmersiveOnAction);
+      } 
+      else if (event.x > oneQuarter * 3) {
+        nav.current?.goRight(true, activateImmersiveOnAction);
+      } else if (oneQuarter <= event.x && event.x <= oneQuarter * 3) {
+        toggleImmersive();
+      }
+    }
+
     const p = new Peripherals({
       moveTo: (direction) => {
         if (direction === "right") {
-          nav.goRight(true, () => {});
+          nav.current?.goRight(true, activateImmersiveOnAction);
         } else if (direction === "left") {
-          nav.goLeft(true, () => {});
+          nav.current?.goLeft(true, activateImmersiveOnAction);
         }
       },
-      menu: (_show) => {
-        // No UI that hides/shows at the moment
+      goProgression: (shiftKey) => {
+        shiftKey 
+          ? nav.current?.goBackward(true, activateImmersiveOnAction) 
+          : nav.current?.goForward(true, activateImmersiveOnAction);
       },
-      goProgression: (_shiftKey) => {
-        nav.goForward(true, () => {});
-      },
+      resize: () => {
+        handleResize();
+      }
+    });
+
+    // [TMP] Working around positionChanged not firing consistently for FXL
+    // We’re observing the FXLFramePoolManager spine div element’s style
+    // and checking whether its translate3d has changed.
+    // Sure IntersectionObserver should be the obvious one to use here,
+    // observing iframes instead of the style attribute on the spine element
+    // but there’s additional complexity to handle as a spread = 2 iframes
+    // And keeping in sync while the FramePool is re-aligning on resize can be suboptimal
+    const FXLPositionChanged = new MutationObserver((mutationsList: MutationRecord[]) => {
+      for (const mutation of mutationsList) {
+        const re = /translate3d\(([^)]+)\)/;
+        const newVal = (mutation.target as HTMLElement).getAttribute(mutation.attributeName as string);
+        const oldVal = mutation.oldValue;
+        if (newVal?.split(re)[1] !== oldVal?.split(re)[1]) {
+          const locator = nav.current?.currentLocator;
+          if (locator) {
+            handleProgression(locator);
+            localData.set(localDataKey.current, locator)
+          }
+        }
+      }
     });
 
     const listeners: EpubNavigatorListeners = {
       frameLoaded: function (_wnd: Window): void {
-        /*nav._cframes.forEach((frameManager: FrameManager | FXLFrameManager) => {
-                        frameManager.msg!.send(
-                            "set_property",
-                            ["--USER__colCount", 1],
-                            (ok: boolean) => (ok ? {} : {})
-                        );
-                    })*/
-        nav._cframes.forEach(
+        initReadingEnv();
+        nav.current?._cframes.forEach(
           (frameManager: FrameManager | FXLFrameManager | undefined) => {
             if (frameManager) p.observe(frameManager.window);
           }
         );
         p.observe(window);
       },
-      positionChanged: function (_locator: Locator): void {
+      positionChanged: debounce(function (locator: Locator): void {
         window.focus();
-      },
+
+        // This can’t be relied upon with FXL to handleProgression at the moment,
+        // Only reflowable snappers will register the "progress" event
+        // that triggers positionChanged every time the progression changes
+        // in FXL, only first_visible_locator will, which is why it triggers when
+        // the spread has not been shown yet, but won’t if you just slid to them.
+        if (nav.current?.layout === EPUBLayout.reflowable) {
+          handleProgression(locator);
+          localData.set(localDataKey.current, locator);
+        }
+      }, 250),
       tap: function (_e: FrameClickEvent): boolean {
-        return false;
+        handleTap(_e);
+        return true;
       },
       click: function (_e: FrameClickEvent): boolean {
-        return false;
+        toggleImmersive()
+        return true;
       },
       zoom: function (_scale: number): void {},
       miscPointer: function (_amount: number): void {},
-
       customEvent: function (_key: string, _data: unknown): void {},
       handleLocator: function (locator: Locator): boolean {
         const href = locator.href;
@@ -95,147 +304,57 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       },
       textSelected: function (_selection: BasicTextSelection): void {},
     };
-    console.log("load new nav!", selfHref, rawManifest);
-    const nav = new EpubNavigator(container.current!, publication, listeners);
-    nav.load().then(() => {
+    
+    const currentLocation = localData.get(localDataKey.current);
+
+    nav.current = new EpubNavigator(container.current!, publication.current, listeners, positionsList, currentLocation);
+
+    nav.current.load().then(() => {
       p.observe(window);
 
-      window.addEventListener("reader-control", (ev) => {
-        const detail = (ev as CustomEvent).detail as {
-          command: string;
-          data: unknown;
-        };
-        switch (detail.command) {
-          case "goRight":
-            nav.goRight(true, () => {});
-            break;
-          case "goLeft":
-            nav.goLeft(true, () => {});
-            break;
-          case "goTo":
-            const link = nav.publication.linkWithHref(detail.data as string);
-            if (!link) {
-              console.error("Link not found", detail.data);
-              return;
-            }
-            nav.goLink(link, true, (ok) => {
-              // Hide TOC dialog if navigation was a success
-              if (ok)
-                (
-                  document.getElementById("toc-dialog") as HTMLDialogElement
-                ).close();
-            });
-            break;
-          case "settings":
-            (
-              document.getElementById("settings-dialog") as HTMLDialogElement
-            ).show();
-            break;
-          case "toc":
-            // Seed TOC
-            const container = document.getElementById(
-              "toc-list"
-            ) as HTMLElement;
-            container
-              .querySelectorAll(":scope > md-list-item, :scope > md-divider")
-              .forEach((e) => e.remove()); // Clear TOC
-
-            if (nav.publication.tableOfContents) {
-              const template = container.querySelector(
-                "template"
-              ) as HTMLTemplateElement;
-              nav.publication.tableOfContents.items.forEach((item) => {
-                const clone = template.content.cloneNode(true) as HTMLElement;
-
-                // Link
-                const element = clone.querySelector("md-list-item")!;
-                element.href = `javascript:control('goTo', '${item.href}')`;
-
-                // Title
-                const headlineSlot = element.querySelector(
-                  "div[slot=headline]"
-                ) as HTMLDivElement;
-                headlineSlot.innerText = item.title || "[Untitled]";
-
-                // Href for debugging
-                const supportingTextSlot = element.querySelector(
-                  "div[slot=supporting-text]"
-                ) as HTMLDivElement;
-                supportingTextSlot.innerText = item.href;
-
-                container.appendChild(clone);
-              });
-            } else {
-              container.innerText = "TOC is empty";
-            }
-
-            // Show the TOC dialog
-            (document.getElementById("toc-dialog") as HTMLDialogElement).show();
-            break;
-          default:
-            console.error("Unknown reader-control event", ev);
-        }
-      });
+      if (nav.current?.layout === EPUBLayout.fixed) {
+        // @ts-ignore
+        FXLPositionChanged.observe((nav.current?.pool.spineElement as HTMLElement), {attributes: ["style"], attributeOldValue: true});
+      }
     });
 
     return () => {
       // Cleanup TODO!
-      console.log("destroy nav");
       p.destroy();
-      nav.destroy();
+      if (nav.current?.layout === EPUBLayout.fixed) {
+        FXLPositionChanged.disconnect();
+      }
+      nav.current?.destroy();
     };
   }, [rawManifest, selfHref]);
 
   return (
     <>
-      <header id="top-bar" aria-label="Top Bar">
-        <h3 aria-label="Publication title">
-          {nav
-            ? nav.publication.metadata.title.getTranslation("en")
-            : "Loading..."}
-        </h3>
-        <div>
-          <IconButton
-            title="Table of Contents"
-            onClick={() => {
-              // control('toc')
-            }}
-          >
-            <ListIcon></ListIcon>
-          </IconButton>
-          <IconButton
-            title="Settings"
-            onClick={() => {
-              // control('settings')
-            }}
-          >
-            <SettingsIcon></SettingsIcon>
-          </IconButton>
-        </div>
-      </header>
+    <main style={ propsToCSSVars(RSPrefs.theming) }>
+      <ReaderHeader 
+        runningHead={ runningHead } 
+      />
 
-      <div id="wrapper">
-        <main id="container" ref={container} aria-label="Publication"></main>
-      </div>
+      <nav className={ arrowStyles.container } id={ arrowStyles.left }>
+        <ArrowButton 
+          direction="left" 
+          disabled={ atPublicationStart }
+        />
+      </nav>
 
-      <footer id="bottom-bar" aria-label="Bottom Bar">
-        <IconButton
-          title="Go left"
-          onClick={() => {
-            // control('goLeft')
-          }}
-        >
-          <ArrowBackIcon></ArrowBackIcon>
-        </IconButton>
-        <IconButton
-          title="Go right"
-          onClick={() => {
-            // control('goRight')
-          }}
-        >
-          <ArrowForwardIcon></ArrowForwardIcon>
-        </IconButton>
-      </footer>
+      <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
+        <div id="container" ref={ container }></div>
+      </article>
+
+      <nav className={ arrowStyles.container } id={ arrowStyles.right }>
+        <ArrowButton 
+          direction="right"  
+          disabled={ atPublicationEnd }
+        />
+      </nav>
+
+      <ReaderFooter />
+    </main>
     </>
   );
 };
