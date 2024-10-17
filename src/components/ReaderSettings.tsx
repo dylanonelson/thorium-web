@@ -1,6 +1,6 @@
 import React from "react";
 
-import GearIcon from "./assets/icons/gear-icon.svg";
+import TextAreaIcon from "./assets/icons/textarea-icon.svg";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
@@ -19,8 +19,8 @@ export const ReaderSettings = () => {
   return(
     <>
     <DialogTrigger onOpenChange={(val) => toggleSettingsState(val)}>
-      <Button className={settingsStyles.gearButton}>
-        <GearIcon aria-hidden="true" focusable="false" />
+      <Button className={settingsStyles.textAreaButton}>
+        <TextAreaIcon aria-hidden="true" focusable="false" />
       </Button>
       <Popover placement="bottom">
         <Dialog>

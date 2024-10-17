@@ -14,7 +14,7 @@
   justify-self: center;
 }
 
-.gearButton {
+.textAreaButton {
   grid-area: header-right;
   width: var(--icon-size, 32px);
   height: var(--icon-size, 32px);
@@ -31,9 +31,10 @@
   border: none;
   color: inherit;
   font: inherit;
+  text-align: center;
 }
 
-.gearButton svg {
+.textAreaButton svg {
   fill: var(--color-primary);
 }
 
