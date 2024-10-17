@@ -88,14 +88,24 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [isPaged]);
 
   useEffect(() => {
-    if (colCount === "1" || colCount === "2") {
-      applyReadiumCSSStyles({
-        "--USER__colCount": `${colCount}`
-      })
-    } else {
-      applyReadiumCSSStyles({
-        "--USER__colCount": ""
-      })
+    if (nav.current?.layout === EPUBLayout.reflowable) {
+      if (colCount === "1" || colCount === "2") {
+        applyReadiumCSSStyles({
+          "--USER__colCount": `${colCount}`
+        })
+      } else {
+        applyReadiumCSSStyles({
+          "--USER__colCount": ""
+        })
+      }
+    } else if (nav.current?.layout === EPUBLayout.fixed) {
+      if (colCount === "1") {
+        // @ts-ignore
+        nav.current.pool.setPerPage(1);
+      } else {
+        // @ts-ignore
+        nav.current.pool.setPerPage(0)
+      }
     }
   }, [colCount]);
 
