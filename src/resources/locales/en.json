@@ -18,9 +18,17 @@
       "goBackward": "Go Backward"
     },
     "settings": {
-      "readingDisplayLayout": "Layout",
-      "scrolled": "Scrollable",
-      "paginated": "Paginated"
+      "layout": {
+        "title": "Layout",
+        "scrolled": "Scrollable",
+        "paginated": "Paginated"
+      },
+      "column": {
+        "title": "Columns",
+        "auto": "Auto",
+        "one": "1 col",
+        "two": "2 cols"
+      }
     }
   }
 }
