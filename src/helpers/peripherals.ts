@@ -10,7 +10,7 @@ export interface PCallbacks {
 }
 
 export default class Peripherals {
-  private readonly observers = ["keyup", "keydown", "resize", "orientationchange"];
+  private readonly observers = ["keydown", "resize", "orientationchange"];
   private targets: EventTarget[] = [];
   private readonly callbacks: PCallbacks;
 
@@ -50,11 +50,8 @@ export default class Peripherals {
     this.targets.push(item);
   }
 
-  onkeyup(e: KeyboardEvent) {
-    if (e.code === "Space" && !isInteractiveElement(document.activeElement)) this.callbacks.goProgression(e.shiftKey);
-  }
-
   onkeydown(e: KeyboardEvent) {
+    if (e.code === "Space" && !isInteractiveElement(document.activeElement)) this.callbacks.goProgression(e.shiftKey);
     if (e.code === "ArrowRight" && !isInteractiveElement(document.activeElement)) this.callbacks.moveTo("right");
     else if (e.code === "ArrowLeft" && !isInteractiveElement(document.activeElement)) this.callbacks.moveTo("left");
   }

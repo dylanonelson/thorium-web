@@ -32,24 +32,40 @@ export const ReadingDisplayCol = () => {
   return (
     <>
     <div>
-      <RadioGroup orientation="horizontal" value={`${colCount}`} onChange={handleChange}>
-        <Label className={settingsStyles.readerSettingsLabel}>{Locale.reader.settings.column.title}</Label>
-        <div className={settingsStyles.readerSettingsRadioWrapper}>
-          <Radio className={settingsStyles.readerSettingsRadio} value="auto" isDisabled={false}>
+      <RadioGroup 
+        orientation="horizontal" 
+        value={`${ colCount }`} 
+        onChange={ handleChange }
+      >
+        <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.column.title }</Label>
+        <div className={ settingsStyles.readerSettingsRadioWrapper }>
+          <Radio 
+            className={ settingsStyles.readerSettingsRadio } 
+            value="auto" 
+            isDisabled={ false }
+          >
             <DefaultPageIcon aria-hidden="true" focusable="false" />
-            <span>{Locale.reader.settings.column.auto}</span>
+            <span>{ Locale.reader.settings.column.auto }</span>
           </Radio>
-          <Radio className={settingsStyles.readerSettingsRadio} value="1" isDisabled={scrollable}>
+          <Radio 
+            className={ settingsStyles.readerSettingsRadio } 
+            value="1" 
+            isDisabled={ scrollable }
+          >
             <AlignJustifyIcon aria-hidden="true" focusable="false" />
-            <span>{Locale.reader.settings.column.one}</span>
+            <span>{ Locale.reader.settings.column.one }</span>
           </Radio>
-          <Radio className={settingsStyles.readerSettingsRadio} value="2" isDisabled={scrollable}>
+          <Radio 
+            className={ settingsStyles.readerSettingsRadio } 
+            value="2" 
+            isDisabled={ scrollable }
+          >
             <TwoColsIcon aria-hidden="true" focusable="false" />
-            <span>{Locale.reader.settings.column.two}</span>
+            <span>{ Locale.reader.settings.column.two }</span>
           </Radio>
         </div>
       </RadioGroup>
     </div>
     </>
-);
+  );
 }
