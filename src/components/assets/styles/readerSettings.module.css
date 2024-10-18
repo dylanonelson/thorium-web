@@ -14,12 +14,8 @@
   justify-self: center;
 }
 
-.textAreaButton {
-  grid-area: header-right;
-  width: var(--icon-size, 32px);
-  height: var(--icon-size, 32px);
-  justify-self: end;
-
+.textAreaButton,
+.closeButton {
   -webkit-appearance: none;
   appearance: none;
   border-radius: 0;
@@ -31,10 +27,26 @@
   border: none;
   color: inherit;
   font: inherit;
+}
+
+.textAreaButton {
+  grid-area: header-right;
+  justify-self: end;
+  width: var(--icon-size, 32px);
+  height: var(--icon-size, 32px);
   text-align: center;
 }
 
-.textAreaButton svg {
+.closeButton {
+  width: calc(var(--icon-size, 32px) / 1.5);
+  height: calc(var(--icon-size, 32px) / 1.5);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.textAreaButton svg,
+.closeButton svg {
   fill: var(--color-primary);
 }
 
@@ -44,6 +56,7 @@
   padding: 10px;
   border-radius: 5px;
   border: 1px solid var(--color-primary);
+  position: relative;
 }
 
 .readerSettingsLabel {
