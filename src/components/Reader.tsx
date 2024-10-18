@@ -36,12 +36,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const publication = useRef<Publication | null>(null);
   const optimalLineLength = useRef<number | null>(null);
 
+  const containerWidth = useRef(window.innerWidth);
   const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
 
   const localDataKey = useRef(`${selfHref}-current-location`);
 
+  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
+  
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const immersive = useRef(isImmersive);
 
@@ -75,8 +78,51 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           frameManager.window.document.documentElement.style.setProperty(key, value);
         }
       }
-    });
-  }
+    })
+  };
+
+  const handleColCountReflow = () => {
+    if (container.current && optimalLineLength.current) {
+      if (colCount === "2") {
+        if (hasReachedBreakpoint) {
+          containerWidth.current = (2 * optimalLineLength.current) * 16;
+        } else {
+          containerWidth.current = window.innerWidth;
+        }
+        container.current.style.width = `${containerWidth.current}px`;
+
+        applyReadiumCSSStyles({
+          "--USER__colCount": `${colCount}`,
+          "--RS__defaultLineLength": `${optimalLineLength.current}rem`
+        })
+      } else if (colCount === "1") {
+        if (hasReachedBreakpoint) {
+          containerWidth.current = window.innerWidth - arrowsWidth.current;
+        } else {
+          containerWidth.current = window.innerWidth;
+        }
+        container.current.style.width = `${containerWidth.current}px`;
+
+        applyReadiumCSSStyles({
+          "--USER__colCount": `${colCount}`,
+          "--RS__defaultLineLength": `${optimalLineLength.current}rem`
+        })
+      } else {
+        if (hasReachedBreakpoint) {
+          containerWidth.current = window.innerWidth - arrowsWidth.current;
+        } else {
+          containerWidth.current = window.innerWidth;
+        }
+        container.current.style.width = `${containerWidth.current}px`;
+
+        const autoColCount = autoPaginate(RSPrefs.breakpoint, containerWidth.current, optimalLineLength.current);
+        applyReadiumCSSStyles({
+          "--USER__colCount": `${autoColCount}`,
+          "--RS__defaultLineLength": `${optimalLineLength.current}rem`
+        });
+      }
+    }
+  };
 
   useEffect(() => {
     isPaged ? applyReadiumCSSStyles({
@@ -89,15 +135,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   useEffect(() => {
     if (nav.current?.layout === EPUBLayout.reflowable) {
-      if (colCount === "1" || colCount === "2") {
-        applyReadiumCSSStyles({
-          "--USER__colCount": `${colCount}`
-        })
-      } else {
-        applyReadiumCSSStyles({
-          "--USER__colCount": ""
-        })
-      }
+      handleColCountReflow();
     } else if (nav.current?.layout === EPUBLayout.fixed) {
       if (colCount === "1") {
         // @ts-ignore
@@ -181,22 +219,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     const handleResize = () => {
       if (nav.current && container.current) {
-        const currentBreakpoint = RSPrefs.breakpoint < container.current.clientWidth
+        const currentBreakpoint = RSPrefs.breakpoint < window.innerWidth;
         dispatch(setBreakpoint(currentBreakpoint));
-    
-        if (nav.current?.layout === EPUBLayout.reflowable) {
-          const containerWidth = currentBreakpoint ? window.innerWidth - arrowsWidth.current : window.innerWidth;
-          container.current.style.width = `${containerWidth}px`;
-
-          if (colCount === "auto" && optimalLineLength.current) {
-            const colCount = autoPaginate(RSPrefs.breakpoint, containerWidth, optimalLineLength.current);
-    
-            applyReadiumCSSStyles({
-              "--RS__colCount": `${colCount}`,
-              "--RS__defaultLineLength": `${optimalLineLength.current}rem`
-            });
-          }
-        }
       }
     };
     
@@ -213,6 +237,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         applyReadiumCSSStyles({
           "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
         });
+
+        // TMP colCount state conflict
+        if (nav.current?.layout === EPUBLayout.reflowable) {
+          handleColCountReflow();
+        }
         handleResize();
       } else if (nav.current?.layout === EPUBLayout.fixed) {
         // [TMP] Working around positionChanged not firing consistently for FXL
