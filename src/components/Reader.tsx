@@ -83,44 +83,26 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const handleColCountReflow = () => {
     if (container.current && optimalLineLength.current) {
-      if (colCount === "2") {
-        if (hasReachedBreakpoint) {
-          containerWidth.current = (2 * optimalLineLength.current) * 16;
-        } else {
-          containerWidth.current = window.innerWidth;
-        }
-        container.current.style.width = `${containerWidth.current}px`;
+      let RCSSColCount = 1;
 
-        applyReadiumCSSStyles({
-          "--USER__colCount": `${colCount}`,
-          "--RS__defaultLineLength": `${optimalLineLength.current}rem`
-        })
-      } else if (colCount === "1") {
-        if (hasReachedBreakpoint) {
-          containerWidth.current = window.innerWidth - arrowsWidth.current;
-        } else {
-          containerWidth.current = window.innerWidth;
-        }
-        container.current.style.width = `${containerWidth.current}px`;
-
-        applyReadiumCSSStyles({
-          "--USER__colCount": `${colCount}`,
-          "--RS__defaultLineLength": `${optimalLineLength.current}rem`
-        })
+      if (colCount === "auto") {
+        RCSSColCount = autoPaginate(RSPrefs.breakpoint, window.innerWidth, optimalLineLength.current);
       } else {
-        if (hasReachedBreakpoint) {
-          containerWidth.current = window.innerWidth - arrowsWidth.current;
-        } else {
-          containerWidth.current = window.innerWidth;
-        }
-        container.current.style.width = `${containerWidth.current}px`;
-
-        const autoColCount = autoPaginate(RSPrefs.breakpoint, containerWidth.current, optimalLineLength.current);
-        applyReadiumCSSStyles({
-          "--USER__colCount": `${autoColCount}`,
-          "--RS__defaultLineLength": `${optimalLineLength.current}rem`
-        });
+        RCSSColCount = Number(colCount);
       }
+
+      if (hasReachedBreakpoint) {
+        const containerWithArrows = window.innerWidth - arrowsWidth.current;
+        const containerWidth = RCSSColCount > 1 ? Math.min(((RCSSColCount * optimalLineLength.current) * 16), containerWithArrows) : containerWithArrows;
+        container.current.style.width = `${containerWidth}px`;
+      } else {
+        container.current.style.width = `${window.innerWidth}px`;
+      }
+
+      applyReadiumCSSStyles({
+        "--USER__colCount": `${RCSSColCount}`,
+        "--RS__defaultLineLength": `${optimalLineLength.current}rem`
+      })
     }
   };
 
@@ -237,12 +219,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         applyReadiumCSSStyles({
           "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
         });
+        handleResize();
 
         // TMP colCount state conflict
+        // Note hasReachedBreakpoint is still false here
+        // despite handleResize running before
         if (nav.current?.layout === EPUBLayout.reflowable) {
           handleColCountReflow();
         }
-        handleResize();
+
       } else if (nav.current?.layout === EPUBLayout.fixed) {
         // [TMP] Working around positionChanged not firing consistently for FXL
         // Init’ing so that progression can be populated on first spread loaded
