@@ -36,12 +36,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const publication = useRef<Publication | null>(null);
   const optimalLineLength = useRef<number | null>(null);
 
-  const containerWidth = useRef(window.innerWidth);
   const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
 
   const localDataKey = useRef(`${selfHref}-current-location`);
 
-  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
+  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint) || RSPrefs.breakpoint < window.innerWidth;
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
   
@@ -81,6 +80,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     })
   };
 
+  useEffect(() => {
+    isPaged ? applyReadiumCSSStyles({
+      "--USER__view": "readium-paged-on"
+    }) :
+    applyReadiumCSSStyles({
+      "--USER__view": "readium-scroll-on"
+    })
+  }, [isPaged]);
+
   const handleColCountReflow = () => {
     if (container.current && optimalLineLength.current) {
       let RCSSColCount = 1;
@@ -107,15 +115,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   };
 
   useEffect(() => {
-    isPaged ? applyReadiumCSSStyles({
-      "--USER__view": "readium-paged-on"
-    }) :
-    applyReadiumCSSStyles({
-      "--USER__view": "readium-scroll-on"
-    })
-  }, [isPaged]);
-
-  useEffect(() => {
     if (nav.current?.layout === EPUBLayout.reflowable) {
       handleColCountReflow();
     } else if (nav.current?.layout === EPUBLayout.fixed) {
@@ -128,6 +127,16 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       }
     }
   }, [colCount]);
+
+  const handleResize = debounce(() => {
+    if (nav.current && container.current) {
+      dispatch(setBreakpoint(RSPrefs.breakpoint < window.innerWidth));
+
+      if (nav.current?.layout === EPUBLayout.reflowable) {
+        handleColCountReflow();
+      }
+    }
+  }, 250, { immediate: true });
 
   const handleReaderControl = (ev: Event) => {
     const detail = (ev as CustomEvent).detail as {
@@ -157,9 +166,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   useEffect(() => {
     window.addEventListener("reader-control", handleReaderControl);
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
     
     return () => {
       window.removeEventListener("reader-control", handleReaderControl);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
     }
   });
 
@@ -198,13 +211,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     fetchPositions()
       .catch(console.error);
-
-    const handleResize = () => {
-      if (nav.current && container.current) {
-        const currentBreakpoint = RSPrefs.breakpoint < window.innerWidth;
-        dispatch(setBreakpoint(currentBreakpoint));
-      }
-    };
     
     const initReadingEnv = () => {
       if (nav.current?.layout === EPUBLayout.reflowable) {
@@ -220,14 +226,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
         });
         handleResize();
-
-        // TMP colCount state conflict
-        // Note hasReachedBreakpoint is still false here
-        // despite handleResize running before
-        if (nav.current?.layout === EPUBLayout.reflowable) {
-          handleColCountReflow();
-        }
-
       } else if (nav.current?.layout === EPUBLayout.fixed) {
         // [TMP] Working around positionChanged not firing consistently for FXL
         // Init’ing so that progression can be populated on first spread loaded
@@ -267,9 +265,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         shiftKey 
           ? nav.current?.goBackward(true, activateImmersiveOnAction) 
           : nav.current?.goForward(true, activateImmersiveOnAction);
-      },
-      resize: () => {
-        handleResize();
       }
     });
 
