@@ -22,7 +22,7 @@ import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
 
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
-import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
+import { getOptimalLineLength, IOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
 import { setImmersive, setBreakpoint, setHovering } from "@/lib/readerReducer";
@@ -34,7 +34,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const container = useRef<HTMLDivElement>(null);
   const nav = useRef<EpubNavigator | null>(null);
   const publication = useRef<Publication | null>(null);
-  const optimalLineLength = useRef<number | null>(null);
+  const optimalLineLength = useRef<IOptimalLineLength | null>(null);
 
   const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
 
@@ -96,14 +96,17 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       let RCSSColCount = 1;
 
       if (colCount === "auto") {
-        RCSSColCount = autoPaginate(RSPrefs.breakpoint, window.innerWidth, optimalLineLength.current);
+        RCSSColCount = autoPaginate(RSPrefs.breakpoint, window.innerWidth, optimalLineLength.current.optimal);
+      } else if (colCount === "2") {
+        const requiredWidth = ((2 * optimalLineLength.current.min) * optimalLineLength.current.fontSize);
+        window.innerWidth > requiredWidth ? RCSSColCount = 2 : RCSSColCount = 1;
       } else {
         RCSSColCount = Number(colCount);
       }
 
       if (hasReachedBreakpoint) {
         const containerWithArrows = window.innerWidth - arrowsWidth.current;
-        const containerWidth = RCSSColCount > 1 ? Math.min(((RCSSColCount * optimalLineLength.current) * 16), containerWithArrows) : containerWithArrows;
+        const containerWidth = RCSSColCount > 1 ? Math.min(((RCSSColCount * optimalLineLength.current.optimal) * optimalLineLength.current.fontSize), containerWithArrows) : containerWithArrows;
         container.current.style.width = `${containerWidth}px`;
       } else {
         container.current.style.width = `${window.innerWidth}px`;
@@ -111,7 +114,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
       applyReadiumCSSStyles({
         "--USER__colCount": `${RCSSColCount}`,
-        "--RS__defaultLineLength": `${optimalLineLength.current}rem`
+        "--RS__defaultLineLength": `${optimalLineLength.current.optimal}rem`
       })
     }
   };
@@ -134,7 +137,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     if (nav.current?.layout === EPUBLayout.reflowable) {
       handleColCountReflow();
     }
-  }, 250, { immediate: true });
+  }, 250);
 
   const handleReaderControl = (ev: Event) => {
     const detail = (ev as CustomEvent).detail as {
@@ -221,7 +224,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     const initReadingEnv = () => {
       if (nav.current?.layout === EPUBLayout.reflowable) {
         optimalLineLength.current = getOptimalLineLength({
-          chars: RSPrefs.typography.lineLength,
+          minChars: RSPrefs.typography.minimalLineLength,
+          optimalChars: RSPrefs.typography.optimalLineLength,
           fontFace: fontStacks.RS__oldStyleTf,
           pageGutter: RSPrefs.typography.pageGutter,
         //  letterSpacing: 2,

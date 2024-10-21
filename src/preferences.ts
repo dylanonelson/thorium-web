@@ -1,7 +1,8 @@
 export const RSPrefs = {
   breakpoint: 1024, // width in pixels
   typography: {
-    lineLength: 60, // number of characters
+    minimalLineLength: 25, // number of characters. If 2 cols will switch to 1 based on this
+    optimalLineLength: 60, // number of characters. If auto layout, picks colCount based on this
     pageGutter: 20 // body padding in px
   },
   theming: {
