@@ -25,7 +25,7 @@ import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { getOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
-import { setImmersive, setBreakpoint } from "@/lib/readerReducer";
+import { setImmersive, setBreakpoint, setHovering } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import debounce from "debounce";
@@ -67,6 +67,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }
 
   const toggleImmersive = () => {
+    // If tap/click in iframe, then header/footer no longer hoovering 
+    dispatch(setHovering(false));
     dispatch(setImmersive(!immersive.current));
   }
 
