@@ -1,3 +1,4 @@
+import { RSPrefs } from "@/preferences";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IReaderState {
@@ -16,7 +17,7 @@ const initialState: IReaderState = {
   isFullscreen: false,
   isPaged: true,
   colCount: "auto",
-  hasReachedBreakpoint: false,
+  hasReachedBreakpoint: RSPrefs.breakpoint <= window.innerWidth,
   settingsOpen: false
 }
 

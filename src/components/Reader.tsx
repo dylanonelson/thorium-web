@@ -40,7 +40,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const localDataKey = useRef(`${selfHref}-current-location`);
 
-  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint) || RSPrefs.breakpoint < window.innerWidth;
+  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
   
@@ -131,12 +131,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [colCount]);
 
   const handleResize = debounce(() => {
-    if (nav.current && container.current) {
-      dispatch(setBreakpoint(RSPrefs.breakpoint < window.innerWidth));
-
-      if (nav.current?.layout === EPUBLayout.reflowable) {
-        handleColCountReflow();
-      }
+    if (nav.current?.layout === EPUBLayout.reflowable) {
+      handleColCountReflow();
     }
   }, 250, { immediate: true });
 
@@ -166,13 +162,21 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
   };
 
+  const mq = "(min-width:"+ RSPrefs.breakpoint + "px)";
+  const breakpointQuery = window.matchMedia(mq);
+  const handleBreakpointChange = (event: MediaQueryListEvent) => {
+    dispatch(setBreakpoint(event.matches));
+  }
+
   useEffect(() => {
     window.addEventListener("reader-control", handleReaderControl);
+    breakpointQuery.addEventListener("change", handleBreakpointChange);
     window.addEventListener("resize", handleResize);
     window.addEventListener("orientationchange", handleResize);
     
     return () => {
       window.removeEventListener("reader-control", handleReaderControl);
+      breakpointQuery.removeEventListener("change", handleBreakpointChange);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
     }
