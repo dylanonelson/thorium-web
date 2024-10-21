@@ -377,26 +377,31 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         runningHead={ runningHead } 
       />
 
+    { isPaged ? 
       <nav className={ arrowStyles.container } id={ arrowStyles.left }>
         <ArrowButton 
           direction="left" 
           disabled={ atPublicationStart }
         />
-      </nav>
+      </nav> : 
+      <></>
+    }
 
       <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
         <div id="container" ref={ container }></div>
       </article>
 
+    { isPaged ?
       <nav className={ arrowStyles.container } id={ arrowStyles.right }>
         <ArrowButton 
           direction="right"  
           disabled={ atPublicationEnd }
         />
-      </nav>
+      </nav> : 
+      <></>
+    }
 
-      <ReaderFooter />
-    </main>
-    </>
-  );
-};
+    { isPaged ? <ReaderFooter /> : <></>}
+  </main>
+  </>
+)};
