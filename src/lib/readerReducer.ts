@@ -17,7 +17,7 @@ const initialState: IReaderState = {
   isFullscreen: false,
   isPaged: true,
   colCount: "auto",
-  hasReachedBreakpoint: RSPrefs.breakpoint <= window.innerWidth,
+  hasReachedBreakpoint: false,
   settingsOpen: false
 }
 
