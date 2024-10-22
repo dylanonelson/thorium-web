@@ -27,7 +27,7 @@ export const ReadingDisplayCol = () => {
     } else {
       dispatch(setColCount(colCount));
     }
-  }, [scrollable, colCount]);
+  }, [scrollable, colCount, dispatch]);
 
   return (
     <>
