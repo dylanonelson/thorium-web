@@ -40,7 +40,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const localDataKey = useRef(`${selfHref}-current-location`);
 
-  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
+  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint) || RSPrefs.breakpoint <= window.innerWidth;
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
   
