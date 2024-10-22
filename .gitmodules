@@ -2,6 +2,3 @@
 	path = src/readium/ts-toolkit
 	url = https://github.com/readium/ts-toolkit
 	branch = currentNumbers-range
-[submodule "src/readium/readium-css"]
-	path = src/readium/readium-css
-	url = https://github.com/readium/readium-css
