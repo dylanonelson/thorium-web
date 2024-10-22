@@ -15,7 +15,7 @@ import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } 
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
 import Peripherals from "@/helpers/peripherals";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
@@ -91,7 +91,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     })
   }, [isPaged]);
 
-  const handleColCountReflow = () => {
+  const handleColCountReflow = useCallback(() => {
     if (container.current && optimalLineLength.current) {
       let RCSSColCount = 1;
 
@@ -117,7 +117,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         "--RS__defaultLineLength": `${optimalLineLength.current.optimal}rem`
       })
     }
-  };
+  }, [colCount, hasReachedBreakpoint]);
 
   useEffect(() => {
     if (nav.current?.layout === EPUBLayout.reflowable) {
@@ -131,15 +131,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         nav.current.pool.setPerPage(0)
       }
     }
-  }, [colCount]);
+  }, [colCount, handleColCountReflow]);
 
-  const handleResize = debounce(() => {
+  const handleResize = useCallback(debounce(() => {
     if (nav.current?.layout === EPUBLayout.reflowable) {
       handleColCountReflow();
     }
-  }, 250);
+  }, 250), [handleColCountReflow]);
 
-  const handleReaderControl = (ev: Event) => {
+  const handleReaderControl = useCallback((ev: Event) => {
     const detail = (ev as CustomEvent).detail as {
       command: string;
       data: unknown;
@@ -163,13 +163,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       default:
         console.error("Unknown reader-control event", ev);
     }
-  };
+  }, []);
 
   const mq = "(min-width:"+ RSPrefs.breakpoint + "px)";
   const breakpointQuery = window.matchMedia(mq);
-  const handleBreakpointChange = (event: MediaQueryListEvent) => {
-    dispatch(setBreakpoint(event.matches));
-  }
+  const handleBreakpointChange = useCallback((event: MediaQueryListEvent) => {
+    dispatch(setBreakpoint(event.matches))}, [dispatch]);
 
   useEffect(() => {
     window.addEventListener("reader-control", handleReaderControl);
@@ -183,7 +182,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
     }
-  });
+  }, [breakpointQuery, handleBreakpointChange, handleResize, handleReaderControl]);
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
