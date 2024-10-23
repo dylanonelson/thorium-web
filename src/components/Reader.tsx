@@ -29,6 +29,7 @@ import { setImmersive, setBreakpoint, setHovering } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import debounce from "debounce";
+import { ScrollAffordance } from "./ScrollAffordance";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -83,12 +84,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   };
 
   useEffect(() => {
-    isPaged ? applyReadiumCSSStyles({
-      "--USER__view": "readium-paged-on"
-    }) :
-    applyReadiumCSSStyles({
-      "--USER__view": "readium-scroll-on"
-    })
+    if (isPaged) { 
+      applyReadiumCSSStyles({
+        "--USER__view": "readium-paged-on"
+      });
+    } else {
+      applyReadiumCSSStyles({
+        "--USER__view": "readium-scroll-on"
+      })
+    }
   }, [isPaged]);
 
   const handleColCountReflow = useCallback(() => {
@@ -391,7 +395,21 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
 
       <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
+        { !isPaged ? 
+          <ScrollAffordance 
+            pref={ RSPrefs.scroll.topAffordance } 
+          /> : 
+          <></> 
+        }
+
         <div id="container" ref={ container }></div>
+
+        { !isPaged ? 
+          <ScrollAffordance 
+            pref={ RSPrefs.scroll.bottomAffordance } 
+          /> : 
+          <></> 
+        }
       </article>
 
     { isPaged ?

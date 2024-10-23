@@ -19,7 +19,9 @@
     },
     "navigation": {
       "goForward": "Go Forward",
-      "goBackward": "Go Backward"
+      "goBackward": "Go Backward",
+      "scrollPrevious": "Go to the previous resource",
+      "scrollNext": "Go to the next resource"
     },
     "settings": {
       "trigger": "Open settings menu",
