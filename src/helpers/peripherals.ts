@@ -1,6 +1,5 @@
 // Peripherals based on XBReader
 
-import debounce from "debounce";
 import { isInteractiveElement } from "./isInteractiveElement";
 
 export interface PCallbacks {
