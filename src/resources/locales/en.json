@@ -20,8 +20,12 @@
     "navigation": {
       "goForward": "Go Forward",
       "goBackward": "Go Backward",
-      "scrollPrevious": "Go to the previous resource",
-      "scrollNext": "Go to the next resource"
+      "scroll": {
+        "prevLabel": "Previous",
+        "nextLabel": "Next",
+        "prevTitleFallback": "Go to the previous resource",
+        "nextTitleFallback": "Go to the next resource"
+      }
     },
     "settings": {
       "trigger": "Open settings menu",

@@ -29,6 +29,7 @@ import { setImmersive, setBreakpoint, setHovering } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import debounce from "debounce";
+import { ScrollAffordance } from "@/helpers/scrollAffordance";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -52,6 +53,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
 
   const dispatch = useAppDispatch();
+
+  const scrollAffordanceTop = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.topAffordance, links: {}, placement: "top" }));
+  const scrollAffordanceBottom = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.bottomAffordance, links: {}, placement: "bottom" }));
 
   // TMP: Nasty trick to get around usage in useEffect with explicit deps
   // i.e. isImmersive will stay the same as long as the entire navigator
@@ -87,10 +91,22 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       applyReadiumCSSStyles({
         "--USER__view": "readium-paged-on"
       });
+      nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+        if (frameManager) {
+          scrollAffordanceTop.current.destroy();
+          scrollAffordanceBottom.current.destroy()
+        }
+      });
     } else {
       applyReadiumCSSStyles({
         "--USER__view": "readium-scroll-on"
-      })
+      });
+      nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+        if (frameManager) {
+          scrollAffordanceTop.current.create(frameManager.window.document);
+          scrollAffordanceBottom.current.create(frameManager.window.document)
+        }
+      });
     }
   }, [isPaged]);
 

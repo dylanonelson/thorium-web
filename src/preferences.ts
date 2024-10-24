@@ -14,7 +14,7 @@ export const RSPrefs = {
   },
   scroll: {
     topAffordance: ScrollAffordancePref.prev,
-    bottomAffordance: ScrollAffordancePref.next
+    bottomAffordance: ScrollAffordancePref.both
   },
   theming: {
     arrow: {
