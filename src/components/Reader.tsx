@@ -14,22 +14,24 @@ import {
 import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
 import { Link, Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
-import Peripherals from "@/helpers/peripherals";
 import { useCallback, useEffect, useRef } from "react";
 
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
 
+import Peripherals from "@/helpers/peripherals";
+import { CUSTOM_SCHEME, ScrollActions, ScrollAffordance } from "@/helpers/scrollAffordance";
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { getOptimalLineLength, IOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
+
 import { setImmersive, setBreakpoint, setHovering } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+
 import debounce from "debounce";
-import { CUSTOM_SCHEME, ScrollActions, ScrollAffordance } from "@/helpers/scrollAffordance";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -43,10 +45,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint) || RSPrefs.breakpoint <= window.innerWidth;
   const isPaged = useAppSelector(state => state.reader.isPaged);
+  const tmpPaged = useRef(isPaged);
+
   const colCount = useAppSelector(state => state.reader.colCount);
+  const tmpColCount = useRef(colCount);
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
-  const immersive = useRef(isImmersive);
+  const tmpImmersive = useRef(isImmersive);
 
   const runningHead = useAppSelector(state => state.publication.runningHead);
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
@@ -63,17 +68,17 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   // a toggle reducer wouldn’t help either, as activateImmersiveOnAction
   // always sees isImmersive as false and fires on every keyboard action
   useEffect(() => {
-    immersive.current = isImmersive;
+    tmpImmersive.current = isImmersive;
   }, [isImmersive]);
 
   const activateImmersiveOnAction = () => {
-    if (!immersive.current) dispatch(setImmersive(true));
+    if (!tmpImmersive.current) dispatch(setImmersive(true));
   }
 
   const toggleImmersive = () => {
     // If tap/click in iframe, then header/footer no longer hoovering 
     dispatch(setHovering(false));
-    dispatch(setImmersive(!immersive.current));
+    dispatch(setImmersive(!tmpImmersive.current));
   };
 
   const getScrollAffordanceLinks = () => {
@@ -112,33 +117,60 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     })
   };
 
+  const applyColumns = () => {
+    applyReadiumCSSStyles({
+      "--USER__view": "readium-paged-on"
+    });
+    handleColCountReflow();
+    nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+      if (frameManager) {
+        scrollAffordanceTop.current.destroy();
+        scrollAffordanceBottom.current.destroy()
+      }
+    });
+  };
+
+  const applyScrollable = () => {
+    applyReadiumCSSStyles({
+      "--USER__view": "readium-scroll-on",
+      "--USER__colCount": ""
+    });
+
+    console.log(nav.current?._cframes);
+
+    nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+      if (frameManager) {
+        const links = getScrollAffordanceLinks();
+        scrollAffordanceTop.current.render(frameManager.window.document, links);
+        scrollAffordanceBottom.current.render(frameManager.window.document, links)
+      }
+    });
+  }
+
   useEffect(() => {
+    tmpPaged.current = isPaged;
+
     if (isPaged) { 
-      applyReadiumCSSStyles({
-        "--USER__view": "readium-paged-on"
-      });
-      nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
-        if (frameManager) {
-          scrollAffordanceTop.current.destroy();
-          scrollAffordanceBottom.current.destroy()
-        }
-      });
+      applyColumns();
     } else {
-      applyReadiumCSSStyles({
-        "--USER__view": "readium-scroll-on"
-      });
-      nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
-        if (frameManager) {
-          const links = getScrollAffordanceLinks();
-          scrollAffordanceTop.current.render(frameManager.window.document, links);
-          scrollAffordanceBottom.current.render(frameManager.window.document, links)
-        }
-      });
+      applyScrollable();
     }
   }, [isPaged]);
 
   const handleColCountReflow = useCallback(() => {
-    if (container.current && optimalLineLength.current) {
+    if (container.current) {
+      if (!optimalLineLength.current) {
+        optimalLineLength.current = getOptimalLineLength({
+          minChars: RSPrefs.typography.minimalLineLength,
+          optimalChars: RSPrefs.typography.optimalLineLength,
+          fontFace: fontStacks.RS__oldStyleTf,
+          pageGutter: RSPrefs.typography.pageGutter,
+        //  letterSpacing: 2,
+        //  wordSpacing: 2,
+        //  sample: "It will be seen that this mere painstaking burrower and grub-worm of a poor devil of a Sub-Sub appears to have gone through the long Vaticans and street-stalls of the earth, picking up whatever random allusions to whales he could anyways find in any book whatsoever, sacred or profane. Therefore you must not, in every case at least, take the higgledy-piggledy whale statements, however authentic, in these extracts, for veritable gospel cetology. Far from it. As touching the ancient authors generally, as well as the poets here appearing, these extracts are solely valuable or entertaining, as affording a glancing bird’s eye view of what has been promiscuously said, thought, fancied, and sung of Leviathan, by many nations and generations, including our own."
+        });
+      }
+
       let RCSSColCount = 1;
 
       if (colCount === "auto") {
@@ -166,6 +198,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [colCount, hasReachedBreakpoint]);
 
   useEffect(() => {
+    tmpColCount.current = colCount;
+    
     if (nav.current?.layout === EPUBLayout.reflowable) {
       handleColCountReflow();
     } else if (nav.current?.layout === EPUBLayout.fixed) {
@@ -181,7 +215,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const handleResize = useCallback(debounce(() => {
     if (nav.current?.layout === EPUBLayout.reflowable) {
-      handleColCountReflow();
+      if (tmpPaged.current) {
+        handleColCountReflow();
+      }
     }
   }, 250), [handleColCountReflow]);
 
@@ -268,24 +304,18 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     
     const initReadingEnv = () => {
       if (nav.current?.layout === EPUBLayout.reflowable) {
-        optimalLineLength.current = getOptimalLineLength({
-          minChars: RSPrefs.typography.minimalLineLength,
-          optimalChars: RSPrefs.typography.optimalLineLength,
-          fontFace: fontStacks.RS__oldStyleTf,
-          pageGutter: RSPrefs.typography.pageGutter,
-        //  letterSpacing: 2,
-        //  wordSpacing: 2,
-        //  sample: "It will be seen that this mere painstaking burrower and grub-worm of a poor devil of a Sub-Sub appears to have gone through the long Vaticans and street-stalls of the earth, picking up whatever random allusions to whales he could anyways find in any book whatsoever, sacred or profane. Therefore you must not, in every case at least, take the higgledy-piggledy whale statements, however authentic, in these extracts, for veritable gospel cetology. Far from it. As touching the ancient authors generally, as well as the poets here appearing, these extracts are solely valuable or entertaining, as affording a glancing bird’s eye view of what has been promiscuously said, thought, fancied, and sung of Leviathan, by many nations and generations, including our own."
-        });
         applyReadiumCSSStyles({
           "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
         });
-        handleResize();
+        if (tmpPaged.current) {
+          applyColumns();
+        } else {
+          applyScrollable();
+        }
       } else if (nav.current?.layout === EPUBLayout.fixed) {
         // [TMP] Working around positionChanged not firing consistently for FXL
         // Init’ing so that progression can be populated on first spread loaded
         handleProgression(nav.current.currentLocator);
-        handleResize();
       }
     }
     

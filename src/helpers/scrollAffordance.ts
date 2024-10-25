@@ -37,17 +37,18 @@ export class ScrollAffordance {
   private placement: "top" | "bottom";
   public id: string;
   public className: string;
-  public styleSheet: HTMLStyleElement;
+  public styleSheet: HTMLStyleElement | null = null;
+  private styleSheetContent?: string;
 
   constructor(config: IScrollAffordanceConfig) {
     this.pref = config.pref;
     this.placement = config.placement;
     this.id = `playground-scroll-affordance-wrapper-${config.placement}`;
     this.className = config.className || "playground-scroll-affordance-wrapper";
-    this.styleSheet = ScrollAffordance.createStyleSheet(config.styleSheetContent);
+    this.styleSheetContent = config.styleSheetContent;
   }
 
-  private static createStyleSheet = (cssContent?: string) => {
+  private createStyleSheet = (cssContent?: string) => {
     const styleSheet = document.createElement("style");
     styleSheet.id = "scroll-affordance-stylesheet";
     styleSheet.dataset.readium = "true";
@@ -71,6 +72,7 @@ export class ScrollAffordance {
       text-decoration: none;
       font-weight: bold;
       flex: 1 0 auto;
+      text-align: left;
     }
     .playground-scroll-affordance-wrapper > a:first-child:not(:last-child) {
       text-align: right;
@@ -96,6 +98,7 @@ export class ScrollAffordance {
         prevAnchor = document.createElement("a");
         prevAnchor.id = `playground-scroll-affordance-button-prev-${ this.placement }`;
         prevAnchor.href = ScrollActions.prev;
+        prevAnchor.dataset.href = this.links.prev.href;
         prevAnchor.innerHTML = `<span>${ Locale.reader.navigation.scroll.prevLabel }</span> ${ this.links.prev.title || Locale.reader.navigation.scroll.prevTitleFallback }`;
       }
         
@@ -103,6 +106,7 @@ export class ScrollAffordance {
         nextAnchor = document.createElement("a");
         nextAnchor.id = `<a id="playground-scroll-affordance-button-next-${ this.placement }`;
         nextAnchor.href = ScrollActions.next;
+        nextAnchor.dataset.href = this.links.next.href;
         nextAnchor.innerHTML = `<span>${ Locale.reader.navigation.scroll.nextLabel }</span> ${ this.links.next?.title || Locale.reader.navigation.scroll.nextTitleFallback }`
       }
 
@@ -118,6 +122,7 @@ export class ScrollAffordance {
     }
 
     if (this.container && this.wrapper) {
+      this.styleSheet = this.createStyleSheet(this.styleSheetContent);
       this.container.head.append(this.styleSheet);
       this.placement === "top" ? this.container.body.prepend(this.wrapper) : this.container.body.append(this.wrapper);
     }
@@ -129,7 +134,7 @@ export class ScrollAffordance {
   }
 
   public destroy = () => {
-    this.styleSheet.remove();
+    this.styleSheet?.remove();
     this.wrapper?.remove();
   }
 }
