@@ -12,7 +12,7 @@ import {
   FrameClickEvent,
 } from "@readium/navigator-html-injectables";
 import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
-import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
+import { Link, Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
 import Peripherals from "@/helpers/peripherals";
 import { useCallback, useEffect, useRef } from "react";
@@ -29,7 +29,7 @@ import { setImmersive, setBreakpoint, setHovering } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import debounce from "debounce";
-import { ScrollAffordance } from "@/helpers/scrollAffordance";
+import { CUSTOM_SCHEME, ScrollActions, ScrollAffordance } from "@/helpers/scrollAffordance";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -54,8 +54,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const dispatch = useAppDispatch();
 
-  const scrollAffordanceTop = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.topAffordance, links: {}, placement: "top" }));
-  const scrollAffordanceBottom = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.bottomAffordance, links: {}, placement: "bottom" }));
+  const scrollAffordanceTop = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.topAffordance, placement: "top" }));
+  const scrollAffordanceBottom = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.bottomAffordance, placement: "bottom" }));
 
   // TMP: Nasty trick to get around usage in useEffect with explicit deps
   // i.e. isImmersive will stay the same as long as the entire navigator
@@ -74,6 +74,32 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     // If tap/click in iframe, then header/footer no longer hoovering 
     dispatch(setHovering(false));
     dispatch(setImmersive(!immersive.current));
+  };
+
+  const getScrollAffordanceLinks = () => {
+    let prev: Link | undefined;
+    let next: Link | undefined;
+
+    const currentLocation: Locator | null = localData.get(localDataKey.current);
+
+    let currentLocationIndex = -1;
+    if (currentLocation) { 
+      currentLocationIndex = publication.current?.readingOrder.findIndexWithHref(currentLocation.href) || -1;
+    }
+
+    if (currentLocationIndex) {
+      if (currentLocationIndex > 0) {
+        prev = publication.current?.readingOrder.items[currentLocationIndex - 1];
+      }
+      if (publication.current?.readingOrder.items.length && currentLocationIndex < publication.current?.readingOrder.items.length) {
+        next = publication.current.readingOrder.items[currentLocationIndex + 1];
+      }
+    }
+
+    return {
+      prev: prev,
+      next: next
+    }
   }
 
   const applyReadiumCSSStyles = (stylesObj: { [key: string]: string }) => {
@@ -103,8 +129,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       });
       nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
         if (frameManager) {
-          scrollAffordanceTop.current.create(frameManager.window.document);
-          scrollAffordanceBottom.current.create(frameManager.window.document)
+          const links = getScrollAffordanceLinks();
+          scrollAffordanceTop.current.render(frameManager.window.document, links);
+          scrollAffordanceBottom.current.render(frameManager.window.document, links)
         }
       });
     }
@@ -354,7 +381,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       customEvent: function (_key: string, _data: unknown): void {},
       handleLocator: function (locator: Locator): boolean {
         const href = locator.href;
-        if (
+
+        // Scroll Affordances
+        // That’s not great though
+        if (href.includes(CUSTOM_SCHEME)) {
+          if (href.includes(ScrollActions.prev)) nav.current?.goLeft(false, () => {});
+          if (href.includes(ScrollActions.next)) nav.current?.goRight(false, () => {});
+        } else if (
           href.startsWith("http://") ||
           href.startsWith("https://") ||
           href.startsWith("mailto:") ||
