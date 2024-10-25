@@ -340,16 +340,35 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     const p = new Peripherals({
       moveTo: (direction) => {
-        if (direction === "right") {
-          nav.current?.goRight(true, activateImmersiveOnAction);
-        } else if (direction === "left") {
-          nav.current?.goLeft(true, activateImmersiveOnAction);
+        switch(direction) {
+          case "right":
+            if (tmpPaged.current) nav.current?.goRight(true, activateImmersiveOnAction);
+            break;
+          case "left":
+            if (tmpPaged.current) nav.current?.goLeft(true, activateImmersiveOnAction);
+            break;
+          case "up":
+          case "home":
+            // Home should probably go to first column/page of chapter in reflow?
+            if (!tmpPaged.current) activateImmersiveOnAction();
+            break;
+          case "down":
+          case "end":
+            // End should probably go to last column/page of chapter in reflow?
+            if (!tmpPaged.current) activateImmersiveOnAction();
+            break;
+          default:
+            break;
         }
       },
       goProgression: (shiftKey) => {
-        shiftKey 
-          ? nav.current?.goBackward(true, activateImmersiveOnAction) 
-          : nav.current?.goForward(true, activateImmersiveOnAction);
+        if (tmpPaged.current) {
+          shiftKey 
+            ? nav.current?.goBackward(true, activateImmersiveOnAction) 
+            : nav.current?.goForward(true, activateImmersiveOnAction);
+        } else {
+          activateImmersiveOnAction();
+        }
       }
     });
 

@@ -3,7 +3,7 @@
 import { isInteractiveElement } from "./isInteractiveElement";
 
 export interface PCallbacks {
-  moveTo: (direction: "left" | "right") => void;
+  moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
   goProgression: (shiftKey?: boolean) => void;
 }
 
@@ -45,8 +45,34 @@ export default class Peripherals {
   }
 
   onkeydown(e: KeyboardEvent) {
-    if (e.code === "Space" && !isInteractiveElement(document.activeElement)) this.callbacks.goProgression(e.shiftKey);
-    if (e.code === "ArrowRight" && !isInteractiveElement(document.activeElement)) this.callbacks.moveTo("right");
-    else if (e.code === "ArrowLeft" && !isInteractiveElement(document.activeElement)) this.callbacks.moveTo("left");
+    if (!isInteractiveElement(document.activeElement)) {
+      switch(e.code) {
+        case "Space":
+          this.callbacks.goProgression(e.shiftKey);
+          break;
+        case "ArrowRight":
+          this.callbacks.moveTo("right");
+          break;
+        case "ArrowLeft":
+          this.callbacks.moveTo("left");
+          break;
+        case "ArrowUp":
+        case "PageUp":
+          this.callbacks.moveTo("up");
+          break;
+        case "ArrowDown":
+        case "PageDown":
+          this.callbacks.moveTo("down");
+          break;
+        case "Home":
+          this.callbacks.moveTo("home");
+          break;
+        case "End":
+          this.callbacks.moveTo("end");
+          break;
+        default:
+          break;
+      } 
+    }
   }
 }
