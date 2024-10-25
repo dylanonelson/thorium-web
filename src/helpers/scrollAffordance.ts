@@ -10,17 +10,30 @@ export interface IScrollAffordanceLinks {
 
 export interface IScrollAffordanceConfig {
   pref: ScrollAffordancePref;
-  links: IScrollAffordanceLinks;
   placement: "top" | "bottom";
   className?: string;
   styleSheetContent?: string;
+}
+
+// Button posting message from iFrame won’t work since Navigator handles click
+// so the message is never received.
+// Link href is relative to selfhref but https and http links are
+// handled as external links in Reader, opening a new window.
+// Trying a custom scheme to avoid conflicts and progress on scroll for MVP
+// but not particularly happy about that.
+// React Portal has a lots of caveats too but it may at least protect
+// the component from Navigator’s handling, although I’m not 100% sure yet.
+export const CUSTOM_SCHEME = "readium-playground:";
+export enum ScrollActions {
+  prev = CUSTOM_SCHEME + "go_prev",
+  next = CUSTOM_SCHEME + "go_next"
 }
 
 export class ScrollAffordance {
   public wrapper: HTMLDivElement | null = null;
   private container: Document | null = null;
   private pref: ScrollAffordancePref;
-  private links: IScrollAffordanceLinks;
+  private links: IScrollAffordanceLinks = {};
   private placement: "top" | "bottom";
   public id: string;
   public className: string;
@@ -28,7 +41,6 @@ export class ScrollAffordance {
 
   constructor(config: IScrollAffordanceConfig) {
     this.pref = config.pref;
-    this.links = config.links;
     this.placement = config.placement;
     this.id = `playground-scroll-affordance-wrapper-${config.placement}`;
     this.className = config.className || "playground-scroll-affordance-wrapper";
@@ -72,20 +84,36 @@ export class ScrollAffordance {
     return styleSheet;
   };
 
-  public create = (container: Document) => {
+  public render = (container: Document, links: IScrollAffordanceLinks) => {
     if (this.pref !== ScrollAffordancePref.none) {
-      this.container = container; 
-      this.wrapper = document.createElement("div");
-      this.wrapper.id = `playground-scroll-affordance-wrapper-${this.placement}`; 
-      this.wrapper.className = this.className || "playground-scroll-affordance-wrapper";
-      this.wrapper.dataset.playground = "true";
+      this.container = container;
+      this.links = links;
+
+      let prevAnchor: HTMLAnchorElement | undefined;
+      let nextAnchor: HTMLAnchorElement | undefined;
         
-      if (this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.prev) {
-        this.wrapper.innerHTML = `<a id="playground-scroll-affordance-button-prev-${ this.placement }" href=${ this.links.prev?.href }><span>${ Locale.reader.navigation.scroll.prevLabel }</span> ${ this.links.prev?.title || Locale.reader.navigation.scroll.prevTitleFallback }</a>`;
+      if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.prev) && this.links.prev?.href) {
+        prevAnchor = document.createElement("a");
+        prevAnchor.id = `playground-scroll-affordance-button-prev-${ this.placement }`;
+        prevAnchor.href = ScrollActions.prev;
+        prevAnchor.innerHTML = `<span>${ Locale.reader.navigation.scroll.prevLabel }</span> ${ this.links.prev.title || Locale.reader.navigation.scroll.prevTitleFallback }`;
       }
         
-      if (this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.next) {
-        this.wrapper.innerHTML += `<a id="playground-scroll-affordance-button-next-${ this.placement }" href=${ this.links.next?.href }><span>${ Locale.reader.navigation.scroll.nextLabel }</span> ${ this.links.next?.title || Locale.reader.navigation.scroll.nextTitleFallback }</a>`;
+      if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.next) && this.links.next?.href) {
+        nextAnchor = document.createElement("a");
+        nextAnchor.id = `<a id="playground-scroll-affordance-button-next-${ this.placement }`;
+        nextAnchor.href = ScrollActions.next;
+        nextAnchor.innerHTML = `<span>${ Locale.reader.navigation.scroll.nextLabel }</span> ${ this.links.next?.title || Locale.reader.navigation.scroll.nextTitleFallback }`
+      }
+
+      if (prevAnchor || nextAnchor) {
+        this.wrapper = document.createElement("div");
+        this.wrapper.id = `playground-scroll-affordance-wrapper-${this.placement}`; 
+        this.wrapper.className = this.className || "playground-scroll-affordance-wrapper";
+        this.wrapper.dataset.playground = "true";
+
+        if (prevAnchor) this.wrapper.append(prevAnchor);
+        if (nextAnchor) this.wrapper.append(nextAnchor);
       }
     }
 
@@ -97,8 +125,7 @@ export class ScrollAffordance {
 
   public update = (container: Document, links: IScrollAffordanceLinks) => {
     this.destroy;
-    this.links = links;
-    this.create(container);
+    this.render(container, links);
   }
 
   public destroy = () => {
