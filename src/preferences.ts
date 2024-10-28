@@ -8,8 +8,8 @@ export enum ScrollAffordancePref {
 export const RSPrefs = {
   breakpoint: 1024, // width in pixels
   typography: {
-    minimalLineLength: 25, // number of characters. If 2 cols will switch to 1 based on this
-    optimalLineLength: 60, // number of characters. If auto layout, picks colCount based on this
+    minimalLineLength: 35, // number of characters. If 2 cols will switch to 1 based on this
+    optimalLineLength: 75, // number of characters. If auto layout, picks colCount based on this
     pageGutter: 20 // body padding in px
   },
   scroll: {
