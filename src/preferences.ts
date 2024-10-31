@@ -13,7 +13,7 @@ export const RSPrefs = {
     pageGutter: 20 // body padding in px
   },
   scroll: {
-    topAffordance: ScrollAffordancePref.prev,
+    topAffordance: ScrollAffordancePref.none,
     bottomAffordance: ScrollAffordancePref.both
   },
   theming: {
@@ -24,7 +24,8 @@ export const RSPrefs = {
     color: {
       primary: "#4d4d4d",
       secondary: "white",
-      disabled: "#767676"
+      disabled: "#767676",
+      subdued: "#999999"
     },
     icon: {
       size: 32, // Size of icons in px
