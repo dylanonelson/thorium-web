@@ -12,7 +12,7 @@ import {
   FrameClickEvent,
 } from "@readium/navigator-html-injectables";
 import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
-import { Link, Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
+import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
 import { useCallback, useEffect, useRef } from "react";
 
@@ -81,32 +81,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     dispatch(setImmersive(!tmpImmersive.current));
   };
 
-  const getScrollAffordanceLinks = () => {
-    let prev: Link | undefined;
-    let next: Link | undefined;
-
-    const currentLocation: Locator | null = localData.get(localDataKey.current);
-
-    let currentLocationIndex = -1;
-    if (currentLocation) { 
-      currentLocationIndex = publication.current?.readingOrder.findIndexWithHref(currentLocation.href) || -1;
-    }
-
-    if (currentLocationIndex) {
-      if (currentLocationIndex > 0) {
-        prev = publication.current?.readingOrder.items[currentLocationIndex - 1];
-      }
-      if (publication.current?.readingOrder.items.length && currentLocationIndex < publication.current?.readingOrder.items.length) {
-        next = publication.current.readingOrder.items[currentLocationIndex + 1];
-      }
-    }
-
-    return {
-      prev: prev,
-      next: next
-    }
-  }
-
   const applyReadiumCSSStyles = (stylesObj: { [key: string]: string }) => {
     nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {
@@ -122,6 +96,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       "--USER__view": "readium-paged-on"
     });
     handleColCountReflow();
+
     nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {
         scrollAffordanceTop.current.destroy();
@@ -136,13 +111,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       "--USER__colCount": ""
     });
 
-    console.log(nav.current?._cframes);
-
     nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {
-        const links = getScrollAffordanceLinks();
-        scrollAffordanceTop.current.render(frameManager.window.document, links);
-        scrollAffordanceBottom.current.render(frameManager.window.document, links)
+        scrollAffordanceTop.current.render(frameManager.window.document);
+        scrollAffordanceBottom.current.render(frameManager.window.document);
       }
     });
   }

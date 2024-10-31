@@ -1,12 +1,5 @@
-import { ScrollAffordancePref } from "@/preferences";
+import { RSPrefs, ScrollAffordancePref } from "@/preferences";
 import Locale from "../resources/locales/en.json";
-
-import { Link } from "@readium/shared";
-
-export interface IScrollAffordanceLinks {
-  prev?: Link;
-  next?: Link;
-}
 
 export interface IScrollAffordanceConfig {
   pref: ScrollAffordancePref;
@@ -33,7 +26,6 @@ export class ScrollAffordance {
   public wrapper: HTMLDivElement | null = null;
   private container: Document | null = null;
   private pref: ScrollAffordancePref;
-  private links: IScrollAffordanceLinks = {};
   private placement: "top" | "bottom";
   public id: string;
   public className: string;
@@ -56,7 +48,6 @@ export class ScrollAffordance {
       display: flex;
       width: 100%;
       gap: 20px;
-      justify-content: space-between;
     }
     #playground-scroll-affordance-wrapper-top {
       margin-bottom: 1.5rem;
@@ -66,48 +57,54 @@ export class ScrollAffordance {
     }
     .playground-scroll-affordance-wrapper > a {
       box-sizing: border-box;
-      border: 1px solid currentColor;
+      border: 1px solid ${RSPrefs.theming.color.subdued};
       border-radius: 3px;
       padding: 0.75rem;
+      box-sizing: border-box;
       text-decoration: none;
       font-weight: bold;
-      flex: 1 0 auto;
+      flex: 1 1 0;
       text-align: left;
     }
     .playground-scroll-affordance-wrapper > a:first-child:not(:last-child) {
       text-align: right;
     }
-    .playground-scroll-affordance-wrapper > a > span {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      opacity: 0.75;
-      display: block;
+    .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-prev > span:before {
+      content: "←";
+      float: left;
+      margin-right: 10px;
+      color: ${RSPrefs.theming.color.subdued};
+    }
+    .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-next > span:after {
+      content: "→";
+      float: right;
+      margin-left: 10px;
+      color: ${RSPrefs.theming.color.subdued};
     }`;
     return styleSheet;
   };
 
-  public render = (container: Document, links: IScrollAffordanceLinks) => {
+  public render = (container: Document) => {
     if (this.pref !== ScrollAffordancePref.none) {
       this.container = container;
-      this.links = links;
 
       let prevAnchor: HTMLAnchorElement | undefined;
       let nextAnchor: HTMLAnchorElement | undefined;
         
-      if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.prev) && this.links.prev?.href) {
+      if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.prev) ) {
         prevAnchor = document.createElement("a");
+        prevAnchor.className = `playground-scroll-affordance-button-prev`;
         prevAnchor.id = `playground-scroll-affordance-button-prev-${ this.placement }`;
         prevAnchor.href = ScrollActions.prev;
-        prevAnchor.dataset.href = this.links.prev.href;
-        prevAnchor.innerHTML = `<span>${ Locale.reader.navigation.scroll.prevLabel }</span> ${ this.links.prev.title || Locale.reader.navigation.scroll.prevTitleFallback }`;
+        prevAnchor.innerHTML = `<span>${ Locale.reader.navigation.scroll.prevLabel }</span>`;
       }
         
-      if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.next) && this.links.next?.href) {
+      if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.next)) {
         nextAnchor = document.createElement("a");
+        nextAnchor.className = `playground-scroll-affordance-button-next`;
         nextAnchor.id = `<a id="playground-scroll-affordance-button-next-${ this.placement }`;
         nextAnchor.href = ScrollActions.next;
-        nextAnchor.dataset.href = this.links.next.href;
-        nextAnchor.innerHTML = `<span>${ Locale.reader.navigation.scroll.nextLabel }</span> ${ this.links.next?.title || Locale.reader.navigation.scroll.nextTitleFallback }`
+        nextAnchor.innerHTML = `<span>${ Locale.reader.navigation.scroll.nextLabel }</span>`
       }
 
       if (prevAnchor || nextAnchor) {
@@ -126,11 +123,6 @@ export class ScrollAffordance {
       this.container.head.append(this.styleSheet);
       this.placement === "top" ? this.container.body.prepend(this.wrapper) : this.container.body.append(this.wrapper);
     }
-  }
-
-  public update = (container: Document, links: IScrollAffordanceLinks) => {
-    this.destroy;
-    this.render(container, links);
   }
 
   public destroy = () => {
