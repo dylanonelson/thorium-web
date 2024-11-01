@@ -33,9 +33,15 @@ body {
   align-items: center;
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}
+
 #wrapper {
-  height: calc(100vh - (2 * (var(--icon-size, 32px) * 1.5)));
-  height: calc(100dvh - (2 * (var(--icon-size, 32px) * 1.5))); /* New browsers */
+  height: 100%;
   margin: 0;
 }
 

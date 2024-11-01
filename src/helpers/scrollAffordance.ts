@@ -53,7 +53,7 @@ export class ScrollAffordance {
       margin-bottom: 1.5rem;
     }
     #playground-scroll-affordance-wrapper-bottom {
-      margin-top: 1.5rem;
+      margin: 1.5rem 0;
     }
     .playground-scroll-affordance-wrapper > a {
       box-sizing: border-box;
