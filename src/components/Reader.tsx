@@ -71,6 +71,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     getCframes,
     applyColumns, 
     applyScrollable, 
+    scrollBackTo, 
     applyReadiumCSSStyles,
     handleColCountReflow,
     setFXLPages,  
@@ -211,9 +212,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       // That’s not great though
       if (href.includes(CUSTOM_SCHEME)) {
         if (href.includes(ScrollActions.prev)) {
-          goLeft(false, () => {}); 
+          goLeft(false, () => { scrollBackTo(RSPrefs.scroll.backTo) }); 
         } else if (href.includes(ScrollActions.next)) {
-          goRight(false, () => {});
+          goRight(false, () => { scrollBackTo(RSPrefs.scroll.backTo) });
         }
       } else if (
         href.startsWith("http://") ||
