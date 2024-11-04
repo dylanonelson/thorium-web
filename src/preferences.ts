@@ -5,6 +5,12 @@ export enum ScrollAffordancePref {
   both = "both"
 }
 
+export enum ScrollBackTo {
+  top = "top",
+  bottom = "bottom",
+  untouched = "untouched"
+}
+
 export const RSPrefs = {
   breakpoint: 1024, // width in pixels
   typography: {
@@ -14,7 +20,8 @@ export const RSPrefs = {
   },
   scroll: {
     topAffordance: ScrollAffordancePref.none,
-    bottomAffordance: ScrollAffordancePref.both
+    bottomAffordance: ScrollAffordancePref.both,
+    backTo: ScrollBackTo.top
   },
   theming: {
     arrow: {

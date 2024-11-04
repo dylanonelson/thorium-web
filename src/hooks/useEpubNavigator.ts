@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
-import { RSPrefs } from "@/preferences";
+import { RSPrefs, ScrollBackTo } from "@/preferences";
 import fontStacks from "readium-css/css/vars/fontStacks.json";
 
 import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
@@ -130,6 +130,21 @@ export const useEpubNavigator = () => {
     mountScroll();
   }, [applyReadiumCSSStyles, mountScroll]);
 
+  const scrollBackTo = useCallback((position: ScrollBackTo) => {
+    if (position !== ScrollBackTo.untouched) {
+      nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+        if (frameManager) {
+          const scrollingEl = frameManager.window.document.scrollingElement;
+          if (position === ScrollBackTo.top) {
+            scrollingEl?.scrollTo(0, 0);
+          } else {
+            scrollingEl?.scrollTo(0, scrollingEl.scrollHeight);
+          }
+        }
+      });
+    }
+  }, []);
+
   const setFXLPages = useCallback((count: number) => {
     // @ts-ignore
     nav.current?.pool.setPerPage(count);
@@ -237,6 +252,7 @@ export const useEpubNavigator = () => {
     applyReadiumCSSStyles,
     applyColumns,
     applyScrollable,
+    scrollBackTo, 
     handleColCountReflow,
     setFXLPages, 
     handleProgression
