@@ -1,6 +1,6 @@
 "use client";
 
-import { RSPrefs } from "@/preferences";
+import { RSPrefs, ScrollBackTo } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
@@ -214,7 +214,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         if (href.includes(ScrollActions.prev)) {
           goLeft(false, () => { scrollBackTo(RSPrefs.scroll.backTo) }); 
         } else if (href.includes(ScrollActions.next)) {
-          goRight(false, () => { scrollBackTo(RSPrefs.scroll.backTo) });
+          goRight(false, () => { scrollBackTo(ScrollBackTo.top) });
         }
       } else if (
         href.startsWith("http://") ||
