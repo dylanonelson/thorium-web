@@ -21,15 +21,13 @@ export enum ScrollActions {
   prev = CUSTOM_SCHEME + "go_prev",
   next = CUSTOM_SCHEME + "go_next"
 }
+const STYLESHEET_ID = "scroll-affordance-stylesheet"
 
 export class ScrollAffordance {
-  public wrapper: HTMLDivElement | null = null;
-  private container: Document | null = null;
   private pref: ScrollAffordancePref;
   private placement: "top" | "bottom";
   public id: string;
   public className: string;
-  public styleSheet: HTMLStyleElement | null = null;
   private styleSheetContent?: string;
 
   constructor(config: IScrollAffordanceConfig) {
@@ -42,7 +40,7 @@ export class ScrollAffordance {
 
   private createStyleSheet = (cssContent?: string) => {
     const styleSheet = document.createElement("style");
-    styleSheet.id = "scroll-affordance-stylesheet";
+    styleSheet.id = STYLESHEET_ID;
     styleSheet.dataset.readium = "true";
     styleSheet.textContent = cssContent || `.playground-scroll-affordance-wrapper {
       display: flex;
@@ -85,9 +83,9 @@ export class ScrollAffordance {
   };
 
   public render = (container: Document) => {
-    if (this.pref !== ScrollAffordancePref.none) {
-      this.container = container;
+    let wrapper: HTMLDivElement | null = null;
 
+    if (this.pref !== ScrollAffordancePref.none) {
       let prevAnchor: HTMLAnchorElement | undefined;
       let nextAnchor: HTMLAnchorElement | undefined;
         
@@ -108,25 +106,32 @@ export class ScrollAffordance {
       }
 
       if (prevAnchor || nextAnchor) {
-        this.wrapper = document.createElement("div");
-        this.wrapper.id = `playground-scroll-affordance-wrapper-${this.placement}`; 
-        this.wrapper.className = this.className || "playground-scroll-affordance-wrapper";
-        this.wrapper.dataset.playground = "true";
+        wrapper = document.createElement("div");
+        wrapper.id = `playground-scroll-affordance-wrapper-${this.placement}`; 
+        wrapper.className = this.className || "playground-scroll-affordance-wrapper";
+        wrapper.dataset.playground = "true";
 
-        if (prevAnchor) this.wrapper.append(prevAnchor);
-        if (nextAnchor) this.wrapper.append(nextAnchor);
+        if (prevAnchor) wrapper.append(prevAnchor);
+        if (nextAnchor) wrapper.append(nextAnchor);
       }
     }
 
-    if (this.container && this.wrapper) {
-      this.styleSheet = this.createStyleSheet(this.styleSheetContent);
-      this.container.head.append(this.styleSheet);
-      this.placement === "top" ? this.container.body.prepend(this.wrapper) : this.container.body.append(this.wrapper);
+    if (container && wrapper) {
+      const styleSheet = this.createStyleSheet(this.styleSheetContent);
+      container.head.append(styleSheet);
+      this.placement === "top" ? container.body.prepend(wrapper) : container.body.append(wrapper);
     }
   }
 
-  public destroy = () => {
-    this.styleSheet?.remove();
-    this.wrapper?.remove();
+  public destroy = (container: Document) => {
+    const stylesheet = container.getElementById(`#${ STYLESHEET_ID }`);
+    if (stylesheet) stylesheet.remove();
+
+    const wrappers = container.getElementsByClassName(this.className);
+    if (wrappers) {
+      Array.from(wrappers).forEach(( wrapper ) => {
+        wrapper.remove();
+      });
+    }
   }
 }
