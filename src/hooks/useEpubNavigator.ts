@@ -108,8 +108,8 @@ export const useEpubNavigator = () => {
     nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {
         frameManager.ldr?.removeModule("scroll_snapper");
-        scrollAffordanceTop.current.destroy();
-        scrollAffordanceBottom.current.destroy()
+        scrollAffordanceTop.current.destroy(frameManager.window.document);
+        scrollAffordanceBottom.current.destroy(frameManager.window.document)
       }
     });
   }, []);
@@ -127,8 +127,7 @@ export const useEpubNavigator = () => {
       "--USER__view": "readium-scroll-on",
       "--USER__colCount": ""
     });
-
-    mountScroll()
+    mountScroll();
   }, [applyReadiumCSSStyles, mountScroll]);
 
   const setFXLPages = useCallback((count: number) => {
@@ -240,7 +239,6 @@ export const useEpubNavigator = () => {
     applyScrollable,
     handleColCountReflow,
     setFXLPages, 
-    handleProgression,
-    unmountScroll
+    handleProgression
   }
 }

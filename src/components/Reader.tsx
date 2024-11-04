@@ -74,8 +74,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     applyReadiumCSSStyles,
     handleColCountReflow,
     setFXLPages,  
-    handleProgression,
-    unmountScroll
+    handleProgression
   } = useEpubNavigator();
 
   const activateImmersiveOnAction = useCallback(() => {
@@ -212,10 +211,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       // That’s not great though
       if (href.includes(CUSTOM_SCHEME)) {
         if (href.includes(ScrollActions.prev)) {
-          unmountScroll();
           goLeft(false, () => {}); 
         } else if (href.includes(ScrollActions.next)) {
-          unmountScroll();
           goRight(false, () => {});
         }
       } else if (
