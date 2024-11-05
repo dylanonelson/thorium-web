@@ -59,9 +59,12 @@
   opacity: 1;
 }
 
-.container button:not(:disabled):hover {
-  opacity: 1;
-  transition: all 200ms;
+/* Exclude taps as they will eventually apply hover state */
+@media (hover: hover) and (pointer: fine) {
+  .container button:not(:disabled):hover {
+    opacity: 1;
+    transition: all 200ms;
+  }
 }
 
 .container button svg {
