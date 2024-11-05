@@ -9,7 +9,7 @@ import readerStateStyles from "./assets/styles/readerStates.module.css";
 import LeftArrow from "./assets/icons/baseline-arrow_left_ios-24px.svg";
 import RightArrow from "./assets/icons/baseline-arrow_forward_ios-24px.svg";
 
-import { Button, Tooltip, TooltipTrigger } from "react-aria-components";
+import { Button, PressEvent, Tooltip, TooltipTrigger } from "react-aria-components";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -47,7 +47,19 @@ export const ArrowButton = (props: ReaderArrowProps) => {
     if ((props.disabled || (isImmersive && !isHovering)) && document.activeElement === button.current) {
       button.current!.blur()
     }
-  })
+  });
+
+  // Unlike preventFocusOnPress, this gives a visual feedback
+  // the button has been pressed in immersive mode (esp. when hidden)
+  // CSS needs to take care of hover state though, as it will be applied
+  // on mobile depending on the length of the press
+  const handleNonKeyboardFocus = (event: PressEvent) => {
+    if (event.pointerType !== "keyboard") {
+      if (document.activeElement === button.current) {
+        button.current!.blur()
+      }
+    }
+  }
   
   return (
     <>
@@ -56,6 +68,7 @@ export const ArrowButton = (props: ReaderArrowProps) => {
         ref={ button }
         aria-label={ label }
         onPress={ props.onPressCallback }
+        onPressEnd={ handleNonKeyboardFocus }
         onHoverChange={ (e) => setIsHovering(e) } 
         className={ classNames(props.className, handleClassNameFromState()) }
         isDisabled={ props.disabled }>
