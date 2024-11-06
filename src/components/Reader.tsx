@@ -110,15 +110,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
   };
 
-  const initReadingEnv = () => {
+  const initReadingEnv = async () => {
     if (navLayout() === EPUBLayout.reflowable) {
       applyReadiumCSSStyles({
         "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
       });
       if (RCSSSettings.current.paginated) {
-        applyColumns(RCSSSettings.current.colCount);
+        await applyColumns(RCSSSettings.current.colCount);
       } else {
-        applyScrollable();
+        await applyScrollable();
       }
     } else if (navLayout() === EPUBLayout.fixed) {
       // [TMP] Working around positionChanged not firing consistently for FXL
@@ -163,8 +163,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   });
 
   const listeners: EpubNavigatorListeners = {
-    frameLoaded: function (_wnd: Window): void {
-      initReadingEnv();
+    frameLoaded: async function (_wnd: Window): Promise<void> {
+      await initReadingEnv();
       const _cframes = getCframes();
       _cframes?.forEach(
         (frameManager: FrameManager | FXLFrameManager | undefined) => {
@@ -182,14 +182,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       // in FXL, only first_visible_locator will, which is why it triggers when
       // the spread has not been shown yet, but won’t if you just slid to them.
       if (navLayout() === EPUBLayout.reflowable) {
-        const prevLocation = localData.get(localDataKey.current) as Locator | null;
-
-        if (prevLocation?.href !== locator.href) {
-          // Still this issue of stale iframes already loaded
-          // which don’t trigger frameLoaded in reflow
-          initReadingEnv();
-        }
-
         handleProgression(locator);
         localData.set(localDataKey.current, locator);
       }
@@ -234,11 +226,16 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   useEffect(() => {
     RCSSSettings.current.paginated = isPaged;
 
-    if (isPaged) { 
-      applyColumns(colCount);
-    } else {
-      applyScrollable();
+    const applyLayout = async () => {
+      if (isPaged) { 
+        await applyColumns(colCount);
+      } else {
+        await applyScrollable();
+      }
     }
+    applyLayout()
+      .catch(console.error);
+      
   }, [isPaged, applyColumns, applyScrollable]);
 
   useEffect(() => {
