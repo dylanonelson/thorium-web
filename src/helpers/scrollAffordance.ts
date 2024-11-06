@@ -133,11 +133,9 @@ export class ScrollAffordance {
       const stylesheet = doc.getElementById(`#${ STYLESHEET_ID }`);
       if (stylesheet) stylesheet.remove();
 
-      const wrappers = doc.getElementsByClassName(this.className);
-      if (wrappers) {
-        Array.from(wrappers).forEach(( wrapper ) => {
-         wrapper.remove();
-        });
+      const wrapper = doc.getElementById(this.id);
+      if (wrapper) {
+        wrapper.remove();
       }
     }
   }
