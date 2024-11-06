@@ -226,15 +226,17 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   useEffect(() => {
     RCSSSettings.current.paginated = isPaged;
 
-    const applyLayout = async () => {
-      if (isPaged) { 
-        await applyColumns(colCount);
-      } else {
-        await applyScrollable();
+    if (navLayout() === EPUBLayout.reflowable) {
+      const applyLayout = async () => {
+        if (isPaged) { 
+          await applyColumns(colCount);
+        } else {
+          await applyScrollable();
+        }
       }
+      applyLayout()
+        .catch(console.error);
     }
-    applyLayout()
-      .catch(console.error);
       
   }, [isPaged, applyColumns, applyScrollable]);
 
