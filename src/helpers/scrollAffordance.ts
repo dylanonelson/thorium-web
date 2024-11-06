@@ -84,6 +84,9 @@ export class ScrollAffordance {
 
   public render = (doc: Document) => {
     if (doc) {
+      // Prevent duplicates
+      this.destroy(doc);
+
       let wrapper: HTMLDivElement | null = null;
 
       if (this.pref !== ScrollAffordancePref.none) {

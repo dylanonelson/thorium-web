@@ -4,7 +4,7 @@ import Locale from "../resources/locales/en.json";
 import { RSPrefs, ScrollBackTo } from "@/preferences";
 import fontStacks from "readium-css/css/vars/fontStacks.json";
 
-import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
+import { EPUBLayout, Link, Locator, Publication, ReadingProgression } from "@readium/shared";
 import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
 
 import { useAppDispatch } from "@/lib/hooks";
@@ -96,8 +96,7 @@ export const useEpubNavigator = () => {
 
   const mountScroll = useCallback(() => {
     nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
-      if (frameManager) {
-        frameManager.ldr?.addModule("scroll_snapper");
+      if (frameManager) {        
         scrollAffordanceTop.current.render(frameManager.window.document);
         scrollAffordanceBottom.current.render(frameManager.window.document)
       }
@@ -107,26 +106,31 @@ export const useEpubNavigator = () => {
   const unmountScroll = useCallback(() => {
     nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {
-        frameManager.ldr?.removeModule("scroll_snapper");
         scrollAffordanceTop.current.destroy(frameManager.window.document);
         scrollAffordanceBottom.current.destroy(frameManager.window.document)
       }
     });
   }, []);
 
-  const applyColumns = useCallback((colCount: string) => {
+  const applyColumns = useCallback(async (colCount: string) => {
     applyReadiumCSSStyles({
       "--USER__view": "readium-paged-on"
     });
+    if (nav.current?.readingProgression !== ReadingProgression.ltr) {
+      await nav.current?.setReadingProgression(ReadingProgression.ltr);
+    }
     handleColCountReflow(colCount);
     unmountScroll();
   }, [applyReadiumCSSStyles, handleColCountReflow, unmountScroll]);
 
-  const applyScrollable = useCallback(() => {
+  const applyScrollable = useCallback(async () => {
     applyReadiumCSSStyles({
       "--USER__view": "readium-scroll-on",
       "--USER__colCount": ""
     });
+    if (nav.current?.readingProgression !== ReadingProgression.ttb) {
+      await nav.current?.setReadingProgression(ReadingProgression.ttb);
+    }
     mountScroll();
   }, [applyReadiumCSSStyles, mountScroll]);
 
