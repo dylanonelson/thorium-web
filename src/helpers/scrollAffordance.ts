@@ -82,56 +82,60 @@ export class ScrollAffordance {
     return styleSheet;
   };
 
-  public render = (container: Document) => {
-    let wrapper: HTMLDivElement | null = null;
+  public render = (doc: Document) => {
+    if (doc) {
+      let wrapper: HTMLDivElement | null = null;
 
-    if (this.pref !== ScrollAffordancePref.none) {
-      let prevAnchor: HTMLAnchorElement | undefined;
-      let nextAnchor: HTMLAnchorElement | undefined;
-        
-      if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.prev) ) {
-        prevAnchor = document.createElement("a");
-        prevAnchor.className = `playground-scroll-affordance-button-prev`;
-        prevAnchor.id = `playground-scroll-affordance-button-prev-${ this.placement }`;
-        prevAnchor.href = ScrollActions.prev;
-        prevAnchor.innerHTML = `<span>${ Locale.reader.navigation.scroll.prevLabel }</span>`;
+      if (this.pref !== ScrollAffordancePref.none) {
+        let prevAnchor: HTMLAnchorElement | undefined;
+        let nextAnchor: HTMLAnchorElement | undefined;
+
+        if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.prev)) {
+          prevAnchor = doc.createElement("a");
+          prevAnchor.className = `playground-scroll-affordance-button-prev`;
+          prevAnchor.id = `playground-scroll-affordance-button-prev-${this.placement}`;
+          prevAnchor.href = ScrollActions.prev;
+          prevAnchor.innerHTML = `<span>${Locale.reader.navigation.scroll.prevLabel}</span>`;
+        }
+
+        if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.next)) {
+          nextAnchor = doc.createElement("a");
+          nextAnchor.className = `playground-scroll-affordance-button-next`;
+          nextAnchor.id = `<a id="playground-scroll-affordance-button-next-${this.placement}`;
+          nextAnchor.href = ScrollActions.next;
+          nextAnchor.innerHTML = `<span>${Locale.reader.navigation.scroll.nextLabel}</span>`
+        }
+
+        if (prevAnchor || nextAnchor) {
+          wrapper = doc.createElement("div");
+          wrapper.id = `playground-scroll-affordance-wrapper-${this.placement}`;
+          wrapper.className = this.className || "playground-scroll-affordance-wrapper";
+          wrapper.dataset.playground = "true";
+
+          if (prevAnchor) wrapper.append(prevAnchor);
+          if (nextAnchor) wrapper.append(nextAnchor);
+        }
       }
-        
-      if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.next)) {
-        nextAnchor = document.createElement("a");
-        nextAnchor.className = `playground-scroll-affordance-button-next`;
-        nextAnchor.id = `<a id="playground-scroll-affordance-button-next-${ this.placement }`;
-        nextAnchor.href = ScrollActions.next;
-        nextAnchor.innerHTML = `<span>${ Locale.reader.navigation.scroll.nextLabel }</span>`
+
+      if (wrapper) {
+        const styleSheet = this.createStyleSheet(this.styleSheetContent);
+        doc.head.append(styleSheet);
+        this.placement === "top" ? doc.body.prepend(wrapper) : doc.body.append(wrapper);
       }
-
-      if (prevAnchor || nextAnchor) {
-        wrapper = document.createElement("div");
-        wrapper.id = `playground-scroll-affordance-wrapper-${this.placement}`; 
-        wrapper.className = this.className || "playground-scroll-affordance-wrapper";
-        wrapper.dataset.playground = "true";
-
-        if (prevAnchor) wrapper.append(prevAnchor);
-        if (nextAnchor) wrapper.append(nextAnchor);
-      }
-    }
-
-    if (container && wrapper) {
-      const styleSheet = this.createStyleSheet(this.styleSheetContent);
-      container.head.append(styleSheet);
-      this.placement === "top" ? container.body.prepend(wrapper) : container.body.append(wrapper);
     }
   }
 
-  public destroy = (container: Document) => {
-    const stylesheet = container.getElementById(`#${ STYLESHEET_ID }`);
-    if (stylesheet) stylesheet.remove();
+  public destroy = (doc: Document) => {
+    if (doc) {
+      const stylesheet = doc.getElementById(`#${ STYLESHEET_ID }`);
+      if (stylesheet) stylesheet.remove();
 
-    const wrappers = container.getElementsByClassName(this.className);
-    if (wrappers) {
-      Array.from(wrappers).forEach(( wrapper ) => {
-        wrapper.remove();
-      });
+      const wrappers = doc.getElementsByClassName(this.className);
+      if (wrappers) {
+        Array.from(wrappers).forEach(( wrapper ) => {
+         wrapper.remove();
+        });
+      }
     }
   }
 }
