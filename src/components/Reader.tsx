@@ -264,6 +264,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     dispatch(setBreakpoint(event.matches))}, [dispatch]);
 
   useEffect(() => {
+    // Initial setup
+    dispatch(setBreakpoint(breakpointQuery.matches));
+    
     breakpointQuery.addEventListener("change", handleBreakpointChange);
     window.addEventListener("resize", handleResize);
     window.addEventListener("orientationchange", handleResize);
