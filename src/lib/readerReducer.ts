@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IReaderState {
-  isImmersive?: boolean;
-  isHovering?: boolean;
-  isFullscreen?: boolean;
-  isPaged?: boolean;
-  hasReachedBreakpoint?: boolean;
-  settingsOpen?: boolean;
+  isImmersive: boolean;
+  isHovering: boolean;
+  isFullscreen: boolean;
+  isPaged: boolean;
+  colCount: string;
+  hasReachedBreakpoint: boolean;
+  settingsOpen: boolean;
 }
 
 const initialState: IReaderState = {
@@ -14,6 +15,7 @@ const initialState: IReaderState = {
   isHovering: false,
   isFullscreen: false,
   isPaged: true,
+  colCount: "auto",
   hasReachedBreakpoint: false,
   settingsOpen: false
 }
@@ -25,6 +27,9 @@ export const readerSlice = createSlice({
     setImmersive: (state, action) => {
       state.isImmersive = action.payload
     },
+    toggleImmersive: (state) => {
+      state.isImmersive = !state.isImmersive;
+    },
     setHovering: (state, action) => {
       state.isHovering = action.payload
     },
@@ -33,6 +38,9 @@ export const readerSlice = createSlice({
     },
     setPaged: (state, action) => {
       state.isPaged = action.payload
+    },
+    setColCount: (state, action) => {
+      state.colCount = action.payload
     },
     setBreakpoint: (state, action) => {
       state.hasReachedBreakpoint = action.payload
@@ -46,9 +54,11 @@ export const readerSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { 
   setImmersive, 
+  toggleImmersive, 
   setHovering, 
   setFullscreen, 
   setPaged, 
+  setColCount, 
   setBreakpoint, 
   setSettingsOpen 
 } = readerSlice.actions;
