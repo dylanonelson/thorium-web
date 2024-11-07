@@ -40,12 +40,16 @@ export const ArrowButton = (props: ReaderArrowProps) => {
     } else if (isImmersive) {
       className = readerStateStyles.immersive;
     }
-    return className
-  }
+    return className;
+  };
+
+  const handleClassNameFromBreakpoint = () => {
+    return hasReachedBreakpoint ? arrowStyles.viewportLarge : "";
+  };
 
   useEffect(() => {
     if ((props.disabled || (isImmersive && !isHovering)) && document.activeElement === button.current) {
-      button.current!.blur()
+      button.current!.blur();
     }
   });
 
@@ -70,7 +74,7 @@ export const ArrowButton = (props: ReaderArrowProps) => {
         onPress={ props.onPressCallback }
         onPressEnd={ handleNonKeyboardFocus }
         onHoverChange={ (e) => setIsHovering(e) } 
-        className={ classNames(props.className, handleClassNameFromState()) }
+        className={ classNames(props.className, handleClassNameFromBreakpoint(), handleClassNameFromState()) }
         isDisabled={ props.disabled }>
         { props.direction === "left" ? 
           <LeftArrow aria-hidden="true" focusable="false" /> : 

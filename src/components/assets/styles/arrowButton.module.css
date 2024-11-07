@@ -51,6 +51,11 @@
   border: 1px solid var(--color-primary);
 }
 
+.container .viewportLarge {
+  background-color: transparent;
+  border: none;
+}
+
 .container button:disabled {
   pointer-events: none;
 }
