@@ -26,7 +26,7 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   const button = useRef<HTMLButtonElement>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
-  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint) || RSPrefs.breakpoint <= window.innerWidth;
+  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
   const isRTL = useAppSelector(state => state.publication.isRTL);
 
   const [isHovering, setIsHovering] = useState(false);
