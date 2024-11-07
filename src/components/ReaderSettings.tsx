@@ -5,9 +5,8 @@ import Locale from "../resources/locales/en.json";
 import TextAreaIcon from "./assets/icons/textarea-icon.svg";
 import CloseIcon from "./assets/icons/close-icon.svg";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
-import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
-import { Button, Dialog, DialogTrigger, Popover, Tooltip, TooltipTrigger } from "react-aria-components";
+import { Button, Dialog, DialogTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./ActionIcon"; 
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";

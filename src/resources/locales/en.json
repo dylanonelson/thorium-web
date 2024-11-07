@@ -8,7 +8,8 @@
         "runningHeadFallback": "Publication"
       },
       "actions": {
-        "settings": "Settings"
+        "settings": "Settings",
+        "fullscreen": "Fullscreen"
       },
       "footer": {
         "label": "Bottom bar"
@@ -29,6 +30,10 @@
         "prevTitleFallback": "Go to the previous resource",
         "nextTitleFallback": "Go to the next resource"
       }
+    },
+    "fullscreen": {
+      "request": "Go fullscreen",
+      "exit": "Exit fullscreen"
     },
     "settings": {
       "trigger": "Open settings menu",

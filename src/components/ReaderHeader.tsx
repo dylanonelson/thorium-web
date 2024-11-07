@@ -10,6 +10,7 @@ import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import { ReaderSettings } from "./ReaderSettings";
+import { Fullscreen } from "./Fullscreen";
 
 export const ReaderHeader = ({ runningHead }: { runningHead: string | undefined }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -48,7 +49,10 @@ export const ReaderHeader = ({ runningHead }: { runningHead: string | undefined 
           ? runningHead
           : Locale.reader.app.header.runningHeadFallback }
       </h1>
-      <ReaderSettings />
+      <div className={ settingsStyles.actionsWrapper }>
+        <ReaderSettings />
+        <Fullscreen />
+      </div>
     </header>
     </>
   );

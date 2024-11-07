@@ -14,6 +14,14 @@
   justify-self: center;
 }
 
+.actionsWrapper {
+  grid-area: header-right;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .textAreaButton,
 .closeButton {
   -webkit-appearance: none;
@@ -30,8 +38,6 @@
 }
 
 .textAreaButton {
-  grid-area: header-right;
-  justify-self: end;
   width: var(--icon-size, 32px);
   height: var(--icon-size, 32px);
   text-align: center;

@@ -1,0 +1,21 @@
+.fullscreenButton {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  text-align: inherit;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  color: inherit;
+  font: inherit;
+
+  width: var(--icon-size, 32px);
+  height: var(--icon-size, 32px);
+  text-align: center;
+}
+
+.fullscreenButton svg {
+  fill: var(--color-primary);
+}
