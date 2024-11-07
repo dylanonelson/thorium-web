@@ -5,8 +5,9 @@ import Locale from "../resources/locales/en.json";
 import TextAreaIcon from "./assets/icons/textarea-icon.svg";
 import CloseIcon from "./assets/icons/close-icon.svg";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
+import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
-import { Button, Dialog, DialogTrigger, Popover } from "react-aria-components"; 
+import { Button, Dialog, DialogTrigger, Popover, Tooltip, TooltipTrigger } from "react-aria-components"; 
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 
@@ -24,12 +25,19 @@ export const ReaderSettings = () => {
   return(
     <>
     <DialogTrigger onOpenChange={(val) => toggleSettingsState(val)}>
-      <Button 
-        className={ settingsStyles.textAreaButton } 
-        aria-label={ Locale.reader.settings.trigger }
-      >
-        <TextAreaIcon aria-hidden="true" focusable="false" />
-      </Button>
+      <TooltipTrigger>
+        <Button 
+          className={ settingsStyles.textAreaButton } 
+          aria-label={ Locale.reader.settings.trigger }
+        >
+          <TextAreaIcon aria-hidden="true" focusable="false" />
+        </Button>
+        <Tooltip
+        className={ readerSharedUI.tooltip }
+        placement="bottom">
+        { Locale.reader.app.actions.settings }
+      </Tooltip>
+      </TooltipTrigger>
       <Popover 
         placement="bottom" 
         className={ settingsStyles.readerSettingsPopover }

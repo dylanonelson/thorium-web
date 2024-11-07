@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import Locale from "../resources/locales/en.json";
-import { RSPrefs } from "@/preferences";
 
 import arrowStyles from "./assets/styles/arrowButton.module.css";
+import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 
 import LeftArrow from "./assets/icons/baseline-arrow_left_ios-24px.svg";
@@ -82,7 +82,7 @@ export const ArrowButton = (props: ReaderArrowProps) => {
         }
       </Button>
       <Tooltip
-        className={ arrowStyles.arrowTooltip }
+        className={ readerSharedUI.tooltip }
         placement={ props.direction === "left" ? "right" : "left" }>
         { label }
       </Tooltip>

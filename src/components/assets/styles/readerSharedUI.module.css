@@ -1,0 +1,6 @@
+.tooltip {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  padding: 5px;
+  border-radius: 5px;
+}

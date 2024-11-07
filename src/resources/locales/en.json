@@ -7,6 +7,9 @@
         "runningHead": "...",
         "runningHeadFallback": "Publication"
       },
+      "actions": {
+        "settings": "Settings"
+      },
       "footer": {
         "label": "Bottom bar"
       },
