@@ -1,14 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import Locale from "../resources/locales/en.json";
+import { RSPrefs } from "@/preferences";
+
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 
 import LeftArrow from "./assets/icons/baseline-arrow_left_ios-24px.svg";
 import RightArrow from "./assets/icons/baseline-arrow_forward_ios-24px.svg";
 
-import { control } from "../helpers/control";
-import { Button, Tooltip, TooltipTrigger } from "react-aria-components";
+import { Button, PressEvent, Tooltip, TooltipTrigger } from "react-aria-components";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -18,14 +19,17 @@ export interface ReaderArrowProps {
   direction: "left" | "right";
   className?: string;
   disabled: boolean;
+  onPressCallback: () => void;
 }
 
 export const ArrowButton = (props: ReaderArrowProps) => {
   const button = useRef<HTMLButtonElement>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
-  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
+  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint) || RSPrefs.breakpoint <= window.innerWidth;
   const isRTL = useAppSelector(state => state.publication.isRTL);
+
+  const [isHovering, setIsHovering] = useState(false);
 
   const label = (props.direction === "right" && !isRTL || props.direction === "left" && isRTL) ? Locale.reader.navigation.goForward : Locale.reader.navigation.goBackward;
 
@@ -40,26 +44,43 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   }
 
   useEffect(() => {
-    if (props.disabled && document.activeElement === button.current) {
+    if ((props.disabled || (isImmersive && !isHovering)) && document.activeElement === button.current) {
       button.current!.blur()
     }
-  })
+  });
+
+  // Unlike preventFocusOnPress, this gives a visual feedback
+  // the button has been pressed in immersive mode (esp. when hidden)
+  // CSS needs to take care of hover state though, as it will be applied
+  // on mobile depending on the length of the press
+  const handleNonKeyboardFocus = (event: PressEvent) => {
+    if (event.pointerType !== "keyboard") {
+      if (document.activeElement === button.current) {
+        button.current!.blur()
+      }
+    }
+  }
   
   return (
     <>
     <TooltipTrigger>
       <Button
-        ref={button}
-        aria-label={label}
-        onPress={() => { props.direction === "left" ? control("goLeft") : control("goRight") }}
-        className={classNames(props.className, handleClassNameFromState())}
-        isDisabled={props.disabled}>
-        {props.direction === "left" ? <LeftArrow aria-hidden="true" focusable="false" /> : <RightArrow aria-hidden="true" focusable="false" />}
+        ref={ button }
+        aria-label={ label }
+        onPress={ props.onPressCallback }
+        onPressEnd={ handleNonKeyboardFocus }
+        onHoverChange={ (e) => setIsHovering(e) } 
+        className={ classNames(props.className, handleClassNameFromState()) }
+        isDisabled={ props.disabled }>
+        { props.direction === "left" ? 
+          <LeftArrow aria-hidden="true" focusable="false" /> : 
+          <RightArrow aria-hidden="true" focusable="false" />
+        }
       </Button>
       <Tooltip
-        className={arrowStyles.arrowTooltip}
-        placement={props.direction === "left" ? "right" : "left"}>
-        {label}
+        className={ arrowStyles.arrowTooltip }
+        placement={ props.direction === "left" ? "right" : "left" }>
+        { label }
       </Tooltip>
     </TooltipTrigger>
     </>);
