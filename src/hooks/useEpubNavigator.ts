@@ -44,7 +44,7 @@ export const useEpubNavigator = () => {
     nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {
         for (const [key, value] of Object.entries(stylesObj)) {
-          frameManager.msg!.send(
+          frameManager.msg?.send(
             "set_property",
             [key, value],
             (ok: boolean) => (ok ? {} : {})
@@ -119,8 +119,8 @@ export const useEpubNavigator = () => {
     if (nav.current?.readingProgression !== ReadingProgression.ltr) {
       await nav.current?.setReadingProgression(ReadingProgression.ltr);
     }
-    handleColCountReflow(colCount);
     unmountScroll();
+    handleColCountReflow(colCount);
   }, [applyReadiumCSSStyles, handleColCountReflow, unmountScroll]);
 
   const applyScrollable = useCallback(async () => {
