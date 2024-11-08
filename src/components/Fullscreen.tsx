@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
 import Locale from "../resources/locales/en.json";
 
@@ -15,34 +15,39 @@ export const Fullscreen = () => {
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
   const dispatch = useAppDispatch();
 
-  const handleFullscreen = () => {
+  const handleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
-      dispatch(setFullscreen(true));
     } else if (document.exitFullscreen) {
       document.exitFullscreen();
-      dispatch(setFullscreen(false));
     }
-  }
+  }, []);
 
-  useEffect(() => {    
-    document.addEventListener("fullscreenchange", handleFullscreen);
+  useEffect(() => {   
+    const onFSchange = () => {
+      dispatch(setFullscreen(Boolean(document.fullscreenElement)));
+    }
+
+    document.addEventListener("fullscreenchange", onFSchange);
 
     return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreen);
+      document.removeEventListener("fullscreenchange", onFSchange);
     }
   }, []);
 
   return (
     <>
-    <ActionIcon 
-      className={ fullscreenStyles.fullscreenButton } 
-      ariaLabel={ isFullscreen ? Locale.reader.fullscreen.exit : Locale.reader.fullscreen.request } 
-      SVG={ isFullscreen ? FullscreenExit : FullscreenCorners } 
-      placement="bottom" 
-      tooltipLabel={ Locale.reader.app.actions.fullscreen } 
-      onPressCallback={ handleFullscreen }
-    />
+    { document.fullscreenEnabled ? 
+      <ActionIcon 
+        className={ fullscreenStyles.fullscreenButton } 
+        ariaLabel={ isFullscreen ? Locale.reader.fullscreen.exit : Locale.reader.fullscreen.request } 
+        SVG={ isFullscreen ? FullscreenExit : FullscreenCorners } 
+        placement="bottom" 
+        tooltipLabel={ Locale.reader.app.actions.fullscreen } 
+        onPressCallback={ handleFullscreen }
+      /> 
+      : <></> 
+    }
     </>
   )
 }
