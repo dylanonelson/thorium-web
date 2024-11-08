@@ -9,7 +9,8 @@
       },
       "actions": {
         "settings": "Settings",
-        "fullscreen": "Fullscreen"
+        "fullscreen": "Fullscreen",
+        "toc": "Table of Contents"
       },
       "footer": {
         "label": "Bottom bar"
@@ -34,6 +35,10 @@
     "fullscreen": {
       "request": "Go fullscreen",
       "exit": "Exit fullscreen"
+    },
+    "toc": {
+      "trigger": "Show Table of Contents",
+      "close": "Close Table of Contents"
     },
     "settings": {
       "trigger": "Open settings menu",

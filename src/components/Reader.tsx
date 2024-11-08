@@ -11,7 +11,7 @@ import {
   FrameClickEvent,
 } from "@readium/navigator-html-injectables";
 import { EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
-import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
+import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression, Links } from "@readium/shared";
 
 import { useCallback, useEffect, useRef } from "react";
 
@@ -290,7 +290,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     let positionsList: Locator[] | undefined;
 
-    dispatch(setRunningHead(publication.current.metadata.title.getTranslation("en")));    
+    dispatch(setRunningHead(publication.current.metadata.title.getTranslation("en")));
     dispatch(setRTL(publication.current.metadata.effectiveReadingProgression === ReadingProgression.rtl));
     dispatch(setFXL(publication.current.metadata.getPresentation()?.layout === EPUBLayout.fixed));
 
@@ -335,6 +335,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     <main style={ propsToCSSVars(RSPrefs.theming) }>
       <ReaderHeader 
         runningHead={ runningHead } 
+        toc={ publication.current?.tableOfContents || new Links([]) }
       />
 
     { isPaged ? 
