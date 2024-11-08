@@ -1,48 +1,3 @@
-.header {
-  display: grid;
-  grid-template-areas: "header-left header-center header-right";
-  grid-template-columns: 1fr 3fr 1fr;
-  padding: 0.25rem 0.5rem 0;
-}
-
-.header h1 {
-  font-size: 1rem;
-  line-height: 1;
-  color: var(--color-primary);
-  font-weight: normal;
-  grid-area: header-center;
-  justify-self: center;
-}
-
-.actionsWrapper {
-  grid-area: header-right;
-  justify-self: end;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.textAreaButton,
-.closeButton {
-  -webkit-appearance: none;
-  appearance: none;
-  border-radius: 0;
-  text-align: inherit;
-  background: none;
-  box-shadow: none;
-  padding: 0;
-  cursor: pointer;
-  border: none;
-  color: inherit;
-  font: inherit;
-}
-
-.textAreaButton {
-  width: var(--icon-size, 32px);
-  height: var(--icon-size, 32px);
-  text-align: center;
-}
-
 .closeButton {
   width: calc(var(--icon-size, 32px) / 1.5);
   height: calc(var(--icon-size, 32px) / 1.5);
@@ -51,7 +6,6 @@
   right: 10px;
 }
 
-.textAreaButton svg,
 .closeButton svg {
   fill: var(--color-primary);
 }

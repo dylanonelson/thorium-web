@@ -1,16 +1,16 @@
 import React from "react";
 
 import Locale from "../resources/locales/en.json";
-import settingsStyles from "./assets/styles/readerSettings.module.css";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
+import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
 import classNames from "classnames";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-import { ReaderSettings } from "./ReaderSettings";
-import { Fullscreen } from "./Fullscreen";
+import { SettingsAction } from "./SettingsAction";
+import { FullscreenAction } from "./FullscreenAction";
 
 export const ReaderHeader = ({ runningHead }: { runningHead: string | undefined }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -38,7 +38,7 @@ export const ReaderHeader = ({ runningHead }: { runningHead: string | undefined 
   return (
     <>
     <header 
-      className={ classNames(settingsStyles.header, handleClassNameFromState()) } 
+      className={ classNames(readerHeaderStyles.header, handleClassNameFromState()) } 
       id="top-bar" 
       aria-label={ Locale.reader.app.header.label } 
       onMouseEnter={ setHover } 
@@ -49,9 +49,9 @@ export const ReaderHeader = ({ runningHead }: { runningHead: string | undefined 
           ? runningHead
           : Locale.reader.app.header.runningHeadFallback }
       </h1>
-      <div className={ settingsStyles.actionsWrapper }>
-        <ReaderSettings />
-        <Fullscreen />
+      <div className={ readerHeaderStyles.actionsWrapper }>
+        <SettingsAction />
+        <FullscreenAction />
       </div>
     </header>
     </>
