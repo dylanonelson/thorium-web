@@ -5,6 +5,7 @@ import Locale from "../resources/locales/en.json";
 import TextAreaIcon from "./assets/icons/textarea-icon.svg";
 import CloseIcon from "./assets/icons/close-icon.svg";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
+import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import { Button, Dialog, DialogTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./ActionIcon"; 
@@ -14,7 +15,7 @@ import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 import { setSettingsOpen } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-export const ReaderSettings = () => {
+export const SettingsAction = () => {
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const dispatch = useAppDispatch();
 
@@ -26,7 +27,7 @@ export const ReaderSettings = () => {
     <>
     <DialogTrigger onOpenChange={(val) => toggleSettingsState(val)}>
       <ActionIcon 
-        className={ settingsStyles.textAreaButton } 
+        className={ readerSharedUI.icon } 
         ariaLabel={ Locale.reader.settings.trigger }
         SVG={ TextAreaIcon } 
         placement="bottom" 

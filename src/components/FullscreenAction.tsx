@@ -4,14 +4,14 @@ import Locale from "../resources/locales/en.json";
 
 import FullscreenCorners from "./assets/icons/fullscreen-corners-icon.svg";
 import FullscreenExit from "./assets/icons/fullscreenExit-icon.svg";
-import fullscreenStyles from "./assets/styles/fullscreen.module.css";
+import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import { ActionIcon } from "./ActionIcon";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFullscreen } from "@/lib/readerReducer";
 
-export const Fullscreen = () => {
+export const FullscreenAction = () => {
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
   const dispatch = useAppDispatch();
 
@@ -39,7 +39,7 @@ export const Fullscreen = () => {
     <>
     { document.fullscreenEnabled ? 
       <ActionIcon 
-        className={ fullscreenStyles.fullscreenButton } 
+        className={ readerSharedUI.icon } 
         ariaLabel={ isFullscreen ? Locale.reader.fullscreen.exit : Locale.reader.fullscreen.request } 
         SVG={ isFullscreen ? FullscreenExit : FullscreenCorners } 
         placement="bottom" 

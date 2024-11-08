@@ -1,3 +1,13 @@
+.icon {
+  width: var(--icon-size, 32px);
+  height: var(--icon-size, 32px);
+  text-align: center;
+}
+
+.icon svg {
+  fill: var(--color-primary);
+}
+
 .tooltip {
   background-color: var(--color-primary);
   color: var(--color-secondary);
