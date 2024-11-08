@@ -1,0 +1,19 @@
+.tocPopover {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--color-primary);
+  position: relative;
+  max-height: 100%;
+}
+
+.listBox {
+  max-height: calc(100vh - (var(--icon-size, 32px) * 3));
+  max-height: calc(100dvh - (var(--icon-size, 32px) * 3));
+  overflow: scroll;
+}
+
+.listItem {
+  display: block;
+}

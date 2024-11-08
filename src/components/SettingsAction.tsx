@@ -7,7 +7,7 @@ import CloseIcon from "./assets/icons/close-icon.svg";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
-import { Button, Dialog, DialogTrigger, Popover } from "react-aria-components";
+import { Button, Dialog, DialogTrigger, Popover, Separator } from "react-aria-components";
 import { ActionIcon } from "./ActionIcon"; 
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
@@ -41,14 +41,14 @@ export const SettingsAction = () => {
           {({ close }) => (
             <>
             <Button 
-              className={ settingsStyles.closeButton } 
+              className={ readerSharedUI.closeButton } 
               aria-label={ Locale.reader.settings.close } 
               onPress={ close }
             >
               <CloseIcon aria-hidden="true" focusable="false" />
             </Button>
             <ReadingDisplayCol />
-            <hr/>
+            <Separator/>
             <ReadingDisplayLayout isFXL={ isFXL } />
             </>
           )}

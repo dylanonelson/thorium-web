@@ -8,6 +8,7 @@ interface IReaderState {
   colCount: string;
   hasReachedBreakpoint: boolean;
   settingsOpen: boolean;
+  tocOpen: boolean;
 }
 
 const initialState: IReaderState = {
@@ -17,7 +18,8 @@ const initialState: IReaderState = {
   isPaged: true,
   colCount: "auto",
   hasReachedBreakpoint: false,
-  settingsOpen: false
+  settingsOpen: false,
+  tocOpen: false
 }
 
 export const readerSlice = createSlice({
@@ -47,6 +49,9 @@ export const readerSlice = createSlice({
     },
     setSettingsOpen: (state, action) => {
       state.settingsOpen = action.payload
+    },
+    setTocOpen: (state, action) => {
+      state.settingsOpen = action.payload
     }
   }
 })
@@ -60,7 +65,8 @@ export const {
   setPaged, 
   setColCount, 
   setBreakpoint, 
-  setSettingsOpen 
+  setSettingsOpen, 
+  setTocOpen
 } = readerSlice.actions;
 
 export default readerSlice.reducer;
