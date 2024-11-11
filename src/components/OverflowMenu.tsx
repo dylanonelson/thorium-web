@@ -14,9 +14,11 @@ import { ActionIcon } from "./ActionIcon";
 import { OverflowMenuItem } from "./OverflowMenuItem";
 
 import parseTemplate from "json-templates";
+import { useAppSelector } from "@/lib/hooks";
 
 export const OverflowMenu = () => {
   const jsonTemplate = parseTemplate(RSPrefs.shortcuts.jumpToPosition);
+  const platformModifier = useAppSelector(state => state.reader.platformModifier);
 
   return(
     <>
@@ -36,7 +38,7 @@ export const OverflowMenu = () => {
           <OverflowMenuItem
             SVG={ TargetIcon } 
             label={ Locale.reader.jumpToPosition.label }
-            shortcut={ jsonTemplate({ PlatformKey: "⌘" }) } 
+            shortcut={ jsonTemplate({ PlatformKey: platformModifier.icon }) } 
             onActionCallback={ () => {} }
           />
         </Menu>

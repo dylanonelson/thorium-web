@@ -1,3 +1,4 @@
+import { defaultModifier, IPlatformModifier } from "@/helpers/buildPlatformModifier";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IReaderState {
@@ -9,6 +10,7 @@ interface IReaderState {
   hasReachedBreakpoint: boolean;
   settingsOpen: boolean;
   tocOpen: boolean;
+  platformModifier: IPlatformModifier;
 }
 
 const initialState: IReaderState = {
@@ -19,13 +21,17 @@ const initialState: IReaderState = {
   colCount: "auto",
   hasReachedBreakpoint: false,
   settingsOpen: false,
-  tocOpen: false
+  tocOpen: false,
+  platformModifier: defaultModifier
 }
 
 export const readerSlice = createSlice({
   name: "reader",
   initialState,
   reducers: {
+    setPlatformModifier: (state, action) => {
+      state.platformModifier = action.payload
+    },
     setImmersive: (state, action) => {
       state.isImmersive = action.payload
     },
@@ -58,6 +64,7 @@ export const readerSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { 
+  setPlatformModifier, 
   setImmersive, 
   toggleImmersive, 
   setHovering, 

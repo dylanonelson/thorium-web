@@ -26,11 +26,12 @@ import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
 
-import { setImmersive, setBreakpoint, setHovering, toggleImmersive } from "@/lib/readerReducer";
+import { setImmersive, setBreakpoint, setHovering, toggleImmersive, setPlatformModifier } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
+import { buildPlatformModifier } from "@/helpers/buildPlatformModifier";
 
 interface IRCSSSettings {
   paginated: boolean;
@@ -264,10 +265,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     dispatch(setBreakpoint(event.matches))}, [dispatch]);
 
   useEffect(() => {
+    dispatch(setPlatformModifier(buildPlatformModifier()));
+    
     // Initial setup
     dispatch(setBreakpoint(breakpointQuery.matches));
-    
     breakpointQuery.addEventListener("change", handleBreakpointChange);
+
     window.addEventListener("resize", handleResize);
     window.addEventListener("orientationchange", handleResize);
     
