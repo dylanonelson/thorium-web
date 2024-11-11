@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { SettingsAction } from "./SettingsAction";
 import { FullscreenAction } from "./FullscreenAction";
 import { TocAction } from "./TocAction";
+import { OverflowMenu } from "./OverflowMenu";
 
 export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undefined, toc: Links }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -55,6 +56,7 @@ export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undef
         <SettingsAction />
         <FullscreenAction />
         <TocAction toc={ toc } />
+        <OverflowMenu />
       </div>
     </header>
     </>

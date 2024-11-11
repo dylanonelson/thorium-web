@@ -40,10 +40,10 @@ export const FullscreenAction = () => {
     { document.fullscreenEnabled ? 
       <ActionIcon 
         className={ readerSharedUI.icon } 
-        ariaLabel={ isFullscreen ? Locale.reader.fullscreen.exit : Locale.reader.fullscreen.request } 
+        ariaLabel={ isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger } 
         SVG={ isFullscreen ? FullscreenExit : FullscreenCorners } 
         placement="bottom" 
-        tooltipLabel={ Locale.reader.app.actions.fullscreen } 
+        tooltipLabel={ Locale.reader.fullscreen.label } 
         onPressCallback={ handleFullscreen }
       /> 
       : <></> 

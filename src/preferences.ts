@@ -37,5 +37,11 @@ export const RSPrefs = {
     icon: {
       size: 32, // Size of icons in px
     }
+  },
+  shortcuts: {
+    settings: "{{ PlatformKey }}+P",
+    fullscreen: "{{ PlatformKey }}+F",
+    toc: "{{ PlatformKey }}+T",
+    jumpToPosition: "{{ PlatformKey }}+J"
   }
 }

@@ -31,7 +31,7 @@ export const SettingsAction = () => {
         ariaLabel={ Locale.reader.settings.trigger }
         SVG={ TextAreaIcon } 
         placement="bottom" 
-        tooltipLabel={ Locale.reader.app.actions.settings }
+        tooltipLabel={ Locale.reader.settings.label }
       />
       <Popover 
         placement="bottom" 
