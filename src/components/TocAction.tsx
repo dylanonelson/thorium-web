@@ -7,7 +7,7 @@ import tocStyles from "./assets/styles/toc.module.css";
 import TocIcon from "./assets/icons/toc-icon.svg";
 import CloseIcon from "./assets/icons/close-icon.svg";
 
-import { Links, Locator } from "@readium/shared";
+import { Links } from "@readium/shared";
 
 import { ActionIcon } from "./ActionIcon";
 import { Button, Dialog, DialogTrigger, ListBox, ListBoxItem, Popover } from "react-aria-components";
@@ -29,7 +29,7 @@ export const TocAction = ({ toc }: { toc: Links }) => {
         ariaLabel={ Locale.reader.toc.trigger } 
         SVG={ TocIcon } 
         placement="bottom"
-        tooltipLabel={ Locale.reader.app.actions.toc }
+        tooltipLabel={ Locale.reader.toc.label }
       />
       <Popover 
         placement="bottom" 

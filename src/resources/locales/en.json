@@ -7,17 +7,12 @@
         "runningHead": "...",
         "runningHeadFallback": "Publication"
       },
-      "actions": {
-        "settings": "Settings",
-        "fullscreen": "Fullscreen",
-        "toc": "Table of Contents"
-      },
       "footer": {
         "label": "Bottom bar"
       },
       "progression": {
         "wrapper": "Current progression",
-        "of": "{{current}} of {{reference}}",
+        "of": "{{ current }} of {{ reference }}",
         "referenceFallback": "current chapter",
         "pubFallback": "the publication"
       }
@@ -33,14 +28,24 @@
       }
     },
     "fullscreen": {
-      "request": "Go fullscreen",
-      "exit": "Exit fullscreen"
+      "label": "Fullscreen",
+      "trigger": "Go fullscreen",
+      "close": "Exit fullscreen"    
     },
     "toc": {
+      "label": "Table of contents",
       "trigger": "Show Table of Contents",
       "close": "Close Table of Contents"
     },
+    "jumpToPosition": {
+      "label": "Jump to Position"
+    },
+    "overflowMenu": {
+      "label": "More actions",
+      "trigger": "Open menu"
+    },
     "settings": {
+      "label": "Settings",
       "trigger": "Open settings menu",
       "close": "Close settings menu",
       "layout": {
