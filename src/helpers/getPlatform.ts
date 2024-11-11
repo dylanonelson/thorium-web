@@ -14,7 +14,7 @@ interface ExtNavigator extends Navigator {
 export const getPlatform = () => {  
   const nav: ExtNavigator = window.navigator as ExtNavigator;
 
-  if (typeof nav.userAgentData) {
+  if (typeof nav.userAgentData !== "undefined" && typeof nav.userAgentData != null) {
     return nav.userAgentData.platform.toLowerCase();
   }
 
