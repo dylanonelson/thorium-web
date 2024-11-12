@@ -8,7 +8,7 @@ import settingsStyles from "./assets/styles/readerSettings.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import { Button, Dialog, DialogTrigger, Popover, Separator } from "react-aria-components";
-import { ActionIcon } from "./templateComponents/ActionIcon"; 
+import { ActionIcon } from "./Templates/ActionIcon"; 
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 
@@ -27,11 +27,10 @@ export const SettingsAction = () => {
     <>
     <DialogTrigger onOpenChange={(val) => toggleSettingsState(val)}>
       <ActionIcon 
-        className={ readerSharedUI.icon } 
         ariaLabel={ Locale.reader.settings.trigger }
         SVG={ TextAreaIcon } 
         placement="bottom" 
-        tooltipLabel={ Locale.reader.settings.label }
+        tooltipLabel={ Locale.reader.settings.tooltip }
       />
       <Popover 
         placement="bottom" 

@@ -5,7 +5,6 @@ import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import { Button, Tooltip, TooltipTrigger, TooltipProps, PressEvent } from "react-aria-components";
 
 export interface IActionIconProps {
-  className: string;
   ariaLabel: string;
   SVG: ComponentType<SVGProps<SVGElement>>;
   placement: TooltipProps["placement"];
@@ -14,7 +13,6 @@ export interface IActionIconProps {
 }
 
 export const ActionIcon = ({
-  className,
   ariaLabel, 
   SVG,
   placement,
@@ -26,7 +24,7 @@ export const ActionIcon = ({
     <>
     <TooltipTrigger>
       <Button 
-        className={ className } 
+        className={ readerSharedUI.icon } 
         aria-label={ ariaLabel } 
         { ...(onPressCallback ? { onPress: onPressCallback } : {}) }
       >

@@ -4,14 +4,13 @@ import Locale from "../resources/locales/en.json";
 
 import FullscreenCorners from "./assets/icons/fullscreen-corners-icon.svg";
 import FullscreenExit from "./assets/icons/fullscreenExit-icon.svg";
-import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
-
-import { ActionIcon } from "./templateComponents/ActionIcon";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFullscreen } from "@/lib/readerReducer";
+import { ActionComponent, ActionComponentVariant } from "./Templates/ActionComponent";
+import { RSPrefs } from "@/preferences";
 
-export const FullscreenAction = () => {
+export const FullscreenAction = ({ variant }: { variant?: ActionComponentVariant }) => {
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
   const dispatch = useAppDispatch();
 
@@ -23,7 +22,7 @@ export const FullscreenAction = () => {
     }
   }, []);
 
-  useEffect(() => {   
+  useEffect(() => {
     const onFSchange = () => {
       dispatch(setFullscreen(Boolean(document.fullscreenElement)));
     }
@@ -37,15 +36,17 @@ export const FullscreenAction = () => {
 
   return (
     <>
-    { document.fullscreenEnabled ? 
-      <ActionIcon 
-        className={ readerSharedUI.icon } 
-        ariaLabel={ isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger } 
+    { document.fullscreenEnabled 
+    ? <ActionComponent 
+        variant={ variant }
+        label={ isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger }
         SVG={ isFullscreen ? FullscreenExit : FullscreenCorners } 
         placement="bottom" 
-        tooltipLabel={ Locale.reader.fullscreen.label } 
+        tooltipLabel={ Locale.reader.fullscreen.tooltip } 
+        shortcut={ RSPrefs.actions.fullscreen.shortcut }
+        onActionCallback={ handleFullscreen }
         onPressCallback={ handleFullscreen }
-      /> 
+      />
       : <></> 
     }
     </>
