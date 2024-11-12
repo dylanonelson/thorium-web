@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Locale from "../resources/locales/en.json";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
@@ -21,6 +21,15 @@ export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undef
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
+
+  const [ActionIcons, setActionsIcons] = useState([
+    <SettingsAction />
+  ]);
+  const [MenuItems, setMenuItems] = useState([
+    <FullscreenAction variant={ ActionComponentVariant.menuItem } />,
+    <TocAction variant={ ActionComponentVariant.menuItem } toc={ toc } />,
+    <JumpToPositionAction variant={ ActionComponentVariant.menuItem } />
+  ]);
 
   const setHover = () => {
     dispatch(setHovering(true));
@@ -55,12 +64,10 @@ export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undef
           : Locale.reader.app.header.runningHeadFallback }
       </h1>
       <div className={ readerHeaderStyles.actionsWrapper }>
-        <SettingsAction />
+        { [ActionIcons] }
         
         <OverflowMenu>
-          <FullscreenAction variant={ ActionComponentVariant.menuItem } />
-          <TocAction variant={ ActionComponentVariant.menuItem } toc={ toc } />
-          <JumpToPositionAction variant={ ActionComponentVariant.menuItem } />
+          { [MenuItems] }
         </OverflowMenu>
       </div>
     </header>
