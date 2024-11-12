@@ -27,9 +27,8 @@
   font-family: monospace;
   font-weight: bold;
   letter-spacing: 0.25rem;
-  color: var(--color-secondary);
+  color: var(--color-subdued);
   padding: 5px;
   border-radius: 5px;
-  border: 1px solid var(--color-primary);
-  background-color: var(--color-subdued);
+  border: 1px solid var(--color-subdued);
 }

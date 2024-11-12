@@ -6,7 +6,7 @@ import FullscreenCorners from "./assets/icons/fullscreen-corners-icon.svg";
 import FullscreenExit from "./assets/icons/fullscreenExit-icon.svg";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
-import { ActionIcon } from "./ActionIcon";
+import { ActionIcon } from "./templateComponents/ActionIcon";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFullscreen } from "@/lib/readerReducer";
