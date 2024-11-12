@@ -1,12 +1,8 @@
 import React from "react";
 
-import { RSPrefs } from "../preferences";
-
 import Locale from "../resources/locales/en.json";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
-
-import TargetIcon from "./assets/icons/target-icon.svg";
 
 import { Links } from "@readium/shared";
 
@@ -14,21 +10,16 @@ import classNames from "classnames";
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
+import { OverflowMenu } from "./OverflowMenu";
 import { SettingsAction } from "./SettingsAction";
 import { FullscreenAction } from "./FullscreenAction";
 import { TocAction } from "./TocAction";
-import { OverflowMenu } from "./OverflowMenu";
-import { OverflowMenuItem } from "./templateComponents/OverflowMenuItem";
-
-import parseTemplate from "json-templates";
+import { JumpToPositionAction } from "./JumpToPositionAction";
 
 export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undefined, toc: Links }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
-
-  const jsonTemplate = parseTemplate(RSPrefs.shortcuts.jumpToPosition);
-  const platformModifier = useAppSelector(state => state.reader.platformModifier);
 
   const setHover = () => {
     dispatch(setHovering(true));
@@ -67,12 +58,7 @@ export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undef
         <FullscreenAction />
         <TocAction toc={ toc } />
         <OverflowMenu>
-          <OverflowMenuItem
-            SVG={ TargetIcon } 
-            label={ Locale.reader.jumpToPosition.label }
-            shortcut={ jsonTemplate({ PlatformKey: platformModifier.icon }) } 
-            onActionCallback={ () => {} }
-          />
+          <JumpToPositionAction />
         </OverflowMenu>
       </div>
     </header>

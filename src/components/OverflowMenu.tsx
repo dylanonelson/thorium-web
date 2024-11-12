@@ -9,26 +9,29 @@ import MenuIcon from "./assets/icons/menu.svg";
 import { Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./templateComponents/ActionIcon";
 
-export const OverflowMenu = ({ children }: { children: ReactNode }) => {
+export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
   return(
     <>
-    <MenuTrigger>
-      <ActionIcon 
-        className={ readerSharedUI.icon } 
-        ariaLabel={ Locale.reader.overflowMenu.trigger }
-        SVG={ MenuIcon} 
-        placement="bottom"
-        tooltipLabel={ Locale.reader.overflowMenu.label } 
-      />
-      <Popover
-        placement="bottom"
-        className={ overflowMenuStyles.overflowPopover }
-      >
-        <Menu>
-          { children }
-        </Menu>
-      </Popover>
-    </MenuTrigger>
+    { children ? 
+      <MenuTrigger>
+        <ActionIcon 
+          className={ readerSharedUI.icon } 
+          ariaLabel={ Locale.reader.overflowMenu.trigger }
+          SVG={ MenuIcon} 
+          placement="bottom"
+          tooltipLabel={ Locale.reader.overflowMenu.label } 
+        />
+        <Popover
+          placement="bottom"
+          className={ overflowMenuStyles.overflowPopover }
+        >
+          <Menu>
+            { children }
+          </Menu>
+        </Popover>
+      </MenuTrigger>
+      : <></>
+    }
     </>
   )
 }
