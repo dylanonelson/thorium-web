@@ -11,6 +11,13 @@ export enum ScrollBackTo {
   untouched = "untouched"
 }
 
+export enum ActionVisibility {
+  always = "always",
+  partially = "partially",
+  collapsible = "collapsible",
+  overflow = "overflow"
+}
+
 export const RSPrefs = {
   breakpoint: 1024, // width in pixels
   typography: {
@@ -38,10 +45,22 @@ export const RSPrefs = {
       size: 32, // Size of icons in px
     }
   },
-  shortcuts: {
-    settings: "{{ PlatformKey }}+P",
-    fullscreen: "{{ PlatformKey }}+F",
-    toc: "{{ PlatformKey }}+T",
-    jumpToPosition: "{{ PlatformKey }}+J"
+  actions: {
+    settings: {
+      visibility: ActionVisibility.always,
+      shortcut: "{{ PlatformKey }}+P"
+    },
+    fullscreen: {
+      visibility: ActionVisibility.collapsible,
+      shortcut: "{{ PlatformKey }}+F"
+    },
+    toc: {
+      visibility: ActionVisibility.collapsible,
+      shortcut: "{{ PlatformKey }}+N"
+    },
+    jumpToPosition: {
+      visibility: ActionVisibility.overflow,
+      shortcut: "{{ PlatformKey }}+J"
+    }
   }
 }

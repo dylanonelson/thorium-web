@@ -15,6 +15,7 @@ import { SettingsAction } from "./SettingsAction";
 import { FullscreenAction } from "./FullscreenAction";
 import { TocAction } from "./TocAction";
 import { JumpToPositionAction } from "./JumpToPositionAction";
+import { ActionComponentVariant } from "./Templates/ActionComponent";
 
 export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undefined, toc: Links }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -55,10 +56,11 @@ export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undef
       </h1>
       <div className={ readerHeaderStyles.actionsWrapper }>
         <SettingsAction />
-        <FullscreenAction />
-        <TocAction toc={ toc } />
+        
         <OverflowMenu>
-          <JumpToPositionAction />
+          <FullscreenAction variant={ ActionComponentVariant.menuItem } />
+          <TocAction variant={ ActionComponentVariant.menuItem } toc={ toc } />
+          <JumpToPositionAction variant={ ActionComponentVariant.menuItem } />
         </OverflowMenu>
       </div>
     </header>

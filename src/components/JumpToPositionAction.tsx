@@ -1,25 +1,21 @@
 import React from "react";
 
-import { RSPrefs } from "../preferences";
 import Locale from "../resources/locales/en.json";
 
 import TargetIcon from "./assets/icons/target-icon.svg";
 
-import { OverflowMenuItem } from "./templateComponents/OverflowMenuItem";
+import { RSPrefs } from "@/preferences";
+import { ActionComponent, ActionComponentVariant } from "./Templates/ActionComponent";
 
-import { useAppSelector } from "@/lib/hooks";
-import parseTemplate from "json-templates";
-
-export const JumpToPositionAction = () => {
-  const jsonTemplate = parseTemplate(RSPrefs.shortcuts.jumpToPosition);
-  const platformModifier = useAppSelector(state => state.reader.platformModifier);
-
+export const JumpToPositionAction = ({ variant }: { variant?: ActionComponentVariant }) => {
   return(
     <>
-    <OverflowMenuItem
+    <ActionComponent 
+      variant={ variant } 
+      label={ Locale.reader.jumpToPosition.trigger }
       SVG={ TargetIcon } 
-      label={ Locale.reader.jumpToPosition.label }
-      shortcut={ jsonTemplate({ PlatformKey: platformModifier.icon }) } 
+      tooltipLabel={ Locale.reader.jumpToPosition.tooltip }
+      shortcut={ RSPrefs.actions.jumpToPosition.shortcut } 
       onActionCallback={ () => {} }
     />
     </>

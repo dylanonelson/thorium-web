@@ -28,24 +28,25 @@
       }
     },
     "fullscreen": {
-      "label": "Fullscreen",
-      "trigger": "Go fullscreen",
+      "tooltip": "Fullscreen",
+      "trigger": "Toggle fullscreen",
       "close": "Exit fullscreen"    
     },
     "toc": {
-      "label": "Table of contents",
+      "tooltip": "Table of contents",
       "trigger": "Show Table of Contents",
       "close": "Close Table of Contents"
     },
     "jumpToPosition": {
-      "label": "Jump to Position"
+      "tooltip": "Jump to…",
+      "trigger": "Jump to Position"
     },
     "overflowMenu": {
-      "label": "More actions",
+      "tooltip": "More actions",
       "trigger": "Open menu"
     },
     "settings": {
-      "label": "Settings",
+      "tooltip": "Settings",
       "trigger": "Open settings menu",
       "close": "Close settings menu",
       "layout": {
