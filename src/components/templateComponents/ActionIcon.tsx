@@ -1,6 +1,6 @@
 import React, { ComponentType, SVGProps } from "react";
 
-import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
+import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { Button, Tooltip, TooltipTrigger, TooltipProps, PressEvent } from "react-aria-components";
 

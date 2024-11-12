@@ -9,7 +9,7 @@ import CloseIcon from "./assets/icons/close-icon.svg";
 
 import { Links } from "@readium/shared";
 
-import { ActionIcon } from "./ActionIcon";
+import { ActionIcon } from "./templateComponents/ActionIcon";
 import { Button, Dialog, DialogTrigger, ListBox, ListBoxItem, Popover } from "react-aria-components";
 import { useAppDispatch } from "@/lib/hooks";
 import { setTocOpen } from "@/lib/readerReducer";

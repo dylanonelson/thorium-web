@@ -1,25 +1,15 @@
-import React from "react";
-
-import { RSPrefs } from "../preferences";
+import React, { ReactNode } from "react";
 
 import Locale from "../resources/locales/en.json";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
 import MenuIcon from "./assets/icons/menu.svg";
-import TargetIcon from "./assets/icons/target-icon.svg";
 
-import { Menu, MenuTrigger, Popover, Text } from "react-aria-components";
-import { ActionIcon } from "./ActionIcon";
-import { OverflowMenuItem } from "./OverflowMenuItem";
+import { Menu, MenuTrigger, Popover } from "react-aria-components";
+import { ActionIcon } from "./templateComponents/ActionIcon";
 
-import parseTemplate from "json-templates";
-import { useAppSelector } from "@/lib/hooks";
-
-export const OverflowMenu = () => {
-  const jsonTemplate = parseTemplate(RSPrefs.shortcuts.jumpToPosition);
-  const platformModifier = useAppSelector(state => state.reader.platformModifier);
-
+export const OverflowMenu = ({ children }: { children: ReactNode }) => {
   return(
     <>
     <MenuTrigger>
@@ -35,12 +25,7 @@ export const OverflowMenu = () => {
         className={ overflowMenuStyles.overflowPopover }
       >
         <Menu>
-          <OverflowMenuItem
-            SVG={ TargetIcon } 
-            label={ Locale.reader.jumpToPosition.label }
-            shortcut={ jsonTemplate({ PlatformKey: platformModifier.icon }) } 
-            onActionCallback={ () => {} }
-          />
+          { children }
         </Menu>
       </Popover>
     </MenuTrigger>

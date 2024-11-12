@@ -8,7 +8,7 @@ import settingsStyles from "./assets/styles/readerSettings.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import { Button, Dialog, DialogTrigger, Popover, Separator } from "react-aria-components";
-import { ActionIcon } from "./ActionIcon"; 
+import { ActionIcon } from "./templateComponents/ActionIcon"; 
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 
