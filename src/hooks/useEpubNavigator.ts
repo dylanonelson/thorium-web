@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
 import { RSPrefs, ScrollBackTo } from "@/preferences";
@@ -167,7 +167,7 @@ export const useEpubNavigator = () => {
   // observing iframes instead of the style attribute on the spine element
   // but there’s additional complexity to handle as a spread = 2 iframes
   // And keeping in sync while the FramePool is re-aligning on resize can be suboptimal
-  const FXLPositionChanged = new MutationObserver((mutationsList: MutationRecord[]) => {
+  const FXLPositionChanged = useMemo(() => new MutationObserver((mutationsList: MutationRecord[]) => {
     for (const mutation of mutationsList) {
       const re = /translate3d\(([^)]+)\)/;
       const newVal = (mutation.target as HTMLElement).getAttribute(mutation.attributeName as string);
@@ -180,7 +180,7 @@ export const useEpubNavigator = () => {
         }
       }
     }
-  });
+  }), [handleProgression]);
 
   const EpubNavigatorLoad = useCallback((config: IEpubNavigatorConfig, cb: Function) => {
     if (config.container) {
@@ -199,7 +199,7 @@ export const useEpubNavigator = () => {
         }
       });
     }
-  }, []);
+  }, [FXLPositionChanged]);
 
   const EpubNavigatorDestroy = useCallback((cb: Function) => {
     cb();
@@ -208,7 +208,7 @@ export const useEpubNavigator = () => {
       FXLPositionChanged.disconnect();
     }
     nav.current?.destroy;
-  }, []);
+  }, [FXLPositionChanged]);
 
   const goRight = useCallback((animated: boolean, callback: cbb) => {
     nav.current?.goRight(animated, callback);
