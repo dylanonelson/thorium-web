@@ -10,12 +10,11 @@ import classNames from "classnames";
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-import { OverflowMenu } from "./OverflowMenu";
-import { SettingsAction } from "./SettingsAction";
-import { FullscreenAction } from "./FullscreenAction";
-import { TocAction } from "./TocAction";
-import { JumpToPositionAction } from "./JumpToPositionAction";
-import { ActionComponentVariant } from "./Templates/ActionComponent";
+import { OverflowMenu, OverflowMenuKeys } from "./OverflowMenu";
+import { SettingsActionIcon, SettingsMenuItem } from "./SettingsAction";
+import { FullscreenMenuItem } from "./FullscreenAction";
+import { TocMenuItem } from "./TocAction";
+import { JumpToPositionMenuItem } from "./JumpToPositionAction";
 
 export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undefined, toc: Links }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -23,12 +22,12 @@ export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undef
   const dispatch = useAppDispatch();
 
   const [ActionIcons, setActionsIcons] = useState([
-    <SettingsAction />
+    <SettingsActionIcon key={ OverflowMenuKeys.settings } />
   ]);
   const [MenuItems, setMenuItems] = useState([
-    <FullscreenAction variant={ ActionComponentVariant.menuItem } />,
-    <TocAction variant={ ActionComponentVariant.menuItem } toc={ toc } />,
-    <JumpToPositionAction variant={ ActionComponentVariant.menuItem } />
+    <FullscreenMenuItem key={ OverflowMenuKeys.fullscreen } />,
+    <TocMenuItem key={ OverflowMenuKeys.toc } toc={ toc } />,
+    <JumpToPositionMenuItem key={ OverflowMenuKeys.jumpToPosition } />
   ]);
 
   const setHover = () => {
@@ -66,7 +65,7 @@ export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undef
       <div className={ readerHeaderStyles.actionsWrapper }>
         { [ActionIcons] }
         
-        <OverflowMenu>
+        <OverflowMenu toc={ toc }>
           { [MenuItems] }
         </OverflowMenu>
       </div>

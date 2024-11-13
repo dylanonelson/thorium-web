@@ -5,13 +5,23 @@ import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
 import MenuIcon from "./assets/icons/menu.svg";
 
-import { Menu, MenuTrigger, Popover } from "react-aria-components";
+import { Links } from "@readium/shared";
+
+import { Key, Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
 
-export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
+export enum OverflowMenuKeys {
+  fullscreen = "fullscreen",
+  jumpToPosition = "jumpToPosition",
+  settings = "settings",
+  toc = "toc"
+}
+
+export const OverflowMenu = ({ children, toc }: { children?: ReactNode, toc: Links }) => {
   return(
     <>
     { children ? 
+      <>
       <MenuTrigger>
         <ActionIcon 
           ariaLabel={ Locale.reader.overflowMenu.trigger }
@@ -23,11 +33,12 @@ export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
           placement="bottom"
           className={ overflowMenuStyles.overflowPopover }
         >
-          <Menu selectionMode="none">
+          <Menu selectionMode="none" onAction={ (key: Key) => { console.log(key) } }>
             { children }
           </Menu>
         </Popover>
       </MenuTrigger>
+      </>
       : <></>
     }
     </>
