@@ -1,22 +1,35 @@
 import React from "react";
 
 import Locale from "../resources/locales/en.json";
+import { RSPrefs } from "@/preferences";
 
 import TargetIcon from "./assets/icons/target-icon.svg";
+import { ActionIcon } from "./Templates/ActionIcon";
+import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
+import { OverflowMenuKeys } from "./OverflowMenu";
 
-import { RSPrefs } from "@/preferences";
-import { ActionComponent, ActionComponentVariant } from "./Templates/ActionComponent";
-
-export const JumpToPositionAction = ({ variant }: { variant?: ActionComponentVariant }) => {
+export const JumpToPositionActionIcon = () => {
   return(
     <>
-    <ActionComponent 
-      variant={ variant } 
-      label={ Locale.reader.jumpToPosition.trigger }
+    <ActionIcon
+      ariaLabel={ Locale.reader.jumpToPosition.trigger }
       SVG={ TargetIcon } 
+      placement="bottom" 
       tooltipLabel={ Locale.reader.jumpToPosition.tooltip }
-      shortcut={ RSPrefs.actions.jumpToPosition.shortcut } 
-      onActionCallback={ () => {} }
+      onPressCallback={ () => {} }
+    />
+    </>
+  )
+}
+
+export const JumpToPositionMenuItem = () => {
+  return(
+    <>
+    <OverflowMenuItem 
+      label={ Locale.reader.jumpToPosition.trigger }
+      SVG={ TargetIcon }
+      shortcut={ RSPrefs.actions.jumpToPosition.shortcut }
+      id={ OverflowMenuKeys.jumpToPosition }
     />
     </>
   )

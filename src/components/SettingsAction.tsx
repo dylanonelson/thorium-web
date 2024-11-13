@@ -1,5 +1,6 @@
 import React from "react";
 
+import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import TextAreaIcon from "./assets/icons/textarea-icon.svg";
@@ -8,14 +9,16 @@ import settingsStyles from "./assets/styles/readerSettings.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import { Button, Dialog, DialogTrigger, Popover, Separator } from "react-aria-components";
-import { ActionIcon } from "./Templates/ActionIcon"; 
+import { ActionIcon } from "./Templates/ActionIcon";
+import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
+import { OverflowMenuKeys } from "./OverflowMenu";
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 
 import { setSettingsOpen } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-export const SettingsAction = () => {
+export const SettingsActionIcon = () => {
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const dispatch = useAppDispatch();
 
@@ -54,6 +57,19 @@ export const SettingsAction = () => {
         </Dialog>
       </Popover>
     </DialogTrigger>
+    </>
+  )
+}
+
+export const SettingsMenuItem = () => {
+  return(
+    <>
+      <OverflowMenuItem 
+        label={ Locale.reader.settings.trigger }
+        SVG={ TextAreaIcon }
+        shortcut={ RSPrefs.actions.settings.shortcut } 
+        id={ OverflowMenuKeys.settings }
+      />
     </>
   )
 }
