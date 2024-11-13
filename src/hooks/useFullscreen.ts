@@ -24,7 +24,7 @@ export const useFullscreen = () => {
     return () => {
       document.removeEventListener("fullscreenchange", onFSchange);
     }
-  }, []);
+  }, [dispatch]);
 
   return {
     isFullscreen,

@@ -24,11 +24,11 @@ export const OverflowMenuItem = ({
   onActionCallback, 
   id
 }: IOverflowMenuItemProp) => {
+  const platformModifier = useAppSelector(state => state.reader.platformModifier);
   
   const buildShortcut = () => {
     if (shortcut) {
       const jsonTemplate = parseTemplate(shortcut);
-      const platformModifier = useAppSelector(state => state.reader.platformModifier);
       return jsonTemplate({ PlatformKey: platformModifier.icon });
     }
     return undefined;

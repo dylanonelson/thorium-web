@@ -81,7 +81,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const activateImmersiveOnAction = useCallback(() => {
     if (!isImmersiveRef.current) dispatch(setImmersive(true));
-  }, [isImmersive, dispatch]);
+  }, [dispatch]);
 
   const toggleIsImmersive = useCallback(() => {
     // If tap/click in iframe, then header/footer no longer hoovering 
@@ -239,7 +239,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         .catch(console.error);
     }
       
-  }, [isPaged, applyColumns, applyScrollable]);
+  }, [isPaged, colCount, navLayout, applyColumns, applyScrollable]);
 
   useEffect(() => {
     RCSSSettings.current.colCount = colCount;
@@ -249,7 +249,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     } else if (navLayout() === EPUBLayout.fixed) {
       colCount === "1" ? setFXLPages(1) : setFXLPages(0);
     }
-  }, [colCount, handleColCountReflow]);
+  }, [colCount, navLayout, setFXLPages, handleColCountReflow]);
 
   const handleResize = debounce(() => {
     if (navLayout() === EPUBLayout.reflowable) {
@@ -279,7 +279,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
     }
-  }, [breakpointQuery, handleBreakpointChange, handleResize]);
+  }, [dispatch, breakpointQuery, handleBreakpointChange, handleResize]);
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
