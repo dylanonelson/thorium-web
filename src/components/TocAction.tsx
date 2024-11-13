@@ -1,6 +1,6 @@
 import React from "react";
 
-import { RSPrefs } from "@/preferences";
+import { ActionKeys, RSPrefs } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
@@ -17,7 +17,6 @@ import { Button, Dialog, DialogTrigger, ListBox, ListBoxItem, Popover } from "re
 import { useAppDispatch } from "@/lib/hooks";
 import { setTocOpen } from "@/lib/readerReducer";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
-import { OverflowMenuKeys } from "./OverflowMenu";
 
 export const TocActionIcon = ({ toc }: { toc: Links }) => {
   const dispatch = useAppDispatch();
@@ -68,7 +67,7 @@ export const TocMenuItem = ({ toc }: { toc: Links }) => {
     label={ Locale.reader.toc.trigger }
     SVG={ TocIcon } 
     shortcut={ RSPrefs.actions.toc.shortcut }
-    id={ OverflowMenuKeys.toc }
+    id={ ActionKeys.toc }
   />
   </>
   )

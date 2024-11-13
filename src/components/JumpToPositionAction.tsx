@@ -1,12 +1,11 @@
 import React from "react";
 
 import Locale from "../resources/locales/en.json";
-import { RSPrefs } from "@/preferences";
+import { ActionKeys, RSPrefs } from "@/preferences";
 
 import TargetIcon from "./assets/icons/target-icon.svg";
 import { ActionIcon } from "./Templates/ActionIcon";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
-import { OverflowMenuKeys } from "./OverflowMenu";
 
 export const JumpToPositionActionIcon = () => {
   return(
@@ -29,7 +28,7 @@ export const JumpToPositionMenuItem = () => {
       label={ Locale.reader.jumpToPosition.trigger }
       SVG={ TargetIcon }
       shortcut={ RSPrefs.actions.jumpToPosition.shortcut }
-      id={ OverflowMenuKeys.jumpToPosition }
+      id={ ActionKeys.jumpToPosition }
     />
     </>
   )

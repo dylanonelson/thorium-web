@@ -1,19 +1,20 @@
 import React, { ComponentType, SVGProps } from "react";
 
+import { ActionKeys } from "@/preferences";
+
 import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 
-import { Keyboard, MenuItem, MenuItemProps, Text } from "react-aria-components";
+import { Keyboard, MenuItem, Text } from "react-aria-components";
 
 import { useAppSelector } from "@/lib/hooks";
 import parseTemplate from "json-templates";
-import { OverflowMenuKeys } from "../OverflowMenu";
 
 export interface IOverflowMenuItemProp {
   label: string;
   SVG: ComponentType<SVGProps<SVGElement>>;
   shortcut?: string;
   onActionCallback?: () => void;
-  id: OverflowMenuKeys;
+  id: ActionKeys;
 }
 
 export const OverflowMenuItem = ({

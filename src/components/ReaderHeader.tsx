@@ -10,11 +10,12 @@ import classNames from "classnames";
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-import { OverflowMenu, OverflowMenuKeys } from "./OverflowMenu";
+import { OverflowMenu } from "./OverflowMenu";
 import { SettingsActionIcon, SettingsMenuItem } from "./SettingsAction";
 import { FullscreenMenuItem } from "./FullscreenAction";
 import { TocMenuItem } from "./TocAction";
 import { JumpToPositionMenuItem } from "./JumpToPositionAction";
+import { ActionKeys } from "@/preferences";
 
 export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undefined, toc: Links }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -22,12 +23,12 @@ export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undef
   const dispatch = useAppDispatch();
 
   const [ActionIcons, setActionsIcons] = useState([
-    <SettingsActionIcon key={ OverflowMenuKeys.settings } />
+    <SettingsActionIcon key={ ActionKeys.settings } />
   ]);
   const [MenuItems, setMenuItems] = useState([
-    <FullscreenMenuItem key={ OverflowMenuKeys.fullscreen } />,
-    <TocMenuItem key={ OverflowMenuKeys.toc } toc={ toc } />,
-    <JumpToPositionMenuItem key={ OverflowMenuKeys.jumpToPosition } />
+    <FullscreenMenuItem key={ ActionKeys.fullscreen } />,
+    <TocMenuItem key={ ActionKeys.toc } toc={ toc } />,
+    <JumpToPositionMenuItem key={ ActionKeys.jumpToPosition } />
   ]);
 
   const setHover = () => {
