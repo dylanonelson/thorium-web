@@ -5,12 +5,10 @@ import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
 import MenuIcon from "./assets/icons/menu.svg";
 
-import { Links } from "@readium/shared";
-
 import { Key, Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
 
-export const OverflowMenu = ({ children, toc }: { children?: ReactNode, toc: Links }) => {
+export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
   return(
     <>
     { children ? 

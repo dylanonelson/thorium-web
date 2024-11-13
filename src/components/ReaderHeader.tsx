@@ -64,10 +64,10 @@ export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undef
           : Locale.reader.app.header.runningHeadFallback }
       </h1>
       <div className={ readerHeaderStyles.actionsWrapper }>
-        { [ActionIcons] }
+        { ActionIcons }
         
-        <OverflowMenu toc={ toc }>
-          { [MenuItems] }
+        <OverflowMenu>
+          { MenuItems }
         </OverflowMenu>
       </div>
     </header>
