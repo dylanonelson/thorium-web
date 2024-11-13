@@ -59,19 +59,19 @@ export const RSPrefs = {
       ActionKeys.toc,
       ActionKeys.jumpToPosition
     ],
-    settings: {
+    [ActionKeys.settings]: {
       visibility: ActionVisibility.always,
       shortcut: "{{ PlatformKey }}+P"
     },
-    fullscreen: {
+    [ActionKeys.fullscreen]: {
       visibility: ActionVisibility.collapsible,
       shortcut: "{{ PlatformKey }}+F"
     },
-    toc: {
+    [ActionKeys.toc]: {
       visibility: ActionVisibility.collapsible,
       shortcut: "{{ PlatformKey }}+N"
     },
-    jumpToPosition: {
+    [ActionKeys.jumpToPosition]: {
       visibility: ActionVisibility.overflow,
       shortcut: "{{ PlatformKey }}+J"
     }
