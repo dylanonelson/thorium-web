@@ -11,25 +11,14 @@ import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import { OverflowMenu } from "./OverflowMenu";
-import { SettingsActionIcon, SettingsMenuItem } from "./SettingsAction";
-import { FullscreenMenuItem } from "./FullscreenAction";
-import { TocMenuItem } from "./TocAction";
-import { JumpToPositionMenuItem } from "./JumpToPositionAction";
-import { ActionKeys } from "@/preferences";
+import { useActions } from "@/hooks/useActions";
 
 export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undefined, toc: Links }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
 
-  const [ActionIcons, setActionsIcons] = useState([
-    <SettingsActionIcon key={ ActionKeys.settings } />
-  ]);
-  const [MenuItems, setMenuItems] = useState([
-    <FullscreenMenuItem key={ ActionKeys.fullscreen } />,
-    <TocMenuItem key={ ActionKeys.toc } toc={ toc } />,
-    <JumpToPositionMenuItem key={ ActionKeys.jumpToPosition } />
-  ]);
+  const Actions = useActions(toc);
 
   const setHover = () => {
     dispatch(setHovering(true));
@@ -64,10 +53,10 @@ export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undef
           : Locale.reader.app.header.runningHeadFallback }
       </h1>
       <div className={ readerHeaderStyles.actionsWrapper }>
-        { ActionIcons }
+        { Actions.ActionIcons }
         
         <OverflowMenu>
-          { MenuItems }
+          { Actions.MenuItems }
         </OverflowMenu>
       </div>
     </header>
