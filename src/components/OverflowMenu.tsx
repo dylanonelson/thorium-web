@@ -10,13 +10,6 @@ import { Links } from "@readium/shared";
 import { Key, Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
 
-export enum OverflowMenuKeys {
-  fullscreen = "fullscreen",
-  jumpToPosition = "jumpToPosition",
-  settings = "settings",
-  toc = "toc"
-}
-
 export const OverflowMenu = ({ children, toc }: { children?: ReactNode, toc: Links }) => {
   return(
     <>

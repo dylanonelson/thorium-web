@@ -1,7 +1,7 @@
 import React from "react";
 
 import Locale from "../resources/locales/en.json";
-import { RSPrefs } from "@/preferences";
+import { ActionKeys, RSPrefs } from "@/preferences";
 
 import FullscreenCorners from "./assets/icons/fullscreen-corners-icon.svg";
 import FullscreenExit from "./assets/icons/fullscreenExit-icon.svg";
@@ -10,7 +10,6 @@ import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 import { ActionIcon } from "./Templates/ActionIcon";
 
 import { useFullscreen } from "@/hooks/useFullscreen";
-import { OverflowMenuKeys } from "./OverflowMenu";
 
 export const FullscreenActionIcon = () => {
   const fs = useFullscreen();
@@ -42,7 +41,7 @@ export const FullscreenMenuItem = () => {
         SVG={ FullscreenCorners } 
         shortcut={ RSPrefs.actions.fullscreen.shortcut }
         onActionCallback={ fs.handleFullscreen } 
-        id={ OverflowMenuKeys.fullscreen }
+        id={ ActionKeys.fullscreen }
       />
     : <></>
     }

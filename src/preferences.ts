@@ -11,6 +11,13 @@ export enum ScrollBackTo {
   untouched = "untouched"
 }
 
+export enum ActionKeys {
+  fullscreen = "fullscreen",
+  jumpToPosition = "jumpToPosition",
+  settings = "settings",
+  toc = "toc"
+}
+
 export enum ActionVisibility {
   always = "always",
   partially = "partially",
@@ -46,6 +53,12 @@ export const RSPrefs = {
     }
   },
   actions: {
+    displayOrder: [
+      ActionKeys.settings,
+      ActionKeys.fullscreen,
+      ActionKeys.toc,
+      ActionKeys.jumpToPosition
+    ],
     settings: {
       visibility: ActionVisibility.always,
       shortcut: "{{ PlatformKey }}+P"
