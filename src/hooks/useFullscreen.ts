@@ -1,6 +1,7 @@
+import { useCallback, useEffect } from "react";
+
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFullscreen } from "@/lib/readerReducer";
-import { useCallback, useEffect } from "react";
 
 export const useFullscreen = () => {
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
