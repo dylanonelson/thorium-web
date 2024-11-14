@@ -4,11 +4,12 @@ import { ActionKeys, ActionVisibility, RSPrefs } from "@/preferences";
 
 import { Links } from "@readium/shared";
 
-import { FullscreenActionIcon, FullscreenMenuItem } from "@/components/FullscreenAction";
-import { JumpToPositionActionIcon, JumpToPositionMenuItem } from "@/components/JumpToPositionAction";
-import { SettingsActionIcon, SettingsMenuItem } from "@/components/SettingsAction";
-import { TocActionIcon, TocMenuItem } from "@/components/TocAction";
+import { FullscreenAction } from "@/components/FullscreenAction";
+import { JumpToPositionAction } from "@/components/JumpToPositionAction";
+import { SettingsAction } from "@/components/SettingsAction";
+import { TocAction } from "@/components/TocAction";
 import { useAppSelector } from "@/lib/hooks";
+import { ActionComponentVariant } from "@/components/Templates/ActionComponent";
 
 export const useCollapsibility = (toc: Links) => {
   const [ActionIcons, setActionIcons] = useState<React.JSX.Element[]>([]);
@@ -16,17 +17,17 @@ export const useCollapsibility = (toc: Links) => {
   const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
 
   const ActionIconsMap = {
-    [ActionKeys.fullscreen]: <FullscreenActionIcon />,
-    [ActionKeys.jumpToPosition]: <JumpToPositionActionIcon />,
-    [ActionKeys.settings]: <SettingsActionIcon />,
-    [ActionKeys.toc]: <TocActionIcon toc={ toc } />
+    [ActionKeys.fullscreen]: <FullscreenAction variant={ ActionComponentVariant.button } />,
+    [ActionKeys.jumpToPosition]: <JumpToPositionAction variant={ ActionComponentVariant.button } />,
+    [ActionKeys.settings]: <SettingsAction variant={ ActionComponentVariant.button } />,
+    [ActionKeys.toc]: <TocAction variant={ ActionComponentVariant.button } toc={ toc } />
   };
 
   const MenuItemsMap = {
-    [ActionKeys.fullscreen]: <FullscreenMenuItem />,
-    [ActionKeys.jumpToPosition]: <JumpToPositionMenuItem />,
-    [ActionKeys.settings]: <SettingsMenuItem />,
-    [ActionKeys.toc]: <TocMenuItem toc={ toc } />
+    [ActionKeys.fullscreen]: <FullscreenAction variant={ ActionComponentVariant.menu } />,
+    [ActionKeys.jumpToPosition]: <JumpToPositionAction variant={ ActionComponentVariant.menu } />,
+    [ActionKeys.settings]: <SettingsAction variant={ ActionComponentVariant.menu } />,
+    [ActionKeys.toc]: <TocAction variant={ ActionComponentVariant.menu } toc={ toc } />
   };
 
   const actionsOrder = RSPrefs.actions.displayOrder;
