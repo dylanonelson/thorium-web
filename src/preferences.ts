@@ -66,7 +66,7 @@ export const RSPrefs = {
     [ActionKeys.fullscreen]: {
       visibility: ActionVisibility.partially,
       collapsible: true,
-      shortcut: "{{ PlatformKey }}+F"
+      shortcut: "{{ PlatformKey }}+F11"
     },
     [ActionKeys.toc]: {
       visibility: ActionVisibility.partially,
