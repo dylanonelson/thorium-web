@@ -17,13 +17,13 @@ export interface IOverflowMenuItemProp {
   id: ActionKeys;
 }
 
-export const OverflowMenuItem = ({
+export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
   label,
   SVG, 
   shortcut,
   onActionCallback, 
   id
-}: IOverflowMenuItemProp) => {
+}) => {
   const platformModifier = useAppSelector(state => state.reader.platformModifier);
   
   const buildShortcut = () => {

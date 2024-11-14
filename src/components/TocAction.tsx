@@ -42,6 +42,7 @@ export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant
       <>
       <DialogTrigger onOpenChange={(val) => toggleTocState(val)}>
         <ActionIcon 
+          visibility={ RSPrefs.actions[ActionKeys.toc].visibility }
           ariaLabel={ Locale.reader.toc.trigger } 
           SVG={ TocIcon } 
           placement="bottom"
