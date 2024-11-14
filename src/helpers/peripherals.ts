@@ -1,22 +1,29 @@
 // Peripherals based on XBReader
 
+import { useAppStore } from "@/lib/hooks";
 import { isInteractiveElement } from "./isInteractiveElement";
 
 export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
   goProgression: (shiftKey?: boolean) => void;
+  toggleFullscreen: () => void;
 }
 
 export default class Peripherals {
   private readonly observers = ["keydown"];
   private targets: EventTarget[] = [];
   private readonly callbacks: PCallbacks;
+  private readonly store = useAppStore();
 
   constructor(callbacks: PCallbacks) {
     this.observers.forEach((method) => {
       (this as any)["on" + method] = (this as any)["on" + method].bind(this);
     });
     this.callbacks = callbacks;
+  }
+
+  private getPlatformModifier() {
+    return this.store.getState().reader.platformModifier.modifier;
   }
 
   destroy() {
@@ -69,6 +76,9 @@ export default class Peripherals {
           break;
         case "End":
           this.callbacks.moveTo("end");
+          break;
+        case "F11":
+          if (e[this.getPlatformModifier()]) this.callbacks.toggleFullscreen();
           break;
         default:
           break;

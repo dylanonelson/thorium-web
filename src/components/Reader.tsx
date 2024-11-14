@@ -20,18 +20,19 @@ import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useFullscreen } from "@/hooks/useFullscreen";
 
 import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
+import { buildPlatformModifier } from "@/helpers/buildPlatformModifier";
 
 import { setImmersive, setBreakpoint, setHovering, toggleImmersive, setPlatformModifier } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
-import { buildPlatformModifier } from "@/helpers/buildPlatformModifier";
 
 interface IRCSSSettings {
   paginated: boolean;
@@ -59,6 +60,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
 
   const dispatch = useAppDispatch();
+
+  const fs = useFullscreen();
 
   const { 
     EpubNavigatorLoad, 
@@ -160,6 +163,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       } else {
         activateImmersiveOnAction();
       }
+    },
+    toggleFullscreen: () => {
+      fs.handleFullscreen();
     }
   });
 
