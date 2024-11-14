@@ -21,7 +21,6 @@ export enum ActionKeys {
 export enum ActionVisibility {
   always = "always",
   partially = "partially",
-  collapsible = "collapsible",
   overflow = "overflow"
 }
 
@@ -60,19 +59,23 @@ export const RSPrefs = {
       ActionKeys.jumpToPosition
     ],
     [ActionKeys.settings]: {
-      visibility: ActionVisibility.always,
+      visibility: ActionVisibility.partially,
+      collapsible: false,
       shortcut: "{{ PlatformKey }}+P"
     },
     [ActionKeys.fullscreen]: {
-      visibility: ActionVisibility.collapsible,
+      visibility: ActionVisibility.partially,
+      collapsible: true,
       shortcut: "{{ PlatformKey }}+F"
     },
     [ActionKeys.toc]: {
-      visibility: ActionVisibility.collapsible,
+      visibility: ActionVisibility.partially,
+      collapsible: true,
       shortcut: "{{ PlatformKey }}+N"
     },
     [ActionKeys.jumpToPosition]: {
       visibility: ActionVisibility.overflow,
+      collapsible: false,
       shortcut: "{{ PlatformKey }}+J"
     }
   }

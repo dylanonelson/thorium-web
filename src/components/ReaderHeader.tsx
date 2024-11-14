@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Locale from "../resources/locales/en.json";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
@@ -11,14 +11,14 @@ import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import { OverflowMenu } from "./OverflowMenu";
-import { useActions } from "@/hooks/useActions";
+import { useCollapsibility } from "@/hooks/useCollapsibility";
 
 export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undefined, toc: Links }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
 
-  const Actions = useActions(toc);
+  const Actions = useCollapsibility(toc);
 
   const setHover = () => {
     dispatch(setHovering(true));

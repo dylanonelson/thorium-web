@@ -10,7 +10,7 @@ import { SettingsActionIcon, SettingsMenuItem } from "@/components/SettingsActio
 import { TocActionIcon, TocMenuItem } from "@/components/TocAction";
 import { useAppSelector } from "@/lib/hooks";
 
-export const useActions = (toc: Links) => {
+export const useCollapsibility = (toc: Links) => {
   const [ActionIcons, setActionIcons] = useState<React.JSX.Element[]>([]);
   const [MenuItems, setMenuItems] = useState<React.JSX.Element[]>([]);
   const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
@@ -36,22 +36,17 @@ export const useActions = (toc: Links) => {
     const menuItems: React.JSX.Element[] = [];
 
     actionsOrder.map((key) => {
-      switch(RSPrefs.actions[key].visibility) {
-        case ActionVisibility.always:
-        case ActionVisibility.partially:
+      const actionPref = RSPrefs.actions[key];
+      if (actionPref.visibility === ActionVisibility.overflow) {
+        menuItems.push(MenuItemsMap[key]);
+      } else if (actionPref.collapsible) {
+        if (hasReachedBreakpoint) {
           actionIcons.push(ActionIconsMap[key]);
-          break;
-        case ActionVisibility.collapsible:
-          if (hasReachedBreakpoint) {
-            actionIcons.push(ActionIconsMap[key]);
-          } else {
-            menuItems.push(MenuItemsMap[key]);
-          }
-          break;
-        case ActionVisibility.overflow:
-        default:
+        } else {
           menuItems.push(MenuItemsMap[key]);
-          break;
+        }
+      } else {
+        actionIcons.push(ActionIconsMap[key]);
       }
     });
 
