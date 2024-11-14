@@ -35,6 +35,7 @@ export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
       <>
       { document.fullscreenEnabled 
       ? <ActionIcon 
+          visibility={ RSPrefs.actions[ActionKeys.fullscreen].visibility }  
           ariaLabel={ fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger }
           SVG={ fs.isFullscreen ? FullscreenExit : FullscreenCorners } 
           placement="bottom" 

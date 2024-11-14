@@ -17,17 +17,17 @@ export const useCollapsibility = (toc: Links) => {
   const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
 
   const ActionIconsMap = {
-    [ActionKeys.fullscreen]: <FullscreenAction variant={ ActionComponentVariant.button } />,
-    [ActionKeys.jumpToPosition]: <JumpToPositionAction variant={ ActionComponentVariant.button } />,
-    [ActionKeys.settings]: <SettingsAction variant={ ActionComponentVariant.button } />,
-    [ActionKeys.toc]: <TocAction variant={ ActionComponentVariant.button } toc={ toc } />
+    [ActionKeys.fullscreen]: <FullscreenAction key={ ActionKeys.fullscreen } variant={ ActionComponentVariant.button } />,
+    [ActionKeys.jumpToPosition]: <JumpToPositionAction key={ ActionKeys.jumpToPosition } variant={ ActionComponentVariant.button } />,
+    [ActionKeys.settings]: <SettingsAction key={ ActionKeys.settings } variant={ ActionComponentVariant.button } />,
+    [ActionKeys.toc]: <TocAction key={ ActionKeys.toc } variant={ ActionComponentVariant.button } toc={ toc } />
   };
 
   const MenuItemsMap = {
-    [ActionKeys.fullscreen]: <FullscreenAction variant={ ActionComponentVariant.menu } />,
-    [ActionKeys.jumpToPosition]: <JumpToPositionAction variant={ ActionComponentVariant.menu } />,
-    [ActionKeys.settings]: <SettingsAction variant={ ActionComponentVariant.menu } />,
-    [ActionKeys.toc]: <TocAction variant={ ActionComponentVariant.menu } toc={ toc } />
+    [ActionKeys.fullscreen]: <FullscreenAction key={ ActionKeys.fullscreen } variant={ ActionComponentVariant.menu } />,
+    [ActionKeys.jumpToPosition]: <JumpToPositionAction key={ ActionKeys.jumpToPosition } variant={ ActionComponentVariant.menu } />,
+    [ActionKeys.settings]: <SettingsAction key={ ActionKeys.settings } variant={ ActionComponentVariant.menu } />,
+    [ActionKeys.toc]: <TocAction key={ ActionKeys.toc } variant={ ActionComponentVariant.menu } toc={ toc } />
   };
 
   const actionsOrder = RSPrefs.actions.displayOrder;

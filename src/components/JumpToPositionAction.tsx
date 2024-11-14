@@ -24,6 +24,7 @@ export const JumpToPositionAction: React.FC<IActionComponent> = ({ variant }) =>
     return(
       <>
       <ActionIcon
+        visibility={ RSPrefs.actions[ActionKeys.jumpToPosition].visibility } 
         ariaLabel={ Locale.reader.jumpToPosition.trigger }
         SVG={ TargetIcon } 
         placement="bottom" 

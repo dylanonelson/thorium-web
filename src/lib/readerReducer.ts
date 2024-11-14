@@ -10,6 +10,7 @@ interface IReaderState {
   hasReachedBreakpoint: boolean;
   settingsOpen: boolean;
   tocOpen: boolean;
+  overflowMenuOpen: boolean;
   platformModifier: IPlatformModifier;
 }
 
@@ -22,6 +23,7 @@ const initialState: IReaderState = {
   hasReachedBreakpoint: false,
   settingsOpen: false,
   tocOpen: false,
+  overflowMenuOpen: false,
   platformModifier: defaultModifier
 }
 
@@ -58,6 +60,9 @@ export const readerSlice = createSlice({
     },
     setTocOpen: (state, action) => {
       state.settingsOpen = action.payload
+    },
+    setOverflowMenuOpen: (state, action) => {
+      state.overflowMenuOpen = action.payload
     }
   }
 })
@@ -73,7 +78,8 @@ export const {
   setColCount, 
   setBreakpoint, 
   setSettingsOpen, 
-  setTocOpen
+  setTocOpen, 
+  setOverflowMenuOpen
 } = readerSlice.actions;
 
 export default readerSlice.reducer;

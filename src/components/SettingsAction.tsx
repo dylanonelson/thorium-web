@@ -42,6 +42,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
       <>
       <DialogTrigger onOpenChange={(val) => toggleSettingsState(val)}>
         <ActionIcon 
+          visibility={ RSPrefs.actions[ActionKeys.settings].visibility }
           ariaLabel={ Locale.reader.settings.trigger }
           SVG={ TextAreaIcon } 
           placement="bottom" 

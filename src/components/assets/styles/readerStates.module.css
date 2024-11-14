@@ -9,3 +9,15 @@
 .immersiveHidden {
   opacity: 0;
 }
+
+.subduedAlways {
+  opacity: 1;
+}
+
+.subduedPartially {
+  display: none;
+}
+
+.subduedPartiallyHovering {
+  display: initial;
+}
