@@ -61,22 +61,22 @@ export const RSPrefs = {
     [ActionKeys.settings]: {
       visibility: ActionVisibility.partially,
       collapsible: false,
-      shortcut: "{{ PlatformKey }}+P"
+      shortcut: "{{ platformKey }}+P"
     },
     [ActionKeys.fullscreen]: {
       visibility: ActionVisibility.partially,
       collapsible: true,
-      shortcut: "{{ PlatformKey }}+F11"
+      shortcut: "{{ platformKey }}+F11"
     },
     [ActionKeys.toc]: {
       visibility: ActionVisibility.partially,
       collapsible: true,
-      shortcut: "{{ PlatformKey }}+N"
+      shortcut: "{{ platformKey }}+N"
     },
     [ActionKeys.jumpToPosition]: {
       visibility: ActionVisibility.overflow,
       collapsible: false,
-      shortcut: "{{ PlatformKey }}+J"
+      shortcut: "{{ platformKey }}+J"
     }
   }
 }

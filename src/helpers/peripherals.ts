@@ -2,6 +2,7 @@
 
 import { useAppStore } from "@/lib/hooks";
 import { isInteractiveElement } from "./isInteractiveElement";
+import { ActionKeys, RSPrefs } from "@/preferences";
 
 export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
@@ -9,21 +10,72 @@ export interface PCallbacks {
   toggleFullscreen: () => void;
 }
 
+interface PShortcut {
+  [key: string]: string[] | boolean;
+  keys: string[];
+  altKey: boolean;
+  ctrlKey: boolean;
+  metaKey: boolean;
+  platformKey: boolean;
+  shiftKey: boolean;
+}
+
+interface PShortcuts {
+  [key: string]: PShortcut;
+}
+
 export default class Peripherals {
   private readonly observers = ["keydown"];
   private targets: EventTarget[] = [];
   private readonly callbacks: PCallbacks;
   private readonly store = useAppStore();
+  private readonly shortcuts: PShortcuts;
 
   constructor(callbacks: PCallbacks) {
     this.observers.forEach((method) => {
       (this as any)["on" + method] = (this as any)["on" + method].bind(this);
     });
     this.callbacks = callbacks;
+    this.shortcuts = this.retrieveShortcuts();
   }
 
   private getPlatformModifier() {
     return this.store.getState().reader.platformModifier.modifier;
+  }
+
+  private retrieveShortcuts() {
+    const shortcutsObj: PShortcuts = {};
+
+    for (const actionKey in ActionKeys) {
+      let shortcutObj: PShortcut = {
+        keys: [],
+        altKey: false,
+        ctrlKey: false,
+        metaKey: false,
+        platformKey: false,
+        shiftKey: false
+      }
+
+      const shortcutString = RSPrefs.actions[actionKey as keyof typeof ActionKeys].shortcut;
+      const shortcutArray = shortcutString.split(/\s*?[+-]\s*?/);
+
+      shortcutArray.filter((val) => {
+        if (val.includes("{{") && val.includes("}}")) {
+          const specialKey = val.substring(2, val.length - 2).trim();
+          shortcutObj[specialKey] = true;
+        } else {
+          shortcutObj.keys.push(val.trim());
+        }
+      });
+
+      Object.defineProperty(shortcutsObj, actionKey, {
+        value: shortcutObj,
+        writable: false,
+        enumerable: true
+      });
+    }
+
+    return shortcutsObj;
   }
 
   destroy() {

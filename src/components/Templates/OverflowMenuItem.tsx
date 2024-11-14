@@ -29,7 +29,7 @@ export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
   const buildShortcut = () => {
     if (shortcut) {
       const jsonTemplate = parseTemplate(shortcut);
-      return jsonTemplate({ PlatformKey: platformModifier.icon });
+      return jsonTemplate({ platformKey: platformModifier.icon });
     }
     return undefined;
   };
