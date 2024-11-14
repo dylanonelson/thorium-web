@@ -55,9 +55,9 @@ export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undef
       <div className={ readerHeaderStyles.actionsWrapper }>
         { Actions.ActionIcons }
         
-        <OverflowMenu>
+        { Actions.MenuItems.length > 0 && <OverflowMenu>
           { Actions.MenuItems }
-        </OverflowMenu>
+        </OverflowMenu> }
       </div>
     </header>
     </>
