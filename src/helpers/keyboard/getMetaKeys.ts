@@ -18,10 +18,10 @@ export interface IPlatformModifier extends IKey {
 
 export interface IMetaKeys {
   [key: string]: IMetaKey;
-  alt: IMetaKey;
-  ctrl: IMetaKey;
-  meta: IMetaKey;
-  shift: IMetaKey;
+  altKey: IMetaKey;
+  ctrlKey: IMetaKey;
+  metaKey: IMetaKey;
+  shiftKey: IMetaKey;
 }
 
 export enum ShortcutMetaKeysTemplates {
@@ -29,18 +29,11 @@ export enum ShortcutMetaKeysTemplates {
   ctrl = "{{ctrlKey}}",
   meta = "{{metaKey}}",
   platform = "{{platformKey}}",
-  shift = "{{shiftkey}}"
-}
-
-export const handleJSONTemplating = (str: string) => {
-  if ((Object.values(ShortcutMetaKeysTemplates) as string[]).includes(str)) {
-    return str.substring(2, str.length - 2).trim();
-  }
-  return str;
+  shift = "{{shiftKey}}"
 }
 
 const altModifier: IMetaKey = {
-  longform: "Alt",
+  longform: "Option",
   shortform: "Alt",
   modifier: "altKey",
   icon: "⌥"
@@ -75,10 +68,10 @@ const shiftModifier: IMetaKey = {
 }
 
 export const metaKeys: IMetaKeys = {
-  alt: altModifier,
-  ctrl: ctrlModifier,
-  meta: isMacish() ? metaModifierMac : metaModifierWin,
-  shift: shiftModifier
+  altKey: altModifier,
+  ctrlKey: ctrlModifier,
+  metaKey: isMacish() ? metaModifierMac : metaModifierWin,
+  shiftKey: shiftModifier
 }
 
 // Platform modifier differs from Mac to Windows so we have to get it dynamically
