@@ -1,5 +1,6 @@
 // Peripherals based on XBReader
 import { ActionKeys, RSPrefs } from "@/preferences";
+import { buildShortcut, PShortcut } from "./keyboard/buildShortcut";
 
 import { useAppStore } from "@/lib/hooks";
 import { isInteractiveElement } from "./isInteractiveElement";
@@ -8,16 +9,6 @@ export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
   goProgression: (shiftKey?: boolean) => void;
   toggleFullscreen: () => void;
-}
-
-interface PShortcut {
-  [key: string]: string | boolean;
-  key: string;
-  altKey: boolean;
-  ctrlKey: boolean;
-  metaKey: boolean;
-  platformKey: boolean;
-  shiftKey: boolean;
 }
 
 interface PShortcuts {
@@ -50,25 +41,7 @@ export default class Peripherals {
       const shortcutString = RSPrefs.actions[actionKey as keyof typeof ActionKeys].shortcut;
       
       if (shortcutString) {
-        let shortcutObj: PShortcut = {
-          key: "",
-          altKey: false,
-          ctrlKey: false,
-          metaKey: false,
-          platformKey: false,
-          shiftKey: false
-        }
-        
-        const shortcutArray = shortcutString.split(/\s*?[+-]\s*?/);
-
-        shortcutArray.filter((val) => {
-          if (val.includes("{{") && val.includes("}}")) {
-            const specialKey = val.substring(2, val.length - 2).trim();
-            shortcutObj[specialKey] = true;
-          } else {
-            shortcutObj.key = val.trim();
-          }
-        });
+        const shortcutObj = buildShortcut(shortcutString);
 
         Object.defineProperty(shortcutsObj, actionKey, {
           value: shortcutObj,
@@ -77,7 +50,6 @@ export default class Peripherals {
         });
       }
     }
-
     return shortcutsObj;
   }
 

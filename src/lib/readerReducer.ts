@@ -1,4 +1,4 @@
-import { defaultPlatformModifier, IPlatformModifier } from "@/helpers/getMetaKeys";
+import { defaultPlatformModifier, IPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IReaderState {

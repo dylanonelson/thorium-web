@@ -6,16 +6,13 @@ import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 
 import { Keyboard, MenuItem, Text } from "react-aria-components";
 
-import { useAppSelector } from "@/lib/hooks";
-
-import { ShortcutMetaKeysTemplates, handleJSONTemplating } from "@/helpers/getMetaKeys";
-import parseTemplate from "json-templates";
+import { buildShortcutRepresentation, ShortcutRepresentation } from "@/helpers/keyboard/buildShortcut";
 
 export interface IOverflowMenuItemProp {
   label: string;
   SVG: ComponentType<SVGProps<SVGElement>>;
   shortcut?: string;
-  shortcutForm?: "icon" | "longform" | "shortform";
+  ShortcutRepresentation?: ShortcutRepresentation;
   onActionCallback?: () => void;
   id: ActionKeys;
 }
@@ -24,21 +21,12 @@ export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
   label,
   SVG, 
   shortcut,
-  shortcutForm,
+  ShortcutRepresentation,
   onActionCallback, 
   id
 }) => {
-  const platformModifier = useAppSelector(state => state.reader.platformModifier);
   const menuItemLabelId = `${id}-label`;
-  
-  const buildShortcut = (form: string = "icon") => {
-    if (shortcut) {
-      const jsonTemplate = parseTemplate(shortcut);
-      const key = handleJSONTemplating(ShortcutMetaKeysTemplates.platform);
-      return jsonTemplate({ [key]: platformModifier[form] });
-    }
-    return undefined;
-  };
+  const displayShortcut = shortcut && buildShortcutRepresentation(shortcut, ShortcutRepresentation, "+");
   
   return(
     <>
@@ -56,7 +44,7 @@ export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
       >
         { label }
       </Text>
-    { shortcut && <Keyboard className={ overflowMenuStyles.menuItemKbdShortcut }>{ buildShortcut(shortcutForm) }</Keyboard> }
+    { displayShortcut && <Keyboard className={ overflowMenuStyles.menuItemKbdShortcut }>{ displayShortcut }</Keyboard> }
     </MenuItem>
     </>
   )
