@@ -1,4 +1,4 @@
-import { ShortcutMetaKeysTemplates } from "./helpers/peripherals";
+import { ShortcutMetaKeysTemplates } from "./helpers/getMetaKeys";
 
 export enum ScrollAffordancePref {
   none = "none",
