@@ -11,8 +11,8 @@ export interface PCallbacks {
 }
 
 interface PShortcut {
-  [key: string]: string[] | boolean;
-  keys: string[];
+  [key: string]: string | boolean;
+  key: string;
   altKey: boolean;
   ctrlKey: boolean;
   metaKey: boolean;
@@ -47,32 +47,35 @@ export default class Peripherals {
     const shortcutsObj: PShortcuts = {};
 
     for (const actionKey in ActionKeys) {
-      let shortcutObj: PShortcut = {
-        keys: [],
-        altKey: false,
-        ctrlKey: false,
-        metaKey: false,
-        platformKey: false,
-        shiftKey: false
-      }
-
       const shortcutString = RSPrefs.actions[actionKey as keyof typeof ActionKeys].shortcut;
-      const shortcutArray = shortcutString.split(/\s*?[+-]\s*?/);
-
-      shortcutArray.filter((val) => {
-        if (val.includes("{{") && val.includes("}}")) {
-          const specialKey = val.substring(2, val.length - 2).trim();
-          shortcutObj[specialKey] = true;
-        } else {
-          shortcutObj.keys.push(val.trim());
+      
+      if (shortcutString) {
+        let shortcutObj: PShortcut = {
+          key: "",
+          altKey: false,
+          ctrlKey: false,
+          metaKey: false,
+          platformKey: false,
+          shiftKey: false
         }
-      });
+        
+        const shortcutArray = shortcutString.split(/\s*?[+-]\s*?/);
 
-      Object.defineProperty(shortcutsObj, actionKey, {
-        value: shortcutObj,
-        writable: false,
-        enumerable: true
-      });
+        shortcutArray.filter((val) => {
+          if (val.includes("{{") && val.includes("}}")) {
+            const specialKey = val.substring(2, val.length - 2).trim();
+            shortcutObj[specialKey] = true;
+          } else {
+            shortcutObj.key = val.trim();
+          }
+        });
+
+        Object.defineProperty(shortcutsObj, actionKey, {
+          value: shortcutObj,
+          writable: false,
+          enumerable: true
+        });
+      }
     }
 
     return shortcutsObj;
