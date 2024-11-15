@@ -4,8 +4,8 @@
       "publicationWrapper": "You’re now in the Publication.",
       "header": {
         "label": "Top bar",
-        "runningHead": "...",
-        "runningHeadFallback": "Publication"
+        "runningHead": "Running Head",
+        "runningHeadFallback": "..."
       },
       "footer": {
         "label": "Bottom bar"
