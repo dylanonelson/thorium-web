@@ -1,6 +1,5 @@
 import React, { ComponentType, SVGProps } from "react";
 
-import Peripherals, { ShortcutMetaKeysTemplates } from "@/helpers/peripherals";
 import { ActionKeys } from "@/preferences";
 
 import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
@@ -8,6 +7,8 @@ import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 import { Keyboard, MenuItem, Text } from "react-aria-components";
 
 import { useAppSelector } from "@/lib/hooks";
+
+import { ShortcutMetaKeysTemplates, handleJSONTemplating } from "@/helpers/getMetaKeys";
 import parseTemplate from "json-templates";
 
 export interface IOverflowMenuItemProp {
@@ -32,7 +33,7 @@ export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
   const buildShortcut = (form: string = "icon") => {
     if (shortcut) {
       const jsonTemplate = parseTemplate(shortcut);
-      const key = Peripherals.handleJSONTemplating(ShortcutMetaKeysTemplates.platform);
+      const key = handleJSONTemplating(ShortcutMetaKeysTemplates.platform);
       return jsonTemplate({ [key]: platformModifier[form] });
     }
     return undefined;

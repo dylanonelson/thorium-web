@@ -10,14 +10,6 @@ export interface PCallbacks {
   toggleFullscreen: () => void;
 }
 
-export enum ShortcutMetaKeysTemplates {
-  alt = "{{altKey}}",
-  ctrl = "{{ctrlKey}}",
-  meta = "{{metaKey}}",
-  platform = "{{platformKey}}",
-  shift = "{{shiftkey}}"
-}
-
 interface PShortcut {
   [key: string]: string[] | boolean;
   keys: string[];
@@ -49,13 +41,6 @@ export default class Peripherals {
 
   private getPlatformModifier() {
     return this.store.getState().reader.platformModifier.modifier;
-  }
-
-  static handleJSONTemplating(str: string) {
-    if ((Object.values(ShortcutMetaKeysTemplates) as string[]).includes(str)) {
-      return str.substring(2, str.length - 2).trim();
-    }
-    return str;
   }
 
   private retrieveShortcuts() {

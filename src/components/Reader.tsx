@@ -26,7 +26,7 @@ import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
-import { buildPlatformModifier } from "@/helpers/getMetaKeys";
+import { getPlatformModifier, metaKeys } from "@/helpers/getMetaKeys";
 
 import { setImmersive, setBreakpoint, setHovering, toggleImmersive, setPlatformModifier } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
@@ -271,7 +271,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     dispatch(setBreakpoint(event.matches))}, [dispatch]);
 
   useEffect(() => {
-    dispatch(setPlatformModifier(buildPlatformModifier()));
+    dispatch(setPlatformModifier(getPlatformModifier()));
     
     // Initial setup
     dispatch(setBreakpoint(breakpointQuery.matches));
