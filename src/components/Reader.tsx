@@ -343,7 +343,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     <>
     <main style={ propsToCSSVars(RSPrefs.theming) }>
       <ReaderHeader 
-        runningHead={ runningHead } 
         toc={ publication.current?.tableOfContents || new Links([]) }
       />
 
