@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import { OverflowMenu } from "./OverflowMenu";
 import { useCollapsibility } from "@/hooks/useCollapsibility";
+import { RunningHead } from "./RunningHead";
 
 export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undefined, toc: Links }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -47,11 +48,8 @@ export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undef
       onMouseEnter={ setHover } 
       onMouseLeave={ removeHover }
     >
-      <h1 aria-label={ Locale.reader.app.header.runningHead }>
-        { runningHead
-          ? runningHead
-          : Locale.reader.app.header.runningHeadFallback }
-      </h1>
+      <RunningHead />
+      
       <div className={ readerHeaderStyles.actionsWrapper }>
         { Actions.ActionIcons }
         
