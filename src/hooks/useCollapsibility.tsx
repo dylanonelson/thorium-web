@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { ActionKeys, ActionVisibility, RSPrefs } from "@/preferences";
 
@@ -16,23 +16,23 @@ export const useCollapsibility = (toc: Links) => {
   const [MenuItems, setMenuItems] = useState<React.JSX.Element[]>([]);
   const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
 
-  const ActionIconsMap = {
-    [ActionKeys.fullscreen]: <FullscreenAction key={ ActionKeys.fullscreen } variant={ ActionComponentVariant.button } />,
-    [ActionKeys.jumpToPosition]: <JumpToPositionAction key={ ActionKeys.jumpToPosition } variant={ ActionComponentVariant.button } />,
-    [ActionKeys.settings]: <SettingsAction key={ ActionKeys.settings } variant={ ActionComponentVariant.button } />,
-    [ActionKeys.toc]: <TocAction key={ ActionKeys.toc } variant={ ActionComponentVariant.button } toc={ toc } />
-  };
-
-  const MenuItemsMap = {
-    [ActionKeys.fullscreen]: <FullscreenAction key={ ActionKeys.fullscreen } variant={ ActionComponentVariant.menu } />,
-    [ActionKeys.jumpToPosition]: <JumpToPositionAction key={ ActionKeys.jumpToPosition } variant={ ActionComponentVariant.menu } />,
-    [ActionKeys.settings]: <SettingsAction key={ ActionKeys.settings } variant={ ActionComponentVariant.menu } />,
-    [ActionKeys.toc]: <TocAction key={ ActionKeys.toc } variant={ ActionComponentVariant.menu } toc={ toc } />
-  };
-
-  const actionsOrder = RSPrefs.actions.displayOrder;
-
-  const triageActions = () => {
+  const triageActions = useCallback(() => {
+    const ActionIconsMap = {
+      [ActionKeys.fullscreen]: <FullscreenAction key={ ActionKeys.fullscreen } variant={ ActionComponentVariant.button } />,
+      [ActionKeys.jumpToPosition]: <JumpToPositionAction key={ ActionKeys.jumpToPosition } variant={ ActionComponentVariant.button } />,
+      [ActionKeys.settings]: <SettingsAction key={ ActionKeys.settings } variant={ ActionComponentVariant.button } />,
+      [ActionKeys.toc]: <TocAction key={ ActionKeys.toc } variant={ ActionComponentVariant.button } toc={ toc } />
+    };
+  
+    const MenuItemsMap = {
+      [ActionKeys.fullscreen]: <FullscreenAction key={ ActionKeys.fullscreen } variant={ ActionComponentVariant.menu } />,
+      [ActionKeys.jumpToPosition]: <JumpToPositionAction key={ ActionKeys.jumpToPosition } variant={ ActionComponentVariant.menu } />,
+      [ActionKeys.settings]: <SettingsAction key={ ActionKeys.settings } variant={ ActionComponentVariant.menu } />,
+      [ActionKeys.toc]: <TocAction key={ ActionKeys.toc } variant={ ActionComponentVariant.menu } toc={ toc } />
+    };
+  
+    const actionsOrder = RSPrefs.actions.displayOrder;
+  
     const actionIcons: React.JSX.Element[] = [];
     const menuItems: React.JSX.Element[] = [];
 
@@ -53,11 +53,11 @@ export const useCollapsibility = (toc: Links) => {
 
     setActionIcons(actionIcons);
     setMenuItems(menuItems);
-  };
+  }, [hasReachedBreakpoint, toc]);
 
   useEffect(() => {
     triageActions();
-  }, [hasReachedBreakpoint]);
+  }, [hasReachedBreakpoint, triageActions]);
 
   return {
     ActionIcons,

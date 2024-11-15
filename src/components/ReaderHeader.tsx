@@ -50,7 +50,10 @@ export const ReaderHeader = ({ toc }: { toc: Links }) => {
     >
       <RunningHead />
       
-      <div className={ readerHeaderStyles.actionsWrapper }>
+      <div 
+        className={ readerHeaderStyles.actionsWrapper } 
+        aria-label={ Locale.reader.app.header.actions }
+      >
         { Actions.ActionIcons }
         
         { Actions.MenuItems.length > 0 && <OverflowMenu>
