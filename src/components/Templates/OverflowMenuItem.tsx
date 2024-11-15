@@ -29,6 +29,7 @@ export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
   id
 }) => {
   const platformModifier = useAppSelector(state => state.reader.platformModifier);
+  const menuItemLabelId = `${id}-label`;
   
   const buildShortcut = (form: string = "icon") => {
     if (shortcut) {
@@ -41,9 +42,20 @@ export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
   
   return(
     <>
-    <MenuItem id={ id } className={ overflowMenuStyles.menuItem } onAction={ onActionCallback }>
+    <MenuItem 
+      id={ id } 
+      className={ overflowMenuStyles.menuItem } 
+      aria-labelledby={ menuItemLabelId } 
+      onAction={ onActionCallback }
+    >
       <SVG aria-hidden="true" focusable="false" />
-      <Text className={ overflowMenuStyles.menuItemLabel } slot="label">{ label }</Text>
+      <Text 
+        className={ overflowMenuStyles.menuItemLabel } 
+        slot="label"
+        id={ menuItemLabelId }
+      >
+        { label }
+      </Text>
     { shortcut && <Keyboard className={ overflowMenuStyles.menuItemKbdShortcut }>{ buildShortcut(shortcutForm) }</Keyboard> }
     </MenuItem>
     </>

@@ -5,7 +5,8 @@
       "header": {
         "label": "Top bar",
         "runningHead": "Running Head",
-        "runningHeadFallback": "..."
+        "runningHeadFallback": "...",
+        "actions": "Actions"
       },
       "footer": {
         "label": "Bottom bar"
@@ -34,7 +35,7 @@
     },
     "toc": {
       "tooltip": "Table of contents",
-      "trigger": "Show Table of Contents",
+      "trigger": "Toggle Table of Contents",
       "close": "Close Table of Contents"
     },
     "jumpToPosition": {
@@ -43,11 +44,11 @@
     },
     "overflowMenu": {
       "tooltip": "More actions",
-      "trigger": "Open menu"
+      "trigger": "Toggle menu"
     },
     "settings": {
       "tooltip": "Settings",
-      "trigger": "Open settings menu",
+      "trigger": "Toggle settings menu",
       "close": "Close settings menu",
       "layout": {
         "title": "Layout",
