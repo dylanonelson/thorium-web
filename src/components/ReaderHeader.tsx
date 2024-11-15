@@ -14,7 +14,7 @@ import { OverflowMenu } from "./OverflowMenu";
 import { useCollapsibility } from "@/hooks/useCollapsibility";
 import { RunningHead } from "./RunningHead";
 
-export const ReaderHeader = ({ runningHead, toc }: { runningHead: string | undefined, toc: Links }) => {
+export const ReaderHeader = ({ toc }: { toc: Links }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
