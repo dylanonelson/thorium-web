@@ -1,5 +1,4 @@
-import { metaKeys, ShortcutMetaKeysTemplates } from "./getMetaKeys";
-import { useAppStore } from "@/lib/hooks";
+import { ShortcutMetaKeysTemplates } from "./getMetaKeys";
 
 export interface PShortcut {
   [key: string]: string | boolean | undefined;
@@ -10,8 +9,6 @@ export interface PShortcut {
   shiftKey?: boolean;
   key?: string;
 }
-
-export type ShortcutRepresentation = "icon" | "shortform" | "longform";
 
 export const buildShortcut = (str: string) => {
   let shortcutObj: PShortcut = {}
@@ -28,29 +25,4 @@ export const buildShortcut = (str: string) => {
   });
 
   return shortcutObj.key ? shortcutObj : null;
-}
-
-export const buildShortcutRepresentation = (rawForm: string, representation: ShortcutRepresentation = "icon", joinChar: string = "") => {
-  const store = useAppStore();
-  const platformModifier = store.getState().reader.platformModifier;
-
-  const shortcutObj = buildShortcut(rawForm);
-
-  if (shortcutObj) {
-    let shortcutRepresentation = [];
-
-    for (const prop in shortcutObj) {
-      if (prop !== "key" && prop !== "platformKey") {
-        const metaKey = metaKeys[prop];
-        shortcutRepresentation.push(metaKey[representation]);
-      } else if (prop === "platformKey") {
-        shortcutRepresentation.push(platformModifier[representation]);
-      } else {
-        shortcutRepresentation.push(shortcutObj[prop]);
-      }
-    }
-
-    if (shortcutRepresentation.length > 0) return shortcutRepresentation.join(joinChar);
-  }
-  return null;
 }

@@ -4,15 +4,14 @@ import { ActionKeys } from "@/preferences";
 
 import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 
-import { Keyboard, MenuItem, Text } from "react-aria-components";
-
-import { buildShortcutRepresentation, ShortcutRepresentation } from "@/helpers/keyboard/buildShortcut";
+import { MenuItem, Text } from "react-aria-components";
+import { Shortcut, ShortcutRepresentation } from "../Shortcut";
 
 export interface IOverflowMenuItemProp {
   label: string;
   SVG: ComponentType<SVGProps<SVGElement>>;
   shortcut?: string;
-  ShortcutRepresentation?: ShortcutRepresentation;
+  shortcutRepresentation?: ShortcutRepresentation;
   onActionCallback?: () => void;
   id: ActionKeys;
 }
@@ -21,12 +20,11 @@ export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
   label,
   SVG, 
   shortcut,
-  ShortcutRepresentation,
+  shortcutRepresentation,
   onActionCallback, 
   id
 }) => {
   const menuItemLabelId = `${id}-label`;
-  const displayShortcut = shortcut && buildShortcutRepresentation(shortcut, ShortcutRepresentation, "+");
   
   return(
     <>
@@ -44,7 +42,12 @@ export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
       >
         { label }
       </Text>
-    { displayShortcut && <Keyboard className={ overflowMenuStyles.menuItemKbdShortcut }>{ displayShortcut }</Keyboard> }
+      { shortcut && <Shortcut
+        className={ overflowMenuStyles.menuItemKbdShortcut } 
+        rawForm={ shortcut } 
+        representation={ shortcutRepresentation } 
+        joinChar="+"
+      /> }
     </MenuItem>
     </>
   )
