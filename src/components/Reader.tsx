@@ -26,7 +26,7 @@ import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
-import { buildPlatformModifier } from "@/helpers/buildPlatformModifier";
+import { buildPlatformModifier } from "@/helpers/getMetaKeys";
 
 import { setImmersive, setBreakpoint, setHovering, toggleImmersive, setPlatformModifier } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
