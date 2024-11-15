@@ -6,8 +6,9 @@ import readerStateStyles from "../assets/styles/readerStates.module.css";
 import { Button, Tooltip, TooltipTrigger, TooltipProps, PressEvent } from "react-aria-components";
 import { ActionVisibility } from "@/preferences";
 
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import classNames from "classnames";
+import { setImmersive } from "@/lib/readerReducer";
 
 export interface IActionIconProps {
   ariaLabel: string;
@@ -30,6 +31,8 @@ export const ActionIcon: React.FC<IActionIconProps> = ({
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
   const overflowMenuOpen = useAppSelector(state => state.reader.overflowMenuOpen);
   const isHovering = useAppSelector(state => state.reader.isHovering);
+
+  const dispatch = useAppDispatch();
 
   const handleClassNameFromState = () => {
     let className = "";
@@ -61,6 +64,10 @@ export const ActionIcon: React.FC<IActionIconProps> = ({
 
     return className
   };
+
+  const defaultOnPressFunc = () => {
+    dispatch(setImmersive(false));
+  }
   
   return (
     <>
@@ -68,7 +75,7 @@ export const ActionIcon: React.FC<IActionIconProps> = ({
       <Button 
         className={ classNames(readerSharedUI.icon, handleClassNameFromState()) } 
         aria-label={ ariaLabel } 
-        { ...(onPressCallback ? { onPress: onPressCallback } : {}) }
+        onPress={ onPressCallback || defaultOnPressFunc }
       >
         <SVG aria-hidden="true" focusable="false" />
       </Button>

@@ -13,6 +13,9 @@ import { useFullscreen } from "@/hooks/useFullscreen";
 import { ActionComponentVariant, IActionComponent } from "./Templates/ActionComponent";
 
 export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
+  // Note: Not using React Aria ToggleButton here as fullscreen is quite
+  // difficult to control in isolation due to collapsibility + shortcuts
+
   const fs = useFullscreen();
 
   if (variant && variant === ActionComponentVariant.menu) {
