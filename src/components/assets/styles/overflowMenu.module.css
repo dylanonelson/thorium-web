@@ -26,7 +26,6 @@
 .menuItemKbdShortcut {
   font-family: monospace;
   font-weight: bold;
-  letter-spacing: 0.25rem;
   color: var(--color-subdued);
   padding: 5px;
   margin-left: auto;

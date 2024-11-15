@@ -1,3 +1,5 @@
+import { ShortcutMetaKeysTemplates } from "./helpers/peripherals";
+
 export enum ScrollAffordancePref {
   none = "none",
   prev = "previous",
@@ -61,22 +63,22 @@ export const RSPrefs = {
     [ActionKeys.settings]: {
       visibility: ActionVisibility.partially,
       collapsible: false,
-      shortcut: "{{ platformKey }}+P"
+      shortcut: `${ShortcutMetaKeysTemplates.platform}+P`
     },
     [ActionKeys.fullscreen]: {
       visibility: ActionVisibility.partially,
       collapsible: true,
-      shortcut: "{{ platformKey }}+F11"
+      shortcut: `${ShortcutMetaKeysTemplates.platform}+F11`
     },
     [ActionKeys.toc]: {
       visibility: ActionVisibility.partially,
       collapsible: true,
-      shortcut: "{{ platformKey }}+N"
+      shortcut: `${ShortcutMetaKeysTemplates.platform}+N`
     },
     [ActionKeys.jumpToPosition]: {
       visibility: ActionVisibility.overflow,
       collapsible: false,
-      shortcut: "{{ platformKey }}+J"
+      shortcut: `${ShortcutMetaKeysTemplates.platform}+J`
     }
   }
 }

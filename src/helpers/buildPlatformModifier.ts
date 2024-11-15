@@ -1,6 +1,7 @@
 import { isMacish } from "./getPlatform";
 
 export interface IPlatformModifier {
+  [key: string]: string;
   longform: string;
   shortform: string;
   modifier: "metaKey" | "ctrlKey";
