@@ -1,4 +1,4 @@
-import { defaultModifier, IPlatformModifier } from "@/helpers/buildPlatformModifier";
+import { defaultPlatformModifier, IPlatformModifier } from "@/helpers/getMetaKeys";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IReaderState {
@@ -24,7 +24,7 @@ const initialState: IReaderState = {
   settingsOpen: false,
   tocOpen: false,
   overflowMenuOpen: false,
-  platformModifier: defaultModifier
+  platformModifier: defaultPlatformModifier
 }
 
 export const readerSlice = createSlice({
