@@ -1,8 +1,8 @@
 // Peripherals based on XBReader
+import { ActionKeys, RSPrefs } from "@/preferences";
 
 import { useAppStore } from "@/lib/hooks";
 import { isInteractiveElement } from "./isInteractiveElement";
-import { ActionKeys, RSPrefs } from "@/preferences";
 
 export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;

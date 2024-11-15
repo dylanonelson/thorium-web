@@ -1,19 +1,27 @@
 import { isMacish } from "./getPlatform";
 
-export interface IPlatformModifier {
+interface IKey {
   [key: string]: string;
   longform: string;
   shortform: string;
+}
+
+export interface IMetaKey extends IKey {
   modifier: "altKey" | "ctrlKey" | "metaKey" | "shiftKey";
   icon: "⌥" | "^" | "⌘" | "⊞" | "⇧";
 }
 
+export interface IPlatformModifier extends IKey {
+  modifier: "ctrlKey" | "metaKey";
+  icon: "^" | "⌘";
+}
+
 export interface IMetaKeys {
-  [key: string]: IPlatformModifier;
-  alt: IPlatformModifier;
-  ctrl: IPlatformModifier;
-  meta: IPlatformModifier;
-  shift: IPlatformModifier;
+  [key: string]: IMetaKey;
+  alt: IMetaKey;
+  ctrl: IMetaKey;
+  meta: IMetaKey;
+  shift: IMetaKey;
 }
 
 export enum ShortcutMetaKeysTemplates {
@@ -31,35 +39,35 @@ export const handleJSONTemplating = (str: string) => {
   return str;
 }
 
-const altModifier: IPlatformModifier = {
+const altModifier: IMetaKey = {
   longform: "Alt",
   shortform: "Alt",
   modifier: "altKey",
   icon: "⌥"
 }
 
-const ctrlModifier: IPlatformModifier = {
+const ctrlModifier: IMetaKey & IPlatformModifier = {
   longform: "Control",
   shortform: "Ctrl",
   modifier: "ctrlKey",
   icon: "^"
 }
 
-const metaModifierMac: IPlatformModifier = {
+const metaModifierMac: IMetaKey & IPlatformModifier = {
   longform: "Command",
   shortform: "Cmd",
   modifier: "metaKey",
   icon: "⌘"   
 }
 
-const metaModifierWin: IPlatformModifier = {
+const metaModifierWin: IMetaKey = {
   longform: "Windows",
   shortform: "Win",
   modifier: "metaKey",
   icon: "⊞"
 }
 
-const shiftModifier: IPlatformModifier = {
+const shiftModifier: IMetaKey = {
   longform: "Shift",
   shortform: "Shift",
   modifier: "shiftKey",
