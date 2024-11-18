@@ -43,22 +43,30 @@ export class ScrollAffordance {
     styleSheet.id = STYLESHEET_ID;
     styleSheet.dataset.readium = "true";
     styleSheet.textContent = cssContent || `.playground-scroll-affordance-wrapper {
+      box-sizing: border-box;
       display: flex;
       width: 100%;
       gap: 20px;
     }
+    .playground-scroll-affordance-wrapper:focus-within {
+      /* to get around hidden overflow cutting off focus ring w/o being too noticeable */
+      padding: 0 2px;
+    }
     #playground-scroll-affordance-wrapper-top {
-      margin-bottom: 1.5rem;
+      /* to get around hidden overflow cutting off focus ring */
+      padding-top: 0.25rem;
+      margin-bottom: 1.25rem;
     }
     #playground-scroll-affordance-wrapper-bottom {
-      margin: 1.5rem 0;
+      margin-top: 1.5rem;
+      /* to get around hidden overflow cutting off focus ring */
+      padding-bottom: 1.5rem;
     }
     .playground-scroll-affordance-wrapper > a {
       box-sizing: border-box;
       border: 1px solid ${RSPrefs.theming.color.subdued};
       border-radius: 3px;
       padding: 0.75rem;
-      box-sizing: border-box;
       text-decoration: none;
       font-weight: bold;
       flex: 1 1 0;
