@@ -87,7 +87,7 @@ export class ScrollAffordance {
       // Prevent duplicates
       this.destroy(doc);
 
-      let wrapper: HTMLDivElement | null = null;
+      let wrapper: HTMLElement | null = null;
 
       if (this.pref !== ScrollAffordancePref.none) {
         let prevAnchor: HTMLAnchorElement | undefined;
@@ -98,6 +98,13 @@ export class ScrollAffordance {
           prevAnchor.className = `playground-scroll-affordance-button-prev`;
           prevAnchor.id = `playground-scroll-affordance-button-prev-${this.placement}`;
           prevAnchor.href = ScrollActions.prev;
+
+          // In practice browsers don’t do anything with this? And since the href
+          // is a custom scheme, they wouldn’t be able to preload the document
+          // that is handled by navigator anyway. So not sure it hurts or has any benefit…
+          prevAnchor.rel = "prev";
+          prevAnchor.setAttribute("aria-label", Locale.reader.navigation.scroll.prevA11yLabel);
+
           prevAnchor.innerHTML = `<span>${Locale.reader.navigation.scroll.prevLabel}</span>`;
         }
 
@@ -106,14 +113,22 @@ export class ScrollAffordance {
           nextAnchor.className = `playground-scroll-affordance-button-next`;
           nextAnchor.id = `<a id="playground-scroll-affordance-button-next-${this.placement}`;
           nextAnchor.href = ScrollActions.next;
+
+          // In practice browsers don’t do anything with this? And since the href
+          // is a custom scheme, they wouldn’t be able to preload the document
+          // that is handled by navigator anyway. So not sure it hurts or has any benefit…
+          nextAnchor.rel = "next";
+          nextAnchor.setAttribute("aria-label", Locale.reader.navigation.scroll.nextA11yLabel);
+
           nextAnchor.innerHTML = `<span>${Locale.reader.navigation.scroll.nextLabel}</span>`
         }
 
         if (prevAnchor || nextAnchor) {
-          wrapper = doc.createElement("div");
+          wrapper = doc.createElement("nav");
           wrapper.id = `playground-scroll-affordance-wrapper-${this.placement}`;
           wrapper.className = this.className || "playground-scroll-affordance-wrapper";
           wrapper.dataset.playground = "true";
+          wrapper.setAttribute("aria-label", Locale.reader.navigation.scroll.wrapper);
 
           if (prevAnchor) wrapper.append(prevAnchor);
           if (nextAnchor) wrapper.append(nextAnchor);
