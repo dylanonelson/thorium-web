@@ -1,4 +1,4 @@
-import { ShortcutMetaKeysTemplates } from "./helpers/keyboard/getMetaKeys";
+import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
 
 export enum ScrollAffordancePref {
   none = "none",
@@ -63,22 +63,22 @@ export const RSPrefs = {
     [ActionKeys.settings]: {
       visibility: ActionVisibility.partially,
       collapsible: false,
-      shortcut: `${ShortcutMetaKeysTemplates.platform}+P`
+      shortcut: `${ShortcutMetaKeywords.platform}+P`
     },
     [ActionKeys.fullscreen]: {
       visibility: ActionVisibility.partially,
       collapsible: true,
-      shortcut: `${ShortcutMetaKeysTemplates.platform}+F11`
+      shortcut: `${ShortcutMetaKeywords.platform}+F11`
     },
     [ActionKeys.toc]: {
       visibility: ActionVisibility.partially,
       collapsible: true,
-      shortcut: `${ShortcutMetaKeysTemplates.platform}+N`
+      shortcut: `${ShortcutMetaKeywords.platform}+N`
     },
     [ActionKeys.jumpToPosition]: {
       visibility: ActionVisibility.overflow,
       collapsible: false,
-      shortcut: `${ShortcutMetaKeysTemplates.platform}+J`
+      shortcut: `${ShortcutMetaKeywords.platform}+J`
     }
   }
 }

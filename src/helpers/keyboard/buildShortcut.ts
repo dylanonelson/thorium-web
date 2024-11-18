@@ -1,4 +1,4 @@
-import { ShortcutMetaKeysTemplates } from "./getMetaKeys";
+import { ShortcutMetaKeywords } from "./getMetaKeys";
 
 export interface PShortcut {
   [key: string]: string | boolean | undefined;
@@ -16,9 +16,9 @@ export const buildShortcut = (str: string) => {
   const shortcutArray = str.split(/\s*?[+-]\s*?/);
 
   shortcutArray.filter((val) => {
-    if ((Object.values(ShortcutMetaKeysTemplates) as string[]).includes(val)) {
-      const specialKey = val.substring(2, val.length - 2).trim();
-      shortcutObj[specialKey] = true;
+    if ((Object.values(ShortcutMetaKeywords) as string[]).includes(val)) {
+      const trimmedKey = val.trim();
+      shortcutObj[trimmedKey] = true;
     } else {
       shortcutObj.key = val.trim();
     }

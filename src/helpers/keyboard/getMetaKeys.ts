@@ -24,12 +24,12 @@ export interface IMetaKeys {
   shiftKey: IMetaKey;
 }
 
-export enum ShortcutMetaKeysTemplates {
-  alt = "{{altKey}}",
-  ctrl = "{{ctrlKey}}",
-  meta = "{{metaKey}}",
-  platform = "{{platformKey}}",
-  shift = "{{shiftKey}}"
+export enum ShortcutMetaKeywords {
+  alt = "altKey",
+  ctrl = "ctrlKey",
+  meta = "metaKey",
+  platform = "platformKey",
+  shift = "shiftKey"
 }
 
 const altModifier: IMetaKey = {
