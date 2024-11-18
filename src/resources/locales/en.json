@@ -21,10 +21,11 @@
       "goForward": "Go Forward",
       "goBackward": "Go Backward",
       "scroll": {
+        "wrapper": "Navigate through the publication",
         "prevLabel": "Previous",
         "nextLabel": "Next",
-        "prevTitleFallback": "Go to the previous resource",
-        "nextTitleFallback": "Go to the next resource"
+        "prevA11yLabel": "Go to the previous resource",
+        "nextA11yLabel": "Go to the next resource"
       }
     },
     "settings": {
