@@ -1,3 +1,4 @@
+import { ShortcutRepresentation } from "./components/Shortcut";
 import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
 
 export enum ScrollAffordancePref {
@@ -52,6 +53,10 @@ export const RSPrefs = {
     icon: {
       size: 32, // Size of icons in px
     }
+  },
+  shortcuts: {
+    representation: ShortcutRepresentation.symbol,
+    joiner: " + "
   },
   actions: {
     displayOrder: [
