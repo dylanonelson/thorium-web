@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 
 import Locale from "../resources/locales/en.json";
-
-import DefaultPageIcon from "./assets/icons/defaultPage-icon.svg";
-import AlignJustifyIcon from "./assets/icons/align-justify-icon.svg";
-import TwoColsIcon from "./assets/icons/2cols-icon.svg";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
+
+import AutoLayoutIcon from "./assets/icons/document_scanner.svg";
+import OneColIcon from "./assets/icons/article.svg";
+import TwoColsIcon from "./assets/icons/menu_book.svg";
 
 import { RadioGroup, Radio, Label } from "react-aria-components";
 import { setColCount } from "@/lib/readerReducer";
@@ -44,7 +44,7 @@ export const ReadingDisplayCol = () => {
             value="auto" 
             isDisabled={ false }
           >
-            <DefaultPageIcon aria-hidden="true" focusable="false" />
+            <AutoLayoutIcon aria-hidden="true" focusable="false" />
             <span>{ Locale.reader.settings.column.auto }</span>
           </Radio>
           <Radio 
@@ -52,7 +52,7 @@ export const ReadingDisplayCol = () => {
             value="1" 
             isDisabled={ scrollable }
           >
-            <AlignJustifyIcon aria-hidden="true" focusable="false" />
+            <OneColIcon aria-hidden="true" focusable="false" />
             <span>{ Locale.reader.settings.column.one }</span>
           </Radio>
           <Radio 

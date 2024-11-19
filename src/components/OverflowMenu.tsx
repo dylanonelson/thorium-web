@@ -5,7 +5,7 @@ import { ActionVisibility } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
-import MenuIcon from "./assets/icons/menu.svg";
+import MenuIcon from "./assets/icons/more_vert.svg";
 
 import { Key, Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";

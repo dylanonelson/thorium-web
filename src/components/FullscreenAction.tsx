@@ -3,8 +3,8 @@ import React from "react";
 import Locale from "../resources/locales/en.json";
 import { ActionKeys, RSPrefs } from "@/preferences";
 
-import FullscreenCorners from "./assets/icons/fullscreen-corners-icon.svg";
-import FullscreenExit from "./assets/icons/fullscreenExit-icon.svg";
+import FullscreenCorners from "./assets/icons/fullscreen.svg";
+import FullscreenExit from "./assets/icons/fullscreen_exit.svg";
 
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 import { ActionIcon } from "./Templates/ActionIcon";
