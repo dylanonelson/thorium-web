@@ -17,3 +17,10 @@
 .listItem {
   display: block;
 }
+
+.empty {
+  padding: 10px;
+  max-width: 25ch;
+  text-align: start;
+  text-wrap: balance;
+}
