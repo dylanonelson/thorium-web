@@ -57,15 +57,18 @@ export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant
           {({ close }) => (
             <>
             <Button
-              className={readerSharedUI.closeButton}
-              aria-label={Locale.reader.toc.close}
-              onPress={close}
+              className={ readerSharedUI.closeButton }
+              aria-label={ Locale.reader.toc.close }
+              onPress={ close }
             >
               <CloseIcon aria-hidden="true" focusable="false" />
             </Button>
-            <ListBox className={tocStyles.listBox} items={toc.items}>
-              { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }>{ item.title }</ListBoxItem>}
-            </ListBox>
+            { toc.items.length > 0 
+              ? <ListBox className={ tocStyles.listBox } items={ toc.items }>
+                { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }>{ item.title }</ListBoxItem> }
+              </ListBox> 
+              : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
+            }
             </>
           )}
           </Dialog>
