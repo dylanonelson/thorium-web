@@ -3,7 +3,7 @@ import React, { ComponentType, SVGProps } from "react";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "../assets/styles/readerStates.module.css";
 
-import { Button, Tooltip, TooltipTrigger, TooltipProps, PressEvent } from "react-aria-components";
+import { Button, Tooltip, TooltipTrigger, TooltipProps, PressEvent, ButtonProps } from "react-aria-components";
 import { ActionVisibility } from "@/preferences";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -11,6 +11,7 @@ import classNames from "classnames";
 import { setImmersive } from "@/lib/readerReducer";
 
 export interface IActionIconProps {
+  className?: string;
   ariaLabel: string;
   SVG: ComponentType<SVGProps<SVGElement>>;
   placement: TooltipProps["placement"];
@@ -19,13 +20,15 @@ export interface IActionIconProps {
   onPressCallback?: (e: PressEvent) => void;
 }
 
-export const ActionIcon: React.FC<IActionIconProps> = ({
+export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IActionIconProps> = ({
+  className,
   ariaLabel, 
   SVG,
   placement,
   tooltipLabel,
   visibility,
-  onPressCallback
+  onPressCallback,
+  ...props
 }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
@@ -73,9 +76,10 @@ export const ActionIcon: React.FC<IActionIconProps> = ({
     <>
     <TooltipTrigger>
       <Button 
-        className={ classNames(readerSharedUI.icon, handleClassNameFromState()) } 
+        className={ classNames(readerSharedUI.icon, handleClassNameFromState(), className) } 
         aria-label={ ariaLabel } 
         onPress={ onPressCallback || defaultOnPressFunc }
+        { ...props }
       >
         <SVG aria-hidden="true" focusable="false" />
       </Button>

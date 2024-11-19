@@ -10,7 +10,7 @@ import MenuIcon from "./assets/icons/more_vert.svg";
 import { Key, Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
 import { useAppDispatch } from "@/lib/hooks";
-import { setOverflowMenuOpen } from "@/lib/readerReducer";
+import { setOverflowMenuOpen, toggleImmersive } from "@/lib/readerReducer";
 
 export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
   const dispatch = useAppDispatch();
@@ -21,12 +21,12 @@ export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
   
   return(
     <>
-    { children ? 
+    { React.Children.toArray(children).length > 0 ? 
       <>
       <MenuTrigger onOpenChange={ (val) => toggleMenuState(val) }>
         <ActionIcon 
           ariaLabel={ Locale.reader.overflowMenu.trigger }
-          SVG={ MenuIcon} 
+          SVG={ MenuIcon } 
           placement="bottom"
           tooltipLabel={ Locale.reader.overflowMenu.tooltip } 
           visibility={ ActionVisibility.always }
@@ -45,7 +45,18 @@ export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
         </Popover>
       </MenuTrigger>
       </>
-      : <></>
+      : <>
+        <ActionIcon 
+          className={ overflowMenuStyles.dummyButton } 
+          ariaLabel={ Locale.reader.overflowMenu.trigger }
+          SVG={ MenuIcon } 
+          placement="bottom"
+          tooltipLabel={ Locale.reader.overflowMenu.tooltip } 
+          visibility={ ActionVisibility.always }
+          onPressCallback={ () => { dispatch(toggleImmersive()) } }
+          preventFocusOnPress={ true }
+        />
+      </>
     }
     </>
   )
