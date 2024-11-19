@@ -40,6 +40,8 @@ export const useEpubNavigator = () => {
 
   const dispatch = useAppDispatch();
 
+  // Warning: this is using internal methods that will become private, do not rely on them
+  // See https://github.com/readium/playground/issues/25
   const applyReadiumCSSStyles = useCallback((stylesObj: { [key: string]: string }) => {
     nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {
@@ -94,6 +96,8 @@ export const useEpubNavigator = () => {
     }
   }, [applyReadiumCSSStyles]);
 
+  // Warning: this is using an internal member that will become private, do not rely on it
+  // See https://github.com/readium/playground/issues/25
   const mountScroll = useCallback(() => {
     nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {        
@@ -103,6 +107,8 @@ export const useEpubNavigator = () => {
     });
   }, []);
 
+  // Warning: this is using an internal member that will become private, do not rely on it
+  // See https://github.com/readium/playground/issues/25
   const unmountScroll = useCallback(() => {
     nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {
@@ -134,6 +140,8 @@ export const useEpubNavigator = () => {
     mountScroll();
   }, [applyReadiumCSSStyles, mountScroll]);
 
+  // Warning: this is using an internal member that will become private, do not rely on it
+  // See https://github.com/readium/playground/issues/25
   const scrollBackTo = useCallback((position: ScrollBackTo) => {
     if (position !== ScrollBackTo.untouched) {
       nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
@@ -149,6 +157,8 @@ export const useEpubNavigator = () => {
     }
   }, []);
 
+  // Warning: this is using an internal method that will become private, do not rely on it
+  // See https://github.com/readium/playground/issues/25
   const setFXLPages = useCallback((count: number) => {
     // @ts-ignore
     nav.current?.pool.setPerPage(count);
@@ -238,6 +248,8 @@ export const useEpubNavigator = () => {
     return nav.current?.currentLocator;
   }, []);
 
+  // Warning: this is an internal member that will become private, do not rely on it
+  // See https://github.com/readium/playground/issues/25
   const getCframes = useCallback(() => {
     return nav.current?._cframes;
   }, []);
