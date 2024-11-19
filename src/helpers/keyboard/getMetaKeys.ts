@@ -8,12 +8,12 @@ interface IKey {
 
 export interface IMetaKey extends IKey {
   modifier: "altKey" | "ctrlKey" | "metaKey" | "shiftKey";
-  icon: "⌥" | "^" | "⌘" | "⊞" | "⇧";
+  symbol: "⌥" | "^" | "⌘" | "⊞" | "⇧";
 }
 
 export interface IPlatformModifier extends IKey {
   modifier: "ctrlKey" | "metaKey";
-  icon: "^" | "⌘";
+  symbol: "^" | "⌘";
 }
 
 export interface IMetaKeys {
@@ -36,35 +36,35 @@ const altModifier: IMetaKey = {
   longform: "Option",
   shortform: "Alt",
   modifier: "altKey",
-  icon: "⌥"
+  symbol: "⌥"
 }
 
 const ctrlModifier: IMetaKey & IPlatformModifier = {
   longform: "Control",
   shortform: "Ctrl",
   modifier: "ctrlKey",
-  icon: "^"
+  symbol: "^"
 }
 
 const metaModifierMac: IMetaKey & IPlatformModifier = {
   longform: "Command",
   shortform: "Cmd",
   modifier: "metaKey",
-  icon: "⌘"   
+  symbol: "⌘"   
 }
 
 const metaModifierWin: IMetaKey = {
   longform: "Windows",
   shortform: "Win",
   modifier: "metaKey",
-  icon: "⊞"
+  symbol: "⊞"
 }
 
 const shiftModifier: IMetaKey = {
   longform: "Shift",
   shortform: "Shift",
   modifier: "shiftKey",
-  icon: "⇧"
+  symbol: "⇧"
 }
 
 export const metaKeys: IMetaKeys = {
