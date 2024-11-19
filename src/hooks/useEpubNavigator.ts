@@ -118,6 +118,8 @@ export const useEpubNavigator = () => {
     });
   }, []);
 
+  // Warning: this is using an internal member that will become private, do not rely on it
+  // See https://github.com/readium/playground/issues/25
   const applyColumns = useCallback(async (colCount: string) => {
     applyReadiumCSSStyles({
       "--USER__view": "readium-paged-on"
@@ -129,6 +131,8 @@ export const useEpubNavigator = () => {
     handleColCountReflow(colCount);
   }, [applyReadiumCSSStyles, handleColCountReflow, unmountScroll]);
 
+  // Warning: this is using an internal member that will become private, do not rely on it
+  // See https://github.com/readium/playground/issues/25
   const applyScrollable = useCallback(async () => {
     applyReadiumCSSStyles({
       "--USER__view": "readium-scroll-on",
