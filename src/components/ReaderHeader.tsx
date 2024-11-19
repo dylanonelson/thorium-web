@@ -7,11 +7,11 @@ import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 import { Links } from "@readium/shared";
 
 import classNames from "classnames";
+import { useCollapsibility } from "@/hooks/useCollapsibility";
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import { OverflowMenu } from "./OverflowMenu";
-import { useCollapsibility } from "@/hooks/useCollapsibility";
 import { RunningHead } from "./RunningHead";
 
 export const ReaderHeader = ({ toc }: { toc: Links }) => {

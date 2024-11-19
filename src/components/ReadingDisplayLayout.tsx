@@ -1,10 +1,10 @@
 import React from "react";
 
 import Locale from "../resources/locales/en.json";
-
-import ScrollableIcon from "./assets/icons/scroll-icon.svg";
-import PaginatedIcon from "./assets/icons/page-icon.svg";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
+
+import ScrollableIcon from "./assets/icons/contract.svg";
+import PaginatedIcon from "./assets/icons/docs.svg";
 
 import { RadioGroup, Radio, Label } from "react-aria-components";
 import { setPaged } from "@/lib/readerReducer";

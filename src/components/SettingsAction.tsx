@@ -3,10 +3,11 @@ import React from "react";
 import { ActionKeys, RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
-import TextAreaIcon from "./assets/icons/textarea-icon.svg";
-import CloseIcon from "./assets/icons/close-icon.svg";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
+
+import TextAreaIcon from "./assets/icons/custom_typography.svg";
+import CloseIcon from "./assets/icons/close.svg";
 
 import { Button, Dialog, DialogTrigger, Popover, Separator } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";

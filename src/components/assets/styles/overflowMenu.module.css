@@ -15,8 +15,8 @@
 }
 
 .menuItem > svg {
-  width: calc(var(--icon-size, 32px) / 2);
-  height: calc(var(--icon-size, 32px) / 2);
+  width: calc(var(--icon-size, 32px) / 1.5);
+  height: calc(var(--icon-size, 32px) / 1.5);
 }
 
 .menuItemLabel {
