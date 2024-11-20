@@ -25,10 +25,11 @@ export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
       <>
       <MenuTrigger onOpenChange={ (val) => toggleMenuState(val) }>
         <ActionIcon 
-          ariaLabel={ Locale.reader.overflowMenu.trigger }
+          className={ overflowMenuStyles.activeButton }
+          ariaLabel={ Locale.reader.overflowMenu.active.trigger }
           SVG={ MenuIcon } 
           placement="bottom"
-          tooltipLabel={ Locale.reader.overflowMenu.tooltip } 
+          tooltipLabel={ Locale.reader.overflowMenu.active.tooltip } 
           visibility={ ActionVisibility.always }
         />
         <Popover
@@ -47,11 +48,11 @@ export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
       </>
       : <>
         <ActionIcon 
-          className={ overflowMenuStyles.dummyButton } 
-          ariaLabel={ Locale.reader.overflowMenu.trigger }
+          className={ overflowMenuStyles.hintButton } 
+          ariaLabel={ Locale.reader.overflowMenu.hint.trigger }
           SVG={ MenuIcon } 
           placement="bottom"
-          tooltipLabel={ Locale.reader.overflowMenu.tooltip } 
+          tooltipLabel={ Locale.reader.overflowMenu.hint.tooltip } 
           visibility={ ActionVisibility.always }
           onPressCallback={ () => { dispatch(toggleImmersive()) } }
           preventFocusOnPress={ true }

@@ -44,8 +44,14 @@
       "trigger": "Jump to Position"
     },
     "overflowMenu": {
-      "tooltip": "More actions",
-      "trigger": "Toggle menu"
+      "active": {
+        "tooltip": "More actions",
+        "trigger": "Toggle menu"
+      },
+      "hint": {
+        "tooltip": "Toggle Actions",
+        "trigger": "Toggle immersive"
+      }
     },
     "settings": {
       "tooltip": "Settings",
