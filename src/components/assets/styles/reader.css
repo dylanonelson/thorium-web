@@ -96,4 +96,7 @@ button {
   border: none;
   color: inherit;
   font: inherit;
+
+  /* Focus no outline */
+  outline: none;
 }

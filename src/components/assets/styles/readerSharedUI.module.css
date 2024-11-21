@@ -4,6 +4,10 @@
   text-align: center;
 }
 
+.icon[data-focus-visible] {
+  outline: auto;
+}
+
 .icon svg {
   fill: var(--color-primary);
   width: 100%;

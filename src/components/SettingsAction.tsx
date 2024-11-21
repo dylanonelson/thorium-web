@@ -16,16 +16,21 @@ import { ActionComponentVariant, IActionComponent } from "./Templates/ActionComp
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 
-import { setSettingsOpen } from "@/lib/readerReducer";
+import { setHovering, setSettingsOpen } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
+  const isOpen = useAppSelector(state => state.reader.settingsOpen);
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const dispatch = useAppDispatch();
 
-  const toggleSettingsState = (value: boolean) => {
+  const setOpen = (value: boolean) => {
     dispatch(setSettingsOpen(value));
+
+    // hover false otherwise it tends to stay on close button press…
+    if (!value) dispatch(setHovering(false));
   }
+
 
   if (variant && variant === ActionComponentVariant.menu) {
     return(
@@ -41,33 +46,32 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   } else {
     return(
       <>
-      <DialogTrigger onOpenChange={(val) => toggleSettingsState(val)}>
+      <DialogTrigger>
         <ActionIcon 
           visibility={ RSPrefs.actions[ActionKeys.settings].visibility }
           ariaLabel={ Locale.reader.settings.trigger }
           SVG={ TextAreaIcon } 
           placement="bottom" 
-          tooltipLabel={ Locale.reader.settings.tooltip }
+          tooltipLabel={ Locale.reader.settings.tooltip } 
+          onPressCallback={ () => setOpen(true) }
         />
         <Popover 
           placement="bottom" 
           className={ settingsStyles.readerSettingsPopover }
+          isOpen={ isOpen }
+          onOpenChange={ setOpen } 
           >
           <Dialog>
-            {({ close }) => (
-              <>
-              <Button 
-                className={ readerSharedUI.closeButton } 
-                aria-label={ Locale.reader.settings.close } 
-                onPress={ close }
-              >
-                <CloseIcon aria-hidden="true" focusable="false" />
-              </Button>
-              <ReadingDisplayCol />
-              <Separator/>
-              <ReadingDisplayLayout isFXL={ isFXL } />
-              </>
-            )}
+            <Button 
+              className={ readerSharedUI.closeButton } 
+              aria-label={ Locale.reader.settings.close } 
+              onPress={ () => setOpen(false) }
+            >
+              <CloseIcon aria-hidden="true" focusable="false" />
+            </Button>
+            <ReadingDisplayCol />
+            <Separator/>
+            <ReadingDisplayLayout isFXL={ isFXL } />
           </Dialog>
         </Popover>
       </DialogTrigger>
