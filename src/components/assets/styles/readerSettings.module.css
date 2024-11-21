@@ -35,6 +35,11 @@
   width: var(--icon-size, 32px);
   height: var(--icon-size, 32px);
   text-align: center;
+  outline: none;
+}
+
+.textAreaButton[data-focus-visible] {
+  outline: auto;
 }
 
 .closeButton {
