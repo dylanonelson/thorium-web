@@ -37,6 +37,7 @@
   border: none;
   color: inherit;
   font: inherit;
+  outline: none;
 
   width: var(--arrow-size, 40px);
   /* height: var(--arrow-size, 40px); */
@@ -60,7 +61,8 @@
   pointer-events: none;
 }
 
-.container button:focus {
+.container button[data-focused] {
+  outline: auto;
   opacity: 1;
 }
 
