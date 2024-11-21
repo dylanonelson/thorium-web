@@ -57,6 +57,7 @@ export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant
           {({ close }) => (
             <>
             <Button
+              autoFocus={ true }
               className={ readerSharedUI.closeButton }
               aria-label={ Locale.reader.toc.close }
               onPress={ close }
