@@ -4,10 +4,6 @@
   text-align: center;
 }
 
-.icon[data-focus-visible] {
-  outline: auto;
-}
-
 .icon svg {
   fill: var(--color-primary);
   width: 100%;
@@ -33,4 +29,9 @@
   fill: var(--color-primary);
   width: 100%;
   height: 100%;
+}
+
+.icon[data-focus-visible],
+.closeButton[data-focus-visible] {
+  outline: auto;
 }

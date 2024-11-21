@@ -17,9 +17,9 @@
 }
 
 .subduedPartially {
-  display: none;
+  visibility: hidden;
 }
 
 .subduedPartiallyHovering {
-  display: initial;
+  visibility: visible;
 }
