@@ -86,7 +86,12 @@
 }
 
 .readerSettingsRadio[data-disabled] {
-  opacity: 0.35;
+  opacity: 0.6;
+}
+
+.readerSettingsRadio[data-hovered],
+.readerSettingsRadio[data-focused] {
+  outline: auto;
 }
 
 .readerSettingsRadio svg {

@@ -43,6 +43,7 @@ export const ReaderSettings = () => {
         >
         <Dialog>
           <Button 
+            autoFocus={ true } 
             className={ settingsStyles.closeButton } 
             aria-label={ Locale.reader.settings.close } 
             onPress={ () => setOpen(false) }
