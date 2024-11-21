@@ -1,7 +1,8 @@
 .immersive {
-  /* This is the lighter we’re AA Compliant based on primary in prefs: #4d4d4d 
+  /* This is the lighter we’re AA Compliant (UI comps)
+     based on primary in prefs: #4d4d4d (contrast > 3)
      see https://webaim.org/resources/contrastchecker/ */
-  opacity: 0.77;
+  opacity: 0.6;
 }
 
 .immersiveHovering {
