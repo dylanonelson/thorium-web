@@ -96,6 +96,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     isImmersiveRef.current = isImmersive;
   }, [isImmersive]);
 
+  // Warning: this is using navigator’s internal methods that will become private, do not rely on them
+  // See https://github.com/readium/playground/issues/25
   const handleTap = (event: FrameClickEvent) => {
     const _cframes = getCframes();
     if (_cframes && RCSSSettings.current.paginated) {
@@ -172,6 +174,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const listeners: EpubNavigatorListeners = {
     frameLoaded: async function (_wnd: Window): Promise<void> {
       await initReadingEnv();
+      // Warning: this is using navigator’s internal methods that will become private, do not rely on them
+      // See https://github.com/readium/playground/issues/25
       const _cframes = getCframes();
       _cframes?.forEach(
         (frameManager: FrameManager | FXLFrameManager | undefined) => {
