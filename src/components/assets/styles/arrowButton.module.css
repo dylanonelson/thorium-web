@@ -48,7 +48,8 @@
   pointer-events: none;
 }
 
-.container button:focus {
+.container button[data-focused] {
+  outline: auto;
   opacity: 1;
 }
 
