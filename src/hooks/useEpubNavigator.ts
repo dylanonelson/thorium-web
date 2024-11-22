@@ -96,6 +96,30 @@ export const useEpubNavigator = () => {
     }
   }, [applyReadiumCSSStyles]);
 
+  const handleScrollReflow = useCallback(() => {
+    if (container.current) {
+      if (!optimalLineLength.current) {
+        optimalLineLength.current = getOptimalLineLength({
+          minChars: RSPrefs.typography.minimalLineLength,
+          optimalChars: RSPrefs.typography.optimalLineLength,
+          fontFace: fontStacks.RS__oldStyleTf,
+          pageGutter: RSPrefs.typography.pageGutter
+        });
+      }
+
+      if (RSPrefs.breakpoint <= window.innerWidth) {
+        const containerWithArrows = window.innerWidth - arrowsWidth.current;
+        container.current.style.width = `${containerWithArrows}px`;
+      } else {
+        container.current.style.width = `${window.innerWidth}px`;
+      }
+
+      applyReadiumCSSStyles({
+        "--RS__defaultLineLength": `${optimalLineLength.current.optimal}rem`
+      })
+    }
+  }, [applyReadiumCSSStyles]);
+
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
   const mountScroll = useCallback(() => {
@@ -274,6 +298,7 @@ export const useEpubNavigator = () => {
     applyScrollable,
     scrollBackTo, 
     handleColCountReflow,
+    handleScrollReflow,
     setFXLPages, 
     handleProgression
   }
