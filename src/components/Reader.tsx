@@ -74,6 +74,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     scrollBackTo, 
     applyReadiumCSSStyles,
     handleColCountReflow,
+    handleScrollReflow,
     setFXLPages,  
     handleProgression
   } = useEpubNavigator();
@@ -258,6 +259,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     if (navLayout() === EPUBLayout.reflowable) {
       if (RCSSSettings.current.paginated) {
         handleColCountReflow(RCSSSettings.current.colCount);
+      } else {
+        handleScrollReflow();
       }
     }
   }, 250);
