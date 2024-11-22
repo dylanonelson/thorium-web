@@ -59,7 +59,7 @@ export const readerSlice = createSlice({
       state.settingsOpen = action.payload
     },
     setTocOpen: (state, action) => {
-      state.settingsOpen = action.payload
+      state.tocOpen = action.payload
     },
     setOverflowMenuOpen: (state, action) => {
       state.overflowMenuOpen = action.payload

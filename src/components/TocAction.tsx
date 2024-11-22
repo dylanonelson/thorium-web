@@ -14,15 +14,16 @@ import { Links } from "@readium/shared";
 import { ActionIcon } from "./Templates/ActionIcon";
 import { Button, Dialog, DialogTrigger, ListBox, ListBoxItem, Popover } from "react-aria-components";
 
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTocOpen } from "@/lib/readerReducer";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 import { ActionComponentVariant, IActionComponent } from "./Templates/ActionComponent";
 
 export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant, toc }) => {
+  const isOpen = useAppSelector(state => state.reader.tocOpen);
   const dispatch = useAppDispatch();
 
-  const toggleTocState = (value: boolean) => {
+  const setOpen = (value: boolean) => {
     dispatch(setTocOpen(value));
   }
 
@@ -40,27 +41,28 @@ export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant
   } else {
     return(
       <>
-      <DialogTrigger onOpenChange={(val) => toggleTocState(val)}>
+      <DialogTrigger>
         <ActionIcon 
           visibility={ RSPrefs.actions[ActionKeys.toc].visibility }
           ariaLabel={ Locale.reader.toc.trigger } 
           SVG={ TocIcon } 
           placement="bottom"
-          tooltipLabel={ Locale.reader.toc.tooltip }
+          tooltipLabel={ Locale.reader.toc.tooltip } 
+          onPressCallback={ () => setOpen(true) }
         />
         { toc && 
         <Popover
           placement="bottom"
-          className={tocStyles.tocPopover}
+          className={ tocStyles.tocPopover } 
+          isOpen={ isOpen }
+          onOpenChange={ setOpen }
         >
           <Dialog>
-          {({ close }) => (
-            <>
             <Button
               autoFocus={ true }
               className={ readerSharedUI.closeButton }
               aria-label={ Locale.reader.toc.close }
-              onPress={ close }
+              onPress={ () => setOpen(false) }
             >
               <CloseIcon aria-hidden="true" focusable="false" />
             </Button>
@@ -70,8 +72,6 @@ export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant
               </ListBox> 
               : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
             }
-            </>
-          )}
           </Dialog>
         </Popover>
         }
