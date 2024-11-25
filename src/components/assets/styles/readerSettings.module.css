@@ -55,6 +55,11 @@
   fill: var(--color-primary);
 }
 
+.heading {
+  font-size: 1.25rem;
+  margin: 0 0 1rem 0;
+}
+
 .readerSettingsPopover {
   background-color: var(--color-secondary);
   color: var(--color-primary);
