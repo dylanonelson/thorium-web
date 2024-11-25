@@ -22,13 +22,14 @@ body {
 
 #bottom-bar,
 #top-bar {
-  height: calc(var(--icon-size, 32px) * 1.5);
+  height: calc(var(--icon-size, 24px) * 2.5);
   gap: 2px;
   touch-action: manipulation;
   background-color: #FFFFFF;
 }
 
 #bottom-bar {
+  height: calc(var(--icon-size, 24px) * 2);
   display: flex;
   justify-content: center;
   align-items: center;
