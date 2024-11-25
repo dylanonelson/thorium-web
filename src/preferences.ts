@@ -61,12 +61,12 @@ export const RSPrefs = {
   actions: {
     displayOrder: [
       ActionKeys.settings,
-      ActionKeys.fullscreen,
-      ActionKeys.toc,
-      ActionKeys.jumpToPosition
+    //  ActionKeys.fullscreen,
+    //  ActionKeys.toc,
+    //  ActionKeys.jumpToPosition
     ],
     [ActionKeys.settings]: {
-      visibility: ActionVisibility.partially,
+      visibility: ActionVisibility.always,
       collapsible: false,
       shortcut: `${ShortcutMetaKeywords.platform}+P`
     },
