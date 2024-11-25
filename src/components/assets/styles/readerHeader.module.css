@@ -20,4 +20,5 @@
   font-weight: normal;
   grid-area: header-center;
   justify-self: center;
+  align-self: center;
 }

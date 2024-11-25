@@ -51,7 +51,7 @@ export const RSPrefs = {
       subdued: "#999999"
     },
     icon: {
-      size: 32, // Size of icons in px
+      size: 24, // Size of icons in px
     }
   },
   shortcuts: {

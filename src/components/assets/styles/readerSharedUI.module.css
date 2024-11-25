@@ -1,6 +1,6 @@
 .icon {
-  width: var(--icon-size, 32px);
-  height: var(--icon-size, 32px);
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
   text-align: center;
 }
 
@@ -18,8 +18,8 @@
 }
 
 .closeButton {
-  width: calc(var(--icon-size, 32px) / 1.25);
-  height: calc(var(--icon-size, 32px) / 1.25);
+  width: calc(var(--icon-size, 24px) / 1.25);
+  height: calc(var(--icon-size, 24px) / 1.25);
   position: absolute;
   top: 10px;
   right: 10px;
