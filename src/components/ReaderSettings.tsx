@@ -6,7 +6,7 @@ import TextAreaIcon from "./assets/icons/textarea-icon.svg";
 import CloseIcon from "./assets/icons/close-icon.svg";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
-import { Button, Dialog, DialogTrigger, Popover } from "react-aria-components"; 
+import { Button, Dialog, DialogTrigger, Heading, Popover, Separator } from "react-aria-components"; 
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 
@@ -50,8 +50,9 @@ export const ReaderSettings = () => {
           >
             <CloseIcon aria-hidden="true" focusable="false" />
           </Button>
+          <Heading slot="title" className={ settingsStyles.heading }>{ Locale.reader.settings.heading }</Heading>
           <ReadingDisplayCol />
-          <hr/>
+          <Separator />
           <ReadingDisplayLayout isFXL={ isFXL } />
         </Dialog>
       </Popover>
