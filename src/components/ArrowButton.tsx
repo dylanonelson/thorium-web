@@ -53,6 +53,12 @@ export const ArrowButton = (props: ReaderArrowProps) => {
     }
   });
 
+  const blurOnEsc = (event: React.KeyboardEvent) => {    
+    if (button.current && document.activeElement === button.current && event.code === "Escape") {
+      button.current.blur();
+    }
+  };
+
   // Unlike preventFocusOnPress, this gives a visual feedback
   // the button has been pressed in immersive mode (esp. when hidden)
   // CSS needs to take care of hover state though, as it will be applied
@@ -74,8 +80,10 @@ export const ArrowButton = (props: ReaderArrowProps) => {
         onPress={ props.onPressCallback }
         onPressEnd={ handleNonKeyboardFocus }
         onHoverChange={ (e) => setIsHovering(e) } 
+        onKeyDown={ blurOnEsc }
         className={ classNames(props.className, handleClassNameFromBreakpoint(), handleClassNameFromState()) }
-        isDisabled={ props.disabled }>
+        isDisabled={ props.disabled }
+      >
         { props.direction === "left" ? 
           <LeftArrow aria-hidden="true" focusable="false" /> : 
           <RightArrow aria-hidden="true" focusable="false" />
