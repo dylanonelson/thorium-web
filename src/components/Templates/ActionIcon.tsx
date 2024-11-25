@@ -85,7 +85,8 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
       </Button>
       <Tooltip
         className={ readerSharedUI.tooltip }
-        placement={ placement }
+        placement={ placement } 
+        offset={ 15 }
       >
         { tooltipLabel }
       </Tooltip>
