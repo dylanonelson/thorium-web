@@ -1,4 +1,4 @@
-import React, { ComponentType, SVGProps } from "react";
+import React, { ComponentType, SVGProps, useRef } from "react";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "../assets/styles/readerStates.module.css";
@@ -30,6 +30,7 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
   onPressCallback,
   ...props
 }) => {
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
   const overflowMenuOpen = useAppSelector(state => state.reader.overflowMenuOpen);
@@ -71,22 +72,32 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
   const defaultOnPressFunc = () => {
     dispatch(setImmersive(false));
   }
+
+  const blurOnEsc = (event: React.KeyboardEvent) => {
+// TODO: handle Tooltip cos first time you press esc, it’s the tooltip that is closed.
+
+    if (triggerRef.current && document.activeElement === triggerRef.current && event.code === "Escape") {
+      triggerRef.current.blur();
+    }
+  }
   
   return (
     <>
     <TooltipTrigger>
       <Button 
+        ref={ triggerRef }
         className={ classNames(readerSharedUI.icon, handleClassNameFromState(), className) } 
         aria-label={ ariaLabel } 
         onPress={ onPressCallback || defaultOnPressFunc }
+        onKeyDown={ blurOnEsc }
         { ...props }
       >
-        <SVG aria-hidden="true" focusable="false" />
+      <SVG aria-hidden="true" focusable="false" />  
       </Button>
       <Tooltip
         className={ readerSharedUI.tooltip }
         placement={ placement } 
-        offset={ 15 }
+        offset={ 15 } 
       >
         { tooltipLabel }
       </Tooltip>
