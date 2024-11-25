@@ -55,10 +55,13 @@ export const ReaderHeader = ({ toc }: { toc: Links }) => {
         aria-label={ Locale.reader.app.header.actions }
       >
         { Actions.ActionIcons }
-        
+
+    {/*    
         <OverflowMenu>
           { Actions.MenuItems }
         </OverflowMenu>
+    */}
+    
       </div>
     </header>
     </>
