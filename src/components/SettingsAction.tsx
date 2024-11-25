@@ -6,7 +6,7 @@ import Locale from "../resources/locales/en.json";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
-import TextAreaIcon from "./assets/icons/custom_typography.svg";
+import TuneIcon from "./assets/icons/tune.svg";
 import CloseIcon from "./assets/icons/close.svg";
 
 import { Button, Dialog, DialogTrigger, Heading, Popover, Separator } from "react-aria-components";
@@ -37,7 +37,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
       <>
         <OverflowMenuItem 
           label={ Locale.reader.settings.trigger }
-          SVG={ TextAreaIcon }
+          SVG={ TuneIcon }
           shortcut={ RSPrefs.actions.settings.shortcut } 
           id={ ActionKeys.settings }
         />
@@ -50,7 +50,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
         <ActionIcon 
           visibility={ RSPrefs.actions[ActionKeys.settings].visibility }
           ariaLabel={ Locale.reader.settings.trigger }
-          SVG={ TextAreaIcon } 
+          SVG={ TuneIcon } 
           placement="bottom" 
           tooltipLabel={ Locale.reader.settings.tooltip } 
           onPressCallback={ () => setOpen(true) }
