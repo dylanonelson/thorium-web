@@ -1,3 +1,6 @@
+import { ShortcutRepresentation } from "./components/Shortcut";
+import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
+
 export enum ScrollAffordancePref {
   none = "none",
   prev = "previous",
@@ -9,6 +12,19 @@ export enum ScrollBackTo {
   top = "top",
   bottom = "bottom",
   untouched = "untouched"
+}
+
+export enum ActionKeys {
+  fullscreen = "fullscreen",
+  jumpToPosition = "jumpToPosition",
+  settings = "settings",
+  toc = "toc"
+}
+
+export enum ActionVisibility {
+  always = "always",
+  partially = "partially",
+  overflow = "overflow"
 }
 
 export const RSPrefs = {
@@ -35,7 +51,39 @@ export const RSPrefs = {
       subdued: "#999999"
     },
     icon: {
-      size: 32, // Size of icons in px
+      size: 24, // Size of icons in px
+    }
+  },
+  shortcuts: {
+    representation: ShortcutRepresentation.symbol,
+    joiner: " + "
+  },
+  actions: {
+    displayOrder: [
+      ActionKeys.settings,
+    //  ActionKeys.fullscreen,
+    //  ActionKeys.toc,
+    //  ActionKeys.jumpToPosition
+    ],
+    [ActionKeys.settings]: {
+      visibility: ActionVisibility.always,
+      collapsible: false,
+      shortcut: `${ShortcutMetaKeywords.platform}+P`
+    },
+    [ActionKeys.fullscreen]: {
+      visibility: ActionVisibility.partially,
+      collapsible: true,
+      shortcut: `${ShortcutMetaKeywords.platform}+F11`
+    },
+    [ActionKeys.toc]: {
+      visibility: ActionVisibility.partially,
+      collapsible: true,
+      shortcut: `${ShortcutMetaKeywords.platform}+N`
+    },
+    [ActionKeys.jumpToPosition]: {
+      visibility: ActionVisibility.overflow,
+      collapsible: false,
+      shortcut: `${ShortcutMetaKeywords.platform}+J`
     }
   }
 }

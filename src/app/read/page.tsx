@@ -1,6 +1,7 @@
 import { HttpFetcher } from "@readium/shared";
 import { Link } from "@readium/shared";
 import { Reader } from "@/components/Reader";
+
 import StoreProvider from "../StoreProvider";
 
 // TODO page metadata w/ generateMetadata
@@ -35,6 +36,15 @@ export default async function ReaderPage({ searchParams }: { searchParams: { [ke
   }
 
   return (
-    <>{error ? <span>{error}</span> : manifest ? <StoreProvider><Reader rawManifest={manifest} selfHref={selfLink} /></StoreProvider> : "Loading..."}</>
+    <>
+    { error 
+      ? <span>{error}</span> 
+      : manifest 
+        ? <StoreProvider>
+            <Reader rawManifest={manifest} selfHref={selfLink} />
+          </StoreProvider> 
+        : "Loading..."
+    }
+    </>
   );
 }

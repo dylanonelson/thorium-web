@@ -3,6 +3,7 @@
   --color-primary: #4d4d4d;
   --color-secondary: white;
   --color-disabled: #767676;
+  --color-subdued: #999999;
 }
 
 html,
@@ -21,13 +22,14 @@ body {
 
 #bottom-bar,
 #top-bar {
-  height: calc(var(--icon-size, 32px) * 1.5);
+  height: calc(var(--icon-size, 24px) * 2.5);
   gap: 2px;
   touch-action: manipulation;
   background-color: #FFFFFF;
 }
 
 #bottom-bar {
+  height: calc(var(--icon-size, 24px) * 2);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,4 +83,21 @@ div:has(> .readium-navigator-iframe.blank)::after {
   border: 5px solid grey;
   border-top-color: black;
   animation: loading 2s linear infinite;
+}
+
+button {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  text-align: inherit;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  color: inherit;
+  font: inherit;
+
+  /* Focus no outline */
+  outline: none;
 }

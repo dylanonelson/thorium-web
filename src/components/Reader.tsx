@@ -11,7 +11,7 @@ import {
   FrameClickEvent,
 } from "@readium/navigator-html-injectables";
 import { EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
-import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
+import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression, Links } from "@readium/shared";
 
 import { useCallback, useEffect, useRef } from "react";
 
@@ -20,13 +20,15 @@ import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useFullscreen } from "@/hooks/useFullscreen";
 
 import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
+import { getPlatformModifier, metaKeys } from "@/helpers/keyboard/getMetaKeys";
 
-import { setImmersive, setBreakpoint, setHovering, toggleImmersive } from "@/lib/readerReducer";
+import { setImmersive, setBreakpoint, setHovering, toggleImmersive, setPlatformModifier } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
@@ -59,6 +61,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const dispatch = useAppDispatch();
 
+  const fs = useFullscreen();
+
   const { 
     EpubNavigatorLoad, 
     EpubNavigatorDestroy, 
@@ -81,7 +85,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const activateImmersiveOnAction = useCallback(() => {
     if (!isImmersiveRef.current) dispatch(setImmersive(true));
-  }, [isImmersive, dispatch]);
+  }, [dispatch]);
 
   const toggleIsImmersive = useCallback(() => {
     // If tap/click in iframe, then header/footer no longer hoovering 
@@ -162,6 +166,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       } else {
         activateImmersiveOnAction();
       }
+    },
+    toggleFullscreen: () => {
+      fs.handleFullscreen();
     }
   });
 
@@ -243,7 +250,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         .catch(console.error);
     }
       
-  }, [isPaged, applyColumns, applyScrollable]);
+  }, [isPaged, colCount, navLayout, applyColumns, applyScrollable]);
 
   useEffect(() => {
     RCSSSettings.current.colCount = colCount;
@@ -253,7 +260,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     } else if (navLayout() === EPUBLayout.fixed) {
       colCount === "1" ? setFXLPages(1) : setFXLPages(0);
     }
-  }, [colCount, handleColCountReflow]);
+  }, [colCount, navLayout, setFXLPages, handleColCountReflow]);
 
   const handleResize = debounce(() => {
     if (navLayout() === EPUBLayout.reflowable) {
@@ -271,10 +278,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     dispatch(setBreakpoint(event.matches))}, [dispatch]);
 
   useEffect(() => {
+    dispatch(setPlatformModifier(getPlatformModifier()));
+    
     // Initial setup
     dispatch(setBreakpoint(breakpointQuery.matches));
-    
     breakpointQuery.addEventListener("change", handleBreakpointChange);
+
     window.addEventListener("resize", handleResize);
     window.addEventListener("orientationchange", handleResize);
     
@@ -283,7 +292,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
     }
-  }, [breakpointQuery, handleBreakpointChange, handleResize]);
+  }, [dispatch, breakpointQuery, handleBreakpointChange, handleResize]);
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -297,7 +306,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     let positionsList: Locator[] | undefined;
 
-    dispatch(setRunningHead(publication.current.metadata.title.getTranslation("en")));    
+    dispatch(setRunningHead(publication.current.metadata.title.getTranslation("en")));
     dispatch(setRTL(publication.current.metadata.effectiveReadingProgression === ReadingProgression.rtl));
     dispatch(setFXL(publication.current.metadata.getPresentation()?.layout === EPUBLayout.fixed));
 
@@ -341,7 +350,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     <>
     <main style={ propsToCSSVars(RSPrefs.theming) }>
       <ReaderHeader 
-        runningHead={ runningHead } 
+        toc={ publication.current?.tableOfContents || new Links([]) }
       />
 
     { isPaged ? 

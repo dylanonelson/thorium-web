@@ -1,0 +1,24 @@
+.header {
+  display: grid;
+  grid-template-areas: "header-left header-center header-right";
+  grid-template-columns: 1fr 3fr 1fr;
+  padding: 0.25rem 0.5rem 0;
+}
+
+.actionsWrapper {
+  grid-area: header-right;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header h1 {
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--color-primary);
+  font-weight: normal;
+  grid-area: header-center;
+  justify-self: center;
+  align-self: center;
+}
