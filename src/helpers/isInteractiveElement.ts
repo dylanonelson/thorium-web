@@ -1,6 +1,6 @@
 export const isInteractiveElement = (element: Element | null) => {
   const iElements = ["A", "AREA", "BUTTON", "DETAILS", "INPUT", "SELECT", "TEXTAREA"];
-  const iRoles = ["dialog", "radiogroup", "radio"]
+  const iRoles = ["dialog", "radiogroup", "radio", "menu", "menuitem"]
 
   if (element && (element instanceof HTMLElement || element instanceof SVGElement)) {
     if (element.closest("[inert]")) return false;

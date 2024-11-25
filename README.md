@@ -50,3 +50,7 @@ npx @cloudflare/next-on-pages@1 && npx wrangler pages deploy ./.vercel/output/st
 It’s running with defaults, which means a commit triggers a build and deploy for the current branch to preview. You can then access the app from a subdomain using this branch name. 
 
 More details in [the @cloudflare/next-on-pages repo](https://github.com/cloudflare/next-on-pages).
+
+## Icons
+
+The [Material Symbols and Icons](https://fonts.google.com/icons) are used as SVG (with default settings, outlined) but support for icon fonts may be added in the future.

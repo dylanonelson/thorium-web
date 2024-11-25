@@ -1,3 +1,4 @@
+import { defaultPlatformModifier, IPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IReaderState {
@@ -8,6 +9,9 @@ interface IReaderState {
   colCount: string;
   hasReachedBreakpoint: boolean;
   settingsOpen: boolean;
+  tocOpen: boolean;
+  overflowMenuOpen: boolean;
+  platformModifier: IPlatformModifier;
 }
 
 const initialState: IReaderState = {
@@ -17,13 +21,19 @@ const initialState: IReaderState = {
   isPaged: true,
   colCount: "auto",
   hasReachedBreakpoint: false,
-  settingsOpen: false
+  settingsOpen: false,
+  tocOpen: false,
+  overflowMenuOpen: false,
+  platformModifier: defaultPlatformModifier
 }
 
 export const readerSlice = createSlice({
   name: "reader",
   initialState,
   reducers: {
+    setPlatformModifier: (state, action) => {
+      state.platformModifier = action.payload
+    },
     setImmersive: (state, action) => {
       state.isImmersive = action.payload
     },
@@ -47,12 +57,19 @@ export const readerSlice = createSlice({
     },
     setSettingsOpen: (state, action) => {
       state.settingsOpen = action.payload
+    },
+    setTocOpen: (state, action) => {
+      state.tocOpen = action.payload
+    },
+    setOverflowMenuOpen: (state, action) => {
+      state.overflowMenuOpen = action.payload
     }
   }
 })
 
 // Action creators are generated for each case reducer function
 export const { 
+  setPlatformModifier, 
   setImmersive, 
   toggleImmersive, 
   setHovering, 
@@ -60,7 +77,9 @@ export const {
   setPaged, 
   setColCount, 
   setBreakpoint, 
-  setSettingsOpen 
+  setSettingsOpen, 
+  setTocOpen, 
+  setOverflowMenuOpen
 } = readerSlice.actions;
 
 export default readerSlice.reducer;

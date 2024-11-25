@@ -26,19 +26,6 @@
 }
 
 .container button {
-  -webkit-appearance: none;
-  appearance: none;
-  border-radius: 0;
-  text-align: inherit;
-  background: none;
-  box-shadow: none;
-  padding: 0;
-  cursor: pointer;
-  border: none;
-  color: inherit;
-  font: inherit;
-  outline: none;
-
   width: var(--arrow-size, 40px);
   /* height: var(--arrow-size, 40px); */
   height: 40vh;
@@ -77,11 +64,4 @@
 .container button svg {
   fill: var(--color-primary);
   stroke: var(--color-primary);
-}
-
-.arrowTooltip {
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
-  padding: 5px;
-  border-radius: 5px;
 }

@@ -1,22 +1,56 @@
 // Peripherals based on XBReader
+import { ActionKeys, RSPrefs } from "@/preferences";
+import { buildShortcut, PShortcut } from "./keyboard/buildShortcut";
 
+import { useAppStore } from "@/lib/hooks";
 import { isInteractiveElement } from "./isInteractiveElement";
 
 export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
   goProgression: (shiftKey?: boolean) => void;
+  toggleFullscreen: () => void;
+}
+
+interface PShortcuts {
+  [key: string]: PShortcut;
 }
 
 export default class Peripherals {
   private readonly observers = ["keydown"];
   private targets: EventTarget[] = [];
   private readonly callbacks: PCallbacks;
+  private readonly store = useAppStore();
+  private readonly shortcuts: PShortcuts;
 
   constructor(callbacks: PCallbacks) {
     this.observers.forEach((method) => {
       (this as any)["on" + method] = (this as any)["on" + method].bind(this);
     });
     this.callbacks = callbacks;
+    this.shortcuts = this.retrieveShortcuts();
+  }
+
+  private getPlatformModifier() {
+    return this.store.getState().reader.platformModifier.modifier;
+  }
+
+  private retrieveShortcuts() {
+    const shortcutsObj: PShortcuts = {};
+
+    for (const actionKey in ActionKeys) {
+      const shortcutString = RSPrefs.actions[actionKey as keyof typeof ActionKeys].shortcut;
+      
+      if (shortcutString) {
+        const shortcutObj = buildShortcut(shortcutString);
+
+        Object.defineProperty(shortcutsObj, actionKey, {
+          value: shortcutObj,
+          writable: false,
+          enumerable: true
+        });
+      }
+    }
+    return shortcutsObj;
   }
 
   destroy() {
@@ -69,6 +103,9 @@ export default class Peripherals {
           break;
         case "End":
           this.callbacks.moveTo("end");
+          break;
+        case "F11":
+          if (e[this.getPlatformModifier()]) this.callbacks.toggleFullscreen();
           break;
         default:
           break;
