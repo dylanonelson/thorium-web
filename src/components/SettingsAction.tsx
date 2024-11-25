@@ -9,7 +9,7 @@ import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 import TextAreaIcon from "./assets/icons/custom_typography.svg";
 import CloseIcon from "./assets/icons/close.svg";
 
-import { Button, Dialog, DialogTrigger, Popover, Separator } from "react-aria-components";
+import { Button, Dialog, DialogTrigger, Heading, Popover, Separator } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 import { ActionComponentVariant, IActionComponent } from "./Templates/ActionComponent";
@@ -70,6 +70,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
             >
               <CloseIcon aria-hidden="true" focusable="false" />
             </Button>
+            <Heading slot="title" className={ settingsStyles.heading }>{ Locale.reader.settings.heading }</Heading>
             <ReadingDisplayCol />
             <Separator/>
             <ReadingDisplayLayout isFXL={ isFXL } />

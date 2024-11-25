@@ -58,6 +58,7 @@
       "tooltip": "Settings",
       "trigger": "Toggle settings menu",
       "close": "Close settings menu",
+      "heading": "User Settings",
       "layout": {
         "title": "Layout",
         "scrolled": "Scrollable",
