@@ -38,6 +38,7 @@
   outline: none;
 }
 
+.textAreaButton[data-hovered],
 .textAreaButton[data-focus-visible] {
   outline: auto;
 }
