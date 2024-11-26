@@ -7,8 +7,10 @@ import { Button, Tooltip, TooltipTrigger, TooltipProps, PressEvent, ButtonProps 
 import { ActionVisibility } from "@/preferences";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import classNames from "classnames";
 import { setImmersive } from "@/lib/readerReducer";
+
+import classNames from "classnames";
+import { isActiveElement, isKeyboardTriggered } from "@/helpers/focus";
 
 export interface IActionIconProps {
   className?: string;
@@ -74,15 +76,15 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
   const handleImmersive = (event: React.FocusEvent) => {
     // Check whether the focus was triggered by keyboard…
     // We don’t have access to type/modality, unlike onPress
-    if (event.target.matches(":focus-visible")) {
+    if (isKeyboardTriggered(event.target)) {
       dispatch(setImmersive(false));
     }
   };
 
   const blurOnEsc = (event: React.KeyboardEvent) => {
   // TODO: handle Tooltip cos first time you press esc, it’s the tooltip that is closed.
-    if (triggerRef.current && document.activeElement === triggerRef.current && event.code === "Escape") {
-      triggerRef.current.blur();
+    if (isActiveElement(triggerRef.current) && event.code === "Escape") {
+      triggerRef.current!.blur();
     }
   };
   
