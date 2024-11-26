@@ -23,11 +23,7 @@
 }
 
 /* Opacity relative to .immersive */
-.subduedPartiallyHovering {
-  opacity: 1;
-}
-
-/* Opacity relative to .immersive */
+.subduedPartially[data-hovered],
 .subduedPartially[data-focus-visible] {
   opacity: 1;
 }

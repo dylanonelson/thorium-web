@@ -55,8 +55,6 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
       case ActionVisibility.partially:
         if (!isActive && isSubdued) {
           className = readerStateStyles.subduedPartially;
-        } else if (isActive) {
-          className = readerStateStyles.subduedPartiallyHovering;
         } else {
           className = visibility;
         }
