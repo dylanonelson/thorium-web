@@ -17,10 +17,17 @@
   opacity: 1;
 }
 
+/* Opacity relative to .immersive */
 .subduedPartially {
-  visibility: hidden;
+  opacity: 0;
 }
 
+/* Opacity relative to .immersive */
 .subduedPartiallyHovering {
-  visibility: visible;
+  opacity: 1;
+}
+
+/* Opacity relative to .immersive */
+.subduedPartially[data-focus-visible] {
+  opacity: 1;
 }
