@@ -14,6 +14,7 @@ import { Button, PressEvent, Tooltip, TooltipTrigger } from "react-aria-componen
 import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
+import { isActiveElement } from "@/helpers/focus";
 
 export interface ReaderArrowProps {
   direction: "left" | "right";
@@ -48,14 +49,14 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   };
 
   useEffect(() => {
-    if ((props.disabled || (isImmersive && !isHovering)) && document.activeElement === button.current) {
+    if ((props.disabled || (isImmersive && !isHovering)) && isActiveElement(button.current)) {
       button.current!.blur();
     }
   });
 
   const blurOnEsc = (event: React.KeyboardEvent) => {    
-    if (button.current && document.activeElement === button.current && event.code === "Escape") {
-      button.current.blur();
+    if (isActiveElement(button.current) && event.code === "Escape") {
+      button.current!.blur();
     }
   };
 
@@ -65,7 +66,7 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   // on mobile depending on the length of the press
   const handleNonKeyboardFocus = (event: PressEvent) => {
     if (event.pointerType !== "keyboard") {
-      if (document.activeElement === button.current) {
+      if (isActiveElement(button.current)) {
         button.current!.blur()
       }
     }
