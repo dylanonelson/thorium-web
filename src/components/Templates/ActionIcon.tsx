@@ -69,15 +69,22 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
 
   const defaultOnPressFunc = () => {
     dispatch(setImmersive(false));
-  }
+  };
+
+  const handleImmersive = (event: React.FocusEvent) => {
+    // Check whether the focus was triggered by keyboard…
+    // We don’t have access to type/modality, unlike onPress
+    if (event.target.matches(":focus-visible")) {
+      dispatch(setImmersive(false));
+    }
+  };
 
   const blurOnEsc = (event: React.KeyboardEvent) => {
-// TODO: handle Tooltip cos first time you press esc, it’s the tooltip that is closed.
-
+  // TODO: handle Tooltip cos first time you press esc, it’s the tooltip that is closed.
     if (triggerRef.current && document.activeElement === triggerRef.current && event.code === "Escape") {
       triggerRef.current.blur();
     }
-  }
+  };
   
   return (
     <>
@@ -87,7 +94,8 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
         className={ classNames(readerSharedUI.icon, handleClassNameFromState(), className) } 
         aria-label={ ariaLabel } 
         onPress={ onPressCallback || defaultOnPressFunc }
-        onKeyDown={ blurOnEsc }
+        onKeyDown={ blurOnEsc } 
+        onFocus={ handleImmersive }
         { ...props }
       >
       <SVG aria-hidden="true" focusable="false" />  
