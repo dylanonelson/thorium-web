@@ -52,12 +52,15 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.7",
     "readium-css": "github:readium/readium-css#json",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "39.1.1"
   },
   "overrides": {
-    "@babel/core": "7.25.2"
+    "@babel/core": "7.25.2",
+    "vercel": "$vercel"
   },
   "resolutions": {
-    "@babel/core": "7.25.2"
+    "@babel/core": "7.25.2",
+    "vercel": "$vercel"
   }
 }
