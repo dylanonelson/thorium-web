@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ActionKeys, RSPrefs } from "@/preferences";
+import { RSPrefs } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
@@ -17,7 +17,7 @@ import { Button, Dialog, DialogTrigger, Heading, ListBox, ListBoxItem, Popover }
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTocOpen } from "@/lib/readerReducer";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
-import { ActionComponentVariant, IActionComponent } from "./Templates/ActionComponent";
+import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
 
 export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant, toc }) => {
   const isOpen = useAppSelector(state => state.reader.tocOpen);

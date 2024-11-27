@@ -1,11 +1,10 @@
 import React, { ComponentType, SVGProps } from "react";
 
-import { ActionKeys } from "@/preferences";
-
 import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 
 import { MenuItem, Text } from "react-aria-components";
 import { Shortcut } from "../Shortcut";
+import { ActionKeys } from "./ActionComponent";
 
 export interface IOverflowMenuItemProp {
   label: string;

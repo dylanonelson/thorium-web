@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
-import { RSPrefs, ScrollBackTo } from "@/preferences";
+import { RSPrefs } from "@/preferences";
 import fontStacks from "readium-css/css/vars/fontStacks.json";
 
 import { EPUBLayout, Link, Locator, Publication, ReadingProgression } from "@readium/shared";
@@ -9,7 +9,7 @@ import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } 
 
 import { useAppDispatch } from "@/lib/hooks";
 
-import { ScrollAffordance } from "@/helpers/scrollAffordance";
+import { ScrollAffordance, ScrollBackTo } from "@/helpers/scrollAffordance";
 import { getOptimalLineLength, IOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { localData } from "@/helpers/localData";

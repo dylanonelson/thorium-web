@@ -4,13 +4,13 @@ import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "../assets/styles/readerStates.module.css";
 
 import { Button, Tooltip, TooltipTrigger, TooltipProps, PressEvent, ButtonProps } from "react-aria-components";
-import { ActionVisibility } from "@/preferences";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setImmersive } from "@/lib/readerReducer";
 
 import classNames from "classnames";
 import { isActiveElement, isKeyboardTriggered } from "@/helpers/focus";
+import { ActionVisibility } from "./ActionComponent";
 
 export interface IActionIconProps {
   className?: string;
