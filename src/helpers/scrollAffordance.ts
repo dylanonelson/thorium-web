@@ -47,6 +47,8 @@ export class ScrollAffordance {
       display: flex;
       width: 100%;
       gap: 20px;
+      margin: 0;
+      padding: 0;
     }
     .playground-scroll-affordance-wrapper:focus-within {
       /* to get around hidden overflow cutting off focus ring w/o being too noticeable */
@@ -71,6 +73,11 @@ export class ScrollAffordance {
       font-weight: bold;
       flex: 1 1 0;
       text-align: left;
+      color: ${RSPrefs.theming.color.primary};
+    }
+    .playground-scroll-affordance-wrapper > a:hover {
+      background-color: ${RSPrefs.theming.color.hover};
+      border: 1px solid ${RSPrefs.theming.color.primary}
     }
     .playground-scroll-affordance-wrapper > a:first-child:not(:last-child) {
       text-align: right;
@@ -80,6 +87,10 @@ export class ScrollAffordance {
       float: left;
       margin-right: 10px;
       color: ${RSPrefs.theming.color.subdued};
+    }
+    .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-prev:hover > span:before,
+    .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-next:hover > span:after {
+      color: ${RSPrefs.theming.color.primary};
     }
     .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-next > span:after {
       content: "→";

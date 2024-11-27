@@ -4,6 +4,8 @@
   --color-secondary: white;
   --color-disabled: #767676;
   --color-subdued: #999999;
+  --color-hover: #eaeaea;
+  --color-selected: #eaeaea;
 }
 
 html,

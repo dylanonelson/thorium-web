@@ -48,7 +48,9 @@ export const RSPrefs = {
       primary: "#4d4d4d",
       secondary: "white",
       disabled: "#767676",
-      subdued: "#999999"
+      subdued: "#999999",
+      hover: "#eaeaea",
+      selected: "#eaeaea"
     },
     icon: {
       size: 24, // Size of icons in px
