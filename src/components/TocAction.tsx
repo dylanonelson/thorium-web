@@ -12,7 +12,7 @@ import CloseIcon from "./assets/icons/close.svg";
 import { Links } from "@readium/shared";
 
 import { ActionIcon } from "./Templates/ActionIcon";
-import { Button, Dialog, DialogTrigger, ListBox, ListBoxItem, Popover } from "react-aria-components";
+import { Button, Dialog, DialogTrigger, Heading, ListBox, ListBoxItem, Popover } from "react-aria-components";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTocOpen } from "@/lib/readerReducer";
@@ -66,10 +66,11 @@ export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant
             >
               <CloseIcon aria-hidden="true" focusable="false" />
             </Button>
+            <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.toc.heading }</Heading>
             { toc.items.length > 0 
               ? <ListBox className={ tocStyles.listBox } items={ toc.items }>
-                { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }>{ item.title }</ListBoxItem> }
-              </ListBox> 
+                  { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }>{ item.title }</ListBoxItem> }
+                </ListBox>
               : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
             }
           </Dialog>

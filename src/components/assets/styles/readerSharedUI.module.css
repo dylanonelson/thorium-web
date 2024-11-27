@@ -36,3 +36,8 @@
 .closeButton[data-focus-visible] {
   outline: auto;
 }
+
+.popoverHeading {
+  font-size: 1.25rem;
+  margin: 0 0 1rem 0;
+}
