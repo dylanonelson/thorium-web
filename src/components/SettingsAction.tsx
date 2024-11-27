@@ -70,7 +70,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
             >
               <CloseIcon aria-hidden="true" focusable="false" />
             </Button>
-            <Heading slot="title" className={ settingsStyles.heading }>{ Locale.reader.settings.heading }</Heading>
+            <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.settings.heading }</Heading>
             <ReadingDisplayCol />
             <Separator/>
             <ReadingDisplayLayout isFXL={ isFXL } />
