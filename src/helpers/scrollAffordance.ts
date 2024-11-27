@@ -74,6 +74,9 @@ export class ScrollAffordance {
       flex: 1 1 0;
       text-align: left;
       color: ${RSPrefs.theming.color.primary};
+      font-size: 1rem;
+      font-style: normal;
+      font-family: inherit;
     }
     .playground-scroll-affordance-wrapper > a:hover {
       background-color: ${RSPrefs.theming.color.hover};
