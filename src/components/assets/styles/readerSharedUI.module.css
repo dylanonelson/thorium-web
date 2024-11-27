@@ -1,13 +1,13 @@
 .icon {
-  width: var(--icon-size, 24px);
-  height: var(--icon-size, 24px);
+  box-sizing: border-box;
+  padding: 6px;
   text-align: center;
 }
 
 .icon svg {
   fill: var(--color-primary);
-  width: 100%;
-  height: 100%;
+  width: var(--icon-size, 24px);;
+  height: var(--icon-size, 24px);;
 }
 
 .tooltip {
