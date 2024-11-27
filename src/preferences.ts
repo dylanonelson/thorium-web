@@ -1,31 +1,7 @@
 import { ShortcutRepresentation } from "./components/Shortcut";
+import { ActionKeys, ActionVisibility } from "./components/Templates/ActionComponent";
 import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
-
-export enum ScrollAffordancePref {
-  none = "none",
-  prev = "previous",
-  next = "next",
-  both = "both"
-}
-
-export enum ScrollBackTo {
-  top = "top",
-  bottom = "bottom",
-  untouched = "untouched"
-}
-
-export enum ActionKeys {
-  fullscreen = "fullscreen",
-  jumpToPosition = "jumpToPosition",
-  settings = "settings",
-  toc = "toc"
-}
-
-export enum ActionVisibility {
-  always = "always",
-  partially = "partially",
-  overflow = "overflow"
-}
+import { ScrollAffordancePref, ScrollBackTo } from "./helpers/scrollAffordance";
 
 export const RSPrefs = {
   breakpoint: 1024, // width in pixels

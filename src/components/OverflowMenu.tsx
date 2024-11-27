@@ -1,7 +1,5 @@
 import React, { ReactNode } from "react";
 
-import { ActionVisibility } from "@/preferences";
-
 import Locale from "../resources/locales/en.json";
 import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
@@ -11,6 +9,7 @@ import { Key, Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
 import { useAppDispatch } from "@/lib/hooks";
 import { setOverflowMenuOpen, toggleImmersive } from "@/lib/readerReducer";
+import { ActionVisibility } from "./Templates/ActionComponent";
 
 export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
   const dispatch = useAppDispatch();

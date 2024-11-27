@@ -1,6 +1,6 @@
 "use client";
 
-import { RSPrefs, ScrollBackTo } from "@/preferences";
+import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
@@ -23,7 +23,7 @@ import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useFullscreen } from "@/hooks/useFullscreen";
 
 import Peripherals from "@/helpers/peripherals";
-import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
+import { CUSTOM_SCHEME, ScrollActions, ScrollBackTo } from "@/helpers/scrollAffordance";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
 import { getPlatformModifier, metaKeys } from "@/helpers/keyboard/getMetaKeys";

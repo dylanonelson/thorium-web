@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import { ActionKeys, ActionVisibility, RSPrefs } from "@/preferences";
+import { RSPrefs } from "@/preferences";
 
 import { Links } from "@readium/shared";
 
@@ -9,7 +9,7 @@ import { JumpToPositionAction } from "@/components/JumpToPositionAction";
 import { SettingsAction } from "@/components/SettingsAction";
 import { TocAction } from "@/components/TocAction";
 import { useAppSelector } from "@/lib/hooks";
-import { ActionComponentVariant } from "@/components/Templates/ActionComponent";
+import { ActionComponentVariant, ActionKeys, ActionVisibility } from "@/components/Templates/ActionComponent";
 
 export const useCollapsibility = (toc: Links) => {
   const [ActionIcons, setActionIcons] = useState<React.JSX.Element[]>([]);

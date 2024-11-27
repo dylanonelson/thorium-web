@@ -1,9 +1,10 @@
 // Peripherals based on XBReader
-import { ActionKeys, RSPrefs } from "@/preferences";
+import { RSPrefs } from "@/preferences";
 import { buildShortcut, PShortcut } from "./keyboard/buildShortcut";
 
 import { useAppStore } from "@/lib/hooks";
 import { isInteractiveElement } from "./isInteractiveElement";
+import { ActionKeys } from "@/components/Templates/ActionComponent";
 
 export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
