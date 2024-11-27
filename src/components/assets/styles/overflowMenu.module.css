@@ -15,7 +15,10 @@
   outline: none;
 }
 
-.menuItem[data-hovered],
+.menuItem[data-hovered] {
+  background-color: var(--color-hover);
+}
+
 .menuItem[data-focus-visible] {
   outline: auto;
 }

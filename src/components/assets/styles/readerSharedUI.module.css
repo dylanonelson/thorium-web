@@ -32,6 +32,10 @@
 }
 
 .icon[data-hovered],
+.closeButton[data-hovered] {
+  background-color: var(--color-hover);
+}
+
 .icon[data-focus-visible],
 .closeButton[data-focus-visible] {
   outline: auto;
