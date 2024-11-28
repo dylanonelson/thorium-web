@@ -4,7 +4,6 @@ import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
 import { ScrollAffordancePref, ScrollBackTo } from "./helpers/scrollAffordance";
 
 export const RSPrefs = {
-  breakpoint: 1024, // width in pixels
   typography: {
     minimalLineLength: 35, // number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 75, // number of characters. If auto layout, picks colCount based on this

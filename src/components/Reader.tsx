@@ -272,27 +272,17 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
   }, 250);
 
-  const mq = "(min-width:"+ RSPrefs.breakpoint + "px)";
-  const breakpointQuery = window.matchMedia(mq);
-  const handleBreakpointChange = useCallback((event: MediaQueryListEvent) => {
-    dispatch(setBreakpoint(event.matches))}, [dispatch]);
-
   useEffect(() => {
     dispatch(setPlatformModifier(getPlatformModifier()));
-    
-    // Initial setup
-    dispatch(setBreakpoint(breakpointQuery.matches));
-    breakpointQuery.addEventListener("change", handleBreakpointChange);
 
     window.addEventListener("resize", handleResize);
     window.addEventListener("orientationchange", handleResize);
     
     return () => {
-      breakpointQuery.removeEventListener("change", handleBreakpointChange);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
     }
-  }, [dispatch, breakpointQuery, handleBreakpointChange, handleResize]);
+  }, [dispatch, handleResize]);
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
