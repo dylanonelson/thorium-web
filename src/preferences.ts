@@ -5,7 +5,7 @@ import { ScrollAffordancePref, ScrollBackTo } from "./helpers/scrollAffordance";
 
 export const RSPrefs = {
   typography: {
-    minimalLineLength: 35, // number of characters. If 2 cols will switch to 1 based on this
+    minimalLineLength: 35, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 75, // number of characters. If auto layout, picks colCount based on this
     pageGutter: 20 // body padding in px
   },
