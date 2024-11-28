@@ -73,7 +73,7 @@ export const useEpubNavigator = () => {
       let RCSSColCount = 1;
 
       if (colCount === "auto") {
-        RCSSColCount = autoPaginate(RSPrefs.breakpoint, window.innerWidth, optimalLineLength.current.optimal);
+        RCSSColCount = autoPaginate(window.innerWidth, optimalLineLength.current.optimal);
       } else if (colCount === "2") {
         const requiredWidth = ((2 * optimalLineLength.current.min) * optimalLineLength.current.fontSize);
         window.innerWidth > requiredWidth ? RCSSColCount = 2 : RCSSColCount = 1;
