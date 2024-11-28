@@ -76,8 +76,12 @@ export const useEpubNavigator = () => {
       if (colCount === "auto") {
         RCSSColCount = autoPaginate(window.innerWidth, optimalLineLength.current.optimal);
       } else if (colCount === "2") {
-        const requiredWidth = ((2 * optimalLineLength.current.min) * optimalLineLength.current.fontSize);
-        window.innerWidth > requiredWidth ? RCSSColCount = 2 : RCSSColCount = 1;
+          if (optimalLineLength.current.min !== null) {
+          const requiredWidth = ((2 * optimalLineLength.current.min) * optimalLineLength.current.fontSize);
+          window.innerWidth > requiredWidth ? RCSSColCount = 2 : RCSSColCount = 1;
+        } else {
+          RCSSColCount = 2;
+        }
       } else {
         RCSSColCount = Number(colCount);
       }
@@ -85,7 +89,7 @@ export const useEpubNavigator = () => {
       const optimalLineLengthToPx = optimalLineLength.current.optimal * optimalLineLength.current.fontSize;
       const containerWithArrows = window.innerWidth - arrowsWidth.current;
       let containerWidth = window.innerWidth;
-      if (RCSSColCount > 1) {
+      if (RCSSColCount > 1 && optimalLineLength.current.min !== null) {
         containerWidth = Math.min((RCSSColCount * optimalLineLengthToPx), containerWithArrows);
         dispatch(setBreakpoint(true));
       } else {
