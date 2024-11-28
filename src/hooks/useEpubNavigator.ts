@@ -81,13 +81,10 @@ export const useEpubNavigator = () => {
         RCSSColCount = Number(colCount);
       }
 
-      if (RSPrefs.breakpoint <= window.innerWidth) {
-        const containerWithArrows = window.innerWidth - arrowsWidth.current;
-        const containerWidth = RCSSColCount > 1 ? Math.min(((RCSSColCount * optimalLineLength.current.optimal) * optimalLineLength.current.fontSize), containerWithArrows) : containerWithArrows;
-        container.current.style.width = `${containerWidth}px`;
-      } else {
-        container.current.style.width = `${window.innerWidth}px`;
-      }
+      // TODO: handle single column with arrows.
+      const containerWithArrows = window.innerWidth - arrowsWidth.current;
+      const containerWidth = RCSSColCount > 1 ? Math.min(((RCSSColCount * optimalLineLength.current.optimal) * optimalLineLength.current.fontSize), containerWithArrows) : window.innerWidth;
+      container.current.style.width = `${containerWidth}px`;
 
       applyReadiumCSSStyles({
         "--USER__colCount": `${RCSSColCount}`,
@@ -107,12 +104,7 @@ export const useEpubNavigator = () => {
         });
       }
 
-      if (RSPrefs.breakpoint <= window.innerWidth) {
-        const containerWithArrows = window.innerWidth - arrowsWidth.current;
-        container.current.style.width = `${containerWithArrows}px`;
-      } else {
-        container.current.style.width = `${window.innerWidth}px`;
-      }
+      container.current.style.width = `${window.innerWidth}px`;
 
       applyReadiumCSSStyles({
         "--RS__defaultLineLength": `${optimalLineLength.current.optimal}rem`
@@ -166,6 +158,7 @@ export const useEpubNavigator = () => {
       await nav.current?.setReadingProgression(ReadingProgression.ttb);
     }
     mountScroll();
+    handleScrollReflow();
   }, [applyReadiumCSSStyles, mountScroll]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
