@@ -81,9 +81,16 @@ export const useEpubNavigator = () => {
         RCSSColCount = Number(colCount);
       }
 
-      // TODO: handle single column with arrows.
+      const optimalLineLengthToPx = optimalLineLength.current.optimal * optimalLineLength.current.fontSize;
       const containerWithArrows = window.innerWidth - arrowsWidth.current;
-      const containerWidth = RCSSColCount > 1 ? Math.min(((RCSSColCount * optimalLineLength.current.optimal) * optimalLineLength.current.fontSize), containerWithArrows) : window.innerWidth;
+      let containerWidth = window.innerWidth;
+      if (RCSSColCount > 1) {
+        containerWidth = Math.min((RCSSColCount * optimalLineLengthToPx), containerWithArrows)
+      } else {
+        if ((optimalLineLengthToPx + arrowsWidth.current) <= containerWithArrows) {
+          containerWidth = containerWithArrows;
+        }
+      };
       container.current.style.width = `${containerWidth}px`;
 
       applyReadiumCSSStyles({
