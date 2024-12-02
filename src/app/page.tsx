@@ -16,11 +16,6 @@ export default function Home() {
         <li>
           <Link href="/read?book=https%3A%2F%2Fpublication-server.readium.org%2FQmVsbGFPcmlnaW5hbDMuZXB1Yg">Bella the Dragon (FXL)</Link>
         </li>
-        <li>
-          <Link href="/read?book=http://localhost:15080/VG9jVGVzdDIuZXB1Yg/manifest.json">
-            TOC Test - Local
-          </Link>
-        </li>
       </ul>
     </main>
   );
