@@ -12,11 +12,22 @@ import { ActionIcon } from "./Templates/ActionIcon";
 import { useFullscreen } from "@/hooks/useFullscreen";
 import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
 
+import { useAppDispatch } from "@/lib/hooks";
+import { setHovering } from "@/lib/readerReducer";
+
 export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
   // Note: Not using React Aria ToggleButton here as fullscreen is quite
   // difficult to control in isolation due to collapsibility + shortcuts
 
   const fs = useFullscreen();
+  const dispatch = useAppDispatch();
+
+  const handlePress = () => {
+    fs.handleFullscreen();
+    // Has to be dispatched manually, otherwise stays true… 
+    dispatch(setHovering(false));
+    // TODO: fix hover state on exit, if even possible w/o a lot of getting around…
+  };
 
   if (variant && variant === ActionComponentVariant.menu) {
     return(
@@ -43,7 +54,7 @@ export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
           SVG={ fs.isFullscreen ? FullscreenExit : FullscreenCorners } 
           placement="bottom" 
           tooltipLabel={ Locale.reader.fullscreen.tooltip } 
-          onPressCallback={ fs.handleFullscreen }
+          onPressCallback={ handlePress } 
         />
         : <></> 
       }
