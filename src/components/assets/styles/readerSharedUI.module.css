@@ -1,13 +1,13 @@
 .icon {
   box-sizing: border-box;
-  padding: 6px;
+  padding: calc(var(--icon-size, 24px) * (1/4));
   text-align: center;
 }
 
 .icon svg {
   fill: var(--color-primary);
-  width: var(--icon-size, 24px);;
-  height: var(--icon-size, 24px);;
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
 }
 
 .tooltip {
@@ -39,6 +39,30 @@
 .icon[data-focus-visible],
 .closeButton[data-focus-visible] {
   outline: auto;
+}
+
+/* Utils to improve icons’ consistency */
+.iconCompSm {
+  padding: calc(var(--icon-size, 24px) * (1/2));
+}
+
+.iconCompSm svg {
+  width: calc(var(--icon-size, 24px) * (3/4));
+  height: calc(var(--icon-size, 24px) * (3/4));
+  stroke: var(--color-primary);
+}
+
+.iconCompLg {
+  padding: calc(var(--icon-size, 24px) * (1/6));
+}
+
+.iconCompLg svg {
+  width: calc(var(--icon-size, 24px) * (4/3));
+  height: calc(var(--icon-size, 24px) * (4/3));
+}
+
+.iconApplyStroke svg {
+  stroke: var(--color-primary);
 }
 
 .popoverHeading {
