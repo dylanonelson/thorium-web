@@ -3,6 +3,8 @@ import Locale from "../resources/locales/en.json";
 import { IProgression } from '@/components/ProgressionOf';
 import { createSlice } from "@reduxjs/toolkit";
 
+import { TocItem } from "@/helpers/toc/createTocTree";
+
 interface IPublicationState {
   runningHead: string;
   isFXL: boolean;
@@ -10,6 +12,7 @@ interface IPublicationState {
   progression: IProgression;
   atPublicationStart: boolean;
   atPublicationEnd: boolean;
+  tocTree?: TocItem[];
 }
 
 const initialState: IPublicationState = {
@@ -18,7 +21,8 @@ const initialState: IPublicationState = {
   isRTL: false,
   progression: {},
   atPublicationStart: false,
-  atPublicationEnd: false
+  atPublicationEnd: false,
+  tocTree: undefined, 
 }
 
 export const publicationSlice = createSlice({
@@ -43,6 +47,9 @@ export const publicationSlice = createSlice({
     setPublicationEnd: (state, action) => {
       state.atPublicationEnd = action.payload
     },
+    setTocTree: (state, action) => {
+      state.tocTree = action.payload;
+    },
   }
 });
 
@@ -53,7 +60,8 @@ export const {
   setRTL,
   setProgression,
   setPublicationStart,
-  setPublicationEnd 
+  setPublicationEnd,
+  setTocTree, 
 } = publicationSlice.actions;
 
 export default publicationSlice.reducer;
