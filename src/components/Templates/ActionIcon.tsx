@@ -34,8 +34,6 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
 }) => {
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
-  const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
-  const overflowMenuOpen = useAppSelector(state => state.reader.overflowMenuOpen);
   const isHovering = useAppSelector(state => state.reader.isHovering);
 
   const dispatch = useAppDispatch();
@@ -43,19 +41,16 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
   const handleClassNameFromState = () => {
     let className = "";
     
-    const isSubdued = (isImmersive || isFullscreen);
-    const isActive = (overflowMenuOpen || isHovering);
-    
     switch(visibility) {
       case ActionVisibility.always:
-        if (!isActive && isSubdued) {
+        if (!isHovering && isImmersive) {
           className = readerStateStyles.subduedAlways;
         } else {
           className = visibility;
         }
         break;
       case ActionVisibility.partially:
-        if (!isActive && isSubdued) {
+        if (!isHovering && isImmersive) {
           className = readerStateStyles.subduedPartially;
         } else {
           className = visibility;
