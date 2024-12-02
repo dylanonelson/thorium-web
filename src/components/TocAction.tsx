@@ -6,7 +6,7 @@ import Locale from "../resources/locales/en.json";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 import tocStyles from "./assets/styles/toc.module.css";
 
-import TocIcon from "./assets/icons/format_list_bulleted.svg";
+import TocIcon from "./assets/icons/toc.svg";
 import CloseIcon from "./assets/icons/close.svg";
 
 import { Links } from "@readium/shared";
