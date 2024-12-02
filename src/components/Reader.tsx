@@ -27,9 +27,10 @@ import { CUSTOM_SCHEME, ScrollActions, ScrollBackTo } from "@/helpers/scrollAffo
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
 import { getPlatformModifier, metaKeys } from "@/helpers/keyboard/getMetaKeys";
+import { createTocTree } from "@/helpers/toc/createTocTree";
 
 import { setImmersive, setBreakpoint, setHovering, toggleImmersive, setPlatformModifier } from "@/lib/readerReducer";
-import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
+import { setFXL, setRTL, setProgression, setRunningHead, setTocTree } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
@@ -302,6 +303,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     dispatch(setProgression({ currentPublication: runningHead }));
 
+    // Create a heirarchical tree structure for the table of contents
+    // where each entry has a unique id property and store this on the publication state
+    let idCounter = 0;
+    const idGenerator = () => `toc-${++idCounter}`;
+    const tocTree = createTocTree(publication.current.tableOfContents?.items || [], idGenerator);
+    dispatch(setTocTree(tocTree));
+
     const fetchPositions = async () => {
       const positionsJSON = publication.current?.manifest.links.findWithMediaType("application/vnd.readium.position-list+json");
       if (positionsJSON) {
@@ -339,9 +347,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   return (
     <>
     <main style={ propsToCSSVars(RSPrefs.theming) }>
-      <ReaderHeader 
-        toc={ publication.current?.tableOfContents || new Links([]) }
-      />
+      <ReaderHeader/>
 
     { isPaged ? 
       <nav className={ arrowStyles.container } id={ arrowStyles.left }>

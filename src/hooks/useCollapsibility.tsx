@@ -7,11 +7,11 @@ import { Links } from "@readium/shared";
 import { FullscreenAction } from "@/components/FullscreenAction";
 import { JumpToPositionAction } from "@/components/JumpToPositionAction";
 import { SettingsAction } from "@/components/SettingsAction";
-import { TocAction } from "@/components/TocAction";
+import { TocModalAction } from "@/components/TocModalAction";
 import { useAppSelector } from "@/lib/hooks";
 import { ActionComponentVariant, ActionKeys, ActionVisibility } from "@/components/Templates/ActionComponent";
 
-export const useCollapsibility = (toc: Links) => {
+export const useCollapsibility = () => {
   const [ActionIcons, setActionIcons] = useState<React.JSX.Element[]>([]);
   const [MenuItems, setMenuItems] = useState<React.JSX.Element[]>([]);
   const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
@@ -21,14 +21,14 @@ export const useCollapsibility = (toc: Links) => {
       [ActionKeys.fullscreen]: <FullscreenAction key={ ActionKeys.fullscreen } variant={ ActionComponentVariant.button } />,
       [ActionKeys.jumpToPosition]: <JumpToPositionAction key={ ActionKeys.jumpToPosition } variant={ ActionComponentVariant.button } />,
       [ActionKeys.settings]: <SettingsAction key={ ActionKeys.settings } variant={ ActionComponentVariant.button } />,
-      [ActionKeys.toc]: <TocAction key={ ActionKeys.toc } variant={ ActionComponentVariant.button } toc={ toc } />
+      [ActionKeys.toc]: <TocModalAction key={ ActionKeys.toc } variant={ ActionComponentVariant.button } />
     };
   
     const MenuItemsMap = {
       [ActionKeys.fullscreen]: <FullscreenAction key={ ActionKeys.fullscreen } variant={ ActionComponentVariant.menu } />,
       [ActionKeys.jumpToPosition]: <JumpToPositionAction key={ ActionKeys.jumpToPosition } variant={ ActionComponentVariant.menu } />,
       [ActionKeys.settings]: <SettingsAction key={ ActionKeys.settings } variant={ ActionComponentVariant.menu } />,
-      [ActionKeys.toc]: <TocAction key={ ActionKeys.toc } variant={ ActionComponentVariant.menu } toc={ toc } />
+      [ActionKeys.toc]: <TocModalAction key={ ActionKeys.toc } variant={ ActionComponentVariant.menu } />
     };
   
     const actionsOrder = RSPrefs.actions.displayOrder;
@@ -53,7 +53,7 @@ export const useCollapsibility = (toc: Links) => {
 
     setActionIcons(actionIcons);
     setMenuItems(menuItems);
-  }, [hasReachedBreakpoint, toc]);
+  }, [hasReachedBreakpoint]);
 
   useEffect(() => {
     triageActions();
