@@ -6,7 +6,7 @@ import Locale from "../resources/locales/en.json";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
-import TuneIcon from "./assets/icons/tune.svg";
+import TuneIcon from "./assets/icons/match_case.svg";
 import CloseIcon from "./assets/icons/close.svg";
 
 import { Button, Dialog, DialogTrigger, Heading, Popover, Separator } from "react-aria-components";
