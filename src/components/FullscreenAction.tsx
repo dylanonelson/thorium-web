@@ -2,6 +2,7 @@ import React from "react";
 
 import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
+import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import FullscreenCorners from "./assets/icons/fullscreen.svg";
 import FullscreenExit from "./assets/icons/fullscreen_exit.svg";
@@ -49,6 +50,7 @@ export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
       <>
       { document.fullscreenEnabled 
       ? <ActionIcon 
+          className={ readerSharedUI.iconCompSm }
           visibility={ RSPrefs.actions[ActionKeys.fullscreen].visibility }  
           ariaLabel={ fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger }
           SVG={ fs.isFullscreen ? FullscreenExit : FullscreenCorners } 
