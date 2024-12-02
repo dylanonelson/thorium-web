@@ -1,5 +1,7 @@
 import React, { ComponentType, SVGProps, useRef } from "react";
 
+import { RSPrefs } from "@/preferences";
+
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "../assets/styles/readerStates.module.css";
 
@@ -100,7 +102,7 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
       <Tooltip
         className={ readerSharedUI.tooltip }
         placement={ placement } 
-        offset={ 15 } 
+        offset={ RSPrefs.theming.icon.tooltipOffset || 0 }
       >
         { tooltipLabel }
       </Tooltip>
