@@ -38,7 +38,7 @@ body {
 }
 
 #bottom-bar {
-  height: calc(var(--icon-size, 24px) * 2);
+  height: calc(var(--icon-size, 24px) * 2.5);
   display: flex;
   justify-content: center;
   align-items: center;
