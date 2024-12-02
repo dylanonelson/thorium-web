@@ -111,11 +111,19 @@ button {
   outline: none;
 }
 
+/* Added back in to test Tree keyboard focus*/
+:root {
+  /* Borrowed from Thorium src/renderer/assets/styles/variable.scss */
+  --color-primary: #4d4d4d;
+  --color-secondary: white;
+  --color-disabled: #767676;
+  --focus-ring-color: #4d90fe;
+}
+
 /* These styles are here because the svg selector, which rotates the disclosure icon, must be global in scope.
     This is because the react-aria-Tree component is rendered in a shadow root, and the styles must be global to
     affect the shadow root. There may be a better way to handle it but I have not found one yet. */
 .react-aria-Tree {
-
   display: flex;
   flex-direction: column;
   gap: 2px;
