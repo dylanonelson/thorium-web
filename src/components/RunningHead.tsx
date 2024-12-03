@@ -4,12 +4,12 @@ import Locale from "../resources/locales/en.json";
 
 import { useAppSelector } from "@/lib/hooks";
 
-export const RunningHead = () => {
+export const RunningHead = ({ syncDocTitle } : { syncDocTitle?: boolean }) => {
   const runningHead = useAppSelector(state => state.publication.runningHead);
 
   useEffect(() => {
-    if (runningHead) document.title = runningHead;
-  }, [runningHead])
+    if (syncDocTitle && runningHead) document.title = runningHead;
+  }, [syncDocTitle, runningHead])
 
   return(
     <>

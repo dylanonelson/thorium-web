@@ -1,83 +1,97 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
-
 import Locale from "../resources/locales/en.json";
-import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
+
+import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+
 import tocStyles from "./assets/styles/toc.module.css";
 
 import TocIcon from "./assets/icons/toc.svg";
-import CloseIcon from "./assets/icons/close.svg";
-
-import { Links } from "@readium/shared";
 
 import { ActionIcon } from "./Templates/ActionIcon";
-import { Button, Dialog, DialogTrigger, Heading, ListBox, ListBoxItem, Popover } from "react-aria-components";
+import { ListBox, ListBoxItem } from "react-aria-components";
+import { SheetWithType } from "./Sheets/SheetWithType";
+import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
+
+import { useDocking } from "@/hooks/useDocking";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setTocOpen } from "@/lib/readerReducer";
-import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
-import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
+import { setActionOpen } from "@/lib/actionsReducer";
 
-export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant, toc }) => {
-  const isOpen = useAppSelector(state => state.reader.tocOpen);
+export const TocActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
+  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
+  const dispatch = useAppDispatch();
+
+  const docking = useDocking(ActionKeys.toc);
+  const sheetType = docking.sheetType;
+
+  const setOpen = (value: boolean) => {
+    dispatch(setActionOpen({ 
+      key: ActionKeys.toc,
+      isOpen: value 
+    }));
+  }
+
+  return(
+    <>
+    <SheetWithType 
+      sheetType={ sheetType }
+      sheetProps={ {
+        id: ActionKeys.toc,
+        triggerRef: triggerRef, 
+        heading: Locale.reader.toc.heading,
+        className: tocStyles.toc,
+        placement: "bottom",
+        isOpen: actionState.isOpen || false,
+        onOpenChangeCallback: setOpen,
+        onClosePressCallback: () => setOpen(false),
+        docker: docking.getDocker()
+      } }
+    >
+      {/* toc.items.length > 0 
+        ? <ListBox className={ tocStyles.listBox } items={ toc.items }>
+            { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }>{ item.title }</ListBoxItem> }
+          </ListBox>
+        : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
+      */}
+        
+      <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
+    </SheetWithType>
+    </>
+  )
+}
+
+export const TocAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
   const dispatch = useAppDispatch();
 
   const setOpen = (value: boolean) => {
-    dispatch(setTocOpen(value));
+    dispatch(setActionOpen({ 
+      key: ActionKeys.toc,
+      isOpen: value 
+    }));
   }
 
-  if (variant && variant === ActionComponentVariant.menu) {
-    return(
-      <>
-      <OverflowMenuItem 
-      label={ Locale.reader.toc.trigger }
-      SVG={ TocIcon } 
-      shortcut={ RSPrefs.actions.toc.shortcut }
-      id={ ActionKeys.toc }
-    />
-    </>
-    )
-  } else {
-    return(
-      <>
-      <DialogTrigger>
-        <ActionIcon 
-          visibility={ RSPrefs.actions[ActionKeys.toc].visibility }
+  return(
+    <>
+    { (variant && variant === ActionComponentVariant.menu) 
+      ? <OverflowMenuItem 
+          label={ Locale.reader.toc.trigger }
+          SVG={ TocIcon } 
+          shortcut={ RSPrefs.actions.keys[ActionKeys.toc].shortcut }
+          id={ ActionKeys.toc }
+          onActionCallback={ () => setOpen(!actionState.isOpen) }
+        />
+      : <ActionIcon 
+          visibility={ RSPrefs.actions.keys[ActionKeys.toc].visibility }
           ariaLabel={ Locale.reader.toc.trigger } 
           SVG={ TocIcon } 
           placement="bottom"
           tooltipLabel={ Locale.reader.toc.tooltip } 
-          onPressCallback={ () => setOpen(true) }
+          onPressCallback={ () => setOpen(!actionState.isOpen) }
         />
-        { toc && 
-        <Popover
-          placement="bottom"
-          className={ tocStyles.tocPopover } 
-          isOpen={ isOpen }
-          onOpenChange={ setOpen }
-        >
-          <Dialog>
-            <Button
-              autoFocus={ true }
-              className={ readerSharedUI.closeButton }
-              aria-label={ Locale.reader.toc.close }
-              onPress={ () => setOpen(false) }
-            >
-              <CloseIcon aria-hidden="true" focusable="false" />
-            </Button>
-            <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.toc.heading }</Heading>
-            { toc.items.length > 0 
-              ? <ListBox className={ tocStyles.listBox } items={ toc.items }>
-                  { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }>{ item.title }</ListBoxItem> }
-                </ListBox>
-              : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
-            }
-          </Dialog>
-        </Popover>
-        }
-      </DialogTrigger>
-      </>
-      )
-  }
+    }
+    </>
+  )
 }

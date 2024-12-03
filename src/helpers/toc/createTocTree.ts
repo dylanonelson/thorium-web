@@ -1,11 +1,5 @@
+import { TocItem } from "@/models/toc";
 import { Link } from "@readium/shared";
-
-export interface TocItem {
-  id: string;
-  href: string;
-  title?: string;
-  children?: TocItem[];
-}
 
 /**
  * Recursively adds an ID to each Link in a list of Links, and returns a new list of TocItems.

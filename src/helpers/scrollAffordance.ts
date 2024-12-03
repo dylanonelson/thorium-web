@@ -1,18 +1,5 @@
-import { RSPrefs } from "@/preferences";
+import { ScrollAffordancePref } from "@/models/preferences";
 import Locale from "../resources/locales/en.json";
-
-export enum ScrollAffordancePref {
-  none = "none",
-  prev = "previous",
-  next = "next",
-  both = "both"
-}
-
-export enum ScrollBackTo {
-  top = "top",
-  bottom = "bottom",
-  untouched = "untouched"
-}
 
 export interface IScrollAffordanceConfig {
   pref: ScrollAffordancePref;
@@ -56,6 +43,8 @@ export class ScrollAffordance {
     styleSheet.id = STYLESHEET_ID;
     styleSheet.dataset.readium = "true";
     styleSheet.textContent = cssContent || `.playground-scroll-affordance-wrapper {
+      --color-text: currentColor;
+
       box-sizing: border-box;
       display: flex;
       width: 100%;
@@ -79,21 +68,21 @@ export class ScrollAffordance {
     }
     .playground-scroll-affordance-wrapper > a {
       box-sizing: border-box;
-      border: 1px solid ${RSPrefs.theming.color.subdued};
+      border: 1px solid color-mix(in srgb, var(--color-text) 50%, transparent);
       border-radius: 3px;
       padding: 0.75rem;
       text-decoration: none;
       font-weight: bold;
       flex: 1 1 0;
       text-align: left;
-      color: ${RSPrefs.theming.color.primary};
+      color: var(--color-text);
       font-size: 1rem;
       font-style: normal;
       font-family: inherit;
     }
     .playground-scroll-affordance-wrapper > a:hover {
-      background-color: ${RSPrefs.theming.color.hover};
-      border: 1px solid ${RSPrefs.theming.color.primary}
+      background-color: "color-mix(in srgb, var(--color-text) 15%, transparent)";
+      border: 1px solid var(--color-text);
     }
     .playground-scroll-affordance-wrapper > a:first-child:not(:last-child) {
       text-align: right;
@@ -102,17 +91,17 @@ export class ScrollAffordance {
       content: "←";
       float: left;
       margin-right: 10px;
-      color: ${RSPrefs.theming.color.subdued};
+      color: "color-mix(in srgb, var(--color-text) 50%, transparent)";
     }
     .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-prev:hover > span:before,
     .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-next:hover > span:after {
-      color: ${RSPrefs.theming.color.primary};
+      color: var(--color-text);
     }
     .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-next > span:after {
       content: "→";
       float: right;
       margin-left: 10px;
-      color: ${RSPrefs.theming.color.subdued};
+      color: "color-mix(in srgb, var(--color-text) 50%, transparent)";
     }`;
     return styleSheet;
   };

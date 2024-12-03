@@ -1,14 +1,4 @@
-import { ShortcutMetaKeywords } from "./getMetaKeys";
-
-export interface PShortcut {
-  [key: string]: string | boolean | undefined;
-  altKey?: boolean;
-  ctrlKey?: boolean;
-  metaKey?: boolean;
-  platformKey?: boolean;
-  shiftKey?: boolean;
-  key?: string;
-}
+import { PShortcut, ShortcutMetaKeywords } from "@/models/shortcut";
 
 export const buildShortcut = (str: string) => {
   let shortcutObj: PShortcut = {}

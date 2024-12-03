@@ -1,29 +1,17 @@
-import { defaultPlatformModifier, IPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { createSlice } from "@reduxjs/toolkit";
 
-interface IReaderState {
-  isImmersive: boolean;
-  isHovering: boolean;
-  isFullscreen: boolean;
-  isPaged: boolean;
-  colCount: string;
-  hasReachedBreakpoint: boolean;
-  settingsOpen: boolean;
-  tocOpen: boolean;
-  overflowMenuOpen: boolean;
-  platformModifier: IPlatformModifier;
-}
+import { IReaderState } from "@/models/state/readerState";
+import { defaultPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
+import { LayoutDirection } from "@/models/layout";
 
 const initialState: IReaderState = {
+  direction: LayoutDirection.ltr,
   isImmersive: false,
   isHovering: false,
+  hasArrows: true,
   isFullscreen: false,
   isPaged: true,
   colCount: "auto",
-  hasReachedBreakpoint: false,
-  settingsOpen: false,
-  tocOpen: false,
-  overflowMenuOpen: false,
   platformModifier: defaultPlatformModifier
 }
 
@@ -31,6 +19,9 @@ export const readerSlice = createSlice({
   name: "reader",
   initialState,
   reducers: {
+    setDirection: (state, action) => {
+      state.direction = action.payload
+    },
     setPlatformModifier: (state, action) => {
       state.platformModifier = action.payload
     },
@@ -43,6 +34,9 @@ export const readerSlice = createSlice({
     setHovering: (state, action) => {
       state.isHovering = action.payload
     },
+    setArrows: (state, action) => {
+      state.hasArrows = action.payload
+    },
     setFullscreen: (state, action) => {
       state.isFullscreen = action.payload
     },
@@ -51,35 +45,21 @@ export const readerSlice = createSlice({
     },
     setColCount: (state, action) => {
       state.colCount = action.payload
-    },
-    setBreakpoint: (state, action) => {
-      state.hasReachedBreakpoint = action.payload
-    },
-    setSettingsOpen: (state, action) => {
-      state.settingsOpen = action.payload
-    },
-    setTocOpen: (state, action) => {
-      state.tocOpen = action.payload
-    },
-    setOverflowMenuOpen: (state, action) => {
-      state.overflowMenuOpen = action.payload
     }
   }
 })
 
 // Action creators are generated for each case reducer function
 export const { 
+  setDirection, 
   setPlatformModifier, 
   setImmersive, 
   toggleImmersive, 
   setHovering, 
+  setArrows, 
   setFullscreen, 
   setPaged, 
-  setColCount, 
-  setBreakpoint, 
-  setSettingsOpen, 
-  setTocOpen, 
-  setOverflowMenuOpen
+  setColCount
 } = readerSlice.actions;
 
 export default readerSlice.reducer;

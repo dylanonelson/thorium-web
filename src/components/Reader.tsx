@@ -1,19 +1,25 @@
 "use client";
 
+import { useCallback, useEffect, useRef } from "react";
+
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
+import { ScrollBackTo } from "@/models/preferences";
+import { ThemeKeys } from "@/models/theme";
+import { IRCSSSettings } from "@/models/rcss-settings";
+
 import {
   BasicTextSelection,
   FrameClickEvent,
 } from "@readium/navigator-html-injectables";
 import { EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
-import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression, Links } from "@readium/shared";
+import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
-import { useCallback, useEffect, useRef } from "react";
+import { ReaderWithDock } from "./ReaderWithPanels";
 
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
@@ -21,24 +27,19 @@ import { ReaderFooter } from "./ReaderFooter";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useFullscreen } from "@/hooks/useFullscreen";
+import { useTheming } from "@/hooks/useTheming";
 
 import Peripherals from "@/helpers/peripherals";
-import { CUSTOM_SCHEME, ScrollActions, ScrollBackTo } from "@/helpers/scrollAffordance";
-import { propsToCSSVars } from "@/helpers/propsToCSSVars";
+import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
 import { localData } from "@/helpers/localData";
-import { getPlatformModifier, metaKeys } from "@/helpers/keyboard/getMetaKeys";
+import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { createTocTree } from "@/helpers/toc/createTocTree";
 
-import { setImmersive, setBreakpoint, setHovering, toggleImmersive, setPlatformModifier } from "@/lib/readerReducer";
+import { setImmersive, setHovering, toggleImmersive, setPlatformModifier, setDirection, setArrows } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead, setTocTree } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
-
-interface IRCSSSettings {
-  paginated: boolean;
-  colCount: string;
-}
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -47,22 +48,24 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
+  const theme = useAppSelector(state => state.theming.theme);
 
   const RCSSSettings = useRef<IRCSSSettings>({
     paginated: isPaged,
-    colCount: colCount
+    colCount: colCount,
+    theme: theme
   });
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isImmersiveRef = useRef(isImmersive);
 
-  const runningHead = useAppSelector(state => state.publication.runningHead);
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
 
   const dispatch = useAppDispatch();
 
   const fs = useFullscreen();
+  const theming = useTheming();
 
   const { 
     EpubNavigatorLoad, 
@@ -80,6 +83,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     applyReadiumCSSStyles,
     handleColCountReflow,
     handleScrollReflow,
+    handleFXLReflow, 
+    handleTheme, 
     setFXLPages,  
     handleProgression
   } = useEpubNavigator();
@@ -91,6 +96,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const toggleIsImmersive = useCallback(() => {
     // If tap/click in iframe, then header/footer no longer hoovering 
     dispatch(setHovering(false));
+    dispatch(setArrows(false));
     dispatch(toggleImmersive());
   }, [dispatch]);
 
@@ -123,6 +129,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       applyReadiumCSSStyles({
         "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
       });
+
+      if (RCSSSettings.current.theme === ThemeKeys.auto) {
+        handleTheme(theming.inferThemeAuto());
+      } else { 
+        handleTheme(RCSSSettings.current.theme);
+      }  
+
       if (RCSSSettings.current.paginated) {
         await applyColumns(RCSSSettings.current.colCount);
       } else {
@@ -263,17 +276,31 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
   }, [colCount, navLayout, setFXLPages, handleColCountReflow]);
 
+  // Handling side effects on Navigator
+  useEffect(() => {
+    RCSSSettings.current.theme = theme;
+    
+    if (theme === ThemeKeys.auto) {
+      handleTheme(theming.inferThemeAuto());
+    } else {
+      handleTheme(theme);
+    }
+  }, [theme, handleTheme, theming]);
+
   const handleResize = debounce(() => {
-    if (navLayout() === EPUBLayout.reflowable) {
+    if (navLayout() === EPUBLayout.reflowable) {      
       if (RCSSSettings.current.paginated) {
         handleColCountReflow(RCSSSettings.current.colCount);
       } else {
         handleScrollReflow();
       }
+    } else if (navLayout() === EPUBLayout.fixed) {
+      handleFXLReflow();
     }
   }, 250);
 
   useEffect(() => {
+    RSPrefs.direction && dispatch(setDirection(RSPrefs.direction));
     dispatch(setPlatformModifier(getPlatformModifier()));
 
     window.addEventListener("resize", handleResize);
@@ -293,15 +320,18 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     publication.current = new Publication({
       manifest: manifest,
       fetcher: fetcher,
-    });
+    });    
 
-    let positionsList: Locator[] | undefined;
-
-    dispatch(setRunningHead(publication.current.metadata.title.getTranslation("en")));
     dispatch(setRTL(publication.current.metadata.effectiveReadingProgression === ReadingProgression.rtl));
     dispatch(setFXL(publication.current.metadata.getPresentation()?.layout === EPUBLayout.fixed));
 
-    dispatch(setProgression({ currentPublication: runningHead }));
+    const pubTitle = publication.current.metadata.title.getTranslation("en");
+
+    dispatch(setRunningHead(pubTitle));
+    dispatch(setProgression({ currentPublication: pubTitle }));
+
+    let positionsList: Locator[] | undefined;
+
 
     // Create a heirarchical tree structure for the table of contents
     // where each entry has a unique id property and store this on the publication state
@@ -311,33 +341,24 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     dispatch(setTocTree(tocTree));
 
     const fetchPositions = async () => {
-      const positionsJSON = publication.current?.manifest.links.findWithMediaType("application/vnd.readium.position-list+json");
-      if (positionsJSON) {
-        const fetcher = new HttpFetcher(undefined, selfHref);
-        const fetched = fetcher.get(positionsJSON);
-        try {
-          const positionObj = await fetched.readAsJSON() as {total: number, positions: Locator[]};
-          positionsList = positionObj.positions;
-          dispatch(setProgression( { totalPositions: positionObj.total }));
-        } catch(err) {
-          console.error(err)
-        }
-      }
+      positionsList = await publication.current?.positionsFromManifest();
+      if (positionsList && positionsList.length > 0) dispatch(setProgression( { totalPositions: positionsList.length }));
     };
 
     fetchPositions()
-      .catch(console.error);
-    
-    const initialPosition = localData.get(localDataKey.current);
+      .catch(console.error)
+      .then(() => {
+        const initialPosition = localData.get(localDataKey.current);
 
-    EpubNavigatorLoad({
-      container: container.current, 
-      publication: publication.current,
-      listeners: listeners, 
-      positionsList: positionsList,
-      initialPosition: initialPosition,
-      localDataKey: localDataKey.current,
-    }, () => p.observe(window));
+        EpubNavigatorLoad({
+          container: container.current, 
+          publication: publication.current!,
+          listeners: listeners, 
+          positionsList: positionsList,
+          initialPosition: initialPosition,
+          localDataKey: localDataKey.current,
+        }, () => p.observe(window));
+      });
 
     return () => {
       EpubNavigatorDestroy(() => p.destroy());
@@ -346,36 +367,38 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   return (
     <>
-    <main style={ propsToCSSVars(RSPrefs.theming) }>
-      <ReaderHeader/>
+    <main>
+      <ReaderWithDock resizeCallback={ handleResize }>
+        <div id="reader-main">
+          <ReaderHeader />
 
-    { isPaged ? 
-      <nav className={ arrowStyles.container } id={ arrowStyles.left }>
-        <ArrowButton 
-          direction="left" 
-          disabled={ atPublicationStart } 
-          onPressCallback={ () => goLeft(true, () => {}) }
-        />
-      </nav> : 
-      <></>
-    }
+        { isPaged 
+          ? <nav className={ arrowStyles.container } id={ arrowStyles.left }>
+              <ArrowButton 
+                direction="left" 
+                disabled={ atPublicationStart } 
+                onPressCallback={ () => goLeft(true, activateImmersiveOnAction) }
+              />
+          </nav> 
+          : <></> }
 
-      <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
-        <div id="container" ref={ container }></div>
-      </article>
+          <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
+            <div id="container" ref={ container }></div>
+          </article>
 
-    { isPaged ?
-      <nav className={ arrowStyles.container } id={ arrowStyles.right }>
-        <ArrowButton 
-          direction="right"  
-          disabled={ atPublicationEnd } 
-          onPressCallback={ () => goRight(true, () => {}) }
-        />
-      </nav> : 
-      <></>
-    }
+        { isPaged 
+          ? <nav className={ arrowStyles.container } id={ arrowStyles.right }>
+              <ArrowButton 
+                direction="right"  
+                disabled={ atPublicationEnd } 
+                onPressCallback={ () => goRight(true, activateImmersiveOnAction) }
+              />
+            </nav> 
+          : <></> }
 
-    { isPaged ? <ReaderFooter /> : <></>}
+        { isPaged ? <ReaderFooter /> : <></> }
+        </div>
+    </ReaderWithDock>
   </main>
   </>
 )};

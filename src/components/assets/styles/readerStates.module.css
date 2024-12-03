@@ -1,8 +1,5 @@
 .immersive {
-  /* This is the lighter we’re AA Compliant (UI comps)
-     based on primary in prefs: #4d4d4d (contrast > 3)
-     see https://webaim.org/resources/contrastchecker/ */
-  opacity: 0.6;
+  opacity: var(--theme-immerse);
 }
 
 .immersiveHovering {
@@ -13,22 +10,17 @@
   opacity: 0;
 }
 
+/* Relative to immersive opacity */
 .subduedAlways {
   opacity: 1;
 }
 
-/* Opacity relative to .immersive */
-.subduedPartially {
-  opacity: 0;
-}
-
-/* Opacity relative to .immersive */
-.subduedPartially[data-hovered],
-.subduedPartially[data-focus-visible] {
-  opacity: 1;
-}
-
-/* TMP: To hide fullscreen icon that doesn’t update properly on exit */
-.immersive .subduedPartially[data-hovered] {
-  opacity: 0;
+.subduedPartially:not([data-hovered]):not([data-focus-visible]) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }

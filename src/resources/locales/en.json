@@ -1,10 +1,16 @@
 {
   "reader": {
     "app": {
-      "publicationWrapper": "You’re now in the Publication.",
+      "publicationWrapper": "You’re now in the publication.",
+      "docking": {
+        "dockingLeft": "Docked panel left",
+        "dockingRight": "Docked panel right",
+        "dockingEmpty": "Currently empty",
+        "dockingClosed": "Contains closed {{ action }}"
+      },
       "header": {
         "label": "Top bar",
-        "runningHead": "Running Head",
+        "runningHead": "Running head",
         "runningHeadFallback": "...",
         "actions": "Actions"
       },
@@ -16,11 +22,34 @@
         "of": "{{ current }} of {{ reference }}",
         "referenceFallback": "current chapter",
         "pubFallback": "the publication"
+      },
+      "docker": {
+        "wrapper": "Docking options",
+        "dockToLeft": {
+          "trigger": "Dock to the left",
+          "tooltip": "Dock left"
+        },
+        "dockToRight": {
+          "trigger": "Dock to the right",
+          "tooltip": "Dock Right"
+        },
+        "popover": {
+          "trigger": "Display in a window",
+          "tooltip": "Pop over"
+        },
+        "fullscreen": {
+          "trigger": "Display over contents",
+          "tooltip": "Overlay"
+        },
+        "close": {
+          "trigger": "Close",
+          "tooltip": "Close"
+        }
       }
     },
     "navigation": {
-      "goForward": "Go Forward",
-      "goBackward": "Go Backward",
+      "goForward": "Go forward",
+      "goBackward": "Go backward",
       "scroll": {
         "wrapper": "Navigate through the publication",
         "prevLabel": "Previous",
@@ -31,19 +60,19 @@
     },
     "fullscreen": {
       "tooltip": "Fullscreen",
-      "trigger": "Toggle fullscreen",
+      "trigger": "Fullscreen mode",
       "close": "Exit fullscreen"    
     },
     "toc": {
       "tooltip": "Table of contents",
-      "trigger": "Toggle Table of Contents",
-      "close": "Close Table of Contents",
-      "heading": "Table of Contents",
-      "empty": "The Table of Contents was not provided for this publication."
+      "trigger": "Table of contents",
+      "close": "Close table of contents",
+      "heading": "Table of contents",
+      "empty": "The table of contents was not provided for this publication."
     },
     "jumpToPosition": {
       "tooltip": "Jump to…",
-      "trigger": "Jump to Position"
+      "trigger": "Jump to position"
     },
     "overflowMenu": {
       "active": {
@@ -51,15 +80,26 @@
         "trigger": "Toggle menu"
       },
       "hint": {
-        "tooltip": "Toggle Actions",
-        "trigger": "Toggle immersive"
+        "tooltip": "Toggle actions",
+        "trigger": "Display actions"
       }
     },
     "settings": {
       "tooltip": "Settings",
-      "trigger": "Toggle settings menu",
+      "trigger": "Settings menu",
       "close": "Close settings menu",
-      "heading": "User Settings",
+      "heading": "Display settings",
+      "themes": {
+        "title": "Themes",
+        "auto": "Auto",
+        "light": "Light",
+        "sepia": "Sepia",
+        "paper": "Paper",
+        "dark": "Dark",
+        "contrast1": "Contrast 1",
+        "contrast2": "Contrast 2",
+        "contrast3": "Contrast 3"
+      },
       "layout": {
         "title": "Layout",
         "scrolled": "Scrollable",
