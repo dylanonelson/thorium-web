@@ -4,7 +4,7 @@ import { IProgression } from '@/components/ProgressionOf';
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IPublicationState {
-  runningHead: string;
+  runningHead?: string;
   isFXL: boolean;
   isRTL: boolean;
   progression: IProgression;
@@ -13,7 +13,7 @@ interface IPublicationState {
 }
 
 const initialState: IPublicationState = {
-  runningHead: Locale.reader.app.header.runningHead,
+  runningHead: undefined,
   isFXL: false,
   isRTL: false,
   progression: {},
