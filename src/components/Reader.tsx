@@ -303,33 +303,24 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     dispatch(setProgression({ currentPublication: runningHead }));
 
     const fetchPositions = async () => {
-      const positionsJSON = publication.current?.manifest.links.findWithMediaType("application/vnd.readium.position-list+json");
-      if (positionsJSON) {
-        const fetcher = new HttpFetcher(undefined, selfHref);
-        const fetched = fetcher.get(positionsJSON);
-        try {
-          const positionObj = await fetched.readAsJSON() as {total: number, positions: Locator[]};
-          positionsList = positionObj.positions;
-          dispatch(setProgression( { totalPositions: positionObj.total }));
-        } catch(err) {
-          console.error(err)
-        }
-      }
+      positionsList = await publication.current?.positionsFromManifest();
+      if (positionsList && positionsList.length > 0) dispatch(setProgression( { totalPositions: positionsList.length }));
     };
 
     fetchPositions()
-      .catch(console.error);
-    
-    const initialPosition = localData.get(localDataKey.current);
+      .catch(console.error)
+      .then(() => {
+        const initialPosition = localData.get(localDataKey.current);
 
-    EpubNavigatorLoad({
-      container: container.current, 
-      publication: publication.current,
-      listeners: listeners, 
-      positionsList: positionsList,
-      initialPosition: initialPosition,
-      localDataKey: localDataKey.current,
-    }, () => p.observe(window));
+        EpubNavigatorLoad({
+          container: container.current, 
+          publication: publication.current!,
+          listeners: listeners, 
+          positionsList: positionsList,
+          initialPosition: initialPosition,
+          localDataKey: localDataKey.current,
+        }, () => p.observe(window));
+      });
 
     return () => {
       EpubNavigatorDestroy(() => p.destroy());
