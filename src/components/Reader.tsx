@@ -292,15 +292,18 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     publication.current = new Publication({
       manifest: manifest,
       fetcher: fetcher,
-    });
+    });    
 
-    let positionsList: Locator[] | undefined;
-
-    dispatch(setRunningHead(publication.current.metadata.title.getTranslation("en")));
     dispatch(setRTL(publication.current.metadata.effectiveReadingProgression === ReadingProgression.rtl));
     dispatch(setFXL(publication.current.metadata.getPresentation()?.layout === EPUBLayout.fixed));
 
-    dispatch(setProgression({ currentPublication: runningHead }));
+    const pubTitle = publication.current.metadata.title.getTranslation("en");
+
+    dispatch(setRunningHead(pubTitle));
+    dispatch(setProgression({ currentPublication: pubTitle }));
+
+    let positionsList: Locator[] | undefined;
+
 
     const fetchPositions = async () => {
       positionsList = await publication.current?.positionsFromManifest();
