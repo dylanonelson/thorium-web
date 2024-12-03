@@ -9,7 +9,7 @@ export const RunningHead = ({ syncDocTitle } : { syncDocTitle?: boolean }) => {
 
   useEffect(() => {
     if (syncDocTitle && runningHead) document.title = runningHead;
-  }, [runningHead])
+  }, [syncDocTitle, runningHead])
 
   return(
     <>
