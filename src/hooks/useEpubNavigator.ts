@@ -107,7 +107,7 @@ export const useEpubNavigator = () => {
         "--RS__defaultLineLength": `${optimalLineLength.current.optimal}rem`
       })
     }
-  }, [applyReadiumCSSStyles]);
+  }, [applyReadiumCSSStyles, dispatch]);
 
   const handleScrollReflow = useCallback(() => {
     if (container.current) {
@@ -133,7 +133,7 @@ export const useEpubNavigator = () => {
         "--RS__defaultLineLength": `${optimalLineLength.current.optimal}rem`
       })
     }
-  }, [applyReadiumCSSStyles]);
+  }, [applyReadiumCSSStyles, dispatch]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
@@ -182,7 +182,7 @@ export const useEpubNavigator = () => {
     }
     mountScroll();
     handleScrollReflow();
-  }, [applyReadiumCSSStyles, mountScroll]);
+  }, [applyReadiumCSSStyles, handleScrollReflow, mountScroll]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
