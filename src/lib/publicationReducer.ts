@@ -1,22 +1,8 @@
-import Locale from "../resources/locales/en.json";
-
-import { IProgression } from '@/components/ProgressionOf';
+import { IPublicationState } from "@/models/state/publicationState";
 import { createSlice } from "@reduxjs/toolkit";
 
-import { TocItem } from "@/helpers/toc/createTocTree";
-
-interface IPublicationState {
-  runningHead: string;
-  isFXL: boolean;
-  isRTL: boolean;
-  progression: IProgression;
-  atPublicationStart: boolean;
-  atPublicationEnd: boolean;
-  tocTree?: TocItem[];
-}
-
 const initialState: IPublicationState = {
-  runningHead: Locale.reader.app.header.runningHead,
+  runningHead: undefined,
   isFXL: false,
   isRTL: false,
   progression: {},

@@ -1,55 +1,58 @@
-.icon {
+.icon,
+.dockerButton,
+.closeButton {
   box-sizing: border-box;
   padding: calc(var(--icon-size, 24px) * (1/4));
   text-align: center;
-}
-
-.icon svg {
-  fill: var(--color-primary);
-  width: var(--icon-size, 24px);
-  height: var(--icon-size, 24px);
-}
-
-.tooltip {
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
-  padding: 5px;
-  border-radius: 5px;
+  border-radius: var(--layout-radius);
 }
 
 .closeButton {
-  width: var(--icon-size, 24px);
-  height: var(--icon-size, 24px);
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  margin-inline-start: auto;
 }
 
+.icon svg,
+.dockerButton svg,
 .closeButton svg {
-  fill: var(--color-primary);
-  width: 100%;
-  height: 100%;
+  fill: var(--theme-text);
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
 }
 
 .icon[data-hovered],
+.dockerButton[data-hovered],
 .closeButton[data-hovered] {
-  background-color: var(--color-hover);
+  background-color: var(--theme-hover);
 }
 
 .icon[data-focus-visible],
+.dockerButton[data-focus-visible],
 .closeButton[data-focus-visible] {
-  outline: auto;
+  outline: 2px solid var(--theme-focus);
+}
+
+.icon[data-disabled] svg,
+.dockerButton[data-disabled] svg,
+.closeButton[data-disabled] svg {
+  fill: var(--theme-disable);
+}
+
+.tooltip {
+  background-color: var(--theme-text);
+  color: var(--theme-background);
+  padding: 5px;
+  border-radius: var(--layout-radius);
 }
 
 /* Utils to improve icons’ consistency */
 .iconCompSm {
-  padding: calc(var(--icon-size, 24px) * (1/2));
+  padding: calc(var(--icon-size, 24px) * (1/3));
 }
 
 .iconCompSm svg {
   width: calc(var(--icon-size, 24px) * (3/4));
   height: calc(var(--icon-size, 24px) * (3/4));
-  stroke: var(--color-primary);
+  stroke: var(--theme-text);
 }
 
 .iconCompLg {
@@ -62,10 +65,5 @@
 }
 
 .iconApplyStroke svg {
-  stroke: var(--color-primary);
-}
-
-.popoverHeading {
-  font-size: 1.25rem;
-  margin: 0 0 1rem 0;
+  stroke: var(--theme-text);
 }

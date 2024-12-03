@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 
+import { IProgression } from "@/models/progression";
+
 import Locale from "../resources/locales/en.json";
 import progressionStyles from "./assets/styles/progression.module.css";
 
-import parseTemplate from "json-templates";
 import { useAppSelector } from "@/lib/hooks";
 
-export interface IProgression {
-  totalPositions?: number;
-  currentPositions?: number[];
-  relativeProgression?: number;
-  currentChapter?: string;
-  totalProgression?: number;
-  currentPublication?: string;
-}
+import parseTemplate from "json-templates";
 
 export const ProgressionOf = () => {
   const jsonTemplate = parseTemplate(Locale.reader.app.progression.of);

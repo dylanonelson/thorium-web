@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import readerReducer from "@/lib/readerReducer";
+import themeReducer from "@/lib/themeReducer";
+import actionsReducer from "@/lib/actionsReducer";
 import publicationReducer from "./publicationReducer";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       reader: readerReducer,
+      theming: themeReducer,
+      actions: actionsReducer,
       publication: publicationReducer
     }
   })
