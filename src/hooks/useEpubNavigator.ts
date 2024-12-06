@@ -14,7 +14,7 @@ import { getOptimalLineLength, IOptimalLineLength } from "@/helpers/autoLayout/o
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { localData } from "@/helpers/localData";
 import { setProgression } from "@/lib/publicationReducer";
-import { setBreakpoint } from "@/lib/readerReducer";
+import { setDynamicBreakpoint } from "@/lib/readerReducer";
 
 type cbb = (ok: boolean) => void;
 
@@ -91,13 +91,13 @@ export const useEpubNavigator = () => {
       let containerWidth = window.innerWidth;
       if (RCSSColCount > 1 && optimalLineLength.current.min !== null) {
         containerWidth = Math.min((RCSSColCount * optimalLineLengthToPx), containerWithArrows);
-        dispatch(setBreakpoint(true));
+        dispatch(setDynamicBreakpoint(true));
       } else {
         if ((optimalLineLengthToPx + arrowsWidth.current) <= containerWithArrows) {
           containerWidth = containerWithArrows;
-          dispatch(setBreakpoint(true));
+          dispatch(setDynamicBreakpoint(true));
         } else {
-          dispatch(setBreakpoint(false));
+          dispatch(setDynamicBreakpoint(false));
         }
       };
       container.current.style.width = `${containerWidth}px`;
@@ -124,9 +124,9 @@ export const useEpubNavigator = () => {
 
       const optimalLineLengthToPx = optimalLineLength.current.optimal * optimalLineLength.current.fontSize;
       if (optimalLineLengthToPx <= window.innerWidth) {
-        dispatch(setBreakpoint(true));
+        dispatch(setDynamicBreakpoint(true));
       } else {
-        dispatch(setBreakpoint(false));
+        dispatch(setDynamicBreakpoint(false));
       }
 
       applyReadiumCSSStyles({
