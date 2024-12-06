@@ -26,13 +26,14 @@ import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions, ScrollBackTo } from "@/helpers/scrollAffordance";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
-import { getPlatformModifier, metaKeys } from "@/helpers/keyboard/getMetaKeys";
+import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 
-import { setImmersive, setBreakpoint, setHovering, toggleImmersive, setPlatformModifier } from "@/lib/readerReducer";
+import { setImmersive, setHovering, toggleImmersive, setPlatformModifier } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
+import { useBreakpoints } from "@/hooks/useBreakpoints";
 
 interface IRCSSSettings {
   paginated: boolean;
@@ -55,13 +56,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isImmersiveRef = useRef(isImmersive);
 
-  const runningHead = useAppSelector(state => state.publication.runningHead);
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
 
   const dispatch = useAppDispatch();
 
   const fs = useFullscreen();
+  useBreakpoints();
 
   const { 
     EpubNavigatorLoad, 
