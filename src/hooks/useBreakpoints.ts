@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 
 import { RSPrefs } from "@/preferences";
 import { setStaticBreakpoint } from "@/lib/readerReducer";
@@ -13,24 +13,75 @@ export enum StaticBreakpoints {
   xLarge = "xLarge"
 }
 
-export type Breakpoints = { [key in StaticBreakpoints]: boolean | null } & { current: string | undefined };
+export type Breakpoints = { [key in StaticBreakpoints]: boolean | null } & { current: string | undefined } & { ranges: BreakpointRanges };
+
+type BreakpointRange = {
+  min: number | null,
+  max: number | null
+}
+
+type BreakpointRanges = { [key in StaticBreakpoints]: BreakpointRange | null; }
 
 export const useBreakpoints = () => {
   const [isClient, setIsClient] = useState(false);
   const staticBreakpoint = useAppSelector(state => state.reader.staticBreakpoint);
   const dispatch = useAppDispatch();
 
-  const compactMedia = `screen and (max-width: ${ RSPrefs.breakpoints.compact }px)`;
-
-  const mediumMedia = `screen and (min-width: ${RSPrefs.breakpoints.compact + 1 }px) and (max-width: ${ RSPrefs.breakpoints.medium }px)`;
-
-  const expandedMedia = `screen and (min-width: ${RSPrefs.breakpoints.medium + 1 }px) and (max-width: ${ RSPrefs.breakpoints.expanded }px)`;
-
-  const largeMedia = `screen and (min-width: ${RSPrefs.breakpoints.expanded + 1 }px) and (max-width: ${ RSPrefs.breakpoints.large }px)`;
+  const makeMediaString = (range: BreakpointRange | null) => {
+    if (!range || (!range.min && !range.max)) return null;
   
-  const xLargeMedia = RSPrefs.breakpoints[StaticBreakpoints.xLarge] 
-    ? `screen and (min-width: ${RSPrefs.breakpoints.large + 1 }px) and (max-width: ${ RSPrefs.breakpoints.xLarge }px)`
-    : `screen and (min-width: ${ RSPrefs.breakpoints.large + 1 }px)`;
+    let mediaString = "screen"
+    if (range.min) {
+      mediaString += ` and (min-width: ${ range.min }px)`;
+    }
+    if (range.max) {
+      mediaString += ` and (max-width: ${ range.max }px)`
+    }
+    return mediaString;
+  };
+
+  const initRanges = () => {
+    const breakpointRanges: BreakpointRanges = {
+      [StaticBreakpoints.compact]: null,
+      [StaticBreakpoints.medium]: null,
+      [StaticBreakpoints.expanded]: null,
+      [StaticBreakpoints.large]: null,
+      [StaticBreakpoints.xLarge]: null
+    };
+  
+    let prev: null | number = null;
+    
+    Object.entries(RSPrefs.breakpoints).forEach(([ key, value ]) => {
+      if (value && !isNaN(value)) {
+        const max = value;
+        const min = prev ? prev + 1 : null;
+        Object.defineProperty(breakpointRanges, key, {
+          value: {
+            min: min,
+            max: max
+          }
+        });
+        prev = value;
+      } else if (!value && key === StaticBreakpoints.xLarge && prev) {
+        Object.defineProperty(breakpointRanges, key, {
+          value: {
+            min: prev + 1,
+            max: null
+          }
+        });
+      }
+    });
+
+    return breakpointRanges;
+  };
+
+  const ranges = initRanges();
+
+  const compactMedia = makeMediaString(ranges[StaticBreakpoints.compact]);
+  const mediumMedia = makeMediaString(ranges[StaticBreakpoints.medium]);
+  const expandedMedia = makeMediaString(ranges[StaticBreakpoints.expanded]);
+  const largeMedia = makeMediaString(ranges[StaticBreakpoints.large]);
+  const xLargeMedia = makeMediaString(ranges[StaticBreakpoints.xLarge]);
 
   const breakpoints: Breakpoints = {
     [StaticBreakpoints.compact]: useMediaQuery(compactMedia),
@@ -38,7 +89,8 @@ export const useBreakpoints = () => {
     [StaticBreakpoints.expanded]: useMediaQuery(expandedMedia),
     [StaticBreakpoints.large]: useMediaQuery(largeMedia),
     [StaticBreakpoints.xLarge]: useMediaQuery(xLargeMedia),
-    current: staticBreakpoint
+    current: staticBreakpoint,
+    ranges: ranges
   };
   
   useLayoutEffect(() => {
