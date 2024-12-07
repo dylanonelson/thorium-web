@@ -9,9 +9,9 @@
 }
 
 .listBox {
-  max-height: calc(100vh - (var(--icon-size, 32px) * 3));
-  max-height: calc(100dvh - (var(--icon-size, 32px) * 3));
-  overflow: scroll;
+  max-height: calc(100vh - (var(--icon-size, 24px) * 6));
+  max-height: calc(100dvh - (var(--icon-size, 24px) * 6));
+  overflow-y: scroll;
 }
 
 .listItem {
