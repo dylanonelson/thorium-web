@@ -1,5 +1,5 @@
 import { defaultPlatformModifier, IPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
-import { StaticBreakpoint } from "@/hooks/useBreakpoints";
+import { StaticBreakpoints } from "@/hooks/useBreakpoints";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IReaderState {
@@ -9,7 +9,7 @@ interface IReaderState {
   isPaged: boolean;
   colCount: string;
   hasReachedBreakpoint: boolean;
-  staticBreakpoint?: StaticBreakpoint;
+  staticBreakpoint?: StaticBreakpoints;
   settingsOpen: boolean;
   tocOpen: boolean;
   overflowMenuOpen: boolean;
@@ -59,7 +59,6 @@ export const readerSlice = createSlice({
       state.hasReachedBreakpoint = action.payload
     },
     setStaticBreakpoint: (state, action) => {
-      console.log(action.payload);
       state.staticBreakpoint = action.payload
     },
     setSettingsOpen: (state, action) => {

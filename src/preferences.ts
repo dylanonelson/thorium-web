@@ -1,16 +1,17 @@
-import { ShortcutRepresentation } from "./components/Shortcut";
-import { ActionKeys, ActionVisibility } from "./components/Templates/ActionComponent";
-import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
+import { StaticBreakpoints } from "./hooks/useBreakpoints";
 import { ScrollAffordancePref, ScrollBackTo } from "./helpers/scrollAffordance";
+import { ActionKeys, ActionVisibility } from "./components/Templates/ActionComponent";
+import { ShortcutRepresentation } from "./components/Shortcut";
+import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
 
 export const RSPrefs = {
   breakpoints: {
     // See https://m3.material.io/foundations/layout/applying-layout/window-size-classes
-    compact: 600, // Phone in portrait
-    medium: 840, // Tablet in portrait, Foldable in portrait (unfolded)
-    expanded: 1200, // Phone in landscape, Tablet in landscape, Foldable in landscape (unfolded), Desktop
-    large: 1600, // Desktop
-    extraLarge: undefined // Desktop Ultra-wide
+    [StaticBreakpoints.compact]: 600, // Phone in portrait
+    [StaticBreakpoints.medium]: 840, // Tablet in portrait, Foldable in portrait (unfolded)
+    [StaticBreakpoints.expanded]: 1200, // Phone in landscape, Tablet in landscape, Foldable in landscape (unfolded), Desktop
+    [StaticBreakpoints.large]: 1600, // Desktop
+    [StaticBreakpoints.xLarge]: undefined // Desktop Ultra-wide
   },
   typography: {
     minimalLineLength: 35, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
