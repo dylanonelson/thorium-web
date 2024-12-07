@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 
 import { RSPrefs } from "@/preferences";
 import { setStaticBreakpoint } from "@/lib/readerReducer";
@@ -97,19 +97,21 @@ export const useBreakpoints = () => {
     if (typeof window !== "undefined") setIsClient(true);
   }, []);
 
-  if (isClient) {
-    if (breakpoints[StaticBreakpoints.compact]) {
-      dispatch(setStaticBreakpoint(StaticBreakpoints.compact));
-    } else if (breakpoints[StaticBreakpoints.medium]) {
-      dispatch(setStaticBreakpoint(StaticBreakpoints.medium));
-    } else if (breakpoints[StaticBreakpoints.expanded]) {
-      dispatch(setStaticBreakpoint(StaticBreakpoints.expanded))
-    } else if (breakpoints[StaticBreakpoints.large]) {
-      dispatch(setStaticBreakpoint(StaticBreakpoints.large));
-    } else if (breakpoints[StaticBreakpoints.xLarge]) {
-      dispatch(setStaticBreakpoint(StaticBreakpoints.xLarge))
-    };
-  }
+  useEffect(() => {
+    if (isClient) {
+      if (breakpoints[StaticBreakpoints.compact]) {
+        dispatch(setStaticBreakpoint(StaticBreakpoints.compact));
+      } else if (breakpoints[StaticBreakpoints.medium]) {
+        dispatch(setStaticBreakpoint(StaticBreakpoints.medium));
+      } else if (breakpoints[StaticBreakpoints.expanded]) {
+        dispatch(setStaticBreakpoint(StaticBreakpoints.expanded))
+      } else if (breakpoints[StaticBreakpoints.large]) {
+        dispatch(setStaticBreakpoint(StaticBreakpoints.large));
+      } else if (breakpoints[StaticBreakpoints.xLarge]) {
+        dispatch(setStaticBreakpoint(StaticBreakpoints.xLarge))
+      };
+    }
+  });
 
   return breakpoints;
 }
