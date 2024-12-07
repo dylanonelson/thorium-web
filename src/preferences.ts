@@ -11,7 +11,7 @@ export const RSPrefs = {
     [StaticBreakpoints.medium]: 840, // Tablet in portrait, Foldable in portrait (unfolded)
     [StaticBreakpoints.expanded]: 1200, // Phone in landscape, Tablet in landscape, Foldable in landscape (unfolded), Desktop
     [StaticBreakpoints.large]: 1600, // Desktop
-    [StaticBreakpoints.xLarge]: undefined // Desktop Ultra-wide
+    [StaticBreakpoints.xLarge]: null // Desktop Ultra-wide
   },
   typography: {
     minimalLineLength: 35, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
