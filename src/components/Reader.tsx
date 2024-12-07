@@ -62,7 +62,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const dispatch = useAppDispatch();
 
   const fs = useFullscreen();
-  useBreakpoints();
+  const staticBreakpoint = useBreakpoints();
 
   const { 
     EpubNavigatorLoad, 
@@ -364,7 +364,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       <></>
     }
 
-    { isPaged ? <ReaderFooter /> : <></>}
+    { isPaged ? <ReaderFooter /> : <></> }
   </main>
   </>
 )};
