@@ -20,32 +20,24 @@ export const useBreakpoints = () => {
   const staticBreakpoint = useAppSelector(state => state.reader.staticBreakpoint);
   const dispatch = useAppDispatch();
 
-  const compactMedia = RSPrefs.breakpoints[StaticBreakpoints.compact] 
-    ? `screen and (max-width: ${ RSPrefs.breakpoints.compact }px)` 
-    : null;
+  const compactMedia = `screen and (max-width: ${ RSPrefs.breakpoints.compact }px)`;
 
-  const mediumMedia = RSPrefs.breakpoints[StaticBreakpoints.medium] 
-    ? `screen and (min-width: ${RSPrefs.breakpoints.compact + 1 }px) and (max-width: ${ RSPrefs.breakpoints.medium }px)`
-    : null;
+  const mediumMedia = `screen and (min-width: ${RSPrefs.breakpoints.compact + 1 }px) and (max-width: ${ RSPrefs.breakpoints.medium }px)`;
 
-  const expandedMedia = RSPrefs.breakpoints[StaticBreakpoints.expanded] 
-    ? `screen and (min-width: ${RSPrefs.breakpoints.medium + 1 }px) and (max-width: ${ RSPrefs.breakpoints.expanded }px)`
-    : null;
+  const expandedMedia = `screen and (min-width: ${RSPrefs.breakpoints.medium + 1 }px) and (max-width: ${ RSPrefs.breakpoints.expanded }px)`;
 
-  const largeMedia = RSPrefs.breakpoints[StaticBreakpoints.large] 
-    ? `screen and (min-width: ${RSPrefs.breakpoints.expanded + 1 }px) and (max-width: ${ RSPrefs.breakpoints.large }px)`
-    : null;
+  const largeMedia = `screen and (min-width: ${RSPrefs.breakpoints.expanded + 1 }px) and (max-width: ${ RSPrefs.breakpoints.large }px)`;
   
   const xLargeMedia = RSPrefs.breakpoints[StaticBreakpoints.xLarge] 
     ? `screen and (min-width: ${RSPrefs.breakpoints.large + 1 }px) and (max-width: ${ RSPrefs.breakpoints.xLarge }px)`
     : `screen and (min-width: ${ RSPrefs.breakpoints.large + 1 }px)`;
 
   const breakpoints: Breakpoints = {
-    [StaticBreakpoints.compact]: compactMedia ? useMediaQuery(compactMedia) : null,
-    [StaticBreakpoints.medium]: mediumMedia ? useMediaQuery(mediumMedia) : null,
-    [StaticBreakpoints.expanded]: expandedMedia ? useMediaQuery(expandedMedia) : null,
-    [StaticBreakpoints.large]: largeMedia ? useMediaQuery(largeMedia) : null,
-    [StaticBreakpoints.xLarge]: xLargeMedia ? useMediaQuery(xLargeMedia) : null,
+    [StaticBreakpoints.compact]: useMediaQuery(compactMedia),
+    [StaticBreakpoints.medium]: useMediaQuery(mediumMedia),
+    [StaticBreakpoints.expanded]: useMediaQuery(expandedMedia),
+    [StaticBreakpoints.large]: useMediaQuery(largeMedia),
+    [StaticBreakpoints.xLarge]: useMediaQuery(xLargeMedia),
     current: staticBreakpoint
   };
   
