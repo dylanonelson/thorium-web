@@ -15,6 +15,7 @@ import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 import { isActiveElement } from "@/helpers/focus";
+import { StaticBreakpoints } from "@/hooks/useBreakpoints";
 
 export interface ReaderArrowProps {
   direction: "left" | "right";
@@ -28,7 +29,9 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
   const hasReachedDynamicBreakpoint = useAppSelector(state => state.reader.hasReachedDynamicBreakpoint);
+  const staticBreakpoint = useAppSelector(state => state.reader.staticBreakpoint);
   const isRTL = useAppSelector(state => state.publication.isRTL);
+  const isFXL = useAppSelector(state => state.publication.isFXL);
 
   const [isHovering, setIsHovering] = useState(false);
 
@@ -45,7 +48,13 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   };
 
   const handleClassNameFromBreakpoint = () => {
-    return hasReachedDynamicBreakpoint ? arrowStyles.viewportLarge : "";
+    if (isFXL && (staticBreakpoint === StaticBreakpoints.large || staticBreakpoint === StaticBreakpoints.xLarge)) {
+      return arrowStyles.viewportLarge;
+    } else if (!isFXL && hasReachedDynamicBreakpoint) {
+      return arrowStyles.viewportLarge;
+    } else {
+      return "";
+    }
   };
 
   useEffect(() => {
