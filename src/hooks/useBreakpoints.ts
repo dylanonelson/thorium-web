@@ -13,10 +13,7 @@ export enum StaticBreakpoints {
   xLarge = "xLarge"
 }
 
-export interface IBreakpoints {
-  [key: StaticBreakpoints | string]: boolean | string | null | undefined;
-  current: string | undefined;
-}
+export type Breakpoints = { [key in StaticBreakpoints]: boolean | null } & { current: string | undefined };
 
 export const useBreakpoints = () => {
   const [isClient, setIsClient] = useState(false);
@@ -43,7 +40,7 @@ export const useBreakpoints = () => {
     ? `screen and (min-width: ${RSPrefs.breakpoints.large + 1 }px) and (max-width: ${ RSPrefs.breakpoints.xLarge }px)`
     : `screen and (min-width: ${ RSPrefs.breakpoints.large + 1 }px)`;
 
-  const breakpoints: IBreakpoints = {
+  const breakpoints: Breakpoints = {
     [StaticBreakpoints.compact]: compactMedia ? useMediaQuery(compactMedia) : null,
     [StaticBreakpoints.medium]: mediumMedia ? useMediaQuery(mediumMedia) : null,
     [StaticBreakpoints.expanded]: expandedMedia ? useMediaQuery(expandedMedia) : null,
