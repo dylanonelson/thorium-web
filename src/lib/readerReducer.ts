@@ -8,7 +8,7 @@ interface IReaderState {
   isFullscreen: boolean;
   isPaged: boolean;
   colCount: string;
-  hasReachedBreakpoint: boolean;
+  hasReachedDynamicBreakpoint: boolean;
   staticBreakpoint?: StaticBreakpoints;
   settingsOpen: boolean;
   tocOpen: boolean;
@@ -22,7 +22,7 @@ const initialState: IReaderState = {
   isFullscreen: false,
   isPaged: true,
   colCount: "auto",
-  hasReachedBreakpoint: false,
+  hasReachedDynamicBreakpoint: false,
   staticBreakpoint: undefined,
   settingsOpen: false,
   tocOpen: false,
@@ -56,7 +56,7 @@ export const readerSlice = createSlice({
       state.colCount = action.payload
     },
     setDynamicBreakpoint: (state, action) => {
-      state.hasReachedBreakpoint = action.payload
+      state.hasReachedDynamicBreakpoint = action.payload
     },
     setStaticBreakpoint: (state, action) => {
       state.staticBreakpoint = action.payload

@@ -27,7 +27,7 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   const button = useRef<HTMLButtonElement>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
-  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
+  const hasReachedDynamicBreakpoint = useAppSelector(state => state.reader.hasReachedDynamicBreakpoint);
   const isRTL = useAppSelector(state => state.publication.isRTL);
 
   const [isHovering, setIsHovering] = useState(false);
@@ -36,7 +36,7 @@ export const ArrowButton = (props: ReaderArrowProps) => {
 
   const handleClassNameFromState = () => {
     let className = "";
-    if (isImmersive && !hasReachedBreakpoint || isFullscreen) {
+    if (isImmersive && !hasReachedDynamicBreakpoint || isFullscreen) {
       className = readerStateStyles.immersiveHidden;
     } else if (isImmersive) {
       className = readerStateStyles.immersive;
@@ -45,7 +45,7 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   };
 
   const handleClassNameFromBreakpoint = () => {
-    return hasReachedBreakpoint ? arrowStyles.viewportLarge : "";
+    return hasReachedDynamicBreakpoint ? arrowStyles.viewportLarge : "";
   };
 
   useEffect(() => {
