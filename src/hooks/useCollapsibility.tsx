@@ -14,7 +14,7 @@ import { ActionComponentVariant, ActionKeys, ActionVisibility } from "@/componen
 export const useCollapsibility = (toc: Links) => {
   const [ActionIcons, setActionIcons] = useState<React.JSX.Element[]>([]);
   const [MenuItems, setMenuItems] = useState<React.JSX.Element[]>([]);
-  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
+  const hasReachedDynamicBreakpoint = useAppSelector(state => state.reader.hasReachedDynamicBreakpoint);
 
   const triageActions = useCallback(() => {
     const ActionIconsMap = {
@@ -41,7 +41,7 @@ export const useCollapsibility = (toc: Links) => {
       if (actionPref.visibility === ActionVisibility.overflow) {
         menuItems.push(MenuItemsMap[key]);
       } else if (actionPref.collapsible) {
-        if (hasReachedBreakpoint) {
+        if (hasReachedDynamicBreakpoint) {
           actionIcons.push(ActionIconsMap[key]);
         } else {
           menuItems.push(MenuItemsMap[key]);
@@ -53,11 +53,11 @@ export const useCollapsibility = (toc: Links) => {
 
     setActionIcons(actionIcons);
     setMenuItems(menuItems);
-  }, [hasReachedBreakpoint, toc]);
+  }, [hasReachedDynamicBreakpoint, toc]);
 
   useEffect(() => {
     triageActions();
-  }, [hasReachedBreakpoint, triageActions]);
+  }, [hasReachedDynamicBreakpoint, triageActions]);
 
   return {
     ActionIcons,
