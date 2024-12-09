@@ -4,7 +4,7 @@ export interface customFont {
 }
 
 export interface LineLengthTypography {
-  minChars: number | null;
+  minChars: number | undefined | null;
   optimalChars: number;
   fontSize?: number;
   sample?: string;
@@ -16,7 +16,7 @@ export interface LineLengthTypography {
 }
 
 export interface IOptimalLineLength {
-  min: number;
+  min: number | null;
   optimal: number;
   fontSize: number;
 }
@@ -31,7 +31,20 @@ export const getOptimalLineLength = (typo: LineLengthTypography): IOptimalLineLe
   const letterSpacing = typo.letterSpacing || 0;
   const wordSpacing = typo.wordSpacing || 0;
   const fontSize = typo.fontSize || DEFAULT_FONT_SIZE;
-  const divider = (typo.minChars && typo.minChars < typo.optimalChars) ? (typo.optimalChars / typo.minChars) : 1;
+
+  // Kept intentionally verbose to describe all cases for future implementation in Navigator
+  let divider: number | null = 1;
+  if (typo.minChars === null ) {
+    divider = null
+  } else if (typeof typo.minChars === "undefined") {
+    divider = 1;
+  } else {
+    if (typo.minChars < typo.optimalChars) {
+      divider = typo.optimalChars / typo.minChars;
+    } else {
+      divider = 1;
+    }
+  }
 
   // It’s impractical or impossible to get the font in canvas 
   // so we assume it’s 0.5em wide by 1em tall
@@ -91,7 +104,7 @@ export const getOptimalLineLength = (typo: LineLengthTypography): IOptimalLineLe
   }
 
   return {
-    min: Math.round((optimalLineLength / divider) + padding) / fontSize,
+    min: divider !== null ? Math.round((optimalLineLength / divider) + padding) / fontSize : null,
     optimal: Math.round(optimalLineLength + padding) / fontSize,
     fontSize: fontSize
   }

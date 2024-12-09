@@ -1,18 +1,18 @@
 import React from "react";
 
-import { ActionKeys, RSPrefs } from "@/preferences";
+import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
-import TuneIcon from "./assets/icons/tune.svg";
+import TuneIcon from "./assets/icons/match_case.svg";
 import CloseIcon from "./assets/icons/close.svg";
 
 import { Button, Dialog, DialogTrigger, Heading, Popover, Separator } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
-import { ActionComponentVariant, IActionComponent } from "./Templates/ActionComponent";
+import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 
@@ -70,7 +70,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
             >
               <CloseIcon aria-hidden="true" focusable="false" />
             </Button>
-            <Heading slot="title" className={ settingsStyles.heading }>{ Locale.reader.settings.heading }</Heading>
+            <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.settings.heading }</Heading>
             <ReadingDisplayCol />
             <Separator/>
             <ReadingDisplayLayout isFXL={ isFXL } />

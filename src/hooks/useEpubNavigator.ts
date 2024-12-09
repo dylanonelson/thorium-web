@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
-import { RSPrefs, ScrollBackTo } from "@/preferences";
+import { RSPrefs } from "@/preferences";
 import fontStacks from "readium-css/css/vars/fontStacks.json";
 
 import { EPUBLayout, Link, Locator, Publication, ReadingProgression } from "@readium/shared";
@@ -9,11 +9,12 @@ import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } 
 
 import { useAppDispatch } from "@/lib/hooks";
 
-import { ScrollAffordance } from "@/helpers/scrollAffordance";
+import { ScrollAffordance, ScrollBackTo } from "@/helpers/scrollAffordance";
 import { getOptimalLineLength, IOptimalLineLength } from "@/helpers/autoLayout/optimalLineLength";
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { localData } from "@/helpers/localData";
 import { setProgression } from "@/lib/publicationReducer";
+import { setDynamicBreakpoint } from "@/lib/readerReducer";
 
 type cbb = (ok: boolean) => void;
 
@@ -73,28 +74,40 @@ export const useEpubNavigator = () => {
       let RCSSColCount = 1;
 
       if (colCount === "auto") {
-        RCSSColCount = autoPaginate(RSPrefs.breakpoint, window.innerWidth, optimalLineLength.current.optimal);
+        RCSSColCount = autoPaginate(window.innerWidth, optimalLineLength.current.optimal);
       } else if (colCount === "2") {
-        const requiredWidth = ((2 * optimalLineLength.current.min) * optimalLineLength.current.fontSize);
-        window.innerWidth > requiredWidth ? RCSSColCount = 2 : RCSSColCount = 1;
+          if (optimalLineLength.current.min !== null) {
+          const requiredWidth = ((2 * optimalLineLength.current.min) * optimalLineLength.current.fontSize);
+          window.innerWidth > requiredWidth ? RCSSColCount = 2 : RCSSColCount = 1;
+        } else {
+          RCSSColCount = 2;
+        }
       } else {
         RCSSColCount = Number(colCount);
       }
 
-      if (RSPrefs.breakpoint <= window.innerWidth) {
-        const containerWithArrows = window.innerWidth - arrowsWidth.current;
-        const containerWidth = RCSSColCount > 1 ? Math.min(((RCSSColCount * optimalLineLength.current.optimal) * optimalLineLength.current.fontSize), containerWithArrows) : containerWithArrows;
-        container.current.style.width = `${containerWidth}px`;
+      const optimalLineLengthToPx = optimalLineLength.current.optimal * optimalLineLength.current.fontSize;
+      const containerWithArrows = window.innerWidth - arrowsWidth.current;
+      let containerWidth = window.innerWidth;
+      if (RCSSColCount > 1 && optimalLineLength.current.min !== null) {
+        containerWidth = Math.min((RCSSColCount * optimalLineLengthToPx), containerWithArrows);
+        dispatch(setDynamicBreakpoint(true));
       } else {
-        container.current.style.width = `${window.innerWidth}px`;
-      }
+        if ((optimalLineLengthToPx + arrowsWidth.current) <= containerWithArrows) {
+          containerWidth = containerWithArrows;
+          dispatch(setDynamicBreakpoint(true));
+        } else {
+          dispatch(setDynamicBreakpoint(false));
+        }
+      };
+      container.current.style.width = `${containerWidth}px`;
 
       applyReadiumCSSStyles({
         "--USER__colCount": `${RCSSColCount}`,
         "--RS__defaultLineLength": `${optimalLineLength.current.optimal}rem`
       })
     }
-  }, [applyReadiumCSSStyles]);
+  }, [applyReadiumCSSStyles, dispatch]);
 
   const handleScrollReflow = useCallback(() => {
     if (container.current) {
@@ -107,18 +120,20 @@ export const useEpubNavigator = () => {
         });
       }
 
-      if (RSPrefs.breakpoint <= window.innerWidth) {
-        const containerWithArrows = window.innerWidth - arrowsWidth.current;
-        container.current.style.width = `${containerWithArrows}px`;
+      container.current.style.width = `${window.innerWidth}px`;
+
+      const optimalLineLengthToPx = optimalLineLength.current.optimal * optimalLineLength.current.fontSize;
+      if (optimalLineLengthToPx <= window.innerWidth) {
+        dispatch(setDynamicBreakpoint(true));
       } else {
-        container.current.style.width = `${window.innerWidth}px`;
+        dispatch(setDynamicBreakpoint(false));
       }
 
       applyReadiumCSSStyles({
         "--RS__defaultLineLength": `${optimalLineLength.current.optimal}rem`
       })
     }
-  }, [applyReadiumCSSStyles]);
+  }, [applyReadiumCSSStyles, dispatch]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
@@ -166,7 +181,8 @@ export const useEpubNavigator = () => {
       await nav.current?.setReadingProgression(ReadingProgression.ttb);
     }
     mountScroll();
-  }, [applyReadiumCSSStyles, mountScroll]);
+    handleScrollReflow();
+  }, [applyReadiumCSSStyles, handleScrollReflow, mountScroll]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25

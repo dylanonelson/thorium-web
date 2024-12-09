@@ -38,6 +38,7 @@
       "tooltip": "Table of contents",
       "trigger": "Toggle Table of Contents",
       "close": "Close Table of Contents",
+      "heading": "Table of Contents",
       "empty": "The Table of Contents was not provided for this publication."
     },
     "jumpToPosition": {

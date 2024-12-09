@@ -12,6 +12,15 @@
   align-items: center;
   gap: 10px;
   padding: 10px;
+  outline: none;
+}
+
+.menuItem[data-hovered] {
+  background-color: var(--color-hover);
+}
+
+.menuItem[data-focus-visible] {
+  outline: auto;
 }
 
 .menuItem > svg {

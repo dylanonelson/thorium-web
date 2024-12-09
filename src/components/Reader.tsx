@@ -1,6 +1,6 @@
 "use client";
 
-import { RSPrefs, ScrollBackTo } from "@/preferences";
+import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
@@ -23,16 +23,17 @@ import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useFullscreen } from "@/hooks/useFullscreen";
 
 import Peripherals from "@/helpers/peripherals";
-import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
+import { CUSTOM_SCHEME, ScrollActions, ScrollBackTo } from "@/helpers/scrollAffordance";
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
-import { getPlatformModifier, metaKeys } from "@/helpers/keyboard/getMetaKeys";
+import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 
-import { setImmersive, setBreakpoint, setHovering, toggleImmersive, setPlatformModifier } from "@/lib/readerReducer";
+import { setImmersive, setHovering, toggleImmersive, setPlatformModifier } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
+import { useBreakpoints } from "@/hooks/useBreakpoints";
 
 interface IRCSSSettings {
   paginated: boolean;
@@ -55,13 +56,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isImmersiveRef = useRef(isImmersive);
 
-  const runningHead = useAppSelector(state => state.publication.runningHead);
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
 
   const dispatch = useAppDispatch();
 
   const fs = useFullscreen();
+  const staticBreakpoint = useBreakpoints();
 
   const { 
     EpubNavigatorLoad, 
@@ -272,27 +273,17 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
   }, 250);
 
-  const mq = "(min-width:"+ RSPrefs.breakpoint + "px)";
-  const breakpointQuery = window.matchMedia(mq);
-  const handleBreakpointChange = useCallback((event: MediaQueryListEvent) => {
-    dispatch(setBreakpoint(event.matches))}, [dispatch]);
-
   useEffect(() => {
     dispatch(setPlatformModifier(getPlatformModifier()));
-    
-    // Initial setup
-    dispatch(setBreakpoint(breakpointQuery.matches));
-    breakpointQuery.addEventListener("change", handleBreakpointChange);
 
     window.addEventListener("resize", handleResize);
     window.addEventListener("orientationchange", handleResize);
     
     return () => {
-      breakpointQuery.removeEventListener("change", handleBreakpointChange);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
     }
-  }, [dispatch, breakpointQuery, handleBreakpointChange, handleResize]);
+  }, [dispatch, handleResize]);
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -302,44 +293,38 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     publication.current = new Publication({
       manifest: manifest,
       fetcher: fetcher,
-    });
+    });    
 
-    let positionsList: Locator[] | undefined;
-
-    dispatch(setRunningHead(publication.current.metadata.title.getTranslation("en")));
     dispatch(setRTL(publication.current.metadata.effectiveReadingProgression === ReadingProgression.rtl));
     dispatch(setFXL(publication.current.metadata.getPresentation()?.layout === EPUBLayout.fixed));
 
-    dispatch(setProgression({ currentPublication: runningHead }));
+    const pubTitle = publication.current.metadata.title.getTranslation("en");
+
+    dispatch(setRunningHead(pubTitle));
+    dispatch(setProgression({ currentPublication: pubTitle }));
+
+    let positionsList: Locator[] | undefined;
+
 
     const fetchPositions = async () => {
-      const positionsJSON = publication.current?.manifest.links.findWithMediaType("application/vnd.readium.position-list+json");
-      if (positionsJSON) {
-        const fetcher = new HttpFetcher(undefined, selfHref);
-        const fetched = fetcher.get(positionsJSON);
-        try {
-          const positionObj = await fetched.readAsJSON() as {total: number, positions: Locator[]};
-          positionsList = positionObj.positions;
-          dispatch(setProgression( { totalPositions: positionObj.total }));
-        } catch(err) {
-          console.error(err)
-        }
-      }
+      positionsList = await publication.current?.positionsFromManifest();
+      if (positionsList && positionsList.length > 0) dispatch(setProgression( { totalPositions: positionsList.length }));
     };
 
     fetchPositions()
-      .catch(console.error);
-    
-    const initialPosition = localData.get(localDataKey.current);
+      .catch(console.error)
+      .then(() => {
+        const initialPosition = localData.get(localDataKey.current);
 
-    EpubNavigatorLoad({
-      container: container.current, 
-      publication: publication.current,
-      listeners: listeners, 
-      positionsList: positionsList,
-      initialPosition: initialPosition,
-      localDataKey: localDataKey.current,
-    }, () => p.observe(window));
+        EpubNavigatorLoad({
+          container: container.current, 
+          publication: publication.current!,
+          listeners: listeners, 
+          positionsList: positionsList,
+          initialPosition: initialPosition,
+          localDataKey: localDataKey.current,
+        }, () => p.observe(window));
+      });
 
     return () => {
       EpubNavigatorDestroy(() => p.destroy());
@@ -379,7 +364,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       <></>
     }
 
-    { isPaged ? <ReaderFooter /> : <></>}
+    { isPaged ? <ReaderFooter /> : <></> }
   </main>
   </>
 )};
