@@ -50,15 +50,15 @@ export const RSPrefs = {
     displayOrder: [
       ActionKeys.settings,
       ActionKeys.fullscreen,
-      ActionKeys.toc,
-      ActionKeys.jumpToPosition
+    //  ActionKeys.toc,
+    //  ActionKeys.jumpToPosition
     ],
     [ActionKeys.settings]: {
-      visibility: ActionVisibility.partially,
+      visibility: ActionVisibility.always,
       shortcut: `${ShortcutMetaKeywords.platform}+P`
     },
     [ActionKeys.fullscreen]: {
-      visibility: ActionVisibility.partially,
+      visibility: ActionVisibility.always,
       shortcut: `${ShortcutMetaKeywords.platform}+F11`
     },
     [ActionKeys.toc]: {
