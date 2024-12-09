@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 import { RSPrefs } from "@/preferences";
 import { setStaticBreakpoint } from "@/lib/readerReducer";
