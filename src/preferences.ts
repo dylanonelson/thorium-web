@@ -39,7 +39,7 @@ export const RSPrefs = {
     },
     icon: {
       size: 24, // Size of icons in px
-      tooltipOffset: 15 // offset of tooltip in px
+      tooltipOffset: 10 // offset of tooltip in px
     }
   },
   shortcuts: {
