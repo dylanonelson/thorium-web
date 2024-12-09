@@ -21,6 +21,9 @@
   grid-area: header-center;
   justify-self: center;
   align-self: center;
+  /* Currently a layout issue
   text-wrap: nowrap;
-  text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  */
 }
