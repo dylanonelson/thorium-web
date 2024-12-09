@@ -39,9 +39,9 @@ export const useCollapsibility = (toc: Links) => {
 
     let countdown: number = 0;
     if (staticBreakpoint === StaticBreakpoints.compact) {
-      countdown = actionsOrder.length - 2;
+      countdown = actionsOrder.length - (actionsOrder.length - 2);
     } else if (staticBreakpoint === StaticBreakpoints.medium) {
-      countdown = actionsOrder.length - 3;
+      countdown = actionsOrder.length - (actionsOrder.length - 1);
     }
 
     // Creating a shallow copy so that actionsOrder doesn’t mutate between rerenders
