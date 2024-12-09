@@ -10,7 +10,7 @@
   justify-self: end;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 2px;
 }
 
 .header h1 {
@@ -21,4 +21,9 @@
   grid-area: header-center;
   justify-self: center;
   align-self: center;
+  /* Currently a layout issue
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  */
 }

@@ -17,10 +17,18 @@
   opacity: 1;
 }
 
+/* Opacity relative to .immersive */
 .subduedPartially {
-  visibility: hidden;
+  opacity: 0;
 }
 
-.subduedPartiallyHovering {
-  visibility: visible;
+/* Opacity relative to .immersive */
+.subduedPartially[data-hovered],
+.subduedPartially[data-focus-visible] {
+  opacity: 1;
+}
+
+/* TMP: To hide fullscreen icon that doesn’t update properly on exit */
+.immersive .subduedPartially[data-hovered] {
+  opacity: 0;
 }

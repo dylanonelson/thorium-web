@@ -1,7 +1,5 @@
 import React, { ReactNode } from "react";
 
-import { ActionVisibility } from "@/preferences";
-
 import Locale from "../resources/locales/en.json";
 import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
@@ -9,10 +7,13 @@ import MenuIcon from "./assets/icons/more_vert.svg";
 
 import { Key, Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setOverflowMenuOpen, toggleImmersive } from "@/lib/readerReducer";
+import { ActionVisibility } from "./Templates/ActionComponent";
 
 export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
+  const isImmersive = useAppSelector(state => state.reader.isImmersive);
+  const isHovered = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
 
   const toggleMenuState = (value: boolean) => {
@@ -21,7 +22,7 @@ export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
   
   return(
     <>
-    { React.Children.toArray(children).length > 0 ? 
+    { React.Children.toArray(children).length > 0 && (!isImmersive || isHovered) ? 
       <>
       <MenuTrigger onOpenChange={ (val) => toggleMenuState(val) }>
         <ActionIcon 

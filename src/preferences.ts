@@ -1,38 +1,23 @@
+import { StaticBreakpoints } from "./hooks/useBreakpoints";
+import { ScrollAffordancePref, ScrollBackTo } from "./helpers/scrollAffordance";
+import { ActionKeys, ActionVisibility } from "./components/Templates/ActionComponent";
 import { ShortcutRepresentation } from "./components/Shortcut";
 import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
 
-export enum ScrollAffordancePref {
-  none = "none",
-  prev = "previous",
-  next = "next",
-  both = "both"
-}
-
-export enum ScrollBackTo {
-  top = "top",
-  bottom = "bottom",
-  untouched = "untouched"
-}
-
-export enum ActionKeys {
-  fullscreen = "fullscreen",
-  jumpToPosition = "jumpToPosition",
-  settings = "settings",
-  toc = "toc"
-}
-
-export enum ActionVisibility {
-  always = "always",
-  partially = "partially",
-  overflow = "overflow"
-}
-
 export const RSPrefs = {
-  breakpoint: 1024, // width in pixels
+  breakpoints: {
+    // See https://m3.material.io/foundations/layout/applying-layout/window-size-classes
+    [StaticBreakpoints.compact]: 600, // Phone in portrait
+    [StaticBreakpoints.medium]: 840, // Tablet in portrait, Foldable in portrait (unfolded)
+    [StaticBreakpoints.expanded]: 1200, // Phone in landscape, Tablet in landscape, Foldable in landscape (unfolded), Desktop
+    [StaticBreakpoints.large]: 1600, // Desktop
+    [StaticBreakpoints.xLarge]: null // Desktop Ultra-wide
+  },
   typography: {
-    minimalLineLength: 35, // number of characters. If 2 cols will switch to 1 based on this
+    minimalLineLength: 35, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 75, // number of characters. If auto layout, picks colCount based on this
     pageGutter: 20 // body padding in px
+    // In the future we could have useDynamicBreakpoint: boolean so that devs can disable it and use breakpoints instead
   },
   scroll: {
     topAffordance: ScrollAffordancePref.none,
@@ -48,10 +33,13 @@ export const RSPrefs = {
       primary: "#4d4d4d",
       secondary: "white",
       disabled: "#767676",
-      subdued: "#999999"
+      subdued: "#999999",
+      hover: "#eaeaea",
+      selected: "#eaeaea"
     },
     icon: {
       size: 24, // Size of icons in px
+      tooltipOffset: 10 // offset of tooltip in px
     }
   },
   shortcuts: {
@@ -61,28 +49,24 @@ export const RSPrefs = {
   actions: {
     displayOrder: [
       ActionKeys.settings,
-    //  ActionKeys.fullscreen,
+      ActionKeys.fullscreen,
     //  ActionKeys.toc,
     //  ActionKeys.jumpToPosition
     ],
     [ActionKeys.settings]: {
       visibility: ActionVisibility.always,
-      collapsible: false,
       shortcut: `${ShortcutMetaKeywords.platform}+P`
     },
     [ActionKeys.fullscreen]: {
-      visibility: ActionVisibility.partially,
-      collapsible: true,
+      visibility: ActionVisibility.always,
       shortcut: `${ShortcutMetaKeywords.platform}+F11`
     },
     [ActionKeys.toc]: {
       visibility: ActionVisibility.partially,
-      collapsible: true,
       shortcut: `${ShortcutMetaKeywords.platform}+N`
     },
     [ActionKeys.jumpToPosition]: {
       visibility: ActionVisibility.overflow,
-      collapsible: false,
       shortcut: `${ShortcutMetaKeywords.platform}+J`
     }
   }

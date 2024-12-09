@@ -1,13 +1,13 @@
 import React from "react";
 
 import Locale from "../resources/locales/en.json";
-import { ActionKeys, RSPrefs } from "@/preferences";
+import { RSPrefs } from "@/preferences";
 
 import TargetIcon from "./assets/icons/point_scan.svg";
 
 import { ActionIcon } from "./Templates/ActionIcon";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
-import { ActionComponentVariant, IActionComponent } from "./Templates/ActionComponent";
+import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
 
 export const JumpToPositionAction: React.FC<IActionComponent> = ({ variant }) => {
   if (variant && variant === ActionComponentVariant.menu) {

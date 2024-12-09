@@ -48,7 +48,7 @@ export const ReaderHeader = ({ toc }: { toc: Links }) => {
       onMouseEnter={ setHover } 
       onMouseLeave={ removeHover }
     >
-      <RunningHead />
+      <RunningHead syncDocTitle={ true } />
       
       <div 
         className={ readerHeaderStyles.actionsWrapper } 
@@ -56,11 +56,11 @@ export const ReaderHeader = ({ toc }: { toc: Links }) => {
       >
         { Actions.ActionIcons }
 
-    {/*    
+      {/*
         <OverflowMenu>
           { Actions.MenuItems }
         </OverflowMenu>
-    */}
+      */}
     
       </div>
     </header>

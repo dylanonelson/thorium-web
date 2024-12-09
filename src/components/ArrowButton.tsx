@@ -14,6 +14,8 @@ import { Button, PressEvent, Tooltip, TooltipTrigger } from "react-aria-componen
 import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
+import { isActiveElement } from "@/helpers/focus";
+import { StaticBreakpoints } from "@/hooks/useBreakpoints";
 
 export interface ReaderArrowProps {
   direction: "left" | "right";
@@ -26,8 +28,10 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   const button = useRef<HTMLButtonElement>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
-  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
+  const hasReachedDynamicBreakpoint = useAppSelector(state => state.reader.hasReachedDynamicBreakpoint);
+  const staticBreakpoint = useAppSelector(state => state.reader.staticBreakpoint);
   const isRTL = useAppSelector(state => state.publication.isRTL);
+  const isFXL = useAppSelector(state => state.publication.isFXL);
 
   const [isHovering, setIsHovering] = useState(false);
 
@@ -35,7 +39,7 @@ export const ArrowButton = (props: ReaderArrowProps) => {
 
   const handleClassNameFromState = () => {
     let className = "";
-    if (isImmersive && !hasReachedBreakpoint || isFullscreen) {
+    if (isImmersive && !hasReachedDynamicBreakpoint || isFullscreen) {
       className = readerStateStyles.immersiveHidden;
     } else if (isImmersive) {
       className = readerStateStyles.immersive;
@@ -44,14 +48,26 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   };
 
   const handleClassNameFromBreakpoint = () => {
-    return hasReachedBreakpoint ? arrowStyles.viewportLarge : "";
+    if (isFXL && (staticBreakpoint === StaticBreakpoints.large || staticBreakpoint === StaticBreakpoints.xLarge)) {
+      return arrowStyles.viewportLarge;
+    } else if (!isFXL && hasReachedDynamicBreakpoint) {
+      return arrowStyles.viewportLarge;
+    } else {
+      return "";
+    }
   };
 
   useEffect(() => {
-    if ((props.disabled || (isImmersive && !isHovering)) && document.activeElement === button.current) {
+    if ((props.disabled || (isImmersive && !isHovering)) && isActiveElement(button.current)) {
       button.current!.blur();
     }
   });
+
+  const blurOnEsc = (event: React.KeyboardEvent) => {    
+    if (isActiveElement(button.current) && event.code === "Escape") {
+      button.current!.blur();
+    }
+  };
 
   // Unlike preventFocusOnPress, this gives a visual feedback
   // the button has been pressed in immersive mode (esp. when hidden)
@@ -59,7 +75,7 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   // on mobile depending on the length of the press
   const handleNonKeyboardFocus = (event: PressEvent) => {
     if (event.pointerType !== "keyboard") {
-      if (document.activeElement === button.current) {
+      if (isActiveElement(button.current)) {
         button.current!.blur()
       }
     }
@@ -74,8 +90,10 @@ export const ArrowButton = (props: ReaderArrowProps) => {
         onPress={ props.onPressCallback }
         onPressEnd={ handleNonKeyboardFocus }
         onHoverChange={ (e) => setIsHovering(e) } 
+        onKeyDown={ blurOnEsc }
         className={ classNames(props.className, handleClassNameFromBreakpoint(), handleClassNameFromState()) }
-        isDisabled={ props.disabled }>
+        isDisabled={ props.disabled }
+      >
         { props.direction === "left" ? 
           <LeftArrow aria-hidden="true" focusable="false" /> : 
           <RightArrow aria-hidden="true" focusable="false" />

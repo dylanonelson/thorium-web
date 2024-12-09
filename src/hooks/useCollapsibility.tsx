@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import { ActionKeys, ActionVisibility, RSPrefs } from "@/preferences";
+import { RSPrefs } from "@/preferences";
 
 import { Links } from "@readium/shared";
 
@@ -9,12 +9,13 @@ import { JumpToPositionAction } from "@/components/JumpToPositionAction";
 import { SettingsAction } from "@/components/SettingsAction";
 import { TocAction } from "@/components/TocAction";
 import { useAppSelector } from "@/lib/hooks";
-import { ActionComponentVariant } from "@/components/Templates/ActionComponent";
+import { ActionComponentVariant, ActionKeys, ActionVisibility } from "@/components/Templates/ActionComponent";
+import { StaticBreakpoints } from "./useBreakpoints";
 
 export const useCollapsibility = (toc: Links) => {
   const [ActionIcons, setActionIcons] = useState<React.JSX.Element[]>([]);
   const [MenuItems, setMenuItems] = useState<React.JSX.Element[]>([]);
-  const hasReachedBreakpoint = useAppSelector(state => state.reader.hasReachedBreakpoint);
+  const staticBreakpoint = useAppSelector(state => state.reader.staticBreakpoint);
 
   const triageActions = useCallback(() => {
     const ActionIconsMap = {
@@ -32,32 +33,41 @@ export const useCollapsibility = (toc: Links) => {
     };
   
     const actionsOrder = RSPrefs.actions.displayOrder;
-  
+
     const actionIcons: React.JSX.Element[] = [];
     const menuItems: React.JSX.Element[] = [];
 
-    actionsOrder.map((key) => {
+    let countdown: number = 0;
+    if (staticBreakpoint === StaticBreakpoints.compact) {
+      countdown = actionsOrder.length - (actionsOrder.length - 2);
+    } else if (staticBreakpoint === StaticBreakpoints.medium) {
+      countdown = actionsOrder.length - (actionsOrder.length - 1);
+    }
+
+    // Creating a shallow copy so that actionsOrder doesn’t mutate between rerenders
+    [...actionsOrder].slice().reverse().map((key) => {
       const actionPref = RSPrefs.actions[key];
       if (actionPref.visibility === ActionVisibility.overflow) {
-        menuItems.push(MenuItemsMap[key]);
-      } else if (actionPref.collapsible) {
-        if (hasReachedBreakpoint) {
-          actionIcons.push(ActionIconsMap[key]);
-        } else {
-          menuItems.push(MenuItemsMap[key]);
-        }
+        menuItems.unshift(MenuItemsMap[key]);
+      } else if (actionPref.visibility === ActionVisibility.partially) {
+          if (countdown > 0) {
+            menuItems.unshift(MenuItemsMap[key]);
+            --countdown;
+          } else {
+            actionIcons.unshift(ActionIconsMap[key]);
+          }
       } else {
-        actionIcons.push(ActionIconsMap[key]);
+        actionIcons.unshift(ActionIconsMap[key]);
       }
     });
 
     setActionIcons(actionIcons);
     setMenuItems(menuItems);
-  }, [hasReachedBreakpoint, toc]);
+  }, [staticBreakpoint, toc]);
 
   useEffect(() => {
     triageActions();
-  }, [hasReachedBreakpoint, triageActions]);
+  }, [staticBreakpoint, triageActions]);
 
   return {
     ActionIcons,
