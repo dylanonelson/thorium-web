@@ -15,6 +15,7 @@ import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Template
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setHovering } from "@/lib/readerReducer";
+import { isIOSish } from "@/helpers/keyboard/getPlatform";
 
 export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
   // Note: Not using React Aria ToggleButton here as fullscreen is quite
@@ -30,36 +31,38 @@ export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
     // TODO: fix hover state on exit, if even possible w/o a lot of getting around…
   };
 
+  // Per React doc/principles this isn’t common but FullScreen is quite an edge case cos’ of iPadOS…
+  // And Actions is still a work in progress, with opportunities to rewrite/refactor
+  // Note we don’t check window.matchMedia("(display-mode: standalone)").matches as this is not a PWA yet
+  // And more values here: https://web.dev/learn/pwa/detection
+  if (!document.fullscreenEnabled || isIOSish()) return null;
+
   if (variant && variant === ActionComponentVariant.menu) {
     return(
       <>
-      { document.fullscreenEnabled 
-      ? <OverflowMenuItem 
-          label={ Locale.reader.fullscreen.trigger }
-          SVG={ FullscreenCorners } 
-          shortcut={ RSPrefs.actions.fullscreen.shortcut }
-          onActionCallback={ fs.handleFullscreen } 
-          id={ ActionKeys.fullscreen }
-        />
+      <OverflowMenuItem 
+        label={ Locale.reader.fullscreen.trigger }
+        SVG={ FullscreenCorners } 
+        shortcut={ RSPrefs.actions.fullscreen.shortcut }
+        onActionCallback={ fs.handleFullscreen } 
+        id={ ActionKeys.fullscreen }
+      />
       : <></>
-      }
       </>
     )
   } else {
     return(
       <>
-      { document.fullscreenEnabled 
-      ? <ActionIcon 
-          className={ readerSharedUI.iconCompSm }
-          visibility={ RSPrefs.actions[ActionKeys.fullscreen].visibility }  
-          ariaLabel={ fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger }
-          SVG={ fs.isFullscreen ? FullscreenExit : FullscreenCorners } 
-          placement="bottom" 
-          tooltipLabel={ Locale.reader.fullscreen.tooltip } 
-          onPressCallback={ handlePress } 
-        />
-        : <></> 
-      }
+      <ActionIcon 
+        className={ readerSharedUI.iconCompSm }
+        visibility={ RSPrefs.actions[ActionKeys.fullscreen].visibility }  
+        ariaLabel={ fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger }
+        SVG={ fs.isFullscreen ? FullscreenExit : FullscreenCorners } 
+        placement="bottom" 
+        tooltipLabel={ Locale.reader.fullscreen.tooltip } 
+        onPressCallback={ handlePress } 
+      />
+      : <></> 
       </>
     )
   }
