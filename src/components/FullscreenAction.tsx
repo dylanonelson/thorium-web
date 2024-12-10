@@ -47,7 +47,6 @@ export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
         onActionCallback={ fs.handleFullscreen } 
         id={ ActionKeys.fullscreen }
       />
-      : <></>
       </>
     )
   } else {
@@ -62,7 +61,6 @@ export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
         tooltipLabel={ Locale.reader.fullscreen.tooltip } 
         onPressCallback={ handlePress } 
       />
-      : <></> 
       </>
     )
   }
