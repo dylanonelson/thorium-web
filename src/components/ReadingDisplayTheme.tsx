@@ -8,6 +8,8 @@ import CheckIcon from "./assets/icons/check.svg";
 import { Label, Radio, RadioGroup } from "react-aria-components";
 
 import classNames from "classnames";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setTheme } from "@/lib/readerReducer";
 
 export enum Themes {
   auto = "auto",
@@ -22,22 +24,31 @@ export enum Themes {
 }
 
 export const ReadingDisplayTheme = () => {
+  const theme = useAppSelector(state => state.reader.theme);
+  const dispatch = useAppDispatch();
+
+  const handleTheme = (value: string) => {
+    dispatch(setTheme(value));
+  }
+
   return (
     <>
     <div>
       <RadioGroup 
         orientation="horizontal" 
+        value={ theme }
+        onChange={ handleTheme }
       >
         <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
         <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
-          { Object.keys(Themes).map(( theme ) => 
+          { Object.keys(Themes).map(( t ) => 
             <Radio
-              className={ classNames(settingsStyles.readerSettingsRadio, settingsStyles.readerSettingsThemeRadio, settingsStyles[theme]) }
-              value={ theme }
-              id={ theme }
-              key={ theme }
+              className={ classNames(settingsStyles.readerSettingsRadio, settingsStyles.readerSettingsThemeRadio, settingsStyles[t]) }
+              value={ t }
+              id={ t }
+              key={ t }
             >
-            <span>{ Locale.reader.settings.themes[theme as keyof typeof Themes]} { theme === Themes.auto ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
+            <span>{ Locale.reader.settings.themes[t as keyof typeof Themes]} { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
             </Radio>
           ) }
         </div>
