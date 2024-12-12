@@ -46,8 +46,8 @@ export const RSPrefs = {
       offset: 5 // offset of the arrows from the edges in px
     },
     color: {
-      primary: "#4d4d4d",
-      secondary: "white",
+    //  primary: "#4d4d4d",
+    //  secondary: "white",
       disabled: "#767676",
       subdued: "#999999",
       hover: "#eaeaea",

@@ -130,12 +130,14 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       applyReadiumCSSStyles({
         "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
       });
+
+      handleTheme(RCSSSettings.current.theme);
+
       if (RCSSSettings.current.paginated) {
         await applyColumns(RCSSSettings.current.colCount);
       } else {
         await applyScrollable();
       }
-      handleTheme(RCSSSettings.current.theme);
     } else if (navLayout() === EPUBLayout.fixed) {
       // [TMP] Working around positionChanged not firing consistently for FXL
       // Init’ing so that progression can be populated on first spread loaded
@@ -282,7 +284,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [theme, colorScheme]);
 
   const handleResize = debounce(() => {
-    if (navLayout() === EPUBLayout.reflowable) {
+    if (navLayout() === EPUBLayout.reflowable) {      
       if (RCSSSettings.current.paginated) {
         handleColCountReflow(RCSSSettings.current.colCount);
       } else {
@@ -355,7 +357,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       {
         ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
         ...propsToCSSVars(RSPrefs.theming.color, "color"), 
-        ...propsToCSSVars(RSPrefs.theming.icon, "icon") 
+        ...propsToCSSVars(RSPrefs.theming.icon, "icon"),
+        ...propsToCSSVars({
+          primary: theme === Themes.auto ? RSPrefs.theming.themes[Themes.day].color : RSPrefs.theming.themes[theme].color,
+          secondary: theme === Themes.auto ? RSPrefs.theming.themes[Themes.day].backgroundColor : RSPrefs.theming.themes[theme].backgroundColor
+        }, "color")
       } 
     }>
       <ReaderHeader 

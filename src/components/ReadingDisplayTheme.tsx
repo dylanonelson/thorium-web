@@ -25,10 +25,10 @@ export const ReadingDisplayTheme = () => {
   // than spamming the entire app with all custom properties right now
   const doStyles = (t: Themes) => {
     let cssProps: CSSProperties = {
-      border: `1px solid ${ RSPrefs.theming.color.primary }`,
+      border: `1px solid ${ RSPrefs.theming.color.subdued }`,
       boxSizing: "border-box",
       color: "#999999"
-    }
+    };
 
     if (t === Themes.auto) {
       cssProps.background = `linear-gradient(to right bottom, ${ RSPrefs.theming.themes[Themes.day].backgroundColor } 50%, ${ RSPrefs.theming.themes[Themes.night].backgroundColor } 50.3%)`;
@@ -36,7 +36,8 @@ export const ReadingDisplayTheme = () => {
     } else {
       cssProps.background = RSPrefs.theming.themes[t].backgroundColor;
       cssProps.color = RSPrefs.theming.themes[t].color;
-    }
+    };
+    
     return cssProps;
   };
 
