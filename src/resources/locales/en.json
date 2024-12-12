@@ -63,7 +63,7 @@
       "themes": {
         "title": "Themes",
         "auto": "Auto",
-        "neutral": "Neutral",
+        "day": "Day",
         "sepia": "Sepia",
         "paper": "Paper",
         "night": "Night",

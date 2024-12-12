@@ -1,5 +1,6 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 
+import { RSPrefs, Themes } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
@@ -7,21 +8,10 @@ import CheckIcon from "./assets/icons/check.svg";
 
 import { Label, Radio, RadioGroup } from "react-aria-components";
 
-import classNames from "classnames";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTheme } from "@/lib/readerReducer";
 
-export enum Themes {
-  auto = "auto",
-  neutral = "neutral",
-  sepia = "sepia",
-  paper = "paper",
-  night = "night",
-  contrast1 = "contrast1",
-  contrast2 = "contrast2",
-  contrast3 = "contrast3",
-  contrast4 = "contrast4"
-}
+import classNames from "classnames";
 
 export const ReadingDisplayTheme = () => {
   const theme = useAppSelector(state => state.reader.theme);
@@ -29,7 +19,26 @@ export const ReadingDisplayTheme = () => {
 
   const handleTheme = (value: string) => {
     dispatch(setTheme(value));
-  }
+  };
+
+  // Yeah so it’s easier to inline styles from preferences for these
+  // than spamming the entire app with all custom properties right now
+  const doStyles = (t: Themes) => {
+    let cssProps: CSSProperties = {
+      border: `1px solid ${ RSPrefs.theming.color.primary }`,
+      boxSizing: "border-box",
+      color: "#999999"
+    }
+
+    if (t === Themes.auto) {
+      cssProps.background = `linear-gradient(to right bottom, ${ RSPrefs.theming.themes[Themes.day].backgroundColor } 50%, ${ RSPrefs.theming.themes[Themes.night].backgroundColor } 50.3%)`;
+      cssProps.color = "#FFFFFF"
+    } else {
+      cssProps.background = RSPrefs.theming.themes[t].backgroundColor;
+      cssProps.color = RSPrefs.theming.themes[t].color;
+    }
+    return cssProps;
+  };
 
   return (
     <>
@@ -41,14 +50,18 @@ export const ReadingDisplayTheme = () => {
       >
         <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
         <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
-          { Object.keys(Themes).map(( t ) => 
+          { RSPrefs.theming.themes.displayOrder.map(( t ) => 
             <Radio
-              className={ classNames(settingsStyles.readerSettingsRadio, settingsStyles.readerSettingsThemeRadio, settingsStyles[t]) }
+              className={ classNames(
+                settingsStyles.readerSettingsRadio, 
+                settingsStyles.readerSettingsThemeRadio
+              ) }
               value={ t }
               id={ t }
               key={ t }
+              style={ doStyles(t) }
             >
-            <span>{ Locale.reader.settings.themes[t as keyof typeof Themes]} { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
+            <span style={ t === Themes.auto ? { mixBlendMode: "difference" } : {}}>{ Locale.reader.settings.themes[t as keyof typeof Themes] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
             </Radio>
           ) }
         </div>

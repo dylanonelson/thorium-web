@@ -34,10 +34,13 @@ import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
+import { ColorScheme, useColorScheme } from "@/hooks/useColorScheme";
+import { Themes } from "@/preferences";
 
 interface IRCSSSettings {
   paginated: boolean;
   colCount: string;
+  theme: Themes;
 }
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
@@ -47,10 +50,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
+  const theme = useAppSelector(state => state.reader.theme);
 
   const RCSSSettings = useRef<IRCSSSettings>({
     paginated: isPaged,
-    colCount: colCount
+    colCount: colCount,
+    theme: theme
   });
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -63,6 +68,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const fs = useFullscreen();
   const staticBreakpoint = useBreakpoints();
+  const colorScheme = useColorScheme();
 
   const { 
     EpubNavigatorLoad, 
@@ -80,6 +86,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     applyReadiumCSSStyles,
     handleColCountReflow,
     handleScrollReflow,
+    handleTheme, 
     setFXLPages,  
     handleProgression
   } = useEpubNavigator();
@@ -128,6 +135,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       } else {
         await applyScrollable();
       }
+      handleTheme(RCSSSettings.current.theme);
     } else if (navLayout() === EPUBLayout.fixed) {
       // [TMP] Working around positionChanged not firing consistently for FXL
       // Init’ing so that progression can be populated on first spread loaded
@@ -263,6 +271,16 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
   }, [colCount, navLayout, setFXLPages, handleColCountReflow]);
 
+  useEffect(() => {
+    RCSSSettings.current.theme = theme;
+    
+    if (theme === Themes.auto) {
+      colorScheme === ColorScheme.dark ? handleTheme(Themes.night) : handleTheme(Themes.day);
+    } else {
+      handleTheme(theme);
+    }
+  }, [theme, colorScheme]);
+
   const handleResize = debounce(() => {
     if (navLayout() === EPUBLayout.reflowable) {
       if (RCSSSettings.current.paginated) {
@@ -333,7 +351,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   return (
     <>
-    <main style={ propsToCSSVars(RSPrefs.theming) }>
+    <main style={ 
+      {
+        ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
+        ...propsToCSSVars(RSPrefs.theming.color, "color"), 
+        ...propsToCSSVars(RSPrefs.theming.icon, "icon") 
+      } 
+    }>
       <ReaderHeader 
         toc={ publication.current?.tableOfContents || new Links([]) }
       />

@@ -4,6 +4,22 @@ import { ActionKeys, ActionVisibility } from "./components/Templates/ActionCompo
 import { ShortcutRepresentation } from "./components/Shortcut";
 import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
 
+import dayMode from "readium-css/css/vars/day.json";
+import sepiaMode from "readium-css/css/vars/sepia.json";
+import nightMode from "readium-css/css/vars/night.json";
+
+export enum Themes {
+  auto = "auto",
+  day = "day",
+  sepia = "sepia",
+  night = "night",
+  paper = "paper",
+  contrast1 = "contrast1",
+  contrast2 = "contrast2",
+  contrast3 = "contrast3",
+  contrast4 = "contrast4"
+}
+
 export const RSPrefs = {
   breakpoints: {
     // See https://m3.material.io/foundations/layout/applying-layout/window-size-classes
@@ -40,6 +56,51 @@ export const RSPrefs = {
     icon: {
       size: 24, // Size of icons in px
       tooltipOffset: 10 // offset of tooltip in px
+    },
+    themes: {
+      displayOrder: [
+        Themes.auto, 
+        Themes.day, 
+        Themes.sepia, 
+        Themes.paper, 
+        Themes.night, 
+        Themes.contrast1, 
+        Themes.contrast2, 
+        Themes.contrast3, 
+        Themes.contrast4
+      ],
+      [Themes.day]: {
+        backgroundColor: dayMode.RS__backgroundColor,
+        color: dayMode.RS__textColor
+      },
+      [Themes.sepia]: {
+        backgroundColor: sepiaMode.RS__backgroundColor,
+        color: sepiaMode.RS__textColor
+      },
+      [Themes.night]: {
+        backgroundColor: nightMode.RS__backgroundColor,
+        color: nightMode.RS__textColor
+      },
+      [Themes.paper]: {
+        backgroundColor: "#e9ddc8",
+        color: "#000000"
+      },
+      [Themes.contrast1]: {
+        backgroundColor: "#000000",
+        color: "#ffffff"
+      },
+      [Themes.contrast2]: {
+        backgroundColor: "#000000",
+        color: "#ffff00"
+      },
+      [Themes.contrast3]: {
+        backgroundColor: "#181842",
+        color: "#ffffff"
+      },
+      [Themes.contrast4]: {
+        backgroundColor: "#c5e7cd",
+        color: "#000000"
+      }
     }
   },
   shortcuts: {
