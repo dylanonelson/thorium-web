@@ -273,8 +273,21 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
   }, [colCount, navLayout, setFXLPages, handleColCountReflow]);
 
+  const setThemePropertiesOnRoot = useCallback((t: Themes) => {
+    const props = propsToCSSVars({
+      primary: t === Themes.auto ? RSPrefs.theming.themes[Themes.day].color : RSPrefs.theming.themes[t].color,
+      secondary: t === Themes.auto ? RSPrefs.theming.themes[Themes.day].backgroundColor : RSPrefs.theming.themes[t].backgroundColor
+    }, "color");
+    
+    for (let p in props) {
+      document.documentElement.style.setProperty(p, props[p])
+    }
+  }, []);
+
   useEffect(() => {
     RCSSSettings.current.theme = theme;
+
+    setThemePropertiesOnRoot(theme);
     
     if (theme === Themes.auto) {
       colorScheme === ColorScheme.dark ? handleTheme(Themes.night) : handleTheme(Themes.day);
@@ -357,11 +370,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       {
         ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
         ...propsToCSSVars(RSPrefs.theming.color, "color"), 
-        ...propsToCSSVars(RSPrefs.theming.icon, "icon"),
-        ...propsToCSSVars({
-          primary: theme === Themes.auto ? RSPrefs.theming.themes[Themes.day].color : RSPrefs.theming.themes[theme].color,
-          secondary: theme === Themes.auto ? RSPrefs.theming.themes[Themes.day].backgroundColor : RSPrefs.theming.themes[theme].backgroundColor
-        }, "color")
+        ...propsToCSSVars(RSPrefs.theming.icon, "icon")
       } 
     }>
       <ReaderHeader 
