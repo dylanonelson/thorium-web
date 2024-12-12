@@ -1,4 +1,4 @@
-import { Themes } from "@/components/ReadingDisplayTheme";
+import { Themes } from "@/preferences";
 import { defaultPlatformModifier, IPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { StaticBreakpoints } from "@/hooks/useBreakpoints";
 import { createSlice } from "@reduxjs/toolkit";

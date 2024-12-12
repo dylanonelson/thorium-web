@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
-import { RSPrefs } from "@/preferences";
+import { RSPrefs, Themes } from "@/preferences";
 import fontStacks from "readium-css/css/vars/fontStacks.json";
 
 import { EPUBLayout, Link, Locator, Publication, ReadingProgression } from "@readium/shared";
@@ -184,6 +184,40 @@ export const useEpubNavigator = () => {
     handleScrollReflow();
   }, [applyReadiumCSSStyles, handleScrollReflow, mountScroll]);
 
+  const handleTheme = useCallback((t: Themes) => {
+    switch(t) {
+      case Themes.auto:
+      case Themes.day:
+        applyReadiumCSSStyles({
+          "--USER__appearance": "readium-day-on",
+          "--USER__backgroundColor": "",
+          "--USER__textColor": "" 
+        });
+        break;
+      case Themes.sepia:
+        applyReadiumCSSStyles({
+          "--USER__appearance": "readium-sepia-on",
+          "--USER__backgroundColor": "",
+          "--USER__textColor": "" 
+        });
+        break;
+      case Themes.night:
+        applyReadiumCSSStyles({
+          "--USER__appearance": "readium-night-on",
+          "--USER__backgroundColor": "",
+          "--USER__textColor": "" 
+        });
+        break;
+      default:
+        applyReadiumCSSStyles({
+          "--USER__appearance": "",
+          "--USER__backgroundColor": RSPrefs.theming.themes[t].backgroundColor,
+          "--USER__textColor": RSPrefs.theming.themes[t].color
+        });
+        break;
+    }
+  }, [])
+
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
   const scrollBackTo = useCallback((position: ScrollBackTo) => {
@@ -315,6 +349,7 @@ export const useEpubNavigator = () => {
     scrollBackTo, 
     handleColCountReflow,
     handleScrollReflow,
+    handleTheme, 
     setFXLPages, 
     handleProgression
   }
