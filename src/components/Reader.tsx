@@ -274,9 +274,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [colCount, navLayout, setFXLPages, handleColCountReflow]);
 
   const setThemePropertiesOnRoot = useCallback((t: Themes) => {
+    if (t === Themes.auto) return;
+
     const props = propsToCSSVars({
-      primary: t === Themes.auto ? RSPrefs.theming.themes[Themes.day].color : RSPrefs.theming.themes[t].color,
-      secondary: t === Themes.auto ? RSPrefs.theming.themes[Themes.day].backgroundColor : RSPrefs.theming.themes[t].backgroundColor
+      primary: RSPrefs.theming.themes[t].color,
+      secondary: RSPrefs.theming.themes[t].backgroundColor
     }, "color");
     
     for (let p in props) {
@@ -286,12 +288,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   useEffect(() => {
     RCSSSettings.current.theme = theme;
-
-    setThemePropertiesOnRoot(theme);
     
     if (theme === Themes.auto) {
-      colorScheme === ColorScheme.dark ? handleTheme(Themes.night) : handleTheme(Themes.day);
+      const inferredTheme = colorScheme === ColorScheme.dark ? Themes.night : Themes.day;
+      setThemePropertiesOnRoot(inferredTheme);
+      handleTheme(inferredTheme);
     } else {
+      setThemePropertiesOnRoot(theme);
       handleTheme(theme);
     }
   }, [theme, colorScheme]);
