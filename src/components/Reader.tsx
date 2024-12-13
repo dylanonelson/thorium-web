@@ -280,32 +280,17 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
   }, [colCount, navLayout, setFXLPages, handleColCountReflow]);
 
-  const setThemePropertiesOnRoot = useCallback((t: Themes) => {
-    if (t === Themes.auto) return;
-
-    const props = propsToCSSVars({
-      primary: RSPrefs.theming.themes[t].color,
-      secondary: RSPrefs.theming.themes[t].backgroundColor
-    }, "color");
-    
-    for (let p in props) {
-      document.documentElement.style.setProperty(p, props[p])
-    }
-  }, []);
-
+  // Handling side effects on Navigator
   useEffect(() => {
     RCSSSettings.current.theme = theme;
     RCSSSettings.current.colorScheme = colorScheme;
     
     if (theme === Themes.auto) {
-      const inferredTheme = colorScheme === ColorScheme.dark ? Themes.dark : Themes.light;
-      setThemePropertiesOnRoot(inferredTheme);
-      handleTheme(inferredTheme);
+      handleTheme(theming.inferThemeAuto());
     } else {
-      setThemePropertiesOnRoot(theme);
       handleTheme(theme);
     }
-  }, [theme, colorScheme, setThemePropertiesOnRoot, handleTheme]);
+  }, [theme, colorScheme, handleTheme, theming]);
 
   const handleResize = debounce(() => {
     if (navLayout() === EPUBLayout.reflowable) {      
@@ -377,13 +362,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   return (
     <>
-    <main style={ 
-      {
-        ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
-        ...propsToCSSVars(RSPrefs.theming.semantic, "color"), 
-        ...propsToCSSVars(RSPrefs.theming.icon, "icon")
-      } 
-    }>
+    <main>
       <ReaderHeader 
         toc={ publication.current?.tableOfContents || new Links([]) }
       />
