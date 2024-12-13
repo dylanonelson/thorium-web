@@ -70,7 +70,10 @@ export const RSPrefs = {
       ],
       [Themes.day]: {
         backgroundColor: dayMode.RS__backgroundColor,
-        color: dayMode.RS__textColor
+        color: dayMode.RS__textColor,
+        // TODO
+        // primary: "",
+        // secondary: ""
       },
       [Themes.sepia]: {
         backgroundColor: sepiaMode.RS__backgroundColor,
