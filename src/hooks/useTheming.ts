@@ -33,7 +33,7 @@ export const useTheming = () => {
   }, []);
 
   const setThemeCustomProps = useCallback((t: Themes) => {
-    if (t === Themes.auto) t = colorSchemeRef.current === ColorScheme.dark ? Themes.dark : Themes.light;
+    if (t === Themes.auto) t = inferThemeAuto();
   
     const props = propsToCSSVars({
       primary: RSPrefs.theming.themes[t].color,
