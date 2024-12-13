@@ -20,7 +20,7 @@ export const useColorScheme = () => {
       ColorScheme.dark : 
       ColorScheme.light
     ));
-  }, [prefersDarkMode]);
+  }, [dispatch, prefersDarkMode]);
 
   return colorScheme;
 }
