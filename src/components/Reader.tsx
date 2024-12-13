@@ -302,7 +302,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       setThemePropertiesOnRoot(theme);
       handleTheme(theme);
     }
-  }, [theme, colorScheme]);
+  }, [theme, colorScheme, setThemePropertiesOnRoot, handleTheme]);
 
   const handleResize = debounce(() => {
     if (navLayout() === EPUBLayout.reflowable) {      
