@@ -131,7 +131,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
       });
 
-      handleTheme(RCSSSettings.current.theme);
+      if (RCSSSettings.current.theme === Themes.auto) {
+        const inferredTheme = colorScheme === ColorScheme.dark ? Themes.night : Themes.day;
+        handleTheme(inferredTheme);
+      } else { 
+        handleTheme(RCSSSettings.current.theme);
+      }  
 
       if (RCSSSettings.current.paginated) {
         await applyColumns(RCSSSettings.current.colCount);
