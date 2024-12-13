@@ -217,7 +217,7 @@ export const useEpubNavigator = () => {
         });
         break;
     }
-  }, [])
+  }, [applyReadiumCSSStyles])
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
