@@ -15,7 +15,7 @@ import { StaticBreakpoints } from "./useBreakpoints";
 export const useCollapsibility = (toc: Links) => {
   const [ActionIcons, setActionIcons] = useState<React.JSX.Element[]>([]);
   const [MenuItems, setMenuItems] = useState<React.JSX.Element[]>([]);
-  const staticBreakpoint = useAppSelector(state => state.reader.staticBreakpoint);
+  const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
 
   const triageActions = useCallback(() => {
     const ActionIconsMap = {

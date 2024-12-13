@@ -9,12 +9,12 @@ import CheckIcon from "./assets/icons/check.svg";
 import { Label, Radio, RadioGroup } from "react-aria-components";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setTheme } from "@/lib/readerReducer";
+import { setTheme } from "@/lib/themeReducer";
 
 import classNames from "classnames";
 
 export const ReadingDisplayTheme = () => {
-  const theme = useAppSelector(state => state.reader.theme);
+  const theme = useAppSelector(state => state.theming.theme);
   const dispatch = useAppDispatch();
 
   const handleTheme = (value: string) => {

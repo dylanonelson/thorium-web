@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 
 import { RSPrefs } from "@/preferences";
-import { setStaticBreakpoint } from "@/lib/readerReducer";
+import { setStaticBreakpoint } from "@/lib/themeReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useMediaQuery } from "./useMediaQuery";
 
@@ -24,7 +24,7 @@ type BreakpointRanges = { [key in StaticBreakpoints]: BreakpointRange | null; }
 
 export const useBreakpoints = () => {
   const [isClient, setIsClient] = useState(false);
-  const staticBreakpoint = useAppSelector(state => state.reader.staticBreakpoint);
+  const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const dispatch = useAppDispatch();
 
   const makeMediaString = (range: BreakpointRange | null) => {
@@ -51,7 +51,7 @@ export const useBreakpoints = () => {
   
     let prev: null | number = null;
     
-    Object.entries(RSPrefs.breakpoints).forEach(([ key, value ]) => {
+    Object.entries(RSPrefs.theming.breakpoints).forEach(([ key, value ]) => {
       if (value && !isNaN(value)) {
         const max = value;
         const min = prev ? prev + 1 : null;
