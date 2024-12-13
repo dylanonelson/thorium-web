@@ -132,7 +132,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       });
 
       if (RCSSSettings.current.theme === Themes.auto) {
-        const inferredTheme = colorScheme === ColorScheme.dark ? Themes.night : Themes.day;
+        const inferredTheme = colorScheme === ColorScheme.dark ? Themes.dark : Themes.light;
         handleTheme(inferredTheme);
       } else { 
         handleTheme(RCSSSettings.current.theme);
@@ -295,7 +295,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     RCSSSettings.current.theme = theme;
     
     if (theme === Themes.auto) {
-      const inferredTheme = colorScheme === ColorScheme.dark ? Themes.night : Themes.day;
+      const inferredTheme = colorScheme === ColorScheme.dark ? Themes.dark : Themes.light;
       setThemePropertiesOnRoot(inferredTheme);
       handleTheme(inferredTheme);
     } else {
