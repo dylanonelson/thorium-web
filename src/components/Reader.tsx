@@ -377,7 +377,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     <main style={ 
       {
         ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
-        ...propsToCSSVars(RSPrefs.theming.color, "color"), 
+        ...propsToCSSVars(RSPrefs.theming.semantic, "color"), 
         ...propsToCSSVars(RSPrefs.theming.icon, "icon")
       } 
     }>

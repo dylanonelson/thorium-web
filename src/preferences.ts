@@ -45,13 +45,12 @@ export const RSPrefs = {
       size: 40, // Size of the left and right arrows in px
       offset: 5 // offset of the arrows from the edges in px
     },
-    color: {
-    //  primary: "#4d4d4d",
-    //  secondary: "white",
-      disabled: "#767676",
-      subdued: "#999999",
-      hover: "#eaeaea",
-      selected: "#eaeaea"
+    // TMP for states
+    semantic: {
+      disabled: "color-mix(in srgb, var(--color-primary) 75%, transparent)",
+      subdued: "color-mix(in srgb, var(--color-primary) 50%, transparent)",
+      hover: "color-mix(in srgb, var(--color-primary) 15%, transparent)",
+      selected: "color-mix(in srgb, var(--color-primary) 25%, transparent)"
     },
     icon: {
       size: 24, // Size of icons in px
