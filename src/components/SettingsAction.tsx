@@ -24,9 +24,6 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   const isOpen = useAppSelector(state => state.reader.settingsOpen);
   const dispatch = useAppDispatch();
 
-  // TMP: until all is provided from root
-  const theme = useAppSelector(state => state.reader.theme);
-
   const setOpen = (value: boolean) => {
     dispatch(setSettingsOpen(value));
 

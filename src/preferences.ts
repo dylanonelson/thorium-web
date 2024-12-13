@@ -21,14 +21,6 @@ export enum Themes {
 }
 
 export const RSPrefs = {
-  breakpoints: {
-    // See https://m3.material.io/foundations/layout/applying-layout/window-size-classes
-    [StaticBreakpoints.compact]: 600, // Phone in portrait
-    [StaticBreakpoints.medium]: 840, // Tablet in portrait, Foldable in portrait (unfolded)
-    [StaticBreakpoints.expanded]: 1200, // Phone in landscape, Tablet in landscape, Foldable in landscape (unfolded), Desktop
-    [StaticBreakpoints.large]: 1600, // Desktop
-    [StaticBreakpoints.xLarge]: null // Desktop Ultra-wide
-  },
   typography: {
     minimalLineLength: 35, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 75, // number of characters. If auto layout, picks colCount based on this
@@ -55,6 +47,14 @@ export const RSPrefs = {
     icon: {
       size: 24, // Size of icons in px
       tooltipOffset: 10 // offset of tooltip in px
+    },
+    breakpoints: {
+      // See https://m3.material.io/foundations/layout/applying-layout/window-size-classes
+      [StaticBreakpoints.compact]: 600, // Phone in portrait
+      [StaticBreakpoints.medium]: 840, // Tablet in portrait, Foldable in portrait (unfolded)
+      [StaticBreakpoints.expanded]: 1200, // Phone in landscape, Tablet in landscape, Foldable in landscape (unfolded), Desktop
+      [StaticBreakpoints.large]: 1600, // Desktop
+      [StaticBreakpoints.xLarge]: null // Desktop Ultra-wide
     },
     themes: {
       displayOrder: [

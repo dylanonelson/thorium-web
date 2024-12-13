@@ -14,7 +14,7 @@ import { getOptimalLineLength, IOptimalLineLength } from "@/helpers/autoLayout/o
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { localData } from "@/helpers/localData";
 import { setProgression } from "@/lib/publicationReducer";
-import { setDynamicBreakpoint } from "@/lib/readerReducer";
+import { setDynamicBreakpoint } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
 
@@ -184,7 +184,7 @@ export const useEpubNavigator = () => {
     handleScrollReflow();
   }, [applyReadiumCSSStyles, handleScrollReflow, mountScroll]);
 
-  const handleTheme = useCallback((t: Themes) => {
+  const handleTheme = useCallback((t: Themes) => {    
     switch(t) {
       case Themes.auto:
         break;

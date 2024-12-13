@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import { useMediaQuery } from "./useMediaQuery";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setColorScheme } from "@/lib/themeReducer";
 
 export enum ColorScheme {
   light = "light",
@@ -6,7 +9,18 @@ export enum ColorScheme {
 }
 
 export const useColorScheme = () => {
+  const colorScheme = useAppSelector(state => state.theming.colorScheme);
+  const dispatch = useAppDispatch();
+
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
-  return prefersDarkMode ? ColorScheme.dark : ColorScheme.light;
+  useEffect(() => {
+    dispatch(setColorScheme(
+      prefersDarkMode ? 
+      ColorScheme.dark : 
+      ColorScheme.light
+    ));
+  }, [prefersDarkMode]);
+
+  return colorScheme;
 }

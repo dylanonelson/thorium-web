@@ -33,14 +33,15 @@ import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicatio
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
-import { useBreakpoints } from "@/hooks/useBreakpoints";
-import { ColorScheme, useColorScheme } from "@/hooks/useColorScheme";
+import { ColorScheme } from "@/hooks/useColorScheme";
 import { Themes } from "@/preferences";
+import { useTheming } from "@/hooks/useTheming";
 
 interface IRCSSSettings {
   paginated: boolean;
   colCount: string;
   theme: Themes;
+  colorScheme: ColorScheme;
 }
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
@@ -50,12 +51,14 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
-  const theme = useAppSelector(state => state.reader.theme);
+  const theme = useAppSelector(state => state.theming.theme);
+  const colorScheme = useAppSelector(state => state.theming.colorScheme);
 
   const RCSSSettings = useRef<IRCSSSettings>({
     paginated: isPaged,
     colCount: colCount,
-    theme: theme
+    theme: theme,
+    colorScheme: colorScheme
   });
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -67,8 +70,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const dispatch = useAppDispatch();
 
   const fs = useFullscreen();
-  const staticBreakpoint = useBreakpoints();
-  const colorScheme = useColorScheme();
+  const theming = useTheming();
 
   const { 
     EpubNavigatorLoad, 
@@ -132,7 +134,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       });
 
       if (RCSSSettings.current.theme === Themes.auto) {
-        const inferredTheme = colorScheme === ColorScheme.dark ? Themes.dark : Themes.light;
+        const inferredTheme = RCSSSettings.current.colorScheme === ColorScheme.dark ? Themes.dark : Themes.light;
         handleTheme(inferredTheme);
       } else { 
         handleTheme(RCSSSettings.current.theme);
@@ -293,6 +295,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   useEffect(() => {
     RCSSSettings.current.theme = theme;
+    RCSSSettings.current.colorScheme = colorScheme;
     
     if (theme === Themes.auto) {
       const inferredTheme = colorScheme === ColorScheme.dark ? Themes.dark : Themes.light;
