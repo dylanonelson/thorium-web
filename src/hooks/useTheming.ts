@@ -43,7 +43,7 @@ export const useTheming = () => {
     for (let p in props) {
       document.documentElement.style.setProperty(p, props[p])
     }
-  }, []);
+  }, [inferThemeAuto]);
 
   // On mount add custom props to :root/html
   useEffect(() => {
