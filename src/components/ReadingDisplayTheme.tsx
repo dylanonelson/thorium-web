@@ -25,7 +25,7 @@ export const ReadingDisplayTheme = () => {
   // than spamming the entire app with all custom properties right now
   const doStyles = (t: Themes) => {
     let cssProps: CSSProperties = {
-      border: `1px solid ${ RSPrefs.theming.color.subdued }`,
+      border: `1px solid ${ RSPrefs.theming.semantic.subdued }`,
       boxSizing: "border-box",
       color: "#999999"
     };
