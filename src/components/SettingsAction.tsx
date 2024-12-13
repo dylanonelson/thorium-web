@@ -1,6 +1,6 @@
 import React from "react";
 
-import { RSPrefs, Themes } from "@/preferences";
+import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
@@ -19,7 +19,6 @@ import { ReadingDisplayTheme } from "./ReadingDisplayTheme";
 
 import { setHovering, setSettingsOpen } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 
 export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   const isOpen = useAppSelector(state => state.reader.settingsOpen);
@@ -64,10 +63,6 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
           className={ settingsStyles.readerSettingsPopover }
           isOpen={ isOpen }
           onOpenChange={ setOpen } 
-          style={ propsToCSSVars({
-            primary: theme === Themes.auto ? RSPrefs.theming.themes[Themes.day].color : RSPrefs.theming.themes[theme].color,
-            secondary: theme === Themes.auto ? RSPrefs.theming.themes[Themes.day].backgroundColor : RSPrefs.theming.themes[theme].backgroundColor
-          }, "color") }
           >
           <Dialog>
             <Button 

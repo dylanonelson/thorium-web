@@ -187,6 +187,7 @@ export const useEpubNavigator = () => {
   const handleTheme = useCallback((t: Themes) => {
     switch(t) {
       case Themes.auto:
+        break;
       case Themes.day:
         applyReadiumCSSStyles({
           "--USER__appearance": "readium-day-on",
