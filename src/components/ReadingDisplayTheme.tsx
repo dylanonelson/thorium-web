@@ -31,7 +31,7 @@ export const ReadingDisplayTheme = () => {
     };
 
     if (t === Themes.auto) {
-      cssProps.background = `linear-gradient(to right bottom, ${ RSPrefs.theming.themes[Themes.day].backgroundColor } 50%, ${ RSPrefs.theming.themes[Themes.night].backgroundColor } 50.3%)`;
+      cssProps.background = `linear-gradient(to right bottom, ${ RSPrefs.theming.themes[Themes.light].backgroundColor } 50%, ${ RSPrefs.theming.themes[Themes.dark].backgroundColor } 50.3%)`;
       cssProps.color = "#FFFFFF"
     } else {
       cssProps.background = RSPrefs.theming.themes[t].backgroundColor;

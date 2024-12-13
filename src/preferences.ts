@@ -10,9 +10,9 @@ import nightMode from "readium-css/css/vars/night.json";
 
 export enum Themes {
   auto = "auto",
-  day = "day",
+  light = "light",
   sepia = "sepia",
-  night = "night",
+  dark = "dark",
   paper = "paper",
   contrast1 = "contrast1",
   contrast2 = "contrast2",
@@ -59,16 +59,16 @@ export const RSPrefs = {
     themes: {
       displayOrder: [
         Themes.auto, 
-        Themes.day, 
+        Themes.light, 
         Themes.sepia, 
         Themes.paper, 
-        Themes.night, 
+        Themes.dark, 
         Themes.contrast1, 
         Themes.contrast2, 
         Themes.contrast3, 
         Themes.contrast4
       ],
-      [Themes.day]: {
+      [Themes.light]: {
         backgroundColor: dayMode.RS__backgroundColor,
         color: dayMode.RS__textColor,
         // TODO
@@ -79,7 +79,7 @@ export const RSPrefs = {
         backgroundColor: sepiaMode.RS__backgroundColor,
         color: sepiaMode.RS__textColor
       },
-      [Themes.night]: {
+      [Themes.dark]: {
         backgroundColor: nightMode.RS__backgroundColor,
         color: nightMode.RS__textColor
       },

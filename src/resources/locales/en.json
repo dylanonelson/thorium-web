@@ -63,10 +63,10 @@
       "themes": {
         "title": "Themes",
         "auto": "Auto",
-        "day": "Day",
+        "light": "Light",
         "sepia": "Sepia",
         "paper": "Paper",
-        "night": "Night",
+        "dark": "Dark",
         "contrast1": "Contrast 1",
         "contrast2": "Contrast 2",
         "contrast3": "Contrast 3",

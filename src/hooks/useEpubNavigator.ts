@@ -188,7 +188,7 @@ export const useEpubNavigator = () => {
     switch(t) {
       case Themes.auto:
         break;
-      case Themes.day:
+      case Themes.light:
         applyReadiumCSSStyles({
           "--USER__appearance": "readium-day-on",
           "--USER__backgroundColor": "",
@@ -202,7 +202,7 @@ export const useEpubNavigator = () => {
           "--USER__textColor": "" 
         });
         break;
-      case Themes.night:
+      case Themes.dark:
         applyReadiumCSSStyles({
           "--USER__appearance": "readium-night-on",
           "--USER__backgroundColor": "",
