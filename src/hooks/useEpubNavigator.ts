@@ -212,8 +212,8 @@ export const useEpubNavigator = () => {
       default:
         applyReadiumCSSStyles({
           "--USER__appearance": "",
-          "--USER__backgroundColor": RSPrefs.theming.themes[t].backgroundColor,
-          "--USER__textColor": RSPrefs.theming.themes[t].color
+          "--USER__backgroundColor": RSPrefs.theming.themes[t].background,
+          "--USER__textColor": RSPrefs.theming.themes[t].text
         });
         break;
     }

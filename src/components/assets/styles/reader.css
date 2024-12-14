@@ -1,7 +1,7 @@
 :root {
   /* Borrowed from Thorium src/renderer/assets/styles/variable.scss */
-  --color-primary: ;
-  --color-secondary: ;
+  --color-text: ;
+  --color-background: ;
   --color-disabled: ;
   --color-subdued: ;
   --color-hover: ;
@@ -28,7 +28,7 @@ body {
   box-sizing: border-box;
   gap: 2px;
   touch-action: manipulation;
-  background-color: var(--color-secondary);
+  background-color: var(--color-background);
 }
 
 /* Necessary to have all three so that there is no offset when switching paginated/scroll */
@@ -50,7 +50,7 @@ main {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
-  background-color: var(--color-secondary);
+  background-color: var(--color-background);
 }
 
 #wrapper {

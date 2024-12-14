@@ -39,11 +39,11 @@ export const RSPrefs = {
     },
     // TMP for states
     semantic: {
-      disabled: "color-mix(in srgb, var(--color-primary) 75%, transparent)",
-      subdued: "color-mix(in srgb, var(--color-primary) 50%, transparent)",
-      hover: "color-mix(in srgb, var(--color-primary) 15%, transparent)",
-      selected: "color-mix(in srgb, var(--color-primary) 25%, transparent)",
-      dropShadow: "0px 0px 2px var(--color-primary)"
+      disabled: "color-mix(in srgb, var(--color-text) 50%, transparent)",
+      subdued: "color-mix(in srgb, var(--color-text) 45%, transparent)",
+      hover: "color-mix(in srgb, var(--color-text) 15%, transparent)",
+      selected: "color-mix(in srgb, var(--color-text) 20%, transparent)",
+      dropShadow: "0px 0px 2px var(--color-text)"
     },
     icon: {
       size: 24, // Size of icons in px
@@ -76,39 +76,39 @@ export const RSPrefs = {
         Themes.dark,
       ],
       [Themes.light]: {
-        backgroundColor: dayMode.RS__backgroundColor,
-        color: dayMode.RS__textColor,
+        background: dayMode.RS__backgroundColor,
+        text: dayMode.RS__textColor,
         // TODO
         // primary: "",
         // secondary: ""
       },
       [Themes.sepia]: {
-        backgroundColor: sepiaMode.RS__backgroundColor,
-        color: sepiaMode.RS__textColor
+        background: sepiaMode.RS__backgroundColor,
+        text: sepiaMode.RS__textColor
       },
       [Themes.dark]: {
-        backgroundColor: nightMode.RS__backgroundColor,
-        color: nightMode.RS__textColor
+        background: nightMode.RS__backgroundColor,
+        text: nightMode.RS__textColor
       },
       [Themes.paper]: {
-        backgroundColor: "#e9ddc8",
-        color: "#000000"
+        background: "#e9ddc8",
+        text: "#000000"
       },
       [Themes.contrast1]: {
-        backgroundColor: "#000000",
-        color: "#ffffff"
+        background: "#000000",
+        text: "#ffffff"
       },
       [Themes.contrast2]: {
-        backgroundColor: "#000000",
-        color: "#ffff00"
+        background: "#000000",
+        text: "#ffff00"
       },
       [Themes.contrast3]: {
-        backgroundColor: "#181842",
-        color: "#ffffff"
+        background: "#181842",
+        text: "#ffffff"
       },
       [Themes.contrast4]: {
-        backgroundColor: "#c5e7cd",
-        color: "#000000"
+        background: "#c5e7cd",
+        text: "#000000"
       }
     }
   },
