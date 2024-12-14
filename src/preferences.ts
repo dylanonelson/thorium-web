@@ -57,7 +57,7 @@ export const RSPrefs = {
       [StaticBreakpoints.xLarge]: null // Desktop Ultra-wide
     },
     themes: {
-      displayOrder: [
+      reflowOrder: [
         Themes.auto, 
         Themes.light, 
         Themes.sepia, 
@@ -67,6 +67,12 @@ export const RSPrefs = {
         Themes.contrast2, 
         Themes.contrast3, 
         Themes.contrast4
+      ],
+      fxlOrder: [
+        Themes.auto,
+        Themes.light,
+        Themes.paper,
+        Themes.dark,
       ],
       [Themes.light]: {
         backgroundColor: dayMode.RS__backgroundColor,
