@@ -42,7 +42,8 @@ export const RSPrefs = {
       disabled: "color-mix(in srgb, var(--color-primary) 75%, transparent)",
       subdued: "color-mix(in srgb, var(--color-primary) 50%, transparent)",
       hover: "color-mix(in srgb, var(--color-primary) 15%, transparent)",
-      selected: "color-mix(in srgb, var(--color-primary) 25%, transparent)"
+      selected: "color-mix(in srgb, var(--color-primary) 25%, transparent)",
+      dropShadow: "0px 0px 2px var(--color-primary)"
     },
     icon: {
       size: 24, // Size of icons in px

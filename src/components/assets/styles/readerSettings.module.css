@@ -12,6 +12,7 @@
   max-height: calc(100dvh - (var(--icon-size, 24px) * 6));
   max-width: 300px;
   box-sizing: border-box;
+  filter: drop-shadow(var(--color-dropShadow));
 }
 
 .readerSettingsLabel {
