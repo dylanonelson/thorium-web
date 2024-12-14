@@ -6,14 +6,14 @@
 }
 
 .icon svg {
-  fill: var(--color-primary);
+  fill: var(--color-text);
   width: var(--icon-size, 24px);
   height: var(--icon-size, 24px);
 }
 
 .tooltip {
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
+  background-color: var(--color-text);
+  color: var(--color-background);
   padding: 5px;
   border-radius: 5px;
 }
@@ -28,7 +28,7 @@
 }
 
 .closeButton svg {
-  fill: var(--color-primary);
+  fill: var(--color-text);
   width: 100%;
   height: 100%;
 }
@@ -51,7 +51,7 @@
 .iconCompSm svg {
   width: calc(var(--icon-size, 24px) * (3/4));
   height: calc(var(--icon-size, 24px) * (3/4));
-  stroke: var(--color-primary);
+  stroke: var(--color-text);
 }
 
 .iconCompLg {
@@ -64,7 +64,7 @@
 }
 
 .iconApplyStroke svg {
-  stroke: var(--color-primary);
+  stroke: var(--color-text);
 }
 
 .popoverHeading {

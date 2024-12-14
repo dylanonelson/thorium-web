@@ -1,9 +1,9 @@
 .readerSettingsPopover {
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
+  background-color: var(--color-background);
+  color: var(--color-text);
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid var(--color-primary);
+  border: 1px solid var(--color-text);
   position: relative;
 
   /* TMP until we have all the sheets/modals */
@@ -48,7 +48,7 @@
 .readerSettingsRadio svg {
   width: var(--icon-size, 32px);
   height: var(--icon-size, 32px);
-  fill: var(--color-primary);
+  fill: var(--color-text);
 }
 
 .readerSettingsRadio span {

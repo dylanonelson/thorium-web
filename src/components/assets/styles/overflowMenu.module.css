@@ -1,9 +1,9 @@
 .overflowPopover {
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
+  background-color: var(--color-background);
+  color: var(--color-text);
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid var(--color-primary);
+  border: 1px solid var(--color-text);
   position: relative;
 }
 

@@ -35,8 +35,8 @@
   box-sizing: border-box;
   padding: 5px;
 
-  background-color: var(--color-secondary);
-  border: 1px solid var(--color-primary);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-text);
 }
 
 .container .viewportLarge {
@@ -62,6 +62,6 @@
 }
 
 .container button svg {
-  fill: var(--color-primary);
-  stroke: var(--color-primary);
+  fill: var(--color-text);
+  stroke: var(--color-text);
 }

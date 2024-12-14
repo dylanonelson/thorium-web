@@ -56,7 +56,7 @@ export class ScrollAffordance {
     styleSheet.id = STYLESHEET_ID;
     styleSheet.dataset.readium = "true";
     styleSheet.textContent = cssContent || `.playground-scroll-affordance-wrapper {
-      --color-primary: currentColor;
+      --color-text: currentColor;
 
       box-sizing: border-box;
       display: flex;
@@ -88,14 +88,14 @@ export class ScrollAffordance {
       font-weight: bold;
       flex: 1 1 0;
       text-align: left;
-      color: var(--color-primary);
+      color: var(--color-text);
       font-size: 1rem;
       font-style: normal;
       font-family: inherit;
     }
     .playground-scroll-affordance-wrapper > a:hover {
       background-color: ${ RSPrefs.theming.semantic.hover };
-      border: 1px solid var(--color-primary);
+      border: 1px solid var(--color-text);
     }
     .playground-scroll-affordance-wrapper > a:first-child:not(:last-child) {
       text-align: right;
@@ -108,7 +108,7 @@ export class ScrollAffordance {
     }
     .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-prev:hover > span:before,
     .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-next:hover > span:after {
-      color: var(--color-primary);
+      color: var(--color-text);
     }
     .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-next > span:after {
       content: "→";

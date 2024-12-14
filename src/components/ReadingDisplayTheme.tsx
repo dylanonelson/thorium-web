@@ -35,11 +35,12 @@ export const ReadingDisplayTheme = () => {
     };
 
     if (t === Themes.auto) {
-      cssProps.background = `linear-gradient(to right bottom, ${ RSPrefs.theming.themes[Themes.light].backgroundColor } 50%, ${ RSPrefs.theming.themes[Themes.dark].backgroundColor } 50.3%)`;
-      cssProps.color = "#FFFFFF"
+      cssProps.background = `linear-gradient(to right bottom, ${ RSPrefs.theming.themes[Themes.light].background } 50%, ${ RSPrefs.theming.themes[Themes.dark].background } 50.3%)`;
+      // This has to be white so that mix-blend-mode can work (doesn’t in black)
+      cssProps.color = "#ffffff"
     } else {
-      cssProps.background = RSPrefs.theming.themes[t].backgroundColor;
-      cssProps.color = RSPrefs.theming.themes[t].color;
+      cssProps.background = RSPrefs.theming.themes[t].background;
+      cssProps.color = RSPrefs.theming.themes[t].text;
     };
     
     return cssProps;
