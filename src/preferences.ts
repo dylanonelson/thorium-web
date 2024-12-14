@@ -43,6 +43,7 @@ export const RSPrefs = {
       subdued: "color-mix(in srgb, var(--color-text) 45%, transparent)",
       hover: "color-mix(in srgb, var(--color-text) 15%, transparent)",
       selected: "color-mix(in srgb, var(--color-text) 20%, transparent)",
+      focused: "medium solid var(--color-secondary)",
       dropShadow: "0px 0px 2px var(--color-text)"
     },
     icon: {

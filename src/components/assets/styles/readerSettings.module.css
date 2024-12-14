@@ -42,7 +42,7 @@
 
 .readerSettingsRadio[data-hovered],
 .readerSettingsRadio[data-focused] {
-  outline: auto;
+  outline: var(--color-focused);
 }
 
 .readerSettingsRadio svg {

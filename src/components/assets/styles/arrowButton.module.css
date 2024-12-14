@@ -49,7 +49,7 @@
 }
 
 .container button[data-focused] {
-  outline: auto;
+  outline: var(--color-focused);
   opacity: 1;
 }
 

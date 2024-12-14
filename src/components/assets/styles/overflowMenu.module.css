@@ -20,7 +20,7 @@
 }
 
 .menuItem[data-focus-visible] {
-  outline: auto;
+  outline: var(--color-focused);
 }
 
 .menuItem > svg {
