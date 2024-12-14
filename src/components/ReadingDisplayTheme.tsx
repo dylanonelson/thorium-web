@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useRef } from "react";
 
 import { RSPrefs, Themes } from "@/preferences";
 import Locale from "../resources/locales/en.json";
@@ -15,6 +15,10 @@ import classNames from "classnames";
 
 export const ReadingDisplayTheme = () => {
   const theme = useAppSelector(state => state.theming.theme);
+  const isFXL = useAppSelector(state => state.publication.isFXL);
+
+  const themeItems = useRef(isFXL ? RSPrefs.theming.themes.fxlOrder : RSPrefs.theming.themes.reflowOrder);
+
   const dispatch = useAppDispatch();
 
   const handleTheme = (value: string) => {
@@ -51,7 +55,7 @@ export const ReadingDisplayTheme = () => {
       >
         <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
         <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
-          { RSPrefs.theming.themes.displayOrder.map(( t ) => 
+          { themeItems.current.map(( t ) => 
             <Radio
               className={ classNames(
                 settingsStyles.readerSettingsRadio, 
