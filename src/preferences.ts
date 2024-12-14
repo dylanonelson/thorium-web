@@ -75,40 +75,54 @@ export const RSPrefs = {
         Themes.paper,
         Themes.dark,
       ],
+      // Currently primary = RCSS link, secondary = RCSS highlight
       [Themes.light]: {
         background: dayMode.RS__backgroundColor,
         text: dayMode.RS__textColor,
-        // TODO
-        // primary: "",
-        // secondary: ""
+        primary: sepiaMode.RS__linkColor,
+        secondary: sepiaMode.RS__selectionBackgroundColor
       },
       [Themes.sepia]: {
         background: sepiaMode.RS__backgroundColor,
-        text: sepiaMode.RS__textColor
+        text: sepiaMode.RS__textColor,
+        primary: sepiaMode.RS__linkColor,
+        secondary: sepiaMode.RS__selectionBackgroundColor
       },
       [Themes.dark]: {
         background: nightMode.RS__backgroundColor,
-        text: nightMode.RS__textColor
+        text: nightMode.RS__textColor,
+        primary: nightMode.RS__linkColor,
+        secondary: nightMode.RS__selectionBackgroundColor
       },
       [Themes.paper]: {
         background: "#e9ddc8",
-        text: "#000000"
+        text: "#000000",
+        primary: sepiaMode.RS__linkColor,
+        secondary: sepiaMode.RS__selectionBackgroundColor
       },
       [Themes.contrast1]: {
         background: "#000000",
-        text: "#ffffff"
+        text: "#ffffff",
+        primary: nightMode.RS__linkColor,
+        secondary: nightMode.RS__selectionBackgroundColor
       },
       [Themes.contrast2]: {
         background: "#000000",
-        text: "#ffff00"
+        text: "#ffff00",
+        primary: nightMode.RS__linkColor,
+        secondary: nightMode.RS__selectionBackgroundColor
       },
       [Themes.contrast3]: {
         background: "#181842",
-        text: "#ffffff"
+        text: "#ffffff",
+        primary: nightMode.RS__linkColor,
+        secondary: nightMode.RS__selectionBackgroundColor
       },
       [Themes.contrast4]: {
         background: "#c5e7cd",
-        text: "#000000"
+        text: "#000000",
+        primary: sepiaMode.RS__linkColor,
+        secondary: sepiaMode.RS__selectionBackgroundColor
       }
     }
   },

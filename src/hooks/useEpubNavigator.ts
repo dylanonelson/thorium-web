@@ -192,28 +192,44 @@ export const useEpubNavigator = () => {
         applyReadiumCSSStyles({
           "--USER__appearance": "readium-day-on",
           "--USER__backgroundColor": "",
-          "--USER__textColor": "" 
+          "--USER__textColor": "",
+          "--RS__linkColor": "",
+          "--RS__visitedColor": "",
+          "--RS__selectionBackgroundColor": "",
+          "--RS__selectionTextColor": ""
         });
         break;
       case Themes.sepia:
         applyReadiumCSSStyles({
           "--USER__appearance": "readium-sepia-on",
           "--USER__backgroundColor": "",
-          "--USER__textColor": "" 
+          "--USER__textColor": "",
+          "--RS__linkColor": "",
+          "--RS__visitedColor": "",
+          "--RS__selectionBackgroundColor": "",
+          "--RS__selectionTextColor": ""
         });
         break;
       case Themes.dark:
         applyReadiumCSSStyles({
           "--USER__appearance": "readium-night-on",
           "--USER__backgroundColor": "",
-          "--USER__textColor": "" 
+          "--USER__textColor": "",
+          "--RS__linkColor": "",
+          "--RS__visitedColor": "",
+          "--RS__selectionBackgroundColor": "",
+          "--RS__selectionTextColor": ""
         });
         break;
       default:
         applyReadiumCSSStyles({
           "--USER__appearance": "",
           "--USER__backgroundColor": RSPrefs.theming.themes[t].background,
-          "--USER__textColor": RSPrefs.theming.themes[t].text
+          "--USER__textColor": RSPrefs.theming.themes[t].text,
+          "--RS__linkColor": RSPrefs.theming.themes[t].primary,
+          "--RS__visitedColor": "color-mix(in srgb, var(--RS__linkColor) 10%, #000000)",
+          "--RS__selectionBackgroundColor": RSPrefs.theming.themes[t].secondary,
+          "--RS__selectionTextColor": "inherit"
         });
         break;
     }
