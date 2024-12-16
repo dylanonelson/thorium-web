@@ -12,7 +12,7 @@
   max-height: calc(100dvh - (var(--icon-size, 24px) * 6));
   max-width: 300px;
   box-sizing: border-box;
-  filter: drop-shadow(var(--color-dropShadow));
+  filter: drop-shadow(var(--color-elevate));
 }
 
 .readerSettingsLabel {
@@ -30,19 +30,24 @@
 .readerSettingsRadio {
   padding: 5px;
   border-radius: 5px;
+  box-sizing: border-box;
+  border: 2px solid transparent;
 }
 
 .readerSettingsRadio:not(.readerSettingsThemeRadio)[data-selected] {
-  background-color: var(--color-selected);
+  border: 2px solid var(--color-subdue);
 }
 
 .readerSettingsRadio[data-disabled] {
-  color: var(--color-disabled);
+  color: var(--color-disable);
 }
 
-.readerSettingsRadio[data-hovered],
+.readerSettingsRadio[data-hovered] {
+  background-color: var(--color-hover);
+}
+
 .readerSettingsRadio[data-focused] {
-  outline: var(--color-focused);
+  outline: 2px solid var(--color-focus);
 }
 
 .readerSettingsRadio svg {

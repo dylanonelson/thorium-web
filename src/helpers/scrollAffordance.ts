@@ -81,7 +81,7 @@ export class ScrollAffordance {
     }
     .playground-scroll-affordance-wrapper > a {
       box-sizing: border-box;
-      border: 1px solid ${ RSPrefs.theming.semantic.subdued };
+      border: 1px solid color-mix(in srgb, var(--color-text) 50%, transparent);
       border-radius: 3px;
       padding: 0.75rem;
       text-decoration: none;
@@ -94,7 +94,7 @@ export class ScrollAffordance {
       font-family: inherit;
     }
     .playground-scroll-affordance-wrapper > a:hover {
-      background-color: ${ RSPrefs.theming.semantic.hover };
+      background-color: "color-mix(in srgb, var(--color-text) 15%, transparent)";
       border: 1px solid var(--color-text);
     }
     .playground-scroll-affordance-wrapper > a:first-child:not(:last-child) {
@@ -104,7 +104,7 @@ export class ScrollAffordance {
       content: "←";
       float: left;
       margin-right: 10px;
-      color: ${ RSPrefs.theming.semantic.subdued };
+      color: "color-mix(in srgb, var(--color-text) 50%, transparent)";
     }
     .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-prev:hover > span:before,
     .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-next:hover > span:after {
@@ -114,7 +114,7 @@ export class ScrollAffordance {
       content: "→";
       float: right;
       margin-left: 10px;
-      color: ${RSPrefs.theming.semantic.subdued};
+      color: "color-mix(in srgb, var(--color-text) 50%, transparent)";
     }`;
     return styleSheet;
   };

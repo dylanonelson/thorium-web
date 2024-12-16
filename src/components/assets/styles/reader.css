@@ -2,12 +2,17 @@
   /* Borrowed from Thorium src/renderer/assets/styles/variable.scss */
   --color-text: ;
   --color-background: ;
-  --color-disabled: ;
-  --color-subdued: ;
+  --color-link: ;
+  --color-visited: ;
+  --color-subdue: ;
+  --color-disable: ;
   --color-hover: ;
-  --color-selected: ;
-  --color-focused: ;
-  --color-dropShadow: ;
+  --color-onHover: ;
+  --color-select: ;
+  --color-onSelect: ;
+  --color-focus: ;
+  --color-elevate: ;
+  --color-immerse: ;
 }
 
 html,
@@ -112,4 +117,9 @@ button {
 
   /* Focus no outline */
   outline: none;
+}
+
+::selection {
+  background-color: var(--color-select);
+  color: var(--color-onSelect);
 }
