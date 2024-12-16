@@ -64,7 +64,6 @@ export const RSPrefs = {
         Themes.light,
         Themes.dark
       ],
-      // Currently primary = RCSS link, secondary = RCSS highlight
       [Themes.light]: {
         background: dayMode.RS__backgroundColor, // Color of background
         text: dayMode.RS__textColor,    // Color of text
@@ -78,7 +77,7 @@ export const RSPrefs = {
         onSelect: "inherit",            // color of selected text
         focus: "#0067f4",               // color of :focus-visible
         elevate: `0px 0px 2px ${ dayMode.RS__textColor }`, // drop shadow of containers
-        immerse: "0.6"                    // opacity of immersive mode
+        immerse: "0.6"                  // opacity of immersive mode
       },
       [Themes.sepia]: {
         background: sepiaMode.RS__backgroundColor,
