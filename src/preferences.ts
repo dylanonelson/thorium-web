@@ -67,13 +67,11 @@ export const RSPrefs = {
         Themes.dark, 
         Themes.contrast1, 
         Themes.contrast2, 
-        Themes.contrast3, 
-        Themes.contrast4
+        Themes.contrast3
       ],
       fxlOrder: [
         Themes.auto,
         Themes.light,
-        Themes.paper,
         Themes.dark,
       ],
       // Currently primary = RCSS link, secondary = RCSS highlight
@@ -103,23 +101,17 @@ export const RSPrefs = {
       },
       [Themes.contrast1]: {
         background: "#000000",
-        text: "#ffffff",
-        primary: nightMode.RS__linkColor,
-        secondary: nightMode.RS__selectionBackgroundColor
-      },
-      [Themes.contrast2]: {
-        background: "#000000",
         text: "#ffff00",
         primary: nightMode.RS__linkColor,
         secondary: nightMode.RS__selectionBackgroundColor
       },
-      [Themes.contrast3]: {
+      [Themes.contrast2]: {
         background: "#181842",
         text: "#ffffff",
         primary: nightMode.RS__linkColor,
         secondary: nightMode.RS__selectionBackgroundColor
       },
-      [Themes.contrast4]: {
+      [Themes.contrast3]: {
         background: "#c5e7cd",
         text: "#000000",
         primary: sepiaMode.RS__linkColor,
