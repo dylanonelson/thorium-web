@@ -29,11 +29,11 @@
 
 .readerSettingsRadio {
   padding: 5px;
+  border-radius: 5px;
 }
 
 .readerSettingsRadio:not(.readerSettingsThemeRadio)[data-selected] {
   background-color: var(--color-selected);
-  border-radius: 5px;
 }
 
 .readerSettingsRadio[data-disabled] {
@@ -67,7 +67,6 @@
 
 .readerSettingsThemeRadio {
   padding: 5px 25px;
-  border-radius: 5px;
   position: relative;
 }
 
