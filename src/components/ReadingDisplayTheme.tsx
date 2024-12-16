@@ -35,7 +35,7 @@ export const ReadingDisplayTheme = () => {
     };
 
     if (t === Themes.auto) {
-      cssProps.background = `linear-gradient(to right bottom, ${ RSPrefs.theming.themes[Themes.light].background } 50%, ${ RSPrefs.theming.themes[Themes.dark].background } 50.3%)`;
+      cssProps.background = `linear-gradient(148deg, ${ RSPrefs.theming.themes[Themes.light].background } 0%, ${ RSPrefs.theming.themes[Themes.dark].background } 48%)`
       // This has to be white so that mix-blend-mode can work (doesn’t in black)
       cssProps.color = "#ffffff"
     } else {
@@ -67,7 +67,7 @@ export const ReadingDisplayTheme = () => {
               key={ t }
               style={ doStyles(t) }
             >
-            <span style={ t === Themes.auto ? { mixBlendMode: "difference" } : {}}>{ Locale.reader.settings.themes[t as keyof typeof Themes] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
+            <span>{ Locale.reader.settings.themes[t as keyof typeof Themes] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
             </Radio>
           ) }
         </div>
