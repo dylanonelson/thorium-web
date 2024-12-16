@@ -99,7 +99,7 @@ export const RSPrefs = {
         background: "#e9ddc8",
         text: "#000000",
         primary: sepiaMode.RS__linkColor,
-        secondary: "#0074f0"
+        secondary: sepiaMode.RS__selectionBackgroundColor
       },
       [Themes.contrast1]: {
         background: "#000000",
@@ -123,7 +123,7 @@ export const RSPrefs = {
         background: "#c5e7cd",
         text: "#000000",
         primary: sepiaMode.RS__linkColor,
-        secondary: "#0074f0"
+        secondary: sepiaMode.RS__selectionBackgroundColor
       }
     }
   },
