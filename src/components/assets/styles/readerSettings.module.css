@@ -37,7 +37,7 @@
 }
 
 .readerSettingsRadio[data-disabled] {
-  opacity: 0.6;
+  color: var(--color-disabled);
 }
 
 .readerSettingsRadio[data-hovered],
@@ -48,7 +48,8 @@
 .readerSettingsRadio svg {
   width: var(--icon-size, 32px);
   height: var(--icon-size, 32px);
-  fill: var(--color-text);
+  /* So that it’s the same color as text based on state */
+  fill: currentColor;
 }
 
 .readerSettingsRadio span {
@@ -65,7 +66,6 @@
 }
 
 .readerSettingsThemeRadio {
-/*  flex: 1 1 auto; */
   padding: 5px 25px;
   border-radius: 5px;
   position: relative;
@@ -77,5 +77,6 @@
   position: absolute;
   right: 5px;
   top: 5px;
+  /* So that it’s the same color as text w/o having to expose a custom prop globally */
   fill: currentColor;
 }

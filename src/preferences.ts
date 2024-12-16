@@ -40,7 +40,7 @@ export const RSPrefs = {
     // TMP for states
     semantic: {
       disabled: "color-mix(in srgb, var(--color-text) 50%, transparent)",
-      subdued: "color-mix(in srgb, var(--color-text) 45%, transparent)",
+      subdued: "color-mix(in srgb, var(--color-text) 50%, transparent)",
       hover: "color-mix(in srgb, var(--color-text) 15%, transparent)",
       selected: "color-mix(in srgb, var(--color-text) 20%, transparent)",
       focused: "medium solid var(--color-secondary)",
