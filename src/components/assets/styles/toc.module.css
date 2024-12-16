@@ -1,12 +1,12 @@
 .tocPopover {
-  background-color: var(--color-background);
-  color: var(--color-text);
+  background-color: var(--theme-background);
+  color: var(--theme-text);
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid var(--color-text);
+  border: 1px solid var(--theme-text);
   position: relative;
   max-height: 100%;
-  filter: drop-shadow(var(--color-elevate));
+  filter: drop-shadow(var(--theme-elevate));
 }
 
 .listBox {

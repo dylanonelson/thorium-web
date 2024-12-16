@@ -1,18 +1,18 @@
 :root {
   /* Borrowed from Thorium src/renderer/assets/styles/variable.scss */
-  --color-text: ;
-  --color-background: ;
-  --color-link: ;
-  --color-visited: ;
-  --color-subdue: ;
-  --color-disable: ;
-  --color-hover: ;
-  --color-onHover: ;
-  --color-select: ;
-  --color-onSelect: ;
-  --color-focus: ;
-  --color-elevate: ;
-  --color-immerse: ;
+  --theme-text: ;
+  --theme-background: ;
+  --theme-link: ;
+  --theme-visited: ;
+  --theme-subdue: ;
+  --theme-disable: ;
+  --theme-hover: ;
+  --theme-onHover: ;
+  --theme-select: ;
+  --theme-onSelect: ;
+  --theme-focus: ;
+  --theme-elevate: ;
+  --theme-immerse: ;
 }
 
 html,
@@ -34,7 +34,7 @@ body {
   box-sizing: border-box;
   gap: 2px;
   touch-action: manipulation;
-  background-color: var(--color-background);
+  background-color: var(--theme-background);
 }
 
 /* Necessary to have all three so that there is no offset when switching paginated/scroll */
@@ -56,7 +56,7 @@ main {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
-  background-color: var(--color-background);
+  background-color: var(--theme-background);
 }
 
 #wrapper {
@@ -120,6 +120,6 @@ button {
 }
 
 ::selection {
-  background-color: var(--color-select);
-  color: var(--color-onSelect);
+  background-color: var(--theme-select);
+  color: var(--theme-onSelect);
 }

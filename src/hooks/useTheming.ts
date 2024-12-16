@@ -34,7 +34,7 @@ export const useTheming = () => {
   const setThemeCustomProps = useCallback((t: Themes) => {
     if (t === Themes.auto) t = inferThemeAuto();
   
-    const props = propsToCSSVars(RSPrefs.theming.themes[t], "color");
+    const props = propsToCSSVars(RSPrefs.theming.themes[t], "theme");
       
     for (let p in props) {
       document.documentElement.style.setProperty(p, props[p])

@@ -1,9 +1,9 @@
 .readerSettingsPopover {
-  background-color: var(--color-background);
-  color: var(--color-text);
+  background-color: var(--theme-background);
+  color: var(--theme-text);
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid var(--color-text);
+  border: 1px solid var(--theme-text);
   position: relative;
 
   /* TMP until we have all the sheets/modals */
@@ -12,7 +12,7 @@
   max-height: calc(100dvh - (var(--icon-size, 24px) * 6));
   max-width: 300px;
   box-sizing: border-box;
-  filter: drop-shadow(var(--color-elevate));
+  filter: drop-shadow(var(--theme-elevate));
 }
 
 .readerSettingsLabel {
@@ -35,19 +35,19 @@
 }
 
 .readerSettingsRadio:not(.readerSettingsThemeRadio)[data-selected] {
-  border: 2px solid var(--color-subdue);
+  border: 2px solid var(--theme-subdue);
 }
 
 .readerSettingsRadio[data-disabled] {
-  color: var(--color-disable);
+  color: var(--theme-disable);
 }
 
 .readerSettingsRadio[data-hovered] {
-  background-color: var(--color-hover);
+  background-color: var(--theme-hover);
 }
 
 .readerSettingsRadio[data-focused] {
-  outline: 2px solid var(--color-focus);
+  outline: 2px solid var(--theme-focus);
 }
 
 .readerSettingsRadio svg {
