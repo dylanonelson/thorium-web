@@ -16,8 +16,7 @@ export enum Themes {
   paper = "paper",
   contrast1 = "contrast1",
   contrast2 = "contrast2",
-  contrast3 = "contrast3",
-  contrast4 = "contrast4"
+  contrast3 = "contrast3"
 }
 
 export const RSPrefs = {
