@@ -40,7 +40,7 @@
 
 .icon[data-focus-visible],
 .closeButton[data-focus-visible] {
-  outline: var(--color-focused);
+  outline: 2px solid var(--color-focus);
 }
 
 /* Utils to improve icons’ consistency */

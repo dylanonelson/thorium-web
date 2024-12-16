@@ -228,10 +228,10 @@ export const useEpubNavigator = () => {
           "--USER__appearance": "",
           "--USER__backgroundColor": RSPrefs.theming.themes[t].background,
           "--USER__textColor": RSPrefs.theming.themes[t].text,
-          "--RS__linkColor": RSPrefs.theming.themes[t].primary,
-          "--RS__visitedColor": "color-mix(in srgb, var(--RS__linkColor) 10%, #000000)",
-          "--RS__selectionBackgroundColor": RSPrefs.theming.themes[t].secondary,
-          "--RS__selectionTextColor": "inherit"
+          "--RS__linkColor": RSPrefs.theming.themes[t].link,
+          "--RS__visitedColor": RSPrefs.theming.themes[t].visited,
+          "--RS__selectionBackgroundColor": RSPrefs.theming.themes[t].select,
+          "--RS__selectionTextColor": RSPrefs.theming.themes[t].onSelect
         });
         break;
     }
