@@ -89,8 +89,8 @@ importers:
         specifier: 14.2.7
         version: 14.2.7(eslint@8.57.0)(typescript@5.5.4)
       readium-css:
-        specifier: github:readium/readium-css#json
-        version: https://codeload.github.com/readium/readium-css/tar.gz/6389a7da8e5b4c91961f0b29be1a3ce48b441931
+        specifier: github:readium/readium-css#theming-improvements
+        version: https://codeload.github.com/readium/readium-css/tar.gz/6df67526efd2f886ac68ba9e0d80042d86de57e2
       typescript:
         specifier: ^5
         version: 5.5.4
@@ -3405,9 +3405,9 @@ packages:
     resolution: {integrity: sha512-GkMg9uOTpIWWKbSsgwb5fA4EavTR+SG/PMPoAY8hkhHfEEY0/vqljY+XHqtDf2cr2IJtoNRDbrrEpZUiZCkYRw==}
     engines: {node: '>= 14.16.0'}
 
-  readium-css@https://codeload.github.com/readium/readium-css/tar.gz/6389a7da8e5b4c91961f0b29be1a3ce48b441931:
-    resolution: {tarball: https://codeload.github.com/readium/readium-css/tar.gz/6389a7da8e5b4c91961f0b29be1a3ce48b441931}
-    version: 2.0.0-alpha.7
+  readium-css@https://codeload.github.com/readium/readium-css/tar.gz/6df67526efd2f886ac68ba9e0d80042d86de57e2:
+    resolution: {tarball: https://codeload.github.com/readium/readium-css/tar.gz/6df67526efd2f886ac68ba9e0d80042d86de57e2}
+    version: 2.0.0-alpha.10
 
   redux-thunk@3.1.0:
     resolution: {integrity: sha512-NW2r5T6ksUKXCabzhL9z+h206HQw/NJkcLm1GPImRQ8IzfXwRGqjVhKJGauHirT0DAuyy6hjdnMZaRoAcy0Klw==}
@@ -8258,7 +8258,7 @@ snapshots:
 
   readdirp@4.0.1: {}
 
-  readium-css@https://codeload.github.com/readium/readium-css/tar.gz/6389a7da8e5b4c91961f0b29be1a3ce48b441931: {}
+  readium-css@https://codeload.github.com/readium/readium-css/tar.gz/6df67526efd2f886ac68ba9e0d80042d86de57e2: {}
 
   redux-thunk@3.1.0(redux@5.0.1):
     dependencies:
