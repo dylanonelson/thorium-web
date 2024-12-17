@@ -143,7 +143,7 @@ export const RSPrefs = {
         background: "#181842",
         text: "#ffffff",
         link: "#adcfff",
-        visited: "7ab2ff",
+        visited: "#7ab2ff",
         subdue: "#808080",
         disable: "#808080",
         hover: "#4444bb",
