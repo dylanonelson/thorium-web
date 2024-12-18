@@ -6,13 +6,14 @@ import StoreProvider from "../StoreProvider";
 
 // TODO page metadata w/ generateMetadata
 
-export default async function ReaderPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default async function ReaderPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   let error = "";
+  const params = await searchParams;
 
   let book = "moby-dick";
   let publicationURL = "";
-  if (searchParams["book"]) {
-    book = Array.isArray(searchParams["book"]) ? searchParams["book"][0] : searchParams["book"];
+  if (params["book"]) {
+    book = Array.isArray(params["book"]) ? params["book"][0] : params["book"];
   }
   if (book.startsWith("http://") || book.startsWith("https://")) {
     // TODO: use URL.canParse()
