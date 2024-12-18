@@ -28,8 +28,8 @@ export const ArrowButton = (props: ReaderArrowProps) => {
   const button = useRef<HTMLButtonElement>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
-  const hasReachedDynamicBreakpoint = useAppSelector(state => state.reader.hasReachedDynamicBreakpoint);
-  const staticBreakpoint = useAppSelector(state => state.reader.staticBreakpoint);
+  const hasReachedDynamicBreakpoint = useAppSelector(state => state.theming.hasReachedDynamicBreakpoint);
+  const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const isRTL = useAppSelector(state => state.publication.isRTL);
   const isFXL = useAppSelector(state => state.publication.isFXL);
 

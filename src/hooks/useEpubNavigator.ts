@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
-import { RSPrefs } from "@/preferences";
+import { RSPrefs, Themes } from "@/preferences";
 import fontStacks from "readium-css/css/vars/fontStacks.json";
 
 import { EPUBLayout, Link, Locator, Publication, ReadingProgression } from "@readium/shared";
@@ -14,7 +14,7 @@ import { getOptimalLineLength, IOptimalLineLength } from "@/helpers/autoLayout/o
 import { autoPaginate } from "@/helpers/autoLayout/autoPaginate";
 import { localData } from "@/helpers/localData";
 import { setProgression } from "@/lib/publicationReducer";
-import { setDynamicBreakpoint } from "@/lib/readerReducer";
+import { setDynamicBreakpoint } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
 
@@ -186,6 +186,59 @@ export const useEpubNavigator = () => {
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
+  const handleTheme = useCallback((t: Themes) => {    
+    switch(t) {
+      case Themes.auto:
+        break;
+      case Themes.light:
+        applyReadiumCSSStyles({
+          "--USER__appearance": "readium-day-on",
+          "--USER__backgroundColor": "",
+          "--USER__textColor": "",
+          "--RS__linkColor": "",
+          "--RS__visitedColor": "",
+          "--RS__selectionBackgroundColor": "",
+          "--RS__selectionTextColor": ""
+        });
+        break;
+      case Themes.sepia:
+        applyReadiumCSSStyles({
+          "--USER__appearance": "readium-sepia-on",
+          "--USER__backgroundColor": "",
+          "--USER__textColor": "",
+          "--RS__linkColor": "",
+          "--RS__visitedColor": "",
+          "--RS__selectionBackgroundColor": "",
+          "--RS__selectionTextColor": ""
+        });
+        break;
+      case Themes.dark:
+        applyReadiumCSSStyles({
+          "--USER__appearance": "readium-night-on",
+          "--USER__backgroundColor": "",
+          "--USER__textColor": "",
+          "--RS__linkColor": "",
+          "--RS__visitedColor": "",
+          "--RS__selectionBackgroundColor": "",
+          "--RS__selectionTextColor": ""
+        });
+        break;
+      default:
+        applyReadiumCSSStyles({
+          "--USER__appearance": "",
+          "--USER__backgroundColor": RSPrefs.theming.themes[t].background,
+          "--USER__textColor": RSPrefs.theming.themes[t].text,
+          "--RS__linkColor": RSPrefs.theming.themes[t].link,
+          "--RS__visitedColor": RSPrefs.theming.themes[t].visited,
+          "--RS__selectionBackgroundColor": RSPrefs.theming.themes[t].select,
+          "--RS__selectionTextColor": RSPrefs.theming.themes[t].onSelect
+        });
+        break;
+    }
+  }, [applyReadiumCSSStyles])
+
+  // Warning: this is using an internal member that will become private, do not rely on it
+  // See https://github.com/readium/playground/issues/25
   const scrollBackTo = useCallback((position: ScrollBackTo) => {
     if (position !== ScrollBackTo.untouched) {
       nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
@@ -315,6 +368,7 @@ export const useEpubNavigator = () => {
     scrollBackTo, 
     handleColCountReflow,
     handleScrollReflow,
+    handleTheme, 
     setFXLPages, 
     handleProgression
   }

@@ -51,7 +51,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.7",
-    "readium-css": "github:readium/readium-css#json",
+    "readium-css": "github:readium/readium-css#theming-improvements",
     "typescript": "^5",
     "vercel": "39.1.1"
   },

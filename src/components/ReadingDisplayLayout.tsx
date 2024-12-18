@@ -15,8 +15,9 @@ export enum ReadingDisplayLayoutOption {
   paginated = "page_option"
 }
 
-export const ReadingDisplayLayout = ({ isFXL }: { isFXL: boolean }) => {
+export const ReadingDisplayLayout = () => {
   const isPaged = useAppSelector(state => state.reader.isPaged);
+  const isFXL = useAppSelector(state => state.publication.isFXL);
   const dispatch = useAppDispatch();
 
   const handleChange = (value: string) => {
