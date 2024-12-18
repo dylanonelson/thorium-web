@@ -15,13 +15,13 @@ import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
+import { ReadingDisplayTheme } from "./ReadingDisplayTheme";
 
 import { setHovering, setSettingsOpen } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   const isOpen = useAppSelector(state => state.reader.settingsOpen);
-  const isFXL = useAppSelector(state => state.publication.isFXL);
   const dispatch = useAppDispatch();
 
   const setOpen = (value: boolean) => {
@@ -71,9 +71,11 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
               <CloseIcon aria-hidden="true" focusable="false" />
             </Button>
             <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.settings.heading }</Heading>
+            <ReadingDisplayTheme />
+            <Separator />
             <ReadingDisplayCol />
-            <Separator/>
-            <ReadingDisplayLayout isFXL={ isFXL } />
+            <Separator />
+            <ReadingDisplayLayout />
           </Dialog>
         </Popover>
       </DialogTrigger>

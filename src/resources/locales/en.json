@@ -60,6 +60,17 @@
       "trigger": "Toggle settings menu",
       "close": "Close settings menu",
       "heading": "User Settings",
+      "themes": {
+        "title": "Themes",
+        "auto": "Auto",
+        "light": "Light",
+        "sepia": "Sepia",
+        "paper": "Paper",
+        "dark": "Dark",
+        "contrast1": "Contrast 1",
+        "contrast2": "Contrast 2",
+        "contrast3": "Contrast 3"
+      },
       "layout": {
         "title": "Layout",
         "scrolled": "Scrollable",

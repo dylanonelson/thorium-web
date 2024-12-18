@@ -1,6 +1,6 @@
 "use client";
 
-import { RSPrefs } from "@/preferences";
+import { RSPrefs, Themes } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
@@ -21,10 +21,10 @@ import { ReaderFooter } from "./ReaderFooter";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useFullscreen } from "@/hooks/useFullscreen";
+import { useTheming } from "@/hooks/useTheming";
 
 import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions, ScrollBackTo } from "@/helpers/scrollAffordance";
-import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 import { localData } from "@/helpers/localData";
 import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 
@@ -33,11 +33,11 @@ import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicatio
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
-import { useBreakpoints } from "@/hooks/useBreakpoints";
 
 interface IRCSSSettings {
   paginated: boolean;
   colCount: string;
+  theme: Themes;
 }
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
@@ -47,10 +47,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
+  const theme = useAppSelector(state => state.theming.theme);
 
   const RCSSSettings = useRef<IRCSSSettings>({
     paginated: isPaged,
-    colCount: colCount
+    colCount: colCount,
+    theme: theme
   });
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -62,7 +64,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const dispatch = useAppDispatch();
 
   const fs = useFullscreen();
-  const staticBreakpoint = useBreakpoints();
+  const theming = useTheming();
 
   const { 
     EpubNavigatorLoad, 
@@ -80,6 +82,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     applyReadiumCSSStyles,
     handleColCountReflow,
     handleScrollReflow,
+    handleTheme, 
     setFXLPages,  
     handleProgression
   } = useEpubNavigator();
@@ -123,6 +126,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       applyReadiumCSSStyles({
         "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
       });
+
+      if (RCSSSettings.current.theme === Themes.auto) {
+        handleTheme(theming.inferThemeAuto());
+      } else { 
+        handleTheme(RCSSSettings.current.theme);
+      }  
+
       if (RCSSSettings.current.paginated) {
         await applyColumns(RCSSSettings.current.colCount);
       } else {
@@ -263,8 +273,19 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
   }, [colCount, navLayout, setFXLPages, handleColCountReflow]);
 
+  // Handling side effects on Navigator
+  useEffect(() => {
+    RCSSSettings.current.theme = theme;
+    
+    if (theme === Themes.auto) {
+      handleTheme(theming.inferThemeAuto());
+    } else {
+      handleTheme(theme);
+    }
+  }, [theme, handleTheme, theming]);
+
   const handleResize = debounce(() => {
-    if (navLayout() === EPUBLayout.reflowable) {
+    if (navLayout() === EPUBLayout.reflowable) {      
       if (RCSSSettings.current.paginated) {
         handleColCountReflow(RCSSSettings.current.colCount);
       } else {
@@ -333,7 +354,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   return (
     <>
-    <main style={ propsToCSSVars(RSPrefs.theming) }>
+    <main>
       <ReaderHeader 
         toc={ publication.current?.tableOfContents || new Links([]) }
       />
