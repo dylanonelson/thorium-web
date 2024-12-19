@@ -48,6 +48,9 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
     return cssProps;
   };
 
+  // mapArrowNav is the number of columns. This assumption 
+  // should be safe since even in vertical-writing, 
+  // the layout should be horizontal (?)
   const handleKeyboardNav = (e: React.KeyboardEvent) => {
     if (mapArrowNav && !isNaN(mapArrowNav)) {
       const findNextVisualTheme = (perRow: number) => {
@@ -80,7 +83,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
           break;
         default:
           break;
-      }    
+      }
     }
   };
 
