@@ -7,9 +7,9 @@ import settingsStyles from "./assets/styles/readerSettings.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import TuneIcon from "./assets/icons/match_case.svg";
-import CloseIcon from "./assets/icons/close.svg";
 
-import { Button, Dialog, DialogTrigger, Heading, Popover, Separator } from "react-aria-components";
+import { Heading, Separator } from "react-aria-components";
+import { PopoverSheet } from "./Sheets/PopoverSheet";
 import { ActionIcon } from "./Templates/ActionIcon";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
@@ -46,39 +46,29 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   } else {
     return(
       <>
-      <DialogTrigger>
-        <ActionIcon 
+      <PopoverSheet
+        renderActionIcon={ () => <ActionIcon 
           visibility={ RSPrefs.actions[ActionKeys.settings].visibility }
           ariaLabel={ Locale.reader.settings.trigger }
           SVG={ TuneIcon } 
           placement="bottom" 
           tooltipLabel={ Locale.reader.settings.tooltip } 
           onPressCallback={ () => setOpen(true) }
-        />
-        <Popover 
-          placement="bottom" 
-          className={ settingsStyles.readerSettingsPopover }
-          isOpen={ isOpen }
-          onOpenChange={ setOpen } 
-          >
-          <Dialog>
-            <Button 
-              autoFocus={ true }
-              className={ readerSharedUI.closeButton } 
-              aria-label={ Locale.reader.settings.close } 
-              onPress={ () => setOpen(false) }
-            >
-              <CloseIcon aria-hidden="true" focusable="false" />
-            </Button>
-            <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.settings.heading }</Heading>
-            <ReadingDisplayTheme />
-            <Separator />
-            <ReadingDisplayCol />
-            <Separator />
-            <ReadingDisplayLayout />
-          </Dialog>
-        </Popover>
-      </DialogTrigger>
+        /> } 
+        className={ settingsStyles.readerSettingsPopover } 
+        placement="bottom" 
+        isOpen={ isOpen }
+        onOpenChangeCallback={ setOpen } 
+        closeLabel={ Locale.reader.settings.close }
+        onClosePressCallback={ () => setOpen(false) }
+      >
+        <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.settings.heading }</Heading>
+        <ReadingDisplayTheme />
+        <Separator />
+        <ReadingDisplayCol />
+        <Separator />
+        <ReadingDisplayLayout />
+      </PopoverSheet>
       </>
     )
   }
