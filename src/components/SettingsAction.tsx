@@ -71,7 +71,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
               <CloseIcon aria-hidden="true" focusable="false" />
             </Button>
             <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.settings.heading }</Heading>
-            <ReadingDisplayTheme />
+            <ReadingDisplayTheme mapArrowNav={ 2 } />
             <Separator />
             <ReadingDisplayCol />
             <Separator />
