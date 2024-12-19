@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef } from "react";
+import React, { CSSProperties, useEffect, useRef } from "react";
 
 import { RSPrefs, Themes } from "@/preferences";
 import Locale from "../resources/locales/en.json";
@@ -12,8 +12,10 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTheme } from "@/lib/themeReducer";
 
 import classNames from "classnames";
+import { setSettingsOpen } from "@/lib/readerReducer";
 
-export const ReadingDisplayTheme = () => {
+export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
+  const radioGroupRef = useRef<HTMLDivElement | null>(null);
   const theme = useAppSelector(state => state.theming.theme);
   const isFXL = useAppSelector(state => state.publication.isFXL);
 
@@ -46,10 +48,54 @@ export const ReadingDisplayTheme = () => {
     return cssProps;
   };
 
+  const handleKeyboardNav = (e: React.KeyboardEvent) => {
+    if (mapArrowNav && !isNaN(mapArrowNav)) {
+      const findNextVisualTheme = (perRow: number) => {
+        const currentIdx = themeItems.current.findIndex((val) => val === theme);
+        const nextIdx = currentIdx + perRow;
+        if (nextIdx >= 0 && nextIdx < themeItems.current.length) {
+          dispatch(setTheme(themeItems.current[nextIdx]));
+        }
+      };
+
+      switch(e.code) {
+        case "Escape":
+          dispatch(setSettingsOpen(false)); 
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          findNextVisualTheme(-mapArrowNav);
+          break;
+        case "ArrowDown":
+          e.preventDefault();
+          findNextVisualTheme(mapArrowNav);
+          break;
+        case "ArrowLeft":
+          e.preventDefault();
+          findNextVisualTheme(-1);
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          findNextVisualTheme(1);
+          break;
+        default:
+          break;
+      }    
+    }
+  };
+
+  useEffect(() => {
+    if (mapArrowNav && !isNaN(mapArrowNav) && radioGroupRef.current) {
+      const themeToFocus = radioGroupRef.current.querySelector(`#${theme}`) as HTMLElement;
+      if (themeToFocus) themeToFocus.focus();
+    }
+  }, [theme]);
+
   return (
     <>
     <div>
       <RadioGroup 
+        ref={ radioGroupRef }
         orientation="horizontal" 
         value={ theme }
         onChange={ handleTheme }
@@ -66,6 +112,9 @@ export const ReadingDisplayTheme = () => {
               id={ t }
               key={ t }
               style={ doStyles(t) }
+              { ...(mapArrowNav && !isNaN(mapArrowNav) ? {
+                onKeyDown: handleKeyboardNav
+              } : {}) }
             >
             <span>{ Locale.reader.settings.themes[t as keyof typeof Themes] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
             </Radio>
