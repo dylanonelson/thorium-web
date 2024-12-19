@@ -63,7 +63,6 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
           >
           <Dialog>
             <Button 
-              autoFocus={ true }
               className={ readerSharedUI.closeButton } 
               aria-label={ Locale.reader.settings.close } 
               onPress={ () => setOpen(false) }
