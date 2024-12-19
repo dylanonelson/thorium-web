@@ -1,90 +1,133 @@
 import React from "react";
 
 import { RSPrefs } from "@/preferences";
-
 import Locale from "../resources/locales/en.json";
-import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
+
+import { Link } from "@readium/shared";
+import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+
 import tocStyles from "./assets/styles/toc.module.css";
 
 import TocIcon from "./assets/icons/toc.svg";
-import CloseIcon from "./assets/icons/close.svg";
-
-import { Link, Links } from "@readium/shared";
 
 import { ActionIcon } from "./Templates/ActionIcon";
-import { Button, Dialog, DialogTrigger, Heading, ListBox, ListBoxItem, Popover, Selection } from "react-aria-components";
+import { SheetWithType } from "./Sheets/SheetWithType";
+import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
+import { Button, Collection } from "react-aria-components";
+import {
+  UNSTABLE_Tree as Tree,
+  UNSTABLE_TreeItem as TreeItem,
+  UNSTABLE_TreeItemContent as TreeItemContent,
+} from "react-aria-components";
+
+import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useDocking } from "@/hooks/useDocking";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
-import { setTocOpen } from "@/lib/readerReducer";
-import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
-import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
+import { setActionOpen } from "@/lib/actionsReducer";
 
-export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant, toc }) => {
-  const isOpen = useAppSelector(state => state.reader.tocOpen);
+export const TocActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
+  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
+  const tocTree = useAppSelector(state => state.publication.tocTree);
   const dispatch = useAppDispatch();
   const { goLink } = useEpubNavigator();
 
+  const docking = useDocking(ActionKeys.toc);
+  const sheetType = docking.sheetType;
+
   const setOpen = (value: boolean) => {
-    dispatch(setTocOpen(value));
+    dispatch(setActionOpen({ 
+      key: ActionKeys.toc,
+      isOpen: value 
+    }));
   }
 
   const handleClick = (href:string) => {
-    const link:Link = new Link({href:href});
+    const link: Link = new Link({ href: href });
     goLink(link,true, () => {});
   };
 
-  if (variant && variant === ActionComponentVariant.menu) {
-    return(
-      <>
-      <OverflowMenuItem 
-      label={ Locale.reader.toc.trigger }
-      SVG={ TocIcon } 
-      shortcut={ RSPrefs.actions.toc.shortcut }
-      id={ ActionKeys.toc }
-    />
+  return(
+    <>
+    <SheetWithType 
+      sheetType={ sheetType }
+      sheetProps={ {
+        id: ActionKeys.toc,
+        triggerRef: triggerRef, 
+        heading: Locale.reader.toc.heading,
+        className: tocStyles.toc,
+        placement: "bottom",
+        isOpen: actionState.isOpen || false,
+        onOpenChangeCallback: setOpen,
+        onClosePressCallback: () => setOpen(false),
+        docker: docking.getDocker()
+      } }
+    >
+      { tocTree && tocTree.length > 0 
+      ? (<Tree
+          aria-label="Files"
+          selectionMode="multiple"
+          items={ tocTree }
+          className={ tocStyles.reactAriaTree }
+        >
+          { function renderItem(item) {
+            return (
+              <TreeItem textValue={ item.title || "" }>
+                <TreeItemContent>
+                  { item.children 
+                    ? (<Button slot="chevron">
+                        <svg viewBox="0 0 24 24">
+                        <path d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                      </svg>
+                    </Button>) 
+                    : null
+                  }
+                    {item.title}
+                </TreeItemContent>
+                <Collection items={ item.children }>
+                  { renderItem }
+                </Collection>
+              </TreeItem>
+            );
+          }}
+        </Tree>) 
+      : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
+    }
+    </SheetWithType>
     </>
-    )
-  } else {
-    return(
-      <>
-      <DialogTrigger>
-        <ActionIcon 
-          visibility={ RSPrefs.actions[ActionKeys.toc].visibility }
+  )
+}
+
+export const TocAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
+  const dispatch = useAppDispatch();
+
+  const setOpen = (value: boolean) => {
+    dispatch(setActionOpen({ 
+      key: ActionKeys.toc,
+      isOpen: value 
+    }));
+  }
+
+  return(
+    <>
+    { (variant && variant === ActionComponentVariant.menu) 
+      ? <OverflowMenuItem 
+          label={ Locale.reader.toc.trigger }
+          SVG={ TocIcon } 
+          shortcut={ RSPrefs.actions.keys[ActionKeys.toc].shortcut }
+          id={ ActionKeys.toc }
+          onActionCallback={ () => setOpen(!actionState.isOpen) }
+        />
+      : <ActionIcon 
+          visibility={ RSPrefs.actions.keys[ActionKeys.toc].visibility }
           ariaLabel={ Locale.reader.toc.trigger } 
           SVG={ TocIcon } 
           placement="bottom"
           tooltipLabel={ Locale.reader.toc.tooltip } 
-          onPressCallback={ () => setOpen(true) }
+          onPressCallback={ () => setOpen(!actionState.isOpen) }
         />
-        { toc && 
-        <Popover
-          placement="bottom"
-          className={ tocStyles.tocPopover } 
-          isOpen={ isOpen }
-          onOpenChange={ setOpen }
-        >
-          <Dialog>
-            <Button
-              autoFocus={ true }
-              className={ readerSharedUI.closeButton }
-              aria-label={ Locale.reader.toc.close }
-              onPress={ () => setOpen(false) }
-            >
-              <CloseIcon aria-hidden="true" focusable="false" />
-            </Button>
-            <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.toc.heading }</Heading>
-            { toc.items.length > 0 
-              ? <ListBox className={ tocStyles.listBox } items={ toc.items }>
-                  { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }><div style={{ cursor: "pointer" }} onClick={() => handleClick(item.href)}>{item.title}</div></ListBoxItem> }
-                </ListBox>
-              : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
-            }
-          </Dialog>
-        </Popover>
-        }
-      </DialogTrigger>
-      </>
-      )
-  }
+    }
+    </>
+  )
 }

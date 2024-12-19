@@ -1,25 +1,19 @@
-import React, { ComponentType, SVGProps } from "react";
+import React from "react";
+
+import { IOverflowMenuItemProp } from "@/models/actions";
 
 import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 
 import { MenuItem, Text } from "react-aria-components";
 import { Shortcut } from "../Shortcut";
-import { ActionKeys } from "./ActionComponent";
-
-export interface IOverflowMenuItemProp {
-  label: string;
-  SVG: ComponentType<SVGProps<SVGElement>>;
-  shortcut?: string;
-  onActionCallback?: () => void;
-  id: ActionKeys;
-}
 
 export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
   label,
   SVG, 
   shortcut,
   onActionCallback, 
-  id
+  id,
+  isDisabled
 }) => {
   const menuItemLabelId = `${id}-label`;
   
@@ -30,6 +24,7 @@ export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
       className={ overflowMenuStyles.menuItem } 
       aria-labelledby={ menuItemLabelId } 
       onAction={ onActionCallback }
+      isDisabled={ isDisabled }
     >
       <SVG aria-hidden="true" focusable="false" />
       <Text 
