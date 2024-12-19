@@ -1,23 +1,14 @@
-import React, { ReactElement, ReactNode } from "react";
-
-import Locale from "../../resources/locales/en.json";
+import React from "react";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import CloseIcon from "../assets/icons/close.svg";
 
+import { ISheet } from "./Sheet";
 import { Button, Dialog, DialogTrigger, Popover, PopoverProps } from "react-aria-components";
-import { IActionIconProps } from "../Templates/ActionIcon";
 
-export interface IPopoverSheet {
-  renderActionIcon: () => ReactElement<IActionIconProps>;
-  className: string;
-  isOpen: boolean;
-  onOpenChangeCallback: (isOpen: boolean) => void;
-  closeLabel: string;
-  onClosePressCallback: () => void;
+export interface IPopoverSheet extends ISheet {
   placement?: PopoverProps["placement"];
-  children?: ReactNode;
 }
 
 export const PopoverSheet: React.FC<IPopoverSheet> = ({ 
