@@ -1,9 +1,14 @@
 import { useCallback, useEffect, useRef } from "react";
 
-import { RSPrefs, Themes } from "@/preferences";
+import { RSPrefs } from "@/preferences";
+import { ColorScheme, ThemeKeys } from "@/models/theme";
 
-import { useBreakpoints } from "./useBreakpoints"
-import { ColorScheme, useColorScheme } from "./useColorScheme";
+import { useBreakpoints } from "./useBreakpoints";
+import { useReducedMotion } from "./useReducedMotion";
+import { useColorScheme } from "./useColorScheme";
+import { useContrast } from "./useContrast";
+import { useForcedColors } from "./useForcedColors";
+import { useMonochrome } from "./useMonochrome";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -13,28 +18,33 @@ import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 // Reader still has to handle the side effects on Navigator
 export const useTheming = () => {
   const breakpoints = useBreakpoints();
+  const reducedMotion = useReducedMotion();
+  const monochrome = useMonochrome();
   const colorScheme = useColorScheme();
   const colorSchemeRef = useRef(colorScheme);
+  const contrast = useContrast();
+  const forcedColors = useForcedColors();
   const theme = useAppSelector(state => state.theming.theme);
 
   const inferThemeAuto = useCallback(() => {
-    return colorSchemeRef.current === ColorScheme.dark ? Themes.dark : Themes.light
+    return colorSchemeRef.current === ColorScheme.dark ? ThemeKeys.dark : ThemeKeys.light
   }, []);
 
   const initThemingCustomProps = useCallback(() => {
     const props = {
       ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
-      ...propsToCSSVars(RSPrefs.theming.icon, "icon")
+      ...propsToCSSVars(RSPrefs.theming.icon, "icon"),
+      ...propsToCSSVars(RSPrefs.theming.layout, "layout")
     } 
     for (let p in props) {
       document.documentElement.style.setProperty(p, props[p])
     }
   }, []);
 
-  const setThemeCustomProps = useCallback((t: Themes) => {
-    if (t === Themes.auto) t = inferThemeAuto();
+  const setThemeCustomProps = useCallback((t: ThemeKeys) => {
+    if (t === ThemeKeys.auto) t = inferThemeAuto();
   
-    const props = propsToCSSVars(RSPrefs.theming.themes[t], "theme");
+    const props = propsToCSSVars(RSPrefs.theming.themes.keys[t], "theme");
       
     for (let p in props) {
       document.documentElement.style.setProperty(p, props[p])
@@ -54,7 +64,11 @@ export const useTheming = () => {
 
   return {
     breakpoints,
+    monochrome, 
     colorScheme,
+    contrast, 
+    forcedColors, 
+    reducedMotion, 
     inferThemeAuto
   }
 }

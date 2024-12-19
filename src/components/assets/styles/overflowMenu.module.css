@@ -1,17 +1,25 @@
 .overflowPopover {
   background-color: var(--theme-background);
   color: var(--theme-text);
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid var(--theme-text);
-  position: relative;
+  padding: calc(var(--layout-spacing) / 2);
+  border-radius: var(--layout-radius);
+  border: 1px solid var(--theme-subdue);
+  filter: drop-shadow(var(--theme-elevate));
+  box-sizing: border-box;
+  max-width: var(--constraints-popover, 500px);
+  width: max-content;
+}
+
+.overflowMenu {
+  outline: none;
 }
 
 .menuItem {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
+  gap: calc(var(--layout-spacing) / 2);
+  padding: calc(var(--layout-spacing) / 2);
+  border-radius: var(--layout-radius);
   outline: none;
 }
 
@@ -21,6 +29,10 @@
 
 .menuItem[data-focus-visible] {
   outline: 2px solid var(--theme-focus);
+}
+
+.menuItem[data-disabled] {
+  color: var(--theme-disable);
 }
 
 .menuItem > svg {
@@ -38,7 +50,7 @@
   font-weight: bold;
   color: var(--theme-subdue);
   padding: 5px;
-  margin-left: auto;
-  border-radius: 5px;
+  margin-inline-start: auto;
+  border-radius: var(--layout-radius);
   border: 1px solid var(--theme-subdue);
 }

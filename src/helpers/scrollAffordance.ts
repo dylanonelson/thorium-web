@@ -1,18 +1,5 @@
-import { RSPrefs } from "@/preferences";
+import { ScrollAffordancePref } from "@/models/preferences";
 import Locale from "../resources/locales/en.json";
-
-export enum ScrollAffordancePref {
-  none = "none",
-  prev = "previous",
-  next = "next",
-  both = "both"
-}
-
-export enum ScrollBackTo {
-  top = "top",
-  bottom = "bottom",
-  untouched = "untouched"
-}
 
 export interface IScrollAffordanceConfig {
   pref: ScrollAffordancePref;

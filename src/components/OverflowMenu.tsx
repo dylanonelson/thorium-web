@@ -1,32 +1,44 @@
-import React, { ReactNode } from "react";
+import React, { useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
+
+import { ActionComponentVariant, ActionVisibility, IOverflowMenu } from "@/models/actions";
+
 import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
 import MenuIcon from "./assets/icons/more_vert.svg";
 
-import { Key, Menu, MenuTrigger, Popover } from "react-aria-components";
+import { Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setOverflowMenuOpen, toggleImmersive } from "@/lib/readerReducer";
-import { ActionVisibility } from "./Templates/ActionComponent";
 
-export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
-  const isImmersive = useAppSelector(state => state.reader.isImmersive);
-  const isHovered = useAppSelector(state => state.reader.isHovering);
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { toggleImmersive } from "@/lib/readerReducer";
+import { setOverflow } from "@/lib/actionsReducer";
+
+export const OverflowMenu = ({ 
+  id,
+  className, 
+  actionFallback,
+  display,
+  actionItems 
+}: IOverflowMenu) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+
   const dispatch = useAppDispatch();
 
   const toggleMenuState = (value: boolean) => {
-    dispatch(setOverflowMenuOpen(value));
+    dispatch(setOverflow({
+      key: id,
+      isOpen: value
+    }));
   }
-  
-  return(
-    <>
-    { React.Children.toArray(children).length > 0 && (!isImmersive || isHovered) ? 
+
+  if (actionItems.length > 0 && (display)) {
+    return (
       <>
       <MenuTrigger onOpenChange={ (val) => toggleMenuState(val) }>
         <ActionIcon 
-          className={ overflowMenuStyles.activeButton }
+          className={ className ? className : overflowMenuStyles.activeButton }
           ariaLabel={ Locale.reader.overflowMenu.active.trigger }
           SVG={ MenuIcon } 
           placement="bottom"
@@ -38,18 +50,33 @@ export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
           className={ overflowMenuStyles.overflowPopover }
         >
           <Menu 
+            ref={ ref }
+            id={ id }
             selectionMode="none" 
-            onAction={ (key: Key) => { console.log(key) } 
-            
-          }>
-            { children }
+            className={ overflowMenuStyles.overflowMenu }
+          >
+            { actionItems.map(({ Trigger, key, associatedKey, ...props }) => 
+              <Trigger 
+                key={ `${ key }-menuItem` } 
+                variant={ ActionComponentVariant.menu }
+                { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
+                { ...props }
+              />
+            )}
           </Menu>
         </Popover>
       </MenuTrigger>
+      { actionItems.map(({ Container, key }) => 
+        Container && <Container key={ `${ key }-container` } triggerRef={ ref } />
+      )}
       </>
-      : <>
+    )
+  } else {
+    if (actionFallback) {
+      return(
+        <>
         <ActionIcon 
-          className={ overflowMenuStyles.hintButton } 
+          className={ className ? className : overflowMenuStyles.hintButton } 
           ariaLabel={ Locale.reader.overflowMenu.hint.trigger }
           SVG={ MenuIcon } 
           placement="bottom"
@@ -59,7 +86,9 @@ export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
           preventFocusOnPress={ true }
         />
       </>
+      )
+    } else {
+      return(<></>)
     }
-    </>
-  )
+  }
 }
