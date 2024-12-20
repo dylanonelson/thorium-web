@@ -1,22 +1,17 @@
 import { ReactNode } from "react";
 
-import { StaticBreakpoints } from "@/hooks/useBreakpoints";
-import { SheetTypes } from "./Sheet";
+import { BreakpointsMap, SheetTypes } from "./Sheet";
 import { FullScreenSheet, IFullScreenSheet } from "./FullScreenSheet";
 import { IPopoverSheet, PopoverSheet } from "./PopoverSheet";
 
 import { useAppSelector } from "@/lib/hooks";
-
-export type BreakpointsMap = {
-  [key in StaticBreakpoints]: SheetTypes;
-}
 
 export const SheetWithBreakpoints = ({ 
     breakpointsMap, 
     sheetProps,
     children
   }: {
-    breakpointsMap: BreakpointsMap, 
+    breakpointsMap: Required<BreakpointsMap>, 
     sheetProps: IFullScreenSheet | IPopoverSheet,
     children: ReactNode
   }) => {
@@ -33,7 +28,8 @@ export const SheetWithBreakpoints = ({
       )
     }
 
-    // Default popover
+    // Default popover 
+    // TODO: use defaultSheet pref if not null nor undefined
     return (
       <>
       <PopoverSheet { ...sheetProps }>

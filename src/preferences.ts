@@ -1,6 +1,7 @@
 import { StaticBreakpoints } from "./hooks/useBreakpoints";
 import { ScrollAffordancePref, ScrollBackTo } from "./helpers/scrollAffordance";
 import { ActionKeys, ActionVisibility } from "./components/Templates/ActionComponent";
+import { SheetTypes } from "./components/Sheets/Sheet";
 import { ShortcutRepresentation } from "./components/Shortcut";
 import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
 
@@ -182,9 +183,14 @@ export const RSPrefs = {
     //  ActionKeys.toc,
     //  ActionKeys.jumpToPosition
     ],
+    defaultSheet: SheetTypes.popover, 
     [ActionKeys.settings]: {
       visibility: ActionVisibility.always,
-      shortcut: `${ShortcutMetaKeywords.platform}+P`
+      shortcut: `${ShortcutMetaKeywords.platform}+P`,
+      sheet: {
+        [StaticBreakpoints.compact]: SheetTypes.fullscreen,
+        [StaticBreakpoints.medium]: SheetTypes.fullscreen
+      }
     },
     [ActionKeys.fullscreen]: {
       visibility: ActionVisibility.always,

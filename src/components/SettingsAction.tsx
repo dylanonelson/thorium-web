@@ -9,7 +9,7 @@ import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 import TuneIcon from "./assets/icons/match_case.svg";
 
 import { Heading, Separator } from "react-aria-components";
-import { PopoverSheet } from "./Sheets/PopoverSheet";
+import { SheetWithBreakpoints } from "./Sheets/SheetWithBreakpoints";
 import { ActionIcon } from "./Templates/ActionIcon";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
@@ -17,11 +17,10 @@ import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 import { ReadingDisplayTheme } from "./ReadingDisplayTheme";
 
+import { prefToMap } from "./Sheets/Sheet";
+
 import { setHovering, setSettingsOpen } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { SheetWithBreakpoints } from "./Sheets/SheetWithBreakpoints";
-import { StaticBreakpoints } from "@/hooks/useBreakpoints";
-import { SheetTypes } from "./Sheets/Sheet";
 
 export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   const isOpen = useAppSelector(state => state.reader.settingsOpen);
@@ -33,7 +32,6 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
     // hover false otherwise it tends to stay on close button press…
     if (!value) dispatch(setHovering(false));
   }
-
 
   if (variant && variant === ActionComponentVariant.menu) {
     return(
@@ -50,13 +48,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
     return(
       <>
       <SheetWithBreakpoints 
-        breakpointsMap={{
-          [StaticBreakpoints.compact]: SheetTypes.fullscreen,
-          [StaticBreakpoints.medium]: SheetTypes.fullscreen,
-          [StaticBreakpoints.expanded]: SheetTypes.popover,
-          [StaticBreakpoints.large]: SheetTypes.popover,
-          [StaticBreakpoints.xLarge]: SheetTypes.popover
-        }} 
+        breakpointsMap={ prefToMap(RSPrefs.actions.settings.sheet) } 
         sheetProps={{
           renderActionIcon: () => <ActionIcon 
             visibility={ RSPrefs.actions[ActionKeys.settings].visibility }
