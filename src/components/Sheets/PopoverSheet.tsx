@@ -12,22 +12,21 @@ export interface IPopoverSheet extends ISheet {
 }
 
 export const PopoverSheet: React.FC<IPopoverSheet> = ({ 
-  renderActionIcon,
-  className, 
-  isOpen,
-  onOpenChangeCallback, 
-  closeLabel,
-  onClosePressCallback,
-  placement, 
-  children }) => {
-
-  const action = renderActionIcon();
+    renderActionIcon,
+    className, 
+    isOpen,
+    onOpenChangeCallback, 
+    closeLabel,
+    onClosePressCallback,
+    placement, 
+    children 
+  }) => {
 
   return (
   <>
   { React.Children.toArray(children).length > 0 
     ? <DialogTrigger>
-        { action }
+        { renderActionIcon() }
         <Popover 
           placement={ placement || "bottom" }
           className={ className }

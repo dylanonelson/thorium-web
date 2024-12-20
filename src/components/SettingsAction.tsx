@@ -19,6 +19,9 @@ import { ReadingDisplayTheme } from "./ReadingDisplayTheme";
 
 import { setHovering, setSettingsOpen } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { SheetWithBreakpoints } from "./Sheets/SheetWithBreakpoints";
+import { StaticBreakpoints } from "@/hooks/useBreakpoints";
+import { SheetTypes } from "./Sheets/Sheet";
 
 export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   const isOpen = useAppSelector(state => state.reader.settingsOpen);
@@ -46,21 +49,30 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   } else {
     return(
       <>
-      <PopoverSheet
-        renderActionIcon={ () => <ActionIcon 
-          visibility={ RSPrefs.actions[ActionKeys.settings].visibility }
-          ariaLabel={ Locale.reader.settings.trigger }
-          SVG={ TuneIcon } 
-          placement="bottom" 
-          tooltipLabel={ Locale.reader.settings.tooltip } 
-          onPressCallback={ () => setOpen(true) }
-        /> } 
-        className={ settingsStyles.readerSettingsPopover } 
-        placement="bottom" 
-        isOpen={ isOpen }
-        onOpenChangeCallback={ setOpen } 
-        closeLabel={ Locale.reader.settings.close }
-        onClosePressCallback={ () => setOpen(false) }
+      <SheetWithBreakpoints 
+        breakpointsMap={{
+          [StaticBreakpoints.compact]: SheetTypes.fullscreen,
+          [StaticBreakpoints.medium]: SheetTypes.fullscreen,
+          [StaticBreakpoints.expanded]: SheetTypes.popover,
+          [StaticBreakpoints.large]: SheetTypes.popover,
+          [StaticBreakpoints.xLarge]: SheetTypes.popover
+        }} 
+        sheetProps={{
+          renderActionIcon: () => <ActionIcon 
+            visibility={ RSPrefs.actions[ActionKeys.settings].visibility }
+            ariaLabel={ Locale.reader.settings.trigger }
+            SVG={ TuneIcon } 
+            placement="bottom" 
+            tooltipLabel={ Locale.reader.settings.tooltip } 
+            onPressCallback={ () => setOpen(true) }
+          />,
+          className: settingsStyles.readerSettingsPopover,
+          placement: "bottom", 
+          isOpen: isOpen,
+          onOpenChangeCallback: setOpen, 
+          closeLabel: Locale.reader.settings.close,
+          onClosePressCallback: () => setOpen(false)
+        }}
       >
         <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.settings.heading }</Heading>
         <ReadingDisplayTheme />
@@ -68,7 +80,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
         <ReadingDisplayCol />
         <Separator />
         <ReadingDisplayLayout />
-      </PopoverSheet>
+      </SheetWithBreakpoints>
       </>
     )
   }
