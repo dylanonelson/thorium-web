@@ -59,7 +59,7 @@
       "tooltip": "Settings",
       "trigger": "Toggle settings menu",
       "close": "Close settings menu",
-      "heading": "User Settings",
+      "heading": "Display settings",
       "themes": {
         "title": "Themes",
         "auto": "Auto",
