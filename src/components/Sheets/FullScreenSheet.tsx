@@ -11,15 +11,14 @@ import { Button, Dialog, DialogTrigger, Modal, ModalOverlay } from "react-aria-c
 export interface IFullScreenSheet extends ISheet {};
 
 export const FullScreenSheet: React.FC<IFullScreenSheet> = ({ 
-  renderActionIcon,
-  className, 
-  isOpen,
-  onOpenChangeCallback, 
-  closeLabel,
-  onClosePressCallback,
-  children }) => {
-
-  const action = renderActionIcon();
+    renderActionIcon,
+    className, 
+    isOpen,
+    onOpenChangeCallback, 
+    closeLabel,
+    onClosePressCallback,
+    children 
+  }) => {
 
   return (
   <>
@@ -28,7 +27,7 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
         isOpen={ isOpen }
         onOpenChange={ onOpenChangeCallback 
       }>
-        { action }
+        { renderActionIcon() }
         <ModalOverlay className={ sheetStyles.fullScreenSheetOverlay }>
           <Modal 
             isDismissable={ true }
