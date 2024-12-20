@@ -33,7 +33,7 @@ export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant
       <OverflowMenuItem 
       label={ Locale.reader.toc.trigger }
       SVG={ TocIcon } 
-      shortcut={ RSPrefs.actions.toc.shortcut }
+      shortcut={ RSPrefs.actions[ActionKeys.toc].shortcut }
       id={ ActionKeys.toc }
     />
     </>

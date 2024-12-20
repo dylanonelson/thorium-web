@@ -16,7 +16,7 @@ export const JumpToPositionAction: React.FC<IActionComponent> = ({ variant }) =>
       <OverflowMenuItem 
         label={ Locale.reader.jumpToPosition.trigger }
         SVG={ TargetIcon }
-        shortcut={ RSPrefs.actions.jumpToPosition.shortcut }
+        shortcut={ RSPrefs.actions[ActionKeys.jumpToPosition].shortcut }
         id={ ActionKeys.jumpToPosition }
       />
       </>

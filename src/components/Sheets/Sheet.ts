@@ -54,7 +54,7 @@ export const prefToMap = (pref: SheetPref): Required<BreakpointsMap> => {
         });
       }
     })
-  ;}
+  };
   
   return breakpointsMap;
 }
