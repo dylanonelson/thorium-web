@@ -43,7 +43,7 @@ export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
       <OverflowMenuItem 
         label={ Locale.reader.fullscreen.trigger }
         SVG={ FullscreenCorners } 
-        shortcut={ RSPrefs.actions.fullscreen.shortcut }
+        shortcut={ RSPrefs.actions[ActionKeys.fullscreen].shortcut }
         onActionCallback={ fs.handleFullscreen } 
         id={ ActionKeys.fullscreen }
       />
