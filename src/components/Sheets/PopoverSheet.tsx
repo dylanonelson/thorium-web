@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
@@ -23,13 +23,24 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
     placement, 
     children 
   }) => {
-    const popoverRef = useRef<HTMLDivElement | null>(null);
+  const popoverRef = useRef<HTMLDivElement | null>(null);
+  const popoverBodyRef = useRef<HTMLDivElement | null>(null);
 
-    const computeMaxHeight = useCallback(() => {
-      if (!popoverRef.current) return;
+  const computeMaxHeight = useCallback(() => {
+    if (!popoverRef.current) return;
+    return window.innerHeight - popoverRef.current.offsetTop;
+  }, []);
 
-      return window.innerHeight - popoverRef.current.offsetTop;
-    }, [])
+  useEffect(() => {
+    if (!popoverBodyRef.current || !isOpen) return;
+
+    // WIP: Pick the fist element that is selected. 
+    // Expecting this to become more complex 
+    // in order to cover all possible interactive elements
+    const firstFocusable: HTMLElement | null = popoverBodyRef.current.querySelector("[data-selected]");
+    
+    firstFocusable?.focus();
+  }, [isOpen]);
 
   return (
   <>
@@ -57,7 +68,10 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
               </Button>
             </div>
 
-            <div className={ readerSharedUI.popoverBody }>
+            <div 
+              ref={ popoverBodyRef } 
+              className={ readerSharedUI.popoverBody }
+            >
               { children }
             </div>
           </Dialog>
