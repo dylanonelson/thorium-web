@@ -5,14 +5,15 @@ import sheetStyles from "../assets/styles/sheet.module.css";
 
 import CloseIcon from "../assets/icons/close.svg";
 
-import { Button, Dialog, DialogTrigger, Modal, ModalOverlay } from "react-aria-components";
+import { Button, Dialog, DialogTrigger, Heading, Modal, ModalOverlay } from "react-aria-components";
 
 import { ISheet } from "./Sheet";
 
 export interface IFullScreenSheet extends ISheet {};
 
 export const FullScreenSheet: React.FC<IFullScreenSheet> = ({ 
-    renderActionIcon,
+    renderActionIcon, 
+    heading, 
     className, 
     isOpen,
     onOpenChangeCallback, 
@@ -35,6 +36,8 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
             className={ sheetStyles.fullScreenSheetModal }
           >
             <Dialog className={ className }>
+              <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ heading }</Heading>
+
               <Button 
                 className={ readerSharedUI.closeButton } 
                 aria-label={ closeLabel } 
@@ -42,6 +45,7 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
               >
                 <CloseIcon aria-hidden="true" focusable="false" />
               </Button>
+
               { children }
             </Dialog>
           </Modal>

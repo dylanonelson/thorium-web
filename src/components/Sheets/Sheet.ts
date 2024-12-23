@@ -16,6 +16,7 @@ export type BreakpointsMap = {
 
 export interface ISheet {
   renderActionIcon: () => ReactElement<IActionIconProps>;
+  heading: string;
   className: string;
   isOpen: boolean;
   onOpenChangeCallback: (isOpen: boolean) => void;
