@@ -1,15 +1,13 @@
 .readerSettingsPopover {
   background-color: var(--theme-background);
   color: var(--theme-text);
-  padding: 10px;
+  padding: 0 10px 10px 10px;
   border-radius: 5px;
   border: 1px solid var(--theme-text);
   position: relative;
 
-  /* TMP until we have all the sheets/modals */
+  height: 100%;
   overflow-y: auto;
-  max-height: calc(100vh - (var(--icon-size, 24px) * 6));
-  max-height: calc(100dvh - (var(--icon-size, 24px) * 6));
   max-width: 300px;
   box-sizing: border-box;
   filter: drop-shadow(var(--theme-elevate));

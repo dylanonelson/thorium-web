@@ -3,7 +3,6 @@ import React from "react";
 import { RSPrefs } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
-import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 import tocStyles from "./assets/styles/toc.module.css";
 
 import TocIcon from "./assets/icons/toc.svg";
@@ -11,7 +10,7 @@ import TocIcon from "./assets/icons/toc.svg";
 import { Links } from "@readium/shared";
 
 import { ActionIcon } from "./Templates/ActionIcon";
-import { Heading, ListBox, ListBoxItem } from "react-aria-components";
+import { ListBox, ListBoxItem } from "react-aria-components";
 import { PopoverSheet } from "./Sheets/PopoverSheet";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
@@ -50,6 +49,7 @@ export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant
           tooltipLabel={ Locale.reader.toc.tooltip } 
           onPressCallback={ () => setOpen(true) }
         /> } 
+        heading={ Locale.reader.toc.heading }
         className={ tocStyles.tocPopover } 
         placement="bottom" 
         isOpen={ isOpen }
@@ -57,7 +57,6 @@ export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant
         closeLabel={ Locale.reader.toc.close }
         onClosePressCallback={ () => setOpen(false) }
       >
-        <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.toc.heading }</Heading>
         { toc.items.length > 0 
           ? <ListBox className={ tocStyles.listBox } items={ toc.items }>
               { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }>{ item.title }</ListBoxItem> }

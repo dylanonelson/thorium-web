@@ -4,11 +4,10 @@ import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
-import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import TuneIcon from "./assets/icons/match_case.svg";
 
-import { Heading, Separator } from "react-aria-components";
+import { Separator } from "react-aria-components";
 import { SheetWithBreakpoints } from "./Sheets/SheetWithBreakpoints";
 import { ActionIcon } from "./Templates/ActionIcon";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
@@ -58,6 +57,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
             tooltipLabel={ Locale.reader.settings.tooltip } 
             onPressCallback={ () => setOpen(true) }
           />,
+          heading: Locale.reader.settings.heading,
           className: settingsStyles.readerSettingsPopover,
           placement: "bottom", 
           isOpen: isOpen,
@@ -66,7 +66,6 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
           onClosePressCallback: () => setOpen(false)
         }}
       >
-        <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.settings.heading }</Heading>
         <ReadingDisplayTheme />
         <Separator />
         <ReadingDisplayCol />
