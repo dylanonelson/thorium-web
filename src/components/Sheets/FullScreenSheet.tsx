@@ -5,8 +5,9 @@ import sheetStyles from "../assets/styles/sheet.module.css";
 
 import CloseIcon from "../assets/icons/close.svg";
 
-import { ISheet } from "./Sheet";
 import { Button, Dialog, DialogTrigger, Modal, ModalOverlay } from "react-aria-components";
+
+import { ISheet } from "./Sheet";
 
 export interface IFullScreenSheet extends ISheet {};
 
