@@ -25,6 +25,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
   }) => {
   const popoverRef = useRef<HTMLDivElement | null>(null);
   const popoverBodyRef = useRef<HTMLDivElement | null>(null);
+  const popoverCloseRef = useRef<HTMLButtonElement | null>(null);
 
   const computeMaxHeight = useCallback(() => {
     if (!popoverRef.current) return;
@@ -39,7 +40,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
     // in order to cover all possible interactive elements
     const firstFocusable: HTMLElement | null = popoverBodyRef.current.querySelector("[data-selected]");
     
-    firstFocusable?.focus();
+    firstFocusable ? firstFocusable.focus() : popoverCloseRef.current?.focus();
   }, [isOpen]);
 
   return (
@@ -60,6 +61,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
               <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ heading }</Heading>
             
               <Button 
+                ref={ popoverCloseRef }
                 className={ readerSharedUI.closeButton } 
                 aria-label={ closeLabel } 
                 onPress={ onClosePressCallback }
