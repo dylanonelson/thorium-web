@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useRef } from "react";
 
+import { RSPrefs } from "@/preferences";
+
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import CloseIcon from "../assets/icons/close.svg";
 
 import { Button, Dialog, DialogTrigger, Heading, Popover, PopoverProps } from "react-aria-components";
+import { Docker } from "./Docker";
 
 import { ISheet } from "./Sheet";
 
@@ -13,6 +16,7 @@ export interface IPopoverSheet extends ISheet {
 }
 
 export const PopoverSheet: React.FC<IPopoverSheet> = ({ 
+    id,
     renderActionIcon,
     heading,
     className, 
@@ -60,14 +64,21 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
             <div className={ readerSharedUI.popoverHeader }>
               <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ heading }</Heading>
             
-              <Button 
-                ref={ popoverCloseRef }
-                className={ readerSharedUI.closeButton } 
-                aria-label={ closeLabel } 
-                onPress={ onClosePressCallback }
-              >
-                <CloseIcon aria-hidden="true" focusable="false" />
-              </Button>
+              { RSPrefs.actions[id].dockable 
+                ? <Docker 
+                  id={ id }
+                  onStackCallback={ () => {}}
+                  onCloseCallback={ onClosePressCallback }
+                /> 
+                : <Button 
+                  ref={ popoverCloseRef }
+                  className={ readerSharedUI.closeButton } 
+                  aria-label={ closeLabel } 
+                  onPress={ onClosePressCallback }
+                >
+                  <CloseIcon aria-hidden="true" focusable="false" />
+                </Button>
+              }
             </div>
 
             <div 

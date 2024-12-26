@@ -190,19 +190,23 @@ export const RSPrefs = {
       sheet: {
         [StaticBreakpoints.compact]: SheetTypes.fullscreen,
         [StaticBreakpoints.medium]: SheetTypes.fullscreen
-      }
+      },
+      dockable: true
     },
     [ActionKeys.fullscreen]: {
       visibility: ActionVisibility.always,
-      shortcut: `${ShortcutMetaKeywords.platform}+F11`
+      shortcut: `${ShortcutMetaKeywords.platform}+F11`,
+      dockable: false
     },
     [ActionKeys.toc]: {
       visibility: ActionVisibility.partially,
-      shortcut: `${ShortcutMetaKeywords.platform}+N`
+      shortcut: `${ShortcutMetaKeywords.platform}+N`,
+      dockable: true
     },
     [ActionKeys.jumpToPosition]: {
       visibility: ActionVisibility.overflow,
-      shortcut: `${ShortcutMetaKeywords.platform}+J`
+      shortcut: `${ShortcutMetaKeywords.platform}+J`,
+      dockable: false
     }
   }
 }

@@ -4,10 +4,13 @@ import { RSPrefs } from "@/preferences";
 
 import { IActionIconProps } from "../Templates/ActionIcon";
 import { StaticBreakpoints } from "@/hooks/useBreakpoints";
+import { ActionKeys } from "../Templates/ActionComponent";
 
 export enum SheetTypes {
   popover = "popover",
-  fullscreen = "fullscreen"
+  fullscreen = "fullscreen",
+  dockedLeft = "dockedLeft",
+  dockedRight = "dockedRight"
 }
 
 export type BreakpointsMap = {
@@ -15,6 +18,7 @@ export type BreakpointsMap = {
 }
 
 export interface ISheet {
+  id: ActionKeys;
   renderActionIcon: () => ReactElement<IActionIconProps>;
   heading: string;
   className: string;

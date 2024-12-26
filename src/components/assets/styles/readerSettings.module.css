@@ -8,7 +8,7 @@
 
   height: 100%;
   overflow-y: auto;
-  max-width: 300px;
+  max-width: 600px;
   box-sizing: border-box;
   filter: drop-shadow(var(--theme-elevate));
 }
