@@ -41,6 +41,7 @@ export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant
     return(
       <>
       <PopoverSheet
+        id={ ActionKeys.toc }
         renderActionIcon={ () => <ActionIcon 
           visibility={ RSPrefs.actions[ActionKeys.toc].visibility }
           ariaLabel={ Locale.reader.toc.trigger } 

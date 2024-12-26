@@ -16,6 +16,25 @@
         "of": "{{ current }} of {{ reference }}",
         "referenceFallback": "current chapter",
         "pubFallback": "the publication"
+      },
+      "docker": {
+        "wrapper": "Docking options",
+        "dockToLeft": {
+          "trigger": "Dock to the left",
+          "tooltip": "Dock left"
+        },
+        "dockToRight": {
+          "trigger": "Dock to the right",
+          "tooltip": "Dock Right"
+        },
+        "stack": {
+          "trigger": "Pop the sheet over",
+          "tooltip": "Pop over"
+        },
+        "close": {
+          "trigger": "Close the sheet",
+          "tooltip": "Close"
+        }
       }
     },
     "navigation": {

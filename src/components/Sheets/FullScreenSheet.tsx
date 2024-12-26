@@ -11,7 +11,8 @@ import { ISheet } from "./Sheet";
 
 export interface IFullScreenSheet extends ISheet {};
 
-export const FullScreenSheet: React.FC<IFullScreenSheet> = ({ 
+export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
+    id, 
     renderActionIcon, 
     heading, 
     className, 

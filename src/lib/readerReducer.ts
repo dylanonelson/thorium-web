@@ -1,3 +1,4 @@
+import { ActionKeys } from "@/components/Templates/ActionComponent";
 import { defaultPlatformModifier, IPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -11,6 +12,8 @@ interface IReaderState {
   tocOpen: boolean;
   overflowMenuOpen: boolean;
   platformModifier: IPlatformModifier;
+  leftDock: ActionKeys | null;
+  rightDock: ActionKeys | null;
 }
 
 const initialState: IReaderState = {
@@ -22,7 +25,9 @@ const initialState: IReaderState = {
   settingsOpen: false,
   tocOpen: false,
   overflowMenuOpen: false,
-  platformModifier: defaultPlatformModifier
+  platformModifier: defaultPlatformModifier,
+  leftDock: null,
+  rightDock: null
 }
 
 export const readerSlice = createSlice({
@@ -58,6 +63,20 @@ export const readerSlice = createSlice({
     },
     setOverflowMenuOpen: (state, action) => {
       state.overflowMenuOpen = action.payload
+    },
+    setLeftDock: (state, action) => {
+      if (Object.values(ActionKeys).includes(action.payload)) {
+        state.leftDock = action.payload
+      } else {
+        state.leftDock = null;
+      }
+    },
+    setRightDock: (state, action) => {
+      if (Object.values(ActionKeys).includes(action.payload)) {
+        state.rightDock = action.payload
+      } else {
+        state.rightDock = null;
+      }
     }
   }
 })
@@ -73,7 +92,9 @@ export const {
   setColCount, 
   setSettingsOpen, 
   setTocOpen, 
-  setOverflowMenuOpen
+  setOverflowMenuOpen,
+  setLeftDock, 
+  setRightDock 
 } = readerSlice.actions;
 
 export default readerSlice.reducer;

@@ -49,6 +49,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
       <SheetWithBreakpoints 
         breakpointsMap={ prefToMap(RSPrefs.actions[ActionKeys.settings].sheet) } 
         sheetProps={{
+          id: ActionKeys.settings,
           renderActionIcon: () => <ActionIcon 
             visibility={ RSPrefs.actions[ActionKeys.settings].visibility }
             ariaLabel={ Locale.reader.settings.trigger }

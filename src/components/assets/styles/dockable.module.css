@@ -1,0 +1,6 @@
+.dockableWrapper {
+  margin-left: auto;
+  display: flex;
+  gap: 5px;
+  padding-left: 25px;
+}
