@@ -28,8 +28,8 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
   { React.Children.toArray(children).length > 0 
     ? <DialogTrigger 
         isOpen={ isOpen }
-        onOpenChange={ onOpenChangeCallback 
-      }>
+        onOpenChange={ onOpenChangeCallback }
+      >
         { renderActionIcon() }
         <ModalOverlay className={ sheetStyles.fullScreenSheetOverlay }>
           <Modal 
