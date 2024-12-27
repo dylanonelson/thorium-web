@@ -18,7 +18,7 @@
   border-radius: 5px;
 }
 
-.dockableButton,
+.dockerButton,
 .closeButton {
   width: var(--icon-size, 24px);
   height: var(--icon-size, 24px);
@@ -26,7 +26,7 @@
   margin-left: auto;
 }
 
-.dockableButton svg,
+.dockerButton svg,
 .closeButton svg {
   fill: var(--theme-text);
   width: 100%;
@@ -34,18 +34,18 @@
 }
 
 .icon[data-hovered],
-.dockableButton[data-hovered],
+.dockerButton[data-hovered],
 .closeButton[data-hovered] {
   background-color: var(--theme-hover);
 }
 
 .icon[data-focus-visible],
-.dockableButton[data-focus-visible],
+.dockerButton[data-focus-visible],
 .closeButton[data-focus-visible] {
   outline: 2px solid var(--theme-focus);
 }
 
-.dockableButton[data-disabled] svg {
+.dockerButton[data-disabled] svg {
   fill: var(--theme-disable);
 }
 

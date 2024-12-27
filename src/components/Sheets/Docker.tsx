@@ -3,7 +3,7 @@ import React, { useCallback, useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../../resources/locales/en.json";
 
-import dockableStyles from "../assets/styles/dockable.module.css";
+import dockerStyles from "../assets/styles/docker.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import DockToLeft from "../assets/icons/dock_to_right.svg";
@@ -58,10 +58,10 @@ export const Docker = ({
 
   return(
     <>
-    <div className={ dockableStyles.dockableWrapper }>
+    <div className={ dockerStyles.dockerWrapper }>
     <TooltipTrigger>
       <Button 
-        className={ readerSharedUI.dockableButton } 
+        className={ readerSharedUI.dockerButton } 
         aria-label={ Locale.reader.app.docker.dockToLeft.trigger } 
         onPress={ () => handleCurrentState(SheetTypes.dockedLeft) } 
         isDisabled={ leftDock === id }
@@ -79,7 +79,7 @@ export const Docker = ({
 
     <TooltipTrigger>
       <Button 
-        className={ readerSharedUI.dockableButton } 
+        className={ readerSharedUI.dockerButton } 
         aria-label={ Locale.reader.app.docker.dockToRight.trigger } 
         onPress={ () => handleCurrentState(SheetTypes.dockedRight) } 
         isDisabled={ rightDock === id }
@@ -97,7 +97,7 @@ export const Docker = ({
 
     <TooltipTrigger>
       <Button 
-        className={ readerSharedUI.dockableButton } 
+        className={ readerSharedUI.dockerButton } 
         aria-label={ Locale.reader.app.docker.stack.trigger } 
         onPress={ () => handleCurrentState(SheetTypes.popover) } 
         isDisabled={ isStacked }
@@ -115,7 +115,7 @@ export const Docker = ({
 
     <TooltipTrigger>
       <Button 
-        className={ readerSharedUI.closeButton } 
+        className={ readerSharedUI.dockerButton } 
         aria-label={ Locale.reader.app.docker.close.trigger } 
         onPress={ onCloseCallback }
       >
