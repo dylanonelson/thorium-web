@@ -59,76 +59,76 @@ export const Docker = ({
   return(
     <>
     <div className={ dockerStyles.dockerWrapper }>
-    <TooltipTrigger>
-      <Button 
-        className={ readerSharedUI.dockerButton } 
-        aria-label={ Locale.reader.app.docker.dockToLeft.trigger } 
-        onPress={ () => handleCurrentState(SheetTypes.dockedLeft) } 
-        isDisabled={ leftDock === id }
-      >
-      <DockToLeft aria-hidden="true" focusable="false" />  
-      </Button>
-      <Tooltip
-        className={ readerSharedUI.tooltip }
-        placement="bottom" 
-        offset={ offset.current }
-      >
-        { Locale.reader.app.docker.dockToLeft.tooltip }
-      </Tooltip>
-    </TooltipTrigger>
+      <TooltipTrigger>
+        <Button 
+          className={ readerSharedUI.dockerButton } 
+          aria-label={ Locale.reader.app.docker.dockToLeft.trigger } 
+          onPress={ () => handleCurrentState(SheetTypes.dockedLeft) } 
+          isDisabled={ leftDock === id }
+        >
+          <DockToLeft aria-hidden="true" focusable="false" />  
+        </Button>
+        <Tooltip
+          className={ readerSharedUI.tooltip }
+          placement="bottom" 
+          offset={ offset.current }
+        >
+          { Locale.reader.app.docker.dockToLeft.tooltip }
+        </Tooltip>
+      </TooltipTrigger>
 
-    <TooltipTrigger>
-      <Button 
-        className={ readerSharedUI.dockerButton } 
-        aria-label={ Locale.reader.app.docker.dockToRight.trigger } 
-        onPress={ () => handleCurrentState(SheetTypes.dockedRight) } 
-        isDisabled={ rightDock === id }
-      >
-      <DocktoRight aria-hidden="true" focusable="false" />  
-      </Button>
-      <Tooltip
-        className={ readerSharedUI.tooltip }
-        placement="bottom" 
-        offset={ offset.current }
-      >
-        { Locale.reader.app.docker.dockToRight.tooltip }
-      </Tooltip>
-    </TooltipTrigger>
+      <TooltipTrigger>
+        <Button 
+          className={ readerSharedUI.dockerButton } 
+          aria-label={ Locale.reader.app.docker.dockToRight.trigger } 
+          onPress={ () => handleCurrentState(SheetTypes.dockedRight) } 
+          isDisabled={ rightDock === id }
+        >
+          <DocktoRight aria-hidden="true" focusable="false" />  
+        </Button>
+        <Tooltip
+          className={ readerSharedUI.tooltip }
+          placement="bottom" 
+          offset={ offset.current }
+        >
+          { Locale.reader.app.docker.dockToRight.tooltip }
+        </Tooltip>
+      </TooltipTrigger>
 
-    <TooltipTrigger>
-      <Button 
-        className={ readerSharedUI.dockerButton } 
-        aria-label={ Locale.reader.app.docker.stack.trigger } 
-        onPress={ () => handleCurrentState(SheetTypes.popover) } 
-        isDisabled={ isStacked }
-      >
-      <Stack aria-hidden="true" focusable="false" />  
-      </Button>
-      <Tooltip
-        className={ readerSharedUI.tooltip }
-        placement="bottom" 
-        offset={ offset.current }
-      >
-        { Locale.reader.app.docker.stack.tooltip }
-      </Tooltip>
-    </TooltipTrigger>
+      <TooltipTrigger>
+        <Button 
+          className={ readerSharedUI.dockerButton } 
+          aria-label={ Locale.reader.app.docker.stack.trigger } 
+          onPress={ () => handleCurrentState(SheetTypes.popover) } 
+          isDisabled={ isStacked }
+        >
+          <Stack aria-hidden="true" focusable="false" />  
+        </Button>
+        <Tooltip
+          className={ readerSharedUI.tooltip }
+          placement="bottom" 
+          offset={ offset.current }
+        >
+          { Locale.reader.app.docker.stack.tooltip }
+        </Tooltip>
+      </TooltipTrigger>
 
-    <TooltipTrigger>
-      <Button 
-        className={ readerSharedUI.dockerButton } 
-        aria-label={ Locale.reader.app.docker.close.trigger } 
-        onPress={ onCloseCallback }
-      >
-      <Close aria-hidden="true" focusable="false" />  
-      </Button>
-      <Tooltip
-        className={ readerSharedUI.tooltip }
-        placement="bottom" 
-        offset={ offset.current }
-      >
-        { Locale.reader.app.docker.close.tooltip }
-      </Tooltip>
-    </TooltipTrigger>
+      <TooltipTrigger>
+        <Button 
+          className={ readerSharedUI.dockerButton } 
+          aria-label={ Locale.reader.app.docker.close.trigger } 
+          onPress={ onCloseCallback }
+        >
+          <Close aria-hidden="true" focusable="false" />  
+        </Button>
+        <Tooltip
+          className={ readerSharedUI.tooltip }
+          placement="bottom" 
+          offset={ offset.current }
+        >
+          { Locale.reader.app.docker.close.tooltip }
+        </Tooltip>
+      </TooltipTrigger>
     </div>
     </>
   )
