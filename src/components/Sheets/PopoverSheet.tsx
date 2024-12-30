@@ -9,7 +9,7 @@ import CloseIcon from "../assets/icons/close.svg";
 import { Button, Dialog, DialogTrigger, Heading, Popover, PopoverProps } from "react-aria-components";
 import { Docker } from "./Docker";
 
-import { ISheet } from "./Sheet";
+import { Dockable, ISheet } from "./Sheet";
 
 export interface IPopoverSheet extends ISheet {
   placement?: PopoverProps["placement"];
@@ -64,21 +64,12 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
             <div className={ readerSharedUI.popoverHeader }>
               <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ heading }</Heading>
             
-              { RSPrefs.actions[id].dockable 
-                ? <Docker 
-                  id={ id }
-                  onStackCallback={ () => {}}
-                  onCloseCallback={ onClosePressCallback }
-                /> 
-                : <Button 
-                  ref={ popoverCloseRef }
-                  className={ readerSharedUI.closeButton } 
-                  aria-label={ closeLabel } 
-                  onPress={ onClosePressCallback }
-                >
-                  <CloseIcon aria-hidden="true" focusable="false" />
-                </Button>
-              }
+              <Docker 
+                ref={ popoverCloseRef }
+                id={ id }
+                onStackCallback={ () => {}}
+                onCloseCallback={ onClosePressCallback }
+              /> 
             </div>
 
             <div 
