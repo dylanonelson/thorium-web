@@ -1,5 +1,4 @@
 :root {
-  /* Borrowed from Thorium src/renderer/assets/styles/variable.scss */
   --theme-text: ;
   --theme-background: ;
   --theme-link: ;
@@ -13,6 +12,8 @@
   --theme-focus: ;
   --theme-elevate: ;
   --theme-immerse: ;
+
+  --layout-radius: ;
 }
 
 html,

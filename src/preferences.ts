@@ -41,6 +41,9 @@ export const RSPrefs = {
       size: 24, // Size of icons in px
       tooltipOffset: 10 // offset of tooltip in px
     },
+    layout: {
+      radius: 5
+    },
     breakpoints: {
       // See https://m3.material.io/foundations/layout/applying-layout/window-size-classes
       [StaticBreakpoints.compact]: 600, // Phone in portrait

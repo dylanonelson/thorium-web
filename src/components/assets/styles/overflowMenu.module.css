@@ -2,7 +2,7 @@
   background-color: var(--theme-background);
   color: var(--theme-text);
   padding: 10px;
-  border-radius: 5px;
+  border-radius: var(--layout-radius);
   border: 1px solid var(--theme-text);
   position: relative;
 }
@@ -38,6 +38,6 @@
   color: var(--theme-subdue);
   padding: 5px;
   margin-left: auto;
-  border-radius: 5px;
+  border-radius: var(--layout-radius);
   border: 1px solid var(--theme-subdue);
 }

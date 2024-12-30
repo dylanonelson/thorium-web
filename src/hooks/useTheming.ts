@@ -24,7 +24,8 @@ export const useTheming = () => {
   const initThemingCustomProps = useCallback(() => {
     const props = {
       ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
-      ...propsToCSSVars(RSPrefs.theming.icon, "icon")
+      ...propsToCSSVars(RSPrefs.theming.icon, "icon"),
+      ...propsToCSSVars(RSPrefs.theming.layout, "layout")
     } 
     for (let p in props) {
       document.documentElement.style.setProperty(p, props[p])
