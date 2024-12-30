@@ -2,7 +2,7 @@
   background-color: var(--theme-background);
   color: var(--theme-text);
   padding: 0 10px 10px 10px;
-  border-radius: 5px;
+  border-radius: var(--layout-radius);
   border: 1px solid var(--theme-text);
   position: relative;
 
@@ -27,7 +27,7 @@
 
 .readerSettingsRadio {
   padding: 5px;
-  border-radius: 5px;
+  border-radius: var(--layout-radius);
   box-sizing: border-box;
   border: 2px solid transparent;
 }
