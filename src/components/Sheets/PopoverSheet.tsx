@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useRef } from "react";
 
-import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
+import sheetStyles from "../assets/styles/sheet.module.css";
+
+import { ISheet } from "./Sheet";
 
 import { Dialog, DialogTrigger, Heading, Popover, PopoverProps } from "react-aria-components";
 import { Docker } from "./Docker";
 
-import { ISheet } from "./Sheet";
+import classNames from "classnames";
 
 export interface IPopoverSheet extends ISheet {
   placement?: PopoverProps["placement"];
@@ -31,6 +33,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
     return window.innerHeight - popoverRef.current.offsetTop;
   }, []);
 
+  // TODO: custom hook
   useEffect(() => {
     if (!popoverBodyRef.current || !isOpen) return;
 
@@ -50,14 +53,14 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
         <Popover 
           ref={ popoverRef }
           placement={ placement || "bottom" }
-          className={ className }
+          className={ classNames(sheetStyles.popOverSheet , className) }
           isOpen={ isOpen }
           onOpenChange={ onOpenChangeCallback } 
           maxHeight={ computeMaxHeight() }
         >
           <Dialog>
-            <div className={ readerSharedUI.popoverHeader }>
-              <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ heading }</Heading>
+            <div className={ sheetStyles.sheetHeader }>
+              <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
             
               <Docker 
                 ref={ popoverCloseRef }
@@ -69,7 +72,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
 
             <div 
               ref={ popoverBodyRef } 
-              className={ readerSharedUI.popoverBody }
+              className={ sheetStyles.sheetBody }
             >
               { children }
             </div>

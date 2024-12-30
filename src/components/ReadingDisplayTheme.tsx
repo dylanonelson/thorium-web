@@ -52,7 +52,7 @@ export const ReadingDisplayTheme = () => {
       orientation="horizontal" 
       value={ theme }
       onChange={ handleTheme } 
-      className={ settingsStyles.readerSettingReadioGroup }
+      className={ settingsStyles.readerSettingsReadioGroup }
     >
       <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
       <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>

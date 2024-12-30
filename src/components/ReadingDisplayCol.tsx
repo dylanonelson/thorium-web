@@ -35,7 +35,7 @@ export const ReadingDisplayCol = () => {
       orientation="horizontal" 
       value={`${ colCount }`} 
       onChange={ handleChange }
-      className={ settingsStyles.readerSettingReadioGroup }
+      className={ settingsStyles.readerSettingsReadioGroup }
     >
       <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.column.title }</Label>
       <div className={ settingsStyles.readerSettingsRadioWrapper }>

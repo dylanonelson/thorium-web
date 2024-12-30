@@ -58,7 +58,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
             onPressCallback={ () => setOpen(true) }
           />,
           heading: Locale.reader.settings.heading,
-          className: settingsStyles.readerSettingsPopover,
+          className: settingsStyles.readerSettings,
           placement: "bottom", 
           isOpen: isOpen,
           onOpenChangeCallback: setOpen, 
