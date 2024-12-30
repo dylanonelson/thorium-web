@@ -14,6 +14,18 @@
   filter: drop-shadow(var(--theme-elevate));
 }
 
+.readerSettingReadioGroup {
+  margin: calc(var(--layout-spacing) * 2) 0; 
+}
+
+.readerSettingsPopover .readerSettingReadioGroup:first-of-type {
+  margin-top: 0;
+}
+
+.readerSettingsPopover .readerSettingReadioGroup:last-of-type {
+  margin-bottom: 0;
+}
+
 .readerSettingsLabel {
   display: block;
   font-weight: bold;
@@ -22,7 +34,7 @@
 .readerSettingsRadioWrapper {
   display: flex;
   gap: 20px;
-  margin-top: var(--layout-spacing);
+  margin: var(--layout-spacing) 0;
   text-align: center;
 }
 
@@ -85,7 +97,6 @@
 }
 
 .readerSettingsSeparator {
-  margin: var(--layout-spacing) 0;
   border: none;
   border-top: 1px solid var(--theme-subdue);
 }

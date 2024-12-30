@@ -7,7 +7,6 @@ import settingsStyles from "./assets/styles/readerSettings.module.css";
 
 import TuneIcon from "./assets/icons/match_case.svg";
 
-import { Separator } from "react-aria-components";
 import { SheetWithBreakpoints } from "./Sheets/SheetWithBreakpoints";
 import { ActionIcon } from "./Templates/ActionIcon";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
@@ -35,12 +34,12 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   if (variant && variant === ActionComponentVariant.menu) {
     return(
       <>
-        <OverflowMenuItem 
-          label={ Locale.reader.settings.trigger }
-          SVG={ TuneIcon }
-          shortcut={ RSPrefs.actions[ActionKeys.settings].shortcut } 
-          id={ ActionKeys.settings }
-        />
+      <OverflowMenuItem 
+        label={ Locale.reader.settings.trigger }
+        SVG={ TuneIcon }
+        shortcut={ RSPrefs.actions[ActionKeys.settings].shortcut } 
+        id={ ActionKeys.settings }
+      />
       </>
     )
   } else {
@@ -48,7 +47,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
       <>
       <SheetWithBreakpoints 
         breakpointsMap={ prefToMap(RSPrefs.actions[ActionKeys.settings].sheet) } 
-        sheetProps={{
+        sheetProps={ {
           id: ActionKeys.settings,
           renderActionIcon: () => <ActionIcon 
             visibility={ RSPrefs.actions[ActionKeys.settings].visibility }
@@ -65,12 +64,10 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
           onOpenChangeCallback: setOpen, 
           closeLabel: Locale.reader.settings.close,
           onClosePressCallback: () => setOpen(false)
-        }}
+        } }
       >
         <ReadingDisplayTheme />
-        <Separator className= { settingsStyles.readerSettingsSeparator } />
         <ReadingDisplayCol />
-        <Separator className= { settingsStyles.readerSettingsSeparator } />
         <ReadingDisplayLayout />
       </SheetWithBreakpoints>
       </>
