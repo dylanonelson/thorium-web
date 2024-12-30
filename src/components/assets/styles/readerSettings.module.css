@@ -27,7 +27,7 @@
 
 .readerSettingsRadioWrapper {
   display: flex;
-  gap: 20px;
+  gap: var(--layout-spacing);
   margin: var(--layout-spacing) 0;
   text-align: center;
 }
@@ -72,7 +72,7 @@
   grid-template-columns: repeat(2, 1fr);
   grid-auto-flow: row;
   max-width: 100%;
-  gap: 10px;
+  gap: calc(var(--layout-spacing) / 2);
 }
 
 .readerSettingsThemeRadio {
