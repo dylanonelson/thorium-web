@@ -1,15 +1,11 @@
 import React, { useCallback, useEffect, useRef } from "react";
 
-import { RSPrefs } from "@/preferences";
-
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
-import CloseIcon from "../assets/icons/close.svg";
-
-import { Button, Dialog, DialogTrigger, Heading, Popover, PopoverProps } from "react-aria-components";
+import { Dialog, DialogTrigger, Heading, Popover, PopoverProps } from "react-aria-components";
 import { Docker } from "./Docker";
 
-import { Dockable, ISheet } from "./Sheet";
+import { ISheet } from "./Sheet";
 
 export interface IPopoverSheet extends ISheet {
   placement?: PopoverProps["placement"];
@@ -22,7 +18,6 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
     className, 
     isOpen,
     onOpenChangeCallback, 
-    closeLabel,
     onClosePressCallback,
     placement, 
     children 

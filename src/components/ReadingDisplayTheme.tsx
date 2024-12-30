@@ -48,31 +48,30 @@ export const ReadingDisplayTheme = () => {
 
   return (
     <>
-    <div>
-      <RadioGroup 
-        orientation="horizontal" 
-        value={ theme }
-        onChange={ handleTheme }
-      >
-        <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
-        <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
-          { themeItems.current.map(( t ) => 
-            <Radio
-              className={ classNames(
-                settingsStyles.readerSettingsRadio, 
-                settingsStyles.readerSettingsThemeRadio
-              ) }
-              value={ t }
-              id={ t }
-              key={ t }
-              style={ doStyles(t) }
-            >
-            <span>{ Locale.reader.settings.themes[t as keyof typeof Themes] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
-            </Radio>
-          ) }
-        </div>
-      </RadioGroup>
-    </div>
+    <RadioGroup 
+      orientation="horizontal" 
+      value={ theme }
+      onChange={ handleTheme } 
+      className={ settingsStyles.readerSettingReadioGroup }
+    >
+      <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
+      <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
+        { themeItems.current.map(( t ) => 
+          <Radio
+            className={ classNames(
+              settingsStyles.readerSettingsRadio, 
+              settingsStyles.readerSettingsThemeRadio
+            ) }
+            value={ t }
+            id={ t }
+            key={ t }
+            style={ doStyles(t) }
+          >
+          <span>{ Locale.reader.settings.themes[t as keyof typeof Themes] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
+          </Radio>
+        ) }
+      </div>
+    </RadioGroup>
     </>
   )
 }

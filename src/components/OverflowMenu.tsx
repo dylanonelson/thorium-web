@@ -39,9 +39,8 @@ export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
         >
           <Menu 
             selectionMode="none" 
-            onAction={ (key: Key) => { console.log(key) } 
-            
-          }>
+            onAction={ (key: Key) => { console.log(key) } }
+          >
             { children }
           </Menu>
         </Popover>
