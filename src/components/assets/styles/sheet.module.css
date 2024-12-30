@@ -12,7 +12,6 @@
   max-height: var(--visual-viewport-height, 100dvh);
   background-color: var(--theme-background);
   color: var(--theme-text);
-  padding: var(--layout-spacing);
   align-items: center;
 }
 
