@@ -1,6 +1,7 @@
 .dockerWrapper {
   margin-left: auto;
+/*  margin-right: calc((var(--layout-spacing) * -1) / 4); */
   display: flex;
   gap: 5px;
-  padding-left: 25px;
+  padding-left: var(--layout-spacing);
 }

@@ -68,9 +68,9 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
         }}
       >
         <ReadingDisplayTheme />
-        <Separator />
+        <Separator className= { settingsStyles.readerSettingsSeparator } />
         <ReadingDisplayCol />
-        <Separator />
+        <Separator className= { settingsStyles.readerSettingsSeparator } />
         <ReadingDisplayLayout />
       </SheetWithBreakpoints>
       </>
