@@ -1,17 +1,19 @@
 .overflowPopover {
   background-color: var(--theme-background);
   color: var(--theme-text);
-  padding: 10px;
+  padding: calc(var(--layout-spacing) / 2);
   border-radius: var(--layout-radius);
-  border: 1px solid var(--theme-text);
+  border: 1px solid var(--theme-subdue);
   position: relative;
+  filter: drop-shadow(var(--theme-elevate));
 }
 
 .menuItem {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
+  gap: calc(var(--layout-spacing) / 2);
+  padding: calc(var(--layout-spacing) / 2);
+  border-radius: var(--layout-radius);
   outline: none;
 }
 
@@ -26,6 +28,7 @@
 .menuItem > svg {
   width: calc(var(--icon-size, 24px) / 1.5);
   height: calc(var(--icon-size, 24px) / 1.5);
+  fill: currentColor;
 }
 
 .menuItemLabel {

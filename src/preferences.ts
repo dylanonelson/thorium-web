@@ -42,7 +42,8 @@ export const RSPrefs = {
       tooltipOffset: 10 // offset of tooltip in px
     },
     layout: {
-      radius: 5
+      radius: 5,
+      spacing: 20
     },
     breakpoints: {
       // See https://m3.material.io/foundations/layout/applying-layout/window-size-classes
@@ -80,7 +81,7 @@ export const RSPrefs = {
         select: "#b4d8fe",              // color of selected background
         onSelect: "inherit",            // color of selected text
         focus: "#0067f4",               // color of :focus-visible
-        elevate: `0px 0px 2px ${ dayMode.RS__textColor }`, // drop shadow of containers
+        elevate: "0px 0px 2px #808080", // drop shadow of containers
         immerse: "0.6"                  // opacity of immersive mode
       },
       [Themes.sepia]: {
@@ -95,7 +96,7 @@ export const RSPrefs = {
         select: sepiaMode.RS__selectionBackgroundColor,
         onSelect: sepiaMode.RS__selectionTextColor,
         focus: "#0067f4",
-        elevate: `0px 0px 2px ${ sepiaMode.RS__textColor }`,
+        elevate: "0px 0px 2px #8c8c8c",
         immerse: "0.5"
       },
       [Themes.dark]: {
@@ -110,7 +111,7 @@ export const RSPrefs = {
         select: nightMode.RS__selectionBackgroundColor,
         onSelect: nightMode.RS__selectionTextColor,
         focus: "#0067f4",
-        elevate: `0px 0px 5px ${ nightMode.RS__textColor }`,
+        elevate: "0px 0px 2px #808080",
         immerse: "0.4"
       },
       [Themes.paper]: {
@@ -125,7 +126,7 @@ export const RSPrefs = {
         select: sepiaMode.RS__selectionBackgroundColor,
         onSelect: sepiaMode.RS__selectionTextColor,
         focus: "#004099",
-        elevate: `0px 0px 2px ${ sepiaMode.RS__textColor }`,
+        elevate: "0px 0px 2px #8c8c8c",
         immerse: "0.45"
       },
       [Themes.contrast1]: {
@@ -140,7 +141,7 @@ export const RSPrefs = {
         select: nightMode.RS__selectionBackgroundColor,
         onSelect: nightMode.RS__selectionTextColor,
         focus: "#0067f4",
-        elevate: `0px 0px 5px #ffffff`,
+        elevate: "0px 0px 2px #808000",
         immerse: "0.4"
       },
       [Themes.contrast2]: {
@@ -155,7 +156,7 @@ export const RSPrefs = {
         select: nightMode.RS__selectionBackgroundColor,
         onSelect: nightMode.RS__selectionTextColor,
         focus: "#6BA9FF",
-        elevate: `0px 0px 5px ${ nightMode.RS__textColor }`,
+        elevate: "0px 0px 2px #808080",
         immerse: "0.4"
       },
       [Themes.contrast3]: {
@@ -170,7 +171,7 @@ export const RSPrefs = {
         select: sepiaMode.RS__selectionBackgroundColor,
         onSelect: sepiaMode.RS__selectionTextColor,
         focus: "#004099",
-        elevate: `0px 0px 2px ${ sepiaMode.RS__textColor }`,
+        elevate: "0px 0px 2px #8c8c8c",
         immerse: "0.45"
       }
     }

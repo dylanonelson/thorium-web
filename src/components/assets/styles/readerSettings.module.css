@@ -1,14 +1,15 @@
 .readerSettingsPopover {
   background-color: var(--theme-background);
   color: var(--theme-text);
-  padding: 0 10px 10px 10px;
+  padding: 0;
   border-radius: var(--layout-radius);
-  border: 1px solid var(--theme-text);
+  border: 1px solid var(--theme-subdue);
   position: relative;
 
-  height: 100%;
+  max-height: 100%;
   overflow-y: auto;
-  max-width: 600px;
+  width: calc(340px + (2 * var(--layout-spacing)));
+  max-width: 80%;
   box-sizing: border-box;
   filter: drop-shadow(var(--theme-elevate));
 }
@@ -21,7 +22,7 @@
 .readerSettingsRadioWrapper {
   display: flex;
   gap: 20px;
-  margin-top: 10px;
+  margin-top: var(--layout-spacing);
   text-align: center;
 }
 
@@ -81,4 +82,10 @@
   top: 5px;
   /* So that it’s the same color as text w/o having to expose a custom prop globally */
   fill: currentColor;
+}
+
+.readerSettingsSeparator {
+  margin: var(--layout-spacing) 0;
+  border: none;
+  border-top: 1px solid var(--theme-subdue);
 }
