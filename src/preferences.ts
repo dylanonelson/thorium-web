@@ -1,7 +1,7 @@
 import { StaticBreakpoints } from "./hooks/useBreakpoints";
 import { ScrollAffordancePref, ScrollBackTo } from "./helpers/scrollAffordance";
 import { ActionKeys, ActionVisibility } from "./components/Templates/ActionComponent";
-import { SheetTypes } from "./components/Sheets/Sheet";
+import { Dockable, SheetTypes } from "./components/Sheets/Sheet";
 import { ShortcutRepresentation } from "./components/Shortcut";
 import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
 
@@ -191,22 +191,22 @@ export const RSPrefs = {
         [StaticBreakpoints.compact]: SheetTypes.fullscreen,
         [StaticBreakpoints.medium]: SheetTypes.fullscreen
       },
-      dockable: true
+      dockable: Dockable.both
     },
     [ActionKeys.fullscreen]: {
       visibility: ActionVisibility.always,
       shortcut: `${ShortcutMetaKeywords.platform}+F11`,
-      dockable: false
+      dockable: Dockable.none
     },
     [ActionKeys.toc]: {
       visibility: ActionVisibility.partially,
       shortcut: `${ShortcutMetaKeywords.platform}+N`,
-      dockable: true
+      dockable: Dockable.both
     },
     [ActionKeys.jumpToPosition]: {
       visibility: ActionVisibility.overflow,
       shortcut: `${ShortcutMetaKeywords.platform}+J`,
-      dockable: false
+      dockable: Dockable.none
     }
   }
 }

@@ -13,6 +13,13 @@ export enum SheetTypes {
   dockedRight = "dockedRight"
 }
 
+export enum Dockable {
+  none = "none",
+  both = "both",
+  left = "left",
+  right = "right"
+}
+
 export type BreakpointsMap = {
   [key in StaticBreakpoints]?: SheetTypes;
 }
