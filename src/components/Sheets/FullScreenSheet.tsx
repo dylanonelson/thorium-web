@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import sheetStyles from "../assets/styles/sheet.module.css";
 
 import CloseIcon from "../assets/icons/close.svg";
 
-import { Button, Dialog, DialogTrigger, Heading, Modal, ModalOverlay } from "react-aria-components";
-
 import { ISheet } from "./Sheet";
+
+import { Button, Dialog, DialogTrigger, Heading, Modal } from "react-aria-components";
 
 export interface IFullScreenSheet extends ISheet {};
 
@@ -22,6 +22,20 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
     onClosePressCallback,
     children 
   }) => {
+    const fullScreenBodyRef = useRef<HTMLDivElement | null>(null);
+    const fullScreenCloseRef = useRef<HTMLButtonElement | null>(null);
+
+    // TODO: custom hook
+    useEffect(() => {
+      if (!fullScreenBodyRef.current || !isOpen) return;
+  
+      // WIP: Pick the fist element that is selected. 
+      // Expecting this to become more complex 
+      // in order to cover all possible interactive elements
+      const firstFocusable: HTMLElement | null = fullScreenBodyRef.current.querySelector("[data-selected]");
+      
+      firstFocusable ? firstFocusable.focus() : fullScreenCloseRef.current?.focus();
+    }, [isOpen]);
 
   return (
   <>
@@ -31,26 +45,32 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
         onOpenChange={ onOpenChangeCallback }
       >
         { renderActionIcon() }
-        <ModalOverlay className={ sheetStyles.fullScreenSheetOverlay }>
-          <Modal 
-            isDismissable={ true }
-            className={ sheetStyles.fullScreenSheetModal }
-          >
-            <Dialog className={ className }>
-              <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ heading }</Heading>
+        <Modal 
+          isDismissable={ true }
+          className={ sheetStyles.fullScreenSheetModal }
+        >
+          <Dialog className={ className }>
+            <div className={ sheetStyles.sheetHeader }>
+            <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
-              <Button 
-                className={ readerSharedUI.closeButton } 
-                aria-label={ closeLabel } 
-                onPress={ onClosePressCallback }
-              >
-                <CloseIcon aria-hidden="true" focusable="false" />
-              </Button>
-
+            <Button 
+              ref={ fullScreenCloseRef }
+              className={ readerSharedUI.closeButton } 
+              aria-label={ closeLabel } 
+              onPress={ onClosePressCallback }
+            >
+              <CloseIcon aria-hidden="true" focusable="false" />
+            </Button>
+            </div>
+              
+            <div 
+              ref={ fullScreenBodyRef } 
+              className={ sheetStyles.sheetBody }
+            >
               { children }
-            </Dialog>
-          </Modal>
-        </ModalOverlay>
+            </div>
+          </Dialog>
+        </Modal>
       </DialogTrigger>
   : <></> }
   </>
