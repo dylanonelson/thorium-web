@@ -49,7 +49,7 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
           onPressCallback={ () => setOpen(true) }
         /> } 
         heading={ Locale.reader.toc.heading }
-        className={ tocStyles.tocPopover } 
+        className={ tocStyles.toc } 
         placement="bottom" 
         isOpen={ isOpen }
         onOpenChangeCallback={ setOpen }

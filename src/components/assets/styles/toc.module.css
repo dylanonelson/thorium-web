@@ -1,12 +1,11 @@
-.tocPopover {
+.toc {
   background-color: var(--theme-background);
   color: var(--theme-text);
-  padding: 10px;
-  border-radius: var(--layout-radius);
-  border: 1px solid var(--theme-text);
   position: relative;
+  overflow-y: auto;
+  box-sizing: border-box;
   max-height: 100%;
-  filter: drop-shadow(var(--theme-elevate));
+  padding: 0;
 }
 
 .listBox {
@@ -20,7 +19,6 @@
 }
 
 .empty {
-  padding: 10px;
   max-width: 25ch;
   text-align: start;
   text-wrap: balance;
