@@ -97,7 +97,7 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
         onFocus={ handleImmersive }
         { ...props }
       >
-      <SVG aria-hidden="true" focusable="false" />  
+        <SVG aria-hidden="true" focusable="false" />  
       </Button>
       <Tooltip
         className={ readerSharedUI.tooltip }

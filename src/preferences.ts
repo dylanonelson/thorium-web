@@ -1,7 +1,7 @@
 import { StaticBreakpoints } from "./hooks/useBreakpoints";
 import { ScrollAffordancePref, ScrollBackTo } from "./helpers/scrollAffordance";
 import { ActionKeys, ActionVisibility } from "./components/Templates/ActionComponent";
-import { Dockable, SheetTypes } from "./components/Sheets/Sheet";
+import { Dockable, DockingKeys, SheetTypes } from "./components/Sheets/Sheet";
 import { ShortcutRepresentation } from "./components/Shortcut";
 import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
 
@@ -184,9 +184,13 @@ export const RSPrefs = {
     displayOrder: [
       ActionKeys.settings,
       ActionKeys.fullscreen,
-    //  ActionKeys.toc,
-    //  ActionKeys.jumpToPosition
+      ActionKeys.toc,
+      ActionKeys.jumpToPosition
     ],
+    collapsibility: {
+      [StaticBreakpoints.compact]: 2,
+      [StaticBreakpoints.medium]: 1
+    },
     defaultSheet: SheetTypes.popover, 
     [ActionKeys.settings]: {
       visibility: ActionVisibility.always,
@@ -211,6 +215,28 @@ export const RSPrefs = {
       visibility: ActionVisibility.overflow,
       shortcut: `${ShortcutMetaKeywords.platform}+J`,
       dockable: Dockable.none
+    }
+  },
+  docking: {
+    displayOrder: [
+      DockingKeys.left,
+      DockingKeys.right,
+      DockingKeys.popover
+    ],
+    collapsibility: { 
+      [StaticBreakpoints.compact]: "all"
+    },
+    [DockingKeys.left]: {
+      visibility: ActionVisibility.partially,
+      shortcut: null
+    },
+    [DockingKeys.right]: {
+      visibility: ActionVisibility.partially,
+      shortcut: null
+    },
+    [DockingKeys.popover]: {
+      visibility: ActionVisibility.partially,
+      shortcut: null
     }
   }
 }
