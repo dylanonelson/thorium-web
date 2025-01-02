@@ -13,6 +13,12 @@ export enum SheetTypes {
   dockedRight = "dockedRight"
 }
 
+export enum DockingKeys {
+  left = "left",
+  right = "right",
+  popover = "popover"
+}
+
 export enum Dockable {
   none = "none",
   both = "both",
