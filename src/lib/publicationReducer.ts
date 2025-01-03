@@ -1,5 +1,3 @@
-import Locale from "../resources/locales/en.json";
-
 import { IProgression } from '@/components/ProgressionOf';
 import { createSlice } from "@reduxjs/toolkit";
 

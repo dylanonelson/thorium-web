@@ -1,67 +1,40 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { IActionItem } from "@/components/Actions";
+import { ActionVisibility } from "@/components/Templates/ActionComponent";
 
-import { FullscreenAction } from "@/components/FullscreenAction";
-import { JumpToPositionAction } from "@/components/JumpToPositionAction";
-import { SettingsAction } from "@/components/SettingsAction";
-import { TocAction } from "@/components/TocAction";
 import { useAppSelector } from "@/lib/hooks";
-import { ActionComponentVariant, ActionKeys, ActionVisibility } from "@/components/Templates/ActionComponent";
 import { StaticBreakpoints } from "./useBreakpoints";
 
 // Smart keyword a placeholder for dynamic collapsibility 
 // based on width available and not breakpoints 
-export type Collapsibility = {
-  [key in StaticBreakpoints]?: number | "all" | "none";
-} & "smart";
+export type Collapsibility = "smart" & { [key in StaticBreakpoints]?: number };
 
-export const useCollapsibility = () => {
-  const [ActionIcons, setActionIcons] = useState<React.JSX.Element[]>([]);
-  const [MenuItems, setMenuItems] = useState<React.JSX.Element[]>([]);
+export const useCollapsibility = (items: IActionItem[], prefs: any) => {
+  const [ActionIcons, setActionIcons] = useState<IActionItem[]>([]);
+  const [MenuItems, setMenuItems] = useState<IActionItem[]>([]);
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
 
   const triageActions = useCallback(() => {
-    const ActionIconsMap = {
-      [ActionKeys.fullscreen]: <FullscreenAction key={ ActionKeys.fullscreen } variant={ ActionComponentVariant.button } />,
-      [ActionKeys.jumpToPosition]: <JumpToPositionAction key={ ActionKeys.jumpToPosition } variant={ ActionComponentVariant.button } />,
-      [ActionKeys.settings]: <SettingsAction key={ ActionKeys.settings } variant={ ActionComponentVariant.button } />,
-      [ActionKeys.toc]: <TocAction key={ ActionKeys.toc } variant={ ActionComponentVariant.button } />
-    };
-  
-    const MenuItemsMap = {
-      [ActionKeys.fullscreen]: <FullscreenAction key={ ActionKeys.fullscreen } variant={ ActionComponentVariant.menu } />,
-      [ActionKeys.jumpToPosition]: <JumpToPositionAction key={ ActionKeys.jumpToPosition } variant={ ActionComponentVariant.menu } />,
-      [ActionKeys.settings]: <SettingsAction key={ ActionKeys.settings } variant={ ActionComponentVariant.menu } />,
-      [ActionKeys.toc]: <TocAction key={ ActionKeys.toc } variant={ ActionComponentVariant.menu } />
-    };
-  
-    const actionsOrder = RSPrefs.actions.displayOrder;
+    const actionIcons: IActionItem[] = [];
+    const menuItems: IActionItem[] = [];
 
-    const actionIcons: React.JSX.Element[] = [];
-    const menuItems: React.JSX.Element[] = [];
-
-    let countdown: number = 0;
-    if (staticBreakpoint === StaticBreakpoints.compact) {
-      countdown = actionsOrder.length - (actionsOrder.length - 2);
-    } else if (staticBreakpoint === StaticBreakpoints.medium) {
-      countdown = actionsOrder.length - (actionsOrder.length - 1);
-    }
+    let countdown: number = staticBreakpoint ? prefs.collapsibility[staticBreakpoint] : 0;
 
     // Creating a shallow copy so that actionsOrder doesn’t mutate between rerenders
-    [...actionsOrder].slice().reverse().map((key) => {
-      const actionPref = RSPrefs.actions[key];
+    [...items].slice().reverse().map((item) => {
+      const actionPref = prefs[item.key];
       if (actionPref.visibility === ActionVisibility.overflow) {
-        menuItems.unshift(MenuItemsMap[key]);
+        menuItems.unshift(item);
       } else if (actionPref.visibility === ActionVisibility.partially) {
           if (countdown > 0) {
-            menuItems.unshift(MenuItemsMap[key]);
+            menuItems.unshift(item);
             --countdown;
           } else {
-            actionIcons.unshift(ActionIconsMap[key]);
+            actionIcons.unshift(item);
           }
       } else {
-        actionIcons.unshift(ActionIconsMap[key]);
+        actionIcons.unshift(item);
       }
     });
 

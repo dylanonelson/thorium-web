@@ -12,7 +12,9 @@ import { JumpToPositionAction } from "./JumpToPositionAction";
 import { SettingsAction } from "./SettingsAction";
 import { TocAction } from "./TocAction";
 import { RunningHead } from "./RunningHead";
-import { Actions, IActionItem } from "./Actions";
+import { ActionsWithCollapsibility } from "./ActionsWithCollapsibility";
+
+import { IActionItem } from "./Actions";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -74,8 +76,9 @@ export const ReaderHeader = () => {
     >
       <RunningHead syncDocTitle={ true } />
       
-      <Actions 
+      <ActionsWithCollapsibility 
         items={ listActionItems() }
+        prefs={ RSPrefs.actions }
         className={ readerHeaderStyles.actionsWrapper } 
         label={ Locale.reader.app.header.actions }
       />
