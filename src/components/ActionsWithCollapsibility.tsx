@@ -18,8 +18,6 @@ export const ActionsWithCollapsibility = ({
   label,
 }: IActionsWithCollapsibility) => {
   const Actions = useCollapsibility(items, prefs);
-  
-  if (items.length === 0) return(<></>);
 
   return (
     <>
