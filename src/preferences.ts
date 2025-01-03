@@ -202,7 +202,7 @@ export const RSPrefs = {
       dockable: Dockable.both
     },
     [ActionKeys.fullscreen]: {
-      visibility: ActionVisibility.always,
+      visibility: ActionVisibility.partially,
       shortcut: `${ShortcutMetaKeywords.platform}+F11`,
       dockable: Dockable.none
     },

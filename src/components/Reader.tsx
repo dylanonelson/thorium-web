@@ -11,7 +11,7 @@ import {
   FrameClickEvent,
 } from "@readium/navigator-html-injectables";
 import { EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
-import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression, Links } from "@readium/shared";
+import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
 import { useCallback, useEffect, useRef } from "react";
 
@@ -355,9 +355,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   return (
     <>
     <main>
-      <ReaderHeader 
-        toc={ publication.current?.tableOfContents || new Links([]) }
-      />
+      <ReaderHeader />
 
     { isPaged ? 
       <nav className={ arrowStyles.container } id={ arrowStyles.left }>
