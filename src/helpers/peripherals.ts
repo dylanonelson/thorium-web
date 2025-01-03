@@ -39,7 +39,7 @@ export default class Peripherals {
     const shortcutsObj: PShortcuts = {};
 
     for (const actionKey in ActionKeys) {
-      const shortcutString = RSPrefs.actions[actionKey as keyof typeof ActionKeys].shortcut;
+      const shortcutString = RSPrefs.actions.keys[actionKey as keyof typeof ActionKeys].shortcut;
       
       if (shortcutString) {
         const shortcutObj = buildShortcut(shortcutString);

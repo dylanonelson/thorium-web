@@ -44,7 +44,7 @@ export interface ISheet {
 
 export type SheetPref = SheetTypes | BreakpointsMap;
 
-export const prefToMap = (pref: SheetPref): Required<BreakpointsMap> => {
+export const prefToMap = (pref?: SheetPref): Required<BreakpointsMap> => {
   const isValidType = (t: string) => {
     // @ts-ignore
     return Object.values(SheetTypes).includes(t);

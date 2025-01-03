@@ -43,7 +43,7 @@ export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
       <OverflowMenuItem 
         label={ Locale.reader.fullscreen.trigger }
         SVG={ FullscreenCorners } 
-        shortcut={ RSPrefs.actions[ActionKeys.fullscreen].shortcut }
+        shortcut={ RSPrefs.actions.keys[ActionKeys.fullscreen].shortcut }
         onActionCallback={ fs.handleFullscreen } 
         id={ ActionKeys.fullscreen }
       />
@@ -54,7 +54,7 @@ export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
       <>
       <ActionIcon 
         className={ readerSharedUI.iconCompSm }
-        visibility={ RSPrefs.actions[ActionKeys.fullscreen].visibility }  
+        visibility={ RSPrefs.actions.keys[ActionKeys.fullscreen].visibility }  
         ariaLabel={ fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger }
         SVG={ fs.isFullscreen ? FullscreenExit : FullscreenCorners } 
         placement="bottom" 

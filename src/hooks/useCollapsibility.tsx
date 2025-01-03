@@ -8,7 +8,7 @@ import { StaticBreakpoints } from "./useBreakpoints";
 
 // Smart keyword a placeholder for dynamic collapsibility 
 // based on width available and not breakpoints 
-export type Collapsibility = "smart" & { [key in StaticBreakpoints]?: number };
+export type Collapsibility = "smart" | { [key in StaticBreakpoints]?: number | "all" };
 
 export const useCollapsibility = (items: IActionItem[], prefs: any) => {
   const [ActionIcons, setActionIcons] = useState<IActionItem[]>([]);
@@ -23,7 +23,7 @@ export const useCollapsibility = (items: IActionItem[], prefs: any) => {
 
     // Creating a shallow copy so that actionsOrder doesn’t mutate between rerenders
     [...items].slice().reverse().map((item) => {
-      const actionPref = prefs[item.key];
+      const actionPref = prefs.keys[item.key];
       if (actionPref.visibility === ActionVisibility.overflow) {
         menuItems.unshift(item);
       } else if (actionPref.visibility === ActionVisibility.partially) {
@@ -40,7 +40,7 @@ export const useCollapsibility = (items: IActionItem[], prefs: any) => {
 
     setActionIcons(actionIcons);
     setMenuItems(menuItems);
-  }, [staticBreakpoint]);
+  }, [items, prefs, staticBreakpoint]);
 
   useEffect(() => {
     triageActions();
