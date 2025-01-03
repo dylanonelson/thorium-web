@@ -187,8 +187,8 @@ export const RSPrefs: IRSPrefs = {
     displayOrder: [
       ActionKeys.settings,
       ActionKeys.fullscreen,
-      ActionKeys.toc,
-      ActionKeys.jumpToPosition
+    //  ActionKeys.toc,
+    //  ActionKeys.jumpToPosition
     ],
     collapsibility: {
       [StaticBreakpoints.compact]: 2,
@@ -197,7 +197,7 @@ export const RSPrefs: IRSPrefs = {
     defaultSheet: SheetTypes.popover, 
     keys: {
       [ActionKeys.settings]: {
-        visibility: ActionVisibility.partially,
+        visibility: ActionVisibility.always,
         shortcut: `${ShortcutMetaKeywords.platform}+P`,
         sheet: {
           [StaticBreakpoints.compact]: SheetTypes.fullscreen,
@@ -206,7 +206,7 @@ export const RSPrefs: IRSPrefs = {
         dockable: Dockable.both
       },
       [ActionKeys.fullscreen]: {
-        visibility: ActionVisibility.partially,
+        visibility: ActionVisibility.always,
         shortcut: `${ShortcutMetaKeywords.platform}+F11`,
         dockable: Dockable.none
       },

@@ -25,13 +25,19 @@ export const ActionsWithCollapsibility = ({
       className={ className } 
       aria-label={ label }
     >
-      { !invert ? Actions.ActionIcons.map(({ Comp, key }) => <Comp key={ key } variant={ ActionComponentVariant.button }/>) : <></> }
+      { !invert 
+        ? Actions.ActionIcons.map(({ Comp, key }) => <Comp key={ key } variant={ ActionComponentVariant.button }/>) 
+        : <></> }
 
-      <OverflowMenu>
-        { Actions.MenuItems.map(({ Comp, key }) => <Comp key={ key } variant={ ActionComponentVariant.menu }/>) }
-      </OverflowMenu>
+      { Actions.MenuItems.length > 0 
+        ? <OverflowMenu>
+          { Actions.MenuItems.map(({ Comp, key }) => <Comp key={ key } variant={ ActionComponentVariant.menu }/>) }
+        </OverflowMenu> 
+        : <></> }
 
-      { invert ? Actions.ActionIcons.map(({ Comp, key }) => <Comp key={ key } variant={ ActionComponentVariant.button }/>) : <></> }
+      { invert 
+        ? Actions.ActionIcons.map(({ Comp, key }) => <Comp key={ key } variant={ ActionComponentVariant.button }/>) 
+        : <></> }
     </div>
     </>
   )
