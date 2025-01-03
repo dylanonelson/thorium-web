@@ -30,7 +30,7 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
       <OverflowMenuItem 
       label={ Locale.reader.toc.trigger }
       SVG={ TocIcon } 
-      shortcut={ RSPrefs.actions[ActionKeys.toc].shortcut }
+      shortcut={ RSPrefs.actions.keys[ActionKeys.toc].shortcut }
       id={ ActionKeys.toc }
     />
     </>
@@ -41,7 +41,7 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
       <PopoverSheet
         id={ ActionKeys.toc }
         renderActionIcon={ () => <ActionIcon 
-          visibility={ RSPrefs.actions[ActionKeys.toc].visibility }
+          visibility={ RSPrefs.actions.keys[ActionKeys.toc].visibility }
           ariaLabel={ Locale.reader.toc.trigger } 
           SVG={ TocIcon } 
           placement="bottom"

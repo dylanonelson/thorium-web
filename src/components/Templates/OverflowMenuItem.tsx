@@ -9,7 +9,7 @@ import { ActionKeys } from "./ActionComponent";
 export interface IOverflowMenuItemProp {
   label: string;
   SVG: ComponentType<SVGProps<SVGElement>>;
-  shortcut?: string;
+  shortcut?: string | null;
   onActionCallback?: () => void;
   id: ActionKeys;
 }

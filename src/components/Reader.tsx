@@ -1,6 +1,6 @@
 "use client";
 
-import { RSPrefs, Themes } from "@/preferences";
+import { RSPrefs, ThemeKeys } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
@@ -37,7 +37,7 @@ import debounce from "debounce";
 interface IRCSSSettings {
   paginated: boolean;
   colCount: string;
-  theme: Themes;
+  theme: ThemeKeys;
 }
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
@@ -127,7 +127,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
       });
 
-      if (RCSSSettings.current.theme === Themes.auto) {
+      if (RCSSSettings.current.theme === ThemeKeys.auto) {
         handleTheme(theming.inferThemeAuto());
       } else { 
         handleTheme(RCSSSettings.current.theme);
@@ -277,7 +277,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   useEffect(() => {
     RCSSSettings.current.theme = theme;
     
-    if (theme === Themes.auto) {
+    if (theme === ThemeKeys.auto) {
       handleTheme(theming.inferThemeAuto());
     } else {
       handleTheme(theme);

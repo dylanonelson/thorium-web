@@ -32,7 +32,7 @@ export const Docker = ({
   onCloseCallback
 }: IDocker) => {
   const offset = useRef<number>(RSPrefs.theming.icon.tooltipOffset || 0);
-  const pref = useRef<Dockable>(RSPrefs.actions[id].dockable || Dockable.none);
+  const pref = useRef<Dockable>(RSPrefs.actions.keys[id].dockable || Dockable.none);
 
   const leftDock = useAppSelector(state => state.reader.leftDock);
   const rightDock = useAppSelector(state => state.reader.rightDock);

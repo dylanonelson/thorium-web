@@ -1,6 +1,6 @@
 import React, { CSSProperties, useRef } from "react";
 
-import { RSPrefs, Themes } from "@/preferences";
+import { RSPrefs, ThemeKeys } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
@@ -27,20 +27,20 @@ export const ReadingDisplayTheme = () => {
 
   // Yeah so it’s easier to inline styles from preferences for these
   // than spamming the entire app with all custom properties right now
-  const doStyles = (t: Themes) => {
+  const doStyles = (t: ThemeKeys) => {
     let cssProps: CSSProperties = {
       boxSizing: "border-box",
       color: "#999999"
     };
 
-    if (t === Themes.auto) {
-      cssProps.background = `linear-gradient(148deg, ${ RSPrefs.theming.themes[Themes.light].background } 0%, ${ RSPrefs.theming.themes[Themes.dark].background } 48%)`;
+    if (t === ThemeKeys.auto) {
+      cssProps.background = `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThemeKeys.light].background } 0%, ${ RSPrefs.theming.themes.keys[ThemeKeys.dark].background } 48%)`;
       cssProps.color = "#ffffff";
-      cssProps.border = `1px solid ${ RSPrefs.theming.themes[Themes.light].subdue }`;
+      cssProps.border = `1px solid ${ RSPrefs.theming.themes.keys[ThemeKeys.light].subdue }`;
     } else {
-      cssProps.background = RSPrefs.theming.themes[t].background;
-      cssProps.color = RSPrefs.theming.themes[t].text;
-      cssProps.border = `1px solid ${ RSPrefs.theming.themes[t].subdue }`;
+      cssProps.background = RSPrefs.theming.themes.keys[t].background;
+      cssProps.color = RSPrefs.theming.themes.keys[t].text;
+      cssProps.border = `1px solid ${ RSPrefs.theming.themes.keys[t].subdue }`;
     };
     
     return cssProps;
@@ -67,7 +67,7 @@ export const ReadingDisplayTheme = () => {
             key={ t }
             style={ doStyles(t) }
           >
-          <span>{ Locale.reader.settings.themes[t as keyof typeof Themes] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
+          <span>{ Locale.reader.settings.themes[t as keyof typeof ThemeKeys] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
           </Radio>
         ) }
       </div>

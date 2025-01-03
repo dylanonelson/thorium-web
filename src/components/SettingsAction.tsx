@@ -37,7 +37,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
       <OverflowMenuItem 
         label={ Locale.reader.settings.trigger }
         SVG={ TuneIcon }
-        shortcut={ RSPrefs.actions[ActionKeys.settings].shortcut } 
+        shortcut={ RSPrefs.actions.keys[ActionKeys.settings].shortcut } 
         id={ ActionKeys.settings }
       />
       </>
@@ -46,11 +46,11 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
     return(
       <>
       <SheetWithBreakpoints 
-        breakpointsMap={ prefToMap(RSPrefs.actions[ActionKeys.settings].sheet) } 
+        breakpointsMap={ prefToMap(RSPrefs.actions.keys[ActionKeys.settings].sheet) } 
         sheetProps={ {
           id: ActionKeys.settings,
           renderActionIcon: () => <ActionIcon 
-            visibility={ RSPrefs.actions[ActionKeys.settings].visibility }
+            visibility={ RSPrefs.actions.keys[ActionKeys.settings].visibility }
             ariaLabel={ Locale.reader.settings.trigger }
             SVG={ TuneIcon } 
             placement="bottom" 

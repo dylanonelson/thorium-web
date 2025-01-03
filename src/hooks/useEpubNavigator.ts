@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
-import { RSPrefs, Themes } from "@/preferences";
+import { RSPrefs, ThemeKeys } from "@/preferences";
 import fontStacks from "readium-css/css/vars/fontStacks.json";
 
 import { EPUBLayout, Link, Locator, Publication, ReadingProgression } from "@readium/shared";
@@ -186,11 +186,11 @@ export const useEpubNavigator = () => {
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
-  const handleTheme = useCallback((t: Themes) => {    
+  const handleTheme = useCallback((t: ThemeKeys) => {    
     switch(t) {
-      case Themes.auto:
+      case ThemeKeys.auto:
         break;
-      case Themes.light:
+      case ThemeKeys.light:
         applyReadiumCSSStyles({
           "--USER__appearance": "readium-day-on",
           "--USER__backgroundColor": "",
@@ -201,7 +201,7 @@ export const useEpubNavigator = () => {
           "--RS__selectionTextColor": ""
         });
         break;
-      case Themes.sepia:
+      case ThemeKeys.sepia:
         applyReadiumCSSStyles({
           "--USER__appearance": "readium-sepia-on",
           "--USER__backgroundColor": "",
@@ -212,7 +212,7 @@ export const useEpubNavigator = () => {
           "--RS__selectionTextColor": ""
         });
         break;
-      case Themes.dark:
+      case ThemeKeys.dark:
         applyReadiumCSSStyles({
           "--USER__appearance": "readium-night-on",
           "--USER__backgroundColor": "",
@@ -226,12 +226,12 @@ export const useEpubNavigator = () => {
       default:
         applyReadiumCSSStyles({
           "--USER__appearance": "",
-          "--USER__backgroundColor": RSPrefs.theming.themes[t].background,
-          "--USER__textColor": RSPrefs.theming.themes[t].text,
-          "--RS__linkColor": RSPrefs.theming.themes[t].link,
-          "--RS__visitedColor": RSPrefs.theming.themes[t].visited,
-          "--RS__selectionBackgroundColor": RSPrefs.theming.themes[t].select,
-          "--RS__selectionTextColor": RSPrefs.theming.themes[t].onSelect
+          "--USER__backgroundColor": RSPrefs.theming.themes.keys[t].background,
+          "--USER__textColor": RSPrefs.theming.themes.keys[t].text,
+          "--RS__linkColor": RSPrefs.theming.themes.keys[t].link,
+          "--RS__visitedColor": RSPrefs.theming.themes.keys[t].visited,
+          "--RS__selectionBackgroundColor": RSPrefs.theming.themes.keys[t].select,
+          "--RS__selectionTextColor": RSPrefs.theming.themes.keys[t].onSelect
         });
         break;
     }
