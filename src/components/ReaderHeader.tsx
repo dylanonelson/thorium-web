@@ -14,7 +14,7 @@ import { TocAction } from "./TocAction";
 import { RunningHead } from "./RunningHead";
 import { ActionsWithCollapsibility } from "./ActionsWithCollapsibility";
 
-import { IActionItem } from "./Actions";
+import { IActionsItem } from "./Actions";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -52,7 +52,7 @@ export const ReaderHeader = () => {
   };
 
   const listActionItems = useCallback(() => {
-    const actionsItems: IActionItem[] = [];
+    const actionsItems: IActionsItem[] = [];
     const actionsOrder = RSPrefs.actions.displayOrder;
 
     actionsOrder.map((key: ActionKeys) => {

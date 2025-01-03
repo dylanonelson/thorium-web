@@ -33,7 +33,7 @@ export interface IActionTokens {
 
 export interface IActionPref {
   displayOrder: ActionKeys[];
-  collapsibility: Collapsibility;
+  collapse: Collapsibility;
   defaultSheet: SheetTypes;
   keys: {
     [key in ActionKeys]: IActionTokens;
@@ -42,7 +42,7 @@ export interface IActionPref {
 
 export interface IDockingPref {
   displayOrder: DockingKeys[];
-  collapsibility: Collapsibility;
+  collapse: Collapsibility | null;
   keys: {
     [key in  DockingKeys]: IActionTokens;
   }

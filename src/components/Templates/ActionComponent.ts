@@ -18,4 +18,5 @@ export enum ActionComponentVariant {
 
 export interface IActionComponent {
   variant: ActionComponentVariant;
+  associatedID?: string;
 }

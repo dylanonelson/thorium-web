@@ -5,7 +5,7 @@ import sheetStyles from "../assets/styles/sheet.module.css";
 import { ISheet } from "./Sheet";
 
 import { Dialog, DialogTrigger, Heading, Popover, PopoverProps } from "react-aria-components";
-import { Docker } from "./Docker";
+import { Docker } from "./Docking/Docker";
 
 import classNames from "classnames";
 

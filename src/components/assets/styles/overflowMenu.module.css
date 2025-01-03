@@ -25,6 +25,10 @@
   outline: 2px solid var(--theme-focus);
 }
 
+.menuItem[data-disabled] {
+  color: var(--theme-disable);
+}
+
 .menuItem > svg {
   width: calc(var(--icon-size, 24px) / 1.5);
   height: calc(var(--icon-size, 24px) / 1.5);

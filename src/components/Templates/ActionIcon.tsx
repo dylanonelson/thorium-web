@@ -20,8 +20,9 @@ export interface IActionIconProps {
   SVG: ComponentType<SVGProps<SVGElement>>;
   placement: TooltipProps["placement"];
   tooltipLabel: string;
-  visibility: ActionVisibility;
+  visibility?: ActionVisibility;
   onPressCallback?: (e: PressEvent) => void;
+  isDisabled?: boolean;
 }
 
 export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IActionIconProps> = ({
@@ -32,6 +33,7 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
   tooltipLabel,
   visibility,
   onPressCallback,
+  isDisabled,
   ...props
 }) => {
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -95,6 +97,7 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
         onPress={ onPressCallback || defaultOnPressFunc }
         onKeyDown={ blurOnEsc } 
         onFocus={ handleImmersive }
+        isDisabled={ isDisabled }
         { ...props }
       >
         <SVG aria-hidden="true" focusable="false" />  

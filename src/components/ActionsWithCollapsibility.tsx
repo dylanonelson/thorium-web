@@ -7,17 +7,19 @@ import { useCollapsibility } from "@/hooks/useCollapsibility";
 
 export interface IActionsWithCollapsibility extends IActions {
   prefs: any;
-  invert?: boolean;
+  overflowMenuClassName?: string;
 }
 
 export const ActionsWithCollapsibility = ({
   items,
   prefs,
   className,
+  overflowMenuClassName,
   label,
-  invert
 }: IActionsWithCollapsibility) => {
   const Actions = useCollapsibility(items, prefs);
+  
+  if (items.length === 0) return(<></>);
 
   return (
     <>
@@ -25,18 +27,23 @@ export const ActionsWithCollapsibility = ({
       className={ className } 
       aria-label={ label }
     >
-      { !invert 
-        ? Actions.ActionIcons.map(({ Comp, key }) => <Comp key={ key } variant={ ActionComponentVariant.button }/>) 
-        : <></> }
+      { Actions.ActionIcons.map(({ Comp, key, associatedID }) => 
+          <Comp 
+            key={ key } 
+            variant={ ActionComponentVariant.button }
+            { ...(associatedID ? { associatedID: associatedID } : {}) } 
+          />) 
+      }
 
       { Actions.MenuItems.length > 0 
-        ? <OverflowMenu>
-          { Actions.MenuItems.map(({ Comp, key }) => <Comp key={ key } variant={ ActionComponentVariant.menu }/>) }
+        ? <OverflowMenu className={ overflowMenuClassName }>
+          { Actions.MenuItems.map(({ Comp, key, associatedID }) => 
+            <Comp 
+              key={ key } 
+              variant={ ActionComponentVariant.menu }
+              { ...(associatedID ? { associatedID: associatedID } : {}) } 
+            />) }
         </OverflowMenu> 
-        : <></> }
-
-      { invert 
-        ? Actions.ActionIcons.map(({ Comp, key }) => <Comp key={ key } variant={ ActionComponentVariant.button }/>) 
         : <></> }
     </div>
     </>

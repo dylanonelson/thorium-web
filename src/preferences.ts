@@ -190,7 +190,7 @@ export const RSPrefs: IRSPrefs = {
     //  ActionKeys.toc,
     //  ActionKeys.jumpToPosition
     ],
-    collapsibility: {
+    collapse: {
       [StaticBreakpoints.compact]: 2,
       [StaticBreakpoints.medium]: 1
     },
@@ -228,20 +228,18 @@ export const RSPrefs: IRSPrefs = {
       DockingKeys.right,
       DockingKeys.popover
     ],
-    collapsibility: { 
-      [StaticBreakpoints.compact]: "all"
-    },
+    collapse: null,
     keys: {
       [DockingKeys.left]: {
-        visibility: ActionVisibility.partially,
+        visibility: ActionVisibility.overflow,
         shortcut: null
       },
       [DockingKeys.right]: {
-        visibility: ActionVisibility.partially,
+        visibility: ActionVisibility.overflow,
         shortcut: null
       },
       [DockingKeys.popover]: {
-        visibility: ActionVisibility.partially,
+        visibility: ActionVisibility.overflow,
         shortcut: null
       }
     }

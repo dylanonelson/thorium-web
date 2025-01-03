@@ -5,13 +5,15 @@ import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 import { MenuItem, Text } from "react-aria-components";
 import { Shortcut } from "../Shortcut";
 import { ActionKeys } from "./ActionComponent";
+import { DockingKeys } from "../Sheets/Sheet";
 
 export interface IOverflowMenuItemProp {
   label: string;
   SVG: ComponentType<SVGProps<SVGElement>>;
   shortcut?: string | null;
   onActionCallback?: () => void;
-  id: ActionKeys;
+  id: ActionKeys | DockingKeys;
+  isDisabled?: boolean;
 }
 
 export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
@@ -19,7 +21,8 @@ export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
   SVG, 
   shortcut,
   onActionCallback, 
-  id
+  id,
+  isDisabled
 }) => {
   const menuItemLabelId = `${id}-label`;
   
@@ -30,6 +33,7 @@ export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
       className={ overflowMenuStyles.menuItem } 
       aria-labelledby={ menuItemLabelId } 
       onAction={ onActionCallback }
+      isDisabled={ isDisabled }
     >
       <SVG aria-hidden="true" focusable="false" />
       <Text 
