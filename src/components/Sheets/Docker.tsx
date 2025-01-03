@@ -9,9 +9,10 @@ import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import DockToLeft from "../assets/icons/dock_to_right.svg";
 import DocktoRight from "../assets/icons/dock_to_left.svg";
 import Stack from "../assets/icons/stack.svg";
-import Close from "../assets/icons/close.svg";
 
 import { Button, Tooltip, TooltipTrigger } from "react-aria-components";
+import { CloseButton } from "../CloseButton";
+
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLeftDock, setRightDock } from "@/lib/readerReducer";
@@ -122,33 +123,15 @@ export const Docker = ({
         </TooltipTrigger>
       : <></> }
 
-    { pref.current !== Dockable.none
-      ? <TooltipTrigger>
-          <Button 
-            ref={ ref }
-            className={ readerSharedUI.dockerButton } 
-            aria-label={ Locale.reader.app.docker.close.trigger } 
-            onPress={ onCloseCallback }
-          >
-            <Close aria-hidden="true" focusable="false" />  
-          </Button>
-          <Tooltip
-            className={ readerSharedUI.tooltip }
-            placement="bottom" 
-            offset={ offset.current }
-          >
-            { Locale.reader.app.docker.close.tooltip }
-          </Tooltip>
-        </TooltipTrigger>
-        : <Button 
-          ref={ ref }
-          className={ readerSharedUI.closeButton } 
-          aria-label={ Locale.reader.app.docker.close.trigger } 
-          onPress={ onCloseCallback }
-        >
-          <Close aria-hidden="true" focusable="false" />
-        </Button> }
+      <CloseButton 
+        ref={ ref }
+        className={ readerSharedUI.dockerButton } 
+        aria-label={ Locale.reader.app.docker.close.trigger } 
+        onPressCallback={ onCloseCallback }
+        { ...(pref.current !== Dockable.none ? { withTooltip: Locale.reader.app.docker.close.tooltip } : {})}
+      />
     </div>
     </>
   )
 }
+
