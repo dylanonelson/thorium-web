@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setOverflowMenuOpen, toggleImmersive } from "@/lib/readerReducer";
 import { ActionVisibility } from "./Templates/ActionComponent";
 
-export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
+export const OverflowMenu = ({ className, children }: { className?: string, children?: ReactNode }) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovered = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
@@ -26,7 +26,7 @@ export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
       <>
       <MenuTrigger onOpenChange={ (val) => toggleMenuState(val) }>
         <ActionIcon 
-          className={ overflowMenuStyles.activeButton }
+          className={ className ? className : overflowMenuStyles.activeButton }
           ariaLabel={ Locale.reader.overflowMenu.active.trigger }
           SVG={ MenuIcon } 
           placement="bottom"
@@ -48,7 +48,7 @@ export const OverflowMenu = ({ children }: { children?: ReactNode }) => {
       </>
       : <>
         <ActionIcon 
-          className={ overflowMenuStyles.hintButton } 
+          className={ className ? className : overflowMenuStyles.hintButton } 
           ariaLabel={ Locale.reader.overflowMenu.hint.trigger }
           SVG={ MenuIcon } 
           placement="bottom"

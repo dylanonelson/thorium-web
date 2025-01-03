@@ -5,3 +5,8 @@
   gap: 5px;
   padding-left: var(--layout-spacing);
 }
+
+.docker {
+  display: flex;
+  gap: 5px;
+}
