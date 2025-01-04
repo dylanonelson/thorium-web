@@ -228,7 +228,7 @@ export const RSPrefs: IRSPrefs = {
       DockingKeys.right,
       DockingKeys.popover
     ],
-    collapse: null,
+    collapse: true,
     keys: {
       [DockingKeys.left]: {
         visibility: ActionVisibility.overflow,

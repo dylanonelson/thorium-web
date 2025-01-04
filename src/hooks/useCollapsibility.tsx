@@ -9,7 +9,7 @@ import { IActionPref, IDockingPref } from "@/preferences.interface";
 
 // Smart keyword a placeholder for dynamic collapsibility 
 // based on width available and not breakpoints 
-export type Collapsibility = "smart" | { [key in StaticBreakpoints]?: number | "all" };
+export type Collapsibility = boolean | "smart" | { [key in StaticBreakpoints]?: number | "all" };
 
 export const useCollapsibility = (items: IActionsItem[], prefs: IActionPref & IDockingPref) => {
   const [ActionIcons, setActionIcons] = useState<IActionsItem[]>([]);
@@ -21,8 +21,10 @@ export const useCollapsibility = (items: IActionsItem[], prefs: IActionPref & ID
     const menuItems: IActionsItem[] = [];
 
     let countdown: number = 0;
+
     if (prefs.collapse) {
-      if (typeof prefs.collapse === "object") {
+      // Handling number of items to collapse
+      if (typeof prefs.collapse === "object" && !(prefs.collapse instanceof Boolean)) {
         if (staticBreakpoint) {
           const prefForBreakpoint = prefs.collapse[staticBreakpoint];
           if (prefForBreakpoint) {
@@ -33,25 +35,32 @@ export const useCollapsibility = (items: IActionsItem[], prefs: IActionPref & ID
             }
           }
         }
+      } else if (typeof prefs.collapse === "string" && prefs.collapse === "smart") {
+        console.warn("The smart algorithm for collapsibility has not been implemented yet. Please use one of the other types it accepts.")
       }
-    }
 
-    // Creating a shallow copy so that actionsOrder doesn’t mutate between rerenders
-    [...items].slice().reverse().map((item) => {
-      const actionPref = prefs.keys[item.key];
-      if (actionPref.visibility === ActionVisibility.overflow) {
-        menuItems.unshift(item);
-      } else if (actionPref.visibility === ActionVisibility.partially) {
-        if (countdown > 0) {
+      // Creating a shallow copy so that actionsOrder doesn’t mutate between rerenders
+      [...items].slice().reverse().map((item) => {
+        const actionPref = prefs.keys[item.key];
+        if (actionPref.visibility === ActionVisibility.overflow) {
           menuItems.unshift(item);
-          --countdown;
+        } else if (actionPref.visibility === ActionVisibility.partially) {
+          if (countdown > 0) {
+            menuItems.unshift(item);
+            --countdown;
+          } else {
+            actionIcons.unshift(item);
+          }
         } else {
           actionIcons.unshift(item);
         }
-      } else {
-        actionIcons.unshift(item);
-      }
-    });
+      });
+    } else {
+      // collapse set to false so we ignore visibility and don’t triage
+      items.map((item) => {
+        actionIcons.push(item);
+      });
+    }
 
     setActionIcons(actionIcons);
     setMenuItems(menuItems);
