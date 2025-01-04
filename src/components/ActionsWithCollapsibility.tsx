@@ -7,6 +7,7 @@ import { useCollapsibility } from "@/hooks/useCollapsibility";
 
 export interface IActionsWithCollapsibility extends IActions {
   prefs: any;
+  overflowActionCallback?: boolean;
   overflowMenuClassName?: string;
 }
 
@@ -14,6 +15,7 @@ export const ActionsWithCollapsibility = ({
   items,
   prefs,
   className,
+  overflowActionCallback,
   overflowMenuClassName,
   label,
 }: IActionsWithCollapsibility) => {
@@ -33,16 +35,17 @@ export const ActionsWithCollapsibility = ({
           />) 
       }
 
-      { Actions.MenuItems.length > 0 
-        ? <OverflowMenu className={ overflowMenuClassName }>
-          { Actions.MenuItems.map(({ Comp, key, associatedID }) => 
-            <Comp 
-              key={ key } 
-              variant={ ActionComponentVariant.menu }
-              { ...(associatedID ? { associatedID: associatedID } : {}) } 
-            />) }
-        </OverflowMenu> 
-        : <></> }
+      <OverflowMenu 
+        className={ overflowMenuClassName } 
+        actionFallback={ overflowActionCallback }
+      >
+        { Actions.MenuItems.map(({ Comp, key, associatedID }) => 
+          <Comp 
+            key={ key } 
+            variant={ ActionComponentVariant.menu }
+            { ...(associatedID ? { associatedID: associatedID } : {}) } 
+          />) }
+      </OverflowMenu> 
     </div>
     </>
   )

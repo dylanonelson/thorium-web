@@ -11,7 +11,17 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setOverflowMenuOpen, toggleImmersive } from "@/lib/readerReducer";
 import { ActionVisibility } from "./Templates/ActionComponent";
 
-export const OverflowMenu = ({ className, children }: { className?: string, children?: ReactNode }) => {
+export interface IOverflowMenu {
+  className?: string;
+  actionFallback?: boolean;
+  children?: ReactNode;
+}
+
+export const OverflowMenu = ({ 
+    className, 
+    actionFallback,
+    children 
+  }: IOverflowMenu) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovered = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
@@ -19,10 +29,9 @@ export const OverflowMenu = ({ className, children }: { className?: string, chil
   const toggleMenuState = (value: boolean) => {
     dispatch(setOverflowMenuOpen(value));
   }
-  
-  return(
-    <>
-    { React.Children.toArray(children).length > 0 && (!isImmersive || isHovered) ? 
+
+  if (React.Children.toArray(children).length > 0 && (!isImmersive || isHovered)) {
+    return (
       <>
       <MenuTrigger onOpenChange={ (val) => toggleMenuState(val) }>
         <ActionIcon 
@@ -46,7 +55,11 @@ export const OverflowMenu = ({ className, children }: { className?: string, chil
         </Popover>
       </MenuTrigger>
       </>
-      : <>
+    )
+  } else {
+    if (actionFallback) {
+      return(
+        <>
         <ActionIcon 
           className={ className ? className : overflowMenuStyles.hintButton } 
           ariaLabel={ Locale.reader.overflowMenu.hint.trigger }
@@ -58,7 +71,9 @@ export const OverflowMenu = ({ className, children }: { className?: string, chil
           preventFocusOnPress={ true }
         />
       </>
+      )
+    } else {
+      return(<></>)
     }
-    </>
-  )
+  }
 }

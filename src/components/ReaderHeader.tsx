@@ -81,7 +81,8 @@ export const ReaderHeader = () => {
         items={ listActionItems() }
         prefs={ RSPrefs.actions }
         className={ readerHeaderStyles.actionsWrapper } 
-        label={ Locale.reader.app.header.actions }
+        label={ Locale.reader.app.header.actions } 
+      //  overflowActionCallback={ true }
       />
     </header>
     </>
