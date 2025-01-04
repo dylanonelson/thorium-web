@@ -23,63 +23,60 @@ export interface IDocker {
   onCloseCallback: () => void;
 }
 
+const DockingActionsMap = {
+  [DockingKeys.left]: DockLeftAction,
+  [DockingKeys.right]: DockRightAction,
+  [DockingKeys.popover]: PopoverAction
+};
+
 export const Docker = ({
   id,
   ref,
   onCloseCallback
 }: IDocker) => {
   const dockable = useRef<Dockable>(RSPrefs.actions.keys[id].dockable || Dockable.none);
+  const actionsOrder = useRef(RSPrefs.docking.displayOrder);
 
   const listActionItems = useCallback(() => {
     const actionsItems: IActionsItem[] = [];
 
-    switch(dockable.current) {
-      case Dockable.both:
-        actionsItems.push({
-          Comp: DockLeftAction,
-          key: DockingKeys.left,
-          associatedID: id
-        },
-        {
-          Comp: DockRightAction,
-          key: DockingKeys.right,
-          associatedID: id
-        },
-        {
-          Comp: PopoverAction,
-          key: DockingKeys.popover,
-          associatedID: id
-        });
-        break;
-      case Dockable.left:
-        actionsItems.push({
-          Comp: DockLeftAction,
-          key: DockingKeys.left,
-          associatedID: id
-        },
-        {
-          Comp: PopoverAction,
-          key: DockingKeys.popover,
-          associatedID: id
-        });
-        break;
-      case Dockable.right:
-        actionsItems.push(
-        {
-          Comp: DockRightAction,
-          key: DockingKeys.right,
-          associatedID: id
-        },
-        {
-          Comp: PopoverAction,
-          key: DockingKeys.popover,
-          associatedID: id
-        });
-        break;
-      case Dockable.none:
-      default:
-        break;
-    }
+    const pushInList = (key: DockingKeys) => {
+      actionsItems.push({
+        Comp: DockingActionsMap[key],
+        key: key,
+        associatedID: id
+      });
+    };
+
+    actionsOrder.current.map((key: DockingKeys) => {
+      switch(key) {
+        case DockingKeys.left:
+          if (
+            dockable.current === Dockable.both ||
+            dockable.current === Dockable.left
+          ) {
+            pushInList(key);
+          }
+          break;
+        case DockingKeys.right:
+          if (
+            dockable.current === Dockable.both ||
+            dockable.current === Dockable.right
+          ) {
+            pushInList(key);
+          }
+          break;
+        case DockingKeys.popover:
+          if (
+            dockable.current !== Dockable.none
+          ) {
+            pushInList(key);
+          }
+          break;
+        default:
+          break;
+      }
+    });
 
     return actionsItems;
   }, [id]);
