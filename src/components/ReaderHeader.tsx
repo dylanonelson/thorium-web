@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
@@ -29,8 +29,10 @@ const ActionsMap = {
 }
 
 export const ReaderHeader = () => {
+  const actionsOrder = useRef(RSPrefs.actions.displayOrder);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
+
   const dispatch = useAppDispatch();
 
   const setHover = () => {
@@ -53,13 +55,12 @@ export const ReaderHeader = () => {
 
   const listActionItems = useCallback(() => {
     const actionsItems: IActionsItem[] = [];
-    const actionsOrder = RSPrefs.actions.displayOrder;
 
-    actionsOrder.map((key: ActionKeys) => {
+    actionsOrder.current.map((key: ActionKeys) => {
       actionsItems.push({
         Comp: ActionsMap[key],
         key: key
-      })
+      });
     });
     
     return actionsItems;
