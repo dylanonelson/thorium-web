@@ -6,6 +6,7 @@
   border: 1px solid var(--theme-subdue);
   position: relative;
   filter: drop-shadow(var(--theme-elevate));
+  transition: all 0s; /* for some reason prop left set by React Aria is changing when entering… */
 }
 
 .overflowMenu {
