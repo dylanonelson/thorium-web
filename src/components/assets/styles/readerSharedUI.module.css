@@ -1,28 +1,9 @@
-.icon {
+.icon,
+.dockerButton,
+.closeButton {
   box-sizing: border-box;
   padding: calc(var(--icon-size, 24px) * (1/4));
   text-align: center;
-  border-radius: var(--layout-radius);
-}
-
-.icon svg {
-  fill: var(--theme-text);
-  width: var(--icon-size, 24px);
-  height: var(--icon-size, 24px);
-}
-
-.tooltip {
-  background-color: var(--theme-text);
-  color: var(--theme-background);
-  padding: 5px;
-  border-radius: var(--layout-radius);
-}
-
-.dockerButton,
-.closeButton {
-  width: var(--icon-size, 24px);
-  height: var(--icon-size, 24px);
-  padding: 0;
   border-radius: var(--layout-radius);
 }
 
@@ -30,11 +11,12 @@
   margin-left: auto;
 }
 
+.icon svg,
 .dockerButton svg,
 .closeButton svg {
   fill: var(--theme-text);
-  width: 100%;
-  height: 100%;
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
 }
 
 .icon[data-hovered],
@@ -49,8 +31,17 @@
   outline: 2px solid var(--theme-focus);
 }
 
-.dockerButton[data-disabled] svg {
+.icon[data-disabled] svg,
+.dockerButton[data-disabled] svg,
+.closeButton[data-disabled] svg {
   fill: var(--theme-disable);
+}
+
+.tooltip {
+  background-color: var(--theme-text);
+  color: var(--theme-background);
+  padding: 5px;
+  border-radius: var(--layout-radius);
 }
 
 /* Utils to improve icons’ consistency */
