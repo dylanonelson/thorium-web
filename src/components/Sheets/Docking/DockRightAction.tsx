@@ -34,7 +34,7 @@ export const DockRightAction: React.FC<IActionComponent> = ({ variant, associate
         SVG={ DocktoRight } 
         shortcut={ RSPrefs.docking.keys[DockingKeys.right].shortcut }
         onActionCallback={ handlePress } 
-        id={ DockingKeys.right }
+        id={ `${ DockingKeys.right }-${ associatedID }` }
         isDisabled={ rightDock === associatedID }
       />
       </>

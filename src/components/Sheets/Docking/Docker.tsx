@@ -8,16 +8,18 @@ import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { CloseButton } from "../../CloseButton";
 
-import { Dockable, DockingKeys } from "../Sheet";
+import { Dockable, DockingKeys, SheetTypes } from "../Sheet";
 import { ActionKeys } from "../../Templates/ActionComponent";
 import { ActionsWithCollapsibility } from "@/components/ActionsWithCollapsibility";
 import { IActionsItem } from "@/components/Actions";
 import { DockLeftAction } from "./DockLeftAction";
 import { DockRightAction } from "./DockRightAction";
-import { PopoverAction } from "./PopoverAction";
+import { PopoverSheetAction } from "./PopoverSheetAction";
+import { FullscreenSheetAction } from "./FullscreenSheetAction";
 
 export interface IDocker {
   id: ActionKeys;
+  sheetType: SheetTypes;
   ref: React.ForwardedRef<HTMLButtonElement>;
   onStackCallback: () => void;
   onCloseCallback: () => void;
@@ -26,11 +28,13 @@ export interface IDocker {
 const DockingActionsMap = {
   [DockingKeys.left]: DockLeftAction,
   [DockingKeys.right]: DockRightAction,
-  [DockingKeys.popover]: PopoverAction
+  popover: PopoverSheetAction,
+  fullscreen: FullscreenSheetAction
 };
 
 export const Docker = ({
   id,
+  sheetType,
   ref,
   onCloseCallback
 }: IDocker) => {
@@ -41,11 +45,21 @@ export const Docker = ({
     const actionsItems: IActionsItem[] = [];
 
     const pushInList = (key: DockingKeys) => {
-      actionsItems.push({
-        Comp: DockingActionsMap[key],
-        key: key,
-        associatedID: id
-      });
+      let mapKey: keyof typeof DockingActionsMap;
+
+      if (key === DockingKeys.floating) {
+        sheetType === SheetTypes.fullscreen ? mapKey = "fullscreen" : mapKey = "popover";
+      } else {
+        mapKey = key;
+      }
+
+      if (mapKey) {
+        actionsItems.push({
+          Comp: DockingActionsMap[mapKey],
+          key: key,
+          associatedID: id
+        });
+      }
     };
 
     actionsOrder.current.map((key: DockingKeys) => {
@@ -66,7 +80,7 @@ export const Docker = ({
             pushInList(key);
           }
           break;
-        case DockingKeys.popover:
+        case DockingKeys.floating:
           if (
             dockable.current !== Dockable.none
           ) {
@@ -79,7 +93,7 @@ export const Docker = ({
     });
 
     return actionsItems;
-  }, [id]);
+  }, [id, sheetType]);
 
   return(
     <>

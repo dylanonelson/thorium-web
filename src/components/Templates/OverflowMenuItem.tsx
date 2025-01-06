@@ -12,7 +12,7 @@ export interface IOverflowMenuItemProp {
   SVG: ComponentType<SVGProps<SVGElement>>;
   shortcut?: string | null;
   onActionCallback?: () => void;
-  id: ActionKeys | DockingKeys;
+  id: string;
   isDisabled?: boolean;
 }
 

@@ -5,7 +5,7 @@ import Locale from "../../../resources/locales/en.json";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
-import Stack from "../../assets/icons/stack.svg";
+import Dialog from "../../assets/icons/dialogs.svg";
 
 import { ActionComponentVariant, IActionComponent } from "@/components/Templates/ActionComponent";
 
@@ -16,10 +16,10 @@ import { DockingKeys } from "../Sheet";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLeftDock, setRightDock } from "@/lib/readerReducer";
 
-export const PopoverAction: React.FC<IActionComponent> = ({ variant, associatedID }) => {
+export const FullscreenSheetAction: React.FC<IActionComponent> = ({ variant, associatedID }) => {
   const leftDock = useAppSelector(state => state.reader.leftDock);
   const rightDock = useAppSelector(state => state.reader.rightDock);
-  const isStacked = (leftDock !== associatedID && rightDock !== associatedID);
+  const isFullscreen = (leftDock !== associatedID && rightDock !== associatedID);
 
   const dispatch = useAppDispatch();
 
@@ -32,12 +32,12 @@ export const PopoverAction: React.FC<IActionComponent> = ({ variant, associatedI
     return(
       <>
       <OverflowMenuItem 
-        label={ Locale.reader.app.docker.stack.trigger }
-        SVG={ Stack } 
-        shortcut={ RSPrefs.docking.keys[DockingKeys.popover].shortcut }
+        label={ Locale.reader.app.docker.fullscreen.trigger }
+        SVG={ Dialog } 
+        shortcut={ RSPrefs.docking.keys[DockingKeys.floating].shortcut }
         onActionCallback={ handlePress } 
-        id={ DockingKeys.popover } 
-        isDisabled={ isStacked }
+        id={ `${ DockingKeys.floating }-${ associatedID }` } 
+        isDisabled={ isFullscreen }
       />
       </>
     )
@@ -46,12 +46,12 @@ export const PopoverAction: React.FC<IActionComponent> = ({ variant, associatedI
       <>
       <ActionIcon 
         className={ readerSharedUI.dockerButton }  
-        ariaLabel={ Locale.reader.app.docker.stack.trigger }
-        SVG={ Stack } 
+        ariaLabel={ Locale.reader.app.docker.fullscreen.trigger }
+        SVG={ Dialog } 
         placement="bottom" 
-        tooltipLabel={ Locale.reader.app.docker.stack.tooltip } 
+        tooltipLabel={ Locale.reader.app.docker.fullscreen.tooltip } 
         onPressCallback={ handlePress } 
-        isDisabled={ isStacked }
+        isDisabled={ isFullscreen }
       />
       </>
     )

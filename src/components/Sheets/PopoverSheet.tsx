@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 
-import { ISheet } from "./Sheet";
+import { ISheet, SheetTypes } from "./Sheet";
 
 import { Dialog, DialogTrigger, Heading, Popover, PopoverProps } from "react-aria-components";
 import { Docker } from "./Docking/Docker";
@@ -63,8 +63,9 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
               <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
             
               <Docker 
-                ref={ popoverCloseRef }
                 id={ id }
+                ref={ popoverCloseRef }
+                sheetType={ SheetTypes.popover }
                 onStackCallback={ () => {}}
                 onCloseCallback={ onClosePressCallback }
               /> 
