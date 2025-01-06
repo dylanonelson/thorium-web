@@ -28,11 +28,11 @@
           "tooltip": "Dock Right"
         },
         "stack": {
-          "trigger": "Pop the sheet over",
+          "trigger": "Pop over contents",
           "tooltip": "Pop over"
         },
         "close": {
-          "trigger": "Close the sheet",
+          "trigger": "Close",
           "tooltip": "Close"
         }
       }
