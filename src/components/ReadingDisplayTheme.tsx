@@ -58,6 +58,13 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
         const nextIdx = currentIdx + perRow;
         if (nextIdx >= 0 && nextIdx < themeItems.current.length) {
           dispatch(setTheme(themeItems.current[nextIdx]));
+
+          // Focusing here instead of useEffect on theme change so that 
+          // it doesn’t steal focus when themes is not the first radio group in the sheet
+          if (radioGroupRef.current) {
+            const themeToFocus = radioGroupRef.current.querySelector(`#${themeItems.current[nextIdx]}`) as HTMLElement;
+            if (themeToFocus) themeToFocus.focus();
+          }
         }
       };
 
@@ -86,13 +93,6 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
       }
     }
   };
-
-  useEffect(() => {
-    if (mapArrowNav && !isNaN(mapArrowNav) && radioGroupRef.current) {
-      const themeToFocus = radioGroupRef.current.querySelector(`#${theme}`) as HTMLElement;
-      if (themeToFocus) themeToFocus.focus();
-    }
-  }, [theme]);
 
   return (
     <>
