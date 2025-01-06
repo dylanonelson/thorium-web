@@ -224,7 +224,7 @@ export const RSPrefs: IRSPrefs = {
   },
   docking: {
     displayOrder: [
-      DockingKeys.popover,
+      DockingKeys.floating,
       DockingKeys.left,
       DockingKeys.right
     ],
@@ -238,7 +238,7 @@ export const RSPrefs: IRSPrefs = {
         visibility: ActionVisibility.overflow,
         shortcut: null
       },
-      [DockingKeys.popover]: {
+      [DockingKeys.floating]: {
         visibility: ActionVisibility.overflow,
         shortcut: null
       }

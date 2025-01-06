@@ -27,9 +27,13 @@
           "trigger": "Dock to the right",
           "tooltip": "Dock Right"
         },
-        "stack": {
+        "popover": {
           "trigger": "Pop over contents",
           "tooltip": "Pop over"
+        },
+        "fullscreen": {
+          "trigger": "Expand over contents",
+          "tooltip": "Overlay"
         },
         "close": {
           "trigger": "Close",

@@ -5,7 +5,7 @@ import Locale from "../../../resources/locales/en.json";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
-import DockToLeft from "../../assets/icons/dock_to_right.svg";
+import Stack from "../../assets/icons/stack.svg";
 
 import { ActionComponentVariant, IActionComponent } from "@/components/Templates/ActionComponent";
 
@@ -16,26 +16,28 @@ import { DockingKeys } from "../Sheet";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLeftDock, setRightDock } from "@/lib/readerReducer";
 
-export const DockLeftAction: React.FC<IActionComponent> = ({ variant, associatedID }) => {
+export const PopoverSheetAction: React.FC<IActionComponent> = ({ variant, associatedID }) => {
   const leftDock = useAppSelector(state => state.reader.leftDock);
+  const rightDock = useAppSelector(state => state.reader.rightDock);
+  const isStacked = (leftDock !== associatedID && rightDock !== associatedID);
 
   const dispatch = useAppDispatch();
 
   const handlePress = useCallback(() => {
-    dispatch(setLeftDock(associatedID));
+    dispatch(setLeftDock(null));
     dispatch(setRightDock(null));
-  }, [dispatch, associatedID]);
+  }, [dispatch]);
   
   if (variant && variant === ActionComponentVariant.menu) {
     return(
       <>
       <OverflowMenuItem 
-        label={ Locale.reader.app.docker.dockToLeft.trigger }
-        SVG={ DockToLeft } 
-        shortcut={ RSPrefs.docking.keys[DockingKeys.left].shortcut }
+        label={ Locale.reader.app.docker.popover.trigger }
+        SVG={ Stack } 
+        shortcut={ RSPrefs.docking.keys[DockingKeys.floating].shortcut }
         onActionCallback={ handlePress } 
-        id={ `${ DockingKeys.left }-${ associatedID }` }
-        isDisabled={ leftDock === associatedID }
+        id={ `${ DockingKeys.floating }-${ associatedID }` } 
+        isDisabled={ isStacked }
       />
       </>
     )
@@ -44,12 +46,12 @@ export const DockLeftAction: React.FC<IActionComponent> = ({ variant, associated
       <>
       <ActionIcon 
         className={ readerSharedUI.dockerButton }  
-        ariaLabel={ Locale.reader.app.docker.dockToLeft.trigger }
-        SVG={ DockToLeft } 
+        ariaLabel={ Locale.reader.app.docker.popover.trigger }
+        SVG={ Stack } 
         placement="bottom" 
-        tooltipLabel={ Locale.reader.app.docker.dockToLeft.tooltip } 
+        tooltipLabel={ Locale.reader.app.docker.popover.tooltip } 
         onPressCallback={ handlePress } 
-        isDisabled={ leftDock === associatedID }
+        isDisabled={ isStacked }
       />
       </>
     )

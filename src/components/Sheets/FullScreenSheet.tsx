@@ -1,15 +1,13 @@
 import React, { useEffect, useRef } from "react";
 
-import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import sheetStyles from "../assets/styles/sheet.module.css";
 
-import CloseIcon from "../assets/icons/close.svg";
+import { ISheet, SheetTypes } from "./Sheet";
 
-import { ISheet } from "./Sheet";
-
-import { Button, Dialog, DialogTrigger, Heading, Modal } from "react-aria-components";
+import { Dialog, DialogTrigger, Heading, Modal } from "react-aria-components";
 
 import classNames from "classnames";
+import { Docker } from "./Docking/Docker";
 
 export interface IFullScreenSheet extends ISheet {};
 
@@ -53,16 +51,15 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
         >
           <Dialog className={ sheetStyles.sheetDialog }>
             <div className={ sheetStyles.sheetHeader }>
-            <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
+              <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
-            <Button 
-              ref={ fullScreenCloseRef }
-              className={ readerSharedUI.closeButton } 
-              aria-label={ closeLabel } 
-              onPress={ onClosePressCallback }
-            >
-              <CloseIcon aria-hidden="true" focusable="false" />
-            </Button>
+              <Docker 
+                id={ id }
+                sheetType={ SheetTypes.fullscreen }
+                ref={ fullScreenCloseRef }
+                onStackCallback={ () => {}}
+                onCloseCallback={ onClosePressCallback }
+              /> 
             </div>
               
             <div 
