@@ -224,9 +224,9 @@ export const RSPrefs: IRSPrefs = {
   },
   docking: {
     displayOrder: [
+      DockingKeys.popover,
       DockingKeys.left,
-      DockingKeys.right,
-      DockingKeys.popover
+      DockingKeys.right
     ],
     collapse: true,
     keys: {
