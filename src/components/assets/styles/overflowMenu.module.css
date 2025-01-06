@@ -8,6 +8,10 @@
   filter: drop-shadow(var(--theme-elevate));
 }
 
+.overflowMenu {
+  outline: none;
+}
+
 .menuItem {
   display: flex;
   align-items: center;

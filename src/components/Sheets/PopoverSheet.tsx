@@ -58,7 +58,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
           onOpenChange={ onOpenChangeCallback } 
           maxHeight={ computeMaxHeight() }
         >
-          <Dialog>
+          <Dialog className={ sheetStyles.sheetDialog }>
             <div className={ sheetStyles.sheetHeader }>
               <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
             

@@ -9,6 +9,8 @@ import { ISheet } from "./Sheet";
 
 import { Button, Dialog, DialogTrigger, Heading, Modal } from "react-aria-components";
 
+import classNames from "classnames";
+
 export interface IFullScreenSheet extends ISheet {};
 
 export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
@@ -47,9 +49,9 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
         { renderActionIcon() }
         <Modal 
           isDismissable={ true }
-          className={ sheetStyles.fullScreenSheetModal }
+          className={ classNames(sheetStyles.fullScreenSheet, className) }
         >
-          <Dialog className={ className }>
+          <Dialog className={ sheetStyles.sheetDialog }>
             <div className={ sheetStyles.sheetHeader }>
             <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
