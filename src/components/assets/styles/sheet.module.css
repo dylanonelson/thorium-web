@@ -1,4 +1,4 @@
-.fullScreenSheetModal {
+.fullScreenSheet {
   position: fixed;
   top: 0;
   left: 0;
@@ -15,14 +15,16 @@
   align-items: center;
 }
 
-.fullScreenSheet {}
-
 .popOverSheet {
   border-radius: var(--layout-radius);
   border: 1px solid var(--theme-subdue);
   width: calc(340px + (2 * var(--layout-spacing)));
   max-width: 80%;
   filter: drop-shadow(var(--theme-elevate));
+}
+
+.sheetDialog {
+  outline: none;
 }
 
 .sheetHeader {

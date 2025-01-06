@@ -48,7 +48,8 @@ export const OverflowMenu = ({
         >
           <Menu 
             selectionMode="none" 
-            onAction={ (key: Key) => { console.log(key) } }
+            onAction={ (key: Key) => { console.log(key) } } 
+            className={ overflowMenuStyles.overflowMenu }
           >
             { children }
           </Menu>
