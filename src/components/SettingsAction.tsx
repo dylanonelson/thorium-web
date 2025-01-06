@@ -66,7 +66,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
           onClosePressCallback: () => setOpen(false)
         } }
       >
-        <ReadingDisplayTheme />
+        <ReadingDisplayTheme mapArrowNav={ 2 } />
         <ReadingDisplayCol />
         <ReadingDisplayLayout />
       </SheetWithBreakpoints>
