@@ -29,19 +29,22 @@
 
 .sheetHeader {
   display: flex;
+  align-items: center;
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
   z-index: 10;
-  padding: var(--layout-spacing);
+  padding: calc(var(--layout-spacing) / 2) var(--layout-spacing);
   background-color: var(--theme-background);
   border-bottom: 1px solid var(--theme-subdue);
 }
 
 .sheetHeading {
   font-size: 1.25rem;
+  line-height: 1;
   margin: 0;
+  padding: 0;
 }
 
 .sheetBody {

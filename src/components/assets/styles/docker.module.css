@@ -1,12 +1,12 @@
 .dockerWrapper {
   margin-left: auto;
-/*  margin-right: calc((var(--layout-spacing) * -1) / 4); */
+  margin-right: calc(var(--icon-size, 24px) * (1 / 4) * -1); /* Optical alingment */
   display: flex;
-  gap: 5px;
+  gap: 2px;
   padding-left: var(--layout-spacing);
 }
 
 .docker {
   display: flex;
-  gap: 5px;
+  gap: 2px;
 }
