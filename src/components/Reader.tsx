@@ -366,39 +366,39 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   return (
     <>
     <main>
-      <ReaderHeader />
+      <div id={ Dockable.left }></div>
 
-    { isPaged ? 
-      <nav className={ arrowStyles.container } id={ arrowStyles.left }>
-        <ArrowButton 
-          direction="left" 
-          disabled={ atPublicationStart } 
-          onPressCallback={ () => goLeft(true, () => {}) }
-        />
-      </nav> : 
-      <></>
-    }
+      <div id="reader-main">
+        <ReaderHeader />
 
-      <div id="dock">
-        <div id={ Dockable.left }></div>
+      { isPaged 
+        ? <nav className={ arrowStyles.container } id={ arrowStyles.left }>
+            <ArrowButton 
+              direction="left" 
+              disabled={ atPublicationStart } 
+              onPressCallback={ () => goLeft(true, () => {}) }
+            />
+        </nav> 
+        : <></> }
+
         <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
           <div id="container" ref={ container }></div>
         </article>
-        <div id={ Dockable.right }></div>
+
+      { isPaged 
+        ? <nav className={ arrowStyles.container } id={ arrowStyles.right }>
+            <ArrowButton 
+              direction="right"  
+              disabled={ atPublicationEnd } 
+              onPressCallback={ () => goRight(true, () => {}) }
+            />
+          </nav> 
+        : <></> }
+
+      { isPaged ? <ReaderFooter /> : <></> }
       </div>
 
-    { isPaged ?
-      <nav className={ arrowStyles.container } id={ arrowStyles.right }>
-        <ArrowButton 
-          direction="right"  
-          disabled={ atPublicationEnd } 
-          onPressCallback={ () => goRight(true, () => {}) }
-        />
-      </nav> : 
-      <></>
-    }
-
-    { isPaged ? <ReaderFooter /> : <></> }
+    <div id={ Dockable.right }></div>
   </main>
   </>
 )};
