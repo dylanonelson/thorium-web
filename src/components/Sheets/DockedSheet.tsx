@@ -10,6 +10,8 @@ import { Docker } from "./Docking/Docker";
 
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
+import classNames from "classnames";
+
 export interface IDockedSheet extends ISheet {
   side: Dockable.left | Dockable.right | null;
 }
@@ -36,9 +38,13 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
 
   const [dockType, setDockType] = useState<SheetTypes.dockedLeft | SheetTypes.dockedRight | null>(null);
 
+  const classFromSide = useCallback(() => {
+    return side === Dockable.left ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
+  }, [side])
+
   useEffect(() => {
     if (!side) return;
-    
+
     side === "left" ? setDockType(SheetTypes.dockedLeft) : setDockType(SheetTypes.dockedRight);
 
     dockPortal.current = document.getElementById(side);
@@ -50,26 +56,29 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
       ? <>
       { renderActionIcon() }
 
-        { isOpen && createPortal(<div className={ sheetStyles.dockedSheet }>
-          <div className={ sheetStyles.sheetHeader }>
-            <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
+        { isOpen && createPortal(
+          <div className={ classNames(sheetStyles.dockedSheet, className, classFromSide()) }>
+            <div className={ sheetStyles.sheetHeader }>
+              <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
-            <Docker 
-              id={ id }
-              sheetType={ dockType }
-              ref={ dockedSheetCloseRef }
-              onStackCallback={ () => {}}
-              onCloseCallback={ onClosePressCallback }
-            /> 
-          </div>
+              <Docker 
+                id={ id }
+                sheetType={ dockType }
+                ref={ dockedSheetCloseRef }
+                onStackCallback={ () => {}}
+                onCloseCallback={ onClosePressCallback }
+              /> 
+            </div>
               
-          <div 
-            ref={ dockedSheetBodyRef } 
-            className={ sheetStyles.sheetBody }
-          >
-            { children }
-          </div>
-        </div>, dockPortal.current) }
+            <div 
+              ref={ dockedSheetBodyRef } 
+              className={ sheetStyles.sheetBody }
+            >
+              { children }
+            </div>
+          </div>, 
+          dockPortal.current) 
+        }
         </>
       : <></> }
     </>
