@@ -61,9 +61,17 @@ main {
   background-color: var(--theme-background);
 }
 
+#dock {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: flex;
+}
+
 #wrapper {
   height: 100%;
   margin: 0;
+  flex: 1 1 auto;
 }
 
 #container {

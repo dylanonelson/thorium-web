@@ -62,7 +62,6 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
           placement: "bottom", 
           isOpen: isOpen,
           onOpenChangeCallback: setOpen, 
-          closeLabel: Locale.reader.settings.close,
           onClosePressCallback: () => setOpen(false)
         } }
       >

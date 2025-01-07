@@ -24,7 +24,7 @@ export enum ThemeKeys {
 export const RSPrefs: IRSPrefs = {
   typography: {
     minimalLineLength: 35, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
-    optimalLineLength: 75, // number of characters. If auto layout, picks colCount based on this
+    optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
     pageGutter: 20 // body padding in px
     // In the future we could have useDynamicBreakpoint: boolean so that devs can disable it and use breakpoints instead
   },

@@ -29,6 +29,7 @@ export interface IEpubNavigatorConfig {
 
 export const useEpubNavigator = () => {
   const container = useRef<HTMLDivElement | null>(null);
+  const containerParent = useRef<HTMLElement | null>(null);
   const nav = useRef<EpubNavigator | null>(null);
   const publication = useRef<Publication | null>(null);
   const localDataKey = useRef<string | null>(null);
@@ -58,7 +59,7 @@ export const useEpubNavigator = () => {
   }, []);
 
   const handleColCountReflow = useCallback((colCount: string) => {
-    if (container.current) {
+    if (container.current && containerParent.current) {
       if (!optimalLineLength.current) {
         optimalLineLength.current = getOptimalLineLength({
           minChars: RSPrefs.typography.minimalLineLength,
@@ -74,11 +75,11 @@ export const useEpubNavigator = () => {
       let RCSSColCount = 1;
 
       if (colCount === "auto") {
-        RCSSColCount = autoPaginate(window.innerWidth, optimalLineLength.current.optimal);
+        RCSSColCount = autoPaginate(containerParent.current.offsetWidth, optimalLineLength.current.optimal);
       } else if (colCount === "2") {
           if (optimalLineLength.current.min !== null) {
           const requiredWidth = ((2 * optimalLineLength.current.min) * optimalLineLength.current.fontSize);
-          window.innerWidth > requiredWidth ? RCSSColCount = 2 : RCSSColCount = 1;
+          containerParent.current.offsetWidth > requiredWidth ? RCSSColCount = 2 : RCSSColCount = 1;
         } else {
           RCSSColCount = 2;
         }
@@ -87,8 +88,8 @@ export const useEpubNavigator = () => {
       }
 
       const optimalLineLengthToPx = optimalLineLength.current.optimal * optimalLineLength.current.fontSize;
-      const containerWithArrows = window.innerWidth - arrowsWidth.current;
-      let containerWidth = window.innerWidth;
+      const containerWithArrows = containerParent.current.offsetWidth - arrowsWidth.current;
+      let containerWidth = containerParent.current.offsetWidth;
       if (RCSSColCount > 1 && optimalLineLength.current.min !== null) {
         containerWidth = Math.min((RCSSColCount * optimalLineLengthToPx), containerWithArrows);
         dispatch(setDynamicBreakpoint(true));
@@ -110,7 +111,7 @@ export const useEpubNavigator = () => {
   }, [applyReadiumCSSStyles, dispatch]);
 
   const handleScrollReflow = useCallback(() => {
-    if (container.current) {
+    if (container.current && containerParent.current) {
       if (!optimalLineLength.current) {
         optimalLineLength.current = getOptimalLineLength({
           minChars: RSPrefs.typography.minimalLineLength,
@@ -120,10 +121,10 @@ export const useEpubNavigator = () => {
         });
       }
 
-      container.current.style.width = `${window.innerWidth}px`;
+      container.current.style.width = `${containerParent.current.offsetWidth}px`;
 
       const optimalLineLengthToPx = optimalLineLength.current.optimal * optimalLineLength.current.fontSize;
-      if (optimalLineLengthToPx <= window.innerWidth) {
+      if (optimalLineLengthToPx <= containerParent.current.offsetWidth) {
         dispatch(setDynamicBreakpoint(true));
       } else {
         dispatch(setDynamicBreakpoint(false));
@@ -292,6 +293,8 @@ export const useEpubNavigator = () => {
   const EpubNavigatorLoad = useCallback((config: IEpubNavigatorConfig, cb: Function) => {
     if (config.container) {
       container.current = config.container;
+      containerParent.current = container.current? container.current.parentElement : null;
+      
       publication.current = config.publication;
       localDataKey.current = config.localDataKey;
 
