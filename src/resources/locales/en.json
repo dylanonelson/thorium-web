@@ -2,6 +2,8 @@
   "reader": {
     "app": {
       "publicationWrapper": "You’re now in the Publication.",
+      "dockingLeft": "Docked panel left",
+      "dockingRight": "Docked panel right",
       "header": {
         "label": "Top bar",
         "runningHead": "Running Head",

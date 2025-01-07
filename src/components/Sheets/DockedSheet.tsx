@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 
-import { Dockable, ISheet, SheetTypes } from "./Sheet";
+import { DockingKeys, ISheet, SheetTypes } from "./Sheet";
 
 import { Heading } from "react-aria-components";
 import { Docker } from "./Docking/Docker";
@@ -13,7 +13,7 @@ import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 import classNames from "classnames";
 
 export interface IDockedSheet extends ISheet {
-  side: Dockable.left | Dockable.right | null;
+  side: DockingKeys.left | DockingKeys.right | null;
 }
 
 export const DockedSheet: React.FC<IDockedSheet> = ({ 
@@ -39,13 +39,13 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
   const [dockType, setDockType] = useState<SheetTypes.dockedLeft | SheetTypes.dockedRight | null>(null);
 
   const classFromSide = useCallback(() => {
-    return side === Dockable.left ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
+    return side === DockingKeys.left ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
   }, [side])
 
   useEffect(() => {
     if (!side) return;
 
-    side === "left" ? setDockType(SheetTypes.dockedLeft) : setDockType(SheetTypes.dockedRight);
+    side === DockingKeys.left ? setDockType(SheetTypes.dockedLeft) : setDockType(SheetTypes.dockedRight);
 
     dockPortal.current = document.getElementById(side);
   }, [side]);

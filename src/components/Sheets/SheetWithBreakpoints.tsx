@@ -1,6 +1,6 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 
-import { BreakpointsMap, Dockable, SheetTypes } from "./Sheet";
+import { BreakpointsMap, DockingKeys, SheetTypes } from "./Sheet";
 import { FullScreenSheet, IFullScreenSheet } from "./FullScreenSheet";
 import { IPopoverSheet, PopoverSheet } from "./PopoverSheet";
 
@@ -35,7 +35,7 @@ export const SheetWithBreakpoints = ({
     if (dockedLeft) {
       return (
         <>
-        <DockedSheet side={ Dockable.left } { ...sheetProps }>
+        <DockedSheet side={ DockingKeys.left } { ...sheetProps }>
           { children } 
         </DockedSheet>
         </>
@@ -43,7 +43,7 @@ export const SheetWithBreakpoints = ({
     } else if (dockedRight) {
       return (
         <>
-        <DockedSheet side={ Dockable.right } { ...sheetProps }>
+        <DockedSheet side={ DockingKeys.right } { ...sheetProps }>
           { children } 
         </DockedSheet>
         </>

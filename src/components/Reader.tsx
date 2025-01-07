@@ -15,7 +15,7 @@ import {
 import { EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
-import { Dockable } from "./Sheets/Sheet";
+import { DockingKeys } from "./Sheets/Sheet";
 
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
@@ -366,7 +366,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   return (
     <>
     <main>
-      <div id={ Dockable.left }></div>
+      <div id={ DockingKeys.left } aria-label={ Locale.reader.app.dockingLeft }></div>
 
       <div id="reader-main">
         <ReaderHeader />
@@ -398,7 +398,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       { isPaged ? <ReaderFooter /> : <></> }
       </div>
 
-    <div id={ Dockable.right }></div>
+    <div id={ DockingKeys.right } aria-label={ Locale.reader.app.dockingRight }></div>
   </main>
   </>
 )};
