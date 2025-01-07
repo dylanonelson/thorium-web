@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 
 import { ISheet, SheetTypes } from "./Sheet";
 
 import { Dialog, DialogTrigger, Heading, Modal } from "react-aria-components";
+import { Docker } from "./Docking/Docker";
+
+import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
 import classNames from "classnames";
-import { Docker } from "./Docking/Docker";
 
 export interface IFullScreenSheet extends ISheet {};
 
@@ -18,24 +20,16 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
     className, 
     isOpen,
     onOpenChangeCallback, 
-    closeLabel,
     onClosePressCallback,
     children 
   }) => {
-    const fullScreenBodyRef = useRef<HTMLDivElement | null>(null);
-    const fullScreenCloseRef = useRef<HTMLButtonElement | null>(null);
-
-    // TODO: custom hook
-    useEffect(() => {
-      if (!fullScreenBodyRef.current || !isOpen) return;
-  
-      // WIP: Pick the fist element that is selected. 
-      // Expecting this to become more complex 
-      // in order to cover all possible interactive elements
-      const firstFocusable: HTMLElement | null = fullScreenBodyRef.current.querySelector("[data-selected]");
-      
-      firstFocusable ? firstFocusable.focus() : fullScreenCloseRef.current?.focus();
-    }, [isOpen]);
+  const fullScreenBodyRef = useRef<HTMLDivElement | null>(null);
+  const fullScreenCloseRef = useRef<HTMLButtonElement | null>(null);
+  const firstFocusable = useFirstFocusable({
+    withinRef: fullScreenBodyRef, 
+    trackedState: isOpen, 
+    fallbackRef: fullScreenCloseRef
+  });
 
   return (
   <>

@@ -1,10 +1,11 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
-import { BreakpointsMap, SheetTypes } from "./Sheet";
+import { BreakpointsMap, Dockable, SheetTypes } from "./Sheet";
 import { FullScreenSheet, IFullScreenSheet } from "./FullScreenSheet";
 import { IPopoverSheet, PopoverSheet } from "./PopoverSheet";
 
 import { useAppSelector } from "@/lib/hooks";
+import { DockedSheet } from "./DockedSheet";
 
 export const SheetWithBreakpoints = ({ 
     breakpointsMap, 
@@ -15,6 +16,9 @@ export const SheetWithBreakpoints = ({
     sheetProps: IFullScreenSheet | IPopoverSheet,
     children: ReactNode
   }) => {
+    const dockedLeft = useAppSelector(state => state.reader.leftDock);
+    const dockedRight = useAppSelector(state => state.reader.rightDock);
+
     const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
     const sheetType = staticBreakpoint && breakpointsMap[staticBreakpoint];
 
@@ -28,8 +32,24 @@ export const SheetWithBreakpoints = ({
       )
     }
 
-    // Default popover 
-    // TODO: use defaultSheet pref if not null nor undefined
+    if (dockedLeft) {
+      return (
+        <>
+        <DockedSheet side={ Dockable.left } { ...sheetProps }>
+          { children } 
+        </DockedSheet>
+        </>
+      )
+    } else if (dockedRight) {
+      return (
+        <>
+        <DockedSheet side={ Dockable.right } { ...sheetProps }>
+          { children } 
+        </DockedSheet>
+        </>
+      )
+    }
+
     return (
       <>
       <PopoverSheet { ...sheetProps }>

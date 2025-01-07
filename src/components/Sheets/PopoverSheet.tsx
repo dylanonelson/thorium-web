@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 
@@ -6,6 +6,8 @@ import { ISheet, SheetTypes } from "./Sheet";
 
 import { Dialog, DialogTrigger, Heading, Popover, PopoverProps } from "react-aria-components";
 import { Docker } from "./Docking/Docker";
+
+import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
 import classNames from "classnames";
 
@@ -27,23 +29,16 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
   const popoverRef = useRef<HTMLDivElement | null>(null);
   const popoverBodyRef = useRef<HTMLDivElement | null>(null);
   const popoverCloseRef = useRef<HTMLButtonElement | null>(null);
+  const firstFocusable = useFirstFocusable({
+    withinRef: popoverBodyRef, 
+    trackedState: isOpen, 
+    fallbackRef: popoverCloseRef
+  });
 
   const computeMaxHeight = useCallback(() => {
     if (!popoverRef.current) return;
     return window.innerHeight - popoverRef.current.offsetTop;
   }, []);
-
-  // TODO: custom hook
-  useEffect(() => {
-    if (!popoverBodyRef.current || !isOpen) return;
-
-    // WIP: Pick the fist element that is selected. 
-    // Expecting this to become more complex 
-    // in order to cover all possible interactive elements
-    const firstFocusable: HTMLElement | null = popoverBodyRef.current.querySelector("[data-selected]");
-    
-    firstFocusable ? firstFocusable.focus() : popoverCloseRef.current?.focus();
-  }, [isOpen]);
 
   return (
   <>

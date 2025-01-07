@@ -19,7 +19,7 @@ import { FullscreenSheetAction } from "./FullscreenSheetAction";
 
 export interface IDocker {
   id: ActionKeys;
-  sheetType: SheetTypes;
+  sheetType: SheetTypes | null;
   ref: React.ForwardedRef<HTMLButtonElement>;
   onStackCallback: () => void;
   onCloseCallback: () => void;

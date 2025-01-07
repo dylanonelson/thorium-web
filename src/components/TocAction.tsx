@@ -53,7 +53,6 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
         placement="bottom" 
         isOpen={ isOpen }
         onOpenChangeCallback={ setOpen }
-        closeLabel={ Locale.reader.toc.close }
         onClosePressCallback={ () => setOpen(false) }
       >
         {/* toc.items.length > 0 

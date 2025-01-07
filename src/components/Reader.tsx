@@ -1,5 +1,7 @@
 "use client";
 
+import { useCallback, useEffect, useRef } from "react";
+
 import { RSPrefs, ThemeKeys } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
@@ -13,7 +15,7 @@ import {
 import { EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
-import { useCallback, useEffect, useRef } from "react";
+import { Dockable } from "./Sheets/Sheet";
 
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
@@ -57,6 +59,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isImmersiveRef = useRef(isImmersive);
+
+  const dockedLeft = useAppSelector(state => state.reader.leftDock);
+  const dockedRight = useAppSelector(state => state.reader.rightDock);
 
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
@@ -295,6 +300,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, 250);
 
   useEffect(() => {
+    // Note: Container’s width seem to be unsync’d on first docking
+    handleResize();
+  }, [dockedLeft, dockedRight, handleResize]);
+
+  useEffect(() => {
+    // TODO: put elsewhere
     dispatch(setPlatformModifier(getPlatformModifier()));
 
     window.addEventListener("resize", handleResize);
@@ -368,9 +379,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       <></>
     }
 
-      <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
-        <div id="container" ref={ container }></div>
-      </article>
+      <div id="dock">
+        <div id={ Dockable.left }></div>
+        <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
+          <div id="container" ref={ container }></div>
+        </article>
+        <div id={ Dockable.right }></div>
+      </div>
 
     { isPaged ?
       <nav className={ arrowStyles.container } id={ arrowStyles.right }>

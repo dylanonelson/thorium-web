@@ -37,7 +37,6 @@ export interface ISheet {
   className: string;
   isOpen: boolean;
   onOpenChangeCallback: (isOpen: boolean) => void;
-  closeLabel: string;
   onClosePressCallback: () => void;
   children?: ReactNode;
 }
