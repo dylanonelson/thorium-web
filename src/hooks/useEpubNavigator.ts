@@ -75,11 +75,11 @@ export const useEpubNavigator = () => {
       let RCSSColCount = 1;
 
       if (colCount === "auto") {
-        RCSSColCount = autoPaginate(containerParent.current.offsetWidth, optimalLineLength.current.optimal);
+        RCSSColCount = autoPaginate(containerParent.current.clientWidth, optimalLineLength.current.optimal);
       } else if (colCount === "2") {
           if (optimalLineLength.current.min !== null) {
           const requiredWidth = ((2 * optimalLineLength.current.min) * optimalLineLength.current.fontSize);
-          containerParent.current.offsetWidth > requiredWidth ? RCSSColCount = 2 : RCSSColCount = 1;
+          containerParent.current.clientWidth > requiredWidth ? RCSSColCount = 2 : RCSSColCount = 1;
         } else {
           RCSSColCount = 2;
         }
@@ -88,8 +88,8 @@ export const useEpubNavigator = () => {
       }
 
       const optimalLineLengthToPx = optimalLineLength.current.optimal * optimalLineLength.current.fontSize;
-      const containerWithArrows = containerParent.current.offsetWidth - arrowsWidth.current;
-      let containerWidth = containerParent.current.offsetWidth;
+      const containerWithArrows = containerParent.current.clientWidth - arrowsWidth.current;
+      let containerWidth = containerParent.current.clientWidth;
       if (RCSSColCount > 1 && optimalLineLength.current.min !== null) {
         containerWidth = Math.min((RCSSColCount * optimalLineLengthToPx), containerWithArrows);
         dispatch(setDynamicBreakpoint(true));
@@ -101,7 +101,7 @@ export const useEpubNavigator = () => {
           dispatch(setDynamicBreakpoint(false));
         }
       };
-      container.current.style.width = `${containerWidth}px`;
+      container.current.style.width = `${ containerWidth }px`;
 
       applyReadiumCSSStyles({
         "--USER__colCount": `${RCSSColCount}`,
@@ -121,10 +121,10 @@ export const useEpubNavigator = () => {
         });
       }
 
-      container.current.style.width = `${containerParent.current.offsetWidth}px`;
+      container.current.style.width = `${ containerParent.current.clientWidth }px`;
 
       const optimalLineLengthToPx = optimalLineLength.current.optimal * optimalLineLength.current.fontSize;
-      if (optimalLineLengthToPx <= containerParent.current.offsetWidth) {
+      if (optimalLineLengthToPx <= containerParent.current.clientWidth) {
         dispatch(setDynamicBreakpoint(true));
       } else {
         dispatch(setDynamicBreakpoint(false));
