@@ -21,7 +21,6 @@ export interface IDocker {
   id: ActionKeys;
   sheetType: SheetTypes | null;
   ref: React.ForwardedRef<HTMLButtonElement>;
-  onStackCallback: () => void;
   onCloseCallback: () => void;
 }
 

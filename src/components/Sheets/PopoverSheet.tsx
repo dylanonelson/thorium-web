@@ -61,7 +61,6 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
                 id={ id }
                 ref={ popoverCloseRef }
                 sheetType={ SheetTypes.popover }
-                onStackCallback={ () => {}}
                 onCloseCallback={ onClosePressCallback }
               /> 
             </div>
