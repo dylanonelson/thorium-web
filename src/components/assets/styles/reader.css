@@ -24,6 +24,8 @@ body {
   touch-action: pan-x pan-y;
   overscroll-behavior-x: none;
   overscroll-behavior-y: none;
+  background-color: var(--theme-background);
+  color: var(--theme-text);
 }
 
 body {
@@ -46,11 +48,9 @@ main {
   background-color: var(--theme-background);
 }
 
-/* Necessary to have all three so that there is no offset when switching paginated/scroll */
 #top-bar {
-  min-height: calc(var(--icon-size, 24px) * 2.5);
-  height: calc(var(--icon-size, 24px) * 2.5);
-  max-height: calc(var(--icon-size, 24px) * 2.5);
+  /* Otherwise it will shrink/grow when switching paginated/scroll with bottom bar toggled */
+  flex: 0 0 calc(var(--icon-size, 24px) * 2.5);
 }
 
 #bottom-bar {
