@@ -55,7 +55,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
             SVG={ TuneIcon } 
             placement="bottom" 
             tooltipLabel={ Locale.reader.settings.tooltip } 
-            onPressCallback={ () => setOpen(true) }
+            onPressCallback={ () => setOpen(!isOpen) }
           />,
           heading: Locale.reader.settings.heading,
           className: settingsStyles.readerSettings,
