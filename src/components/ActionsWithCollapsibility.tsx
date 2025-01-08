@@ -9,6 +9,7 @@ export interface IActionsWithCollapsibility extends IActions {
   prefs: any;
   overflowActionCallback?: boolean;
   overflowMenuClassName?: string;
+  overflowMenuDisplay?: boolean;
 }
 
 export const ActionsWithCollapsibility = ({
@@ -17,6 +18,7 @@ export const ActionsWithCollapsibility = ({
   className,
   overflowActionCallback,
   overflowMenuClassName,
+  overflowMenuDisplay,
   label,
 }: IActionsWithCollapsibility) => {
   const Actions = useCollapsibility(items, prefs);
@@ -36,6 +38,7 @@ export const ActionsWithCollapsibility = ({
       }
 
       <OverflowMenu 
+        display={ overflowMenuDisplay || true }
         className={ overflowMenuClassName } 
         actionFallback={ overflowActionCallback }
       >

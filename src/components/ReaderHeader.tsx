@@ -83,6 +83,7 @@ export const ReaderHeader = () => {
         className={ readerHeaderStyles.actionsWrapper } 
         label={ Locale.reader.app.header.actions } 
       //  overflowActionCallback={ true }
+      //  overflowMenuDisplay={ (!isImmersive || isHovering) }
       />
     </header>
     </>

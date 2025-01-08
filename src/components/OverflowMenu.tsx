@@ -14,23 +14,23 @@ import { ActionVisibility } from "./Templates/ActionComponent";
 export interface IOverflowMenu {
   className?: string;
   actionFallback?: boolean;
+  display: boolean;
   children?: ReactNode;
 }
 
 export const OverflowMenu = ({ 
     className, 
     actionFallback,
+    display,
     children 
   }: IOverflowMenu) => {
-  const isImmersive = useAppSelector(state => state.reader.isImmersive);
-  const isHovered = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
 
   const toggleMenuState = (value: boolean) => {
     dispatch(setOverflowMenuOpen(value));
   }
 
-  if (React.Children.toArray(children).length > 0 && (!isImmersive || isHovered)) {
+  if (React.Children.toArray(children).length > 0 && (display)) {
     return (
       <>
       <MenuTrigger onOpenChange={ (val) => toggleMenuState(val) }>
