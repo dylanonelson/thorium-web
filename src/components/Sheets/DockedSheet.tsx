@@ -87,7 +87,6 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
                 id={ id }
                 sheetType={ dockType }
                 ref={ dockedSheetCloseRef }
-                onStackCallback={ () => {}}
                 onCloseCallback={ onClosePressCallback }
               /> 
             </div>
