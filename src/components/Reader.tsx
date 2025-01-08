@@ -87,6 +87,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     applyReadiumCSSStyles,
     handleColCountReflow,
     handleScrollReflow,
+    handleFXLReflow, 
     handleTheme, 
     setFXLPages,  
     handleProgression
@@ -296,11 +297,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       } else {
         handleScrollReflow();
       }
+    } else if (navLayout() === EPUBLayout.fixed) {
+      handleFXLReflow();
     }
   }, 250);
 
   useEffect(() => {
-    // Note: Container’s width seem to be unsync’d on first docking
     handleResize();
   }, [leftDock, rightDock, handleResize]);
 

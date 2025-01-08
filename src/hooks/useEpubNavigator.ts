@@ -5,7 +5,7 @@ import { RSPrefs, ThemeKeys } from "@/preferences";
 import fontStacks from "readium-css/css/vars/fontStacks.json";
 
 import { EPUBLayout, Link, Locator, Publication, ReadingProgression } from "@readium/shared";
-import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
+import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager, FXLFramePoolManager } from "@readium/navigator";
 
 import { useAppDispatch } from "@/lib/hooks";
 
@@ -135,6 +135,12 @@ export const useEpubNavigator = () => {
       })
     }
   }, [applyReadiumCSSStyles, dispatch]);
+
+  // Warning: this is using an internal member that will become private, do not rely on it
+  // See https://github.com/readium/playground/issues/25
+  const handleFXLReflow = useCallback(() => {
+    (nav.current?.pool as FXLFramePoolManager).resizeHandler();
+  }, []);
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
@@ -371,6 +377,7 @@ export const useEpubNavigator = () => {
     scrollBackTo, 
     handleColCountReflow,
     handleScrollReflow,
+    handleFXLReflow, 
     handleTheme, 
     setFXLPages, 
     handleProgression
