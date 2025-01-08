@@ -31,13 +31,29 @@ body {
 body {
   margin: 0;
   background-color: #FFFFFF;
+  min-height: 100%;
 }
 
 main {
   width: 100%;
   height: 100%;
   margin: 0;
-  display: flex;
+}
+
+.left-dock {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.right-dock {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  right: 0;
 }
 
 #bottom-bar,
@@ -60,20 +76,24 @@ main {
   align-items: center;
 }
 
+/* Docked Sheets won’t work properly with flexbox since an incorrect width is reported 
+   and we can’t get the layout adapting for free…  We need to handle all programmatically
+   using left and right positioning */
 #reader-main {
-  position: relative;
+  position: fixed;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  height: 100dvh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background-color: var(--theme-background);
 }
 
 #wrapper {
   height: 100%;
+  width: 100%;
   margin: 0;
-  flex: 1 1 auto;
 }
 
 #container {

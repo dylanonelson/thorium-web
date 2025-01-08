@@ -16,15 +16,19 @@ import { DockingKeys } from "../Sheet";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLeftDock, setRightDock } from "@/lib/readerReducer";
 
-export const DockRightAction: React.FC<IActionComponent> = ({ variant, associatedID }) => {
+export const DockRightAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
   const rightDock = useAppSelector(state => state.reader.rightDock);
   
   const dispatch = useAppDispatch();
 
   const handlePress = useCallback(() => {
     dispatch(setLeftDock(null));
-    dispatch(setRightDock(associatedID));
-  }, [dispatch, associatedID]);
+    dispatch(setRightDock({ 
+      active: true,
+      actionKey: associatedKey,
+      width: RSPrefs.docking.dockedWidth 
+    }));
+  }, [dispatch, associatedKey]);
   
   if (variant && variant === ActionComponentVariant.menu) {
     return(
@@ -34,8 +38,8 @@ export const DockRightAction: React.FC<IActionComponent> = ({ variant, associate
         SVG={ DocktoRight } 
         shortcut={ RSPrefs.docking.keys[DockingKeys.right].shortcut }
         onActionCallback={ handlePress } 
-        id={ `${ DockingKeys.right }-${ associatedID }` }
-        isDisabled={ rightDock === associatedID }
+        id={ `${ DockingKeys.right }-${ associatedKey }` }
+        isDisabled={ rightDock?.actionKey === associatedKey }
       />
       </>
     )
@@ -49,7 +53,7 @@ export const DockRightAction: React.FC<IActionComponent> = ({ variant, associate
         placement="bottom" 
         tooltipLabel={ Locale.reader.app.docker.dockToRight.tooltip } 
         onPressCallback={ handlePress } 
-        isDisabled={ rightDock === associatedID }
+        isDisabled={ rightDock?.actionKey === associatedKey }
       />
       </>
     )

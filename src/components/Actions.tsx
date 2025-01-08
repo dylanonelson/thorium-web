@@ -6,7 +6,7 @@ import { DockingKeys } from "./Sheets/Sheet";
 export interface IActionsItem {
   Comp: React.FunctionComponent<IActionComponent>;
   key: ActionKeys | DockingKeys;
-  associatedID?: string;
+  associatedKey?: string;
 }
 
 export interface IActions {
@@ -27,11 +27,11 @@ export const Actions = ({
       className={ className } 
       aria-label={ label }
     >
-      { items.map(({ Comp, key, associatedID }) => 
+      { items.map(({ Comp, key, associatedKey }) => 
         <Comp 
           key={ key } 
           variant={ ActionComponentVariant.button } 
-          { ...(associatedID ? { associatedID: associatedID } : {}) } 
+          { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
         />) }
     </div>
     </>

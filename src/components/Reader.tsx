@@ -60,8 +60,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isImmersiveRef = useRef(isImmersive);
 
-  const dockedLeft = useAppSelector(state => state.reader.leftDock);
-  const dockedRight = useAppSelector(state => state.reader.rightDock);
+  const leftDock = useAppSelector(state => state.reader.leftDock);
+  const rightDock = useAppSelector(state => state.reader.rightDock);
 
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
@@ -302,7 +302,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   useEffect(() => {
     // Note: Container’s width seem to be unsync’d on first docking
     handleResize();
-  }, [dockedLeft, dockedRight, handleResize]);
+  }, [leftDock, rightDock, handleResize]);
 
   useEffect(() => {
     // TODO: put elsewhere
@@ -363,12 +363,36 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     };
   }, [rawManifest, selfHref]);
 
+  const handleDockPositioning = useCallback(() => {
+    const cssProps = {
+      left: 0,
+      right: 0
+    }
+
+    if (leftDock && leftDock.active && leftDock.width) {
+      cssProps.left = leftDock.width;
+    }
+
+    if (rightDock && rightDock.active && rightDock.width) {
+      cssProps.right = rightDock.width;
+    }
+
+    return cssProps
+  }, [leftDock, rightDock]);
+
   return (
     <>
     <main>
-      <div id={ DockingKeys.left } aria-label={ Locale.reader.app.dockingLeft }></div>
+      <div 
+        id={ DockingKeys.left } 
+        aria-label={ Locale.reader.app.dockingLeft }
+        className="left-dock"
+      ></div>
 
-      <div id="reader-main">
+      <div 
+        id="reader-main"
+        style={ handleDockPositioning() }
+      >
         <ReaderHeader />
 
       { isPaged 
@@ -398,7 +422,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       { isPaged ? <ReaderFooter /> : <></> }
       </div>
 
-    <div id={ DockingKeys.right } aria-label={ Locale.reader.app.dockingRight }></div>
+    <div 
+      id={ DockingKeys.right } 
+      aria-label={ Locale.reader.app.dockingRight }
+      className="right-dock"
+    ></div>
   </main>
   </>
 )};
