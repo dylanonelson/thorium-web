@@ -57,7 +57,7 @@ export const Docker = ({
         actionsItems.push({
           Comp: DockingActionsMap[mapKey],
           key: key,
-          associatedID: id
+          associatedKey: id
         });
       }
     };

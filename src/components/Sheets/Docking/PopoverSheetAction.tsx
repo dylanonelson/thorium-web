@@ -16,10 +16,10 @@ import { DockingKeys } from "../Sheet";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLeftDock, setRightDock } from "@/lib/readerReducer";
 
-export const PopoverSheetAction: React.FC<IActionComponent> = ({ variant, associatedID }) => {
+export const PopoverSheetAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
   const leftDock = useAppSelector(state => state.reader.leftDock);
   const rightDock = useAppSelector(state => state.reader.rightDock);
-  const isStacked = (leftDock !== associatedID && rightDock !== associatedID);
+  const isStacked = (leftDock?.actionKey !== associatedKey && rightDock?.actionKey !== associatedKey);
 
   const dispatch = useAppDispatch();
 
@@ -36,7 +36,7 @@ export const PopoverSheetAction: React.FC<IActionComponent> = ({ variant, associ
         SVG={ Stack } 
         shortcut={ RSPrefs.docking.keys[DockingKeys.floating].shortcut }
         onActionCallback={ handlePress } 
-        id={ `${ DockingKeys.floating }-${ associatedID }` } 
+        id={ `${ DockingKeys.floating }-${ associatedKey }` } 
         isDisabled={ isStacked }
       />
       </>

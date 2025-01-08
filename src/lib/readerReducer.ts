@@ -1,3 +1,4 @@
+import { Docked } from "@/components/Sheets/Sheet";
 import { ActionKeys } from "@/components/Templates/ActionComponent";
 import { defaultPlatformModifier, IPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { createSlice } from "@reduxjs/toolkit";
@@ -12,8 +13,8 @@ interface IReaderState {
   tocOpen: boolean;
   overflowMenuOpen: boolean;
   platformModifier: IPlatformModifier;
-  leftDock: ActionKeys | null;
-  rightDock: ActionKeys | null;
+  leftDock: Docked | null;
+  rightDock: Docked | null;
 }
 
 const initialState: IReaderState = {
@@ -65,14 +66,14 @@ export const readerSlice = createSlice({
       state.overflowMenuOpen = action.payload
     },
     setLeftDock: (state, action) => {
-      if (Object.values(ActionKeys).includes(action.payload)) {
+      if (action.payload && Object.values(ActionKeys).includes(action.payload.actionKey)) {
         state.leftDock = action.payload
       } else {
         state.leftDock = null;
       }
     },
     setRightDock: (state, action) => {
-      if (Object.values(ActionKeys).includes(action.payload)) {
+      if (action.payload && Object.values(ActionKeys).includes(action.payload.actionKey)) {
         state.rightDock = action.payload
       } else {
         state.rightDock = null;

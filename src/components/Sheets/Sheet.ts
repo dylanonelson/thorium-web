@@ -26,6 +26,12 @@ export enum Dockable {
   right = "right"
 }
 
+export type Docked = {
+  active: boolean;
+  actionKey: ActionKeys;
+  width: number;
+}
+
 export type BreakpointsMap = {
   [key in StaticBreakpoints]?: SheetTypes;
 }

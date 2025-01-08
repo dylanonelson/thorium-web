@@ -229,6 +229,7 @@ export const RSPrefs: IRSPrefs = {
       DockingKeys.right
     ],
     collapse: true,
+    dockedWidth: 340,
     keys: {
       [DockingKeys.left]: {
         visibility: ActionVisibility.overflow,

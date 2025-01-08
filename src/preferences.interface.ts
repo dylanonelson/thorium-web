@@ -43,6 +43,7 @@ export interface IActionPref {
 export interface IDockingPref {
   displayOrder: DockingKeys[];
   collapse: Collapsibility;
+  dockedWidth: number;
   keys: {
     [key in  DockingKeys]: IActionTokens;
   }

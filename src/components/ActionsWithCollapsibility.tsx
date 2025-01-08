@@ -27,11 +27,11 @@ export const ActionsWithCollapsibility = ({
       className={ className } 
       aria-label={ label }
     >
-      { Actions.ActionIcons.map(({ Comp, key, associatedID }) => 
+      { Actions.ActionIcons.map(({ Comp, key, associatedKey }) => 
           <Comp 
             key={ key } 
             variant={ ActionComponentVariant.button }
-            { ...(associatedID ? { associatedID: associatedID } : {}) } 
+            { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
           />) 
       }
 
@@ -39,11 +39,11 @@ export const ActionsWithCollapsibility = ({
         className={ overflowMenuClassName } 
         actionFallback={ overflowActionCallback }
       >
-        { Actions.MenuItems.map(({ Comp, key, associatedID }) => 
+        { Actions.MenuItems.map(({ Comp, key, associatedKey }) => 
           <Comp 
             key={ key } 
             variant={ ActionComponentVariant.menu }
-            { ...(associatedID ? { associatedID: associatedID } : {}) } 
+            { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
           />) }
       </OverflowMenu> 
     </div>

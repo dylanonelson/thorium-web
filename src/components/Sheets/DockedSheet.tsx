@@ -8,6 +8,9 @@ import { DockingKeys, ISheet, SheetTypes } from "./Sheet";
 import { Heading } from "react-aria-components";
 import { Docker } from "./Docking/Docker";
 
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setLeftDock, setRightDock } from "@/lib/readerReducer";
+
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
 import classNames from "classnames";
@@ -36,6 +39,10 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     fallbackRef: dockedSheetCloseRef
   });
 
+  const leftDock = useAppSelector(state => state.reader.leftDock);
+  const rightDock = useAppSelector(state => state.reader.rightDock);
+  const dispatch = useAppDispatch();
+
   const [dockType, setDockType] = useState<SheetTypes.dockedLeft | SheetTypes.dockedRight | null>(null);
 
   const classFromSide = useCallback(() => {
@@ -49,6 +56,20 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
 
     dockPortal.current = document.getElementById(side);
   }, [side]);
+
+  useEffect(() => {
+    if (leftDock?.actionKey === id) {
+      dispatch(setLeftDock({
+        ...leftDock,
+        active: isOpen
+      }));
+    } else if (rightDock?.actionKey === id) {
+      dispatch(setRightDock({
+        ...rightDock,
+        active: isOpen
+      }));
+    }
+  }, [isOpen]);
 
   return (
     <>
