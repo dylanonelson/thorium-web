@@ -57,6 +57,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     dockPortal.current = document.getElementById(side);
   }, [side]);
 
+  // No exhaustive deps cos’ exceeding stack otherwise so revamp this…
   useEffect(() => {
     if (leftDock?.actionKey === id) {
       dispatch(setLeftDock({
@@ -69,7 +70,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
         active: isOpen
       }));
     }
-  }, [isOpen]);
+  }, [id, dispatch, isOpen]);
 
   return (
     <>
