@@ -109,7 +109,7 @@ export const Docker = ({
       <CloseButton 
         ref={ ref }
         className={ readerSharedUI.dockerButton } 
-        aria-label={ Locale.reader.app.docker.close.trigger } 
+        label={ Locale.reader.app.docker.close.trigger } 
         onPressCallback={ onCloseCallback }
         { ...(dockable.current !== Dockable.none ? { withTooltip: Locale.reader.app.docker.close.tooltip } : {})}
       />

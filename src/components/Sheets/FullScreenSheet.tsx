@@ -1,11 +1,14 @@
 import React, { useRef } from "react";
 
-import sheetStyles from "../assets/styles/sheet.module.css";
+import Locale from "../../resources/locales/en.json";
 
-import { ISheet, SheetTypes } from "./Sheet";
+import sheetStyles from "../assets/styles/sheet.module.css";
+import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
+
+import { ISheet } from "./Sheet";
 
 import { Dialog, DialogTrigger, Heading, Modal } from "react-aria-components";
-import { Docker } from "./Docking/Docker";
+import { CloseButton } from "../CloseButton";
 
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
@@ -47,13 +50,12 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
             <div className={ sheetStyles.sheetHeader }>
               <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
-              <Docker 
-                id={ id }
-                sheetType={ SheetTypes.fullscreen }
+              <CloseButton
                 ref={ fullScreenCloseRef }
-                onStackCallback={ () => {}}
-                onCloseCallback={ onClosePressCallback }
-              /> 
+                className={ readerSharedUI.closeButton } 
+                label={ Locale.reader.app.docker.close.trigger } 
+                onPressCallback={ onClosePressCallback }
+              />
             </div>
               
             <div 
