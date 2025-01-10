@@ -34,9 +34,9 @@ export const PopoverSheetAction: React.FC<IActionComponent> = ({ variant, associ
       <OverflowMenuItem 
         label={ Locale.reader.app.docker.popover.trigger }
         SVG={ Stack } 
-        shortcut={ RSPrefs.docking.keys[DockingKeys.floating].shortcut }
+        shortcut={ RSPrefs.docking.keys[DockingKeys.transient].shortcut }
         onActionCallback={ handlePress } 
-        id={ `${ DockingKeys.floating }-${ associatedKey }` } 
+        id={ `${ DockingKeys.transient }-${ associatedKey }` } 
         isDisabled={ isStacked }
       />
       </>

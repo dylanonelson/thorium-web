@@ -46,7 +46,7 @@ export const Docker = ({
     const pushInList = (key: DockingKeys) => {
       let mapKey: keyof typeof DockingActionsMap;
 
-      if (key === DockingKeys.floating) {
+      if (key === DockingKeys.transient) {
         sheetType === SheetTypes.fullscreen ? mapKey = "fullscreen" : mapKey = "popover";
       } else {
         mapKey = key;
@@ -79,7 +79,7 @@ export const Docker = ({
             pushInList(key);
           }
           break;
-        case DockingKeys.floating:
+        case DockingKeys.transient:
           if (
             dockable.current !== Dockable.none
           ) {

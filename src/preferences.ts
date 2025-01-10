@@ -201,7 +201,8 @@ export const RSPrefs: IRSPrefs = {
         shortcut: `${ShortcutMetaKeywords.platform}+P`,
         sheet: {
           [StaticBreakpoints.compact]: SheetTypes.fullscreen,
-          [StaticBreakpoints.medium]: SheetTypes.fullscreen
+          [StaticBreakpoints.medium]: SheetTypes.fullscreen,
+          [StaticBreakpoints.large]: SheetTypes.dockedLeft
         },
         dockable: Dockable.both
       },
@@ -224,7 +225,7 @@ export const RSPrefs: IRSPrefs = {
   },
   docking: {
     displayOrder: [
-      DockingKeys.floating,
+      DockingKeys.transient,
       DockingKeys.left,
       DockingKeys.right
     ],
@@ -239,7 +240,7 @@ export const RSPrefs: IRSPrefs = {
         visibility: ActionVisibility.overflow,
         shortcut: null
       },
-      [DockingKeys.floating]: {
+      [DockingKeys.transient]: {
         visibility: ActionVisibility.overflow,
         shortcut: null
       }
