@@ -307,7 +307,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [leftDock, rightDock, handleResize]);
 
   useEffect(() => {
-    // TODO: put elsewhere
     dispatch(setPlatformModifier(getPlatformModifier()));
 
     window.addEventListener("resize", handleResize);

@@ -16,7 +16,7 @@ export enum SheetTypes {
 export enum DockingKeys {
   left = "dockingLeft",
   right = "dockingRight",
-  floating = "dockingFloat"
+  transient = "dockingTransient"
 }
 
 export enum Dockable {

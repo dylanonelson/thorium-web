@@ -34,9 +34,9 @@ export const FullscreenSheetAction: React.FC<IActionComponent> = ({ variant, ass
       <OverflowMenuItem 
         label={ Locale.reader.app.docker.fullscreen.trigger }
         SVG={ Dialog } 
-        shortcut={ RSPrefs.docking.keys[DockingKeys.floating].shortcut }
+        shortcut={ RSPrefs.docking.keys[DockingKeys.transient].shortcut }
         onActionCallback={ handlePress } 
-        id={ `${ DockingKeys.floating }-${ associatedKey }` } 
+        id={ `${ DockingKeys.transient }-${ associatedKey }` } 
         isDisabled={ isFullscreen }
       />
       </>

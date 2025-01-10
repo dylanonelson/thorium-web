@@ -3,9 +3,9 @@ import { ReactNode } from "react";
 import { BreakpointsMap, DockingKeys, SheetTypes } from "./Sheet";
 import { FullScreenSheet, IFullScreenSheet } from "./FullScreenSheet";
 import { IPopoverSheet, PopoverSheet } from "./PopoverSheet";
+import { DockedSheet } from "./DockedSheet";
 
 import { useAppSelector } from "@/lib/hooks";
-import { DockedSheet } from "./DockedSheet";
 
 export const SheetWithBreakpoints = ({ 
     breakpointsMap, 
