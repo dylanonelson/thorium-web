@@ -19,8 +19,7 @@ import { ReadingDisplayTheme } from "./ReadingDisplayTheme";
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setSettingsAction } from "@/lib/actionsReducer";
-
-import { prefToMap } from "./Sheets/Sheet";
+import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 
 export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   const actionState = useAppSelector(state => state.actions[ActionKeys.settings]);
@@ -48,7 +47,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
     return(
       <>
       <SheetWithBreakpoints 
-        breakpointsMap={ prefToMap(RSPrefs.actions.keys[ActionKeys.settings].sheet) } 
+        breakpointsMap={ makeBreakpointsMap(RSPrefs.actions.keys[ActionKeys.settings].sheet) } 
         sheetProps={ {
           id: ActionKeys.settings,
           renderActionIcon: () => <ActionIcon 
