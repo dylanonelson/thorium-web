@@ -66,7 +66,7 @@ export const Docker = ({
         case DockingKeys.left:
           if (
             dockable.current === Dockable.both ||
-            dockable.current === Dockable.left
+            dockable.current === Dockable.start
           ) {
             pushInList(key);
           }
@@ -74,7 +74,7 @@ export const Docker = ({
         case DockingKeys.right:
           if (
             dockable.current === Dockable.both ||
-            dockable.current === Dockable.right
+            dockable.current === Dockable.end
           ) {
             pushInList(key);
           }

@@ -43,7 +43,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
   const rightDock = useAppSelector(state => state.reader.rightDock);
   const dispatch = useAppDispatch();
 
-  const [dockType, setDockType] = useState<SheetTypes.dockedLeft | SheetTypes.dockedRight | null>(null);
+  const [dockType, setDockType] = useState<SheetTypes.dockedStart | SheetTypes.dockedEnd | null>(null);
 
   const classFromSide = useCallback(() => {
     return side === DockingKeys.left ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
@@ -52,7 +52,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
   useEffect(() => {
     if (!side) return;
 
-    side === DockingKeys.left ? setDockType(SheetTypes.dockedLeft) : setDockType(SheetTypes.dockedRight);
+    side === DockingKeys.left ? setDockType(SheetTypes.dockedStart) : setDockType(SheetTypes.dockedEnd);
 
     dockPortal.current = document.getElementById(side);
   }, [side]);
