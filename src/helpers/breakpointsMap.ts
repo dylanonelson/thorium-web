@@ -3,7 +3,7 @@ import { RSPrefs } from "@/preferences";
 import { BreakpointsMap, SheetPref, SheetTypes } from "@/models/sheets";
 import { StaticBreakpoints } from "@/models/staticBreakpoints";
 
-export const prefToMap = (pref?: SheetPref): Required<BreakpointsMap> => {
+export const makeBreakpointsMap = (pref?: SheetPref): Required<BreakpointsMap> => {
   const isValidType = (t: string) => {
     return Object.values(SheetTypes).includes(t as SheetTypes);
   };
