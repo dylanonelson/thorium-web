@@ -1,5 +1,5 @@
-import { ColorScheme, ThemeKeys } from "../preferences";
 import { StaticBreakpoints } from "../staticBreakpoints";
+import { ColorScheme, ThemeKeys } from "../theme";
 
 export interface IThemeState {
   colorScheme: ColorScheme;

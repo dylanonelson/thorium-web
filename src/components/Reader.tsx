@@ -6,8 +6,10 @@ import { RSPrefs } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
-import { ScrollBackTo, ThemeKeys } from "@/models/preferences";
+import { ScrollBackTo } from "@/models/preferences";
+import { ThemeKeys } from "@/models/theme";
 import { DockingKeys } from "@/models/docking";
+import { IRCSSSettings } from "@/models/rcss-settings";
 
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
@@ -37,12 +39,6 @@ import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicatio
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
-
-interface IRCSSSettings {
-  paginated: boolean;
-  colCount: string;
-  theme: ThemeKeys;
-}
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);

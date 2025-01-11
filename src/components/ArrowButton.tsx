@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
+import { IReaderArrow } from "@/models/layout";
 import { StaticBreakpoints } from "@/models/staticBreakpoints";
 
 import Locale from "../resources/locales/en.json";
@@ -18,14 +19,7 @@ import { useAppSelector } from "@/lib/hooks";
 import { isActiveElement } from "@/helpers/focus";
 import classNames from "classnames";
 
-export interface ReaderArrowProps {
-  direction: "left" | "right";
-  className?: string;
-  disabled: boolean;
-  onPressCallback: () => void;
-}
-
-export const ArrowButton = (props: ReaderArrowProps) => {
+export const ArrowButton = (props: IReaderArrow) => {
   const button = useRef<HTMLButtonElement>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);

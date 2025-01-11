@@ -1,6 +1,9 @@
-import { ComponentType, SVGProps } from "react";
+import { ComponentType, ReactNode, SVGProps } from "react";
 import { PressEvent, TooltipProps } from "react-aria-components";
-import { DockingKeys } from "./docking";
+import { Dockable, DockingKeys } from "./docking";
+import { StaticBreakpoints } from "./staticBreakpoints";
+import { SheetTypes } from "./sheets";
+import { Collapsibility } from "./collapsibility";
 
 export enum ActionKeys {
   fullscreen = "fullscreen",
@@ -25,6 +28,18 @@ export interface IActionComponent {
   associatedKey?: string;
 }
 
+export interface IActions {
+  items: IActionsItem[];
+  className: string;
+  label: string;
+}
+
+export interface IActionsItem {
+  Comp: React.FunctionComponent<IActionComponent>;
+  key: ActionKeys | DockingKeys;
+  associatedKey?: string;
+}
+
 export interface IActionIconProps {
   className?: string;
   ariaLabel: string;
@@ -36,6 +51,13 @@ export interface IActionIconProps {
   isDisabled?: boolean;
 }
 
+export interface IOverflowMenu {
+  className?: string;
+  actionFallback?: boolean;
+  display: boolean;
+  children?: ReactNode;
+}
+
 export interface IOverflowMenuItemProp {
   label: string;
   SVG: ComponentType<SVGProps<SVGElement>>;
@@ -45,14 +67,28 @@ export interface IOverflowMenuItemProp {
   isDisabled?: boolean;
 }
 
-export interface IActionsItem {
-  Comp: React.FunctionComponent<IActionComponent>;
-  key: ActionKeys | DockingKeys;
-  associatedKey?: string;
+export interface ICloseButton {
+  ref?: React.ForwardedRef<HTMLButtonElement>;
+  className?: string;
+  label?: string;
+  onPressCallback: (e: PressEvent) => void;
+  withTooltip?: string;
 }
 
-export interface IActions {
-  items: IActionsItem[];
-  className: string;
-  label: string;
-}
+export interface IActionTokens {
+  visibility: ActionVisibility;
+  shortcut: string | null;
+  sheet?: {
+    [key in StaticBreakpoints]?: SheetTypes;
+  };
+  dockable?: Dockable;
+};
+
+export interface IActionPref {
+  displayOrder: ActionKeys[];
+  collapse: Collapsibility;
+  defaultSheet: SheetTypes;
+  keys: {
+    [key in ActionKeys]: IActionTokens;
+  }
+};

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { IActionPref, IDockingPref } from "@/models/preferences";
-import { ActionVisibility, IActionsItem } from "@/models/actions";
+import { ActionVisibility, IActionPref, IActionsItem } from "@/models/actions";
+import { IDockingPref } from "@/models/docking";
 
 import { useAppSelector } from "@/lib/hooks";
 

@@ -1,18 +1,9 @@
-import { ActionKeys, ActionVisibility } from "./actions";
-import { SheetTypes } from "./sheets";
-import { Dockable, DockingKeys } from "./docking";
+import { IActionPref } from "./actions";
+import { IDockingPref } from "./docking";
+import { LayoutDirection } from "./layout";
 import { ShortcutRepresentation } from "./shortcut";
 import { StaticBreakpoints } from "./staticBreakpoints";
-
-export enum LayoutDirection {
-  ltr = "ltr",
-  rtl = "rtl"
-}
-
-export enum ColorScheme {
-  light = "light",
-  dark = "dark"
-}
+import { IThemeTokens, ThemeKeys } from "./theme";
 
 export enum ScrollAffordancePref {
   none = "none",
@@ -26,62 +17,6 @@ export enum ScrollBackTo {
   bottom = "bottom",
   untouched = "untouched"
 }
-
-export type Collapsibility = boolean | { [key in StaticBreakpoints]?: number | "all" };
-
-export enum ThemeKeys {
-  auto = "auto",
-  light = "light",
-  sepia = "sepia",
-  dark = "dark",
-  paper = "paper",
-  contrast1 = "contrast1",
-  contrast2 = "contrast2",
-  contrast3 = "contrast3"
-}
-
-export interface IThemeTokens {
-  background: string;
-  text: string;
-  link: string;
-  visited: string;
-  subdue: string;
-  disable: string;
-  hover: string;
-  onHover: any;
-  select: string;
-  onSelect: string;
-  focus: string;
-  elevate: string;
-  immerse: string;
-};
-
-export interface IActionTokens {
-  visibility: ActionVisibility;
-  shortcut: string | null;
-  sheet?: {
-    [key in StaticBreakpoints]?: SheetTypes;
-  };
-  dockable?: Dockable;
-};
-
-export interface IActionPref {
-  displayOrder: ActionKeys[];
-  collapse: Collapsibility;
-  defaultSheet: SheetTypes;
-  keys: {
-    [key in ActionKeys]: IActionTokens;
-  }
-};
-
-export interface IDockingPref {
-  displayOrder: DockingKeys[];
-  collapse: Collapsibility;
-  defaultWidth: number;
-  keys: {
-    [key in  DockingKeys]: IActionTokens;
-  }
-};
 
 export interface IRSPrefs {
   direction: LayoutDirection,

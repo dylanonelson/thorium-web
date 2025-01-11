@@ -1,4 +1,4 @@
-import { LayoutDirection } from "../preferences";
+import { LayoutDirection } from "../layout";
 import { Docked } from "../docking";
 import { IPlatformModifier } from "../shortcut";
 
