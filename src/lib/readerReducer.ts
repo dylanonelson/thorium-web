@@ -1,9 +1,12 @@
+import { createSlice } from "@reduxjs/toolkit";
+
 import { Docked } from "@/components/Sheets/Sheet";
 import { ActionKeys } from "@/components/Templates/ActionComponent";
 import { defaultPlatformModifier, IPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
-import { createSlice } from "@reduxjs/toolkit";
+import { LayoutDirection } from "@/preferences";
 
 interface IReaderState {
+  direction: LayoutDirection;
   isImmersive: boolean;
   isHovering: boolean;
   isFullscreen: boolean;
@@ -18,6 +21,7 @@ interface IReaderState {
 }
 
 const initialState: IReaderState = {
+  direction: LayoutDirection.ltr,
   isImmersive: false,
   isHovering: false,
   isFullscreen: false,
@@ -35,6 +39,9 @@ export const readerSlice = createSlice({
   name: "reader",
   initialState,
   reducers: {
+    setDirection: (state, action) => {
+      state.direction = action.payload
+    },
     setPlatformModifier: (state, action) => {
       state.platformModifier = action.payload
     },
@@ -84,6 +91,7 @@ export const readerSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { 
+  setDirection, 
   setPlatformModifier, 
   setImmersive, 
   toggleImmersive, 
