@@ -11,11 +11,12 @@ import TocIcon from "./assets/icons/toc.svg";
 
 import { ActionIcon } from "./Templates/ActionIcon";
 import { ListBox, ListBoxItem } from "react-aria-components";
-import { PopoverSheet } from "./Sheets/PopoverSheet";
+import { SheetWithBreakpoints } from "./Sheets/SheetWithBreakpoints";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTocAction } from "@/lib/actionsReducer";
+import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 
 export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
   const actionState = useAppSelector(state => state.actions[ActionKeys.toc]);
@@ -39,22 +40,25 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
   } else {
     return(
       <>
-      <PopoverSheet
-        id={ ActionKeys.toc }
-        renderActionIcon={ () => <ActionIcon 
-          visibility={ RSPrefs.actions.keys[ActionKeys.toc].visibility }
-          ariaLabel={ Locale.reader.toc.trigger } 
-          SVG={ TocIcon } 
-          placement="bottom"
-          tooltipLabel={ Locale.reader.toc.tooltip } 
-          onPressCallback={ () => setOpen(true) }
-        /> } 
-        heading={ Locale.reader.toc.heading }
-        className={ tocStyles.toc } 
-        placement="bottom" 
-        isOpen={ actionState.isOpen }
-        onOpenChangeCallback={ setOpen }
-        onClosePressCallback={ () => setOpen(false) }
+      <SheetWithBreakpoints 
+        breakpointsMap={ makeBreakpointsMap(RSPrefs.actions.keys[ActionKeys.toc].sheet) } 
+        sheetProps={ {
+          id: ActionKeys.toc,
+          renderActionIcon:() => <ActionIcon 
+            visibility={ RSPrefs.actions.keys[ActionKeys.toc].visibility }
+            ariaLabel={ Locale.reader.toc.trigger } 
+            SVG={ TocIcon } 
+            placement="bottom"
+            tooltipLabel={ Locale.reader.toc.tooltip } 
+            onPressCallback={ () => setOpen(!actionState.isOpen) }
+          />, 
+          heading:Locale.reader.toc.heading,
+          className: tocStyles.toc,
+          placement:"bottom",
+          isOpen: actionState.isOpen,
+          onOpenChangeCallback: setOpen,
+          onClosePressCallback: () => setOpen(false)
+        } }
       >
         {/* toc.items.length > 0 
           ? <ListBox className={ tocStyles.listBox } items={ toc.items }>
@@ -64,7 +68,7 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
         */}
         
         <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
-      </PopoverSheet>
+      </SheetWithBreakpoints>
       </>
       )
   }

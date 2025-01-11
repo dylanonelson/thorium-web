@@ -1,9 +1,10 @@
-import { ActionKeys, IActionTokens } from "./actions";
+import { IActionTokens } from "./actions";
 import { Collapsibility } from "./collapsibility";
 import { SheetTypes } from "./sheets";
+import { ActionsStateKeys } from "./state/actionsState";
 
 export interface IDocker {
-  id: ActionKeys;
+  id: ActionsStateKeys;
   sheetType: SheetTypes | null;
   ref: React.ForwardedRef<HTMLButtonElement>;
   onCloseCallback: () => void;
@@ -24,7 +25,7 @@ export enum Dockable {
 
 export type Docked = {
   active: boolean;
-  actionKey: ActionKeys;
+  actionKey: ActionsStateKeys;
   width: number;
 }
 

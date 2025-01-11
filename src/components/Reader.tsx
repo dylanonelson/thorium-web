@@ -39,6 +39,7 @@ import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicatio
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
+import { useDocking } from "@/hooks/useDocking";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -58,8 +59,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isImmersiveRef = useRef(isImmersive);
 
-  const leftDock = useAppSelector(state => state.reader.leftDock);
-  const rightDock = useAppSelector(state => state.reader.rightDock);
+  const docking = useDocking();
 
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
@@ -299,10 +299,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       handleFXLReflow();
     }
   }, 250);
-
+ 
   useEffect(() => {
     handleResize();
-  }, [leftDock, rightDock, handleResize]);
+  }, [docking.left, docking.right, handleResize]);
 
   useEffect(() => {
     dispatch(setDirection(RSPrefs.direction));
@@ -363,23 +363,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     };
   }, [rawManifest, selfHref]);
 
-  const handleDockPositioning = useCallback(() => {
-    const cssProps = {
-      left: 0,
-      right: 0
-    }
-
-    if (leftDock && leftDock.active && leftDock.width) {
-      cssProps.left = leftDock.width;
-    }
-
-    if (rightDock && rightDock.active && rightDock.width) {
-      cssProps.right = rightDock.width;
-    }
-
-    return cssProps
-  }, [leftDock, rightDock]);
-
   return (
     <>
     <main>
@@ -387,12 +370,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         id={ DockingKeys.left } 
         aria-label={ Locale.reader.app.dockingLeft }
         className="left-dock"
+        style={{
+          flex: `0 0 ${docking.left?.active ? docking.left?.width || 0 : 0}px`,
+          minWidth: docking.left?.active ? docking.left?.width || 0 : 0,
+          width: docking.left?.active ? docking.left?.width || 0 : 0,
+          maxWidth: docking.left?.active ? docking.left?.width || 0 : 0
+        }}
       ></div>
 
-      <div 
-        id="reader-main"
-        style={ handleDockPositioning() }
-      >
+      <div id="reader-main">
         <ReaderHeader />
 
       { isPaged 
@@ -426,6 +412,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       id={ DockingKeys.right } 
       aria-label={ Locale.reader.app.dockingRight }
       className="right-dock"
+      style={{
+        flex: `0 0 ${docking.right?.active ? docking.right?.width || 0 : 0}px`,
+        minWidth: docking.right?.active ? docking.right?.width || 0 : 0,
+        width: docking.right?.active ? docking.right?.width || 0 : 0,
+        maxWidth: docking.right?.active ? docking.right?.width || 0 : 0
+      }}
     ></div>
   </main>
   </>

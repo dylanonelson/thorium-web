@@ -4,6 +4,7 @@ import { Dockable, DockingKeys } from "./docking";
 import { StaticBreakpoints } from "./staticBreakpoints";
 import { SheetTypes } from "./sheets";
 import { Collapsibility } from "./collapsibility";
+import { ActionsStateKeys } from "./state/actionsState";
 
 export enum ActionKeys {
   fullscreen = "fullscreen",
@@ -25,7 +26,7 @@ export enum ActionComponentVariant {
 
 export interface IActionComponent {
   variant: ActionComponentVariant;
-  associatedKey?: string;
+  associatedKey?: ActionsStateKeys;
 }
 
 export interface IActions {
@@ -37,7 +38,7 @@ export interface IActions {
 export interface IActionsItem {
   Comp: React.FunctionComponent<IActionComponent>;
   key: ActionKeys | DockingKeys;
-  associatedKey?: string;
+  associatedKey?: ActionsStateKeys;
 }
 
 export interface IActionIconProps {

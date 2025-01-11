@@ -13,22 +13,14 @@ import DocktoRight from "../../assets/icons/dock_to_left.svg";
 import { ActionIcon } from "@/components/Templates/ActionIcon";
 import { OverflowMenuItem } from "@/components/Templates/OverflowMenuItem";
 
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setLeftDock, setRightDock } from "@/lib/readerReducer";
+import { useDocking } from "@/hooks/useDocking";
 
 export const DockRightAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
-  const rightDock = useAppSelector(state => state.reader.rightDock);
+  const docking = useDocking(associatedKey);
   
-  const dispatch = useAppDispatch();
-
   const handlePress = useCallback(() => {
-    dispatch(setLeftDock(null));
-    dispatch(setRightDock({ 
-      active: true,
-      actionKey: associatedKey,
-      width: RSPrefs.docking.defaultWidth 
-    }));
-  }, [dispatch, associatedKey]);
+    docking.setEnd();
+  }, [docking]);
   
   if (variant && variant === ActionComponentVariant.menu) {
     return(
@@ -39,7 +31,7 @@ export const DockRightAction: React.FC<IActionComponent> = ({ variant, associate
         shortcut={ RSPrefs.docking.keys[DockingKeys.right].shortcut }
         onActionCallback={ handlePress } 
         id={ `${ DockingKeys.right }-${ associatedKey }` }
-        isDisabled={ rightDock?.actionKey === associatedKey }
+        isDisabled={ docking.right ? true : false }
       />
       </>
     )
@@ -53,7 +45,7 @@ export const DockRightAction: React.FC<IActionComponent> = ({ variant, associate
         placement="bottom" 
         tooltipLabel={ Locale.reader.app.docker.dockToRight.tooltip } 
         onPressCallback={ handlePress } 
-        isDisabled={ rightDock?.actionKey === associatedKey }
+        isDisabled={ docking.right ? true : false }
       />
       </>
     )

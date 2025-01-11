@@ -15,6 +15,7 @@ import { setLeftDock, setRightDock } from "@/lib/readerReducer";
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
 import classNames from "classnames";
+import { useDocking } from "@/hooks/useDocking";
 
 export interface IDockedSheet extends ISheet {
   side: DockingKeys.left | DockingKeys.right | null;
@@ -40,10 +41,6 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     fallbackRef: dockedSheetCloseRef
   });
 
-  const leftDock = useAppSelector(state => state.reader.leftDock);
-  const rightDock = useAppSelector(state => state.reader.rightDock);
-  const dispatch = useAppDispatch();
-
   const [dockType, setDockType] = useState<SheetTypes.dockedStart | SheetTypes.dockedEnd | null>(null);
 
   const classFromSide = useCallback(() => {
@@ -57,21 +54,6 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
 
     dockPortal.current = document.getElementById(side);
   }, [side]);
-
-  // No exhaustive deps cos’ exceeding stack otherwise so revamp this…
-  useEffect(() => {
-    if (leftDock?.actionKey === id) {
-      dispatch(setLeftDock({
-        ...leftDock,
-        active: isOpen
-      }));
-    } else if (rightDock?.actionKey === id) {
-      dispatch(setRightDock({
-        ...rightDock,
-        active: isOpen
-      }));
-    }
-  }, [id, dispatch, isOpen]);
 
   return (
     <>
