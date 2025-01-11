@@ -8,6 +8,7 @@ import { IPopoverSheet, PopoverSheet } from "./PopoverSheet";
 import { DockedSheet } from "./DockedSheet";
 
 import { useAppSelector } from "@/lib/hooks";
+import { useDocking } from "@/hooks/useDocking";
 
 export const SheetWithBreakpoints = ({ 
     breakpointsMap, 
@@ -18,8 +19,7 @@ export const SheetWithBreakpoints = ({
     sheetProps: IFullScreenSheet | IPopoverSheet,
     children: ReactNode
   }) => {
-    const dockedLeft = useAppSelector(state => state.reader.leftDock);
-    const dockedRight = useAppSelector(state => state.reader.rightDock);
+    const docking = useDocking(sheetProps.id);
 
     const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
     const sheetType = staticBreakpoint && breakpointsMap[staticBreakpoint];
@@ -34,7 +34,7 @@ export const SheetWithBreakpoints = ({
       )
     }
 
-    if (dockedLeft) {
+    if (docking.isCurrentlyLeft()) {
       return (
         <>
         <DockedSheet side={ DockingKeys.left } { ...sheetProps }>
@@ -42,7 +42,7 @@ export const SheetWithBreakpoints = ({
         </DockedSheet>
         </>
       )
-    } else if (dockedRight) {
+    } else if (docking.isCurrentlyRight()) {
       return (
         <>
         <DockedSheet side={ DockingKeys.right } { ...sheetProps }>

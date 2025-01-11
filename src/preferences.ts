@@ -178,7 +178,7 @@ export const RSPrefs: IRSPrefs = {
     displayOrder: [
       ActionKeys.settings,
       ActionKeys.fullscreen,
-    //  ActionKeys.toc,
+      ActionKeys.toc,
     //  ActionKeys.jumpToPosition
     ],
     collapse: {

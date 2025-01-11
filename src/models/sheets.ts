@@ -1,6 +1,7 @@
 import { ReactElement, ReactNode } from "react";
-import { ActionKeys, IActionIconProps } from "./actions";
+import { IActionIconProps } from "./actions";
 import { StaticBreakpoints } from "./staticBreakpoints";
+import { ActionsStateKeys } from "./state/actionsState";
 
 export enum SheetTypes {
   popover = "popover",
@@ -14,7 +15,7 @@ export type BreakpointsMap = {
 }
 
 export interface ISheet {
-  id: ActionKeys;
+  id: ActionsStateKeys;
   renderActionIcon: () => ReactElement<IActionIconProps>;
   heading: string;
   className: string;

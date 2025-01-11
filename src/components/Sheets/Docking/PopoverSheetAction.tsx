@@ -13,20 +13,14 @@ import Stack from "../../assets/icons/stack.svg";
 import { ActionIcon } from "@/components/Templates/ActionIcon";
 import { OverflowMenuItem } from "@/components/Templates/OverflowMenuItem";
 
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setLeftDock, setRightDock } from "@/lib/readerReducer";
+import { useDocking } from "@/hooks/useDocking";
 
 export const PopoverSheetAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
-  const leftDock = useAppSelector(state => state.reader.leftDock);
-  const rightDock = useAppSelector(state => state.reader.rightDock);
-  const isStacked = (leftDock?.actionKey !== associatedKey && rightDock?.actionKey !== associatedKey);
-
-  const dispatch = useAppDispatch();
+  const docking = useDocking(associatedKey);
 
   const handlePress = useCallback(() => {
-    dispatch(setLeftDock(null));
-    dispatch(setRightDock(null));
-  }, [dispatch]);
+    docking.undock();
+  }, [docking]);
   
   if (variant && variant === ActionComponentVariant.menu) {
     return(
@@ -37,7 +31,7 @@ export const PopoverSheetAction: React.FC<IActionComponent> = ({ variant, associ
         shortcut={ RSPrefs.docking.keys[DockingKeys.transient].shortcut }
         onActionCallback={ handlePress } 
         id={ `${ DockingKeys.transient }-${ associatedKey }` } 
-        isDisabled={ isStacked }
+        isDisabled={ docking.isUndocked() }
       />
       </>
     )
@@ -51,7 +45,7 @@ export const PopoverSheetAction: React.FC<IActionComponent> = ({ variant, associ
         placement="bottom" 
         tooltipLabel={ Locale.reader.app.docker.popover.tooltip } 
         onPressCallback={ handlePress } 
-        isDisabled={ isStacked }
+        isDisabled={ docking.isUndocked() }
       />
       </>
     )

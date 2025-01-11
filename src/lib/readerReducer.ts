@@ -4,6 +4,7 @@ import { IReaderState } from "@/models/state/readerState";
 import { defaultPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { LayoutDirection } from "@/models/layout";
 import { ActionKeys } from "@/models/actions";
+import { Docked } from "@/models/docking";
 
 const initialState: IReaderState = {
   direction: LayoutDirection.ltr,
@@ -49,14 +50,14 @@ export const readerSlice = createSlice({
     setOverflowMenuOpen: (state, action) => {
       state.overflowMenuOpen = action.payload
     },
-    setLeftDock: (state, action) => {
+    setLeftDock: (state, action: { type: string, payload: Docked | null }) => {
       if (action.payload && Object.values(ActionKeys).includes(action.payload.actionKey)) {
         state.leftDock = action.payload
       } else {
         state.leftDock = null;
       }
     },
-    setRightDock: (state, action) => {
+    setRightDock: (state, action: { type: string, payload: Docked | null }) => {
       if (action.payload && Object.values(ActionKeys).includes(action.payload.actionKey)) {
         state.rightDock = action.payload
       } else {
