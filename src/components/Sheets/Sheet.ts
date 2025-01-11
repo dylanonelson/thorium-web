@@ -9,8 +9,8 @@ import { ActionKeys } from "../Templates/ActionComponent";
 export enum SheetTypes {
   popover = "popover",
   fullscreen = "fullscreen",
-  dockedLeft = "dockedLeft",
-  dockedRight = "dockedRight"
+  dockedStart = "docked start",
+  dockedEnd = "docked end"
 }
 
 export enum DockingKeys {
@@ -22,8 +22,8 @@ export enum DockingKeys {
 export enum Dockable {
   none = "none",
   both = "both",
-  left = "left",
-  right = "right"
+  start = "start",
+  end = "end"
 }
 
 export type Docked = {
