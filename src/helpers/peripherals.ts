@@ -1,19 +1,18 @@
 // Peripherals based on XBReader
 import { RSPrefs } from "@/preferences";
-import { buildShortcut, PShortcut } from "./keyboard/buildShortcut";
+
+import { ActionKeys } from "@/models/actions";
+import { PShortcuts } from "@/models/shortcut";
+
+import { buildShortcut } from "./keyboard/buildShortcut";
 
 import { useAppStore } from "@/lib/hooks";
 import { isInteractiveElement } from "./isInteractiveElement";
-import { ActionKeys } from "@/components/Templates/ActionComponent";
 
 export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
   goProgression: (shiftKey?: boolean) => void;
   toggleFullscreen: () => void;
-}
-
-interface PShortcuts {
-  [key: string]: PShortcut;
 }
 
 export default class Peripherals {

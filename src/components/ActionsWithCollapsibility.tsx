@@ -1,5 +1,4 @@
-import { IActions } from "./Actions";
-import { ActionComponentVariant } from "./Templates/ActionComponent";
+import { ActionComponentVariant, IActions } from "@/models/actions";
 
 import { OverflowMenu } from "./OverflowMenu";
 

@@ -2,10 +2,10 @@ import React, { useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
+import { ISheet } from "@/models/sheets";
+
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
-
-import { ISheet } from "./Sheet";
 
 import { Dialog, DialogTrigger, Heading, Modal } from "react-aria-components";
 import { CloseButton } from "../CloseButton";

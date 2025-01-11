@@ -1,58 +1,11 @@
-import { ReactElement, ReactNode } from "react";
-
 import { RSPrefs } from "@/preferences";
 
-import { IActionIconProps } from "../Templates/ActionIcon";
-import { StaticBreakpoints } from "@/hooks/useBreakpoints";
-import { ActionKeys } from "../Templates/ActionComponent";
-
-export enum SheetTypes {
-  popover = "popover",
-  fullscreen = "fullscreen",
-  dockedStart = "docked start",
-  dockedEnd = "docked end"
-}
-
-export enum DockingKeys {
-  left = "dockingLeft",
-  right = "dockingRight",
-  transient = "dockingTransient"
-}
-
-export enum Dockable {
-  none = "none",
-  both = "both",
-  start = "start",
-  end = "end"
-}
-
-export type Docked = {
-  active: boolean;
-  actionKey: ActionKeys;
-  width: number;
-}
-
-export type BreakpointsMap = {
-  [key in StaticBreakpoints]?: SheetTypes;
-}
-
-export interface ISheet {
-  id: ActionKeys;
-  renderActionIcon: () => ReactElement<IActionIconProps>;
-  heading: string;
-  className: string;
-  isOpen: boolean;
-  onOpenChangeCallback: (isOpen: boolean) => void;
-  onClosePressCallback: () => void;
-  children?: ReactNode;
-}
-
-export type SheetPref = SheetTypes | BreakpointsMap;
+import { BreakpointsMap, SheetPref, SheetTypes } from "@/models/sheets";
+import { StaticBreakpoints } from "@/models/staticBreakpoints";
 
 export const prefToMap = (pref?: SheetPref): Required<BreakpointsMap> => {
   const isValidType = (t: string) => {
-    // @ts-ignore
-    return Object.values(SheetTypes).includes(t);
+    return Object.values(SheetTypes).includes(t as SheetTypes);
   };
 
   const breakpointsMap: Required<BreakpointsMap> = {

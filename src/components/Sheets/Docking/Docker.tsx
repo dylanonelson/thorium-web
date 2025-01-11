@@ -3,26 +3,20 @@ import React, { useCallback, useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../../../resources/locales/en.json";
 
+import { Dockable, DockingKeys, IDocker } from "@/models/docking";
+import { SheetTypes } from "@/models/sheets";
+import { IActionsItem } from "@/models/actions";
+
 import dockerStyles from "../../assets/styles/docker.module.css";
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { CloseButton } from "../../CloseButton";
 
-import { Dockable, DockingKeys, SheetTypes } from "../Sheet";
-import { ActionKeys } from "../../Templates/ActionComponent";
 import { ActionsWithCollapsibility } from "@/components/ActionsWithCollapsibility";
-import { IActionsItem } from "@/components/Actions";
 import { DockLeftAction } from "./DockLeftAction";
 import { DockRightAction } from "./DockRightAction";
 import { PopoverSheetAction } from "./PopoverSheetAction";
 import { FullscreenSheetAction } from "./FullscreenSheetAction";
-
-export interface IDocker {
-  id: ActionKeys;
-  sheetType: SheetTypes | null;
-  ref: React.ForwardedRef<HTMLButtonElement>;
-  onCloseCallback: () => void;
-}
 
 const DockingActionsMap = {
   [DockingKeys.left]: DockLeftAction,
