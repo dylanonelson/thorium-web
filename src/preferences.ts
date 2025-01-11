@@ -203,8 +203,12 @@ export const RSPrefs: IRSPrefs = {
         dockable: Dockable.none
       },
       [ActionKeys.toc]: {
-        visibility: ActionVisibility.partially,
+        visibility: ActionVisibility.always,
         shortcut: `${ShortcutMetaKeywords.platform}+N`,
+        sheet: {
+          [StaticBreakpoints.compact]: SheetTypes.fullscreen,
+          [StaticBreakpoints.medium]: SheetTypes.fullscreen
+        },
         dockable: Dockable.both
       },
       [ActionKeys.jumpToPosition]: {

@@ -1,12 +1,4 @@
-.toc {
-  background-color: var(--theme-background);
-  color: var(--theme-text);
-  position: relative;
-  overflow-y: auto;
-  box-sizing: border-box;
-  max-height: 100%;
-  padding: 0;
-}
+.toc {}
 
 .listBox {
   max-height: calc(100vh - (var(--icon-size, 24px) * 6));
