@@ -1,7 +1,7 @@
 import React, { CSSProperties, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
-import { ThemeKeys } from "@/models/preferences";
+import { ThemeKeys } from "@/models/theme";
 
 import Locale from "../resources/locales/en.json";
 import settingsStyles from "./assets/styles/readerSettings.module.css";

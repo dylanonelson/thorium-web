@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ColorScheme, ThemeKeys } from "@/models/preferences";
 import { IThemeState } from "@/models/state/themingState";
+import { ColorScheme, ThemeKeys } from "@/models/theme";
 
 const initialState: IThemeState = {
   colorScheme: ColorScheme.light,

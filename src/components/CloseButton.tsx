@@ -1,19 +1,13 @@
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
+import { ICloseButton } from "@/models/actions";
+
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import Close from "./assets/icons/close.svg";
 
-import { Button, PressEvent, Tooltip, TooltipTrigger } from "react-aria-components";
-
-export interface ICloseButton {
-  ref?: React.ForwardedRef<HTMLButtonElement>;
-  className?: string;
-  label?: string;
-  onPressCallback: (e: PressEvent) => void;
-  withTooltip?: string;
-}
+import { Button, Tooltip, TooltipTrigger } from "react-aria-components";
 
 export const CloseButton = ({
   ref,

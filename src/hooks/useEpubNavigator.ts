@@ -2,7 +2,8 @@ import { useCallback, useMemo, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
-import { ScrollBackTo, ThemeKeys } from "@/models/preferences";
+import { ScrollBackTo } from "@/models/preferences";
+import { ThemeKeys } from "@/models/theme";
 
 import fontStacks from "readium-css/css/vars/fontStacks.json";
 

@@ -1,4 +1,5 @@
-import { ActionKeys } from "./actions";
+import { ActionKeys, IActionTokens } from "./actions";
+import { Collapsibility } from "./collapsibility";
 import { SheetTypes } from "./sheets";
 
 export interface IDocker {
@@ -26,3 +27,12 @@ export type Docked = {
   actionKey: ActionKeys;
   width: number;
 }
+
+export interface IDockingPref {
+  displayOrder: DockingKeys[];
+  collapse: Collapsibility;
+  defaultWidth: number;
+  keys: {
+    [key in  DockingKeys]: IActionTokens;
+  }
+};
