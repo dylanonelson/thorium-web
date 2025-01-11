@@ -1,8 +1,8 @@
 import React, { useCallback, useRef } from "react";
 
-import sheetStyles from "../assets/styles/sheet.module.css";
+import { ISheet, SheetTypes } from "@/models/sheets";
 
-import { ISheet, SheetTypes } from "./Sheet";
+import sheetStyles from "../assets/styles/sheet.module.css";
 
 import { Dialog, DialogTrigger, Heading, Popover, PopoverProps } from "react-aria-components";
 import { Docker } from "./Docking/Docker";

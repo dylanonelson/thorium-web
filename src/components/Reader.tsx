@@ -2,8 +2,12 @@
 
 import { useCallback, useEffect, useRef } from "react";
 
-import { RSPrefs, ThemeKeys } from "@/preferences";
+import { RSPrefs } from "@/preferences";
+
 import Locale from "../resources/locales/en.json";
+
+import { ScrollBackTo, ThemeKeys } from "@/models/preferences";
+import { DockingKeys } from "@/models/docking";
 
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
@@ -15,8 +19,6 @@ import {
 import { EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
-import { DockingKeys } from "./Sheets/Sheet";
-
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
@@ -26,7 +28,7 @@ import { useFullscreen } from "@/hooks/useFullscreen";
 import { useTheming } from "@/hooks/useTheming";
 
 import Peripherals from "@/helpers/peripherals";
-import { CUSTOM_SCHEME, ScrollActions, ScrollBackTo } from "@/helpers/scrollAffordance";
+import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
 import { localData } from "@/helpers/localData";
 import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 

@@ -1,19 +1,6 @@
 import React from "react";
 
-import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
-import { DockingKeys } from "./Sheets/Sheet";
-
-export interface IActionsItem {
-  Comp: React.FunctionComponent<IActionComponent>;
-  key: ActionKeys | DockingKeys;
-  associatedKey?: string;
-}
-
-export interface IActions {
-  items: IActionsItem[];
-  className: string;
-  label: string;
-}
+import { ActionComponentVariant, IActions } from "@/models/actions";
 
 export const Actions = ({
   items,

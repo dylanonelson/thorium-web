@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from 'react-dom';
 
-import sheetStyles from "../assets/styles/sheet.module.css";
+import { ISheet, SheetTypes } from "@/models/sheets";
+import { DockingKeys } from "@/models/docking";
 
-import { DockingKeys, ISheet, SheetTypes } from "./Sheet";
+import sheetStyles from "../assets/styles/sheet.module.css";
 
 import { Heading } from "react-aria-components";
 import { Docker } from "./Docking/Docker";

@@ -1,24 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { Docked } from "@/components/Sheets/Sheet";
-import { ActionKeys } from "@/components/Templates/ActionComponent";
-import { defaultPlatformModifier, IPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
-import { LayoutDirection } from "@/preferences";
-
-interface IReaderState {
-  direction: LayoutDirection;
-  isImmersive: boolean;
-  isHovering: boolean;
-  isFullscreen: boolean;
-  isPaged: boolean;
-  colCount: string;
-  settingsOpen: boolean;
-  tocOpen: boolean;
-  overflowMenuOpen: boolean;
-  platformModifier: IPlatformModifier;
-  leftDock: Docked | null;
-  rightDock: Docked | null;
-}
+import { IReaderState } from "@/models/state/readerState";
+import { defaultPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
+import { LayoutDirection } from "@/models/preferences";
+import { ActionKeys } from "@/models/actions";
 
 const initialState: IReaderState = {
   direction: LayoutDirection.ltr,
@@ -27,8 +12,6 @@ const initialState: IReaderState = {
   isFullscreen: false,
   isPaged: true,
   colCount: "auto",
-  settingsOpen: false,
-  tocOpen: false,
   overflowMenuOpen: false,
   platformModifier: defaultPlatformModifier,
   leftDock: null,
@@ -63,12 +46,6 @@ export const readerSlice = createSlice({
     setColCount: (state, action) => {
       state.colCount = action.payload
     },
-    setSettingsOpen: (state, action) => {
-      state.settingsOpen = action.payload
-    },
-    setTocOpen: (state, action) => {
-      state.tocOpen = action.payload
-    },
     setOverflowMenuOpen: (state, action) => {
       state.overflowMenuOpen = action.payload
     },
@@ -99,8 +76,6 @@ export const {
   setFullscreen, 
   setPaged, 
   setColCount, 
-  setSettingsOpen, 
-  setTocOpen, 
   setOverflowMenuOpen,
   setLeftDock, 
   setRightDock 

@@ -1,36 +1,5 @@
+import { IMetaKey, IMetaKeys, IPlatformModifier } from "@/models/shortcut";
 import { isMacish } from "./getPlatform";
-
-interface IKey {
-  [key: string]: string;
-  longform: string;
-  shortform: string;
-}
-
-export interface IMetaKey extends IKey {
-  modifier: "altKey" | "ctrlKey" | "metaKey" | "shiftKey";
-  symbol: "⌥" | "^" | "⌘" | "⊞" | "⇧";
-}
-
-export interface IPlatformModifier extends IKey {
-  modifier: "ctrlKey" | "metaKey";
-  symbol: "^" | "⌘";
-}
-
-export interface IMetaKeys {
-  [key: string]: IMetaKey;
-  altKey: IMetaKey;
-  ctrlKey: IMetaKey;
-  metaKey: IMetaKey;
-  shiftKey: IMetaKey;
-}
-
-export enum ShortcutMetaKeywords {
-  alt = "altKey",
-  ctrl = "ctrlKey",
-  meta = "metaKey",
-  platform = "platformKey",
-  shift = "shiftKey"
-}
 
 const altModifier: IMetaKey = {
   longform: "Option",

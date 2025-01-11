@@ -1,19 +1,18 @@
 import React from "react";
 
 import Locale from "../resources/locales/en.json";
+
+import { ReadingDisplayLayoutOption } from "@/models/layout";
+
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
 import ScrollableIcon from "./assets/icons/contract.svg";
 import PaginatedIcon from "./assets/icons/docs.svg";
 
 import { RadioGroup, Radio, Label } from "react-aria-components";
+
 import { setPaged } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-
-export enum ReadingDisplayLayoutOption { 
-  scroll = "scroll_option",
-  paginated = "page_option"
-}
 
 export const ReadingDisplayLayout = () => {
   const isPaged = useAppSelector(state => state.reader.isPaged);

@@ -1,14 +1,5 @@
-import { IProgression } from '@/components/ProgressionOf';
+import { IPublicationState } from "@/models/state/publicationState";
 import { createSlice } from "@reduxjs/toolkit";
-
-interface IPublicationState {
-  runningHead?: string;
-  isFXL: boolean;
-  isRTL: boolean;
-  progression: IProgression;
-  atPublicationStart: boolean;
-  atPublicationEnd: boolean;
-}
 
 const initialState: IPublicationState = {
   runningHead: undefined,

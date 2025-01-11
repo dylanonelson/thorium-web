@@ -1,10 +1,44 @@
-import { StaticBreakpoints } from "./hooks/useBreakpoints";
-import { Collapsibility } from "./hooks/useCollapsibility";
-import { ScrollAffordancePref, ScrollBackTo } from "./helpers/scrollAffordance";
-import { ActionKeys, ActionVisibility } from "./components/Templates/ActionComponent";
-import { Dockable, DockingKeys, SheetTypes } from "./components/Sheets/Sheet";
-import { ShortcutRepresentation } from "./components/Shortcut";
-import { LayoutDirection, ThemeKeys } from "./preferences";
+import { ActionKeys, ActionVisibility } from "./actions";
+import { SheetTypes } from "./sheets";
+import { Dockable, DockingKeys } from "./docking";
+import { ShortcutRepresentation } from "./shortcut";
+import { StaticBreakpoints } from "./staticBreakpoints";
+
+export enum LayoutDirection {
+  ltr = "ltr",
+  rtl = "rtl"
+}
+
+export enum ColorScheme {
+  light = "light",
+  dark = "dark"
+}
+
+export enum ScrollAffordancePref {
+  none = "none",
+  prev = "previous",
+  next = "next",
+  both = "both"
+}
+
+export enum ScrollBackTo {
+  top = "top",
+  bottom = "bottom",
+  untouched = "untouched"
+}
+
+export type Collapsibility = boolean | { [key in StaticBreakpoints]?: number | "all" };
+
+export enum ThemeKeys {
+  auto = "auto",
+  light = "light",
+  sepia = "sepia",
+  dark = "dark",
+  paper = "paper",
+  contrast1 = "contrast1",
+  contrast2 = "contrast2",
+  contrast3 = "contrast3"
+}
 
 export interface IThemeTokens {
   background: string;
@@ -43,7 +77,7 @@ export interface IActionPref {
 export interface IDockingPref {
   displayOrder: DockingKeys[];
   collapse: Collapsibility;
-  dockedWidth: number;
+  defaultWidth: number;
   keys: {
     [key in  DockingKeys]: IActionTokens;
   }

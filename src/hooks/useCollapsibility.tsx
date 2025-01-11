@@ -1,15 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { IActionsItem } from "@/components/Actions";
-import { ActionVisibility } from "@/components/Templates/ActionComponent";
+import { IActionPref, IDockingPref } from "@/models/preferences";
+import { ActionVisibility, IActionsItem } from "@/models/actions";
 
 import { useAppSelector } from "@/lib/hooks";
-import { StaticBreakpoints } from "./useBreakpoints";
-import { IActionPref, IDockingPref } from "@/preferences.interface";
-
-// Smart keyword a placeholder for dynamic collapsibility 
-// based on width available and not breakpoints 
-export type Collapsibility = boolean | { [key in StaticBreakpoints]?: number | "all" };
 
 export const useCollapsibility = (items: IActionsItem[], prefs: IActionPref & IDockingPref) => {
   const [ActionIcons, setActionIcons] = useState<IActionsItem[]>([]);

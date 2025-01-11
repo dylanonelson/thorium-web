@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
+import { StaticBreakpoints } from "@/models/staticBreakpoints";
+
 import Locale from "../resources/locales/en.json";
 
 import arrowStyles from "./assets/styles/arrowButton.module.css";
@@ -13,9 +15,8 @@ import { Button, PressEvent, Tooltip, TooltipTrigger } from "react-aria-componen
 
 import { useAppSelector } from "@/lib/hooks";
 
-import classNames from "classnames";
 import { isActiveElement } from "@/helpers/focus";
-import { StaticBreakpoints } from "@/hooks/useBreakpoints";
+import classNames from "classnames";
 
 export interface ReaderArrowProps {
   direction: "left" | "right";

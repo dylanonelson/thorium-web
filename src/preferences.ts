@@ -1,30 +1,13 @@
-import { IRSPrefs } from "./preferences.interface";
-import { StaticBreakpoints } from "./hooks/useBreakpoints";
-import { ScrollAffordancePref, ScrollBackTo } from "./helpers/scrollAffordance";
-import { ActionKeys, ActionVisibility } from "./components/Templates/ActionComponent";
-import { Dockable, DockingKeys, SheetTypes } from "./components/Sheets/Sheet";
-import { ShortcutRepresentation } from "./components/Shortcut";
-import { ShortcutMetaKeywords } from "./helpers/keyboard/getMetaKeys";
+import { IRSPrefs, LayoutDirection, ScrollAffordancePref, ScrollBackTo, ThemeKeys } from "./models/preferences";
 
 import dayMode from "readium-css/css/vars/day.json";
 import sepiaMode from "readium-css/css/vars/sepia.json";
 import nightMode from "readium-css/css/vars/night.json";
-
-export enum LayoutDirection {
-  ltr = "ltr",
-  rtl = "rtl"
-}
-
-export enum ThemeKeys {
-  auto = "auto",
-  light = "light",
-  sepia = "sepia",
-  dark = "dark",
-  paper = "paper",
-  contrast1 = "contrast1",
-  contrast2 = "contrast2",
-  contrast3 = "contrast3"
-}
+import { StaticBreakpoints } from "./models/staticBreakpoints";
+import { ShortcutMetaKeywords, ShortcutRepresentation } from "./models/shortcut";
+import { ActionKeys, ActionVisibility } from "./models/actions";
+import { SheetTypes } from "./models/sheets";
+import { Dockable, DockingKeys } from "./models/docking";
 
 export const RSPrefs: IRSPrefs = {
   direction: LayoutDirection.ltr,
@@ -236,7 +219,7 @@ export const RSPrefs: IRSPrefs = {
       DockingKeys.right
     ],
     collapse: true,
-    dockedWidth: 340,
+    defaultWidth: 340,
     keys: {
       [DockingKeys.left]: {
         visibility: ActionVisibility.overflow,

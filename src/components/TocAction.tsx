@@ -1,8 +1,10 @@
 import React from "react";
 
 import { RSPrefs } from "@/preferences";
-
 import Locale from "../resources/locales/en.json";
+
+import { ActionComponentVariant, ActionKeys, IActionComponent } from "@/models/actions";
+
 import tocStyles from "./assets/styles/toc.module.css";
 
 import TocIcon from "./assets/icons/toc.svg";
@@ -11,17 +13,16 @@ import { ActionIcon } from "./Templates/ActionIcon";
 import { ListBox, ListBoxItem } from "react-aria-components";
 import { PopoverSheet } from "./Sheets/PopoverSheet";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
-import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setTocOpen } from "@/lib/readerReducer";
+import { setTocAction } from "@/lib/actionsReducer";
 
 export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
-  const isOpen = useAppSelector(state => state.reader.tocOpen);
+  const actionState = useAppSelector(state => state.actions[ActionKeys.toc]);
   const dispatch = useAppDispatch();
 
   const setOpen = (value: boolean) => {
-    dispatch(setTocOpen(value));
+    dispatch(setTocAction({ isOpen: value }));
   }
 
   if (variant && variant === ActionComponentVariant.menu) {
@@ -51,7 +52,7 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
         heading={ Locale.reader.toc.heading }
         className={ tocStyles.toc } 
         placement="bottom" 
-        isOpen={ isOpen }
+        isOpen={ actionState.isOpen }
         onOpenChangeCallback={ setOpen }
         onClosePressCallback={ () => setOpen(false) }
       >

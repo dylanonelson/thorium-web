@@ -3,18 +3,17 @@ import React, { useCallback, useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
+import { ActionKeys, IActionsItem } from "@/models/actions";
+
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
-import { ActionKeys } from "./Templates/ActionComponent";
 import { FullscreenAction } from "./FullscreenAction";
 import { JumpToPositionAction } from "./JumpToPositionAction";
 import { SettingsAction } from "./SettingsAction";
 import { TocAction } from "./TocAction";
 import { RunningHead } from "./RunningHead";
 import { ActionsWithCollapsibility } from "./ActionsWithCollapsibility";
-
-import { IActionsItem } from "./Actions";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

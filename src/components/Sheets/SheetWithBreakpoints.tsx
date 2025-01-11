@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 
-import { BreakpointsMap, DockingKeys, SheetTypes } from "./Sheet";
+import { BreakpointsMap, SheetTypes } from "@/models/sheets";
+import { DockingKeys } from "@/models/docking";
+
 import { FullScreenSheet, IFullScreenSheet } from "./FullScreenSheet";
 import { IPopoverSheet, PopoverSheet } from "./PopoverSheet";
 import { DockedSheet } from "./DockedSheet";

@@ -1,14 +1,7 @@
-import { ThemeKeys } from "@/preferences";
-import { StaticBreakpoints } from "@/hooks/useBreakpoints";
 import { createSlice } from "@reduxjs/toolkit";
-import { ColorScheme } from "@/hooks/useColorScheme";
 
-interface IThemeState {
-  colorScheme: ColorScheme;
-  theme: ThemeKeys;
-  hasReachedDynamicBreakpoint: boolean;
-  staticBreakpoint?: StaticBreakpoints;
-}
+import { ColorScheme, ThemeKeys } from "@/models/preferences";
+import { IThemeState } from "@/models/state/themingState";
 
 const initialState: IThemeState = {
   colorScheme: ColorScheme.light,

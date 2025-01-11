@@ -1,15 +1,17 @@
 import React, { ReactNode } from "react";
 
 import Locale from "../resources/locales/en.json";
+
+import { ActionVisibility } from "@/models/actions";
+
 import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
 import MenuIcon from "./assets/icons/more_vert.svg";
 
 import { Key, Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppDispatch } from "@/lib/hooks";
 import { setOverflowMenuOpen, toggleImmersive } from "@/lib/readerReducer";
-import { ActionVisibility } from "./Templates/ActionComponent";
 
 export interface IOverflowMenu {
   className?: string;

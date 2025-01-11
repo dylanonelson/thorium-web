@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef } from "react";
 
-import { RSPrefs, ThemeKeys } from "@/preferences";
+import { RSPrefs } from "@/preferences";
+import { ColorScheme, ThemeKeys } from "@/models/preferences";
 
 import { useBreakpoints } from "./useBreakpoints"
-import { ColorScheme, useColorScheme } from "./useColorScheme";
+import { useColorScheme } from "./useColorScheme";
 
 import { useAppSelector } from "@/lib/hooks";
 

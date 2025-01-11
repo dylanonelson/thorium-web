@@ -1,6 +1,8 @@
-import React, { CSSProperties, useEffect, useRef } from "react";
+import React, { CSSProperties, useRef } from "react";
 
-import { RSPrefs, ThemeKeys } from "@/preferences";
+import { RSPrefs } from "@/preferences";
+import { ThemeKeys } from "@/models/preferences";
+
 import Locale from "../resources/locales/en.json";
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
@@ -9,10 +11,10 @@ import CheckIcon from "./assets/icons/check.svg";
 import { Label, Radio, RadioGroup } from "react-aria-components";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setSettingsAction } from "@/lib/actionsReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 import classNames from "classnames";
-import { setSettingsOpen } from "@/lib/readerReducer";
 
 export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
   const radioGroupRef = useRef<HTMLDivElement | null>(null);
@@ -70,7 +72,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
 
       switch(e.code) {
         case "Escape":
-          dispatch(setSettingsOpen(false)); 
+          dispatch(setSettingsAction({ isOpen: false })); 
           break;
         case "ArrowUp":
           e.preventDefault();

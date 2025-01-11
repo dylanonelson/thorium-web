@@ -3,15 +3,15 @@ import { useCallback } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../../../resources/locales/en.json";
 
+import { ActionComponentVariant, IActionComponent } from "@/models/actions";
+import { DockingKeys } from "@/models/docking";
+
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import Stack from "../../assets/icons/stack.svg";
 
-import { ActionComponentVariant, IActionComponent } from "@/components/Templates/ActionComponent";
-
 import { ActionIcon } from "@/components/Templates/ActionIcon";
 import { OverflowMenuItem } from "@/components/Templates/OverflowMenuItem";
-import { DockingKeys } from "../Sheet";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLeftDock, setRightDock } from "@/lib/readerReducer";

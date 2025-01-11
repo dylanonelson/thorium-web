@@ -1,7 +1,10 @@
 import React from "react";
 
-import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
+import Locale from "../resources/locales/en.json";
+
+import { ActionComponentVariant, ActionKeys, IActionComponent } from "@/models/actions";
+
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import FullscreenCorners from "./assets/icons/fullscreen.svg";
@@ -11,7 +14,6 @@ import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 import { ActionIcon } from "./Templates/ActionIcon";
 
 import { useFullscreen } from "@/hooks/useFullscreen";
-import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setHovering } from "@/lib/readerReducer";

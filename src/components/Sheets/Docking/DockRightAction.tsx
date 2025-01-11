@@ -3,15 +3,15 @@ import { useCallback } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../../../resources/locales/en.json";
 
+import { ActionComponentVariant, IActionComponent } from "@/models/actions";
+import { DockingKeys } from "@/models/docking";
+
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import DocktoRight from "../../assets/icons/dock_to_left.svg";
 
-import { ActionComponentVariant, IActionComponent } from "@/components/Templates/ActionComponent";
-
 import { ActionIcon } from "@/components/Templates/ActionIcon";
 import { OverflowMenuItem } from "@/components/Templates/OverflowMenuItem";
-import { DockingKeys } from "../Sheet";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLeftDock, setRightDock } from "@/lib/readerReducer";
@@ -26,7 +26,7 @@ export const DockRightAction: React.FC<IActionComponent> = ({ variant, associate
     dispatch(setRightDock({ 
       active: true,
       actionKey: associatedKey,
-      width: RSPrefs.docking.dockedWidth 
+      width: RSPrefs.docking.defaultWidth 
     }));
   }, [dispatch, associatedKey]);
   

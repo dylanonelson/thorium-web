@@ -1,29 +1,19 @@
-import React, { ComponentType, SVGProps, useRef } from "react";
+import React, {useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
+
+import { ActionVisibility, IActionIconProps } from "@/models/actions";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "../assets/styles/readerStates.module.css";
 
-import { Button, Tooltip, TooltipTrigger, TooltipProps, PressEvent, ButtonProps } from "react-aria-components";
+import { Button, Tooltip, TooltipTrigger, ButtonProps } from "react-aria-components";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setImmersive } from "@/lib/readerReducer";
 
 import classNames from "classnames";
 import { isActiveElement, isKeyboardTriggered } from "@/helpers/focus";
-import { ActionVisibility } from "./ActionComponent";
-
-export interface IActionIconProps {
-  className?: string;
-  ariaLabel: string;
-  SVG: ComponentType<SVGProps<SVGElement>>;
-  placement: TooltipProps["placement"];
-  tooltipLabel: string;
-  visibility?: ActionVisibility;
-  onPressCallback?: (e: PressEvent) => void;
-  isDisabled?: boolean;
-}
 
 export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IActionIconProps> = ({
   className,
