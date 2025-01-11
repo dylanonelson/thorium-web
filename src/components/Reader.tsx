@@ -30,7 +30,7 @@ import { CUSTOM_SCHEME, ScrollActions, ScrollBackTo } from "@/helpers/scrollAffo
 import { localData } from "@/helpers/localData";
 import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 
-import { setImmersive, setHovering, toggleImmersive, setPlatformModifier } from "@/lib/readerReducer";
+import { setImmersive, setHovering, toggleImmersive, setPlatformModifier, setDirection } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
@@ -307,6 +307,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [leftDock, rightDock, handleResize]);
 
   useEffect(() => {
+    dispatch(setDirection(RSPrefs.direction));
     dispatch(setPlatformModifier(getPlatformModifier()));
 
     window.addEventListener("resize", handleResize);

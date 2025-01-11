@@ -4,7 +4,7 @@ import { ScrollAffordancePref, ScrollBackTo } from "./helpers/scrollAffordance";
 import { ActionKeys, ActionVisibility } from "./components/Templates/ActionComponent";
 import { Dockable, DockingKeys, SheetTypes } from "./components/Sheets/Sheet";
 import { ShortcutRepresentation } from "./components/Shortcut";
-import { ThemeKeys } from "./preferences";
+import { LayoutDirection, ThemeKeys } from "./preferences";
 
 export interface IThemeTokens {
   background: string;
@@ -50,6 +50,7 @@ export interface IDockingPref {
 };
 
 export interface IRSPrefs {
+  direction: LayoutDirection,
   typography: {
     minimalLineLength?: number | null;
     optimalLineLength: number;

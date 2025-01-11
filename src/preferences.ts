@@ -10,6 +10,11 @@ import dayMode from "readium-css/css/vars/day.json";
 import sepiaMode from "readium-css/css/vars/sepia.json";
 import nightMode from "readium-css/css/vars/night.json";
 
+export enum LayoutDirection {
+  ltr = "ltr",
+  rtl = "rtl"
+}
+
 export enum ThemeKeys {
   auto = "auto",
   light = "light",
@@ -22,6 +27,7 @@ export enum ThemeKeys {
 }
 
 export const RSPrefs: IRSPrefs = {
+  direction: LayoutDirection.ltr,
   typography: {
     minimalLineLength: 35, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
