@@ -31,7 +31,7 @@ import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useFullscreen } from "@/hooks/useFullscreen";
 import { useTheming } from "@/hooks/useTheming";
 import { useDocking } from "@/hooks/useDocking";
-import { usePanelHandler } from "@/hooks/usePanelHandler";
+import { useRezisablePanel } from "@/hooks/useRezisablePanel";
 
 import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
@@ -63,8 +63,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isImmersiveRef = useRef(isImmersive);
 
   const docking = useDocking();
-  const leftDock = usePanelHandler(docking.left);
-  const rightDock = usePanelHandler(docking.right);
+  const leftDock = useRezisablePanel(docking.left);
+  const rightDock = useRezisablePanel(docking.right);
 
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);

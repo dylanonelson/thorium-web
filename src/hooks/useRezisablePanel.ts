@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { RSPrefs } from "../preferences";
 
 import { Docked, IDockedPref } from "../models/docking";
 
-export const usePanelHandler = (panel: Docked | null) => {
+export const useRezisablePanel = (panel: Docked | null) => {
   const [pref, setPref] = useState<IDockedPref | null>(null);
   
   const width = pref?.width || RSPrefs.docking.defaultWidth;
@@ -17,7 +17,7 @@ export const usePanelHandler = (panel: Docked | null) => {
   
   const isResizable = () => {
     console.log(width, minWidth, maxWidth);
-    
+
     return (width > minWidth) && (width < maxWidth);
   };
 
