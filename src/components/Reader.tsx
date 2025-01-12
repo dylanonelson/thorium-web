@@ -7,7 +7,7 @@ import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
-import dockerStyles from "../../assets/styles/docking.module.css";
+import dockStyles from "./assets/styles/docking.module.css";
 
 import { ScrollBackTo } from "@/models/preferences";
 import { ThemeKeys } from "@/models/theme";
@@ -384,7 +384,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
               className="left-dock"
             ></div>
           </Panel>
-          <PanelResizeHandle className="reader-dock-handle" />
+          <PanelResizeHandle className={ dockStyles.dockResizeHandle }>
+            <div className={ dockStyles.dockResizeHandleGrab }></div>
+          </PanelResizeHandle>
           </>
         )
       }
@@ -423,10 +425,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
       { docking.right?.active && (
           <>
-          <PanelResizeHandle className="reader-dock-handle" />
+          <PanelResizeHandle className={ dockStyles.dockResizeHandle }>
+            <div className={ dockStyles.dockResizeHandleGrab }></div>
+          </PanelResizeHandle>
           <Panel 
             id={ `${ DockingKeys.right }-panel` } 
-            order={ RSPrefs.direction === LayoutDirection.rtl ? 1 : 3 }
+            order={ RSPrefs.direction === LayoutDirection.rtl ? 1 : 3 } 
             defaultSize={ (RSPrefs.docking.defaultWidth / window.innerWidth) * 100 } 
             minSize={ undefined } 
             maxSize={ undefined }
