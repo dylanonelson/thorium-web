@@ -29,6 +29,13 @@ export type Docked = {
   width: number;
 }
 
+export interface IDockedPref {
+  dockable: Dockable,
+  width?: number,
+  minWidth?: number,
+  maxWidth?: number
+}
+
 export interface IDockingPref {
   displayOrder: DockingKeys[];
   collapse: Collapsibility;

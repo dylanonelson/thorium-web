@@ -1,6 +1,6 @@
 import { ComponentType, ReactNode, SVGProps } from "react";
 import { PressEvent, TooltipProps } from "react-aria-components";
-import { Dockable, DockingKeys } from "./docking";
+import { Dockable, DockingKeys, IDockedPref } from "./docking";
 import { StaticBreakpoints } from "./staticBreakpoints";
 import { SheetTypes } from "./sheets";
 import { Collapsibility } from "./collapsibility";
@@ -82,7 +82,7 @@ export interface IActionTokens {
   sheet?: {
     [key in StaticBreakpoints]?: SheetTypes;
   };
-  dockable?: Dockable;
+  docked?: IDockedPref;
 };
 
 export interface IActionPref {

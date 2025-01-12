@@ -30,7 +30,7 @@ export const Docker = ({
   ref,
   onCloseCallback
 }: IDocker) => {
-  const dockable = useRef<Dockable>(RSPrefs.actions.keys[id].dockable || Dockable.none);
+  const dockable = useRef<Dockable>(RSPrefs.actions.keys[id].docked?.dockable || Dockable.none);
   const actionsOrder = useRef(RSPrefs.docking.displayOrder);
 
   const listActionItems = useCallback(() => {
