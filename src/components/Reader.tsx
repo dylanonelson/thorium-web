@@ -31,12 +31,12 @@ import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useFullscreen } from "@/hooks/useFullscreen";
 import { useTheming } from "@/hooks/useTheming";
 import { useDocking } from "@/hooks/useDocking";
+import { usePanelHandler } from "@/hooks/usePanelHandler";
 
 import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
 import { localData } from "@/helpers/localData";
 import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
-import { pxToPercent } from "@/helpers/convertUnits";
 
 import { setImmersive, setHovering, toggleImmersive, setPlatformModifier, setDirection } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
@@ -63,6 +63,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isImmersiveRef = useRef(isImmersive);
 
   const docking = useDocking();
+  const leftDock = usePanelHandler(docking.left);
+  const rightDock = usePanelHandler(docking.right);
 
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
@@ -362,24 +364,18 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     };
   }, [rawManifest, selfHref]);
 
-  const handlePanelSize = (size?: number) => {
-    if (!size) size = RSPrefs.docking.defaultWidth;
-
-    return pxToPercent(size, window.innerWidth)
-  };
-
   return (
     <>
     <main>
       <PanelGroup onLayout={ handleResize } autoSaveId="reader-dock" direction="horizontal">
-        { docking.left?.active && (
+        { leftDock.isActive() && (
           <>
           <Panel 
             id={ `${ DockingKeys.left }-panel` } 
             order={ RSPrefs.direction === LayoutDirection.rtl ? 3 : 1 } 
-            defaultSize={ handlePanelSize(RSPrefs.docking.defaultWidth) } 
-            minSize={ handlePanelSize(RSPrefs.actions.keys[docking.left.actionKey].docked?.minWidth) } 
-            maxSize={ handlePanelSize(RSPrefs.actions.keys[docking.left.actionKey].docked?.maxWidth) }
+            defaultSize={ leftDock.getWidth() } 
+            minSize={ leftDock.getMinWidth() } 
+            maxSize={ leftDock.getMaxWidth() }
           >
             <div 
               id={ DockingKeys.left } 
@@ -387,8 +383,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
               className="left-dock"
             ></div>
           </Panel>
-          <PanelResizeHandle className={ dockStyles.dockResizeHandle }>
-            <div className={ dockStyles.dockResizeHandleGrab }></div>
+          <PanelResizeHandle 
+            className={ dockStyles.dockResizeHandle }
+            disabled={ !leftDock.isResizable() }
+          >
+            { leftDock.isResizable() && <div className={ dockStyles.dockResizeHandleGrab }></div> }
           </PanelResizeHandle>
           </>
         )
@@ -426,17 +425,20 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         </div>
       </Panel>
 
-      { docking.right?.active && (
+      { rightDock.isActive() && (
           <>
-          <PanelResizeHandle className={ dockStyles.dockResizeHandle }>
-            <div className={ dockStyles.dockResizeHandleGrab }></div>
+          <PanelResizeHandle 
+            className={ dockStyles.dockResizeHandle }
+            disabled={ !rightDock.isResizable()}
+          >
+            { rightDock.isResizable() && <div className={ dockStyles.dockResizeHandleGrab }></div> }
           </PanelResizeHandle>
           <Panel 
             id={ `${ DockingKeys.right }-panel` } 
             order={ RSPrefs.direction === LayoutDirection.rtl ? 1 : 3 } 
-            defaultSize={ handlePanelSize(RSPrefs.docking.defaultWidth) } 
-            minSize={ handlePanelSize(RSPrefs.actions.keys[docking.right.actionKey].docked?.minWidth) } 
-            maxSize={ handlePanelSize(RSPrefs.actions.keys[docking.right.actionKey].docked?.maxWidth) }
+            defaultSize={ rightDock.getWidth() } 
+            minSize={ rightDock.getMinWidth() } 
+            maxSize={ rightDock.getMaxWidth() }
           >
             <div 
               id={ DockingKeys.right } 
