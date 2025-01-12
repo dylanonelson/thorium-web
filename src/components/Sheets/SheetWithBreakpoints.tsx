@@ -34,7 +34,7 @@ export const SheetWithBreakpoints = ({
       )
     }
 
-    if (docking.isCurrentlyLeft()) {
+    if (docking.isCurrentlyLeft() && docking.left?.active) {
       return (
         <>
         <DockedSheet side={ DockingKeys.left } { ...sheetProps }>
@@ -42,7 +42,7 @@ export const SheetWithBreakpoints = ({
         </DockedSheet>
         </>
       )
-    } else if (docking.isCurrentlyRight()) {
+    } else if (docking.isCurrentlyRight() && docking.right?.active) {
       return (
         <>
         <DockedSheet side={ DockingKeys.right } { ...sheetProps }>

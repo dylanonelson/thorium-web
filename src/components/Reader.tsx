@@ -3,16 +3,16 @@
 import { useCallback, useEffect, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
-
 import Locale from "../resources/locales/en.json";
+
+import "./assets/styles/reader.css";
+import arrowStyles from "./assets/styles/arrowButton.module.css";
+import dockerStyles from "../../assets/styles/docking.module.css";
 
 import { ScrollBackTo } from "@/models/preferences";
 import { ThemeKeys } from "@/models/theme";
 import { DockingKeys } from "@/models/docking";
 import { IRCSSSettings } from "@/models/rcss-settings";
-
-import "./assets/styles/reader.css";
-import arrowStyles from "./assets/styles/arrowButton.module.css";
 
 import {
   BasicTextSelection,
@@ -40,6 +40,8 @@ import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
 import { useDocking } from "@/hooks/useDocking";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { LayoutDirection } from "@/models/layout";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -366,59 +368,79 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   return (
     <>
     <main>
-      <div 
-        id={ DockingKeys.left } 
-        aria-label={ Locale.reader.app.dockingLeft }
-        className="left-dock"
-        style={{
-          flex: `0 0 ${docking.left?.active ? docking.left?.width || 0 : 0}px`,
-          minWidth: docking.left?.active ? docking.left?.width || 0 : 0,
-          width: docking.left?.active ? docking.left?.width || 0 : 0,
-          maxWidth: docking.left?.active ? docking.left?.width || 0 : 0
-        }}
-      ></div>
+      <PanelGroup autoSaveId="reader-dock" direction="horizontal">
+        { docking.left?.active && (
+          <>
+          <Panel 
+            id={ `${ DockingKeys.left }-panel` } 
+            order={ RSPrefs.direction === LayoutDirection.rtl ? 3 : 1 } 
+            defaultSize={ (RSPrefs.docking.defaultWidth / window.innerWidth) * 100 } 
+            minSize={ undefined } 
+            maxSize={ undefined }
+          >
+            <div 
+              id={ DockingKeys.left } 
+              aria-label={ Locale.reader.app.dockingLeft }
+              className="left-dock"
+            ></div>
+          </Panel>
+          <PanelResizeHandle className="reader-dock-handle" />
+          </>
+        )
+      }
 
-      <div id="reader-main">
-        <ReaderHeader />
+      <Panel id="main-panel" order={ 2 }>
+        <div id="reader-main">
+          <ReaderHeader />
 
-      { isPaged 
-        ? <nav className={ arrowStyles.container } id={ arrowStyles.left }>
-            <ArrowButton 
-              direction="left" 
-              disabled={ atPublicationStart } 
-              onPressCallback={ () => goLeft(true, () => {}) }
-            />
-        </nav> 
-        : <></> }
-
-        <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
-          <div id="container" ref={ container }></div>
-        </article>
-
-      { isPaged 
-        ? <nav className={ arrowStyles.container } id={ arrowStyles.right }>
-            <ArrowButton 
-              direction="right"  
-              disabled={ atPublicationEnd } 
-              onPressCallback={ () => goRight(true, () => {}) }
-            />
+        { isPaged 
+          ? <nav className={ arrowStyles.container } id={ arrowStyles.left }>
+              <ArrowButton 
+                direction="left" 
+                disabled={ atPublicationStart } 
+                onPressCallback={ () => goLeft(true, () => {}) }
+              />
           </nav> 
-        : <></> }
+          : <></> }
 
-      { isPaged ? <ReaderFooter /> : <></> }
-      </div>
+          <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
+            <div id="container" ref={ container }></div>
+          </article>
 
-    <div 
-      id={ DockingKeys.right } 
-      aria-label={ Locale.reader.app.dockingRight }
-      className="right-dock"
-      style={{
-        flex: `0 0 ${docking.right?.active ? docking.right?.width || 0 : 0}px`,
-        minWidth: docking.right?.active ? docking.right?.width || 0 : 0,
-        width: docking.right?.active ? docking.right?.width || 0 : 0,
-        maxWidth: docking.right?.active ? docking.right?.width || 0 : 0
-      }}
-    ></div>
+        { isPaged 
+          ? <nav className={ arrowStyles.container } id={ arrowStyles.right }>
+              <ArrowButton 
+                direction="right"  
+                disabled={ atPublicationEnd } 
+                onPressCallback={ () => goRight(true, () => {}) }
+              />
+            </nav> 
+          : <></> }
+
+        { isPaged ? <ReaderFooter /> : <></> }
+        </div>
+      </Panel>
+
+      { docking.right?.active && (
+          <>
+          <PanelResizeHandle className="reader-dock-handle" />
+          <Panel 
+            id={ `${ DockingKeys.right }-panel` } 
+            order={ RSPrefs.direction === LayoutDirection.rtl ? 1 : 3 }
+            defaultSize={ (RSPrefs.docking.defaultWidth / window.innerWidth) * 100 } 
+            minSize={ undefined } 
+            maxSize={ undefined }
+          >
+            <div 
+              id={ DockingKeys.right } 
+              aria-label={ Locale.reader.app.dockingRight }
+              className="right-dock"
+             ></div>
+          </Panel>
+          </>
+        )
+      }
+    </PanelGroup>
   </main>
   </>
 )};

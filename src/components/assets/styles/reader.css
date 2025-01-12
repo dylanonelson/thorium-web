@@ -33,7 +33,6 @@ main {
   width: 100%;
   height: 100%;
   margin: 0;
-  display: flex;
 }
 
 .left-dock {
@@ -44,6 +43,11 @@ main {
 .right-dock {
   height: 100vh;
   height: 100dvh;
+}
+
+.reader-dock-handle {
+  width: 2px;
+  background-color: var(--theme-subdue);
 }
 
 #bottom-bar,
