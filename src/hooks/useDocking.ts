@@ -11,6 +11,11 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLeftDock, setRightDock } from "@/lib/readerReducer";
 import { setJumpToPositionAction, setSettingsAction, setTocAction } from "@/lib/actionsReducer";
 
+// Note: this is a temporary custom hook aimed to design the entire logic
+// and discover all the corner cases.
+// Eventually, this should be handled in the actionsReducer since 
+// it is used to share state, and not stateful logic, hence why
+// it is using callbacks to cache functions extensively.
 export const useDocking = (key?: ActionsStateKeys) => {
   const left = useAppSelector(state => state.reader.leftDock);
   const right = useAppSelector(state => state.reader.rightDock);
