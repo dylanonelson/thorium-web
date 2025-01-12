@@ -9,12 +9,13 @@ import tocStyles from "./assets/styles/toc.module.css";
 import TocIcon from "./assets/icons/toc.svg";
 import CloseIcon from "./assets/icons/close.svg";
 
-import { Links } from "@readium/shared";
+import { Link, Links } from "@readium/shared";
 
 import { ActionIcon } from "./Templates/ActionIcon";
-import { Button, Dialog, DialogTrigger, Heading, ListBox, ListBoxItem, Popover } from "react-aria-components";
+import { Button, Dialog, DialogTrigger, Heading, ListBox, ListBoxItem, Popover, Selection } from "react-aria-components";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { setTocOpen } from "@/lib/readerReducer";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
@@ -22,10 +23,16 @@ import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Template
 export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant, toc }) => {
   const isOpen = useAppSelector(state => state.reader.tocOpen);
   const dispatch = useAppDispatch();
+  const { goLink } = useEpubNavigator();
 
   const setOpen = (value: boolean) => {
     dispatch(setTocOpen(value));
   }
+
+  const handleClick = (href:string) => {
+    const link:Link = new Link({href:href});
+    goLink(link,true, () => {});
+  };
 
   if (variant && variant === ActionComponentVariant.menu) {
     return(
@@ -69,7 +76,7 @@ export const TocAction: React.FC<IActionComponent & { toc: Links }> = ({ variant
             <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.toc.heading }</Heading>
             { toc.items.length > 0 
               ? <ListBox className={ tocStyles.listBox } items={ toc.items }>
-                  { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }>{ item.title }</ListBoxItem> }
+                  { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }><div style={{ cursor: "pointer" }} onClick={() => handleClick(item.href)}>{item.title}</div></ListBoxItem> }
                 </ListBox>
               : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
             }

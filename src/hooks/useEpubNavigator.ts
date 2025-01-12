@@ -18,6 +18,9 @@ import { setDynamicBreakpoint } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
 
+// Module scoped, singleton instance of navigator
+let navigatorInstance:EpubNavigator | null = null;
+
 export interface IEpubNavigatorConfig {
   container: HTMLDivElement | null;
   publication: Publication;
@@ -29,7 +32,6 @@ export interface IEpubNavigatorConfig {
 
 export const useEpubNavigator = () => {
   const container = useRef<HTMLDivElement | null>(null);
-  const nav = useRef<EpubNavigator | null>(null);
   const publication = useRef<Publication | null>(null);
   const localDataKey = useRef<string | null>(null);
 
@@ -44,7 +46,7 @@ export const useEpubNavigator = () => {
   // Warning: this is using internal methods that will become private, do not rely on them
   // See https://github.com/readium/playground/issues/25
   const applyReadiumCSSStyles = useCallback((stylesObj: { [key: string]: string }) => {
-    nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+    navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {
         for (const [key, value] of Object.entries(stylesObj)) {
           frameManager.msg?.send(
@@ -138,7 +140,7 @@ export const useEpubNavigator = () => {
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
   const mountScroll = useCallback(() => {
-    nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+    navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {        
         scrollAffordanceTop.current.render(frameManager.window.document);
         scrollAffordanceBottom.current.render(frameManager.window.document)
@@ -149,7 +151,7 @@ export const useEpubNavigator = () => {
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
   const unmountScroll = useCallback(() => {
-    nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+    navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {
         scrollAffordanceTop.current.destroy(frameManager.window.document);
         scrollAffordanceBottom.current.destroy(frameManager.window.document)
@@ -163,8 +165,8 @@ export const useEpubNavigator = () => {
     applyReadiumCSSStyles({
       "--USER__view": "readium-paged-on"
     });
-    if (nav.current?.readingProgression !== ReadingProgression.ltr) {
-      await nav.current?.setReadingProgression(ReadingProgression.ltr);
+    if (navigatorInstance?.readingProgression !== ReadingProgression.ltr) {
+      await navigatorInstance?.setReadingProgression(ReadingProgression.ltr);
     }
     unmountScroll();
     handleColCountReflow(colCount);
@@ -177,8 +179,8 @@ export const useEpubNavigator = () => {
       "--USER__view": "readium-scroll-on",
       "--USER__colCount": ""
     });
-    if (nav.current?.readingProgression !== ReadingProgression.ttb) {
-      await nav.current?.setReadingProgression(ReadingProgression.ttb);
+    if (navigatorInstance?.readingProgression !== ReadingProgression.ttb) {
+      await navigatorInstance?.setReadingProgression(ReadingProgression.ttb);
     }
     mountScroll();
     handleScrollReflow();
@@ -241,7 +243,7 @@ export const useEpubNavigator = () => {
   // See https://github.com/readium/playground/issues/25
   const scrollBackTo = useCallback((position: ScrollBackTo) => {
     if (position !== ScrollBackTo.untouched) {
-      nav.current?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
+      navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
         if (frameManager) {
           const scrollingEl = frameManager.window.document.scrollingElement;
           if (position === ScrollBackTo.top) {
@@ -258,13 +260,13 @@ export const useEpubNavigator = () => {
   // See https://github.com/readium/playground/issues/25
   const setFXLPages = useCallback((count: number) => {
     // @ts-ignore
-    nav.current?.pool.setPerPage(count);
+    navigatorInstance?.pool.setPerPage(count);
   }, [])
 
   const handleProgression = useCallback((locator: Locator) => {
     const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
       
-    dispatch(setProgression( { currentPositions: nav.current?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression }));
+    dispatch(setProgression( { currentPositions: navigatorInstance?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression }));
   }, [dispatch]);  
 
   // [TMP] Working around positionChanged not firing consistently for FXL
@@ -280,7 +282,7 @@ export const useEpubNavigator = () => {
       const newVal = (mutation.target as HTMLElement).getAttribute(mutation.attributeName as string);
       const oldVal = mutation.oldValue;
       if (newVal?.split(re)[1] !== oldVal?.split(re)[1]) {
-        const locator = nav.current?.currentLocator;
+        const locator = navigatorInstance?.currentLocator;
         if (locator) {
           handleProgression(locator);
           if (localDataKey.current) localData.set(localDataKey.current, locator)
@@ -295,14 +297,14 @@ export const useEpubNavigator = () => {
       publication.current = config.publication;
       localDataKey.current = config.localDataKey;
 
-      nav.current = new EpubNavigator(config.container, config.publication, config.listeners, config.positionsList, config.initialPosition);
+      navigatorInstance = new EpubNavigator(config.container, config.publication, config.listeners, config.positionsList, config.initialPosition);
 
-      nav.current.load().then(() => {
+      navigatorInstance.load().then(() => {
         cb();
 
-        if (nav.current?.layout === EPUBLayout.fixed) {
+        if (navigatorInstance?.layout === EPUBLayout.fixed) {
           // @ts-ignore
-          FXLPositionChanged.observe((nav.current?.pool.spineElement as HTMLElement), {attributes: ["style"], attributeOldValue: true});
+          FXLPositionChanged.observe((navigatorInstance?.pool.spineElement as HTMLElement), {attributes: ["style"], attributeOldValue: true});
         }
       });
     }
@@ -311,44 +313,44 @@ export const useEpubNavigator = () => {
   const EpubNavigatorDestroy = useCallback((cb: Function) => {
     cb();
 
-    if (nav.current?.layout === EPUBLayout.fixed) {
+    if (navigatorInstance?.layout === EPUBLayout.fixed) {
       FXLPositionChanged.disconnect();
     }
-    nav.current?.destroy;
+    navigatorInstance?.destroy;
   }, [FXLPositionChanged]);
 
   const goRight = useCallback((animated: boolean, callback: cbb) => {
-    nav.current?.goRight(animated, callback);
+    navigatorInstance?.goRight(animated, callback);
   }, []);
 
   const goLeft = useCallback((animated: boolean, callback: cbb) => {
-    nav.current?.goLeft(animated, callback)
+    navigatorInstance?.goLeft(animated, callback)
   }, []);
 
   const goBackward = useCallback((animated: boolean, callback: cbb) => {
-    nav.current?.goBackward(animated, callback);
+    navigatorInstance?.goBackward(animated, callback);
   }, []);
 
   const goForward = useCallback((animated: boolean, callback: cbb) => {
-    nav.current?.goForward(animated, callback);
+    navigatorInstance?.goForward(animated, callback);
   }, []);
 
   const goLink = useCallback((link: Link, animated: boolean, callback: cbb) => {
-    nav.current?.goLink(link, animated, callback);
+    navigatorInstance?.goLink(link, animated, callback);
   }, []);
 
   const navLayout = useCallback(() => {
-    return nav.current?.layout;
+    return navigatorInstance?.layout;
   }, []);
 
   const currentLocator = useCallback(() => {
-    return nav.current?.currentLocator;
+    return navigatorInstance?.currentLocator;
   }, []);
 
   // Warning: this is an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
   const getCframes = useCallback(() => {
-    return nav.current?._cframes;
+    return navigatorInstance?._cframes;
   }, []);
 
   return { 

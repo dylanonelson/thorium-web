@@ -179,7 +179,7 @@ export const RSPrefs = {
     displayOrder: [
       ActionKeys.settings,
       ActionKeys.fullscreen,
-    //  ActionKeys.toc,
+      ActionKeys.toc,
     //  ActionKeys.jumpToPosition
     ],
     [ActionKeys.settings]: {
