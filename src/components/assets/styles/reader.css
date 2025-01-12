@@ -45,11 +45,6 @@ main {
   height: 100dvh;
 }
 
-.reader-dock-handle {
-  width: 2px;
-  background-color: var(--theme-subdue);
-}
-
 #bottom-bar,
 #top-bar {
   box-sizing: border-box;
