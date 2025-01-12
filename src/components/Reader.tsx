@@ -301,10 +301,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       handleFXLReflow();
     }
   }, 250);
- 
-  useEffect(() => {
-    handleResize();
-  }, [docking.left, docking.right, handleResize]);
 
   useEffect(() => {
     dispatch(setDirection(RSPrefs.direction));
@@ -368,7 +364,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   return (
     <>
     <main>
-      <PanelGroup autoSaveId="reader-dock" direction="horizontal">
+      <PanelGroup onLayout={ handleResize } autoSaveId="reader-dock" direction="horizontal">
         { docking.left?.active && (
           <>
           <Panel 
