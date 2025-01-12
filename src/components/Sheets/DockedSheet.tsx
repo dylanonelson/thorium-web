@@ -57,11 +57,11 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
 
   return (
     <>
-    { React.Children.toArray(children).length > 0 && dockPortal.current
+    { React.Children.toArray(children).length > 0 
       ? <>
       { renderActionIcon() }
 
-        { isOpen && createPortal(
+        { isOpen && dockPortal.current && createPortal(
           <div className={ classNames(sheetStyles.dockedSheet, className, classFromSide()) }>
             <div className={ sheetStyles.sheetHeader }>
               <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>

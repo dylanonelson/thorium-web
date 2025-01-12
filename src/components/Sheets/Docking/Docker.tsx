@@ -3,15 +3,14 @@ import React, { useCallback, useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../../../resources/locales/en.json";
 
+import dockerStyles from "../../assets/styles/docking.module.css";
+import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
+
 import { Dockable, DockingKeys, IDocker } from "@/models/docking";
 import { SheetTypes } from "@/models/sheets";
 import { IActionsItem } from "@/models/actions";
 
-import dockerStyles from "../../assets/styles/docker.module.css";
-import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
-
 import { CloseButton } from "../../CloseButton";
-
 import { ActionsWithCollapsibility } from "@/components/ActionsWithCollapsibility";
 import { DockLeftAction } from "./DockLeftAction";
 import { DockRightAction } from "./DockRightAction";
