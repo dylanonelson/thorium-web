@@ -13,6 +13,7 @@ import { ScrollBackTo } from "@/models/preferences";
 import { ThemeKeys } from "@/models/theme";
 import { DockingKeys } from "@/models/docking";
 import { IRCSSSettings } from "@/models/rcss-settings";
+import { LayoutDirection } from "@/models/layout";
 
 import {
   BasicTextSelection,
@@ -21,6 +22,7 @@ import {
 import { EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
@@ -28,20 +30,19 @@ import { ReaderFooter } from "./ReaderFooter";
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useFullscreen } from "@/hooks/useFullscreen";
 import { useTheming } from "@/hooks/useTheming";
+import { useDocking } from "@/hooks/useDocking";
 
 import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
 import { localData } from "@/helpers/localData";
 import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
+import { pxToPercent } from "@/helpers/convertUnits";
 
 import { setImmersive, setHovering, toggleImmersive, setPlatformModifier, setDirection } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
-import { useDocking } from "@/hooks/useDocking";
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { LayoutDirection } from "@/models/layout";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -361,6 +362,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     };
   }, [rawManifest, selfHref]);
 
+  const handlePanelSize = (size?: number) => {
+    if (!size) size = RSPrefs.docking.defaultWidth;
+
+    return pxToPercent(size, window.innerWidth)
+  };
+
   return (
     <>
     <main>
@@ -370,9 +377,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           <Panel 
             id={ `${ DockingKeys.left }-panel` } 
             order={ RSPrefs.direction === LayoutDirection.rtl ? 3 : 1 } 
-            defaultSize={ (RSPrefs.docking.defaultWidth / window.innerWidth) * 100 } 
-            minSize={ undefined } 
-            maxSize={ undefined }
+            defaultSize={ handlePanelSize(RSPrefs.docking.defaultWidth) } 
+            minSize={ handlePanelSize(RSPrefs.actions.keys[docking.left.actionKey].docked?.minWidth) } 
+            maxSize={ handlePanelSize(RSPrefs.actions.keys[docking.left.actionKey].docked?.maxWidth) }
           >
             <div 
               id={ DockingKeys.left } 
@@ -427,9 +434,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           <Panel 
             id={ `${ DockingKeys.right }-panel` } 
             order={ RSPrefs.direction === LayoutDirection.rtl ? 1 : 3 } 
-            defaultSize={ (RSPrefs.docking.defaultWidth / window.innerWidth) * 100 } 
-            minSize={ undefined } 
-            maxSize={ undefined }
+            defaultSize={ handlePanelSize(RSPrefs.docking.defaultWidth) } 
+            minSize={ handlePanelSize(RSPrefs.actions.keys[docking.right.actionKey].docked?.minWidth) } 
+            maxSize={ handlePanelSize(RSPrefs.actions.keys[docking.right.actionKey].docked?.maxWidth) }
           >
             <div 
               id={ DockingKeys.right } 

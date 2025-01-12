@@ -195,12 +195,16 @@ export const RSPrefs: IRSPrefs = {
           [StaticBreakpoints.medium]: SheetTypes.fullscreen,
           [StaticBreakpoints.large]: SheetTypes.dockedStart
         },
-        dockable: Dockable.both
+        docked: {
+          dockable: Dockable.both,
+          width: 340,
+          minWidth: 300,
+          maxWidth: 450
+        }
       },
       [ActionKeys.fullscreen]: {
         visibility: ActionVisibility.always,
-        shortcut: `${ShortcutMetaKeywords.platform}+F11`,
-        dockable: Dockable.none
+        shortcut: `${ShortcutMetaKeywords.platform}+F11`
       },
       [ActionKeys.toc]: {
         visibility: ActionVisibility.always,
@@ -209,12 +213,17 @@ export const RSPrefs: IRSPrefs = {
           [StaticBreakpoints.compact]: SheetTypes.fullscreen,
           [StaticBreakpoints.medium]: SheetTypes.fullscreen
         },
-        dockable: Dockable.both
+        docked: {
+          dockable: Dockable.end,
+          width: 300
+        }
       },
       [ActionKeys.jumpToPosition]: {
         visibility: ActionVisibility.overflow,
         shortcut: `${ShortcutMetaKeywords.platform}+J`,
-        dockable: Dockable.none
+        docked: {
+          dockable: Dockable.none
+        }
       }
     }
   },
