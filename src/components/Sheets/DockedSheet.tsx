@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { createPortal } from 'react-dom';
 
-import { ISheet, SheetTypes } from "@/models/sheets";
+import { ISheet } from "@/models/sheets";
 import { DockingKeys } from "@/models/docking";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
@@ -9,16 +9,12 @@ import sheetStyles from "../assets/styles/sheet.module.css";
 import { Heading } from "react-aria-components";
 import { Docker } from "./Docking/Docker";
 
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setLeftDock, setRightDock } from "@/lib/readerReducer";
-
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
 import classNames from "classnames";
-import { useDocking } from "@/hooks/useDocking";
 
 export interface IDockedSheet extends ISheet {
-  side: DockingKeys.left | DockingKeys.right | null;
+  side: DockingKeys.start | DockingKeys.end | null;
 }
 
 export const DockedSheet: React.FC<IDockedSheet> = ({ 
@@ -28,11 +24,12 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     className, 
     isOpen,
     onOpenChangeCallback, 
-    onClosePressCallback, 
+    onClosePressCallback,
+    docker, 
     side,
     children 
   }) => {
-  const dockPortal = useRef<HTMLElement | null>(null);
+  const dockPortal = side && document.getElementById(side);
   const dockedSheetBodyRef = useRef<HTMLDivElement | null>(null);
   const dockedSheetCloseRef = useRef<HTMLButtonElement | null>(null);
   const firstFocusable = useFirstFocusable({
@@ -41,18 +38,8 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     fallbackRef: dockedSheetCloseRef
   });
 
-  const [dockType, setDockType] = useState<SheetTypes.dockedStart | SheetTypes.dockedEnd | null>(null);
-
   const classFromSide = useCallback(() => {
-    return side === DockingKeys.left ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
-  }, [side])
-
-  useEffect(() => {
-    if (!side) return;
-
-    side === DockingKeys.left ? setDockType(SheetTypes.dockedStart) : setDockType(SheetTypes.dockedEnd);
-
-    dockPortal.current = document.getElementById(side);
+    return side === DockingKeys.start ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
   }, [side]);
 
   return (
@@ -61,14 +48,14 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
       ? <>
       { renderActionIcon() }
 
-        { isOpen && dockPortal.current && createPortal(
+        { isOpen && dockPortal && createPortal(
           <div className={ classNames(sheetStyles.dockedSheet, className, classFromSide()) }>
             <div className={ sheetStyles.sheetHeader }>
               <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
               <Docker 
                 id={ id }
-                sheetType={ dockType }
+                keys={ docker || [] }
                 ref={ dockedSheetCloseRef }
                 onCloseCallback={ onClosePressCallback }
               /> 
@@ -81,7 +68,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
               { children }
             </div>
           </div>, 
-          dockPortal.current) 
+          dockPortal) 
         }
         </>
       : <></> }

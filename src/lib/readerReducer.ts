@@ -3,8 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IReaderState } from "@/models/state/readerState";
 import { defaultPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { LayoutDirection } from "@/models/layout";
-import { ActionKeys } from "@/models/actions";
-import { Docked } from "@/models/docking";
 
 const initialState: IReaderState = {
   direction: LayoutDirection.ltr,
@@ -14,9 +12,7 @@ const initialState: IReaderState = {
   isPaged: true,
   colCount: "auto",
   overflowMenuOpen: false,
-  platformModifier: defaultPlatformModifier,
-  leftDock: null,
-  rightDock: null
+  platformModifier: defaultPlatformModifier
 }
 
 export const readerSlice = createSlice({
@@ -49,20 +45,6 @@ export const readerSlice = createSlice({
     },
     setOverflowMenuOpen: (state, action) => {
       state.overflowMenuOpen = action.payload
-    },
-    setLeftDock: (state, action: { type: string, payload: Docked | null }) => {
-      if (action.payload && Object.values(ActionKeys).includes(action.payload.actionKey)) {
-        state.leftDock = action.payload
-      } else {
-        state.leftDock = null;
-      }
-    },
-    setRightDock: (state, action: { type: string, payload: Docked | null }) => {
-      if (action.payload && Object.values(ActionKeys).includes(action.payload.actionKey)) {
-        state.rightDock = action.payload
-      } else {
-        state.rightDock = null;
-      }
     }
   }
 })
@@ -77,9 +59,7 @@ export const {
   setFullscreen, 
   setPaged, 
   setColCount, 
-  setOverflowMenuOpen,
-  setLeftDock, 
-  setRightDock 
+  setOverflowMenuOpen
 } = readerSlice.actions;
 
 export default readerSlice.reducer;

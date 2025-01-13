@@ -14,11 +14,12 @@ export const Actions = ({
       className={ className } 
       aria-label={ label }
     >
-      { items.map(({ Comp, key, associatedKey }) => 
+      { items.map(({ Comp, key, associatedKey, ...props }) => 
         <Comp 
           key={ key } 
           variant={ ActionComponentVariant.button } 
           { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
+          { ...props }
         />) }
     </div>
     </>

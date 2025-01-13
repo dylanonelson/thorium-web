@@ -1,5 +1,4 @@
 import { LayoutDirection } from "../layout";
-import { Docked } from "../docking";
 import { IPlatformModifier } from "../shortcut";
 
 export interface IReaderState {
@@ -11,6 +10,4 @@ export interface IReaderState {
   colCount: string;
   overflowMenuOpen: boolean;
   platformModifier: IPlatformModifier;
-  leftDock: Docked | null;
-  rightDock: Docked | null;
 }

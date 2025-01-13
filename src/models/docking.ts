@@ -1,22 +1,22 @@
 import { IActionTokens } from "./actions";
 import { Collapsibility } from "./collapsibility";
-import { SheetTypes } from "./sheets";
 import { ActionsStateKeys } from "./state/actionsState";
+import { StaticBreakpoints } from "./staticBreakpoints";
 
 export interface IDocker {
   id: ActionsStateKeys;
-  sheetType: SheetTypes | null;
+  keys: DockingKeys[];
   ref: React.ForwardedRef<HTMLButtonElement>;
   onCloseCallback: () => void;
 }
 
 export enum DockingKeys {
-  left = "dockingLeft",
-  right = "dockingRight",
+  start = "dockingStart",
+  end = "dockingEnd",
   transient = "dockingTransient"
 }
 
-export enum Dockable {
+export enum DockTypes {
   none = "none",
   both = "both",
   start = "start",
@@ -24,13 +24,30 @@ export enum Dockable {
 }
 
 export type Docked = {
+  actionKey: ActionsStateKeys | null;
   active: boolean;
-  actionKey: ActionsStateKeys;
+  open: boolean;
+  width?: number;
+}
+
+export type BreakpointsDockingMap = {
+  [key in StaticBreakpoints]?: DockTypes;
+}
+
+export interface IDockingProps {
+  key: ActionsStateKeys;
+  docked: DockingKeys;
+  opened: boolean;
+}
+
+export interface IDockPanelSizes {
   width: number;
+  minWidth: number;
+  maxWidth: number;
 }
 
 export interface IDockedPref {
-  dockable: Dockable,
+  dockable: DockTypes,
   width?: number,
   minWidth?: number,
   maxWidth?: number
@@ -39,6 +56,7 @@ export interface IDockedPref {
 export interface IDockingPref {
   displayOrder: DockingKeys[];
   collapse: Collapsibility;
+  dock: BreakpointsDockingMap | boolean; 
   defaultWidth: number;
   keys: {
     [key in  DockingKeys]: IActionTokens;

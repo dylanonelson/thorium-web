@@ -4,6 +4,7 @@ import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ActionComponentVariant, ActionKeys, IActionComponent } from "@/models/actions";
+import { BreakpointsSheetMap, SheetTypes } from "@/models/sheets";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
@@ -16,17 +17,28 @@ import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 import { ReadingDisplayTheme } from "./ReadingDisplayTheme";
 
+import { useDocking } from "@/hooks/useDocking";
+
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setSettingsAction } from "@/lib/actionsReducer";
+import { setAction } from "@/lib/actionsReducer";
 import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 
 export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
-  const actionState = useAppSelector(state => state.actions[ActionKeys.settings]);
+  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
   const dispatch = useAppDispatch();
 
-  const setOpen = (value: boolean) => {
-    dispatch(setSettingsAction({ isOpen: value }));
+  const docking = useDocking({
+    key: ActionKeys.settings,
+    docked: actionState.isDocked,
+    opened: actionState.isOpen
+  });
+
+  const setOpen = (value: boolean) => {    
+    dispatch(setAction({
+      key: ActionKeys.settings,
+      isOpen: value
+    }));
 
     // hover false otherwise it tends to stay on close button press…
     if (!value) dispatch(setHovering(false));
@@ -47,7 +59,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
     return(
       <>
       <SheetWithBreakpoints 
-        breakpointsMap={ makeBreakpointsMap(RSPrefs.actions.keys[ActionKeys.settings].sheet) } 
+        breakpointsMap={ makeBreakpointsMap<BreakpointsSheetMap>(RSPrefs.actions.defaultSheet, SheetTypes, RSPrefs.actions.keys[ActionKeys.settings].sheet) } 
         sheetProps={ {
           id: ActionKeys.settings,
           renderActionIcon: () => <ActionIcon 
@@ -63,7 +75,8 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
           placement: "bottom", 
           isOpen: actionState.isOpen,
           onOpenChangeCallback: setOpen, 
-          onClosePressCallback: () => setOpen(false)
+          onClosePressCallback: () => setOpen(false),
+          docker: docking.getDocker()
         } }
       >
         <ReadingDisplayTheme mapArrowNav={ 2 } />

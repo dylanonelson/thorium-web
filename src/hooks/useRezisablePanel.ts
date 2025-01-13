@@ -4,20 +4,14 @@ import { RSPrefs } from "../preferences";
 
 import { Docked, IDockedPref } from "../models/docking";
 
-export const useRezisablePanel = (panel: Docked | null) => {
+export const useRezisablePanel = (panel: Docked) => {
   const [pref, setPref] = useState<IDockedPref | null>(null);
   
   const width = pref?.width || RSPrefs.docking.defaultWidth;
   const minWidth = pref?.minWidth && pref.minWidth < width ? pref.minWidth : RSPrefs.docking.defaultWidth;
   const maxWidth = pref?.maxWidth && pref.maxWidth > width ? pref.maxWidth : RSPrefs.docking.defaultWidth;
 
-  const isActive = () => {
-    return panel?.active;
-  };
-  
   const isResizable = () => {
-    console.log(width, minWidth, maxWidth);
-
     return (width > minWidth) && (width < maxWidth);
   };
 
@@ -34,16 +28,10 @@ export const useRezisablePanel = (panel: Docked | null) => {
   };
 
   useEffect(() => {
-    let updatedPanel: IDockedPref | null = null;
-    if (panel?.actionKey) {
-      updatedPanel = RSPrefs.actions.keys[panel?.actionKey].docked || null;
-    };
-
-    setPref(updatedPanel);
+    setPref(panel.actionKey ? RSPrefs.actions.keys[panel.actionKey].docked || null : null);
   }, [panel])
 
   return {
-    isActive,
     isResizable,
     getWidth,
     getMinWidth,

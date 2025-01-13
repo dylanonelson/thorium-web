@@ -1,22 +1,34 @@
-import { RSPrefs } from "@/preferences";
-
-import { BreakpointsMap, SheetPref, SheetTypes } from "@/models/sheets";
+import { BreakpointsDockingMap, DockTypes } from "@/models/docking";
+import { BreakpointsSheetMap, SheetTypes } from "@/models/sheets";
 import { StaticBreakpoints } from "@/models/staticBreakpoints";
 
-export const makeBreakpointsMap = (pref?: SheetPref): Required<BreakpointsMap> => {
+export const makeBreakpointsMap = <T extends BreakpointsSheetMap | BreakpointsDockingMap>(
+  defaultValue: SheetTypes | DockTypes,
+  fromEnum: typeof SheetTypes | typeof DockTypes,
+  pref?: T | boolean,
+  disabledValue?: SheetTypes | DockTypes,
+): Required<T> => {
   const isValidType = (t: string) => {
-    return Object.values(SheetTypes).includes(t as SheetTypes);
+    return Object.values(fromEnum).includes(t as keyof typeof fromEnum);
   };
 
-  const breakpointsMap: Required<BreakpointsMap> = {
-    [StaticBreakpoints.compact]: RSPrefs.actions.defaultSheet,
-    [StaticBreakpoints.medium]: RSPrefs.actions.defaultSheet,
-    [StaticBreakpoints.expanded]: RSPrefs.actions.defaultSheet,
-    [StaticBreakpoints.large]: RSPrefs.actions.defaultSheet,
-    [StaticBreakpoints.xLarge]: RSPrefs.actions.defaultSheet
+  const breakpointsMap = {
+    [StaticBreakpoints.compact]: defaultValue,
+    [StaticBreakpoints.medium]: defaultValue,
+    [StaticBreakpoints.expanded]: defaultValue,
+    [StaticBreakpoints.large]: defaultValue,
+    [StaticBreakpoints.xLarge]: defaultValue
   };
 
-  if (typeof pref === "string" && isValidType(pref)) {
+  if (typeof pref === "boolean" || pref instanceof Boolean) {
+    if (!pref && disabledValue) {
+      for (const key in breakpointsMap) {
+        Object.defineProperty(breakpointsMap, key, {
+          value: disabledValue
+        })
+      }
+    }
+  } else if (typeof pref === "string" && isValidType(pref)) {
     for (const key in breakpointsMap) {
       Object.defineProperty(breakpointsMap, key, {
         value: pref
@@ -32,5 +44,5 @@ export const makeBreakpointsMap = (pref?: SheetPref): Required<BreakpointsMap> =
     })
   };
   
-  return breakpointsMap;
+  return breakpointsMap as Required<T>;
 }

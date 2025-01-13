@@ -7,13 +7,10 @@ import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
-import dockStyles from "./assets/styles/docking.module.css";
 
 import { ScrollBackTo } from "@/models/preferences";
 import { ThemeKeys } from "@/models/theme";
-import { DockingKeys } from "@/models/docking";
 import { IRCSSSettings } from "@/models/rcss-settings";
-import { LayoutDirection } from "@/models/layout";
 
 import {
   BasicTextSelection,
@@ -22,7 +19,6 @@ import {
 import { EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
@@ -30,8 +26,6 @@ import { ReaderFooter } from "./ReaderFooter";
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useFullscreen } from "@/hooks/useFullscreen";
 import { useTheming } from "@/hooks/useTheming";
-import { useDocking } from "@/hooks/useDocking";
-import { useRezisablePanel } from "@/hooks/useRezisablePanel";
 
 import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
@@ -43,6 +37,7 @@ import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicatio
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
+import { ReaderWithDock } from "./ReaderWithPanels";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -61,10 +56,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isImmersiveRef = useRef(isImmersive);
-
-  const docking = useDocking();
-  const leftDock = useRezisablePanel(docking.left);
-  const rightDock = useRezisablePanel(docking.right);
 
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
@@ -367,33 +358,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   return (
     <>
     <main>
-      <PanelGroup onLayout={ handleResize } autoSaveId="reader-dock" direction="horizontal">
-        { leftDock.isActive() && (
-          <>
-          <Panel 
-            id={ `${ DockingKeys.left }-panel` } 
-            order={ RSPrefs.direction === LayoutDirection.rtl ? 3 : 1 } 
-            defaultSize={ leftDock.getWidth() } 
-            minSize={ leftDock.getMinWidth() } 
-            maxSize={ leftDock.getMaxWidth() }
-          >
-            <div 
-              id={ DockingKeys.left } 
-              aria-label={ Locale.reader.app.dockingLeft }
-              className="left-dock"
-            ></div>
-          </Panel>
-          <PanelResizeHandle 
-            className={ dockStyles.dockResizeHandle }
-            disabled={ !leftDock.isResizable() }
-          >
-            { leftDock.isResizable() && <div className={ dockStyles.dockResizeHandleGrab }></div> }
-          </PanelResizeHandle>
-          </>
-        )
-      }
-
-      <Panel id="main-panel" order={ 2 }>
+      <ReaderWithDock resizeCallback={ handleResize }>
         <div id="reader-main">
           <ReaderHeader />
 
@@ -423,33 +388,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
         { isPaged ? <ReaderFooter /> : <></> }
         </div>
-      </Panel>
-
-      { rightDock.isActive() && (
-          <>
-          <PanelResizeHandle 
-            className={ dockStyles.dockResizeHandle }
-            disabled={ !rightDock.isResizable()}
-          >
-            { rightDock.isResizable() && <div className={ dockStyles.dockResizeHandleGrab }></div> }
-          </PanelResizeHandle>
-          <Panel 
-            id={ `${ DockingKeys.right }-panel` } 
-            order={ RSPrefs.direction === LayoutDirection.rtl ? 1 : 3 } 
-            defaultSize={ rightDock.getWidth() } 
-            minSize={ rightDock.getMinWidth() } 
-            maxSize={ rightDock.getMaxWidth() }
-          >
-            <div 
-              id={ DockingKeys.right } 
-              aria-label={ Locale.reader.app.dockingRight }
-              className="right-dock"
-             ></div>
-          </Panel>
-          </>
-        )
-      }
-    </PanelGroup>
+    </ReaderWithDock>
   </main>
   </>
 )};
