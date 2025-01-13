@@ -2,187 +2,87 @@ import { useCallback, useEffect } from "react";
 
 import { RSPrefs } from "@/preferences";
 
-import { ActionsStateKeys, IActionStateObject } from "@/models/state/actionsState";
-import { LayoutDirection } from "@/models/layout";
-import { Docked, DockingKeys } from "@/models/docking";
-import { ActionKeys } from "@/models/actions";
+import { DockTypes, BreakpointsDockingMap, IDockingProps, DockingKeys } from "@/models/docking";
+import { SheetTypes } from "@/models/sheets";
 
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setLeftDock, setRightDock } from "@/lib/readerReducer";
-import { setJumpToPositionAction, setSettingsAction, setTocAction } from "@/lib/actionsReducer";
+import { useAppSelector } from "@/lib/hooks";
+import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 
-// Note: this is a temporary custom hook aimed to design the entire logic
-// and discover all the corner cases.
-// Eventually, this should be handled in the actionsReducer since 
-// it is used to share state, and not stateful logic, hence why
-// it is using callbacks to cache functions extensively.
-export const useDocking = (key?: ActionsStateKeys) => {
-  const left = useAppSelector(state => state.reader.leftDock);
-  const right = useAppSelector(state => state.reader.rightDock);
-  const actionsState = useAppSelector(state => state.actions);
-  const actionState = key ? actionsState[key] : null;
+let dockPref: Required<BreakpointsDockingMap> | null = null;
 
-  const dispatch = useAppDispatch();
+export const useDocking = ({
+  key
+}: IDockingProps) => {
+  if (!dockPref) {
+    dockPref = makeBreakpointsMap<BreakpointsDockingMap>(DockTypes.both, DockTypes, RSPrefs.docking.dock, DockTypes.none);
+  }
+  const dockablePref = RSPrefs.actions.keys[key].docked?.dockable || DockTypes.none;
+    
+  const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
+  
+  const sheetPref = staticBreakpoint && RSPrefs.actions.keys[key].sheet && RSPrefs.actions.keys[key].sheet[staticBreakpoint];
+  const currentDockConfig = staticBreakpoint && dockPref[staticBreakpoint];
 
-  const isOpen = actionState?.isOpen || false;
-  const isDocked = actionState?.isDocked || DockingKeys.transient;
-  const dockedWidth = actionState?.dockedWidth || RSPrefs.docking.defaultWidth;
+  const getDocker = useCallback((): DockingKeys[] => {
+    // First let’s handle the cases where docker shouldn’t be used
+    // The sheet is not dockable, per key.docked.dockable pref
+    if (dockablePref === DockTypes.none) return [];
+    // There’s no docking slot available, per docking.dock pref
+    if (currentDockConfig === DockTypes.none) return [];
+    // The sheet type is not compatible with docking
+    if (sheetPref === SheetTypes.fullscreen) return [];
 
-  const isCurrentlyLeft = useCallback(() => {
-    return key && key === left?.actionKey;
-  }, [left]);
-
-  const isCurrentlyRight = useCallback(() => {
-    return key && key === right?.actionKey;
-  }, [right]);
-
-  const isCurrentlyDocked = useCallback(() => {
-    return actionState?.isDocked === DockingKeys.left || actionState?.isDocked === DockingKeys.right;
-  }, []);
-
-  const isUndocked = useCallback(() => {
-    return !isCurrentlyLeft() && !isCurrentlyRight();
-  }, []);
-
-  const removeFromDock = useCallback(() => {
-    if (isCurrentlyLeft()) {
-      dispatch(setLeftDock(null));
-    } else if (isCurrentlyRight()) {
-      dispatch(setRightDock(null));
-    }
-  }, []);
-
-  const dockToSide = useCallback((docking: DockingKeys.left | DockingKeys.right, payload: Docked) => {
-    if (docking === DockingKeys.left) {
-      dispatch(setLeftDock(payload));
-    } else {
-      dispatch(setRightDock(payload));
-    }
-  }, []);
-
-  const updateInDock = useCallback((payload: Docked) => {
-    if (isCurrentlyLeft()) {
-      dispatch(setLeftDock(payload));
-    } else if (isCurrentlyRight()) {
-      dispatch(setRightDock(payload));
-    }
-  }, []);
-
-  const setAction = useCallback((payload: Partial<IActionStateObject>) => {
-    if (!key) return;
-
-    switch(key) {
-      case ActionKeys.jumpToPosition:
-        dispatch(setJumpToPositionAction(payload));
-        break;
-      case ActionKeys.settings:
-        dispatch(setSettingsAction(payload));
-        break;
-      case ActionKeys.toc:
-        dispatch(setTocAction(payload));
-        break;
-      default:
-        break;
-    }
-  }, []);
-
-  const setLeft = useCallback(() => {
-    if (!key) return;
-
-    setAction({ isDocked: DockingKeys.left });
-  }, []);
-
-  const setRight = useCallback(() => {
-    if (!key) return; 
-
-    setAction({ isDocked: DockingKeys.right });
-  }, []);
-
-  const setTransient = useCallback(() => {
-    if (!key) return;
-
-    setAction({ isDocked: DockingKeys.transient });
-  }, []);
-
-  const undock = useCallback(() => {
-    removeFromDock();
-    setTransient();
-  }, []);
-
-  const switchDock = useCallback(() => {
-    if (!key || !isCurrentlyDocked()) return;
-
-    if (isCurrentlyLeft()) {
-      removeFromDock();
-      setRight();
-    } else if (isCurrentlyRight()) {
-      removeFromDock();
-      setLeft();
-    }
-  }, []);
-
-  const setStart = useCallback(() => {
-    if (!key) return;
-
-    if (RSPrefs.direction === LayoutDirection.rtl) {
-      if (isCurrentlyLeft()) {
-        switchDock();
-      } else {
-        setRight();
+    // We can now build the docker from the display order
+    let dockerKeys: DockingKeys[] = [];
+    // In order for an action to be dockable, the dock slot has to exist
+    // and the dockable preference of key.docked should match the values
+    RSPrefs.docking.displayOrder.forEach((dockingKey: DockingKeys) => {
+      switch(dockingKey) {
+        case DockingKeys.transient:
+          // We already handled both cases for none 
+          dockerKeys.push(dockingKey);
+          break;
+        case DockingKeys.start:
+          if (
+              (currentDockConfig === DockTypes.both ||
+              currentDockConfig === DockTypes.start) && 
+              (dockablePref === DockTypes.both || 
+              dockablePref === DockTypes.start)
+          ) {
+            dockerKeys.push(dockingKey);
+          }
+          break;
+        case DockingKeys.end:
+          if (
+            (currentDockConfig === DockTypes.both ||
+            currentDockConfig === DockTypes.end) && 
+            (dockablePref === DockTypes.both || 
+            dockablePref === DockTypes.end)
+        ) {
+          dockerKeys.push(dockingKey);
+        }
+          break;
+        default:
+          break;
       }
-    } else {
-      if (isCurrentlyRight()) {
-        switchDock();
-      } else {
-        setLeft();
-      }
-    }
-  }, []);
+    });
 
-  const setEnd = useCallback(() => {
-    if (!key) return; 
+    // If the action can only be transient, then it can’t be docked
+    if (dockerKeys.length === 1 && dockerKeys[0] === DockingKeys.transient) return [];
 
-    if (RSPrefs.direction === LayoutDirection.rtl) {
-      if (isCurrentlyRight()) {
-        switchDock();
-      } else {
-        setLeft();
-      }
-    } else {
-      if (isCurrentlyLeft()) {
-        switchDock();
-      } else {
-        setRight();
-      }
-    }
-  }, []);
+    return dockerKeys;
+  }, [currentDockConfig, sheetPref, dockablePref]);
 
-  useEffect(() => {
-    if (!key || isDocked === DockingKeys.transient) return;
+  // If a slot is removed, active should be set to false, in order to keep
+  // the action docked on responsive, but display another type of sheet 
+  // based on preferences (breakpoint map)
+  // If a slot is added, active should be set to true
+  // We also need to sync action.key isOpen
 
-    if (isCurrentlyDocked()) {
-      updateInDock({
-        actionKey: key,
-        active: isOpen,
-        width: dockedWidth
-      });
-    } else {
-      dockToSide(isDocked, {
-        actionKey: key,
-        active: isOpen,
-        width: dockedWidth
-      });
-    }
-  }, [isDocked, isOpen, dockedWidth]);
+  // The preference for the type of sheet should only be honored 
+  // if the dock slot is empty since we don’t want to override users’ customization
 
   return {
-    left,
-    right,
-    isCurrentlyLeft,
-    isCurrentlyRight, 
-    isUndocked,
-    setStart,
-    setEnd,
-    undock
+    getDocker
   }
 }

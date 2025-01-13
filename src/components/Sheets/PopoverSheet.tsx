@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from "react";
 
-import { ISheet, SheetTypes } from "@/models/sheets";
+import { ISheet } from "@/models/sheets";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 
@@ -23,7 +23,8 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
     isOpen,
     onOpenChangeCallback, 
     onClosePressCallback,
-    placement, 
+    placement,
+    docker,
     children 
   }) => {
   const popoverRef = useRef<HTMLDivElement | null>(null);
@@ -59,8 +60,8 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
             
               <Docker 
                 id={ id }
+                keys={ docker || [] }
                 ref={ popoverCloseRef }
-                sheetType={ SheetTypes.popover }
                 onCloseCallback={ onClosePressCallback }
               /> 
             </div>

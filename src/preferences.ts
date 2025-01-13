@@ -3,7 +3,7 @@ import { StaticBreakpoints } from "./models/staticBreakpoints";
 import { ShortcutMetaKeywords, ShortcutRepresentation } from "./models/shortcut";
 import { ActionKeys, ActionVisibility } from "./models/actions";
 import { SheetTypes } from "./models/sheets";
-import { Dockable, DockingKeys } from "./models/docking";
+import { DockTypes, DockingKeys } from "./models/docking";
 import { ThemeKeys } from "./models/theme";
 import { LayoutDirection } from "./models/layout";
 
@@ -192,15 +192,12 @@ export const RSPrefs: IRSPrefs = {
         shortcut: `${ShortcutMetaKeywords.platform}+P`,
         sheet: {
           [StaticBreakpoints.compact]: SheetTypes.fullscreen,
-          [StaticBreakpoints.medium]: SheetTypes.fullscreen,
-          [StaticBreakpoints.large]: SheetTypes.dockedStart
+          [StaticBreakpoints.medium]: SheetTypes.fullscreen
         },
         docked: {
-          dockable: Dockable.both,
-          width: 340,
-          minWidth: 300,
-          maxWidth: 450
-        }
+          dockable: DockTypes.end,
+          width: 340
+        },
       },
       [ActionKeys.fullscreen]: {
         visibility: ActionVisibility.always,
@@ -211,18 +208,21 @@ export const RSPrefs: IRSPrefs = {
         shortcut: `${ShortcutMetaKeywords.platform}+N`,
         sheet: {
           [StaticBreakpoints.compact]: SheetTypes.fullscreen,
-          [StaticBreakpoints.medium]: SheetTypes.fullscreen
+          [StaticBreakpoints.medium]: SheetTypes.fullscreen,
+          [StaticBreakpoints.large]: SheetTypes.dockedStart
         },
         docked: {
-          dockable: Dockable.end,
-          width: 300
+          dockable: DockTypes.both,
+          width: 360,
+          minWidth: 300,
+          maxWidth: 450
         }
       },
       [ActionKeys.jumpToPosition]: {
         visibility: ActionVisibility.overflow,
         shortcut: `${ShortcutMetaKeywords.platform}+J`,
         docked: {
-          dockable: Dockable.none
+          dockable: DockTypes.none
         }
       }
     }
@@ -230,17 +230,24 @@ export const RSPrefs: IRSPrefs = {
   docking: {
     displayOrder: [
       DockingKeys.transient,
-      DockingKeys.left,
-      DockingKeys.right
+      DockingKeys.start,
+      DockingKeys.end
     ],
+    dock: {
+      [StaticBreakpoints.compact]: DockTypes.none,
+      [StaticBreakpoints.medium]: DockTypes.none,
+      [StaticBreakpoints.expanded]: DockTypes.start,
+      [StaticBreakpoints.large]: DockTypes.both,
+      [StaticBreakpoints.xLarge]: DockTypes.both
+    },
     collapse: true,
     defaultWidth: 340,
     keys: {
-      [DockingKeys.left]: {
+      [DockingKeys.start]: {
         visibility: ActionVisibility.overflow,
         shortcut: null
       },
-      [DockingKeys.right]: {
+      [DockingKeys.end]: {
         visibility: ActionVisibility.overflow,
         shortcut: null
       },

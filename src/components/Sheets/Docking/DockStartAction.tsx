@@ -7,8 +7,10 @@ import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { ActionComponentVariant, IActionComponent } from "@/models/actions";
 import { DockingKeys } from "@/models/docking";
+import { LayoutDirection } from "@/models/layout";
 
-import Dialog from "../../assets/icons/dialogs.svg";
+import DockToLeft from "../../assets/icons/dock_to_right.svg";
+import DocktoRight from "../../assets/icons/dock_to_left.svg";
 
 import { ActionIcon } from "@/components/Templates/ActionIcon";
 import { OverflowMenuItem } from "@/components/Templates/OverflowMenuItem";
@@ -16,18 +18,20 @@ import { OverflowMenuItem } from "@/components/Templates/OverflowMenuItem";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
 
-export const FullscreenSheetAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
+export const DockStartAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
+  const isRTL = RSPrefs.direction === LayoutDirection.rtl;
+  const localeKey = isRTL ? Locale.reader.app.docker.dockToRight : Locale.reader.app.docker.dockToLeft;
+
   const dockingStart = useAppSelector(state => state.actions.dock[DockingKeys.start]);
-  const dockingEnd = useAppSelector(state => state.actions.dock[DockingKeys.end])
-  const isDisabled = (dockingStart.actionKey === associatedKey) && (dockingEnd.actionKey === associatedKey);
+  const isDisabled = dockingStart.actionKey === associatedKey;
   
   const dispatch = useAppDispatch();
-    
+
   const handlePress = useCallback(() => {
     if (associatedKey) {
       dispatch(dockAction({
         key: associatedKey,
-        dockingKey: DockingKeys.transient
+        dockingKey: DockingKeys.start
       }))
     }
   }, [dispatch, associatedKey]);
@@ -36,11 +40,11 @@ export const FullscreenSheetAction: React.FC<IActionComponent> = ({ variant, ass
     return(
       <>
       <OverflowMenuItem 
-        label={ Locale.reader.app.docker.fullscreen.trigger }
-        SVG={ Dialog } 
-        shortcut={ RSPrefs.docking.keys[DockingKeys.transient].shortcut }
+        label={ localeKey.trigger }
+        SVG={ isRTL ? DocktoRight : DockToLeft } 
+        shortcut={ RSPrefs.docking.keys[DockingKeys.start].shortcut }
         onActionCallback={ handlePress } 
-        id={ `${ DockingKeys.transient }-${ associatedKey }` } 
+        id={ `${ DockingKeys.start }-${ associatedKey }` }
         isDisabled={ isDisabled }
       />
       </>
@@ -50,10 +54,10 @@ export const FullscreenSheetAction: React.FC<IActionComponent> = ({ variant, ass
       <>
       <ActionIcon 
         className={ readerSharedUI.dockerButton }  
-        ariaLabel={ Locale.reader.app.docker.fullscreen.trigger }
-        SVG={ Dialog } 
+        ariaLabel={ localeKey.trigger }
+        SVG={ isRTL ? DocktoRight : DockToLeft } 
         placement="bottom" 
-        tooltipLabel={ Locale.reader.app.docker.fullscreen.tooltip } 
+        tooltipLabel={ localeKey.tooltip } 
         onPressCallback={ handlePress } 
         isDisabled={ isDisabled }
       />

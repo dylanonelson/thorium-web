@@ -11,10 +11,11 @@ import CheckIcon from "./assets/icons/check.svg";
 import { Label, Radio, RadioGroup } from "react-aria-components";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setSettingsAction } from "@/lib/actionsReducer";
+import { setAction } from "@/lib/actionsReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 import classNames from "classnames";
+import { ActionKeys } from "@/models/actions";
 
 export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
   const radioGroupRef = useRef<HTMLDivElement | null>(null);
@@ -72,7 +73,10 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
 
       switch(e.code) {
         case "Escape":
-          dispatch(setSettingsAction({ isOpen: false })); 
+          dispatch(setAction({ 
+            key: ActionKeys.settings,
+            isOpen: false 
+          })); 
           break;
         case "ArrowUp":
           e.preventDefault();

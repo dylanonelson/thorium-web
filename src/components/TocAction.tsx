@@ -4,6 +4,7 @@ import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ActionComponentVariant, ActionKeys, IActionComponent } from "@/models/actions";
+import { BreakpointsSheetMap, SheetTypes } from "@/models/sheets";
 
 import tocStyles from "./assets/styles/toc.module.css";
 
@@ -14,16 +15,27 @@ import { ListBox, ListBoxItem } from "react-aria-components";
 import { SheetWithBreakpoints } from "./Sheets/SheetWithBreakpoints";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 
+import { useDocking } from "@/hooks/useDocking";
+
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setTocAction } from "@/lib/actionsReducer";
+import { setAction } from "@/lib/actionsReducer";
 import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 
 export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
-  const actionState = useAppSelector(state => state.actions[ActionKeys.toc]);
+  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
   const dispatch = useAppDispatch();
 
+  const docking = useDocking({
+    key: ActionKeys.toc,
+    docked: actionState.isDocked,
+    opened: actionState.isOpen
+  });
+
   const setOpen = (value: boolean) => {
-    dispatch(setTocAction({ isOpen: value }));
+    dispatch(setAction({ 
+      key: ActionKeys.toc,
+      isOpen: value 
+    }));
   }
 
   if (variant && variant === ActionComponentVariant.menu) {
@@ -41,7 +53,7 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
     return(
       <>
       <SheetWithBreakpoints 
-        breakpointsMap={ makeBreakpointsMap(RSPrefs.actions.keys[ActionKeys.toc].sheet) } 
+        breakpointsMap={ makeBreakpointsMap<BreakpointsSheetMap>(RSPrefs.actions.defaultSheet, SheetTypes, RSPrefs.actions.keys[ActionKeys.toc].sheet) } 
         sheetProps={ {
           id: ActionKeys.toc,
           renderActionIcon:() => <ActionIcon 
@@ -57,7 +69,8 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
           placement:"bottom",
           isOpen: actionState.isOpen,
           onOpenChangeCallback: setOpen,
-          onClosePressCallback: () => setOpen(false)
+          onClosePressCallback: () => setOpen(false),
+          docker: docking.getDocker()
         } }
       >
         {/* toc.items.length > 0 

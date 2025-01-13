@@ -1,3 +1,6 @@
+import { SheetTypes } from "./sheets";
+import { DockTypes } from "./docking";
+
 export enum StaticBreakpoints {
   compact = "compact",
   medium = "medium",
@@ -14,3 +17,5 @@ export type BreakpointRange = {
 }
 
 export type BreakpointRanges = { [key in StaticBreakpoints]: BreakpointRange | null; }
+
+export type BreakpointsMap = { [key in StaticBreakpoints]: SheetTypes | DockTypes }

@@ -2,6 +2,7 @@ import { ReactElement, ReactNode } from "react";
 import { IActionIconProps } from "./actions";
 import { StaticBreakpoints } from "./staticBreakpoints";
 import { ActionsStateKeys } from "./state/actionsState";
+import { DockingKeys } from "./docking";
 
 export enum SheetTypes {
   popover = "popover",
@@ -10,7 +11,7 @@ export enum SheetTypes {
   dockedEnd = "docked end"
 }
 
-export type BreakpointsMap = {
+export type BreakpointsSheetMap = {
   [key in StaticBreakpoints]?: SheetTypes;
 }
 
@@ -22,7 +23,8 @@ export interface ISheet {
   isOpen: boolean;
   onOpenChangeCallback: (isOpen: boolean) => void;
   onClosePressCallback: () => void;
+  docker?: DockingKeys[];
   children?: ReactNode;
 }
 
-export type SheetPref = SheetTypes | BreakpointsMap;
+export type SheetPref = BreakpointsSheetMap;
