@@ -1,8 +1,8 @@
-import { BreakpointsDockingMap, DockTypes } from "@/models/docking";
-import { BreakpointsSheetMap, SheetTypes } from "@/models/sheets";
-import { StaticBreakpoints } from "@/models/staticBreakpoints";
+import { DockTypes } from "@/models/docking";
+import { SheetTypes } from "@/models/sheets";
+import { BreakpointsMap, StaticBreakpoints } from "@/models/staticBreakpoints";
 
-export const makeBreakpointsMap = <T extends BreakpointsSheetMap | BreakpointsDockingMap>(
+export const makeBreakpointsMap = <T extends BreakpointsMap>(
   defaultValue: SheetTypes | DockTypes,
   fromEnum: typeof SheetTypes | typeof DockTypes,
   pref?: T | boolean,

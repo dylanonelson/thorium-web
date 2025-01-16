@@ -69,12 +69,14 @@ const DockPanel = ({
   }, [isActive]);
 
   useEffect(() => {
+    // TMP cos handling of dockedStart and dockedEnd in sheet 
+    // is not yet implemented and will be more complex than that
     dispatch(activateDockPanel(dockKey));
 
     return () => {
       dispatch(deactivateDockPanel(dockKey));
     }
-  }, []);
+  }, [dispatch, dockKey]);
 
   return(
     <>
@@ -110,8 +112,8 @@ export const ReaderWithDock = ({
 }) => {
   const dockingStart = useAppSelector(state => state.actions.dock[DockingKeys.start]);
   const dockingEnd = useAppSelector(state => state.actions.dock[DockingKeys.end])
-  const startDock = useRezisablePanel(dockingStart);
-  const endDock = useRezisablePanel(dockingEnd);
+  const startPanel = useRezisablePanel(dockingStart);
+  const endPanel = useRezisablePanel(dockingEnd);
 
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
 
@@ -143,12 +145,12 @@ export const ReaderWithDock = ({
           && <DockPanel 
             side="left" 
             sizes={{
-              width: startDock.getWidth(),
-              minWidth: startDock.getMinWidth(),
-              maxWidth: startDock.getMaxWidth()
+              width: startPanel.getWidth(),
+              minWidth: startPanel.getMinWidth(),
+              maxWidth: startPanel.getMaxWidth()
             }} 
-            isResizable={ startDock.isResizable() }
-            isActive={ dockingStart.active && dockingStart.open }
+            isResizable={ startPanel.isResizable() }
+            isActive={ startPanel.isActive() }
           />
         }
     
@@ -170,12 +172,12 @@ export const ReaderWithDock = ({
         && <DockPanel 
             side="right" 
             sizes={{
-              width: endDock.getWidth(),
-              minWidth: endDock.getMinWidth(),
-              maxWidth: endDock.getMaxWidth()
+              width: endPanel.getWidth(),
+              minWidth: endPanel.getMinWidth(),
+              maxWidth: endPanel.getMaxWidth()
             }} 
-            isResizable={ endDock.isResizable() }
-            isActive={ dockingEnd.active && dockingEnd.open }
+            isResizable={ endPanel.isResizable() }
+            isActive={ endPanel.isActive() }
           />
       }
       </PanelGroup>

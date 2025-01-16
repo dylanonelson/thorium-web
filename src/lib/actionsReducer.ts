@@ -110,7 +110,10 @@ export const actionsSlice = createSlice({
         default:
           break;
       }
-      Object.assign(state.keys[action.payload.key], { isDocked: action.payload.dockingKey });
+      state.keys[action.payload.key] = { 
+        ...state.keys[action.payload.key],
+         isDocked: action.payload.dockingKey 
+      };
     },
     setAction: (state, action: IActionStateOpenPayload) => {
       switch (action.payload.key) {
@@ -130,13 +133,17 @@ export const actionsSlice = createSlice({
               open: action.payload.isOpen 
             };
           }
-          Object.assign(state.keys[action.payload.key], { isOpen: action.payload.isOpen });
+          state.keys[action.payload.key] = {
+            ...state.keys[action.payload.key],
+            isOpen: action.payload.isOpen 
+          };
           break;
         default:
           break;
       }
     },
     activateDockPanel: (state, action: IActionStateSlotPayload) => {
+      // TMP before dockedStart + dockedEnd
       // When mounting the panel, we want it active so that
       // it can react to the docking.dock preference based on breakpoints
       // without having to treat it as a side effect
@@ -161,6 +168,7 @@ export const actionsSlice = createSlice({
       }
     },
     deactivateDockPanel: (state, action: IActionStateSlotPayload) => {
+      // TMP before dockedStart + dockedEnd
       // When unmounting the panel, we want it active so that
       // it can react to the docking.dock preference based on breakpoints 
       // without having to treat it as a side effect
