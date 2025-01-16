@@ -192,14 +192,13 @@ export const RSPrefs: IRSPrefs = {
         shortcut: `${ShortcutMetaKeywords.platform}+P`,
         sheet: {
           [StaticBreakpoints.compact]: SheetTypes.bottomSheet,
-          [StaticBreakpoints.medium]: SheetTypes.fullscreen
         },
         docked: {
           dockable: DockTypes.end,
           width: 340
         },
         snapped: {
-          peekHeight: 20,
+          peekHeight: 40,
           minHeight: 20,
           maxHeight: 100
         }
