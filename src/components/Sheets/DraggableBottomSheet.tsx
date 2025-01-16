@@ -32,11 +32,11 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
 }) => {
   const draggableBottomSheetBodyRef = useRef<HTMLDivElement | null>(null);
   const draggableBottomSheetCloseRef = useRef<HTMLButtonElement | null>(null);
-  const firstFocusable = useFirstFocusable({
-    withinRef: draggableBottomSheetBodyRef, 
-    trackedState: isOpen, 
-    fallbackRef: draggableBottomSheetCloseRef
-  });
+  // const firstFocusable = useFirstFocusable({
+  //  withinRef: draggableBottomSheetBodyRef, 
+  //  trackedState: isOpen, 
+  //  fallbackRef: draggableBottomSheetCloseRef
+  // });
 
   const makeSnapPoints = useCallback(() => {
 
@@ -49,11 +49,13 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
       { renderActionIcon() }
       <BottomSheet
         open={ isOpen }
-        initialFocusRef={ false } 
+      //  initialFocusRef={ true } 
+      //  blocking={ true }
         expandOnContentDrag={ false } 
         onDismiss={ () => onOpenChangeCallback(!isOpen) }
       //  snapPoints={ ({}) => [] }
       //  defaultSnap={ 20 }
+       className={ sheetStyles.draggableBottomSheetModal }
       >
       <div className={ classNames(sheetStyles.draggableBottomSheet, className) }>
         <div className={ sheetStyles.sheetHeader }>
