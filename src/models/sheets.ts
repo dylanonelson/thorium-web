@@ -8,7 +8,8 @@ export enum SheetTypes {
   popover = "popover",
   fullscreen = "fullscreen",
   dockedStart = "docked start",
-  dockedEnd = "docked end"
+  dockedEnd = "docked end",
+  bottomSheet = "bottomSheet"
 }
 
 export type BreakpointsSheetMap = {
@@ -25,6 +26,12 @@ export interface ISheet {
   onClosePressCallback: () => void;
   docker?: DockingKeys[];
   children?: ReactNode;
+}
+
+export interface ISnappedPref {
+  peekHeight?: number,
+  minHeight?: number,
+  maxHeight?: number
 }
 
 export type SheetPref = BreakpointsSheetMap;

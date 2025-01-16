@@ -8,6 +8,7 @@ import { IPopoverSheet, PopoverSheet } from "./PopoverSheet";
 import { DockedSheet } from "./DockedSheet";
 
 import { useAppSelector } from "@/lib/hooks";
+import { DraggableBottomSheet } from "./DraggableBottomSheet";
 
 export const SheetWithBreakpoints = ({ 
     breakpointsMap, 
@@ -24,16 +25,6 @@ export const SheetWithBreakpoints = ({
     const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
     const sheetType = staticBreakpoint && breakpointsMap[staticBreakpoint];
 
-    if (sheetType === SheetTypes.fullscreen) {
-      return (
-        <>
-        <FullScreenSheet { ...sheetProps }>
-          { children }
-        </FullScreenSheet>
-        </>
-      )
-    }
-
     if (dockingStart.active && dockingStart.actionKey === sheetProps.id) {
       return (
         <>
@@ -48,6 +39,26 @@ export const SheetWithBreakpoints = ({
         <DockedSheet side={ DockingKeys.end } { ...sheetProps }>
           { children } 
         </DockedSheet>
+        </>
+      )
+    }
+
+    if (sheetType === SheetTypes.fullscreen) {
+      return (
+        <>
+        <FullScreenSheet { ...sheetProps }>
+          { children }
+        </FullScreenSheet>
+        </>
+      )
+    }
+
+    if (sheetType === SheetTypes.bottomSheet) {
+      return (
+        <>
+        <DraggableBottomSheet { ...sheetProps }>
+          { children }
+        </DraggableBottomSheet>
         </>
       )
     }
