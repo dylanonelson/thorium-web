@@ -2,7 +2,7 @@ import { ComponentType, ReactNode, SVGProps } from "react";
 import { PressEvent, TooltipProps } from "react-aria-components";
 import { DockingKeys, IDockedPref } from "./docking";
 import { StaticBreakpoints } from "./staticBreakpoints";
-import { SheetTypes } from "./sheets";
+import { ISnappedPref, SheetTypes } from "./sheets";
 import { Collapsibility } from "./collapsibility";
 import { ActionsStateKeys } from "./state/actionsState";
 
@@ -83,6 +83,7 @@ export interface IActionTokens {
     [key in StaticBreakpoints]?: SheetTypes;
   };
   docked?: IDockedPref;
+  snapped?: ISnappedPref;
 };
 
 export interface IActionPref {

@@ -36,7 +36,8 @@
     "react-aria-components": "^1.5.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
-    "react-resizable-panels": "^2.1.7"
+    "react-resizable-panels": "^2.1.7",
+    "react-spring-bottom-sheet": "^3.4.1"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",

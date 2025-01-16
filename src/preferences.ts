@@ -191,13 +191,18 @@ export const RSPrefs: IRSPrefs = {
         visibility: ActionVisibility.always,
         shortcut: `${ShortcutMetaKeywords.platform}+P`,
         sheet: {
-          [StaticBreakpoints.compact]: SheetTypes.fullscreen,
+          [StaticBreakpoints.compact]: SheetTypes.bottomSheet,
           [StaticBreakpoints.medium]: SheetTypes.fullscreen
         },
         docked: {
           dockable: DockTypes.end,
           width: 340
         },
+        snapped: {
+          peekHeight: 20,
+          minHeight: 20,
+          maxHeight: 100
+        }
       },
       [ActionKeys.fullscreen]: {
         visibility: ActionVisibility.always,
