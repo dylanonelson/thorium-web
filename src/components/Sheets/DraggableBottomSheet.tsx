@@ -35,7 +35,7 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
   const peekHeightPref = RSPrefs.actions.keys[id].snapped?.peekHeight ? RSPrefs.actions.keys[id].snapped?.peekHeight / 100 : minHeightPref;
 
   // Note: We’re not using firstFocusable because
-  // it breaks the component focus blocking if we do.
+  // it breaks the component focus scope if we do.
   // We need to pass a React.ref to initialFocusRef prop…
 
   return (
@@ -47,7 +47,7 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
         className={ sheetStyles.draggableBottomSheetModal }
         open={ isOpen }
       //  initialFocusRef={ false } 
-      //  blocking={ true }
+        blocking={ true }
         expandOnContentDrag={ false } 
         onDismiss={ () => onOpenChangeCallback(!isOpen) }
         snapPoints={ ({ maxHeight }) => [
