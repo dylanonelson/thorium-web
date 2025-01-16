@@ -143,3 +143,9 @@ button {
   background-color: var(--theme-select);
   color: var(--theme-onSelect);
 }
+
+/* Bottom sheet header since it can’t be styled otherwise */
+[data-rsbs-header] {
+  box-shadow: none;
+  border-bottom: 1px solid var(--theme-subdue);
+}

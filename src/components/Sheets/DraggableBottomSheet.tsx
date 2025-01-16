@@ -56,19 +56,21 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
       //  snapPoints={ ({}) => [] }
       //  defaultSnap={ 20 }
        className={ sheetStyles.draggableBottomSheetModal }
+       header={
+        <>
+        <div className={ sheetStyles.draggableBottomSheetHeader }>
+          <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
+            <CloseButton
+              ref={ draggableBottomSheetCloseRef }
+              className={ readerSharedUI.closeButton } 
+              label={ Locale.reader.app.docker.close.trigger } 
+              onPressCallback={ onClosePressCallback }
+            />
+        </div>
+        </>
+        }
       >
       <div className={ classNames(sheetStyles.draggableBottomSheet, className) }>
-        <div className={ sheetStyles.sheetHeader }>
-          <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
-
-          <CloseButton
-            ref={ draggableBottomSheetCloseRef }
-            className={ readerSharedUI.closeButton } 
-            label={ Locale.reader.app.docker.close.trigger } 
-            onPressCallback={ onClosePressCallback }
-          />
-        </div>
-              
         <div 
           ref={ draggableBottomSheetBodyRef } 
           className={ sheetStyles.sheetBody }
