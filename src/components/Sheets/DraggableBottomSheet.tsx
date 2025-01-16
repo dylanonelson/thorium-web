@@ -14,8 +14,6 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import { Heading } from "react-aria-components";
 import { CloseButton } from "../CloseButton";
 
-import { useFirstFocusable } from "@/hooks/useFirstFocusable";
-
 import classNames from "classnames";
 
 export interface IDraggableBottomSheet extends ISheet {};
@@ -32,15 +30,13 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
 }) => {
   const draggableBottomSheetBodyRef = useRef<HTMLDivElement | null>(null);
   const draggableBottomSheetCloseRef = useRef<HTMLButtonElement | null>(null);
-  // const firstFocusable = useFirstFocusable({
-  //  withinRef: draggableBottomSheetBodyRef, 
-  //  trackedState: isOpen, 
-  //  fallbackRef: draggableBottomSheetCloseRef
-  // });
+  const minHeightPref = RSPrefs.actions.keys[id].snapped?.minHeight ? RSPrefs.actions.keys[id].snapped?.minHeight / 100 : 0.2;
+  const maxHeightPref = RSPrefs.actions.keys[id].snapped?.maxHeight ? RSPrefs.actions.keys[id].snapped?.maxHeight / 100 : 1;
+  const peekHeightPref = RSPrefs.actions.keys[id].snapped?.peekHeight ? RSPrefs.actions.keys[id].snapped?.peekHeight / 100 : minHeightPref;
 
-  const makeSnapPoints = useCallback(() => {
-
-  }, [id]);
+  // Note: We’re not using firstFocusable because
+  // it breaks the component focus blocking if we do.
+  // We need to pass a React.ref to initialFocusRef prop…
 
   return (
     <>
@@ -48,26 +44,31 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
     ? <>
       { renderActionIcon() }
       <BottomSheet
+        className={ sheetStyles.draggableBottomSheetModal }
         open={ isOpen }
-      //  initialFocusRef={ true } 
+      //  initialFocusRef={ false } 
       //  blocking={ true }
         expandOnContentDrag={ false } 
         onDismiss={ () => onOpenChangeCallback(!isOpen) }
-      //  snapPoints={ ({}) => [] }
-      //  defaultSnap={ 20 }
-       className={ sheetStyles.draggableBottomSheetModal }
-       header={
-        <>
-        <div className={ sheetStyles.draggableBottomSheetHeader }>
-          <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
-            <CloseButton
-              ref={ draggableBottomSheetCloseRef }
-              className={ readerSharedUI.closeButton } 
-              label={ Locale.reader.app.docker.close.trigger } 
-              onPressCallback={ onClosePressCallback }
-            />
-        </div>
-        </>
+        snapPoints={ ({ maxHeight }) => [
+          minHeightPref * maxHeight, 
+          peekHeightPref * maxHeight,
+          maxHeightPref * maxHeight
+        ] 
+        }
+        defaultSnap={ ({ lastSnap, maxHeight }) => lastSnap ?? (peekHeightPref * maxHeight) }
+        header={
+          <>
+          <div className={ sheetStyles.draggableBottomSheetHeader }>
+            <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
+              <CloseButton
+                ref={ draggableBottomSheetCloseRef }
+                className={ readerSharedUI.closeButton } 
+                label={ Locale.reader.app.docker.close.trigger } 
+                onPressCallback={ onClosePressCallback }
+              />
+          </div>
+          </>
         }
       >
       <div className={ classNames(sheetStyles.draggableBottomSheet, className) }>
