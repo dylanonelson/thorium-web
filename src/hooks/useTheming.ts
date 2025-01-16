@@ -10,6 +10,18 @@ import { useAppSelector } from "@/lib/hooks";
 
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 
+const DRAGGABLE_BOTTOM_SHEET_PREFIX = "rsbs";
+
+const draggableBottomSheetProps = {
+    "backdrop-bg": "rgba(0, 0, 0, 0.1)",
+    "bg": "var(--theme-background)",
+    "handle-bg": "var(--theme-subdue)",
+    "max-w": "",
+    "ml": "env(safe-area-inset-left)",
+    "mr": "env(safe-area-inset-right)",
+    "overlay-rounded": "var(--layout-radius)"
+}
+
 // Takes care of the init of theming and side effects on :root/html
 // Reader still has to handle the side effects on Navigator
 export const useTheming = () => {
@@ -26,7 +38,8 @@ export const useTheming = () => {
     const props = {
       ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
       ...propsToCSSVars(RSPrefs.theming.icon, "icon"),
-      ...propsToCSSVars(RSPrefs.theming.layout, "layout")
+      ...propsToCSSVars(RSPrefs.theming.layout, "layout"),
+      ...propsToCSSVars(draggableBottomSheetProps, DRAGGABLE_BOTTOM_SHEET_PREFIX)
     } 
     for (let p in props) {
       document.documentElement.style.setProperty(p, props[p])

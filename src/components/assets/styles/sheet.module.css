@@ -32,6 +32,11 @@
   filter: drop-shadow(var(--theme-elevate));
 }
 
+.draggableBottomSheetModal {
+  border: 1px solid var(--theme-subdue);
+  filter: drop-shadow(var(--theme-elevate));
+}
+
 .draggableBottomSheet {
   overflow-y: auto;
   box-sizing: border-box;
