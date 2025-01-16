@@ -11,6 +11,10 @@ export const useRezisablePanel = (panel: Docked) => {
   const minWidth = pref?.minWidth && pref.minWidth < width ? pref.minWidth : RSPrefs.docking.defaultWidth;
   const maxWidth = pref?.maxWidth && pref.maxWidth > width ? pref.maxWidth : RSPrefs.docking.defaultWidth;
 
+  const isActive = () => {
+    return panel.active && panel.open;
+  };
+
   const isResizable = () => {
     return (width > minWidth) && (width < maxWidth);
   };
@@ -32,6 +36,7 @@ export const useRezisablePanel = (panel: Docked) => {
   }, [panel])
 
   return {
+    isActive, 
     isResizable,
     getWidth,
     getMinWidth,
