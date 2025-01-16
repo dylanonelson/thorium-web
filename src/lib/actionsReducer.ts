@@ -147,24 +147,9 @@ export const actionsSlice = createSlice({
       // When mounting the panel, we want it active so that
       // it can react to the docking.dock preference based on breakpoints
       // without having to treat it as a side effect
-      const key = state.dock[action.payload].actionKey;
-      if (key) {
-        state.dock[action.payload] = {
-          ...state.dock[action.payload],
-          active: true,
-          open: true
-        }
-        // We assume that if the action was docked
-        // it needs to be re-opened
-        state.keys[key] = { 
-          ...state.keys[key], 
-          isOpen: true 
-        };
-      } else {
-        state.dock[action.payload] = {
-          ...state.dock[action.payload],
-          active: true
-        }
+      state.dock[action.payload] = {
+        ...state.dock[action.payload],
+        active: true
       }
     },
     deactivateDockPanel: (state, action: IActionStateSlotPayload) => {
@@ -172,24 +157,9 @@ export const actionsSlice = createSlice({
       // When unmounting the panel, we want it active so that
       // it can react to the docking.dock preference based on breakpoints 
       // without having to treat it as a side effect
-      const key = state.dock[action.payload].actionKey;
-      if (key) {
-        state.dock[action.payload] = {
-          ...state.dock[action.payload],
-          active: false,
-          open: false
-        }
-        // We assume that if the action was docked
-        // it needs to be closed
-        state.keys[key] = { 
-          ...state.keys[key], 
-          isOpen: false 
-        };
-      } else {
-        state.dock[action.payload] = {
-          ...state.dock[action.payload],
-          active: false
-        }
+      state.dock[action.payload] = {
+        ...state.dock[action.payload],
+        active: false
       }
     },
     collapseDockPanel: (state, action: IActionStateSlotPayload) => {
