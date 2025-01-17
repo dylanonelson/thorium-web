@@ -149,3 +149,9 @@ button {
   box-shadow: none;
   border-bottom: 1px solid var(--theme-subdue);
 }
+
+/* Otherwise bottom sheet z-index doesn’t apply and will be displayed below arrows */
+reach-portal {
+  position: relative;
+  z-index: 3;
+}

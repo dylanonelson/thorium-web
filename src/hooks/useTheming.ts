@@ -13,7 +13,7 @@ import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 const DRAGGABLE_BOTTOM_SHEET_PREFIX = "rsbs";
 
 const draggableBottomSheetProps = {
-    "backdrop-bg": "rgba(0, 0, 0, 0.1)",
+    "backdrop-bg": "rgba(0, 0, 0, 0.02)",
     "bg": "var(--theme-background)",
     "handle-bg": "var(--theme-subdue)",
     "max-w": "",
