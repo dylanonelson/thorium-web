@@ -200,7 +200,7 @@ export const RSPrefs: IRSPrefs = {
         snapped: {
           peekHeight: 40,
           minHeight: 20,
-          maxHeight: 100
+          maxHeight: 70
         }
       },
       [ActionKeys.fullscreen]: {

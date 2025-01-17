@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 
@@ -15,6 +15,8 @@ import { Heading } from "react-aria-components";
 import { CloseButton } from "../CloseButton";
 
 import classNames from "classnames";
+import { useAppDispatch } from "@/lib/hooks";
+import { setImmersive } from "@/lib/readerReducer";
 
 export interface IDraggableBottomSheet extends ISheet {};
 
@@ -34,9 +36,14 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
   const maxHeightPref = RSPrefs.actions.keys[id].snapped?.maxHeight ? RSPrefs.actions.keys[id].snapped?.maxHeight / 100 : 1;
   const peekHeightPref = RSPrefs.actions.keys[id].snapped?.peekHeight ? RSPrefs.actions.keys[id].snapped?.peekHeight / 100 : minHeightPref;
 
+  const dispatch = useAppDispatch();
+
   // Note: We’re not using firstFocusable because
   // it breaks the component focus scope if we do.
   // We need to pass a React.ref to initialFocusRef prop…
+  // Focus issue when scrollable…
+
+  // We need to add a sibling as an overlay so that we can block and dismiss on tap
 
   return (
     <>
@@ -47,7 +54,6 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
         className={ sheetStyles.draggableBottomSheetModal }
         open={ isOpen }
       //  initialFocusRef={ false } 
-        blocking={ true }
         expandOnContentDrag={ false } 
         onDismiss={ () => onOpenChangeCallback(!isOpen) }
         snapPoints={ ({ maxHeight }) => [
@@ -56,7 +62,9 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
           maxHeightPref * maxHeight
         ] 
         }
-        defaultSnap={ ({ lastSnap, maxHeight }) => lastSnap ?? (peekHeightPref * maxHeight) }
+        defaultSnap={ ({ lastSnap, snapPoints, maxHeight }) => 
+          lastSnap && snapPoints.includes(lastSnap) ? lastSnap : peekHeightPref * maxHeight 
+        }
         header={
           <>
           <div className={ sheetStyles.draggableBottomSheetHeader }>
@@ -70,6 +78,18 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
           </div>
           </>
         }
+        sibling={
+          <div
+            data-rsbs-backdrop="true"
+            className={ sheetStyles.draggableBottomSheetOverlay }
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              onClosePressCallback();
+            } }
+          />
+        } 
+        blocking={ true }
       >
       <div className={ classNames(sheetStyles.draggableBottomSheet, className) }>
         <div 
