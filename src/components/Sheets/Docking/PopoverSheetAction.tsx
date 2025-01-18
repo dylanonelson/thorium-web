@@ -13,13 +13,14 @@ import Stack from "../../assets/icons/stack.svg";
 import { ActionIcon } from "@/components/Templates/ActionIcon";
 import { OverflowMenuItem } from "@/components/Templates/OverflowMenuItem";
 
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useActions } from "@/hooks/useActions";
+
+import { useAppDispatch } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
 
 export const PopoverSheetAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
-  const dockingStart = useAppSelector(state => state.actions.dock[DockingKeys.start]);
-  const dockingEnd = useAppSelector(state => state.actions.dock[DockingKeys.end])
-  const isDisabled = (dockingStart.actionKey === associatedKey) && (dockingEnd.actionKey === associatedKey);
+  const actions = useActions();
+  const isDisabled = !actions.isDocked(associatedKey);
     
   const dispatch = useAppDispatch();
 
