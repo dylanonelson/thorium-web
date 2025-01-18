@@ -12,9 +12,11 @@ import { Key, Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
 
 import { useAppDispatch } from "@/lib/hooks";
-import { setOverflowMenuOpen, toggleImmersive } from "@/lib/readerReducer";
+import { toggleImmersive } from "@/lib/readerReducer";
+import { setOverflow } from "@/lib/actionsReducer";
 
 export const OverflowMenu = ({ 
+    id,
     className, 
     actionFallback,
     display,
@@ -23,7 +25,10 @@ export const OverflowMenu = ({
   const dispatch = useAppDispatch();
 
   const toggleMenuState = (value: boolean) => {
-    dispatch(setOverflowMenuOpen(value));
+    dispatch(setOverflow({
+      key: id,
+      isOpen: value
+    }));
   }
 
   if (React.Children.toArray(children).length > 0 && (display)) {
@@ -43,6 +48,7 @@ export const OverflowMenu = ({
           className={ overflowMenuStyles.overflowPopover }
         >
           <Menu 
+            id={ id }
             selectionMode="none" 
             onAction={ (key: Key) => { console.log(key) } } 
             className={ overflowMenuStyles.overflowMenu }

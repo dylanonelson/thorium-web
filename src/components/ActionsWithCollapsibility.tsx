@@ -1,17 +1,11 @@
-import { ActionComponentVariant, IActions } from "@/models/actions";
+import { ActionComponentVariant, IActionsWithCollapsibility } from "@/models/actions";
 
 import { OverflowMenu } from "./OverflowMenu";
 
 import { useCollapsibility } from "@/hooks/useCollapsibility";
 
-export interface IActionsWithCollapsibility extends IActions {
-  prefs: any;
-  overflowActionCallback?: boolean;
-  overflowMenuClassName?: string;
-  overflowMenuDisplay?: boolean;
-}
-
 export const ActionsWithCollapsibility = ({
+  id, 
   items,
   prefs,
   className,
@@ -38,6 +32,7 @@ export const ActionsWithCollapsibility = ({
       }
 
       <OverflowMenu 
+        id={ id }
         display={ overflowMenuDisplay || true }
         className={ overflowMenuClassName } 
         actionFallback={ overflowActionCallback }

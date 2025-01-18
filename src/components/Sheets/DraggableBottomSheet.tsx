@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 
@@ -15,8 +15,6 @@ import { Heading } from "react-aria-components";
 import { CloseButton } from "../CloseButton";
 
 import classNames from "classnames";
-import { useAppDispatch } from "@/lib/hooks";
-import { setImmersive } from "@/lib/readerReducer";
 
 export interface IDraggableBottomSheet extends ISheet {};
 
@@ -35,8 +33,6 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
   const minHeightPref = RSPrefs.actions.keys[id].snapped?.minHeight ? RSPrefs.actions.keys[id].snapped?.minHeight / 100 : 0.2;
   const maxHeightPref = RSPrefs.actions.keys[id].snapped?.maxHeight ? RSPrefs.actions.keys[id].snapped?.maxHeight / 100 : 1;
   const peekHeightPref = RSPrefs.actions.keys[id].snapped?.peekHeight ? RSPrefs.actions.keys[id].snapped?.peekHeight / 100 : minHeightPref;
-
-  const dispatch = useAppDispatch();
 
   // Note: We’re not using firstFocusable because
   // it breaks the component focus scope if we do.

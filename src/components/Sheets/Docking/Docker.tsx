@@ -46,6 +46,7 @@ export const Docker = ({
     <>
     <div className={ dockerStyles.dockerWrapper }>
       <ActionsWithCollapsibility 
+        id={ `${ id }-docker-overflowMenu` }
         items={ listActionItems() }
         className={ dockerStyles.docker } 
         overflowMenuClassName={ readerSharedUI.dockerButton }
