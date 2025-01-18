@@ -30,9 +30,17 @@ export interface IActionComponent {
 }
 
 export interface IActions {
+  id: string;
   items: IActionsItem[];
   className: string;
   label: string;
+}
+
+export interface IActionsWithCollapsibility extends IActions {
+  prefs: any;
+  overflowActionCallback?: boolean;
+  overflowMenuClassName?: string;
+  overflowMenuDisplay?: boolean;
 }
 
 export interface IActionsItem {
@@ -53,6 +61,7 @@ export interface IActionIconProps {
 }
 
 export interface IOverflowMenu {
+  id: string;
   className?: string;
   actionFallback?: boolean;
   display: boolean;

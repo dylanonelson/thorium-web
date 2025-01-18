@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { ActionKeys } from "@/models/actions";
-import { IActionsState, IActionStateDockPayload, IActionStateOpenPayload, IActionStateSlotPayload } from "@/models/state/actionsState";
+import { IActionOverflowOpenPayload, IActionsState, IActionStateDockPayload, IActionStateOpenPayload, IActionStateSlotPayload } from "@/models/state/actionsState";
 import { DockingKeys } from "@/models/docking";
 
 const initialState: IActionsState = {
@@ -30,7 +30,8 @@ const initialState: IActionsState = {
       isOpen: false,
       isDocked: DockingKeys.transient
     }
-  }
+  },
+  overflow: {}
 }
 
 export const actionsSlice = createSlice({
@@ -142,6 +143,12 @@ export const actionsSlice = createSlice({
           break;
       }
     },
+    setOverflow: (state, action: IActionOverflowOpenPayload) => {
+      state.overflow[action.payload.key] = {
+        ...state.overflow[action.payload.key],
+        isOpen: action.payload.isOpen 
+      }
+    },
     activateDockPanel: (state, action: IActionStateSlotPayload) => {
       // TMP before dockedStart + dockedEnd
       // When mounting the panel, we want it active so that
@@ -196,6 +203,7 @@ export const actionsSlice = createSlice({
 export const { 
   dockAction, 
   setAction, 
+  setOverflow, 
   activateDockPanel, 
   deactivateDockPanel, 
   collapseDockPanel, 

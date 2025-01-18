@@ -1,14 +1,19 @@
-import { ActionKeys } from "../actions";
+import { ActionKeys, IOverflowMenu } from "../actions";
 import { Docked, DockingKeys } from "../docking";
 import { SheetTypes } from "../sheets";
 
 export type ActionsStateKeys = Exclude<ActionKeys, ActionKeys.fullscreen>;
+export type OverflowStateKeys = string;
 
 export interface IActionStateObject {
   isOpen: boolean;
   isDocked: DockingKeys;
   pref?: SheetTypes;
   dockedWidth?: number;
+}
+
+export interface IOverflowStateObject {
+  isOpen: boolean;
 }
 
 export interface IActionStateDockPayload {
@@ -23,6 +28,14 @@ export interface IActionStateOpenPayload {
   type: string;
   payload: {
     key: ActionsStateKeys;
+    isOpen: boolean;
+  }
+}
+
+export interface IActionOverflowOpenPayload {
+  type: string;
+  payload: {
+    key: OverflowStateKeys;
     isOpen: boolean;
   }
 }
@@ -49,5 +62,8 @@ export type IActionsState = {
   keys: {
     [key in ActionsStateKeys]: IActionStateObject;
   };
-  dock: IDockState
+  dock: IDockState,
+  overflow: {
+    [key in OverflowStateKeys]: IOverflowStateObject;
+  }
 }

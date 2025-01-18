@@ -23,8 +23,10 @@ export enum DockTypes {
   end = "end"
 }
 
+export type DockedKeys = Exclude<ActionsStateKeys,  "overflowMenu">;
+
 export type Docked = {
-  actionKey: ActionsStateKeys | null;
+  actionKey: DockedKeys | null;
   active: boolean;
   open: boolean;
   width?: number;

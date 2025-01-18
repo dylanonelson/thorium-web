@@ -77,6 +77,7 @@ export const ReaderHeader = () => {
       <RunningHead syncDocTitle={ true } />
       
       <ActionsWithCollapsibility 
+        id="reader-header-overflowMenu" 
         items={ listActionItems() }
         prefs={ RSPrefs.actions }
         className={ readerHeaderStyles.actionsWrapper } 

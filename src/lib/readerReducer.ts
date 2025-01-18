@@ -11,7 +11,6 @@ const initialState: IReaderState = {
   isFullscreen: false,
   isPaged: true,
   colCount: "auto",
-  overflowMenuOpen: false,
   platformModifier: defaultPlatformModifier
 }
 
@@ -42,9 +41,6 @@ export const readerSlice = createSlice({
     },
     setColCount: (state, action) => {
       state.colCount = action.payload
-    },
-    setOverflowMenuOpen: (state, action) => {
-      state.overflowMenuOpen = action.payload
     }
   }
 })
@@ -58,8 +54,7 @@ export const {
   setHovering, 
   setFullscreen, 
   setPaged, 
-  setColCount, 
-  setOverflowMenuOpen
+  setColCount
 } = readerSlice.actions;
 
 export default readerSlice.reducer;

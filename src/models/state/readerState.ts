@@ -8,6 +8,5 @@ export interface IReaderState {
   isFullscreen: boolean;
   isPaged: boolean;
   colCount: string;
-  overflowMenuOpen: boolean;
   platformModifier: IPlatformModifier;
 }

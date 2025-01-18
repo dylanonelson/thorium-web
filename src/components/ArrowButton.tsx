@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { IReaderArrow } from "@/models/layout";
 import { StaticBreakpoints } from "@/models/staticBreakpoints";
+import { ActionsStateKeys } from "@/models/state/actionsState";
 
 import Locale from "../resources/locales/en.json";
 
@@ -15,6 +16,7 @@ import RightArrow from "./assets/icons/arrow_forward.svg";
 import { Button, PressEvent, Tooltip, TooltipTrigger } from "react-aria-components";
 
 import { useAppSelector } from "@/lib/hooks";
+import { useActions } from "@/hooks/useActions";
 
 import { isActiveElement } from "@/helpers/focus";
 import classNames from "classnames";
@@ -27,6 +29,7 @@ export const ArrowButton = (props: IReaderArrow) => {
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const isRTL = useAppSelector(state => state.publication.isRTL);
   const isFXL = useAppSelector(state => state.publication.isFXL);
+  const actions = useActions();
 
   const [isHovering, setIsHovering] = useState(false);
 
@@ -34,7 +37,11 @@ export const ArrowButton = (props: IReaderArrow) => {
 
   const handleClassNameFromState = () => {
     let className = "";
-    if (isImmersive && !hasReachedDynamicBreakpoint || isFullscreen) {
+    if (
+        isImmersive && !hasReachedDynamicBreakpoint || 
+        isFullscreen ||
+        !actions.everyOpenDocked()
+      ) {
       className = readerStateStyles.immersiveHidden;
     } else if (isImmersive) {
       className = readerStateStyles.immersive;
