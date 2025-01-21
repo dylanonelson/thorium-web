@@ -184,14 +184,16 @@ export const RSPrefs: IRSPrefs = {
     collapse: {
       [StaticBreakpoints.compact]: 2,
       [StaticBreakpoints.medium]: 1
-    },
-    defaultSheet: SheetTypes.popover, 
+    }, 
     keys: {
       [ActionKeys.settings]: {
         visibility: ActionVisibility.always,
         shortcut: `${ShortcutMetaKeywords.platform}+P`,
         sheet: {
-          [StaticBreakpoints.compact]: SheetTypes.bottomSheet,
+          defaultSheet: SheetTypes.popover,
+          breakpoints: {
+            [StaticBreakpoints.compact]: SheetTypes.bottomSheet
+          }
         },
         docked: {
           dockable: DockTypes.end,
@@ -211,9 +213,12 @@ export const RSPrefs: IRSPrefs = {
         visibility: ActionVisibility.always,
         shortcut: `${ShortcutMetaKeywords.platform}+N`,
         sheet: {
-          [StaticBreakpoints.compact]: SheetTypes.fullscreen,
-          [StaticBreakpoints.medium]: SheetTypes.fullscreen,
-          [StaticBreakpoints.large]: SheetTypes.dockedStart
+          defaultSheet: SheetTypes.popover,
+          breakpoints: {
+            [StaticBreakpoints.compact]: SheetTypes.fullscreen,
+            [StaticBreakpoints.medium]: SheetTypes.fullscreen,
+            [StaticBreakpoints.large]: SheetTypes.dockedStart
+          }
         },
         docked: {
           dockable: DockTypes.both,

@@ -4,6 +4,7 @@ import { ActionKeys } from "@/models/actions";
 import { ActionsStateKeys, IActionOverflowOpenPayload, IActionsState, IActionStateDockPayload, IActionStateOpenPayload, IActionStateSheetPrefPayload, IActionStateSlotPayload } from "@/models/state/actionsState";
 import { DockingKeys } from "@/models/docking";
 import { RSPrefs } from "@/preferences";
+import { SheetTypes } from "@/models/sheets";
 
 const initialState: IActionsState = {
   dock: {
@@ -20,17 +21,17 @@ const initialState: IActionsState = {
     [ActionKeys.toc]: {
       isOpen: null,
       docking: null,
-      sheetPref: RSPrefs.actions.defaultSheet
+      sheetPref: RSPrefs.actions.keys[ActionKeys.toc].sheet?.defaultSheet || SheetTypes.popover
     },
     [ActionKeys.settings]: {
       isOpen: null,
       docking: null,
-      sheetPref: RSPrefs.actions.defaultSheet
+      sheetPref: RSPrefs.actions.keys[ActionKeys.settings].sheet?.defaultSheet || SheetTypes.popover
     },
     [ActionKeys.jumpToPosition]: {
       isOpen: null,
       docking: null,
-      sheetPref: RSPrefs.actions.defaultSheet
+      sheetPref: RSPrefs.actions.keys[ActionKeys.jumpToPosition].sheet?.defaultSheet || SheetTypes.popover
     }
   },
   overflow: {}

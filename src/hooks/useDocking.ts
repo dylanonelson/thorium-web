@@ -7,8 +7,9 @@ import { BreakpointsSheetMap, SheetTypes } from "@/models/sheets";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
-import { setActionPref } from "@/lib/actionsReducer";
+import { dockAction, setActionOpen, setActionPref } from "@/lib/actionsReducer";
 import { ActionsStateKeys } from "@/models/state/actionsState";
+import { ActionKeys } from "@/models/actions";
 
 let dockingMap: Required<BreakpointsDockingMap> | null = null;
 
@@ -23,8 +24,10 @@ export const useDocking = (key: ActionsStateKeys) => {
   const currentDockConfig = staticBreakpoint && dockingMap[staticBreakpoint];
   const dockablePref = RSPrefs.actions.keys[key].docked?.dockable || DockTypes.none;
 
-  const sheetMap = makeBreakpointsMap<BreakpointsSheetMap>(RSPrefs.actions.defaultSheet, SheetTypes, RSPrefs.actions.keys[key].sheet)
-  const sheetPref = staticBreakpoint && sheetMap[staticBreakpoint] || RSPrefs.actions.defaultSheet;
+  const defaultSheet = RSPrefs.actions.keys[key].sheet?.defaultSheet || SheetTypes.popover;
+
+  const sheetMap = makeBreakpointsMap<BreakpointsSheetMap>(RSPrefs.actions.keys[key].sheet?.defaultSheet || SheetTypes.popover, SheetTypes, RSPrefs.actions.keys[key].sheet?.breakpoints);
+  const sheetPref = staticBreakpoint && sheetMap[staticBreakpoint] || defaultSheet;
   
   const getDocker = useCallback((): DockingKeys[] => {
     // First let’s handle the cases where docker shouldn’t be used
@@ -88,7 +91,7 @@ export const useDocking = (key: ActionsStateKeys) => {
       // it can be docked and in that case we need to pick the default
       case DockingKeys.transient:
         if (sheetPref === SheetTypes.dockedStart || sheetPref === SheetTypes.dockedEnd) {
-          return RSPrefs.actions.defaultSheet;
+          return defaultSheet;
         } else {
           return sheetPref;
         }
@@ -106,7 +109,7 @@ export const useDocking = (key: ActionsStateKeys) => {
           if (sheetPref !== SheetTypes.dockedStart) {
             return sheetPref;
           } else {
-            return RSPrefs.actions.defaultSheet;
+            return defaultSheet;
           }
         }
 
@@ -122,7 +125,7 @@ export const useDocking = (key: ActionsStateKeys) => {
           if (sheetPref !== SheetTypes.dockedEnd) {
             return sheetPref;
           } else {
-            return RSPrefs.actions.defaultSheet;
+            return defaultSheet;
           }
         }
       
@@ -137,7 +140,7 @@ export const useDocking = (key: ActionsStateKeys) => {
             ) {
             return SheetTypes.dockedStart;
           } else {
-            return RSPrefs.actions.defaultSheet;
+            return defaultSheet;
           }
         } else if (sheetPref === SheetTypes.dockedEnd) {
           if (
@@ -146,15 +149,15 @@ export const useDocking = (key: ActionsStateKeys) => {
           ) {
             return SheetTypes.dockedEnd;
           } else {
-            return RSPrefs.actions.defaultSheet;
+            return defaultSheet;
           }
         } else {
           return sheetPref;
         }
       default:
-        return RSPrefs.actions.defaultSheet;
+        return defaultSheet;
     }
-  }, [currentDockConfig, dockablePref, sheetPref, actionState]);
+  }, [currentDockConfig, dockablePref, sheetPref, defaultSheet, actionState]);
 
   useEffect(() => {
     // Update action state pref as side effect
@@ -163,6 +166,33 @@ export const useDocking = (key: ActionsStateKeys) => {
       sheetPref: sheetPref
     }));
   }, [dispatch, key, sheetPref]);
+
+  // on mount, check whether we should update states for docked sheets
+  useEffect(() => {
+    const sheetType = getSheetType();
+
+    if (actionState.isOpen === null) {
+      if (sheetType === SheetTypes.dockedStart) {
+        dispatch(dockAction({
+          key: ActionKeys[key],
+          dockingKey: DockingKeys.start
+        }));
+        dispatch(setActionOpen({
+          key: ActionKeys[key],
+          isOpen: true
+        }));
+      } else if (sheetType === SheetTypes.dockedEnd) {
+        dispatch(dockAction({
+          key: ActionKeys[key],
+          dockingKey: DockingKeys.end
+        }));
+        dispatch(setActionOpen({
+          key: ActionKeys[key],
+          isOpen: true
+        }));
+      }
+    }
+  })
 
   return {
     getDocker,
