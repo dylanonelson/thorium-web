@@ -11,7 +11,7 @@ import CheckIcon from "./assets/icons/check.svg";
 import { Label, Radio, RadioGroup } from "react-aria-components";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setAction } from "@/lib/actionsReducer";
+import { setActionOpen } from "@/lib/actionsReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 import classNames from "classnames";
@@ -73,7 +73,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
 
       switch(e.code) {
         case "Escape":
-          dispatch(setAction({ 
+          dispatch(setActionOpen({ 
             key: ActionKeys.settings,
             isOpen: false 
           })); 

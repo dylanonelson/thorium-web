@@ -4,7 +4,6 @@ import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ActionComponentVariant, ActionKeys, IActionComponent } from "@/models/actions";
-import { BreakpointsSheetMap, SheetTypes } from "@/models/sheets";
 
 import tocStyles from "./assets/styles/toc.module.css";
 
@@ -12,27 +11,22 @@ import TocIcon from "./assets/icons/toc.svg";
 
 import { ActionIcon } from "./Templates/ActionIcon";
 import { ListBox, ListBoxItem } from "react-aria-components";
-import { SheetWithBreakpoints } from "./Sheets/SheetWithBreakpoints";
+import { SheetWithType } from "./Sheets/SheetWithType";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 
 import { useDocking } from "@/hooks/useDocking";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setAction } from "@/lib/actionsReducer";
-import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
+import { setActionOpen } from "@/lib/actionsReducer";
 
 export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
   const dispatch = useAppDispatch();
 
-  const docking = useDocking({
-    key: ActionKeys.toc,
-    docked: actionState.isDocked,
-    opened: actionState.isOpen
-  });
+  const docking = useDocking(ActionKeys.toc);
 
   const setOpen = (value: boolean) => {
-    dispatch(setAction({ 
+    dispatch(setActionOpen({ 
       key: ActionKeys.toc,
       isOpen: value 
     }));
@@ -52,8 +46,8 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
   } else {
     return(
       <>
-      <SheetWithBreakpoints 
-        breakpointsMap={ makeBreakpointsMap<BreakpointsSheetMap>(RSPrefs.actions.defaultSheet, SheetTypes, RSPrefs.actions.keys[ActionKeys.toc].sheet) } 
+      <SheetWithType 
+        sheetType={ docking.getSheetType() }
         sheetProps={ {
           id: ActionKeys.toc,
           renderActionIcon:() => <ActionIcon 
@@ -67,7 +61,7 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
           heading:Locale.reader.toc.heading,
           className: tocStyles.toc,
           placement:"bottom",
-          isOpen: actionState.isOpen,
+          isOpen: actionState.isOpen || false,
           onOpenChangeCallback: setOpen,
           onClosePressCallback: () => setOpen(false),
           docker: docking.getDocker()
@@ -81,7 +75,7 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
         */}
         
         <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
-      </SheetWithBreakpoints>
+      </SheetWithType>
       </>
       )
   }

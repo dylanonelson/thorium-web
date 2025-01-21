@@ -1,11 +1,10 @@
-import { ActionsStateKeys, IActionStateObject, IDockState } from "@/models/state/actionsState";
-import { Docked, DockedKeys, DockingKeys, DockTypes } from "@/models/docking";
+import { ActionsStateKeys, IActionStateObject } from "@/models/state/actionsState";
+import { DockedKeys, DockingKeys } from "@/models/docking";
 
 import { useAppSelector } from "@/lib/hooks";
 
 export const useActions = () => {
   const actions = useAppSelector(state => state.actions.keys);
-  const dock = useAppSelector(state => state.actions.dock);
 
   const findOpen = () => {
     const open: ActionsStateKeys[] = [];
@@ -22,31 +21,42 @@ export const useActions = () => {
   }
 
   const isOpen = (key?: ActionsStateKeys | null) => {
-    return key ? actions[key].isOpen : false;
+    if (key) {
+      if (actions[key].isOpen === null) {
+        return false;
+      } else {
+        return actions[key].isOpen
+      }
+    }
+    return false;
   }
 
   const findDocked = () => {
     const docked: DockedKeys[] = [];
 
-    (Object.values(dock)).forEach((value: Docked) => { 
-      if (value.actionKey) docked.push(value.actionKey);
+    (Object.entries(actions) as [ActionsStateKeys, IActionStateObject][]).forEach(([ key, value ]) => { 
+      if (value.docking === DockingKeys.start || value.docking === DockingKeys.end) docked.push(key);
     } );
 
     return docked;
   }
 
   const anyDocked = () => {
-    return Object.values(dock).some((value: Docked) => { 
-      if (value.actionKey && value.active && value.open) return true;
+    return Object.values(actions).some((value: IActionStateObject) => { 
+      if (value.docking === DockingKeys.start || value.docking === DockingKeys.end) return true;
     } );
   }
 
   const isDocked = (key?: ActionsStateKeys | null) => {
     return key 
-      ? Object.values(dock).some((value: Docked) => {
-        if (value.actionKey === key && value.active && value.open) return true;
-      }) 
-    : false;
+      ? (actions[key].docking === DockingKeys.start || actions[key].docking === DockingKeys.end)
+      : false;
+  }
+
+  const whichDocked = (key?: ActionsStateKeys | null) => {
+    return key 
+      ? actions[key].docking
+      : null;
   }
 
   const everyOpenDocked = () => {
@@ -64,6 +74,7 @@ export const useActions = () => {
     findDocked, 
     anyDocked,
     isDocked,
+    whichDocked,
     everyOpenDocked
   }
 }

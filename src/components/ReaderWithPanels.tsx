@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useRef } from "react";
+import { act, ReactNode, useCallback, useEffect, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
@@ -13,7 +13,10 @@ import { LayoutDirection } from "@/models/layout";
 import { useRezisablePanel } from "@/hooks/useRezisablePanel";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
-import { activateDockPanel, collapseDockPanel, deactivateDockPanel, expandDockPanel } from "@/lib/actionsReducer";
+import { activateDockPanel, deactivateDockPanel } from "@/lib/actionsReducer";
+import { ActionsStateKeys } from "@/models/state/actionsState";
+
+import parseTemplate from "json-templates";
 
 const DockHandle = ({ isResizable }: { isResizable: boolean }) => {
   return(
@@ -29,15 +32,17 @@ const DockHandle = ({ isResizable }: { isResizable: boolean }) => {
 };
 
 const DockPanel = ({
+  actionKey,
   side,
   sizes,
   isResizable,
-  isActive
-}: { 
+  isPopulated
+}: {
+  actionKey: ActionsStateKeys | null;
   side: "left" | "right";
   sizes: IDockPanelSizes;
   isResizable: boolean;
-  isActive: boolean; 
+  isPopulated: boolean; 
 }) => {
   const panelRef = useRef<ImperativePanelHandle>(null);
   const dispatch = useAppDispatch();
@@ -49,8 +54,27 @@ const DockPanel = ({
     : RSPrefs.direction === LayoutDirection.rtl 
       ? DockingKeys.end 
       : DockingKeys.start;
-  const dockLabel = side === "right" ? Locale.reader.app.dockingRight : Locale.reader.app.dockingLeft;
+
   const dockClassName = side === "right" ? "right-dock" : "left-dock";
+
+  const makeDockLabel = useCallback(() => {    
+    let label = "";
+    if (side === "right") {
+      label += Locale.reader.app.docking.dockingRight;
+    } else {
+      label += Locale.reader.app.docking.dockingLeft
+    }
+    if (!isPopulated) {
+      if (actionKey) {
+        const jsonTemplate = parseTemplate(Locale.reader.app.docking.dockingEmpty);
+        // @ts-ignore
+        label += ` – ${ jsonTemplate({ action: Locale.reader[actionKey].heading }) }`
+      } else {
+        label += ` – ${ Locale.reader.app.docking.dockingEmpty }`
+      }
+    }
+    return label;
+  }, [side, isPopulated, actionKey]);
 
   const handleDockPanelOrder = useCallback(() => {
     if (side === "right") {
@@ -59,14 +83,6 @@ const DockPanel = ({
       return RSPrefs.direction === LayoutDirection.rtl ? 3 : 1;
     }
   }, [side]);
-
-  useEffect(() => {
-    if (!isActive) {
-      panelRef.current?.collapse();
-    } else {
-      panelRef.current?.expand();
-    }
-  }, [isActive]);
 
   useEffect(() => {
     // TMP cos handling of dockedStart and dockedEnd in sheet 
@@ -84,17 +100,15 @@ const DockPanel = ({
     <Panel 
       id={ `${ dockKey }-panel` } 
       order={ handleDockPanelOrder() } 
-      collapsible={ true }
+      collapsible={ false }
       ref={ panelRef }
-      onCollapse={ () => { dispatch(collapseDockPanel(dockKey)) }} 
-      onExpand={() => { dispatch(expandDockPanel(dockKey)) }}
       defaultSize={ sizes.width } 
       minSize={ sizes.minWidth } 
       maxSize={ sizes.maxWidth }
     >
       <div 
         id={ dockKey } 
-        aria-label={ dockLabel }
+        aria-label={ makeDockLabel() }
         className={ dockClassName }
       ></div>
     </Panel>
@@ -143,6 +157,7 @@ export const ReaderWithDock = ({
             )  
           ) 
           && <DockPanel 
+            actionKey={ startPanel.currentKey() }
             side="left" 
             sizes={{
               width: startPanel.getWidth(),
@@ -150,7 +165,7 @@ export const ReaderWithDock = ({
               maxWidth: startPanel.getMaxWidth()
             }} 
             isResizable={ startPanel.isResizable() }
-            isActive={ startPanel.isActive() }
+            isPopulated={ startPanel.isPopulated() }
           />
         }
     
@@ -170,6 +185,7 @@ export const ReaderWithDock = ({
             )  
           )
         && <DockPanel 
+            actionKey={ endPanel.currentKey() }
             side="right" 
             sizes={{
               width: endPanel.getWidth(),
@@ -177,7 +193,7 @@ export const ReaderWithDock = ({
               maxWidth: endPanel.getMaxWidth()
             }} 
             isResizable={ endPanel.isResizable() }
-            isActive={ endPanel.isActive() }
+            isPopulated={ endPanel.isPopulated() }
           />
       }
       </PanelGroup>

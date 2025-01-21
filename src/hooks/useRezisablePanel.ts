@@ -4,40 +4,50 @@ import { RSPrefs } from "../preferences";
 
 import { Docked, IDockedPref } from "../models/docking";
 
+import { useActions } from "./useActions";
+
 export const useRezisablePanel = (panel: Docked) => {
+  const actions = useActions();
+
   const [pref, setPref] = useState<IDockedPref | null>(null);
   
   const width = pref?.width || RSPrefs.docking.defaultWidth;
   const minWidth = pref?.minWidth && pref.minWidth < width ? pref.minWidth : RSPrefs.docking.defaultWidth;
   const maxWidth = pref?.maxWidth && pref.maxWidth > width ? pref.maxWidth : RSPrefs.docking.defaultWidth;
 
-  const isActive = () => {
-    return panel.active && panel.open;
+  const isPopulated = () => {
+    return panel.active && actions.isOpen(panel.actionKey);
   };
 
+  const currentKey = () => {
+    return panel.actionKey;
+  }
+
   const isResizable = () => {
-    return (width > minWidth) && (width < maxWidth);
+    return isPopulated() ? (width > minWidth) && (width < maxWidth) : false;
   };
 
   const getWidth = () => {
-    return (width / window.innerWidth) * 100;
+    return isPopulated() ? (width / window.innerWidth) * 100 : 0;
   };
 
   const getMinWidth = () => {
-    return (minWidth / window.innerWidth) * 100;
+    return isPopulated() ? (minWidth / window.innerWidth) * 100 : 0;
   };
 
   const getMaxWidth = () => {
-    return (maxWidth / window.innerWidth) * 100;
+    return isPopulated() ? (maxWidth / window.innerWidth) * 100 : 0;
   };
 
+  // When the docked action changes, we need to update its preferences 
   useEffect(() => {
     setPref(panel.actionKey ? RSPrefs.actions.keys[panel.actionKey].docked || null : null);
   }, [panel])
 
   return {
-    isActive, 
+    isPopulated, 
     isResizable,
+    currentKey, 
     getWidth,
     getMinWidth,
     getMaxWidth

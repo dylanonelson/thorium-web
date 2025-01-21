@@ -60,7 +60,7 @@ export const useCollapsibility = (items: IActionsItem[], prefs: IActionPref & ID
 
   useEffect(() => {
     triageActions();
-  }, [staticBreakpoint, triageActions]);
+  }, [staticBreakpoint, triageActions, items, prefs]);
 
   return {
     ActionIcons,

@@ -4,13 +4,12 @@ import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ActionComponentVariant, ActionKeys, IActionComponent } from "@/models/actions";
-import { BreakpointsSheetMap, SheetTypes } from "@/models/sheets";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
 import TuneIcon from "./assets/icons/match_case.svg";
 
-import { SheetWithBreakpoints } from "./Sheets/SheetWithBreakpoints";
+import { SheetWithType } from "./Sheets/SheetWithType";
 import { ActionIcon } from "./Templates/ActionIcon";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
@@ -21,21 +20,16 @@ import { useDocking } from "@/hooks/useDocking";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setAction } from "@/lib/actionsReducer";
-import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
+import { setActionOpen } from "@/lib/actionsReducer";
 
 export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
   const dispatch = useAppDispatch();
 
-  const docking = useDocking({
-    key: ActionKeys.settings,
-    docked: actionState.isDocked,
-    opened: actionState.isOpen
-  });
+  const docking = useDocking(ActionKeys.settings);
 
   const setOpen = (value: boolean) => {    
-    dispatch(setAction({
+    dispatch(setActionOpen({
       key: ActionKeys.settings,
       isOpen: value
     }));
@@ -58,8 +52,8 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   } else {
     return(
       <>
-      <SheetWithBreakpoints 
-        breakpointsMap={ makeBreakpointsMap<BreakpointsSheetMap>(RSPrefs.actions.defaultSheet, SheetTypes, RSPrefs.actions.keys[ActionKeys.settings].sheet) } 
+      <SheetWithType 
+        sheetType={ docking.getSheetType() }
         sheetProps={ {
           id: ActionKeys.settings,
           renderActionIcon: () => <ActionIcon 
@@ -73,7 +67,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
           heading: Locale.reader.settings.heading,
           className: settingsStyles.readerSettings,
           placement: "bottom", 
-          isOpen: actionState.isOpen,
+          isOpen: actionState.isOpen || false,
           onOpenChangeCallback: setOpen, 
           onClosePressCallback: () => setOpen(false),
           docker: docking.getDocker()
@@ -82,7 +76,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
         <ReadingDisplayTheme mapArrowNav={ 2 } />
         <ReadingDisplayCol />
         <ReadingDisplayLayout />
-      </SheetWithBreakpoints>
+      </SheetWithType>
       </>
     )
   }
