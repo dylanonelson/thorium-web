@@ -89,7 +89,10 @@ export interface IActionTokens {
   visibility: ActionVisibility;
   shortcut: string | null;
   sheet?: {
-    [key in StaticBreakpoints]?: SheetTypes;
+    defaultSheet: SheetTypes;
+    breakpoints: {
+      [key in StaticBreakpoints]?: SheetTypes;
+    }
   };
   docked?: IDockedPref;
   snapped?: ISnappedPref;
@@ -98,7 +101,6 @@ export interface IActionTokens {
 export interface IActionPref {
   displayOrder: ActionKeys[];
   collapse: Collapsibility;
-  defaultSheet: SheetTypes;
   keys: {
     [key in ActionKeys]: IActionTokens;
   }
