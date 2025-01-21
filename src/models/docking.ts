@@ -26,20 +26,13 @@ export enum DockTypes {
 export type DockedKeys = Exclude<ActionsStateKeys,  "overflowMenu">;
 
 export type Docked = {
-  actionKey: DockedKeys | null;
+  actionKey: ActionsStateKeys | null;
   active: boolean;
-  open: boolean;
   width?: number;
 }
 
 export type BreakpointsDockingMap = {
   [key in StaticBreakpoints]?: DockTypes;
-}
-
-export interface IDockingProps {
-  key: ActionsStateKeys;
-  docked: DockingKeys;
-  opened: boolean;
 }
 
 export interface IDockPanelSizes {

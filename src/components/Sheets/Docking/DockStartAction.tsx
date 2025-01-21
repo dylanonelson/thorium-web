@@ -15,15 +15,16 @@ import DocktoRight from "../../assets/icons/dock_to_left.svg";
 import { ActionIcon } from "@/components/Templates/ActionIcon";
 import { OverflowMenuItem } from "@/components/Templates/OverflowMenuItem";
 
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppDispatch } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
+import { useActions } from "@/hooks/useActions";
 
 export const DockStartAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
   const isRTL = RSPrefs.direction === LayoutDirection.rtl;
   const localeKey = isRTL ? Locale.reader.app.docker.dockToRight : Locale.reader.app.docker.dockToLeft;
 
-  const dockingStart = useAppSelector(state => state.actions.dock[DockingKeys.start]);
-  const isDisabled = dockingStart.actionKey === associatedKey;
+  const actions = useActions();
+  const isDisabled = actions.whichDocked(associatedKey) === DockingKeys.start;
   
   const dispatch = useAppDispatch();
 

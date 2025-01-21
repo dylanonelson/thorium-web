@@ -6,9 +6,9 @@ export type ActionsStateKeys = Exclude<ActionKeys, ActionKeys.fullscreen>;
 export type OverflowStateKeys = string;
 
 export interface IActionStateObject {
-  isOpen: boolean;
-  isDocked: DockingKeys;
-  pref?: SheetTypes;
+  isOpen: boolean | null;
+  docking: DockingKeys | null;
+  sheetPref: SheetTypes;
   dockedWidth?: number;
 }
 
@@ -29,6 +29,14 @@ export interface IActionStateOpenPayload {
   payload: {
     key: ActionsStateKeys;
     isOpen: boolean;
+  }
+}
+
+export interface IActionStateSheetPrefPayload {
+  type: string;
+  payload: {
+    key: ActionsStateKeys;
+    sheetPref: SheetTypes;
   }
 }
 

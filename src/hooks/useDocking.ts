@@ -2,27 +2,30 @@ import { useCallback, useEffect } from "react";
 
 import { RSPrefs } from "@/preferences";
 
-import { DockTypes, BreakpointsDockingMap, IDockingProps, DockingKeys } from "@/models/docking";
-import { SheetTypes } from "@/models/sheets";
+import { DockTypes, BreakpointsDockingMap, DockingKeys } from "@/models/docking";
+import { BreakpointsSheetMap, SheetTypes } from "@/models/sheets";
 
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
+import { setActionPref } from "@/lib/actionsReducer";
+import { ActionsStateKeys } from "@/models/state/actionsState";
 
-let dockPref: Required<BreakpointsDockingMap> | null = null;
+let dockingMap: Required<BreakpointsDockingMap> | null = null;
 
-export const useDocking = ({
-  key
-}: IDockingProps) => {
-  if (!dockPref) {
-    dockPref = makeBreakpointsMap<BreakpointsDockingMap>(DockTypes.both, DockTypes, RSPrefs.docking.dock, DockTypes.none);
-  }
-  const dockablePref = RSPrefs.actions.keys[key].docked?.dockable || DockTypes.none;
-    
+export const useDocking = (key: ActionsStateKeys) => {
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
-  
-  const sheetPref = staticBreakpoint && RSPrefs.actions.keys[key].sheet && RSPrefs.actions.keys[key].sheet[staticBreakpoint];
-  const currentDockConfig = staticBreakpoint && dockPref[staticBreakpoint];
+  const actionState = useAppSelector(state => state.actions.keys[key]);
+  const dispatch = useAppDispatch();
 
+  if (!dockingMap) {
+    dockingMap = makeBreakpointsMap<BreakpointsDockingMap>(DockTypes.both, DockTypes, RSPrefs.docking.dock, DockTypes.none);
+  }
+  const currentDockConfig = staticBreakpoint && dockingMap[staticBreakpoint];
+  const dockablePref = RSPrefs.actions.keys[key].docked?.dockable || DockTypes.none;
+
+  const sheetMap = makeBreakpointsMap<BreakpointsSheetMap>(RSPrefs.actions.defaultSheet, SheetTypes, RSPrefs.actions.keys[key].sheet)
+  const sheetPref = staticBreakpoint && sheetMap[staticBreakpoint] || RSPrefs.actions.defaultSheet;
+  
   const getDocker = useCallback((): DockingKeys[] => {
     // First let’s handle the cases where docker shouldn’t be used
     // The sheet is not dockable, per key.docked.dockable pref
@@ -73,16 +76,96 @@ export const useDocking = ({
     return dockerKeys;
   }, [currentDockConfig, sheetPref, dockablePref]);
 
-  // If a slot is removed, active should be set to false, in order to keep
-  // the action docked on responsive, but display another type of sheet 
-  // based on preferences (breakpoint map)
-  // If a slot is added, active should be set to true
-  // We also need to sync action.key isOpen
+  const getSheetType = useCallback(() => {
+    // We need to check whether the user has docked the action themselves
+    // ActionsReducer should has also made sure there is no conflict to handle here 
+    // by updating states of actions on docking
+    // We need to take care of potential conflicts on init though
 
-  // The preference for the type of sheet should only be honored 
-  // if the dock slot is empty since we don’t want to override users’ customization
+    switch (actionState.docking) {
+      
+      // if action.docking is transient we need to check the pref, 
+      // it can be docked and in that case we need to pick the default
+      case DockingKeys.transient:
+        if (sheetPref === SheetTypes.dockedStart || sheetPref === SheetTypes.dockedEnd) {
+          return RSPrefs.actions.defaultSheet;
+        } else {
+          return sheetPref;
+        }
+      
+      // If action.docking is set to start/end then we check the docking slot is available
+      case DockingKeys.start:
+        if (
+            (dockablePref === DockTypes.both || dockablePref === DockTypes.start) && 
+            (currentDockConfig === DockTypes.both || currentDockConfig === DockTypes.start)
+          ) {
+          return SheetTypes.dockedStart;
+        } else {
+          // if the pref is not docked start, return the pref 
+          // else return the default
+          if (sheetPref !== SheetTypes.dockedStart) {
+            return sheetPref;
+          } else {
+            return RSPrefs.actions.defaultSheet;
+          }
+        }
+
+      case DockingKeys.end:
+        if (
+            (dockablePref === DockTypes.both || dockablePref === DockTypes.end) &&
+            (currentDockConfig === DockTypes.both || currentDockConfig === DockTypes.end)
+            ) {
+          return SheetTypes.dockedEnd;
+        } else {
+          // if the pref is not docked end, return the pref 
+          // else return the default
+          if (sheetPref !== SheetTypes.dockedEnd) {
+            return sheetPref;
+          } else {
+            return RSPrefs.actions.defaultSheet;
+          }
+        }
+      
+      // If action.docking is null then we rely on pref 
+      // as it means the user did not pick another option
+      case null:
+        // We have to check sheetPref is compatible with docking prefs
+        if (sheetPref === SheetTypes.dockedStart) {
+          if (
+              (dockablePref === DockTypes.both || dockablePref === DockTypes.start) &&
+              (currentDockConfig === DockTypes.both || currentDockConfig === DockTypes.start)
+            ) {
+            return SheetTypes.dockedStart;
+          } else {
+            return RSPrefs.actions.defaultSheet;
+          }
+        } else if (sheetPref === SheetTypes.dockedEnd) {
+          if (
+             (dockablePref === DockTypes.both || dockablePref === DockTypes.end) &&
+             (currentDockConfig === DockTypes.both || currentDockConfig === DockTypes.end)
+          ) {
+            return SheetTypes.dockedEnd;
+          } else {
+            return RSPrefs.actions.defaultSheet;
+          }
+        } else {
+          return sheetPref;
+        }
+      default:
+        return RSPrefs.actions.defaultSheet;
+    }
+  }, [currentDockConfig, dockablePref, sheetPref, actionState]);
+
+  useEffect(() => {
+    // Update action state pref as side effect
+    sheetPref && dispatch(setActionPref({
+      key: key,
+      sheetPref: sheetPref
+    }));
+  }, [dispatch, key, sheetPref]);
 
   return {
-    getDocker
+    getDocker,
+    getSheetType
   }
 }
