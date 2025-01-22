@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { ActionKeys } from "@/models/actions";
-import { ActionsStateKeys, IActionOverflowOpenPayload, IActionsState, IActionStateDockPayload, IActionStateOpenPayload, IActionStateSheetPrefPayload, IActionStateSlotPayload } from "@/models/state/actionsState";
+import { ActionsStateKeys, IActionOverflowOpenPayload, IActionsState, IActionStateDockPayload, IActionStateOpenPayload, IActionStateSlotPayload, IActionStateSlotWidthPayload } from "@/models/state/actionsState";
 import { DockingKeys } from "@/models/docking";
 import { RSPrefs } from "@/preferences";
 import { SheetTypes } from "@/models/sheets";
@@ -162,6 +162,26 @@ export const actionsSlice = createSlice({
         ...state.dock[action.payload],
         active: false
       }
+    },
+    setDockPanelWidth: (state, action: IActionStateSlotWidthPayload) => {
+      // Copy the value in the action state 
+      // in case we do something with it later.
+
+      const key = state.dock[action.payload.key].actionKey;
+      if (key) {
+        state.keys[key] = {
+          ...state.keys[key],
+          dockedWidth: action.payload.width
+        }
+      }
+
+      // We only care if it’s populated.
+      if (state.dock[action.payload.key] !== null) {
+        state.dock[action.payload.key] = {
+          ...state.dock[action.payload.key],
+          width: action.payload.width
+        }
+      }
     }
   }
 })
@@ -172,6 +192,7 @@ export const {
   setOverflow, 
   activateDockPanel, 
   deactivateDockPanel, 
+  setDockPanelWidth
 } = actionsSlice.actions;
 
 export default actionsSlice.reducer;

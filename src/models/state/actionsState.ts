@@ -31,14 +31,6 @@ export interface IActionStateOpenPayload {
   }
 }
 
-export interface IActionStateSheetPrefPayload {
-  type: string;
-  payload: {
-    key: ActionsStateKeys;
-    sheetPref: SheetTypes;
-  }
-}
-
 export interface IActionOverflowOpenPayload {
   type: string;
   payload: {
@@ -58,6 +50,14 @@ export interface IActionStateDockedPayload {
 export interface IActionStateSlotPayload {
   type: string;
   payload: DockingKeys.start | DockingKeys.end;
+}
+
+export interface IActionStateSlotWidthPayload {
+  type: string;
+  payload: { 
+    key: DockingKeys.start | DockingKeys.end;
+    width: number;
+  }
 }
 
 export interface IDockState {

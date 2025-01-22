@@ -13,7 +13,7 @@ import { LayoutDirection } from "@/models/layout";
 import { useRezisablePanel } from "@/hooks/useRezisablePanel";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
-import { activateDockPanel, deactivateDockPanel } from "@/lib/actionsReducer";
+import { activateDockPanel, deactivateDockPanel, setDockPanelWidth } from "@/lib/actionsReducer";
 import { ActionsStateKeys } from "@/models/state/actionsState";
 
 import parseTemplate from "json-templates";
@@ -105,6 +105,10 @@ const DockPanel = ({
       defaultSize={ sizes.width } 
       minSize={ sizes.minWidth } 
       maxSize={ sizes.maxWidth }
+      onResize={ (size: number) => size !== 0 && dispatch(setDockPanelWidth({
+        key: dockKey,
+        width: size
+      }))}
     >
       <div 
         id={ dockKey } 
@@ -149,7 +153,7 @@ export const ReaderWithDock = ({
 
     return (
       <>
-      <PanelGroup onLayout={ resizeCallback } autoSaveId="reader-dock" direction="horizontal">
+      <PanelGroup onLayout={ resizeCallback } direction="horizontal">
         { (
             (
             RSPrefs.direction === LayoutDirection.ltr &&
