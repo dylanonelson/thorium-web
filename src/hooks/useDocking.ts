@@ -19,14 +19,23 @@ export const useDocking = (key: ActionsStateKeys) => {
   const dispatch = useAppDispatch();
 
   if (!dockingMap) {
-    dockingMap = makeBreakpointsMap<BreakpointsDockingMap>(DockTypes.both, DockTypes, RSPrefs.docking.dock, DockTypes.none);
+    dockingMap = makeBreakpointsMap<BreakpointsDockingMap>({
+      defaultValue: DockTypes.both, 
+      fromEnum: DockTypes, 
+      pref: RSPrefs.docking.dock, 
+      disabledValue: DockTypes.none 
+    });
   }
   const currentDockConfig = staticBreakpoint && dockingMap[staticBreakpoint];
   const dockablePref = RSPrefs.actions.keys[key].docked?.dockable || DockTypes.none;
 
   const defaultSheet = RSPrefs.actions.keys[key].sheet?.defaultSheet || SheetTypes.popover;
 
-  const sheetMap = makeBreakpointsMap<BreakpointsSheetMap>(RSPrefs.actions.keys[key].sheet?.defaultSheet || SheetTypes.popover, SheetTypes, RSPrefs.actions.keys[key].sheet?.breakpoints);
+  const sheetMap = makeBreakpointsMap<BreakpointsSheetMap>({
+    defaultValue: RSPrefs.actions.keys[key].sheet?.defaultSheet || SheetTypes.popover, 
+    fromEnum: SheetTypes, 
+    pref: RSPrefs.actions.keys[key].sheet?.breakpoints
+  });
   const sheetPref = staticBreakpoint && sheetMap[staticBreakpoint] || defaultSheet;
 
   const canBeDocked = useCallback((slot: DockTypes.start | DockTypes.end) => {
