@@ -20,18 +20,15 @@ const initialState: IActionsState = {
   keys: {
     [ActionKeys.toc]: {
       isOpen: null,
-      docking: null,
-      sheetPref: RSPrefs.actions.keys[ActionKeys.toc].sheet?.defaultSheet || SheetTypes.popover
+      docking: null
     },
     [ActionKeys.settings]: {
       isOpen: null,
-      docking: null,
-      sheetPref: RSPrefs.actions.keys[ActionKeys.settings].sheet?.defaultSheet || SheetTypes.popover
+      docking: null
     },
     [ActionKeys.jumpToPosition]: {
       isOpen: null,
-      docking: null,
-      sheetPref: RSPrefs.actions.keys[ActionKeys.jumpToPosition].sheet?.defaultSheet || SheetTypes.popover
+      docking: null
     }
   },
   overflow: {}
@@ -148,12 +145,6 @@ export const actionsSlice = createSlice({
           break;
       }
     },
-    setActionPref: (state, action: IActionStateSheetPrefPayload) => {
-      state.keys[action.payload.key] = {
-        ...state.keys[action.payload.key],
-        sheetPref: action.payload.sheetPref 
-      };
-    },
     setOverflow: (state, action: IActionOverflowOpenPayload) => {
       state.overflow[action.payload.key] = {
         ...state.overflow[action.payload.key],
@@ -178,7 +169,6 @@ export const actionsSlice = createSlice({
 export const { 
   dockAction, 
   setActionOpen, 
-  setActionPref, 
   setOverflow, 
   activateDockPanel, 
   deactivateDockPanel, 

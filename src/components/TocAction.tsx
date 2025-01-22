@@ -26,7 +26,7 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
   const dispatch = useAppDispatch();
 
   const docking = useDocking(ActionKeys.toc);
-  const sheetType = docking.getSheetType();
+  const sheetType = docking.sheetType;
 
   const setOpen = (value: boolean) => {
     dispatch(setActionOpen({ 
