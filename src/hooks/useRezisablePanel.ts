@@ -10,8 +10,8 @@ export const useRezisablePanel = (panel: Docked) => {
   const actions = useActions();
 
   const [pref, setPref] = useState<IDockedPref | null>(null);
-  
-  const width = pref?.width || RSPrefs.docking.defaultWidth;
+    
+  const width = panel.width ? ((panel.width * window.innerWidth) / 100) : pref?.width || RSPrefs.docking.defaultWidth;
   const minWidth = pref?.minWidth && pref.minWidth < width ? pref.minWidth : RSPrefs.docking.defaultWidth;
   const maxWidth = pref?.maxWidth && pref.maxWidth > width ? pref.maxWidth : RSPrefs.docking.defaultWidth;
 
