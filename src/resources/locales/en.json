@@ -1,7 +1,7 @@
 {
   "reader": {
     "app": {
-      "publicationWrapper": "You’re now in the Publication.",
+      "publicationWrapper": "You’re now in the publication.",
       "docking": {
         "dockingLeft": "Docked panel left",
         "dockingRight": "Docked panel right",
@@ -10,7 +10,7 @@
       },
       "header": {
         "label": "Top bar",
-        "runningHead": "Running Head",
+        "runningHead": "Running head",
         "runningHeadFallback": "...",
         "actions": "Actions"
       },
@@ -34,11 +34,11 @@
           "tooltip": "Dock Right"
         },
         "popover": {
-          "trigger": "Pop over contents",
+          "trigger": "Display in a window",
           "tooltip": "Pop over"
         },
         "fullscreen": {
-          "trigger": "Expand over contents",
+          "trigger": "Display over contents",
           "tooltip": "Overlay"
         },
         "close": {
@@ -48,8 +48,8 @@
       }
     },
     "navigation": {
-      "goForward": "Go Forward",
-      "goBackward": "Go Backward",
+      "goForward": "Go forward",
+      "goBackward": "Go backward",
       "scroll": {
         "wrapper": "Navigate through the publication",
         "prevLabel": "Previous",
@@ -65,14 +65,14 @@
     },
     "toc": {
       "tooltip": "Table of contents",
-      "trigger": "Toggle Table of Contents",
-      "close": "Close Table of Contents",
-      "heading": "Table of Contents",
-      "empty": "The Table of Contents was not provided for this publication."
+      "trigger": "Toggle table of contents",
+      "close": "Close table of contents",
+      "heading": "Table of contents",
+      "empty": "The table of contents was not provided for this publication."
     },
     "jumpToPosition": {
       "tooltip": "Jump to…",
-      "trigger": "Jump to Position"
+      "trigger": "Jump to position"
     },
     "overflowMenu": {
       "active": {
@@ -80,7 +80,7 @@
         "trigger": "Toggle menu"
       },
       "hint": {
-        "tooltip": "Toggle Actions",
+        "tooltip": "Toggle actions",
         "trigger": "Toggle immersive"
       }
     },
