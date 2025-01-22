@@ -89,7 +89,7 @@ export interface IActionTokens {
   visibility: ActionVisibility;
   shortcut: string | null;
   sheet?: {
-    defaultSheet: SheetTypes;
+    defaultSheet: Exclude<SheetTypes, SheetTypes.dockedStart | SheetTypes.dockedEnd>;
     breakpoints: {
       [key in StaticBreakpoints]?: SheetTypes;
     }
