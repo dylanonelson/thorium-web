@@ -2,11 +2,17 @@ import { DockTypes } from "@/models/docking";
 import { SheetTypes } from "@/models/sheets";
 import { BreakpointsMap, StaticBreakpoints } from "@/models/staticBreakpoints";
 
-export const makeBreakpointsMap = <T extends BreakpointsMap>(
+export const makeBreakpointsMap = <T extends BreakpointsMap>({
+  defaultValue,
+  fromEnum,
+  pref,
+  disabledValue
+}: {
   defaultValue: SheetTypes | DockTypes,
   fromEnum: typeof SheetTypes | typeof DockTypes,
   pref?: T | boolean,
-  disabledValue?: SheetTypes | DockTypes,
+  disabledValue?: SheetTypes | DockTypes
+}
 ): Required<T> => {
   const isValidType = (t: string) => {
     return Object.values(fromEnum).includes(t as keyof typeof fromEnum);

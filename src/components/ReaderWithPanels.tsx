@@ -138,7 +138,12 @@ export const ReaderWithDock = ({
       </>
     )
   } else {
-    const dockingMap = makeBreakpointsMap<BreakpointsDockingMap>(DockTypes.both, DockTypes, RSPrefs.docking.dock, DockTypes.none);
+    const dockingMap = makeBreakpointsMap<BreakpointsDockingMap>({
+      defaultValue: DockTypes.both, 
+      fromEnum: DockTypes, 
+      pref: RSPrefs.docking.dock, 
+      disabledValue: DockTypes.none
+    });
 
     const dockConfig = staticBreakpoint && dockingMap[staticBreakpoint] || DockTypes.both;
 
