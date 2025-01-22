@@ -4,12 +4,13 @@ import { RSPrefs } from "@/preferences";
 
 import { DockTypes, BreakpointsDockingMap, DockingKeys } from "@/models/docking";
 import { BreakpointsSheetMap, SheetTypes } from "@/models/sheets";
+import { ActionsStateKeys } from "@/models/state/actionsState";
+import { ActionKeys } from "@/models/actions";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 import { dockAction, setActionOpen } from "@/lib/actionsReducer";
-import { ActionsStateKeys } from "@/models/state/actionsState";
-import { ActionKeys } from "@/models/actions";
+
 import { usePrevious } from "./usePrevious";
 
 let dockingMap: Required<BreakpointsDockingMap> | null = null;

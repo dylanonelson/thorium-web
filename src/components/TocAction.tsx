@@ -1,11 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ActionComponentVariant, ActionKeys, IActionComponent } from "@/models/actions";
-import { SheetTypes } from "@/models/sheets";
-import { DockingKeys } from "@/models/docking";
 
 import tocStyles from "./assets/styles/toc.module.css";
 
@@ -19,7 +17,7 @@ import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 import { useDocking } from "@/hooks/useDocking";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { dockAction, setActionOpen } from "@/lib/actionsReducer";
+import { setActionOpen } from "@/lib/actionsReducer";
 
 export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);

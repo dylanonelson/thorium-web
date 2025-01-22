@@ -3,8 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ActionKeys } from "@/models/actions";
 import { ActionsStateKeys, IActionOverflowOpenPayload, IActionsState, IActionStateDockPayload, IActionStateOpenPayload, IActionStateSlotPayload, IActionStateSlotWidthPayload } from "@/models/state/actionsState";
 import { DockingKeys } from "@/models/docking";
-import { RSPrefs } from "@/preferences";
-import { SheetTypes } from "@/models/sheets";
 
 const initialState: IActionsState = {
   dock: {

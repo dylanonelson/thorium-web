@@ -1,11 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ActionComponentVariant, ActionKeys, IActionComponent } from "@/models/actions";
-import { SheetTypes } from "@/models/sheets";
-import { DockingKeys } from "@/models/docking";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
@@ -22,7 +20,7 @@ import { useDocking } from "@/hooks/useDocking";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { dockAction, setActionOpen } from "@/lib/actionsReducer";
+import { setActionOpen } from "@/lib/actionsReducer";
 
 export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
