@@ -32,11 +32,14 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
   const dockPortal = side && document.getElementById(side);
   const dockedSheetBodyRef = useRef<HTMLDivElement | null>(null);
   const dockedSheetCloseRef = useRef<HTMLButtonElement | null>(null);
+
+  /*  
   const firstFocusable = useFirstFocusable({
     withinRef: dockedSheetBodyRef, 
     trackedState: isOpen, 
     fallbackRef: dockedSheetCloseRef
-  });
+  }); 
+  */
 
   const classFromSide = useCallback(() => {
     return side === DockingKeys.start ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
