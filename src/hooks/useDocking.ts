@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { RSPrefs } from "@/preferences";
 
@@ -7,9 +7,10 @@ import { BreakpointsSheetMap, SheetTypes } from "@/models/sheets";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
-import { dockAction, setActionOpen, setActionPref } from "@/lib/actionsReducer";
+import { dockAction, setActionOpen } from "@/lib/actionsReducer";
 import { ActionsStateKeys } from "@/models/state/actionsState";
 import { ActionKeys } from "@/models/actions";
+import { usePrevious } from "./usePrevious";
 
 let dockingMap: Required<BreakpointsDockingMap> | null = null;
 
@@ -38,11 +39,16 @@ export const useDocking = (key: ActionsStateKeys) => {
   });
   const sheetPref = staticBreakpoint && sheetMap[staticBreakpoint] || defaultSheet;
 
+  const [sheetType, setSheetType] = useState<SheetTypes>(defaultSheet);
+  const previousSheetType = usePrevious(sheetType);
+
+  // Checks whether the action can be docked: its pref should match the docking pref
   const canBeDocked = useCallback((slot: DockTypes.start | DockTypes.end) => {
       return (currentDockConfig === slot || currentDockConfig === DockTypes.both) 
           && (dockablePref === slot || dockablePref === DockTypes.both);
   }, [currentDockConfig, dockablePref]);
 
+  // Checks whether the sheet pref is of Dock type 
   const isDockedSheetPref = useCallback((type?: SheetTypes.dockedStart | SheetTypes.dockedEnd) => {
     if (type) {
       return sheetPref === type;
@@ -51,6 +57,7 @@ export const useDocking = (key: ActionsStateKeys) => {
     }
   }, [sheetPref]);
   
+  // Builds the docker for the action based on all preferences
   const getDocker = useCallback((): DockingKeys[] => {
     // First let’s handle the cases where docker shouldn’t be used
     // The sheet is not dockable, per key.docked.dockable pref
@@ -58,7 +65,7 @@ export const useDocking = (key: ActionsStateKeys) => {
     // There’s no docking slot available, per docking.dock pref
     if (currentDockConfig === DockTypes.none) return [];
     // The sheet type is not compatible with docking
-    if (sheetPref === SheetTypes.fullscreen) return [];
+    if (sheetPref === SheetTypes.fullscreen || sheetPref === SheetTypes.bottomSheet) return [];
 
     // We can now build the docker from the display order
     let dockerKeys: DockingKeys[] = [];
@@ -93,7 +100,15 @@ export const useDocking = (key: ActionsStateKeys) => {
 
   const getSheetType = useCallback(() => {
     // First check the dockable pref is none to return early
-    if (dockablePref === DockTypes.none) return defaultSheet;
+    if (dockablePref === DockTypes.none) {
+      // Sheet is of docked type, we return the default
+      if (isDockedSheetPref()) {
+        return defaultSheet;
+      } else {
+        // Sheet pref is not of docked type, we can return it
+        return sheetPref;
+      }
+    };
 
     // We now need to check whether the user has docked the action themselves
     // ActionsReducer should has made sure there is no conflict to handle here 
@@ -158,20 +173,27 @@ export const useDocking = (key: ActionsStateKeys) => {
       default:
         return defaultSheet;
     }
-  }, [dockablePref, sheetPref, defaultSheet, actionState, canBeDocked, isDockedSheetPref]);
+  }, [dockablePref, sheetPref, defaultSheet, actionState.docking, canBeDocked, isDockedSheetPref]);
 
+  // When docking or breakpoints-related prefs change, get the correct sheet type
   useEffect(() => {
-    // Update action state pref as side effect
-    sheetPref && dispatch(setActionPref({
-      key: key,
-      sheetPref: sheetPref
-    }));
-  }, [dispatch, key, sheetPref]);
+    setSheetType(getSheetType());
+  }, [sheetPref, currentDockConfig, actionState.docking, getSheetType]);
+
+  // Dismiss/Close when sheetType has changed from docked to transient
+  useEffect(() => {
+    if (sheetType !== SheetTypes.dockedStart && sheetType !== SheetTypes.dockedEnd) {
+      if (previousSheetType === SheetTypes.dockedStart || previousSheetType === SheetTypes.dockedEnd) {
+        dispatch(setActionOpen({
+          key: ActionKeys[key],
+          isOpen: false
+        }));
+      }
+    }
+  }, [dispatch, key, sheetType, previousSheetType]);
 
   // on mount, check whether we should update states for docked sheets
   useEffect(() => {
-    const sheetType = getSheetType();
-
     if (actionState.isOpen === null) {
       if (sheetType === SheetTypes.dockedStart) {
         dispatch(dockAction({
@@ -193,10 +215,10 @@ export const useDocking = (key: ActionsStateKeys) => {
         }));
       }
     }
-  })
+  });
 
   return {
     getDocker,
-    getSheetType
+    sheetType
   }
 }

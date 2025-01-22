@@ -8,7 +8,6 @@ export type OverflowStateKeys = string;
 export interface IActionStateObject {
   isOpen: boolean | null;
   docking: DockingKeys | null;
-  sheetPref: SheetTypes;
   dockedWidth?: number;
 }
 

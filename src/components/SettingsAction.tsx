@@ -29,7 +29,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   const dispatch = useAppDispatch();
 
   const docking = useDocking(ActionKeys.settings);
-  const sheetType = docking.getSheetType();
+  const sheetType = docking.sheetType;
 
   const setOpen = (value: boolean) => {    
     dispatch(setActionOpen({
