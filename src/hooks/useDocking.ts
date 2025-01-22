@@ -182,6 +182,9 @@ export const useDocking = (key: ActionsStateKeys) => {
 
   // Dismiss/Close when sheetType has changed from docked to transient
   useEffect(() => {
+    // This was not dismissed on breakpoint change, but by the user
+    if (actionState.docking === DockingKeys.transient) return;
+
     if (sheetType !== SheetTypes.dockedStart && sheetType !== SheetTypes.dockedEnd) {
       if (previousSheetType === SheetTypes.dockedStart || previousSheetType === SheetTypes.dockedEnd) {
         dispatch(setActionOpen({
@@ -190,7 +193,7 @@ export const useDocking = (key: ActionsStateKeys) => {
         }));
       }
     }
-  }, [dispatch, key, sheetType, previousSheetType]);
+  }, [dispatch, key, sheetType, previousSheetType, actionState.docking]);
 
   // on mount, check whether we should update states for docked sheets
   useEffect(() => {
