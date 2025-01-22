@@ -1,4 +1,4 @@
-import { act, ReactNode, useCallback, useEffect, useRef } from "react";
+import { ReactNode, useCallback, useEffect, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
@@ -9,13 +9,13 @@ import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from "rea
 
 import { BreakpointsDockingMap, DockTypes, DockingKeys, IDockPanelSizes } from "@/models/docking";
 import { LayoutDirection } from "@/models/layout";
+import { ActionsStateKeys } from "@/models/state/actionsState";
 
 import { useRezisablePanel } from "@/hooks/useRezisablePanel";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 import { activateDockPanel, deactivateDockPanel, setDockPanelWidth } from "@/lib/actionsReducer";
-import { ActionsStateKeys } from "@/models/state/actionsState";
 
+import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 import parseTemplate from "json-templates";
 
 const DockHandle = ({ isResizable }: { isResizable: boolean }) => {
