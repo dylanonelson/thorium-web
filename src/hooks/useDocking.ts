@@ -28,6 +28,19 @@ export const useDocking = (key: ActionsStateKeys) => {
 
   const sheetMap = makeBreakpointsMap<BreakpointsSheetMap>(RSPrefs.actions.keys[key].sheet?.defaultSheet || SheetTypes.popover, SheetTypes, RSPrefs.actions.keys[key].sheet?.breakpoints);
   const sheetPref = staticBreakpoint && sheetMap[staticBreakpoint] || defaultSheet;
+
+  const canBeDocked = useCallback((slot: DockTypes.start | DockTypes.end) => {
+      return (currentDockConfig === slot || currentDockConfig === DockTypes.both) 
+          && (dockablePref === slot || dockablePref === DockTypes.both);
+  }, [currentDockConfig, dockablePref]);
+
+  const isDockedSheetPref = useCallback((type?: SheetTypes.dockedStart | SheetTypes.dockedEnd) => {
+    if (type) {
+      return sheetPref === type;
+    } else {
+      return sheetPref === SheetTypes.dockedStart || sheetPref === SheetTypes.dockedEnd
+    }
+  }, [sheetPref]);
   
   const getDocker = useCallback((): DockingKeys[] => {
     // First let’s handle the cases where docker shouldn’t be used
@@ -49,24 +62,14 @@ export const useDocking = (key: ActionsStateKeys) => {
           dockerKeys.push(dockingKey);
           break;
         case DockingKeys.start:
-          if (
-              (currentDockConfig === DockTypes.both ||
-              currentDockConfig === DockTypes.start) && 
-              (dockablePref === DockTypes.both || 
-              dockablePref === DockTypes.start)
-          ) {
+          if (canBeDocked(DockTypes.start)) {
             dockerKeys.push(dockingKey);
           }
           break;
         case DockingKeys.end:
-          if (
-            (currentDockConfig === DockTypes.both ||
-            currentDockConfig === DockTypes.end) && 
-            (dockablePref === DockTypes.both || 
-            dockablePref === DockTypes.end)
-        ) {
-          dockerKeys.push(dockingKey);
-        }
+          if (canBeDocked(DockTypes.end)) {
+            dockerKeys.push(dockingKey);
+          }
           break;
         default:
           break;
@@ -77,20 +80,21 @@ export const useDocking = (key: ActionsStateKeys) => {
     if (dockerKeys.length === 1 && dockerKeys[0] === DockingKeys.transient) return [];
 
     return dockerKeys;
-  }, [currentDockConfig, sheetPref, dockablePref]);
+  }, [currentDockConfig, sheetPref, dockablePref, canBeDocked]);
 
   const getSheetType = useCallback(() => {
-    // We need to check whether the user has docked the action themselves
-    // ActionsReducer should has also made sure there is no conflict to handle here 
-    // by updating states of actions on docking
-    // We need to take care of potential conflicts on init though
+    // First check the dockable pref is none to return early
+    if (dockablePref === DockTypes.none) return defaultSheet;
 
+    // We now need to check whether the user has docked the action themselves
+    // ActionsReducer should has made sure there is no conflict to handle here 
+    // by updating states of actions on docking
     switch (actionState.docking) {
       
       // if action.docking is transient we need to check the pref, 
       // it can be docked and in that case we need to pick the default
       case DockingKeys.transient:
-        if (sheetPref === SheetTypes.dockedStart || sheetPref === SheetTypes.dockedEnd) {
+        if (isDockedSheetPref()) {
           return defaultSheet;
         } else {
           return sheetPref;
@@ -98,15 +102,12 @@ export const useDocking = (key: ActionsStateKeys) => {
       
       // If action.docking is set to start/end then we check the docking slot is available
       case DockingKeys.start:
-        if (
-            (dockablePref === DockTypes.both || dockablePref === DockTypes.start) && 
-            (currentDockConfig === DockTypes.both || currentDockConfig === DockTypes.start)
-          ) {
+        if (canBeDocked(DockTypes.start)) {
           return SheetTypes.dockedStart;
         } else {
           // if the pref is not docked start, return the pref 
           // else return the default
-          if (sheetPref !== SheetTypes.dockedStart) {
+          if (isDockedSheetPref(SheetTypes.dockedStart)) {
             return sheetPref;
           } else {
             return defaultSheet;
@@ -114,15 +115,12 @@ export const useDocking = (key: ActionsStateKeys) => {
         }
 
       case DockingKeys.end:
-        if (
-            (dockablePref === DockTypes.both || dockablePref === DockTypes.end) &&
-            (currentDockConfig === DockTypes.both || currentDockConfig === DockTypes.end)
-            ) {
+        if (canBeDocked(DockTypes.end)) {
           return SheetTypes.dockedEnd;
         } else {
           // if the pref is not docked end, return the pref 
           // else return the default
-          if (sheetPref !== SheetTypes.dockedEnd) {
+          if (isDockedSheetPref(SheetTypes.dockedEnd)) {
             return sheetPref;
           } else {
             return defaultSheet;
@@ -133,20 +131,14 @@ export const useDocking = (key: ActionsStateKeys) => {
       // as it means the user did not pick another option
       case null:
         // We have to check sheetPref is compatible with docking prefs
-        if (sheetPref === SheetTypes.dockedStart) {
-          if (
-              (dockablePref === DockTypes.both || dockablePref === DockTypes.start) &&
-              (currentDockConfig === DockTypes.both || currentDockConfig === DockTypes.start)
-            ) {
+        if (isDockedSheetPref(SheetTypes.dockedStart)) {
+          if (canBeDocked(DockTypes.start)) {
             return SheetTypes.dockedStart;
           } else {
             return defaultSheet;
           }
-        } else if (sheetPref === SheetTypes.dockedEnd) {
-          if (
-             (dockablePref === DockTypes.both || dockablePref === DockTypes.end) &&
-             (currentDockConfig === DockTypes.both || currentDockConfig === DockTypes.end)
-          ) {
+        } else if (isDockedSheetPref(SheetTypes.dockedEnd)) {
+          if (canBeDocked(DockTypes.end)) {
             return SheetTypes.dockedEnd;
           } else {
             return defaultSheet;
@@ -157,7 +149,7 @@ export const useDocking = (key: ActionsStateKeys) => {
       default:
         return defaultSheet;
     }
-  }, [currentDockConfig, dockablePref, sheetPref, defaultSheet, actionState]);
+  }, [dockablePref, sheetPref, defaultSheet, actionState, canBeDocked, isDockedSheetPref]);
 
   useEffect(() => {
     // Update action state pref as side effect

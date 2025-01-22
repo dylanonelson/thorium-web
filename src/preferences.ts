@@ -217,7 +217,7 @@ export const RSPrefs: IRSPrefs = {
           breakpoints: {
             [StaticBreakpoints.compact]: SheetTypes.fullscreen,
             [StaticBreakpoints.medium]: SheetTypes.fullscreen,
-            [StaticBreakpoints.large]: SheetTypes.dockedStart
+            [StaticBreakpoints.large]: SheetTypes.dockedEnd
           }
         },
         docked: {
