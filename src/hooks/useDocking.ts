@@ -132,7 +132,7 @@ export const useDocking = (key: ActionsStateKeys) => {
         } else {
           // if the pref is not docked start, return the pref 
           // else return the default
-          if (isDockedSheetPref(SheetTypes.dockedStart)) {
+          if (!isDockedSheetPref(SheetTypes.dockedStart)) {
             return sheetPref;
           } else {
             return defaultSheet;
@@ -145,7 +145,7 @@ export const useDocking = (key: ActionsStateKeys) => {
         } else {
           // if the pref is not docked end, return the pref 
           // else return the default
-          if (isDockedSheetPref(SheetTypes.dockedEnd)) {
+          if (!isDockedSheetPref(SheetTypes.dockedEnd)) {
             return sheetPref;
           } else {
             return defaultSheet;
