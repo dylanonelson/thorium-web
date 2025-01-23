@@ -42,8 +42,9 @@
   border-bottom: none;
   filter: drop-shadow(var(--theme-elevate));
   box-shadow: none !important;
-  border-top-left-radius: var(--layout-radius) !important;
-  border-top-right-radius: var(--layout-radius) !important;
+  /* M3 = 28dp, see https://m3.material.io/components/bottom-sheets/overview */
+  border-top-left-radius: 28px !important;
+  border-top-right-radius: 28px !important;
   height: calc(100vh - env(safe-area-inset-top)) !important;
 }
 
@@ -112,6 +113,9 @@
   display: flex;
   align-items: center;
   padding: var(--layout-spacing) var(--layout-spacing) calc(var(--layout-spacing) / 2) var(--layout-spacing);
+  /* Otherwise covers the modal’s */
+  border-top-left-radius: 28px !important;
+  border-top-right-radius: 28px !important;
   background-color: var(--theme-background);
   border-bottom: 1px solid var(--theme-subdue);
 }
