@@ -47,6 +47,10 @@
   height: calc(100vh - env(safe-area-inset-top)) !important;
 }
 
+.draggableBottomSheetBackdrop {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
 .draggableBottomSheet {
   padding: 0;
   background-color: var(--theme-background);

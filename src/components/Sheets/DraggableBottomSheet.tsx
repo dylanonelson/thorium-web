@@ -80,7 +80,10 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
             </Sheet.Scroller>
           </Sheet.Content>
         </Sheet.Container>
-        <Sheet.Backdrop onTap={ onClosePressCallback }/>
+        <Sheet.Backdrop 
+          className={ sheetStyles.draggableBottomSheetBackdrop }
+          onTap={ onClosePressCallback }
+        />
     </Sheet> 
     </>
     : <></> }
