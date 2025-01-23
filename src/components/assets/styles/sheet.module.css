@@ -32,29 +32,43 @@
   filter: drop-shadow(var(--theme-elevate));
 }
 
-.draggableBottomSheetOverlay[data-rsbs-backdrop] {
-  height: 100vh;
-  position: fixed;
-  top: -100vh;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 3;
-}
-
 .draggableBottomSheetModal {
+  box-sizing: border-box;
+  /* TODO VAR/PREF */
+  max-width: 450px;
+  left: calc((100% - 450px) / 2) !important;
+  background-color: var(--theme-background) !important;
   border: 1px solid var(--theme-subdue);
+  border-bottom: none;
   filter: drop-shadow(var(--theme-elevate));
-  z-index: 4;
+  box-shadow: none !important;
+  border-top-left-radius: var(--layout-radius) !important;
+  border-top-right-radius: var(--layout-radius) !important;
+  height: calc(100vh - env(safe-area-inset-top)) !important;
 }
 
 .draggableBottomSheet {
-  overflow-y: auto;
-  box-sizing: border-box;
-  max-height: 100%;
   padding: 0;
   background-color: var(--theme-background);
   color: var(--theme-text);
+}
+
+.draggableBottomSheetScroller {
+  max-height: 100%;
+}
+
+.dragIndicator {
+  width: calc(var(--icon-size, 40px) * 1.5);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dragIndicator svg {
+  fill: var(--theme-subdue);
+  width: 100%;
+  height: auto;
 }
 
 .dockedSheet {
@@ -94,10 +108,12 @@
 }
 
 .draggableBottomSheetHeader {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  padding: 0;
+  padding: var(--layout-spacing) var(--layout-spacing) calc(var(--layout-spacing) / 2) var(--layout-spacing);
   background-color: var(--theme-background);
+  border-bottom: 1px solid var(--theme-subdue);
 }
 
 .sheetHeading {
