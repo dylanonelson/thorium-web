@@ -53,10 +53,6 @@
   color: var(--theme-text);
 }
 
-.draggableBottomSheetScroller {
-  max-height: 100%;
-}
-
 .dragIndicator {
   width: calc(var(--icon-size, 40px) * 1.5);
   position: absolute;
