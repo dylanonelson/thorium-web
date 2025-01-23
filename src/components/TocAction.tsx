@@ -51,7 +51,7 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
         sheetType={ sheetType }
         sheetProps={ {
           id: ActionKeys.toc,
-          renderActionIcon:() => <ActionIcon 
+          Trigger: () => <ActionIcon 
             visibility={ RSPrefs.actions.keys[ActionKeys.toc].visibility }
             ariaLabel={ Locale.reader.toc.trigger } 
             SVG={ TocIcon } 

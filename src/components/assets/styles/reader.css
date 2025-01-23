@@ -65,9 +65,6 @@ main {
   align-items: center;
 }
 
-/* Docked Sheets won’t work properly with flexbox since an incorrect width is reported 
-   and we can’t get the layout adapting for free…  We need to handle all programmatically
-   using left and right positioning */
 #reader-main {
   position: relative;
   display: flex;

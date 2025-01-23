@@ -17,6 +17,7 @@ import { isActiveElement, isKeyboardTriggered } from "@/helpers/focus";
 
 export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IActionIconProps> = ({
   className,
+  ref, 
   ariaLabel, 
   SVG,
   placement,
@@ -72,8 +73,9 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
 
   const blurOnEsc = (event: React.KeyboardEvent) => {
   // TODO: handle Tooltip cos first time you press esc, it’s the tooltip that is closed.
+    const usedRef = ref?.current || triggerRef.current;
     if (isActiveElement(triggerRef.current) && event.code === "Escape") {
-      triggerRef.current!.blur();
+      usedRef && usedRef.blur();
     }
   };
   
@@ -81,7 +83,7 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
     <>
     <TooltipTrigger>
       <Button 
-        ref={ triggerRef }
+        ref={ ref || triggerRef }
         className={ classNames(readerSharedUI.icon, handleClassNameFromState(), className) } 
         aria-label={ ariaLabel } 
         onPress={ onPressCallback || defaultOnPressFunc }
