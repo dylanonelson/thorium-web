@@ -49,7 +49,6 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
       >
         <Sheet.Container 
           className={ sheetStyles.draggableBottomSheetModal } 
-          style={{ paddingBottom: sheetRef.current?.y }}
         >
           <Sheet.Header>
             <DragIndicator />
@@ -65,7 +64,8 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
           </Sheet.Header>
           <Sheet.Content 
             className={ classNames(sheetStyles.draggableBottomSheet, className) }
-            disableDrag={ true }
+            disableDrag={ true } 
+            style={{ paddingBottom: sheetRef.current?.y }}
           >
             <Sheet.Scroller 
               draggable={ false }
