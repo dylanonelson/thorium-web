@@ -9,7 +9,7 @@ import { ISheet } from "@/models/sheets";
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
-import { Sheet } from "react-modal-sheet";
+import { Sheet, SheetRef } from "react-modal-sheet";
 import { Heading } from "react-aria-components";
 import { CloseButton } from "../CloseButton";
 
@@ -28,18 +28,12 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
   onClosePressCallback,
   children 
 }) => {
+  const sheetRef = useRef<SheetRef>(null);
   const draggableBottomSheetBodyRef = useRef<HTMLDivElement | null>(null);
   const draggableBottomSheetCloseRef = useRef<HTMLButtonElement | null>(null);
   const minHeightPref = RSPrefs.actions.keys[id].snapped?.minHeight ? RSPrefs.actions.keys[id].snapped?.minHeight / 100 : 0.2;
   const maxHeightPref = RSPrefs.actions.keys[id].snapped?.maxHeight ? RSPrefs.actions.keys[id].snapped?.maxHeight / 100 : 1;
   const peekHeightPref = RSPrefs.actions.keys[id].snapped?.peekHeight ? RSPrefs.actions.keys[id].snapped?.peekHeight / 100 : minHeightPref;
-
-  // Note: We’re not using firstFocusable because
-  // it breaks the component focus scope if we do.
-  // We need to pass a React.ref to initialFocusRef prop…
-  // Focus issue when scrollable…
-
-  // We need to add a sibling as an overlay so that we can block and dismiss on tap
 
   return (
     <>
@@ -47,12 +41,16 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
     ? <>
       { renderActionIcon() }
       <Sheet
+        ref={ sheetRef }
         isOpen={ isOpen }
         onClose={ onClosePressCallback }
         snapPoints={ [maxHeightPref, peekHeightPref, minHeightPref] }
         initialSnap={ 1 }
       >
-        <Sheet.Container className={ sheetStyles.draggableBottomSheetModal }>
+        <Sheet.Container 
+          className={ sheetStyles.draggableBottomSheetModal } 
+          style={{ paddingBottom: sheetRef.current?.y }}
+        >
           <Sheet.Header>
             <DragIndicator />
             <div className={ sheetStyles.draggableBottomSheetHeader }>
