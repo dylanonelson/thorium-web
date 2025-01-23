@@ -34,9 +34,10 @@
 
 .draggableBottomSheetModal {
   box-sizing: border-box;
-  /* TODO VAR/PREF */
+  /* TODO VAR/PREF
   max-width: 450px;
   left: calc((100% - 450px) / 2) !important;
+  */
   background-color: var(--theme-background) !important;
   border: 1px solid var(--theme-subdue);
   border-bottom: none;
