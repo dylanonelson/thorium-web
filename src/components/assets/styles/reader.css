@@ -143,8 +143,3 @@ button {
   background-color: var(--theme-select);
   color: var(--theme-onSelect);
 }
-
-.react-modal-sheet-drag-indicator {
-  background-color: red;
-  color: green;
-}
