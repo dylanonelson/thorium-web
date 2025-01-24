@@ -99,8 +99,6 @@ const DockPanel = ({
   }, [dispatch, dockKey]);
 
   useEffect(() => {
-    // TMP cos handling of dockedStart and dockedEnd in sheet 
-    // is not yet implemented and will be more complex than that
     dispatch(activateDockPanel(dockKey));
 
     return () => {
