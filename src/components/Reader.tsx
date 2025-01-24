@@ -34,7 +34,7 @@ import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
 import { localData } from "@/helpers/localData";
 import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 
-import { setImmersive, setHovering, toggleImmersive, setPlatformModifier, setDirection } from "@/lib/readerReducer";
+import { setImmersive, setHovering, toggleImmersive, setPlatformModifier, setDirection, setArrows } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
@@ -95,6 +95,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const toggleIsImmersive = useCallback(() => {
     // If tap/click in iframe, then header/footer no longer hoovering 
     dispatch(setHovering(false));
+    dispatch(setArrows(false));
     dispatch(toggleImmersive());
   }, [dispatch]);
 
