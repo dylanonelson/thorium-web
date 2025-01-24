@@ -8,6 +8,7 @@ const initialState: IReaderState = {
   direction: LayoutDirection.ltr,
   isImmersive: false,
   isHovering: false,
+  hasArrows: true,
   isFullscreen: false,
   isPaged: true,
   colCount: "auto",
@@ -33,6 +34,9 @@ export const readerSlice = createSlice({
     setHovering: (state, action) => {
       state.isHovering = action.payload
     },
+    setArrows: (state, action) => {
+      state.hasArrows = action.payload
+    },
     setFullscreen: (state, action) => {
       state.isFullscreen = action.payload
     },
@@ -52,6 +56,7 @@ export const {
   setImmersive, 
   toggleImmersive, 
   setHovering, 
+  setArrows, 
   setFullscreen, 
   setPaged, 
   setColCount

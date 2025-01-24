@@ -19,6 +19,8 @@ import {
 import { EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
+import { ReaderWithDock } from "./ReaderWithPanels";
+
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
@@ -37,7 +39,6 @@ import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicatio
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
-import { ReaderWithDock } from "./ReaderWithPanels";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -367,7 +368,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
               <ArrowButton 
                 direction="left" 
                 disabled={ atPublicationStart } 
-                onPressCallback={ () => goLeft(true, () => {}) }
+                onPressCallback={ () => goLeft(true, activateImmersiveOnAction) }
               />
           </nav> 
           : <></> }
@@ -381,7 +382,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
               <ArrowButton 
                 direction="right"  
                 disabled={ atPublicationEnd } 
-                onPressCallback={ () => goRight(true, () => {}) }
+                onPressCallback={ () => goRight(true, activateImmersiveOnAction) }
               />
             </nav> 
           : <></> }
