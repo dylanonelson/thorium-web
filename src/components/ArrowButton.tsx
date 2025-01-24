@@ -77,18 +77,6 @@ export const ArrowButton = (props: IReaderArrow) => {
     }
   };
 
-  // Unlike preventFocusOnPress, this gives a visual feedback
-  // the button has been pressed in immersive mode (esp. when hidden)
-  // CSS needs to take care of hover state though, as it will be applied
-  // on mobile depending on the length of the press
-  const handleNonKeyboardFocus = (event: PressEvent) => {
-    if (event.pointerType !== "keyboard") {
-      if (isActiveElement(button.current)) {
-        button.current!.blur()
-      }
-    }
-  }
-
   const handleOnPress = (cb: () => void) => {
     dispatch(setArrows(false));
     cb();
@@ -101,11 +89,11 @@ export const ArrowButton = (props: IReaderArrow) => {
         ref={ button }
         aria-label={ label }
         onPress={ () => handleOnPress(props.onPressCallback) }
-        onPressEnd={ handleNonKeyboardFocus }
         onHoverChange={ (e) => setIsHovering(e) } 
         onKeyDown={ blurOnEsc }
         className={ classNames(props.className, handleClassNameFromBreakpoint(), handleClassNameFromState()) }
         isDisabled={ props.disabled }
+        preventFocusOnPress={ true }
       >
         { props.direction === "left" ? 
           <LeftArrow aria-hidden="true" focusable="false" /> : 
