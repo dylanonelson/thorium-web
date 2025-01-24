@@ -13,7 +13,7 @@ import { ActionsStateKeys } from "@/models/state/actionsState";
 
 import { useRezisablePanel } from "@/hooks/useRezisablePanel";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { activateDockPanel, deactivateDockPanel, setDockPanelWidth } from "@/lib/actionsReducer";
+import { activateDockPanel, collapseDockPanel, deactivateDockPanel, expandDockPanel, setDockPanelWidth } from "@/lib/actionsReducer";
 
 import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 import parseTemplate from "json-templates";
@@ -84,6 +84,20 @@ const DockPanel = ({
     }
   }, [side]);
 
+  const collapsePanel = useCallback(() => {
+    if (panelRef.current) {
+      panelRef.current.collapse();
+      dispatch(collapseDockPanel(dockKey));
+    }
+  }, [dispatch, dockKey]);
+
+  const expandPanel = useCallback(() => {
+    if (panelRef.current) {
+      panelRef.current.expand();
+      dispatch(expandDockPanel(dockKey));
+    }
+  }, [dispatch, dockKey]);
+
   useEffect(() => {
     // TMP cos handling of dockedStart and dockedEnd in sheet 
     // is not yet implemented and will be more complex than that
@@ -94,17 +108,24 @@ const DockPanel = ({
     }
   }, [dispatch, dockKey]);
 
+  useEffect(() => {
+    isPopulated ? expandPanel() : collapsePanel();
+  }, [isPopulated, collapsePanel, expandPanel]);
+
   return(
     <>
     { side === "right" && <DockHandle isResizable={ isResizable } /> } 
     <Panel 
       id={ `${ dockKey }-panel` } 
       order={ handleDockPanelOrder() } 
-      collapsible={ false }
+      collapsible={ true }
+      collapsedSize={ 0 }
       ref={ panelRef }
-      defaultSize={ sizes.width } 
+      defaultSize={ isPopulated ? sizes.width : 0 } 
       minSize={ sizes.minWidth } 
       maxSize={ sizes.maxWidth }
+      onCollapse={ collapsePanel }
+      onExpand={ expandPanel }
       onResize={ (size: number) => size !== 0 && dispatch(setDockPanelWidth({
         key: dockKey,
         width: sizes.getCurrentPxWidth(size)

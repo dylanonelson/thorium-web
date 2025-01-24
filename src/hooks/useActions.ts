@@ -59,6 +59,10 @@ export const useActions = () => {
       : null;
   }
 
+  const getDockedWidth = (key?: ActionsStateKeys | null) => {
+    return key && actions[key].dockedWidth || undefined;
+  }
+
   const everyOpenDocked = () => {
     const opens = findOpen();
     
@@ -75,6 +79,7 @@ export const useActions = () => {
     anyDocked,
     isDocked,
     whichDocked,
+    getDockedWidth,
     everyOpenDocked
   }
 }

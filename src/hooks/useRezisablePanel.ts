@@ -12,7 +12,7 @@ export const useRezisablePanel = (panel: Docked) => {
 
   const actions = useActions();
 
-  const previousWidth = panel.width || null;
+  const previousWidth = actions.getDockedWidth(panel.actionKey) || null;
   const width = pref?.width || defaultWidth;
   const minWidth = pref?.minWidth && pref.minWidth < width 
     ? pref.minWidth 
@@ -38,19 +38,17 @@ export const useRezisablePanel = (panel: Docked) => {
   };
 
   const getWidth = () => {
-    return isPopulated() 
-      ? previousWidth 
-        ? Math.round((previousWidth / window.innerWidth) * 100) 
-        : Math.round((width / window.innerWidth) * 100) 
-      : 0;
+    return previousWidth 
+    ? Math.round((previousWidth / window.innerWidth) * 100) 
+    : Math.round((width / window.innerWidth) * 100);
   };
 
   const getMinWidth = () => {
-    return isPopulated() ? Math.round((minWidth / window.innerWidth) * 100) : 0;
+    return Math.round((minWidth / window.innerWidth) * 100);
   };
 
   const getMaxWidth = () => {
-    return isPopulated() ? Math.round((maxWidth / window.innerWidth) * 100) : 0;
+    return Math.round((maxWidth / window.innerWidth) * 100);
   };
 
   const getCurrentPxWidth = (percentage: number) => {

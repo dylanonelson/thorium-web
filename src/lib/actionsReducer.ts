@@ -161,6 +161,24 @@ export const actionsSlice = createSlice({
         active: false
       }
     },
+    collapseDockPanel: (state, action: IActionStateSlotPayload) => {
+      const key = state.dock[action.payload].actionKey;
+      if (key) {
+        state.keys[key] = {
+          ...state.keys[key],
+          isOpen: false
+        }
+      }
+    },
+    expandDockPanel: (state, action: IActionStateSlotPayload) => {
+      const key = state.dock[action.payload].actionKey;
+      if (key) {
+        state.keys[key] = {
+          ...state.keys[key],
+          isOpen: true
+        }
+      }
+    },
     setDockPanelWidth: (state, action: IActionStateSlotWidthPayload) => {
       // Copy the value in the action state 
       // in case we do something with it later.
@@ -190,6 +208,8 @@ export const {
   setOverflow, 
   activateDockPanel, 
   deactivateDockPanel, 
+  collapseDockPanel,
+  expandDockPanel, 
   setDockPanelWidth
 } = actionsSlice.actions;
 
