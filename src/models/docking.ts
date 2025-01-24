@@ -39,6 +39,7 @@ export interface IDockPanelSizes {
   width: number;
   minWidth: number;
   maxWidth: number;
+  getCurrentPxWidth: (percentage: number) => number;
 }
 
 export interface IDockedPref {

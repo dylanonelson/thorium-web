@@ -107,7 +107,7 @@ const DockPanel = ({
       maxSize={ sizes.maxWidth }
       onResize={ (size: number) => size !== 0 && dispatch(setDockPanelWidth({
         key: dockKey,
-        width: size
+        width: sizes.getCurrentPxWidth(size)
       }))}
     >
       <div 
@@ -171,7 +171,8 @@ export const ReaderWithDock = ({
             sizes={{
               width: startPanel.getWidth(),
               minWidth: startPanel.getMinWidth(),
-              maxWidth: startPanel.getMaxWidth()
+              maxWidth: startPanel.getMaxWidth(),
+              getCurrentPxWidth: startPanel.getCurrentPxWidth
             }} 
             isResizable={ startPanel.isResizable() }
             isPopulated={ startPanel.isPopulated() }
@@ -199,7 +200,8 @@ export const ReaderWithDock = ({
             sizes={{
               width: endPanel.getWidth(),
               minWidth: endPanel.getMinWidth(),
-              maxWidth: endPanel.getMaxWidth()
+              maxWidth: endPanel.getMaxWidth(),
+              getCurrentPxWidth: endPanel.getCurrentPxWidth
             }} 
             isResizable={ endPanel.isResizable() }
             isPopulated={ endPanel.isPopulated() }
