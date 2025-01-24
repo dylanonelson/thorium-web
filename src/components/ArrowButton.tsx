@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { IReaderArrow } from "@/models/layout";
 import { StaticBreakpoints } from "@/models/staticBreakpoints";
-import { ActionsStateKeys } from "@/models/state/actionsState";
 
 import Locale from "../resources/locales/en.json";
 
@@ -15,52 +14,59 @@ import RightArrow from "./assets/icons/arrow_forward.svg";
 
 import { Button, PressEvent, Tooltip, TooltipTrigger } from "react-aria-components";
 
-import { useAppSelector } from "@/lib/hooks";
-import { useActions } from "@/hooks/useActions";
+import { usePrevious } from "@/hooks/usePrevious";
+
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setArrows } from "@/lib/readerReducer";
 
 import { isActiveElement } from "@/helpers/focus";
 import classNames from "classnames";
 
 export const ArrowButton = (props: IReaderArrow) => {
   const button = useRef<HTMLButtonElement>(null);
-  const isImmersive = useAppSelector(state => state.reader.isImmersive);
-  const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
-  const hasReachedDynamicBreakpoint = useAppSelector(state => state.theming.hasReachedDynamicBreakpoint);
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const isRTL = useAppSelector(state => state.publication.isRTL);
-  const isFXL = useAppSelector(state => state.publication.isFXL);
-  const actions = useActions();
+  const hasArrows = useAppSelector(state => state.reader.hasArrows);
+
+  const isPaged = useAppSelector(state => state.reader.isPaged);
+  const wasPaged = usePrevious(isPaged);
+
+  const dispatch = useAppDispatch();
 
   const [isHovering, setIsHovering] = useState(false);
 
-  const label = (props.direction === "right" && !isRTL || props.direction === "left" && isRTL) ? Locale.reader.navigation.goForward : Locale.reader.navigation.goBackward;
+  const switchedFromScrollable = () => {
+    return isPaged && isPaged !== wasPaged;
+  }
+
+  const label = (
+    props.direction === "right" && !isRTL || 
+    props.direction === "left" && isRTL
+  ) 
+    ? Locale.reader.navigation.goForward 
+    : Locale.reader.navigation.goBackward;
 
   const handleClassNameFromState = () => {
     let className = "";
-    if (
-        isImmersive && !hasReachedDynamicBreakpoint || 
-        isFullscreen ||
-        !actions.everyOpenDocked()
-      ) {
+    if (!hasArrows && !switchedFromScrollable()) {
       className = readerStateStyles.immersiveHidden;
-    } else if (isImmersive) {
-      className = readerStateStyles.immersive;
     }
     return className;
   };
 
   const handleClassNameFromBreakpoint = () => {
-    if (isFXL && (staticBreakpoint === StaticBreakpoints.large || staticBreakpoint === StaticBreakpoints.xLarge)) {
-      return arrowStyles.viewportLarge;
-    } else if (!isFXL && hasReachedDynamicBreakpoint) {
-      return arrowStyles.viewportLarge;
-    } else {
-      return "";
+    let className = "";
+    if (
+      staticBreakpoint === StaticBreakpoints.large || 
+      staticBreakpoint === StaticBreakpoints.xLarge
+    ) {
+      className = arrowStyles.viewportLarge;
     }
+    return className;
   };
 
   useEffect(() => {
-    if ((props.disabled || (isImmersive && !isHovering)) && isActiveElement(button.current)) {
+    if ((props.disabled || (!hasArrows && !isHovering)) && isActiveElement(button.current)) {
       button.current!.blur();
     }
   });
@@ -82,6 +88,11 @@ export const ArrowButton = (props: IReaderArrow) => {
       }
     }
   }
+
+  const handleOnPress = (cb: () => void) => {
+    dispatch(setArrows(false));
+    cb();
+  }
   
   return (
     <>
@@ -89,7 +100,7 @@ export const ArrowButton = (props: IReaderArrow) => {
       <Button
         ref={ button }
         aria-label={ label }
-        onPress={ props.onPressCallback }
+        onPress={ () => handleOnPress(props.onPressCallback) }
         onPressEnd={ handleNonKeyboardFocus }
         onHoverChange={ (e) => setIsHovering(e) } 
         onKeyDown={ blurOnEsc }
