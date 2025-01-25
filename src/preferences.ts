@@ -223,6 +223,7 @@ export const RSPrefs: IRSPrefs = {
         },
         docked: {
           dockable: DockTypes.both,
+          dragIndicator: true,
           width: 360,
           minWidth: 320,
           maxWidth: 450
