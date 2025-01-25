@@ -137,6 +137,8 @@ button {
 
   /* Focus no outline */
   outline: none;
+  /* No tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent;
 }
 
 ::selection {
