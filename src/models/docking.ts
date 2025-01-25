@@ -28,6 +28,7 @@ export type DockedKeys = Exclude<ActionsStateKeys,  "overflowMenu">;
 export type Docked = {
   actionKey: ActionsStateKeys | null;
   active: boolean;
+  collapsed: boolean;
   width?: number;
 }
 
