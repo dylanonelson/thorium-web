@@ -116,7 +116,7 @@ const DockPanel = ({
     <Panel 
       id={ `${ dockKey }-panel` } 
       order={ handleDockPanelOrder() } 
-      collapsible={ true }
+      collapsible={ !isPopulated }
       collapsedSize={ 0 }
       ref={ panelRef }
       defaultSize={ isPopulated ? sizes.width : 0 } 
