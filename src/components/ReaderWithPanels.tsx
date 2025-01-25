@@ -16,22 +16,30 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { activateDockPanel, collapseDockPanel, deactivateDockPanel, expandDockPanel, setDockPanelWidth } from "@/lib/actionsReducer";
 
 import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
+import classNames from "classnames";
 import parseTemplate from "json-templates";
 
-const DockHandle = ({ 
+const DockHandle = ({
+  side,
   isResizable,
   hasDragIndicator
 }: { 
+  side: "left" | "right";
   isResizable: boolean;
   hasDragIndicator?: boolean;
 }) => {
+  const getClassNameFromSide = useCallback(() => {
+    return side === "left" ? dockStyles.dockResizeHandleGrabLeft : dockStyles.dockResizeHandleGrabRight;
+  }, [side]);
   return(
     <>
     <PanelResizeHandle 
       className={ dockStyles.dockResizeHandle }
       disabled={ !isResizable }
     >
-      { isResizable && hasDragIndicator && <div className={ dockStyles.dockResizeHandleGrab }></div> }
+      { isResizable && hasDragIndicator && 
+        <div className={ classNames(dockStyles.dockResizeHandleGrab, getClassNameFromSide()) }></div> 
+      }
     </PanelResizeHandle>
     </>
   )
@@ -120,7 +128,13 @@ const DockPanel = ({
 
   return(
     <>
-    { side === "right" && <DockHandle isResizable={ isResizable } hasDragIndicator={ hasDragIndicator } /> } 
+    { side === "right" && 
+      <DockHandle 
+        side={ side } 
+        isResizable={ isResizable } 
+        hasDragIndicator={ hasDragIndicator } 
+      /> 
+    } 
     <Panel 
       id={ `${ dockKey }-panel` } 
       order={ handleDockPanelOrder() } 
@@ -143,7 +157,13 @@ const DockPanel = ({
         className={ dockClassName }
       ></div>
     </Panel>
-    { side === "left" && <DockHandle isResizable={ isResizable } hasDragIndicator={ hasDragIndicator } /> } 
+    { side === "left" && 
+      <DockHandle 
+        side={ side } 
+        isResizable={ isResizable } 
+        hasDragIndicator={ hasDragIndicator } 
+      /> 
+    } 
   </>
   );
 };
