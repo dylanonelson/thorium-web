@@ -18,14 +18,20 @@ import { activateDockPanel, collapseDockPanel, deactivateDockPanel, expandDockPa
 import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 import parseTemplate from "json-templates";
 
-const DockHandle = ({ isResizable }: { isResizable: boolean }) => {
+const DockHandle = ({ 
+  isResizable,
+  hasDragIndicator
+}: { 
+  isResizable: boolean;
+  hasDragIndicator?: boolean;
+}) => {
   return(
     <>
     <PanelResizeHandle 
       className={ dockStyles.dockResizeHandle }
       disabled={ !isResizable }
     >
-      { isResizable && <div className={ dockStyles.dockResizeHandleGrab }></div> }
+      { isResizable && hasDragIndicator && <div className={ dockStyles.dockResizeHandleGrab }></div> }
     </PanelResizeHandle>
     </>
   )
@@ -36,13 +42,15 @@ const DockPanel = ({
   side,
   sizes,
   isResizable,
-  isPopulated
+  isPopulated,
+  hasDragIndicator 
 }: {
   actionKey: ActionsStateKeys | null;
   side: "left" | "right";
   sizes: IDockPanelSizes;
   isResizable: boolean;
-  isPopulated: boolean; 
+  isPopulated: boolean;
+  hasDragIndicator?: boolean;
 }) => {
   const panelRef = useRef<ImperativePanelHandle>(null);
   const dispatch = useAppDispatch();
@@ -112,7 +120,7 @@ const DockPanel = ({
 
   return(
     <>
-    { side === "right" && <DockHandle isResizable={ isResizable } /> } 
+    { side === "right" && <DockHandle isResizable={ isResizable } hasDragIndicator={ hasDragIndicator } /> } 
     <Panel 
       id={ `${ dockKey }-panel` } 
       order={ handleDockPanelOrder() } 
@@ -135,7 +143,7 @@ const DockPanel = ({
         className={ dockClassName }
       ></div>
     </Panel>
-    { side === "left" && <DockHandle isResizable={ isResizable } /> } 
+    { side === "left" && <DockHandle isResizable={ isResizable } hasDragIndicator={ hasDragIndicator } /> } 
   </>
   );
 };
@@ -195,6 +203,7 @@ export const ReaderWithDock = ({
             }} 
             isResizable={ startPanel.isResizable() }
             isPopulated={ startPanel.isPopulated() }
+            hasDragIndicator={ startPanel.hasDragIndicator() }
           />
         }
     
@@ -224,6 +233,7 @@ export const ReaderWithDock = ({
             }} 
             isResizable={ endPanel.isResizable() }
             isPopulated={ endPanel.isPopulated() }
+            hasDragIndicator={ endPanel.hasDragIndicator() }
           />
       }
       </PanelGroup>

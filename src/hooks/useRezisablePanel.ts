@@ -31,10 +31,14 @@ export const useRezisablePanel = (panel: Docked) => {
 
   const currentKey = () => {
     return panel.actionKey;
-  }
+  };
 
   const isResizable = () => {
     return isPopulated() ? Math.round(width) > Math.round(minWidth) && Math.round(width) < Math.round(maxWidth) : false;
+  };
+
+  const hasDragIndicator = () => {
+    return pref?.dragIndicator || false;
   };
 
   const getWidth = () => {
@@ -63,7 +67,7 @@ export const useRezisablePanel = (panel: Docked) => {
     }
     
     return current;
-  }
+  };
 
   // When the docked action changes, we need to update its preferences 
   useEffect(() => {
@@ -71,9 +75,10 @@ export const useRezisablePanel = (panel: Docked) => {
   }, [panel.actionKey]);
 
   return {
+    currentKey, 
     isPopulated, 
     isResizable,
-    currentKey, 
+    hasDragIndicator, 
     getWidth,
     getMinWidth,
     getMaxWidth,

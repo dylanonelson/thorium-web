@@ -45,6 +45,7 @@ export interface IDockPanelSizes {
 
 export interface IDockedPref {
   dockable: DockTypes,
+  dragIndicator?: boolean,
   width?: number,
   minWidth?: number,
   maxWidth?: number
