@@ -19,11 +19,18 @@
 .dockResizeHandleGrab {
   position: absolute;
   z-index: 1000;
-  left: 0;
   top: 50%;
   transform: translateY(-50%);
   width: 5px;
   height: 50px;
   border-radius: 5px;
   background-color: var(--theme-subdue);
+}
+
+.dockResizeHandleGrabLeft {
+  left: 0;
+}
+
+.dockResizeHandleGrabRight {
+  left: -5px;
 }
