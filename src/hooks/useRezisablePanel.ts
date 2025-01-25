@@ -68,7 +68,7 @@ export const useRezisablePanel = (panel: Docked) => {
   // When the docked action changes, we need to update its preferences 
   useEffect(() => {
     setPref(panel.actionKey ? RSPrefs.actions.keys[panel.actionKey].docked || null : null);
-  }, [panel])
+  }, [panel.actionKey]);
 
   return {
     isPopulated, 

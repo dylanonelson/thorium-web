@@ -8,11 +8,13 @@ const initialState: IActionsState = {
   dock: {
     [DockingKeys.start]: {
       actionKey: null,
-      active: false
+      active: false,
+      collapsed: false
     },
     [DockingKeys.end]: {
       actionKey: null,
-      active: false
+      active: false,
+      collapsed: false
     }
   },
   keys: {
@@ -162,21 +164,15 @@ export const actionsSlice = createSlice({
       }
     },
     collapseDockPanel: (state, action: IActionStateSlotPayload) => {
-      const key = state.dock[action.payload].actionKey;
-      if (key) {
-        state.keys[key] = {
-          ...state.keys[key],
-          isOpen: false
-        }
+      state.dock[action.payload] = {
+        ...state.dock[action.payload],
+        collapsed: true
       }
     },
     expandDockPanel: (state, action: IActionStateSlotPayload) => {
-      const key = state.dock[action.payload].actionKey;
-      if (key) {
-        state.keys[key] = {
-          ...state.keys[key],
-          isOpen: true
-        }
+      state.dock[action.payload] = {
+        ...state.dock[action.payload],
+        collapsed: false
       }
     },
     setDockPanelWidth: (state, action: IActionStateSlotWidthPayload) => {
