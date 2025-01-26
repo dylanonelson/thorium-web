@@ -1,6 +1,7 @@
 import { IActionPref } from "./actions";
 import { IDockingPref } from "./docking";
 import { LayoutDirection } from "./layout";
+import { SheetTypes } from "./sheets";
 import { ShortcutRepresentation } from "./shortcut";
 import { StaticBreakpoints } from "./staticBreakpoints";
 import { IThemeTokens, ThemeKeys } from "./theme";
@@ -17,6 +18,8 @@ export enum ScrollBackTo {
   bottom = "bottom",
   untouched = "untouched"
 }
+
+export type MaxWidthSheets = Extract<SheetTypes, SheetTypes.bottomSheet | SheetTypes.popover>;
 
 export interface IRSPrefs {
   direction: LayoutDirection,
@@ -42,6 +45,9 @@ export interface IRSPrefs {
     layout: {
       radius: number;
       spacing: number;
+      maxSheetsWidth?: {
+        [key in MaxWidthSheets]?: number
+      }
     };
     breakpoints: {
       [key in StaticBreakpoints]: number | null;
