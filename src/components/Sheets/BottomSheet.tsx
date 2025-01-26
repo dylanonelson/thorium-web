@@ -22,27 +22,29 @@ import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
 import classNames from "classnames";
 
-export interface IDraggableBottomSheet extends ISheet {};
+export interface IBottomSheet extends ISheet {};
 
-const DraggableBottomSheetComtainer = ({
+const BottomSheetContainer = ({
   sheetState,
   className,
   heading,
   onClosePressCallback,
+  isDraggable, 
   sheetRef,
   sheetContainerRef,
-  draggableBottomSheetBodyRef,
-  draggableBottomSheetCloseRef,
+  bottomSheetBodyRef,
+  bottomSheetCloseRef,
   children
 }: {
   sheetState: OverlayTriggerState,
   className: string,
   heading: string,
   onClosePressCallback: () => void,
+  isDraggable: boolean,
   sheetRef: RefObject<SheetRef | null>,
   sheetContainerRef: RefObject<HTMLDivElement | null>,
-  draggableBottomSheetBodyRef: RefObject<HTMLDivElement | null>,
-  draggableBottomSheetCloseRef: RefObject<HTMLButtonElement | null>,
+  bottomSheetBodyRef: RefObject<HTMLDivElement | null>,
+  bottomSheetCloseRef: RefObject<HTMLButtonElement | null>,
   children: ReactNode
 }) => {
   const dialog = useDialog({}, sheetContainerRef);
@@ -54,21 +56,29 @@ const DraggableBottomSheetComtainer = ({
     sheetContainerRef
   );
 
-  const closeButton = useButton({}, draggableBottomSheetCloseRef);
+  const closeButton = useButton({}, bottomSheetCloseRef);
 
   useModal();
+
+  const getDraggableClassName = () => {
+    let className = "";
+    if (isDraggable) {
+      className = sheetStyles.draggableBottomSheetModal;
+    }
+    return className;
+  }
 
   return (
     <>
     <Sheet.Container 
-      className={ sheetStyles.draggableBottomSheetModal } 
+      className={ classNames(sheetStyles.bottomSheetModal, getDraggableClassName() ) } 
       ref={ sheetContainerRef }
       { ...overlay.overlayProps as any}
       { ...dialog.dialogProps }
     >
       <Sheet.Header>
-        <DragIndicator />
-        <div className={ sheetStyles.draggableBottomSheetHeader }>
+        { isDraggable && <DragIndicator /> }
+        <div className={ sheetStyles.bottomSheetHeader }>
           <Heading 
             slot="title" 
             className={ sheetStyles.sheetHeading }
@@ -77,7 +87,7 @@ const DraggableBottomSheetComtainer = ({
             { heading }
           </Heading>
           <CloseButton
-            ref={ draggableBottomSheetCloseRef }
+            ref={ bottomSheetCloseRef }
             className={ readerSharedUI.closeButton } 
             label={ Locale.reader.app.docker.close.trigger } 
             onPressCallback={ sheetState.close }
@@ -86,16 +96,16 @@ const DraggableBottomSheetComtainer = ({
         </div>
       </Sheet.Header>
       <Sheet.Content 
-        className={ classNames(sheetStyles.draggableBottomSheet, className) }
+        className={ classNames(sheetStyles.bottomSheet, className) }
         disableDrag={ true } 
-        style={{ paddingBottom: sheetRef.current?.y }}
+        { ...(isDraggable ? { style: { paddingBottom: sheetRef.current?.y }} : {} )}
       >
         <Sheet.Scroller 
           draggable={ false }
-          className={ sheetStyles.draggableBottomSheetScroller }
+          className={ sheetStyles.bottomSheetScroller }
         >
           <div 
-            ref={ draggableBottomSheetBodyRef } 
+            ref={ bottomSheetBodyRef } 
             className={ sheetStyles.sheetBody }
           >
             { children }
@@ -104,13 +114,13 @@ const DraggableBottomSheetComtainer = ({
       </Sheet.Content>
     </Sheet.Container>
     <Sheet.Backdrop 
-      className={ sheetStyles.draggableBottomSheetBackdrop }
+      className={ sheetStyles.bottomSheetBackdrop }
     />
     </>
   )
 }
 
-export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
+export const BottomSheet: React.FC<IBottomSheet> = ({
   id,
   Trigger,
   heading,
@@ -123,17 +133,27 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const sheetRef = useRef<SheetRef | null>(null);
   const sheetContainerRef = useRef<HTMLDivElement | null>(null);
-  const draggableBottomSheetBodyRef = useRef<HTMLDivElement | null>(null);
-  const draggableBottomSheetCloseRef = useRef<HTMLButtonElement | null>(null);  
-  const minHeightPref = RSPrefs.actions.keys[id].snapped?.minHeight ? RSPrefs.actions.keys[id].snapped?.minHeight / 100 : 0.2;
-  const maxHeightPref = RSPrefs.actions.keys[id].snapped?.maxHeight ? RSPrefs.actions.keys[id].snapped?.maxHeight / 100 : 1;
-  const peekHeightPref = RSPrefs.actions.keys[id].snapped?.peekHeight ? RSPrefs.actions.keys[id].snapped?.peekHeight / 100 : minHeightPref;
+  const bottomSheetBodyRef = useRef<HTMLDivElement | null>(null);
+  const bottomSheetCloseRef = useRef<HTMLButtonElement | null>(null); 
+  
+  const isDraggable = RSPrefs.actions.keys[id].snapped?.draggable === false 
+    ? RSPrefs.actions.keys[id].snapped?.draggable 
+    : true;
+  const minHeightPref = RSPrefs.actions.keys[id].snapped?.minHeight 
+    ? RSPrefs.actions.keys[id].snapped?.minHeight / 100 
+    : 0.4;
+  const maxHeightPref = RSPrefs.actions.keys[id].snapped?.maxHeight 
+    ? RSPrefs.actions.keys[id].snapped?.maxHeight / 100 
+    : 1;
+  const peekHeightPref = RSPrefs.actions.keys[id].snapped?.peekHeight 
+    ? RSPrefs.actions.keys[id].snapped?.peekHeight / 100 
+    : 0.5;
 
   /*  
   const firstFocusable = useFirstFocusable({
-    withinRef: draggableBottomSheetBodyRef, 
+    withinRef: bottomSheetBodyRef, 
     trackedState: isOpen, 
-    fallbackRef: draggableBottomSheetCloseRef
+    fallbackRef: bottomSheetCloseRef
   }); */
 
   let sheetState = useOverlayTriggerState({
@@ -154,8 +174,15 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
         ref={ sheetRef }
         isOpen={ sheetState.isOpen }
         onClose={ sheetState.close }
-        snapPoints={ [maxHeightPref, peekHeightPref, minHeightPref] }
-        initialSnap={ 1 }
+        { ...(isDraggable 
+          ? { 
+            snapPoints: [maxHeightPref, peekHeightPref, minHeightPref], 
+            initialSnap: 1
+          } 
+          : {
+            detent: "content-height"
+          }) 
+        }
       >
         <OverlayProvider>
           <FocusScope 
@@ -163,18 +190,19 @@ export const DraggableBottomSheet: React.FC<IDraggableBottomSheet> = ({
             autoFocus={ true } 
             restoreFocus={ true }
           >
-            <DraggableBottomSheetComtainer 
+            <BottomSheetContainer 
               sheetState={ sheetState } 
               className={ className }
               heading={ heading }
               onClosePressCallback={ onClosePressCallback }
+              isDraggable= { isDraggable }
               sheetRef={ sheetRef } 
               sheetContainerRef={ sheetContainerRef }
-              draggableBottomSheetBodyRef={ draggableBottomSheetBodyRef }
-              draggableBottomSheetCloseRef={ draggableBottomSheetCloseRef }
+              bottomSheetBodyRef={ bottomSheetBodyRef }
+              bottomSheetCloseRef={ bottomSheetCloseRef }
             >
               { children }
-            </DraggableBottomSheetComtainer>
+            </BottomSheetContainer>
         </FocusScope>
       </OverlayProvider>
     </Sheet> 

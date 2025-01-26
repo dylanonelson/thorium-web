@@ -28,9 +28,10 @@ export interface ISheet {
 }
 
 export interface ISnappedPref {
-  peekHeight?: number,
-  minHeight?: number,
-  maxHeight?: number
+  draggable?: boolean;
+  peekHeight?: number;
+  minHeight?: number;
+  maxHeight?: number;
 }
 
 export type SheetPref = BreakpointsSheetMap;
