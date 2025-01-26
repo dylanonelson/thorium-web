@@ -204,8 +204,9 @@ export const RSPrefs: IRSPrefs = {
           width: 340
         },
         snapped: {
+          draggable: true,
           peekHeight: 50,
-          minHeight: 20,
+          minHeight: 30,
           maxHeight: 100
         }
       },

@@ -4,7 +4,7 @@ import { SheetTypes } from "@/models/sheets";
 import { DockingKeys } from "@/models/docking";
 
 import { PopoverSheet, IPopoverSheet } from "./PopoverSheet";
-import { DraggableBottomSheet, IDraggableBottomSheet } from "./DraggableBottomSheet";
+import { BottomSheet, IBottomSheet } from "./BottomSheet";
 import { FullScreenSheet, IFullScreenSheet } from "./FullScreenSheet";
 import { DockedSheet, IDockedSheet } from "./DockedSheet";
 
@@ -14,7 +14,7 @@ export const SheetWithType = ({
   children
 }: {
   sheetType: SheetTypes,
-  sheetProps: IPopoverSheet | IFullScreenSheet | IDockedSheet | IDraggableBottomSheet,
+  sheetProps: IPopoverSheet | IFullScreenSheet | IDockedSheet | IBottomSheet,
   children: ReactNode
 }) => {
   if (sheetType === SheetTypes.dockedStart) {
@@ -50,9 +50,9 @@ export const SheetWithType = ({
   if (sheetType === SheetTypes.bottomSheet) {
     return (
       <>
-      <DraggableBottomSheet { ...sheetProps }>
+      <BottomSheet { ...sheetProps }>
         { children }
-      </DraggableBottomSheet>
+      </BottomSheet>
       </>
     )
   }

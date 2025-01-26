@@ -32,7 +32,7 @@
   filter: drop-shadow(var(--theme-elevate));
 }
 
-.draggableBottomSheetModal {
+.bottomSheetModal {
   box-sizing: border-box;
   max-width: var(--maxSheetsWidth-bottomSheet, 600px);
   left: max(calc((100% - var(--maxSheetsWidth-bottomSheet, 600px)) / 2), 0px) !important;
@@ -44,16 +44,20 @@
   /* M3 = 28dp, see https://m3.material.io/components/bottom-sheets/overview */
   border-top-left-radius: 28px !important;
   border-top-right-radius: 28px !important;
+  max-height: calc(100vh - env(safe-area-inset-top)) !important;
+}
+
+.draggableBottomSheetModal {
   height: calc(100vh - env(safe-area-inset-top)) !important;
 }
 
-.draggableBottomSheetBackdrop {
+.bottomSheetBackdrop {
   /* So that React Aria can use it to dismiss the sheet as it’s set to none by React Modal Sheet. */
   pointer-events: auto !important;
   background-color: rgba(0, 0, 0, 0.02) !important;
 }
 
-.draggableBottomSheet {
+.bottomSheet {
   padding: 0;
   background-color: var(--theme-background);
   color: var(--theme-text);
@@ -109,7 +113,7 @@
   border-bottom: 1px solid var(--theme-subdue);
 }
 
-.draggableBottomSheetHeader {
+.bottomSheetHeader {
   box-sizing: border-box;
   display: flex;
   align-items: center;
