@@ -35,7 +35,11 @@ export const RSPrefs: IRSPrefs = {
     },
     layout: {
       radius: 5, // border-radius of containers
-      spacing: 20 // padding of containers/sheets
+      spacing: 20, // padding of containers/sheets
+      maxSheetsWidth: {
+        [SheetTypes.bottomSheet]: 600,
+        [SheetTypes.popover]: 600
+      }
     },
     breakpoints: {
       // See https://m3.material.io/foundations/layout/applying-layout/window-size-classes
