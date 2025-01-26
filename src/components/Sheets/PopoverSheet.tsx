@@ -17,7 +17,7 @@ export interface IPopoverSheet extends ISheet {
 
 export const PopoverSheet: React.FC<IPopoverSheet> = ({ 
     id,
-    renderActionIcon,
+    Trigger,
     heading,
     className, 
     isOpen,
@@ -45,7 +45,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
   <>
   { React.Children.toArray(children).length > 0 
     ? <DialogTrigger>
-        { renderActionIcon() }
+        <Trigger />
         <Popover 
           ref={ popoverRef }
           placement={ placement || "bottom" }

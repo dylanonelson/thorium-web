@@ -1,4 +1,4 @@
-import { ComponentType, ReactNode, SVGProps } from "react";
+import { ComponentType, ReactNode, RefObject, SVGProps } from "react";
 import { PressEvent, TooltipProps } from "react-aria-components";
 import { DockingKeys, IDockedPref } from "./docking";
 import { StaticBreakpoints } from "./staticBreakpoints";
@@ -51,6 +51,7 @@ export interface IActionsItem {
 
 export interface IActionIconProps {
   className?: string;
+  ref?: RefObject<HTMLButtonElement | null>;
   ariaLabel: string;
   SVG: ComponentType<SVGProps<SVGElement>>;
   placement: TooltipProps["placement"];

@@ -19,7 +19,7 @@ export interface IDockedSheet extends ISheet {
 
 export const DockedSheet: React.FC<IDockedSheet> = ({ 
     id,
-    renderActionIcon,
+    Trigger,
     heading,
     className, 
     isOpen,
@@ -49,7 +49,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     <>
     { React.Children.toArray(children).length > 0 
       ? <>
-      { renderActionIcon() }
+        <Trigger />
 
         { isOpen && dockPortal && createPortal(
           <div className={ classNames(sheetStyles.dockedSheet, className, classFromSide()) }>

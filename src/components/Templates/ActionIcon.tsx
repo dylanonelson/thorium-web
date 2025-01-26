@@ -1,4 +1,4 @@
-import React, {useRef } from "react";
+import React from "react";
 
 import { RSPrefs } from "@/preferences";
 
@@ -9,14 +9,17 @@ import readerStateStyles from "../assets/styles/readerStates.module.css";
 
 import { Button, Tooltip, TooltipTrigger, ButtonProps } from "react-aria-components";
 
+import { useObjectRef } from "react-aria";
+
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setImmersive } from "@/lib/readerReducer";
 
-import classNames from "classnames";
 import { isActiveElement, isKeyboardTriggered } from "@/helpers/focus";
+import classNames from "classnames";
 
 export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IActionIconProps> = ({
   className,
+  ref, 
   ariaLabel, 
   SVG,
   placement,
@@ -26,7 +29,7 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
   isDisabled,
   ...props
 }) => {
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const triggerRef = useObjectRef<HTMLButtonElement>(ref);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
 
@@ -72,8 +75,8 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
 
   const blurOnEsc = (event: React.KeyboardEvent) => {
   // TODO: handle Tooltip cos first time you press esc, it’s the tooltip that is closed.
-    if (isActiveElement(triggerRef.current) && event.code === "Escape") {
-      triggerRef.current!.blur();
+    if (triggerRef.current && isActiveElement(triggerRef.current) && event.code === "Escape") {
+      triggerRef.current.blur();
     }
   };
   

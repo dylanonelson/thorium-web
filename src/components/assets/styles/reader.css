@@ -65,9 +65,6 @@ main {
   align-items: center;
 }
 
-/* Docked Sheets won’t work properly with flexbox since an incorrect width is reported 
-   and we can’t get the layout adapting for free…  We need to handle all programmatically
-   using left and right positioning */
 #reader-main {
   position: relative;
   display: flex;
@@ -144,16 +141,4 @@ button {
 ::selection {
   background-color: var(--theme-select);
   color: var(--theme-onSelect);
-}
-
-/* Bottom sheet header since it can’t be styled otherwise */
-[data-rsbs-header] {
-  box-shadow: none;
-  border-bottom: 1px solid var(--theme-subdue);
-}
-
-/* Otherwise bottom sheet z-index doesn’t apply and will be displayed below arrows */
-reach-portal {
-  position: relative;
-  z-index: 3;
 }
