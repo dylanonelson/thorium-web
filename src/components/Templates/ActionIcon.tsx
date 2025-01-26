@@ -1,4 +1,4 @@
-import React, {useRef } from "react";
+import React from "react";
 
 import { RSPrefs } from "@/preferences";
 
@@ -9,11 +9,13 @@ import readerStateStyles from "../assets/styles/readerStates.module.css";
 
 import { Button, Tooltip, TooltipTrigger, ButtonProps } from "react-aria-components";
 
+import { useObjectRef } from "react-aria";
+
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setImmersive } from "@/lib/readerReducer";
 
-import classNames from "classnames";
 import { isActiveElement, isKeyboardTriggered } from "@/helpers/focus";
+import classNames from "classnames";
 
 export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IActionIconProps> = ({
   className,
@@ -27,7 +29,7 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
   isDisabled,
   ...props
 }) => {
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const triggerRef = useObjectRef<HTMLButtonElement>(ref);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
 
@@ -73,9 +75,8 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
 
   const blurOnEsc = (event: React.KeyboardEvent) => {
   // TODO: handle Tooltip cos first time you press esc, it’s the tooltip that is closed.
-    const usedRef = ref?.current || triggerRef.current;
-    if (isActiveElement(triggerRef.current) && event.code === "Escape") {
-      usedRef && usedRef.blur();
+    if (triggerRef.current && isActiveElement(triggerRef.current) && event.code === "Escape") {
+      triggerRef.current.blur();
     }
   };
   
@@ -83,7 +84,7 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
     <>
     <TooltipTrigger>
       <Button 
-        ref={ ref || triggerRef }
+        ref={ triggerRef }
         className={ classNames(readerSharedUI.icon, handleClassNameFromState(), className) } 
         aria-label={ ariaLabel } 
         onPress={ onPressCallback || defaultOnPressFunc }
