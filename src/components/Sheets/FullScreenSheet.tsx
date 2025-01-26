@@ -18,7 +18,7 @@ export interface IFullScreenSheet extends ISheet {};
 
 export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
     id, 
-    renderActionIcon, 
+    Trigger, 
     heading, 
     className, 
     isOpen,
@@ -41,7 +41,7 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
         isOpen={ isOpen }
         onOpenChange={ onOpenChangeCallback }
       >
-        { renderActionIcon() }
+        <Trigger />
         <Modal 
           isDismissable={ true }
           className={ classNames(sheetStyles.fullScreenSheet, className) }

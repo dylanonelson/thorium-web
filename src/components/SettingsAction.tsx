@@ -57,7 +57,7 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
         sheetType={ sheetType }
         sheetProps={ {
           id: ActionKeys.settings,
-          renderActionIcon: () => <ActionIcon 
+          Trigger: () => <ActionIcon 
             visibility={ RSPrefs.actions.keys[ActionKeys.settings].visibility }
             ariaLabel={ Locale.reader.settings.trigger }
             SVG={ TuneIcon } 
