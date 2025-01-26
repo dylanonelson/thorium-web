@@ -49,6 +49,8 @@
 }
 
 .draggableBottomSheetBackdrop {
+  /* So that React Aria can use it to dismiss the sheet as it’s set to none by React Modal Sheet. */
+  pointer-events: auto !important;
   background-color: rgba(0, 0, 0, 0.02) !important;
 }
 

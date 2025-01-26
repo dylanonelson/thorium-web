@@ -105,7 +105,6 @@ const DraggableBottomSheetComtainer = ({
     </Sheet.Container>
     <Sheet.Backdrop 
       className={ sheetStyles.draggableBottomSheetBackdrop }
-      onTap={ sheetState.close }
     />
     </>
   )
