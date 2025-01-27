@@ -51,6 +51,7 @@ const DockPanel = ({
   sizes,
   isResizable,
   isPopulated,
+  forceExpand,
   hasDragIndicator 
 }: {
   actionKey: ActionsStateKeys | null;
@@ -58,6 +59,7 @@ const DockPanel = ({
   sizes: IDockPanelSizes;
   isResizable: boolean;
   isPopulated: boolean;
+  forceExpand: boolean;
   hasDragIndicator?: boolean;
 }) => {
   const panelRef = useRef<ImperativePanelHandle>(null);
@@ -123,8 +125,8 @@ const DockPanel = ({
   }, [dispatch, dockKey]);
 
   useEffect(() => {
-    isPopulated ? expandPanel() : collapsePanel();
-  }, [isPopulated, collapsePanel, expandPanel]);
+    isPopulated || forceExpand ? expandPanel() : collapsePanel();
+  }, [isPopulated, forceExpand, collapsePanel, expandPanel]);
 
   return(
     <>
@@ -138,7 +140,7 @@ const DockPanel = ({
     <Panel 
       id={ `${ dockKey }-panel` } 
       order={ handleDockPanelOrder() } 
-      collapsible={ !isPopulated }
+      collapsible={ true }
       collapsedSize={ 0 }
       ref={ panelRef }
       defaultSize={ isPopulated ? sizes.width : 0 } 
@@ -223,6 +225,7 @@ export const ReaderWithDock = ({
             }} 
             isResizable={ startPanel.isResizable() }
             isPopulated={ startPanel.isPopulated() }
+            forceExpand={ startPanel.forceExpand() }
             hasDragIndicator={ startPanel.hasDragIndicator() }
           />
         }
@@ -253,6 +256,7 @@ export const ReaderWithDock = ({
             }} 
             isResizable={ endPanel.isResizable() }
             isPopulated={ endPanel.isPopulated() }
+            forceExpand={ endPanel.forceExpand() }
             hasDragIndicator={ endPanel.hasDragIndicator() }
           />
       }

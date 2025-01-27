@@ -5,12 +5,14 @@ import { RSPrefs } from "../preferences";
 import { Docked, IDockedPref } from "../models/docking";
 
 import { useActions } from "./useActions";
+import { usePrevious } from "./usePrevious";
 
 export const useRezisablePanel = (panel: Docked) => {
   const defaultWidth = RSPrefs.docking.defaultWidth;
   const [pref, setPref] = useState<IDockedPref | null>(null);
 
   const actions = useActions();
+  const previouslyCollapsed = usePrevious(panel.collapsed);
 
   const previousWidth = actions.getDockedWidth(panel.actionKey) || null;
   const width = pref?.width || defaultWidth;
@@ -28,6 +30,10 @@ export const useRezisablePanel = (panel: Docked) => {
   const isPopulated = () => {
     return panel.active && actions.isOpen(panel.actionKey);
   };
+
+  const forceExpand = () => {
+    return isPopulated() && previouslyCollapsed && !panel.collapsed;
+  }
 
   const currentKey = () => {
     return panel.actionKey;
@@ -77,6 +83,7 @@ export const useRezisablePanel = (panel: Docked) => {
   return {
     currentKey, 
     isPopulated, 
+    forceExpand, 
     isResizable,
     hasDragIndicator, 
     getWidth,

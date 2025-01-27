@@ -12,6 +12,7 @@ import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 import { dockAction, setActionOpen } from "@/lib/actionsReducer";
 
 import { usePrevious } from "./usePrevious";
+import { useActions } from "./useActions";
 
 let dockingMap: Required<BreakpointsDockingMap> | null = null;
 
@@ -19,6 +20,8 @@ export const useDocking = (key: ActionsStateKeys) => {
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const actionState = useAppSelector(state => state.actions.keys[key]);
   const dispatch = useAppDispatch();
+
+  const actions = useActions();
 
   if (!dockingMap) {
     dockingMap = makeBreakpointsMap<BreakpointsDockingMap>({
@@ -196,7 +199,7 @@ export const useDocking = (key: ActionsStateKeys) => {
     }
   }, [dispatch, key, sheetType, previousSheetType, actionState.docking]);
 
-  // on mount, check whether we should update states for docked sheets
+  // on mount, check whether we should update states for docked sheets from pref
   useEffect(() => {
     if (actionState.isOpen === null) {
       if (sheetType === SheetTypes.dockedStart) {
@@ -220,6 +223,44 @@ export const useDocking = (key: ActionsStateKeys) => {
       }
     }
   });
+
+  // Edge case where the sheet has been opened/closed and
+  // is of dockable type, but the dock panel is not populated
+  // e.g. action was mounted as a different type of sheet (breakpoint),
+  // and opened/closed. If the user resizes the window (another breakpoint) 
+  // but we don’t dispatch docking, then it can’t be displayed 
+  // since the docking slot has never been populated.
+  useEffect(() => {
+    // Action has been opened/closed by user
+    // but it’s not been manually docked, 
+    // which means the pref is used but 
+    // has not be instantiated yet, and 
+    // couldn’t be on first mount because
+    // a different type was used in prefs
+    if (actionState.isOpen !== null && actionState.docking === null) {
+      if (sheetType === SheetTypes.dockedStart) {
+        // Check if the action is docked in practice
+        // if it isn’t dispatch docking of the action
+        const dockingKey = actions.whichDocked(key);
+        if (dockingKey !== DockingKeys.start) {
+          dispatch(dockAction({
+            key: ActionKeys[key],
+            dockingKey: DockingKeys.start
+          }));
+        }
+      } else if (sheetType === SheetTypes.dockedEnd) {
+        // Check if the action is docked in practice
+        // if it isn’t dispatch docking of the action
+        const dockingKey = actions.whichDocked(key);
+        if (dockingKey !== DockingKeys.end) {
+          dispatch(dockAction({
+            key: ActionKeys[key],
+            dockingKey: DockingKeys.end
+          }));
+        }
+      }
+    }
+  }, [dispatch, key, sheetType, actionState.isOpen, actionState.docking, actions]);
 
   return {
     getDocker,
