@@ -27,11 +27,12 @@ export interface ISheet {
   children?: ReactNode;
 }
 
+export type BottomSheetDetent = "content-height" | "full-height";
+
 export interface ISnappedPref {
-  draggable?: boolean;
-  peekHeight?: number;
-  minHeight?: number;
-  maxHeight?: number;
+  maxHeight?: number | BottomSheetDetent;
+  peekHeight?: number | BottomSheetDetent;
+  minHeight?: number | BottomSheetDetent;
 }
 
 export type SheetPref = BreakpointsSheetMap;
