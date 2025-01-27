@@ -24,6 +24,12 @@ import classNames from "classnames";
 
 export interface IBottomSheet extends ISheet {};
 
+const DEFAULT_SNAPPOINTS = {
+  min: 0.3,
+  peek: 0.5,
+  max: 1
+}
+
 const BottomSheetContainer = ({
   sheetState,
   className,
@@ -156,79 +162,101 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   const [isFullScreen, setFullScreen] = useState<boolean>(false);
 
   const getSnapArray = useCallback(() => {
-    // Array needs max @ index 0 and min @ index 2
-    // Peek is always @ index 1 for initialSnap consistency
+    // Val is always checked in 0...1 range
+    const getSecureVal = (val: number, ref: number) => {
+      if (val > ref) {
+        return val;
+      } else {
+        return ((1 - ref) / 2) + ref;
+      }
+    };
+
+    // Array needs max @ index 0 and min @ index 2 when complete
+    // If it doesn’t have a max, then peek is @ index 0. This means
+    // the initialProp should always be one item from last
     let snapArray: number[] = [];
 
     const snapPref = RSPrefs.actions.keys[id].snapped;
     if (snapPref) {
       // We must start with minHeight to see if it’s 
-      // constrained by a content-height detent though 
+      // constrained by a content-height detent 
       // as it means the bottom sheet is not draggable
+      // Hence why unshifting into the array instead of pushing
       if (snapPref.minHeight) {
         switch(snapPref.minHeight) {
           case "content-height":
-            detent.current = "content-height";
-            isDraggable.current = false;
-            return [];
           case "full-height":
-            detent.current = "full-height";
+          case 100:
+            detent.current = snapPref.minHeight === 100 ? "full-height" : snapPref.minHeight;
             isDraggable.current = false;
             return [];
           default:
             const minVal = snapPref.minHeight / 100;
-            snapArray.unshift(minVal);
+            // Protecting against pref > 100
+            minVal > 0 && minVal < 1 
+              ? snapArray.unshift(minVal) 
+              : snapArray.unshift(DEFAULT_SNAPPOINTS.min);
             break;
         }
       } else {
         // Fallback value
-        snapArray.unshift(0.35);
+        snapArray.unshift(DEFAULT_SNAPPOINTS.min);
       }
 
-      // If peekHeight is constrained by a content-height 
-      // detent then there is no maxHeight
+      // From now on, check if value is greater than the previous one in array
+      // If not, use DEFAULT_SNAPPOINTS fallback and check them as well
+      // This is to protect from cases that don’t validate min < peek < max
+
+      // If peekHeight is constrained by a content-height detent
+      // then there is no maxHeight
       if (snapPref.peekHeight) {
         switch(snapPref.peekHeight) {
           case "content-height":
-            detent.current = "content-height";
-            snapArray.unshift(1);
-            return snapArray;
           case "full-height":
-            detent.current = "full-height";
+            detent.current = snapPref.peekHeight;
             snapArray.unshift(1);
             return snapArray;
           default:
             const peekVal = snapPref.peekHeight / 100;
-            snapArray.unshift(peekVal);
+            const prevVal = snapArray[0];
+
+            peekVal > 0 && peekVal <= 1
+              ? snapArray.unshift(getSecureVal(peekVal, prevVal)) 
+              : snapArray.unshift(getSecureVal(DEFAULT_SNAPPOINTS.peek, prevVal))
             break;
         }
       } else {
         // Fallback value
-        snapArray.unshift(0.5);
+        snapArray.unshift(getSecureVal(DEFAULT_SNAPPOINTS.peek, snapArray[0]));
       }
 
-      // If max-height is constrained by a content-height 
-      // detent then it means the bottom sheet can’t be fullscreen
+      // If max-height is constrained by a content-height detent
+      // then it means the bottom sheet can’t be fullscreen
       // Otherwise we can remove the top corners radii
       if (snapPref.maxHeight) {
         switch(snapPref.maxHeight) {
           case "content-height":
-            detent.current = "content-height";
-            snapArray.unshift(1);
-            return snapArray;
           case "full-height":
-            detent.current = "full-height";
+            detent.current = snapPref.maxHeight;
             snapArray.unshift(1);
             return snapArray;
           default:
             const maxVal = snapPref.maxHeight / 100;
-            snapArray.unshift(maxVal);
+            const prevVal = snapArray[0];
+
+            maxVal > 0 && maxVal <= 1 
+              ? snapArray.unshift(getSecureVal(maxVal, prevVal)) 
+              : snapArray.unshift(getSecureVal(DEFAULT_SNAPPOINTS.max, prevVal));
             break;
         }
       } else {
-        // Fallback value
-        snapArray.unshift(1);
+        // Fallback value that should be checked as well
+        snapArray.unshift(getSecureVal(DEFAULT_SNAPPOINTS.max, snapArray[0]));
       }
+    } else {
+      // There is no pref set
+      // Order of React Modal Sheet is descending so max, peek, min
+      snapArray.push(DEFAULT_SNAPPOINTS.max, DEFAULT_SNAPPOINTS.peek, DEFAULT_SNAPPOINTS.min);
     }
 
     return snapArray;
@@ -237,8 +265,6 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   const snapArray = useRef<number[]>(getSnapArray());
 
   const handleSnapFullscreen = useCallback((index: number) => {
-    console.log("hey");
-
     if (detent.current === "full-height") {
       if (index === 0 && snapArray.current[0] === 1) {
         setFullScreen(true);
