@@ -200,7 +200,7 @@ export const RSPrefs: IRSPrefs = {
           }
         },
         docked: {
-          dockable: DockTypes.end,
+          dockable: DockTypes.none,
           width: 340
         },
         snapped: {
@@ -221,14 +221,12 @@ export const RSPrefs: IRSPrefs = {
           defaultSheet: SheetTypes.popover,
           breakpoints: {
             [StaticBreakpoints.compact]: SheetTypes.fullscreen,
-            [StaticBreakpoints.medium]: SheetTypes.fullscreen,
-            [StaticBreakpoints.large]: SheetTypes.dockedStart,
-            [StaticBreakpoints.xLarge]: SheetTypes.dockedStart
+            [StaticBreakpoints.medium]: SheetTypes.fullscreen
           }
         },
         docked: {
           dockable: DockTypes.both,
-          dragIndicator: true,
+          dragIndicator: false,
           width: 360,
           minWidth: 320,
           maxWidth: 450
