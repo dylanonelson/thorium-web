@@ -136,10 +136,30 @@ export const actionsSlice = createSlice({
         case ActionKeys.jumpToPosition:
         case ActionKeys.toc:
         case ActionKeys.settings:
-          state.keys[action.payload.key] = {
-            ...state.keys[action.payload.key],
-            isOpen: action.payload.isOpen 
-          };
+
+          // If the action is docked and set Open, we must take care of 
+          // the dock panel’s collapsibility. Otherwise we end up with bugs 
+          // i.e. user has to click/tap action icon twice to open, 
+          const dockingKey = state.keys[action.payload.key].docking;
+          if (
+              !action.payload.isOpen && 
+              dockingKey !== null && 
+              dockingKey !== DockingKeys.transient &&
+              state.dock[dockingKey].actionKey === action.payload.key &&
+              state.dock[dockingKey].active &&
+              state.dock[dockingKey].collapsed
+            ) {
+              state.dock[dockingKey] = {
+                ...state.dock[dockingKey],
+                collapsed: false
+              }
+          } else {
+            state.keys[action.payload.key] = {
+              ...state.keys[action.payload.key],
+              isOpen: action.payload.isOpen 
+            };
+          }
+
           break;
         default:
           break;
