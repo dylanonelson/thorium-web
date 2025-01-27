@@ -44,11 +44,19 @@
   /* M3 = 28dp, see https://m3.material.io/components/bottom-sheets/overview */
   border-top-left-radius: 28px !important;
   border-top-right-radius: 28px !important;
+}
+
+.bottomSheetModalFullHeightDetent {
+  height: calc(100vh - env(safe-area-inset-top)) !important;
+}
+
+.bottomSheetModalContentHeightDetent {
   max-height: calc(100vh - env(safe-area-inset-top)) !important;
 }
 
-.draggableBottomSheetModal {
-  height: calc(100vh - env(safe-area-inset-top)) !important;
+.bottomSheetModalFullHeightReached {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 
 .bottomSheetBackdrop {
@@ -123,6 +131,12 @@
   border-top-right-radius: 28px !important;
   background-color: var(--theme-background);
   border-bottom: 1px solid var(--theme-subdue);
+}
+
+.bottomSheetModalFullHeightReached .bottomSheetHeader {
+  /* Otherwise covers the modal’s */
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 
 .sheetHeading {
