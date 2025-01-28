@@ -21,6 +21,7 @@ import { FocusScope, OverlayProvider, useButton, useDialog, useModal, useOverlay
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
 import classNames from "classnames";
+import { useAppDispatch } from "@/lib/hooks";
 
 export interface IBottomSheet extends ISheet {};
 
@@ -299,6 +300,8 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   const onDragKeyCallback = useCallback((e: KeyboardEvent) => {
     if (snapIdx.current !== null) {
       // Don’t forget we’re having to handle max @ 0 and min @ 2 (decreasing order)
+      // Implementation is being kept consistent with React Resizable Panels, which
+      // implements this logic by default for PanelResizeHandle when focused
       switch(e.code) {
         case "PageUp":
           if (snapIdx.current === 0) return;
@@ -309,11 +312,13 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
           sheetRef.current?.snapTo(snapIdx.current - 1);
           break;
         case "PageDown":
-          if (snapIdx.current === snapArray.current.length) return;
-          sheetRef.current?.snapTo(snapArray.current.length - 1);
+          onClosePressCallback();
           break;
         case "ArrowDown":
-          if (snapIdx.current === snapArray.current.length) return;
+          if (snapIdx.current === snapArray.current.length - 1) {
+            onClosePressCallback();
+            break;
+          }
           sheetRef.current?.snapTo(snapIdx.current + 1)
           break;
         default:
