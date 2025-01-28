@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, ReactNode, RefObject, useCallback, useRef, useState } from "react";
+import React, { KeyboardEvent, ReactNode, RefObject, useCallback, useEffect, useRef, useState } from "react";
 
 import {OverlayTriggerState, useOverlayTriggerState} from "react-stately";
 
@@ -21,7 +21,6 @@ import { FocusScope, OverlayProvider, useButton, useDialog, useModal, useOverlay
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
 import classNames from "classnames";
-import { useAppDispatch } from "@/lib/hooks";
 
 export interface IBottomSheet extends ISheet {};
 
@@ -35,12 +34,10 @@ const BottomSheetContainer = ({
   sheetState,
   className,
   heading,
-  onClosePressCallback,
   onDragPressCallback,
   onDragKeyCallback,
   isDraggable, 
   hasDetent, 
-  isFullscreen, 
   sheetRef,
   sheetContainerRef,
   bottomSheetBodyRef,
@@ -55,7 +52,6 @@ const BottomSheetContainer = ({
   onDragKeyCallback: (event: KeyboardEvent) => void;
   isDraggable: boolean;
   hasDetent: BottomSheetDetent;
-  isFullscreen: boolean;
   sheetRef: RefObject<SheetRef | null>;
   sheetContainerRef: RefObject<HTMLDivElement | null>;
   bottomSheetBodyRef: RefObject<HTMLDivElement | null>;
@@ -70,6 +66,7 @@ const BottomSheetContainer = ({
   }, sheetContainerRef);
 
   const closeButton = useButton({}, bottomSheetCloseRef);
+  const [isFullScreen, setFullScreen] = useState<boolean>(false);
 
   useModal();
 
@@ -84,15 +81,35 @@ const BottomSheetContainer = ({
   }
 
   const getFullscreenClassName = () => {
-    let className = "";
-    if (
-        isDraggable && isFullscreen ||
-        !isDraggable && (hasDetent === "full-height")
-      ) {
-      className = sheetStyles.bottomSheetModalFullHeightReached;
-    }
-    return className;
+    return isFullScreen ? sheetStyles.bottomSheetModalFullHeightReached : "";
   }
+
+  const fullScreenIntersectionCallback = useCallback((entries: IntersectionObserverEntry[]) => {
+    entries.forEach( (entry) => {
+      if (
+          entry.isIntersecting && 
+          entry.intersectionRatio === 1 && 
+          (
+            isDraggable || 
+            !isDraggable && (hasDetent === "full-height")
+          )) {
+        setFullScreen(true);
+      } else {
+        setFullScreen(false);
+      }
+    });
+  }, [isDraggable, hasDetent, setFullScreen]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(fullScreenIntersectionCallback, {
+      threshold: 1.0
+    });
+    sheetContainerRef.current && observer.observe(sheetContainerRef.current);
+
+    return () => {
+      observer.disconnect();
+    }
+  });
 
   return (
     <>
@@ -169,7 +186,6 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
 
   const detent = useRef<BottomSheetDetent>("full-height");
   const isDraggable = useRef<boolean>(true);
-  const [isFullScreen, setFullScreen] = useState<boolean>(false);
 
   const getSnapArray = useCallback(() => {
     // Val is always checked in 0...1 range
@@ -277,18 +293,6 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   const snapArray = useRef<number[]>(getSnapArray());
   const snapIdx = useRef<number | null>(null);
 
-  const handleSnapChange = useCallback((index: number) => {
-    snapIdx.current = index;
-
-    if (detent.current === "full-height") {
-      if (index === 0 && snapArray.current[0] === 1) {
-        setFullScreen(true);
-      } else {
-        setFullScreen(false)
-      }
-    }
-  }, []);
-
   const onDragPressCallback = useCallback(() => {
     if (snapIdx.current !== null) {
       // Don’t forget we’re having to handle max @ 0 and min @ 2 (decreasing order)
@@ -325,7 +329,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
           break;
       }
     }
-  }, []);
+  }, [onClosePressCallback]);
 
   /*  
   const firstFocusable = useFirstFocusable({
@@ -362,7 +366,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
             detent: detent.current
           }) 
         }
-        onSnap={ (index) => { handleSnapChange(index) }}
+        onSnap={ (index) => { snapIdx.current = index }}
       >
         <OverlayProvider>
           <FocusScope 
@@ -379,7 +383,6 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
               onDragKeyCallback={ onDragKeyCallback }
               isDraggable= { isDraggable.current }
               hasDetent={ detent.current }
-              isFullscreen={ isFullScreen }
               sheetRef={ sheetRef } 
               sheetContainerRef={ sheetContainerRef }
               bottomSheetBodyRef={ bottomSheetBodyRef }
