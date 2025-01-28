@@ -89,10 +89,8 @@ const BottomSheetContainer = ({
       if (
           entry.isIntersecting && 
           entry.intersectionRatio === 1 && 
-          (
-            isDraggable || 
-            !isDraggable && (hasDetent === "full-height")
-          )) {
+          hasDetent === "full-height"
+        ) {
         setFullScreen(true);
       } else {
         setFullScreen(false);
