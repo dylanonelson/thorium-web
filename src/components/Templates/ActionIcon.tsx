@@ -69,6 +69,7 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
     // Check whether the focus was triggered by keyboard…
     // We don’t have access to type/modality, unlike onPress
     if (isKeyboardTriggered(event.target)) {
+      // TODO BUG: this fires now when clicking while immersive is false
       dispatch(setImmersive(false));
     }
   };
