@@ -314,7 +314,10 @@ export const useEpubNavigator = () => {
 
         if (nav.current?.layout === EPUBLayout.fixed) {
           // @ts-ignore
-          FXLPositionChanged.observe((nav.current?.pool.spineElement as HTMLElement), {attributes: ["style"], attributeOldValue: true});
+          FXLPositionChanged.observe((nav.current?.pool.spineElement as HTMLElement), {
+            attributeFilter: ["style"], 
+            attributeOldValue: true
+          });
         }
       });
     }
