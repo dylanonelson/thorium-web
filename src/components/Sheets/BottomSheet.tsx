@@ -96,7 +96,7 @@ const BottomSheetContainer = ({
         setFullScreen(false);
       }
     });
-  }, [isDraggable, hasDetent, setFullScreen]);
+  }, [hasDetent, setFullScreen]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(fullScreenIntersectionCallback, {
