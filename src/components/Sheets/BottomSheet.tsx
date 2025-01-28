@@ -299,12 +299,18 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   const onDragKeyCallback = useCallback((e: KeyboardEvent) => {
     if (snapIdx.current !== null) {
       // Don’t forget we’re having to handle max @ 0 and min @ 2 (decreasing order)
-      console.log(sheetRef.current);
-      
       switch(e.code) {
+        case "PageUp":
+          if (snapIdx.current === 0) return;
+          sheetRef.current?.snapTo(0);
+          break;
         case "ArrowUp":
           if (snapIdx.current === 0) return;
           sheetRef.current?.snapTo(snapIdx.current - 1);
+          break;
+        case "PageDown":
+          if (snapIdx.current === snapArray.current.length) return;
+          sheetRef.current?.snapTo(snapArray.current.length - 1);
           break;
         case "ArrowDown":
           if (snapIdx.current === snapArray.current.length) return;
