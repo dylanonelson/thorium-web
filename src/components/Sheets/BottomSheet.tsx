@@ -1,4 +1,4 @@
-import React, { ReactNode, RefObject, useCallback, useRef, useState } from "react";
+import React, { KeyboardEvent, ReactNode, RefObject, useCallback, useRef, useState } from "react";
 
 import {OverlayTriggerState, useOverlayTriggerState} from "react-stately";
 
@@ -12,7 +12,7 @@ import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { Sheet, SheetRef } from "react-modal-sheet";
-import { DragIndicator } from "./DragIndicator";
+import { DragIndicatorButton } from "./DragIndicator";
 import { Heading } from "react-aria-components";
 import { CloseButton } from "../CloseButton";
 
@@ -35,6 +35,8 @@ const BottomSheetContainer = ({
   className,
   heading,
   onClosePressCallback,
+  onDragPressCallback,
+  onDragKeyCallback,
   isDraggable, 
   hasDetent, 
   isFullscreen, 
@@ -48,6 +50,8 @@ const BottomSheetContainer = ({
   className: string;
   heading: string;
   onClosePressCallback: () => void;
+  onDragPressCallback: () => void;
+  onDragKeyCallback: (event: KeyboardEvent) => void;
   isDraggable: boolean;
   hasDetent: BottomSheetDetent;
   isFullscreen: boolean;
@@ -98,7 +102,12 @@ const BottomSheetContainer = ({
       { ...dialog.dialogProps }
     >
       <Sheet.Header>
-        { isDraggable && <DragIndicator /> }
+        { isDraggable && 
+          <DragIndicatorButton 
+            onPressCallback={ onDragPressCallback } 
+            onKeyUpCallback={ onDragKeyCallback }
+          /> 
+        }
         <div className={ sheetStyles.bottomSheetHeader }>
           <Heading 
             slot="title" 
@@ -265,13 +274,44 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   }, [id]);
 
   const snapArray = useRef<number[]>(getSnapArray());
+  const snapIdx = useRef<number | null>(null);
 
-  const handleSnapFullscreen = useCallback((index: number) => {
+  const handleSnapChange = useCallback((index: number) => {
+    snapIdx.current = index;
+
     if (detent.current === "full-height") {
       if (index === 0 && snapArray.current[0] === 1) {
         setFullScreen(true);
       } else {
         setFullScreen(false)
+      }
+    }
+  }, []);
+
+  const onDragPressCallback = useCallback(() => {
+    if (snapIdx.current !== null) {
+      // Don’t forget we’re having to handle max @ 0 and min @ 2 (decreasing order)
+      const nextIdx = snapIdx.current === 0 ? snapArray.current.length - 1 : (snapIdx.current - 1);
+      sheetRef.current?.snapTo(nextIdx);
+    }
+  }, []);
+
+  const onDragKeyCallback = useCallback((e: KeyboardEvent) => {
+    if (snapIdx.current !== null) {
+      // Don’t forget we’re having to handle max @ 0 and min @ 2 (decreasing order)
+      console.log(sheetRef.current);
+      
+      switch(e.code) {
+        case "ArrowUp":
+          if (snapIdx.current === 0) return;
+          sheetRef.current?.snapTo(snapIdx.current - 1);
+          break;
+        case "ArrowDown":
+          if (snapIdx.current === snapArray.current.length) return;
+          sheetRef.current?.snapTo(snapIdx.current + 1)
+          break;
+        default:
+          break;
       }
     }
   }, []);
@@ -311,7 +351,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
             detent: detent.current
           }) 
         }
-        onSnap={ (index) => { handleSnapFullscreen(index) }}
+        onSnap={ (index) => { handleSnapChange(index) }}
       >
         <OverlayProvider>
           <FocusScope 
@@ -324,6 +364,8 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
               className={ className }
               heading={ heading }
               onClosePressCallback={ onClosePressCallback }
+              onDragPressCallback={ onDragPressCallback }
+              onDragKeyCallback={ onDragKeyCallback }
               isDraggable= { isDraggable.current }
               hasDetent={ detent.current }
               isFullscreen={ isFullScreen }
