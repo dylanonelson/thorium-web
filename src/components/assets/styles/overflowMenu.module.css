@@ -5,7 +5,9 @@
   border-radius: var(--layout-radius);
   border: 1px solid var(--theme-subdue);
   filter: drop-shadow(var(--theme-elevate));
-  transition: all 0s; /* for some reason prop left set by React Aria is changing when entering… */
+  box-sizing: border-box;
+  max-width: var(--maxSheetsWidth-popover, 500px);
+  width: max-content;
 }
 
 .overflowMenu {
