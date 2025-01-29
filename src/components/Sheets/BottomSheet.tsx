@@ -89,6 +89,7 @@ const BottomSheetContainer = ({
       if (
           entry.isIntersecting && 
           entry.intersectionRatio === 1 && 
+          entry.boundingClientRect.width === window.innerWidth && 
           hasDetent === "full-height"
         ) {
         setFullScreen(true);
