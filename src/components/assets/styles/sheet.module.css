@@ -44,19 +44,21 @@
   /* M3 = 28dp, see https://m3.material.io/components/bottom-sheets/overview */
   border-top-left-radius: 28px !important;
   border-top-right-radius: 28px !important;
+  transition: border-radius 0.5s;
 }
 
 .bottomSheetModalFullHeightDetent {
-  height: calc(100vh - env(safe-area-inset-top)) !important;
+  height: calc(100% - env(safe-area-inset-top)) !important;
 }
 
 .bottomSheetModalContentHeightDetent {
-  max-height: calc(100vh - env(safe-area-inset-top)) !important;
+  max-height: calc(100% - env(safe-area-inset-top)) !important;
 }
 
 .bottomSheetModalFullHeightReached {
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
+  transition: border-radius 0.5s;
 }
 
 .bottomSheetBackdrop {
@@ -130,18 +132,20 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  background-color: var(--theme-background);
+  border-bottom: 1px solid var(--theme-subdue);
   padding: var(--layout-spacing) var(--layout-spacing) calc(var(--layout-spacing) / 2) var(--layout-spacing);
   /* Otherwise covers the modal’s */
   border-top-left-radius: 28px !important;
   border-top-right-radius: 28px !important;
-  background-color: var(--theme-background);
-  border-bottom: 1px solid var(--theme-subdue);
+  transition: border-radius 0.5s;
 }
 
 .bottomSheetModalFullHeightReached .bottomSheetHeader {
   /* Otherwise covers the modal’s */
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
+  transition: border-radius 0.5s;
 }
 
 .sheetHeading {
