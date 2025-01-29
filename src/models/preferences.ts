@@ -22,7 +22,7 @@ export enum ScrollBackTo {
 export type MaxWidthSheets = Extract<SheetTypes, SheetTypes.bottomSheet | SheetTypes.popover>;
 
 export interface IRSPrefs {
-  direction: LayoutDirection,
+  direction?: LayoutDirection,
   typography: {
     minimalLineLength?: number | null;
     optimalLineLength: number;
