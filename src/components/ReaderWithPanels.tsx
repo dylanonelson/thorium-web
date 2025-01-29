@@ -20,17 +20,22 @@ import classNames from "classnames";
 import parseTemplate from "json-templates";
 
 const DockHandle = ({
-  side,
+  flow,
   isResizable,
   hasDragIndicator
 }: { 
-  side: "left" | "right";
+  flow: DockingKeys.start | DockingKeys.end;
   isResizable: boolean;
   hasDragIndicator?: boolean;
 }) => {
-  const getClassNameFromSide = useCallback(() => {
-    return side === "left" ? dockStyles.dockResizeHandleGrabLeft : dockStyles.dockResizeHandleGrabRight;
-  }, [side]);
+  const classFromFlow = useCallback(() => {
+    if (flow === DockingKeys.start) {
+      return RSPrefs.direction === LayoutDirection.ltr ? dockStyles.dockResizeHandleGrabLeft : dockStyles.dockResizeHandleGrabRight;
+    } else if (flow === DockingKeys.end) {
+      return RSPrefs.direction === LayoutDirection.ltr ? dockStyles.dockResizeHandleGrabRight : dockStyles.dockResizeHandleGrabLeft;
+    }
+  }, [flow]);
+
   return(
     <>
     <PanelResizeHandle 
@@ -38,7 +43,7 @@ const DockHandle = ({
       disabled={ !isResizable }
     >
       { isResizable && hasDragIndicator && 
-        <div className={ classNames(dockStyles.dockResizeHandleGrab, getClassNameFromSide()) }></div> 
+        <div className={ classNames(dockStyles.dockResizeHandleGrab, classFromFlow()) }></div> 
       }
     </PanelResizeHandle>
     </>
@@ -47,7 +52,7 @@ const DockHandle = ({
 
 const DockPanel = ({
   actionKey,
-  side,
+  flow,
   sizes,
   isResizable,
   isPopulated,
@@ -55,7 +60,7 @@ const DockPanel = ({
   hasDragIndicator 
 }: {
   actionKey: ActionsStateKeys | null;
-  side: "left" | "right";
+  flow: DockingKeys.start | DockingKeys.end;
   sizes: IDockPanelSizes;
   isResizable: boolean;
   isPopulated: boolean;
@@ -65,19 +70,15 @@ const DockPanel = ({
   const panelRef = useRef<ImperativePanelHandle>(null);
   const dispatch = useAppDispatch();
 
-  const dockKey = side === "right" 
-    ? RSPrefs.direction === LayoutDirection.rtl 
-      ? DockingKeys.start 
-      : DockingKeys.end 
-    : RSPrefs.direction === LayoutDirection.rtl 
-      ? DockingKeys.end 
-      : DockingKeys.start;
+  const dockKey = flow === DockingKeys.end 
+    ? DockingKeys.end 
+    : DockingKeys.start;
 
-  const dockClassName = side === "right" ? "right-dock" : "left-dock";
+  const dockClassName = flow === DockingKeys.end && RSPrefs.direction === LayoutDirection.ltr ? "right-dock" : "left-dock";
 
   const makeDockLabel = useCallback(() => {    
     let label = "";
-    if (side === "right") {
+    if (flow === DockingKeys.end && RSPrefs.direction === LayoutDirection.ltr) {
       label += Locale.reader.app.docking.dockingRight;
     } else {
       label += Locale.reader.app.docking.dockingLeft
@@ -92,15 +93,7 @@ const DockPanel = ({
       }
     }
     return label;
-  }, [side, isPopulated, actionKey]);
-
-  const handleDockPanelOrder = useCallback(() => {
-    if (side === "right") {
-      return RSPrefs.direction === LayoutDirection.rtl ? 1 : 3;
-    } else if (side === "left") {
-      return RSPrefs.direction === LayoutDirection.rtl ? 3 : 1;
-    }
-  }, [side]);
+  }, [flow, isPopulated, actionKey]);
 
   const collapsePanel = useCallback(() => {
     if (panelRef.current) {
@@ -130,16 +123,16 @@ const DockPanel = ({
 
   return(
     <>
-    { side === "right" && 
+    { flow === DockingKeys.end &&
       <DockHandle 
-        side={ side } 
+        flow={ DockingKeys.end } 
         isResizable={ isResizable } 
         hasDragIndicator={ hasDragIndicator } 
       /> 
     } 
     <Panel 
       id={ `${ dockKey }-panel` } 
-      order={ handleDockPanelOrder() } 
+      order={ flow === DockingKeys.end ? 3 : 1 } 
       collapsible={ true }
       collapsedSize={ 0 }
       ref={ panelRef }
@@ -159,9 +152,9 @@ const DockPanel = ({
         className={ dockClassName }
       ></div>
     </Panel>
-    { side === "left" && 
+    { flow === DockingKeys.start && 
       <DockHandle 
-        side={ side } 
+        flow={ DockingKeys.start } 
         isResizable={ isResizable } 
         hasDragIndicator={ hasDragIndicator } 
       /> 
@@ -203,20 +196,11 @@ export const ReaderWithDock = ({
     return (
       <>
       <PanelGroup onLayout={ resizeCallback } direction="horizontal">
-        { (
-            (
-            RSPrefs.direction === LayoutDirection.ltr &&
-            (dockConfig === DockTypes.both || dockConfig === DockTypes.start) 
-            ) 
-            ||
-            (
-            RSPrefs.direction === LayoutDirection.rtl &&
-            (dockConfig === DockTypes.both || dockConfig === DockTypes.end) 
-            )  
-          ) 
+        { 
+          (dockConfig === DockTypes.both || dockConfig === DockTypes.start) 
           && <DockPanel 
             actionKey={ startPanel.currentKey() }
-            side="left" 
+            flow={ DockingKeys.start } 
             sizes={{
               width: startPanel.getWidth(),
               minWidth: startPanel.getMinWidth(),
@@ -234,20 +218,11 @@ export const ReaderWithDock = ({
           { children }
         </Panel>
     
-        { (
-            (
-            RSPrefs.direction === LayoutDirection.ltr &&
-            (dockConfig === DockTypes.both || dockConfig === DockTypes.end) 
-            ) 
-            ||
-            (
-            RSPrefs.direction === LayoutDirection.rtl &&
-            (dockConfig === DockTypes.both || dockConfig === DockTypes.start) 
-            )  
-          )
-        && <DockPanel 
+        { 
+          (dockConfig === DockTypes.both || dockConfig === DockTypes.end)
+          && <DockPanel 
             actionKey={ endPanel.currentKey() }
-            side="right" 
+            flow={ DockingKeys.end } 
             sizes={{
               width: endPanel.getWidth(),
               minWidth: endPanel.getMinWidth(),

@@ -1,8 +1,11 @@
-import React, { useCallback, useEffect, useRef } from "react";
-import { createPortal } from 'react-dom';
+import React, { useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
+
+import { RSPrefs } from "@/preferences";
 
 import { ISheet } from "@/models/sheets";
 import { DockingKeys } from "@/models/docking";
+import { LayoutDirection } from "@/models/layout";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 
@@ -14,7 +17,7 @@ import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 import classNames from "classnames";
 
 export interface IDockedSheet extends ISheet {
-  side: DockingKeys.start | DockingKeys.end | null;
+  flow: DockingKeys.start | DockingKeys.end | null;
 }
 
 export const DockedSheet: React.FC<IDockedSheet> = ({ 
@@ -26,10 +29,10 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     onOpenChangeCallback, 
     onClosePressCallback,
     docker, 
-    side,
+    flow,
     children 
   }) => {
-  const dockPortal = side && document.getElementById(side);
+  const dockPortal = flow && document.getElementById(flow);
   const dockedSheetBodyRef = useRef<HTMLDivElement | null>(null);
   const dockedSheetCloseRef = useRef<HTMLButtonElement | null>(null);
 
@@ -41,9 +44,13 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
   }); 
   */
 
-  const classFromSide = useCallback(() => {
-    return side === DockingKeys.start ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
-  }, [side]);
+  const classFromFlow = useCallback(() => {
+    if (flow === DockingKeys.start) {
+      return RSPrefs.direction === LayoutDirection.ltr ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
+    } else if (flow === DockingKeys.end) {
+      return RSPrefs.direction === LayoutDirection.ltr ? sheetStyles.dockedSheetRightBorder : sheetStyles.dockedSheetLeftBorder;
+    }
+  }, [flow]);
 
   return (
     <>
@@ -52,7 +59,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
         <Trigger />
 
         { isOpen && dockPortal && createPortal(
-          <div className={ classNames(sheetStyles.dockedSheet, className, classFromSide()) }>
+          <div className={ classNames(sheetStyles.dockedSheet, className, classFromFlow()) }>
             <div className={ sheetStyles.sheetHeader }>
               <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
