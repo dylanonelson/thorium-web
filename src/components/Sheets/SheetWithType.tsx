@@ -20,7 +20,7 @@ export const SheetWithType = ({
   if (sheetType === SheetTypes.dockedStart) {
     return (
       <>
-      <DockedSheet side={ DockingKeys.start } { ...sheetProps }>
+      <DockedSheet flow={ DockingKeys.start } { ...sheetProps }>
         { children } 
       </DockedSheet>
       </>
@@ -30,7 +30,7 @@ export const SheetWithType = ({
   if (sheetType === SheetTypes.dockedEnd) {
     return (
       <>
-      <DockedSheet side={ DockingKeys.end } { ...sheetProps }>
+      <DockedSheet flow={ DockingKeys.end } { ...sheetProps }>
         { children } 
       </DockedSheet>
       </>
