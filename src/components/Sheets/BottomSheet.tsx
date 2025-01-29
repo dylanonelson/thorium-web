@@ -91,7 +91,8 @@ const BottomSheetContainer = ({
       if (
           entry.isIntersecting && 
           entry.intersectionRatio === 1 && 
-          entry.boundingClientRect.width === window.innerWidth && 
+          // For some reason width is larger on mobile (and border-right is almost invisible)…
+          entry.boundingClientRect.width >= window.innerWidth && 
           hasDetent === "full-height"
         ) {
         setFullScreen(true);
