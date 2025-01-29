@@ -299,7 +299,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, 250);
 
   useEffect(() => {
-    dispatch(setDirection(RSPrefs.direction));
+    RSPrefs.direction && dispatch(setDirection(RSPrefs.direction));
     dispatch(setPlatformModifier(getPlatformModifier()));
 
     window.addEventListener("resize", handleResize);
