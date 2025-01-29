@@ -38,6 +38,7 @@ const BottomSheetContainer = ({
   onDragKeyCallback,
   isDraggable, 
   hasDetent, 
+  maxWidth, 
   sheetRef,
   sheetContainerRef,
   bottomSheetBodyRef,
@@ -52,6 +53,7 @@ const BottomSheetContainer = ({
   onDragKeyCallback: (event: KeyboardEvent) => void;
   isDraggable: boolean;
   hasDetent: BottomSheetDetent;
+  maxWidth?: string;
   sheetRef: RefObject<SheetRef | null>;
   sheetContainerRef: RefObject<HTMLDivElement | null>;
   bottomSheetBodyRef: RefObject<HTMLDivElement | null>;
@@ -117,6 +119,7 @@ const BottomSheetContainer = ({
       ref={ sheetContainerRef }
       { ...overlay.overlayProps as any}
       { ...dialog.dialogProps }
+      { ...(maxWidth ? { style: { "--maxSheetsWidth-bottomSheet": maxWidth }}: {}) }
     >
       <Sheet.Header>
         { isDraggable && 
@@ -330,6 +333,17 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
     }
   }, [onClosePressCallback]);
 
+  const getMaxWidthPref = () => {
+    const maxWidth = RSPrefs.actions.keys[id].snapped?.maxWidth;
+    if (typeof maxWidth === "undefined") {
+      return undefined;
+    } else if (maxWidth === null) {
+      return "100%";
+    } else {
+      return `${ maxWidth }px`;
+    }
+  }
+
   /*  
   const firstFocusable = useFirstFocusable({
     withinRef: bottomSheetBodyRef, 
@@ -382,6 +396,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
               onDragKeyCallback={ onDragKeyCallback }
               isDraggable= { isDraggable.current }
               hasDetent={ detent.current }
+              maxWidth={ getMaxWidthPref() }
               sheetRef={ sheetRef } 
               sheetContainerRef={ sheetContainerRef }
               bottomSheetBodyRef={ bottomSheetBodyRef }
