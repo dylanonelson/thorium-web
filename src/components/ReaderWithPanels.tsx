@@ -28,13 +28,15 @@ const DockHandle = ({
   isResizable: boolean;
   hasDragIndicator?: boolean;
 }) => {
+  const direction = useAppSelector(state => state.reader.direction);
+
   const classFromFlow = useCallback(() => {
     if (flow === DockingKeys.start) {
-      return RSPrefs.direction === LayoutDirection.ltr ? dockStyles.dockResizeHandleGrabLeft : dockStyles.dockResizeHandleGrabRight;
+      return direction === LayoutDirection.ltr ? dockStyles.dockResizeHandleGrabLeft : dockStyles.dockResizeHandleGrabRight;
     } else if (flow === DockingKeys.end) {
-      return RSPrefs.direction === LayoutDirection.ltr ? dockStyles.dockResizeHandleGrabRight : dockStyles.dockResizeHandleGrabLeft;
+      return direction === LayoutDirection.ltr ? dockStyles.dockResizeHandleGrabRight : dockStyles.dockResizeHandleGrabLeft;
     }
-  }, [flow]);
+  }, [flow, direction]);
 
   return(
     <>
@@ -68,17 +70,18 @@ const DockPanel = ({
   hasDragIndicator?: boolean;
 }) => {
   const panelRef = useRef<ImperativePanelHandle>(null);
+  const direction = useAppSelector(state => state.reader.direction);
   const dispatch = useAppDispatch();
 
   const dockKey = flow === DockingKeys.end 
     ? DockingKeys.end 
     : DockingKeys.start;
 
-  const dockClassName = flow === DockingKeys.end && RSPrefs.direction === LayoutDirection.ltr ? "right-dock" : "left-dock";
+  const dockClassName = flow === DockingKeys.end && direction === LayoutDirection.ltr ? "right-dock" : "left-dock";
 
   const makeDockLabel = useCallback(() => {    
     let label = "";
-    if (flow === DockingKeys.end && RSPrefs.direction === LayoutDirection.ltr) {
+    if (flow === DockingKeys.end && direction === LayoutDirection.ltr) {
       label += Locale.reader.app.docking.dockingRight;
     } else {
       label += Locale.reader.app.docking.dockingLeft
@@ -93,7 +96,7 @@ const DockPanel = ({
       }
     }
     return label;
-  }, [flow, isPopulated, actionKey]);
+  }, [flow, direction, isPopulated, actionKey]);
 
   const collapsePanel = useCallback(() => {
     if (panelRef.current) {

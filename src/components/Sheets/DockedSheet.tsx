@@ -1,8 +1,6 @@
 import React, { useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 
-import { RSPrefs } from "@/preferences";
-
 import { ISheet } from "@/models/sheets";
 import { DockingKeys } from "@/models/docking";
 import { LayoutDirection } from "@/models/layout";
@@ -11,6 +9,8 @@ import sheetStyles from "../assets/styles/sheet.module.css";
 
 import { Heading } from "react-aria-components";
 import { Docker } from "./Docking/Docker";
+
+import { useAppSelector } from "@/lib/hooks";
 
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
@@ -36,6 +36,8 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
   const dockedSheetBodyRef = useRef<HTMLDivElement | null>(null);
   const dockedSheetCloseRef = useRef<HTMLButtonElement | null>(null);
 
+  const direction = useAppSelector(state => state.reader.direction);
+
   /*  
   const firstFocusable = useFirstFocusable({
     withinRef: dockedSheetBodyRef, 
@@ -46,11 +48,11 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
 
   const classFromFlow = useCallback(() => {
     if (flow === DockingKeys.start) {
-      return RSPrefs.direction === LayoutDirection.ltr ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
+      return direction === LayoutDirection.ltr ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
     } else if (flow === DockingKeys.end) {
-      return RSPrefs.direction === LayoutDirection.ltr ? sheetStyles.dockedSheetRightBorder : sheetStyles.dockedSheetLeftBorder;
+      return direction === LayoutDirection.ltr ? sheetStyles.dockedSheetRightBorder : sheetStyles.dockedSheetLeftBorder;
     }
-  }, [flow]);
+  }, [flow, direction]);
 
   return (
     <>
