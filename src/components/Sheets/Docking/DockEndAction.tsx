@@ -15,13 +15,13 @@ import DocktoRight from "../../assets/icons/dock_to_left.svg";
 import { ActionIcon } from "@/components/Templates/ActionIcon";
 import { OverflowMenuItem } from "@/components/Templates/OverflowMenuItem";
 
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { dockAction } from "@/lib/actionsReducer";
 import { useActions } from "@/hooks/useActions";
 
-import { useAppDispatch } from "@/lib/hooks";
-import { dockAction } from "@/lib/actionsReducer";
-
 export const DockEndAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
-  const isRTL = RSPrefs.direction === LayoutDirection.rtl;
+  const direction = useAppSelector(state => state.reader.direction);
+  const isRTL = direction === LayoutDirection.rtl;
   const localeKey = isRTL ? Locale.reader.app.docker.dockToLeft : Locale.reader.app.docker.dockToRight;
 
   const actions = useActions();
