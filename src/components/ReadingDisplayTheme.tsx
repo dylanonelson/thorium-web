@@ -8,6 +8,9 @@ import settingsStyles from "./assets/styles/readerSettings.module.css";
 
 import CheckIcon from "./assets/icons/check.svg";
 
+import { ActionKeys } from "@/models/actions";
+import { LayoutDirection } from "@/models/layout";
+
 import { Label, Radio, RadioGroup } from "react-aria-components";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -15,12 +18,14 @@ import { setActionOpen } from "@/lib/actionsReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 import classNames from "classnames";
-import { ActionKeys } from "@/models/actions";
 
 export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
   const radioGroupRef = useRef<HTMLDivElement | null>(null);
+
   const theme = useAppSelector(state => state.theming.theme);
   const isFXL = useAppSelector(state => state.publication.isFXL);
+  const direction = useAppSelector(state => state.reader.direction);
+  const isRTL = direction === LayoutDirection.rtl
 
   const themeItems = useRef(isFXL ? RSPrefs.theming.themes.fxlOrder : RSPrefs.theming.themes.reflowOrder);
 
@@ -88,11 +93,11 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
           break;
         case "ArrowLeft":
           e.preventDefault();
-          findNextVisualTheme(-1);
+          isRTL ? findNextVisualTheme(1) : findNextVisualTheme(-1);
           break;
         case "ArrowRight":
           e.preventDefault();
-          findNextVisualTheme(1);
+          isRTL ? findNextVisualTheme(-1) : findNextVisualTheme(1);
           break;
         default:
           break;
