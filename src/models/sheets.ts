@@ -30,6 +30,7 @@ export interface ISheet {
 export type BottomSheetDetent = "content-height" | "full-height";
 
 export interface ISnappedPref {
+  maxWidth?: number | null;
   maxHeight?: number | BottomSheetDetent;
   peekHeight?: number | BottomSheetDetent;
   minHeight?: number | BottomSheetDetent;
