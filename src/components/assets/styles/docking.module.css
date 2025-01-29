@@ -1,9 +1,9 @@
 .dockerWrapper {
-  margin-left: auto;
-  margin-right: calc(var(--icon-size, 24px) * (1 / 4) * -1); /* Optical alingment */
+  margin-inline-start: auto;
+  margin-inline-end: calc(var(--icon-size, 24px) * (1 / 4) * -1); /* Optical alingment */
   display: flex;
   gap: 2px;
-  padding-left: var(--layout-spacing);
+  padding-inline-start: var(--layout-spacing);
 }
 
 .docker {
