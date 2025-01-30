@@ -36,6 +36,10 @@ export const RSPrefs: IRSPrefs = {
     layout: {
       radius: 5, // border-radius of containers
       spacing: 20, // padding of containers/sheets
+      defaults: {
+        dockingWidth: 340,
+        scrim: "rgba(0, 0, 0, 0.2)"
+      },
       constraints: {
         [SheetTypes.bottomSheet]: 600,
         [SheetTypes.popover]: 600
@@ -254,7 +258,6 @@ export const RSPrefs: IRSPrefs = {
       [StaticBreakpoints.xLarge]: DockTypes.both
     },
     collapse: true,
-    defaultWidth: 340,
     keys: {
       [DockingKeys.start]: {
         visibility: ActionVisibility.overflow,

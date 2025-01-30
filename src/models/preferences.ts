@@ -19,6 +19,11 @@ export enum ScrollBackTo {
   untouched = "untouched"
 }
 
+export interface ILayoutDefaults {
+  dockingWidth: number;
+  scrim: string;
+}
+
 export type Constraints = Extract<SheetTypes, SheetTypes.bottomSheet | SheetTypes.popover>;
 
 export interface IRSPrefs {
@@ -45,6 +50,7 @@ export interface IRSPrefs {
     layout: {
       radius: number;
       spacing: number;
+      defaults: ILayoutDefaults;
       constraints?: {
         [key in Constraints]?: number
       }

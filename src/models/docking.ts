@@ -55,7 +55,6 @@ export interface IDockingPref {
   displayOrder: DockingKeys[];
   collapse: Collapsibility;
   dock: BreakpointsDockingMap | boolean; 
-  defaultWidth: number;
   keys: {
     [key in  DockingKeys]: IActionTokens;
   }
