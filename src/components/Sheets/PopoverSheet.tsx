@@ -4,7 +4,7 @@ import { ISheet } from "@/models/sheets";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 
-import { Dialog, DialogTrigger, Heading, Popover, PopoverProps } from "react-aria-components";
+import { Dialog, Heading, Popover, PopoverProps } from "react-aria-components";
 import { Docker } from "./Docking/Docker";
 
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
@@ -17,7 +17,7 @@ export interface IPopoverSheet extends ISheet {
 
 export const PopoverSheet: React.FC<IPopoverSheet> = ({ 
     id,
-    Trigger,
+    triggerRef,
     heading,
     className, 
     isOpen,
@@ -44,37 +44,35 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
   return (
   <>
   { React.Children.toArray(children).length > 0 
-    ? <DialogTrigger>
-        <Trigger />
-        <Popover 
-          ref={ popoverRef }
-          placement={ placement || "bottom" }
-          className={ classNames(sheetStyles.popOverSheet , className) }
-          isOpen={ isOpen }
-          onOpenChange={ onOpenChangeCallback } 
-          maxHeight={ computeMaxHeight() }
-        >
-          <Dialog className={ sheetStyles.sheetDialog }>
-            <div className={ sheetStyles.sheetHeader }>
-              <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
+    ? <Popover 
+        ref={ popoverRef }
+        triggerRef={ triggerRef }
+        placement={ placement || "bottom" }
+        className={ classNames(sheetStyles.popOverSheet , className) }
+        isOpen={ isOpen }
+        onOpenChange={ onOpenChangeCallback } 
+        maxHeight={ computeMaxHeight() }
+      >
+        <Dialog className={ sheetStyles.sheetDialog }>
+          <div className={ sheetStyles.sheetHeader }>
+            <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
             
-              <Docker 
-                id={ id }
-                keys={ docker || [] }
-                ref={ popoverCloseRef }
-                onCloseCallback={ onClosePressCallback }
-              /> 
-            </div>
+            <Docker 
+              id={ id }
+              keys={ docker || [] }
+              ref={ popoverCloseRef }
+              onCloseCallback={ onClosePressCallback }
+            /> 
+          </div>
 
-            <div 
-              ref={ popoverBodyRef } 
-              className={ sheetStyles.sheetBody }
-            >
-              { children }
-            </div>
-          </Dialog>
-        </Popover>
-      </DialogTrigger>
+          <div 
+            ref={ popoverBodyRef } 
+            className={ sheetStyles.sheetBody }
+          >
+            { children }
+          </div>
+        </Dialog>
+      </Popover>
   : <></> }
   </>
   )

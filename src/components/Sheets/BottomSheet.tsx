@@ -180,7 +180,7 @@ const BottomSheetContainer = ({
 
 export const BottomSheet: React.FC<IBottomSheet> = ({
   id,
-  Trigger,
+  triggerRef,
   heading,
   className, 
   isOpen,
@@ -188,7 +188,6 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   onClosePressCallback,
   children 
 }) => {
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const sheetRef = useRef<SheetRef | null>(null);
   const sheetContainerRef = useRef<HTMLDivElement | null>(null);
   const bottomSheetBodyRef = useRef<HTMLDivElement | null>(null);
@@ -381,15 +380,10 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
     onOpenChange: onOpenChangeCallback
   });
 
-  const { buttonProps } = useButton({
-//    onPress: sheetState.open
-  }, triggerRef);
-
   return (
     <>
     { React.Children.toArray(children).length > 0 
     ? <>
-      <Trigger { ...buttonProps } ref={ triggerRef } />
       <Sheet
         ref={ sheetRef }
         isOpen={ sheetState.isOpen }

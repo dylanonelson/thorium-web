@@ -1,4 +1,4 @@
-import { ComponentType, ReactNode, RefObject } from "react";
+import { ReactNode, RefObject } from "react";
 import { StaticBreakpoints } from "./staticBreakpoints";
 import { ActionsStateKeys } from "./state/actionsState";
 import { DockingKeys } from "./docking";
@@ -17,7 +17,7 @@ export type BreakpointsSheetMap = {
 
 export interface ISheet {
   id: ActionsStateKeys;
-  Trigger: ComponentType<{ ref?: RefObject<HTMLButtonElement | null> }>;
+  triggerRef: RefObject<HTMLButtonElement | null>;
   heading: string;
   className: string;
   isOpen: boolean;
