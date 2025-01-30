@@ -17,7 +17,6 @@ export const RSPrefs: IRSPrefs = {
     minimalLineLength: 35, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
     pageGutter: 20 // body padding in px
-    // In the future we could have useDynamicBreakpoint: boolean so that devs can disable it and use breakpoints instead
   },
   scroll: {
     topAffordance: ScrollAffordancePref.none,
@@ -37,12 +36,12 @@ export const RSPrefs: IRSPrefs = {
       radius: 5, // border-radius of containers
       spacing: 20, // padding of containers/sheets
       defaults: {
-        dockingWidth: 340,
-        scrim: "rgba(0, 0, 0, 0.2)"
+        dockingWidth: 340, // default width of resizable panels
+        scrim: "rgba(0, 0, 0, 0.2)" // default scrim/underlay bg-color
       },
       constraints: {
-        [SheetTypes.bottomSheet]: 600,
-        [SheetTypes.popover]: 600
+        [SheetTypes.bottomSheet]: 600, // Max-width of all bottom sheets
+        [SheetTypes.popover]: 600 // Max-width of all popover sheets
       }
     },
     breakpoints: {
