@@ -40,32 +40,27 @@ export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
   // And more values here: https://web.dev/learn/pwa/detection
   if (!document.fullscreenEnabled || isIOSish()) return null;
 
-  if (variant && variant === ActionComponentVariant.menu) {
-    return(
-      <>
-      <OverflowMenuItem 
-        label={ Locale.reader.fullscreen.trigger }
-        SVG={ FullscreenCorners } 
-        shortcut={ RSPrefs.actions.keys[ActionKeys.fullscreen].shortcut }
-        onActionCallback={ fs.handleFullscreen } 
-        id={ ActionKeys.fullscreen }
-      />
-      </>
-    )
-  } else {
-    return(
-      <>
-      <ActionIcon 
-        ref={ triggerRef }
-        className={ readerSharedUI.iconCompSm }
-        visibility={ RSPrefs.actions.keys[ActionKeys.fullscreen].visibility }  
-        ariaLabel={ fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger }
-        SVG={ fs.isFullscreen ? FullscreenExit : FullscreenCorners } 
-        placement="bottom" 
-        tooltipLabel={ Locale.reader.fullscreen.tooltip } 
-        onPressCallback={ handlePress } 
-      />
-      </>
-    )
-  }
+  return(
+    <>
+    { (variant && variant === ActionComponentVariant.menu) 
+      ? <OverflowMenuItem 
+          label={ Locale.reader.fullscreen.trigger }
+          SVG={ FullscreenCorners } 
+          shortcut={ RSPrefs.actions.keys[ActionKeys.fullscreen].shortcut }
+          onActionCallback={ fs.handleFullscreen } 
+          id={ ActionKeys.fullscreen }
+        />
+      : <ActionIcon 
+          ref={ triggerRef }
+          className={ readerSharedUI.iconCompSm }
+          visibility={ RSPrefs.actions.keys[ActionKeys.fullscreen].visibility }  
+          ariaLabel={ fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger }
+          SVG={ fs.isFullscreen ? FullscreenExit : FullscreenCorners } 
+          placement="bottom" 
+          tooltipLabel={ Locale.reader.fullscreen.tooltip } 
+          onPressCallback={ handlePress } 
+        />
+    } 
+    </>
+  )
 }

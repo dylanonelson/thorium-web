@@ -13,31 +13,26 @@ import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 export const JumpToPositionAction: React.FC<IActionComponent> = ({ variant }) => {
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
-  if (variant && variant === ActionComponentVariant.menu) {
-    return(
-      <>
-      <OverflowMenuItem 
-        label={ Locale.reader.jumpToPosition.trigger }
-        SVG={ TargetIcon }
-        shortcut={ RSPrefs.actions.keys[ActionKeys.jumpToPosition].shortcut }
-        id={ ActionKeys.jumpToPosition }
-      />
-      </>
-    )
-  } else {
-    return(
-      <>
-      <ActionIcon
-        ref={ triggerRef }
-        visibility={ RSPrefs.actions.keys[ActionKeys.jumpToPosition].visibility } 
-        ariaLabel={ Locale.reader.jumpToPosition.trigger }
-        SVG={ TargetIcon } 
-        placement="bottom" 
-        tooltipLabel={ Locale.reader.jumpToPosition.tooltip }
-        onPressCallback={ () => {} }
-      />
-      </>
-    )
-  }
-  
+  return(
+    <>
+    { (variant && variant === ActionComponentVariant.menu) 
+      ? <OverflowMenuItem 
+          label={ Locale.reader.jumpToPosition.trigger }
+          SVG={ TargetIcon }
+          shortcut={ RSPrefs.actions.keys[ActionKeys.jumpToPosition].shortcut }
+          id={ ActionKeys.jumpToPosition }
+          onActionCallback={ () => {} }
+        />
+      : <ActionIcon
+          ref={ triggerRef }
+          visibility={ RSPrefs.actions.keys[ActionKeys.jumpToPosition].visibility } 
+          ariaLabel={ Locale.reader.jumpToPosition.trigger }
+          SVG={ TargetIcon } 
+          placement="bottom" 
+          tooltipLabel={ Locale.reader.jumpToPosition.tooltip }
+          onPressCallback={ () => {} }
+        />
+    }
+    </>
+  )
 }
