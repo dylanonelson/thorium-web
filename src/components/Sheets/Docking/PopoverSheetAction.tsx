@@ -34,33 +34,28 @@ export const PopoverSheetAction: React.FC<IActionComponent> = ({ variant, associ
     }
   }, [dispatch, associatedKey]);
   
-  if (variant && variant === ActionComponentVariant.menu) {
-    return(
-      <>
-      <OverflowMenuItem 
-        label={ Locale.reader.app.docker.popover.trigger }
-        SVG={ Stack } 
-        shortcut={ RSPrefs.docking.keys[DockingKeys.transient].shortcut }
-        onActionCallback={ handlePress } 
-        id={ `${ DockingKeys.transient }-${ associatedKey }` } 
-        isDisabled={ isDisabled }
-      />
-      </>
-    )
-  } else {
-    return(
-      <>
-      <ActionIcon 
-        ref={ triggerRef }
-        className={ readerSharedUI.dockerButton }  
-        ariaLabel={ Locale.reader.app.docker.popover.trigger }
-        SVG={ Stack } 
-        placement="bottom" 
-        tooltipLabel={ Locale.reader.app.docker.popover.tooltip } 
-        onPressCallback={ handlePress } 
-        isDisabled={ isDisabled }
-      />
-      </>
-    )
-  }
+  return(
+    <>
+    { (variant && variant === ActionComponentVariant.menu) 
+      ? <OverflowMenuItem 
+          label={ Locale.reader.app.docker.popover.trigger }
+          SVG={ Stack } 
+          shortcut={ RSPrefs.docking.keys[DockingKeys.transient].shortcut }
+          onActionCallback={ handlePress } 
+          id={ `${ DockingKeys.transient }-${ associatedKey }` } 
+          isDisabled={ isDisabled }
+        />
+      : <ActionIcon 
+          ref={ triggerRef }
+          className={ readerSharedUI.dockerButton }  
+          ariaLabel={ Locale.reader.app.docker.popover.trigger }
+          SVG={ Stack } 
+          placement="bottom" 
+          tooltipLabel={ Locale.reader.app.docker.popover.tooltip } 
+          onPressCallback={ handlePress } 
+          isDisabled={ isDisabled }
+        />
+    }
+    </>
+  )
 }

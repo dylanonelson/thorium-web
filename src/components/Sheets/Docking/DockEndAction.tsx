@@ -39,33 +39,28 @@ export const DockEndAction: React.FC<IActionComponent> = ({ variant, associatedK
     }
   }, [dispatch, associatedKey]);
   
-  if (variant && variant === ActionComponentVariant.menu) {
-    return(
-      <>
-      <OverflowMenuItem 
-        label={ localeKey.trigger }
-        SVG={ isRTL ? DockToLeft : DocktoRight } 
-        shortcut={ RSPrefs.docking.keys[DockingKeys.end].shortcut }
-        onActionCallback={ handlePress } 
-        id={ `${ DockingKeys.end }-${ associatedKey }` }
-        isDisabled={ isDisabled }
-      />
-      </>
-    )
-  } else {
-    return(
-      <>
-      <ActionIcon 
-        ref={ triggerRef }
-        className={ readerSharedUI.dockerButton }  
-        ariaLabel={ localeKey.trigger }
-        SVG={ isRTL ? DockToLeft : DocktoRight } 
-        placement="bottom" 
-        tooltipLabel={ localeKey.tooltip } 
-        onPressCallback={ handlePress } 
-        isDisabled={ isDisabled }
-      />
-      </>
-    )
-  }
+  return(
+    <>
+    { (variant && variant === ActionComponentVariant.menu) 
+      ? <OverflowMenuItem 
+          label={ localeKey.trigger }
+          SVG={ isRTL ? DockToLeft : DocktoRight } 
+          shortcut={ RSPrefs.docking.keys[DockingKeys.end].shortcut }
+          onActionCallback={ handlePress } 
+          id={ `${ DockingKeys.end }-${ associatedKey }` }
+          isDisabled={ isDisabled }
+        />
+      : <ActionIcon 
+          ref={ triggerRef }
+          className={ readerSharedUI.dockerButton }  
+          ariaLabel={ localeKey.trigger }
+          SVG={ isRTL ? DockToLeft : DocktoRight } 
+          placement="bottom" 
+          tooltipLabel={ localeKey.tooltip } 
+          onPressCallback={ handlePress } 
+          isDisabled={ isDisabled }
+        />
+    }
+    </>
+  )
 }

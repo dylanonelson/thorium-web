@@ -40,48 +40,45 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
     if (!value) dispatch(setHovering(false));
   }
 
-  if (variant && variant === ActionComponentVariant.menu) {
-    return(
-      <>
-      <OverflowMenuItem 
-        label={ Locale.reader.settings.trigger }
-        SVG={ TuneIcon }
-        shortcut={ RSPrefs.actions.keys[ActionKeys.settings].shortcut } 
-        id={ ActionKeys.settings }
-      />
-      </>
-    )
-  } else {
-    return(
-      <>
-      <ActionIcon 
-        ref={ triggerRef }
-        visibility={ RSPrefs.actions.keys[ActionKeys.settings].visibility }
-        ariaLabel={ Locale.reader.settings.trigger }
-        SVG={ TuneIcon } 
-        placement="bottom" 
-        tooltipLabel={ Locale.reader.settings.tooltip } 
-        onPressCallback={ () => setOpen(!actionState.isOpen) }
-      />
-      <SheetWithType 
-        sheetType={ sheetType }
-        sheetProps={ {
-          id: ActionKeys.settings,
-          triggerRef: triggerRef,
-          heading: Locale.reader.settings.heading,
-          className: settingsStyles.readerSettings,
-          placement: "bottom", 
-          isOpen: actionState.isOpen || false,
-          onOpenChangeCallback: setOpen, 
-          onClosePressCallback: () => setOpen(false),
-          docker: docking.getDocker()
-        } }
-      >
-        <ReadingDisplayTheme mapArrowNav={ 2 } />
-        <ReadingDisplayCol />
-        <ReadingDisplayLayout />
-      </SheetWithType>
-      </>
-    )
-  }
+  return(
+    <>
+    { (variant && variant === ActionComponentVariant.menu) 
+      ? <OverflowMenuItem 
+          label={ Locale.reader.settings.trigger }
+          SVG={ TuneIcon }
+          shortcut={ RSPrefs.actions.keys[ActionKeys.settings].shortcut } 
+          id={ ActionKeys.settings }
+          onActionCallback={ () => setOpen(!actionState.isOpen) }
+        />
+      : <ActionIcon 
+          ref={ triggerRef }
+          visibility={ RSPrefs.actions.keys[ActionKeys.settings].visibility }
+          ariaLabel={ Locale.reader.settings.trigger }
+          SVG={ TuneIcon } 
+          placement="bottom" 
+          tooltipLabel={ Locale.reader.settings.tooltip } 
+          onPressCallback={ () => setOpen(!actionState.isOpen) }
+        />
+    }
+      
+    <SheetWithType 
+      sheetType={ sheetType }
+      sheetProps={ {
+        id: ActionKeys.settings,
+        triggerRef: triggerRef,
+        heading: Locale.reader.settings.heading,
+        className: settingsStyles.readerSettings,
+        placement: "bottom", 
+        isOpen: actionState.isOpen || false,
+        onOpenChangeCallback: setOpen, 
+        onClosePressCallback: () => setOpen(false),
+        docker: docking.getDocker()
+      } }
+    >
+      <ReadingDisplayTheme mapArrowNav={ 2 } />
+      <ReadingDisplayCol />
+      <ReadingDisplayLayout />
+    </SheetWithType>
+    </>
+  )
 }
