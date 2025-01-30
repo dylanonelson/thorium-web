@@ -8,7 +8,7 @@ import { useActions } from "./useActions";
 import { usePrevious } from "./usePrevious";
 
 export const useRezisablePanel = (panel: Docked) => {
-  const defaultWidth = RSPrefs.docking.defaultWidth;
+  const defaultWidth = RSPrefs.theming.layout.defaults.dockingWidth;
   const [pref, setPref] = useState<IDockedPref | null>(null);
 
   const actions = useActions();
