@@ -30,6 +30,7 @@ export interface ISheet {
 export type BottomSheetDetent = "content-height" | "full-height";
 
 export interface ISnappedPref {
+  scrim?: boolean | string;
   maxWidth?: number | null;
   maxHeight?: number | BottomSheetDetent;
   peekHeight?: number | BottomSheetDetent;
@@ -37,3 +38,8 @@ export interface ISnappedPref {
 }
 
 export type SheetPref = BreakpointsSheetMap;
+
+export interface IScrimPref {
+  active: boolean;
+  override?: string;
+}

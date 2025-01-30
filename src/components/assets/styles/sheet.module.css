@@ -37,14 +37,13 @@
   max-width: var(--constraints-bottomSheet, 600px);
   left: max(calc((100% - var(--constraints-bottomSheet, 600px)) / 2), 0px) !important;
   background-color: var(--theme-background) !important;
-  border: 1px solid var(--theme-subdue);
-  border-bottom: none;
+  border: none;
   filter: drop-shadow(var(--theme-elevate));
   box-shadow: none !important;
   /* M3 = 28dp, see https://m3.material.io/components/bottom-sheets/overview */
   border-top-left-radius: 28px !important;
   border-top-right-radius: 28px !important;
-  transition: border-color 0.5s, border-radius 0.5s;
+  transition: border-radius 0.5s;
 }
 
 .bottomSheetModalFullHeightDetent {
@@ -58,14 +57,17 @@
 .bottomSheetModalFullHeightReached {
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
-  border-color: var(--theme-background);
-  transition: border-color 0.5s, border-radius 0.5s;
+  transition: border-radius 0.5s;
 }
 
 .bottomSheetBackdrop {
   /* So that React Aria can use it to dismiss the sheet as it’s set to none by React Modal Sheet. */
   pointer-events: auto !important;
-  background-color: rgba(0, 0, 0, 0.02) !important;
+  background-color: transparent !important;
+}
+
+.bottomSheetScrim {
+  background-color: var(--defaults-scrim) !important;
 }
 
 .bottomSheet {

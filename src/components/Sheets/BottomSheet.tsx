@@ -6,7 +6,7 @@ import { RSPrefs } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { BottomSheetDetent, ISheet } from "@/models/sheets";
+import { BottomSheetDetent, IScrimPref, ISheet } from "@/models/sheets";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
@@ -39,6 +39,7 @@ const BottomSheetContainer = ({
   isDraggable, 
   hasDetent, 
   maxWidth, 
+  scrimPref, 
   sheetRef,
   sheetContainerRef,
   bottomSheetBodyRef,
@@ -54,6 +55,7 @@ const BottomSheetContainer = ({
   isDraggable: boolean;
   hasDetent: BottomSheetDetent;
   maxWidth?: string;
+  scrimPref: IScrimPref;
   sheetRef: RefObject<SheetRef | null>;
   sheetContainerRef: RefObject<HTMLDivElement | null>;
   bottomSheetBodyRef: RefObject<HTMLDivElement | null>;
@@ -80,11 +82,15 @@ const BottomSheetContainer = ({
       className = sheetStyles.bottomSheetModalFullHeightDetent;
     }
     return className;
-  }
+  };
+
+  const getScrimClassName = () => {
+    return scrimPref.active ? sheetStyles.bottomSheetScrim : "";
+  };
 
   const getFullscreenClassName = () => {
     return isFullScreen ? sheetStyles.bottomSheetModalFullHeightReached : "";
-  }
+  };
 
   const fullScreenIntersectionCallback = useCallback((entries: IntersectionObserverEntry[]) => {
     entries.forEach( (entry) => {
@@ -165,7 +171,8 @@ const BottomSheetContainer = ({
       </Sheet.Content>
     </Sheet.Container>
     <Sheet.Backdrop 
-      className={ sheetStyles.bottomSheetBackdrop }
+      className={ classNames(sheetStyles.bottomSheetBackdrop, getScrimClassName()) } 
+      { ...(scrimPref.override ? { style: { "--defaults-scrim": scrimPref.override }} : {}) }
     />
     </>
   )
@@ -343,7 +350,24 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
     } else {
       return `${ maxWidth }px`;
     }
-  }
+  };
+
+  const getScrimPref = () => {
+    let scrimPref: IScrimPref = {
+      active: false,
+      override: undefined
+    }
+    const scrim = RSPrefs.actions.keys[id].snapped?.scrim;
+    if (scrim) {
+      scrimPref.active = true;
+
+      if (typeof scrim === "string") {
+        scrimPref.override = scrim;
+      }
+    }
+
+    return scrimPref;
+  };
 
   /*  
   const firstFocusable = useFirstFocusable({
@@ -398,6 +422,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
               isDraggable= { isDraggable.current }
               hasDetent={ detent.current }
               maxWidth={ getMaxWidthPref() }
+              scrimPref={ getScrimPref() }
               sheetRef={ sheetRef } 
               sheetContainerRef={ sheetContainerRef }
               bottomSheetBodyRef={ bottomSheetBodyRef }
