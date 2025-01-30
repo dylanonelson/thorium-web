@@ -6,7 +6,7 @@
   border: 1px solid var(--theme-subdue);
   filter: drop-shadow(var(--theme-elevate));
   box-sizing: border-box;
-  max-width: var(--maxSheetsWidth-popover, 500px);
+  max-width: var(--constraints-popover, 500px);
   width: max-content;
 }
 

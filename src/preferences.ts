@@ -36,7 +36,7 @@ export const RSPrefs: IRSPrefs = {
     layout: {
       radius: 5, // border-radius of containers
       spacing: 20, // padding of containers/sheets
-      maxSheetsWidth: {
+      constraints: {
         [SheetTypes.bottomSheet]: 600,
         [SheetTypes.popover]: 600
       }
