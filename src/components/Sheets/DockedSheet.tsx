@@ -39,13 +39,11 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
 
   const direction = useAppSelector(state => state.reader.direction);
 
-  /*  
   const firstFocusable = useFirstFocusable({
     withinRef: dockedSheetBodyRef, 
     trackedState: isOpen, 
     fallbackRef: dockedSheetCloseRef
   }); 
-  */
 
   const classFromFlow = useCallback(() => {
     if (flow === DockingKeys.start) {

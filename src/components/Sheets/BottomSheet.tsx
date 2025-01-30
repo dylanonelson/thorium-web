@@ -367,13 +367,12 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
 
     return scrimPref;
   };
-
-  /*  
+ 
   const firstFocusable = useFirstFocusable({
     withinRef: bottomSheetBodyRef, 
     trackedState: isOpen, 
     fallbackRef: bottomSheetCloseRef
-  }); */
+  });
 
   let sheetState = useOverlayTriggerState({
     isOpen: isOpen,
@@ -388,6 +387,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
         ref={ sheetRef }
         isOpen={ sheetState.isOpen }
         onClose={ sheetState.close }
+        onOpenEnd={ () => firstFocusable && firstFocusable.focus() }
         { ...(snapArray.current.length > 1 
           ? { 
             snapPoints: snapArray.current, 
