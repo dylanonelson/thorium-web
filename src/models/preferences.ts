@@ -19,7 +19,7 @@ export enum ScrollBackTo {
   untouched = "untouched"
 }
 
-export type MaxWidthSheets = Extract<SheetTypes, SheetTypes.bottomSheet | SheetTypes.popover>;
+export type Constraints = Extract<SheetTypes, SheetTypes.bottomSheet | SheetTypes.popover>;
 
 export interface IRSPrefs {
   direction?: LayoutDirection,
@@ -45,8 +45,8 @@ export interface IRSPrefs {
     layout: {
       radius: number;
       spacing: number;
-      maxSheetsWidth?: {
-        [key in MaxWidthSheets]?: number
+      constraints?: {
+        [key in Constraints]?: number
       }
     };
     breakpoints: {

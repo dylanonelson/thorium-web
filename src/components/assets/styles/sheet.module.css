@@ -21,7 +21,7 @@
   overflow-y: auto;
   box-sizing: border-box;
   width: calc(340px + (2 * var(--layout-spacing)));
-  max-width: var(--maxSheetsWidth-popover, 500px);
+  max-width: var(--constraints-popover, 500px);
   max-height: 100%;
   max-height: var(--visual-viewport-height, 100dvh);
   padding: 0;
@@ -34,8 +34,8 @@
 
 .bottomSheetModal {
   box-sizing: border-box;
-  max-width: var(--maxSheetsWidth-bottomSheet, 600px);
-  left: max(calc((100% - var(--maxSheetsWidth-bottomSheet, 600px)) / 2), 0px) !important;
+  max-width: var(--constraints-bottomSheet, 600px);
+  left: max(calc((100% - var(--constraints-bottomSheet, 600px)) / 2), 0px) !important;
   background-color: var(--theme-background) !important;
   border: 1px solid var(--theme-subdue);
   border-bottom: none;

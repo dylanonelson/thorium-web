@@ -120,7 +120,7 @@ const BottomSheetContainer = ({
       ref={ sheetContainerRef }
       { ...overlay.overlayProps as any}
       { ...dialog.dialogProps }
-      { ...(maxWidth ? { style: { "--maxSheetsWidth-bottomSheet": maxWidth }}: {}) }
+      { ...(maxWidth ? { style: { "--constraints-bottomSheet": maxWidth }}: {}) }
     >
       <Sheet.Header>
         { isDraggable && 
