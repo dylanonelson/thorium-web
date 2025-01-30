@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
 
@@ -16,12 +16,14 @@ import { toggleImmersive } from "@/lib/readerReducer";
 import { setOverflow } from "@/lib/actionsReducer";
 
 export const OverflowMenu = ({ 
-    id,
-    className, 
-    actionFallback,
-    display,
-    children 
-  }: IOverflowMenu) => {
+  id,
+  className, 
+  actionFallback,
+  display,
+  children 
+}: IOverflowMenu) => {
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+
   const dispatch = useAppDispatch();
 
   const toggleMenuState = (value: boolean) => {
@@ -36,6 +38,7 @@ export const OverflowMenu = ({
       <>
       <MenuTrigger onOpenChange={ (val) => toggleMenuState(val) }>
         <ActionIcon 
+          ref={ triggerRef }
           className={ className ? className : overflowMenuStyles.activeButton }
           ariaLabel={ Locale.reader.overflowMenu.active.trigger }
           SVG={ MenuIcon } 
@@ -64,6 +67,7 @@ export const OverflowMenu = ({
       return(
         <>
         <ActionIcon 
+          ref={ triggerRef }
           className={ className ? className : overflowMenuStyles.hintButton } 
           ariaLabel={ Locale.reader.overflowMenu.hint.trigger }
           SVG={ MenuIcon } 

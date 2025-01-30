@@ -18,7 +18,7 @@ export interface IFullScreenSheet extends ISheet {};
 
 export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
     id, 
-    Trigger, 
+    triggerRef,
     heading, 
     className, 
     isOpen,
@@ -37,36 +37,32 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
   return (
   <>
   { React.Children.toArray(children).length > 0 
-    ? <DialogTrigger 
+    ? <Modal 
         isOpen={ isOpen }
         onOpenChange={ onOpenChangeCallback }
+        isDismissable={ true }
+        className={ classNames(sheetStyles.fullScreenSheet, className) }
       >
-        <Trigger />
-        <Modal 
-          isDismissable={ true }
-          className={ classNames(sheetStyles.fullScreenSheet, className) }
-        >
-          <Dialog className={ sheetStyles.sheetDialog }>
-            <div className={ sheetStyles.sheetHeader }>
-              <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
+        <Dialog className={ sheetStyles.sheetDialog }>
+          <div className={ sheetStyles.sheetHeader }>
+            <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
-              <CloseButton
-                ref={ fullScreenCloseRef }
-                className={ readerSharedUI.closeButton } 
-                label={ Locale.reader.app.docker.close.trigger } 
-                onPressCallback={ onClosePressCallback }
-              />
-            </div>
+            <CloseButton
+              ref={ fullScreenCloseRef }
+              className={ readerSharedUI.closeButton } 
+              label={ Locale.reader.app.docker.close.trigger } 
+              onPressCallback={ onClosePressCallback }
+            />
+          </div>
               
-            <div 
-              ref={ fullScreenBodyRef } 
-              className={ sheetStyles.sheetBody }
-            >
-              { children }
-            </div>
-          </Dialog>
-        </Modal>
-      </DialogTrigger>
+          <div 
+            ref={ fullScreenBodyRef } 
+            className={ sheetStyles.sheetBody }
+          >
+            { children }
+          </div>
+        </Dialog>
+      </Modal>
   : <></> }
   </>
   )

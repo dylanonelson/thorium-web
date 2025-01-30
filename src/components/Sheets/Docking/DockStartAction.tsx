@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../../../resources/locales/en.json";
@@ -20,6 +20,7 @@ import { dockAction } from "@/lib/actionsReducer";
 import { useActions } from "@/hooks/useActions";
 
 export const DockStartAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === LayoutDirection.rtl;
   const localeKey = isRTL ? Locale.reader.app.docker.dockToRight : Locale.reader.app.docker.dockToLeft;
@@ -55,6 +56,7 @@ export const DockStartAction: React.FC<IActionComponent> = ({ variant, associate
     return(
       <>
       <ActionIcon 
+        ref={ triggerRef }
         className={ readerSharedUI.dockerButton }  
         ariaLabel={ localeKey.trigger }
         SVG={ isRTL ? DocktoRight : DockToLeft } 

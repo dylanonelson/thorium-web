@@ -15,6 +15,7 @@ import { useAppSelector } from "@/lib/hooks";
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
 import classNames from "classnames";
+import { FocusScope } from "react-aria";
 
 export interface IDockedSheet extends ISheet {
   flow: DockingKeys.start | DockingKeys.end | null;
@@ -22,7 +23,7 @@ export interface IDockedSheet extends ISheet {
 
 export const DockedSheet: React.FC<IDockedSheet> = ({ 
     id,
-    Trigger,
+    triggerRef,
     heading,
     className, 
     isOpen,
@@ -58,10 +59,13 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     <>
     { React.Children.toArray(children).length > 0 
       ? <>
-        <Trigger />
-
         { isOpen && dockPortal && createPortal(
-          <div className={ classNames(sheetStyles.dockedSheet, className, classFromFlow()) }>
+          <FocusScope 
+            contain={ false }
+            autoFocus={ true } 
+            restoreFocus={ true }
+          >
+            <div className={ classNames(sheetStyles.dockedSheet, className, classFromFlow()) }>
             <div className={ sheetStyles.sheetHeader }>
               <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
@@ -79,8 +83,8 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
             >
               { children }
             </div>
-          </div>, 
-          dockPortal) 
+          </div>
+        </FocusScope>, dockPortal) 
         }
         </>
       : <></> }

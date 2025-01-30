@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
@@ -23,6 +23,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
 export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
   const dispatch = useAppDispatch();
 
@@ -53,18 +54,20 @@ export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
   } else {
     return(
       <>
+      <ActionIcon 
+        ref={ triggerRef }
+        visibility={ RSPrefs.actions.keys[ActionKeys.settings].visibility }
+        ariaLabel={ Locale.reader.settings.trigger }
+        SVG={ TuneIcon } 
+        placement="bottom" 
+        tooltipLabel={ Locale.reader.settings.tooltip } 
+        onPressCallback={ () => setOpen(!actionState.isOpen) }
+      />
       <SheetWithType 
         sheetType={ sheetType }
         sheetProps={ {
           id: ActionKeys.settings,
-          Trigger: () => <ActionIcon 
-            visibility={ RSPrefs.actions.keys[ActionKeys.settings].visibility }
-            ariaLabel={ Locale.reader.settings.trigger }
-            SVG={ TuneIcon } 
-            placement="bottom" 
-            tooltipLabel={ Locale.reader.settings.tooltip } 
-            onPressCallback={ () => setOpen(!actionState.isOpen) }
-          />,
+          triggerRef: triggerRef,
           heading: Locale.reader.settings.heading,
           className: settingsStyles.readerSettings,
           placement: "bottom", 

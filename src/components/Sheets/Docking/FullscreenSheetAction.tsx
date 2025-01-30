@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../../../resources/locales/en.json";
@@ -19,6 +19,7 @@ import { useAppDispatch } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
 
 export const FullscreenSheetAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const actions = useActions();
   const isDisabled = !actions.isDocked(associatedKey);
   
@@ -50,6 +51,7 @@ export const FullscreenSheetAction: React.FC<IActionComponent> = ({ variant, ass
     return(
       <>
       <ActionIcon 
+        ref={ triggerRef }
         className={ readerSharedUI.dockerButton }  
         ariaLabel={ Locale.reader.app.docker.fullscreen.trigger }
         SVG={ Dialog } 

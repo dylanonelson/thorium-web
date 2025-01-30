@@ -51,7 +51,7 @@ export interface IActionsItem {
 
 export interface IActionIconProps {
   className?: string;
-  ref?: RefObject<HTMLButtonElement | null>;
+  ref: RefObject<HTMLButtonElement | null>;
   ariaLabel: string;
   SVG: ComponentType<SVGProps<SVGElement>>;
   placement: TooltipProps["placement"];
