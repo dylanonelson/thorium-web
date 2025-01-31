@@ -195,7 +195,7 @@ export const RSPrefs: IRSPrefs = {
     keys: {
       [ActionKeys.settings]: {
         visibility: ActionVisibility.partially,
-        shortcut: `${ShortcutMetaKeywords.platform}+P`,
+        shortcut: null, // `${ShortcutMetaKeywords.platform}+P`,
         sheet: {
           defaultSheet: SheetTypes.popover,
           breakpoints: {
@@ -215,11 +215,11 @@ export const RSPrefs: IRSPrefs = {
       },
       [ActionKeys.fullscreen]: {
         visibility: ActionVisibility.partially,
-        shortcut: `${ShortcutMetaKeywords.platform}+F11`
+        shortcut: null, // `${ShortcutMetaKeywords.platform}+F11`
       },
       [ActionKeys.toc]: {
         visibility: ActionVisibility.partially,
-        shortcut: `${ShortcutMetaKeywords.platform}+N`,
+        shortcut: null, // `${ShortcutMetaKeywords.platform}+N`,
         sheet: {
           defaultSheet: SheetTypes.popover,
           breakpoints: {
@@ -237,7 +237,7 @@ export const RSPrefs: IRSPrefs = {
       },
       [ActionKeys.jumpToPosition]: {
         visibility: ActionVisibility.overflow,
-        shortcut: `${ShortcutMetaKeywords.platform}+J`,
+        shortcut: null, // `${ShortcutMetaKeywords.platform}+J`,
         docked: {
           dockable: DockTypes.none
         }
