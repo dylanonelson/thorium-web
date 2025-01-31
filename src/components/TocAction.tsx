@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
-import { ActionComponentVariant, ActionKeys, IActionComponent } from "@/models/actions";
+import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
 
 import tocStyles from "./assets/styles/toc.module.css";
 
@@ -19,14 +19,52 @@ import { useDocking } from "@/hooks/useDocking";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
-export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
-
+export const TocActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
   const dispatch = useAppDispatch();
 
   const docking = useDocking(ActionKeys.toc);
   const sheetType = docking.sheetType;
+
+  const setOpen = (value: boolean) => {
+    dispatch(setActionOpen({ 
+      key: ActionKeys.toc,
+      isOpen: value 
+    }));
+  }
+
+  return(
+    <>
+    <SheetWithType 
+      sheetType={ sheetType }
+      sheetProps={ {
+        id: ActionKeys.toc,
+        triggerRef: triggerRef, 
+        heading: Locale.reader.toc.heading,
+        className: tocStyles.toc,
+        placement: "bottom",
+        isOpen: actionState.isOpen || false,
+        onOpenChangeCallback: setOpen,
+        onClosePressCallback: () => setOpen(false),
+        docker: docking.getDocker()
+      } }
+    >
+      {/* toc.items.length > 0 
+        ? <ListBox className={ tocStyles.listBox } items={ toc.items }>
+            { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }>{ item.title }</ListBoxItem> }
+          </ListBox>
+        : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
+      */}
+        
+      <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
+    </SheetWithType>
+    </>
+  )
+}
+
+export const TocAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
+  const dispatch = useAppDispatch();
 
   const setOpen = (value: boolean) => {
     dispatch(setActionOpen({ 
@@ -46,39 +84,14 @@ export const TocAction: React.FC<IActionComponent> = ({ variant }) => {
           onActionCallback={ () => setOpen(!actionState.isOpen) }
         />
       : <ActionIcon 
-          ref={ triggerRef }
           visibility={ RSPrefs.actions.keys[ActionKeys.toc].visibility }
           ariaLabel={ Locale.reader.toc.trigger } 
           SVG={ TocIcon } 
           placement="bottom"
           tooltipLabel={ Locale.reader.toc.tooltip } 
           onPressCallback={ () => setOpen(!actionState.isOpen) }
-         />
+        />
     }
-
-    <SheetWithType 
-      sheetType={ sheetType }
-      sheetProps={ {
-        id: ActionKeys.toc,
-        triggerRef: triggerRef, 
-        heading:Locale.reader.toc.heading,
-        className: tocStyles.toc,
-        placement:"bottom",
-        isOpen: actionState.isOpen || false,
-        onOpenChangeCallback: setOpen,
-        onClosePressCallback: () => setOpen(false),
-        docker: docking.getDocker()
-      } }
-    >
-      {/* toc.items.length > 0 
-        ? <ListBox className={ tocStyles.listBox } items={ toc.items }>
-            { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }>{ item.title }</ListBoxItem> }
-          </ListBox>
-        : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
-      */}
-        
-      <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
-    </SheetWithType>
     </>
   )
 }

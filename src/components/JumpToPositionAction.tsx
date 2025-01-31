@@ -3,16 +3,14 @@ import React, { useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
-import { ActionComponentVariant, ActionKeys, IActionComponent } from "@/models/actions";
+import { ActionComponentVariant, ActionKeys, IActionComponentTrigger } from "@/models/actions";
 
 import TargetIcon from "./assets/icons/point_scan.svg";
 
 import { ActionIcon } from "./Templates/ActionIcon";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
 
-export const JumpToPositionAction: React.FC<IActionComponent> = ({ variant }) => {
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
-
+export const JumpToPositionAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
   return(
     <>
     { (variant && variant === ActionComponentVariant.menu) 
@@ -24,7 +22,6 @@ export const JumpToPositionAction: React.FC<IActionComponent> = ({ variant }) =>
           onActionCallback={ () => {} }
         />
       : <ActionIcon
-          ref={ triggerRef }
           visibility={ RSPrefs.actions.keys[ActionKeys.jumpToPosition].visibility } 
           ariaLabel={ Locale.reader.jumpToPosition.trigger }
           SVG={ TargetIcon } 

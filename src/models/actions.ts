@@ -24,9 +24,18 @@ export enum ActionComponentVariant {
   menu = "menuItem"
 }
 
-export interface IActionComponent {
+export interface IActionsMapObject {
+  trigger: React.FC<IActionComponentTrigger>;
+  container?: React.FC<IActionComponentContainer>;
+}
+
+export interface IActionComponentTrigger {
   variant: ActionComponentVariant;
   associatedKey?: ActionsStateKeys;
+}
+
+export interface IActionComponentContainer {
+  triggerRef: RefObject<HTMLElement | null>;
 }
 
 export interface IActions {
@@ -44,14 +53,14 @@ export interface IActionsWithCollapsibility extends IActions {
 }
 
 export interface IActionsItem {
-  Comp: React.FunctionComponent<IActionComponent>;
+  Trigger: React.FunctionComponent<IActionComponentTrigger>;
+  Container?: React.FunctionComponent<IActionComponentContainer>
   key: ActionKeys | DockingKeys;
   associatedKey?: ActionsStateKeys;
 }
 
 export interface IActionIconProps {
   className?: string;
-  ref: RefObject<HTMLButtonElement | null>;
   ariaLabel: string;
   SVG: ComponentType<SVGProps<SVGElement>>;
   placement: TooltipProps["placement"];
@@ -63,6 +72,7 @@ export interface IActionIconProps {
 
 export interface IOverflowMenu {
   id: string;
+  actionItems: IActionsItem[];
   className?: string;
   actionFallback?: boolean;
   display: boolean;

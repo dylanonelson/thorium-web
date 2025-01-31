@@ -5,7 +5,7 @@ import Locale from "../../../resources/locales/en.json";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
-import { ActionComponentVariant, IActionComponent } from "@/models/actions";
+import { ActionComponentVariant, IActionComponentTrigger } from "@/models/actions";
 import { DockingKeys } from "@/models/docking";
 import { LayoutDirection } from "@/models/layout";
 
@@ -19,8 +19,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
 import { useActions } from "@/hooks/useActions";
 
-export const DockStartAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
+export const DockStartAction: React.FC<IActionComponentTrigger> = ({ variant, associatedKey }) => {
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === LayoutDirection.rtl;
   const localeKey = isRTL ? Locale.reader.app.docker.dockToRight : Locale.reader.app.docker.dockToLeft;
@@ -51,7 +50,6 @@ export const DockStartAction: React.FC<IActionComponent> = ({ variant, associate
           isDisabled={ isDisabled }
         />
       : <ActionIcon 
-          ref={ triggerRef }
           className={ readerSharedUI.dockerButton }  
           ariaLabel={ localeKey.trigger }
           SVG={ isRTL ? DocktoRight : DockToLeft } 

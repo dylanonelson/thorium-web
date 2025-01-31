@@ -7,7 +7,7 @@ import dockerStyles from "../../assets/styles/docking.module.css";
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { DockingKeys, IDocker } from "@/models/docking";
-import { IActionComponent, IActionsItem } from "@/models/actions";
+import { IActionsItem, IActionsMapObject } from "@/models/actions";
 
 import { CloseButton } from "../../CloseButton";
 import { ActionsWithCollapsibility } from "@/components/ActionsWithCollapsibility";
@@ -15,10 +15,16 @@ import { DockStartAction } from "./DockStartAction";
 import { DockEndAction } from "./DockEndAction";
 import { PopoverSheetAction } from "./PopoverSheetAction";
 
-const DockingActionsMap: { [key in DockingKeys]: React.FC<IActionComponent> } = {
-  [DockingKeys.start]: DockStartAction,
-  [DockingKeys.end]: DockEndAction,
-  [DockingKeys.transient]: PopoverSheetAction,
+const DockingActionsMap: { [key in DockingKeys]: IActionsMapObject } = {
+  [DockingKeys.start]: {
+    trigger: DockStartAction
+  },
+  [DockingKeys.end]: {
+    trigger: DockEndAction
+  },
+  [DockingKeys.transient]: {
+    trigger: PopoverSheetAction
+  }
 };
 
 export const Docker = ({
@@ -33,7 +39,7 @@ export const Docker = ({
 
     keys.map((key) => {
       actionsItems.push({
-        Comp: DockingActionsMap[key],
+        Trigger: DockingActionsMap[key].trigger,
         key: key,
         associatedKey: id
       })

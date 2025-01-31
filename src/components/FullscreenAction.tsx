@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
-import { ActionComponentVariant, ActionKeys, IActionComponent } from "@/models/actions";
+import { ActionComponentVariant, ActionKeys, IActionComponentTrigger } from "@/models/actions";
 
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
@@ -19,10 +19,9 @@ import { useAppDispatch } from "@/lib/hooks";
 import { setHovering } from "@/lib/readerReducer";
 import { isIOSish } from "@/helpers/keyboard/getPlatform";
 
-export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
+export const FullscreenAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
   // Note: Not using React Aria ToggleButton here as fullscreen is quite
   // difficult to control in isolation due to collapsibility + shortcuts
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   const fs = useFullscreen();
   const dispatch = useAppDispatch();
@@ -51,7 +50,6 @@ export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
           id={ ActionKeys.fullscreen }
         />
       : <ActionIcon 
-          ref={ triggerRef }
           className={ readerSharedUI.iconCompSm }
           visibility={ RSPrefs.actions.keys[ActionKeys.fullscreen].visibility }  
           ariaLabel={ fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger }

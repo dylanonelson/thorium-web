@@ -5,7 +5,7 @@ import Locale from "../../../resources/locales/en.json";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
-import { ActionComponentVariant, IActionComponent } from "@/models/actions";
+import { ActionComponentVariant, IActionComponentTrigger } from "@/models/actions";
 import { DockingKeys } from "@/models/docking";
 
 import Dialog from "../../assets/icons/dialogs.svg";
@@ -18,8 +18,7 @@ import { useActions } from "@/hooks/useActions";
 import { useAppDispatch } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
 
-export const FullscreenSheetAction: React.FC<IActionComponent> = ({ variant, associatedKey }) => {
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
+export const FullscreenSheetAction: React.FC<IActionComponentTrigger> = ({ variant, associatedKey }) => {
   const actions = useActions();
   const isDisabled = !actions.isDocked(associatedKey);
   
@@ -46,7 +45,6 @@ export const FullscreenSheetAction: React.FC<IActionComponent> = ({ variant, ass
           isDisabled={ isDisabled }
         />
       : <ActionIcon 
-          ref={ triggerRef }
           className={ readerSharedUI.dockerButton }  
           ariaLabel={ Locale.reader.app.docker.fullscreen.trigger }
           SVG={ Dialog } 

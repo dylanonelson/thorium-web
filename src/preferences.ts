@@ -194,7 +194,7 @@ export const RSPrefs: IRSPrefs = {
     }, 
     keys: {
       [ActionKeys.settings]: {
-        visibility: ActionVisibility.always,
+        visibility: ActionVisibility.partially,
         shortcut: `${ShortcutMetaKeywords.platform}+P`,
         sheet: {
           defaultSheet: SheetTypes.popover,
@@ -214,11 +214,11 @@ export const RSPrefs: IRSPrefs = {
         }
       },
       [ActionKeys.fullscreen]: {
-        visibility: ActionVisibility.always,
+        visibility: ActionVisibility.partially,
         shortcut: `${ShortcutMetaKeywords.platform}+F11`
       },
       [ActionKeys.toc]: {
-        visibility: ActionVisibility.always,
+        visibility: ActionVisibility.partially,
         shortcut: `${ShortcutMetaKeywords.platform}+N`,
         sheet: {
           defaultSheet: SheetTypes.popover,

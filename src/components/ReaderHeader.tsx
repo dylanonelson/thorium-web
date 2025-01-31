@@ -3,15 +3,15 @@ import React, { useCallback, useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
-import { ActionKeys, IActionsItem } from "@/models/actions";
+import { ActionKeys, IActionsItem, IActionsMapObject } from "@/models/actions";
 
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
 import { FullscreenAction } from "./FullscreenAction";
 import { JumpToPositionAction } from "./JumpToPositionAction";
-import { SettingsAction } from "./SettingsAction";
-import { TocAction } from "./TocAction";
+import { SettingsAction, SettingsActionContainer } from "./SettingsAction";
+import { TocAction, TocActionContainer } from "./TocAction";
 import { RunningHead } from "./RunningHead";
 import { ActionsWithCollapsibility } from "./ActionsWithCollapsibility";
 
@@ -20,11 +20,21 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-const ActionsMap = {
-  [ActionKeys.fullscreen]: FullscreenAction,
-  [ActionKeys.jumpToPosition]: JumpToPositionAction,
-  [ActionKeys.settings]: SettingsAction,
-  [ActionKeys.toc]: TocAction
+const ActionsMap: { [key in ActionKeys]: IActionsMapObject } = {
+  [ActionKeys.fullscreen]: {
+    trigger: FullscreenAction
+  },
+  [ActionKeys.jumpToPosition]: {
+    trigger: JumpToPositionAction
+  },
+  [ActionKeys.settings]: {
+    trigger: SettingsAction,
+    container: SettingsActionContainer
+  },
+  [ActionKeys.toc]: {
+    trigger: TocAction,
+    container: TocActionContainer
+  }
 }
 
 export const ReaderHeader = () => {
@@ -57,7 +67,8 @@ export const ReaderHeader = () => {
 
     actionsOrder.current.map((key: ActionKeys) => {
       actionsItems.push({
-        Comp: ActionsMap[key],
+        Trigger: ActionsMap[key].trigger,
+        Container: ActionsMap[key].container,
         key: key
       });
     });
@@ -82,8 +93,8 @@ export const ReaderHeader = () => {
         prefs={ RSPrefs.actions }
         className={ readerHeaderStyles.actionsWrapper } 
         label={ Locale.reader.app.header.actions } 
-      //  overflowActionCallback={ true }
-      //  overflowMenuDisplay={ (!isImmersive || isHovering) }
+        overflowActionCallback={ true }
+        overflowMenuDisplay={ (!isImmersive || isHovering) }
       />
     </header>
     </>
