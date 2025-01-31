@@ -1,3 +1,5 @@
+import { Fragment, useRef } from "react";
+
 import { ActionComponentVariant, IActionsWithCollapsibility } from "@/models/actions";
 
 import { OverflowMenu } from "./OverflowMenu";
@@ -12,23 +14,29 @@ export const ActionsWithCollapsibility = ({
   overflowActionCallback,
   overflowMenuClassName,
   overflowMenuDisplay,
-  label,
+  label
 }: IActionsWithCollapsibility) => {
+  const ref = useRef<HTMLDivElement | null>(null);
   const Actions = useCollapsibility(items, prefs);
 
   return (
     <>
     <div 
+      ref={ ref }
       className={ className } 
       aria-label={ label }
     >
-      { Actions.ActionIcons.map(({ Comp, key, associatedKey, ...props }) => 
-          <Comp 
-            key={ key } 
-            variant={ ActionComponentVariant.button }
-            { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
-            { ...props }
-          />) 
+      { Actions.ActionIcons.map(({ Trigger, Container, key, associatedKey, ...props }) => 
+          <Fragment key={ key }>
+            <Trigger 
+              key={ `${ key }-trigger` } 
+              variant={ ActionComponentVariant.button }
+              { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
+              { ...props }
+            />
+            { Container && <Container key={ `${ key }-container` } triggerRef={ ref } /> }
+          </Fragment>
+        ) 
       }
 
       <OverflowMenu 
@@ -36,15 +44,8 @@ export const ActionsWithCollapsibility = ({
         display={ overflowMenuDisplay || true }
         className={ overflowMenuClassName } 
         actionFallback={ overflowActionCallback }
-      >
-        { Actions.MenuItems.map(({ Comp, key, associatedKey, ...props }) => 
-          <Comp 
-            key={ key } 
-            variant={ ActionComponentVariant.menu }
-            { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
-            { ...props }
-          />) }
-      </OverflowMenu> 
+        actionItems={ Actions.MenuItems }
+      />
     </div>
     </>
   )

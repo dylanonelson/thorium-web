@@ -17,7 +17,7 @@ export type BreakpointsSheetMap = {
 
 export interface ISheet {
   id: ActionsStateKeys;
-  triggerRef: RefObject<HTMLButtonElement | null>;
+  triggerRef: RefObject<HTMLElement | null>;
   heading: string;
   className: string;
   isOpen: boolean;

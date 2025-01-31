@@ -2,13 +2,13 @@ import React, { useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
 
-import { ActionVisibility, IOverflowMenu } from "@/models/actions";
+import { ActionComponentVariant, ActionVisibility, IOverflowMenu } from "@/models/actions";
 
 import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
 import MenuIcon from "./assets/icons/more_vert.svg";
 
-import { Key, Menu, MenuTrigger, Popover } from "react-aria-components";
+import { Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
 
 import { useAppDispatch } from "@/lib/hooks";
@@ -20,9 +20,9 @@ export const OverflowMenu = ({
   className, 
   actionFallback,
   display,
-  children 
+  actionItems 
 }: IOverflowMenu) => {
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   const dispatch = useAppDispatch();
 
@@ -33,12 +33,11 @@ export const OverflowMenu = ({
     }));
   }
 
-  if (React.Children.toArray(children).length > 0 && (display)) {
+  if (actionItems.length > 0 && (display)) {
     return (
       <>
       <MenuTrigger onOpenChange={ (val) => toggleMenuState(val) }>
         <ActionIcon 
-          ref={ triggerRef }
           className={ className ? className : overflowMenuStyles.activeButton }
           ariaLabel={ Locale.reader.overflowMenu.active.trigger }
           SVG={ MenuIcon } 
@@ -51,15 +50,25 @@ export const OverflowMenu = ({
           className={ overflowMenuStyles.overflowPopover }
         >
           <Menu 
+            ref={ ref }
             id={ id }
             selectionMode="none" 
-            onAction={ (key: Key) => { console.log(key) } } 
             className={ overflowMenuStyles.overflowMenu }
           >
-            { children }
+            { actionItems.map(({ Trigger, key, associatedKey, ...props }) => 
+              <Trigger 
+                key={ `${ key }-menuItem` } 
+                variant={ ActionComponentVariant.menu }
+                { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
+                { ...props }
+              />
+            )}
           </Menu>
         </Popover>
       </MenuTrigger>
+      { actionItems.map(({ Container, key }) => 
+        Container && <Container key={ `${ key }-container` } triggerRef={ ref } />
+      )}
       </>
     )
   } else {
@@ -67,7 +76,6 @@ export const OverflowMenu = ({
       return(
         <>
         <ActionIcon 
-          ref={ triggerRef }
           className={ className ? className : overflowMenuStyles.hintButton } 
           ariaLabel={ Locale.reader.overflowMenu.hint.trigger }
           SVG={ MenuIcon } 
