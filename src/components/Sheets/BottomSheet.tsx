@@ -180,7 +180,6 @@ const BottomSheetContainer = ({
 
 export const BottomSheet: React.FC<IBottomSheet> = ({
   id,
-  triggerRef,
   heading,
   className, 
   isOpen,
