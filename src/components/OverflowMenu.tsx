@@ -23,8 +23,6 @@ export const OverflowMenu = ({
   actionItems 
 }: IOverflowMenu) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const isImmersive = useAppSelector(state => state.reader.isImmersive);
-  const isHovering = useAppSelector(state => state.reader.isHovering);
 
   const dispatch = useAppDispatch();
 
@@ -74,7 +72,7 @@ export const OverflowMenu = ({
       </>
     )
   } else {
-    if (actionFallback && isImmersive && !isHovering) {
+    if (actionFallback) {
       return(
         <>
         <ActionIcon 

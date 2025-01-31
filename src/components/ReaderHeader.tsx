@@ -93,7 +93,7 @@ export const ReaderHeader = () => {
         prefs={ RSPrefs.actions }
         className={ readerHeaderStyles.actionsWrapper } 
         label={ Locale.reader.app.header.actions } 
-        overflowActionCallback={ true }
+        overflowActionCallback={ (isImmersive && !isHovering) }
         overflowMenuDisplay={ (!isImmersive || isHovering) }
       />
     </header>
