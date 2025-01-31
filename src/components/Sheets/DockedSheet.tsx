@@ -23,11 +23,9 @@ export interface IDockedSheet extends ISheet {
 
 export const DockedSheet: React.FC<IDockedSheet> = ({ 
     id,
-    triggerRef,
     heading,
     className, 
     isOpen,
-    onOpenChangeCallback, 
     onClosePressCallback,
     docker, 
     flow,

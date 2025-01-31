@@ -18,7 +18,6 @@ export interface IFullScreenSheet extends ISheet {};
 
 export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
     id, 
-    triggerRef,
     heading, 
     className, 
     isOpen,
