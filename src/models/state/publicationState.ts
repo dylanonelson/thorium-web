@@ -1,4 +1,5 @@
 import { IProgression } from "../progression";
+import { TocItem } from "../toc";
 
 export interface IPublicationState {
   runningHead?: string;
@@ -7,4 +8,5 @@ export interface IPublicationState {
   progression: IProgression;
   atPublicationStart: boolean;
   atPublicationEnd: boolean;
+  tocTree?: TocItem[];
 }
