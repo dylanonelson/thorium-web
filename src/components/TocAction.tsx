@@ -13,7 +13,7 @@ import TocIcon from "./assets/icons/toc.svg";
 import { ActionIcon } from "./Templates/ActionIcon";
 import { SheetWithType } from "./Sheets/SheetWithType";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
-import { Button, Collection } from "react-aria-components";
+import { Button, Collection, Key } from "react-aria-components";
 import {
   UNSTABLE_Tree as Tree,
   UNSTABLE_TreeItem as TreeItem,
@@ -43,7 +43,12 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
     }));
   }
 
-  const handleClick = (href: string) => {
+  const handleAction = (key: Key) => {
+    if (!key) return;
+    
+    const el = document.querySelector(`[data-key=${key}]`);
+    const href = el?.getAttribute("data-href");
+
     if (!href) return;
 
     const link: Link = new Link({ href: href });
@@ -83,12 +88,15 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
           selectionMode="none"
           items={ tocTree }
           className={ tocStyles.tocTree }
+          onAction={ handleAction }
         >
           { function renderItem(item) {
             return (
               <TreeItem 
+                data-href={ item.href }
                 className={ tocStyles.tocTreeItem }
-                textValue={ item.title || "" }>
+                textValue={ item.title || "" }
+              >
                 <TreeItemContent>
                   { item.children 
                     ? (<Button slot="chevron" className={ tocStyles.tocTreeItemButton }>
@@ -98,11 +106,7 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
                     </Button>) 
                     : null
                   }
-                    <div
-                      className={ tocStyles.tocTreeItemLink}
-                      data-href={ item.href } 
-                      onClick={ () => handleClick(item.href) }
-                    >
+                    <div className={ tocStyles.tocTreeItemText }>
                       { item.title }
                     </div>
                 </TreeItemContent>

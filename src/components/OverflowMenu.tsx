@@ -11,7 +11,7 @@ import MenuIcon from "./assets/icons/more_vert.svg";
 import { Menu, MenuTrigger, Popover } from "react-aria-components";
 import { ActionIcon } from "./Templates/ActionIcon";
 
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppDispatch } from "@/lib/hooks";
 import { toggleImmersive } from "@/lib/readerReducer";
 import { setOverflow } from "@/lib/actionsReducer";
 
