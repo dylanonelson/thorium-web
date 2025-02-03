@@ -189,6 +189,9 @@ export const RSPrefs: IRSPrefs = {
     //  ActionKeys.jumpToPosition
     ],
     collapse: {
+      // Number of partially icons to display
+      // value "all" a keyword for the length of displayOrder above
+      // Icons with visibility always are excluded from collapsing
       [StaticBreakpoints.compact]: 2,
       [StaticBreakpoints.medium]: 3
     }, 

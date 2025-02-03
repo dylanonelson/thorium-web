@@ -26,10 +26,10 @@ export const useCollapsibility = (items: IActionsItem[], prefs: IActionPref & ID
               countdown = 0;
             } else if (!isNaN(prefForBreakpoint)) {
               if (prefForBreakpoint === items.length) {
-                // We must take the overflow icon into account so that
-                // it doesn’t contain only one partially visible item 
                 countdown = 0;
               } else if (prefForBreakpoint < items.length) {
+                // We must take the overflow icon into account so that
+                // it doesn’t contain only one partially visible item 
                 countdown = items.length - (prefForBreakpoint - 1);
               }
             }
