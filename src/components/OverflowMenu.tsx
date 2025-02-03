@@ -54,6 +54,7 @@ export const OverflowMenu = ({
             id={ id }
             selectionMode="none" 
             className={ overflowMenuStyles.overflowMenu }
+            dependencies={ ["Trigger"] }
           >
             { actionItems.map(({ Trigger, key, associatedKey, ...props }) => 
               <Trigger 

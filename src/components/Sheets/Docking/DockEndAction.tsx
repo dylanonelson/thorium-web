@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../../../resources/locales/en.json";
