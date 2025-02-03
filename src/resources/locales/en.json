@@ -68,6 +68,7 @@
       "trigger": "Table of contents",
       "close": "Close table of contents",
       "heading": "Table of contents",
+      "entries": "Entries in the table",
       "empty": "The table of contents was not provided for this publication."
     },
     "jumpToPosition": {
