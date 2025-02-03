@@ -4,9 +4,12 @@ import { IThemeState } from "@/models/state/themingState";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
 
 const initialState: IThemeState = {
+  monochrome: false,
   colorScheme: ColorScheme.light,
   theme: ThemeKeys.auto,
   prefersReducedMotion: false,
+  prefersContrast: false,
+  forcedColors: false, 
   hasReachedDynamicBreakpoint: false,
   staticBreakpoint: undefined
 }
@@ -15,6 +18,9 @@ export const themeSlice = createSlice({
   name: "theming",
   initialState,
   reducers: {
+    setMonochrome: (state, action) => {
+      state.monochrome = action.payload
+    },
     setColorScheme: (state, action) => {
       state.colorScheme = action.payload
     },
@@ -23,6 +29,12 @@ export const themeSlice = createSlice({
     },
     setReducedMotion: (state, action) => {
       state.prefersReducedMotion = action.payload
+    },
+    setContrast: (state, action) => {
+      state.prefersContrast = action.payload
+    },
+    setForcedColors: (state, action) => {
+      state.forcedColors = action.payload
     },
     setDynamicBreakpoint: (state, action) => {
       state.hasReachedDynamicBreakpoint = action.payload
@@ -35,9 +47,12 @@ export const themeSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { 
+  setMonochrome, 
   setColorScheme, 
   setTheme, 
   setReducedMotion, 
+  setContrast, 
+  setForcedColors, 
   setDynamicBreakpoint, 
   setStaticBreakpoint,
 } = themeSlice.actions;

@@ -6,6 +6,9 @@ import { ColorScheme, ThemeKeys } from "@/models/theme";
 import { useBreakpoints } from "./useBreakpoints";
 import { useReducedMotion } from "./useReducedMotion";
 import { useColorScheme } from "./useColorScheme";
+import { useContrast } from "./useContrast";
+import { useForcedColors } from "./useForcedColors";
+import { useMonochrome } from "./useMonochrome";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -16,8 +19,11 @@ import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 export const useTheming = () => {
   const breakpoints = useBreakpoints();
   const reducedMotion = useReducedMotion();
+  const monochrome = useMonochrome();
   const colorScheme = useColorScheme();
   const colorSchemeRef = useRef(colorScheme);
+  const contrast = useContrast();
+  const forcedColors = useForcedColors();
   const theme = useAppSelector(state => state.theming.theme);
 
   const inferThemeAuto = useCallback(() => {
@@ -58,7 +64,10 @@ export const useTheming = () => {
 
   return {
     breakpoints,
+    monochrome, 
     colorScheme,
+    contrast, 
+    forcedColors, 
     reducedMotion, 
     inferThemeAuto
   }
