@@ -60,12 +60,12 @@
     },
     "fullscreen": {
       "tooltip": "Fullscreen",
-      "trigger": "Toggle fullscreen",
+      "trigger": "Fullscreen mode",
       "close": "Exit fullscreen"    
     },
     "toc": {
       "tooltip": "Table of contents",
-      "trigger": "Toggle table of contents",
+      "trigger": "Table of contents",
       "close": "Close table of contents",
       "heading": "Table of contents",
       "empty": "The table of contents was not provided for this publication."
@@ -81,12 +81,12 @@
       },
       "hint": {
         "tooltip": "Toggle actions",
-        "trigger": "Toggle immersive"
+        "trigger": "Display actions"
       }
     },
     "settings": {
       "tooltip": "Settings",
-      "trigger": "Toggle settings menu",
+      "trigger": "Settings menu",
       "close": "Close settings menu",
       "heading": "Display settings",
       "themes": {
