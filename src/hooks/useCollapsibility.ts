@@ -23,9 +23,15 @@ export const useCollapsibility = (items: IActionsItem[], prefs: IActionPref & ID
           const prefForBreakpoint = prefs.collapse[staticBreakpoint];
           if (prefForBreakpoint) {
             if (prefForBreakpoint === "all") {
-              countdown = items.length;
-            } else if (!isNaN(prefForBreakpoint) && prefForBreakpoint <= items.length) {
-              countdown = prefForBreakpoint;
+              countdown = 0;
+            } else if (!isNaN(prefForBreakpoint)) {
+              if (prefForBreakpoint === items.length) {
+                // We must take the overflow icon into account so that
+                // it doesn’t contain only one partially visible item 
+                countdown = 0;
+              } else if (prefForBreakpoint < items.length) {
+                countdown = items.length - (prefForBreakpoint - 1);
+              }
             }
           }
         }
@@ -36,6 +42,7 @@ export const useCollapsibility = (items: IActionsItem[], prefs: IActionPref & ID
         const actionPref = prefs.keys[item.key];
         if (actionPref.visibility === ActionVisibility.overflow) {
           menuItems.unshift(item);
+          --countdown;
         } else if (actionPref.visibility === ActionVisibility.partially) {
           if (countdown > 0) {
             menuItems.unshift(item);
