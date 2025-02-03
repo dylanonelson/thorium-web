@@ -11,7 +11,7 @@
 .tocTreeItem {
   display: flex;
   padding: calc(var(--layout-spacing) / 2);
-  padding-inline-start: calc((var(--tree-item-level) - 1) * var(--layout-spacing));
+  padding-inline-start: calc(((var(--tree-item-level) - 1) * var(--layout-spacing)) + (var(--layout-spacing) / 2));
   border-radius: var(--layout-radius);
 }
 
