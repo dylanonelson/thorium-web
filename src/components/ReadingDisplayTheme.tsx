@@ -107,35 +107,30 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
 
   return (
     <>
-    <div>
-      <RadioGroup 
-        ref={ radioGroupRef }
-        orientation="horizontal" 
-        value={ theme }
-        onChange={ handleTheme }
-      >
-        <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
-        <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
-          { themeItems.current.map(( t ) => 
-            <Radio
-              className={ classNames(
-                settingsStyles.readerSettingsRadio, 
-                settingsStyles.readerSettingsThemeRadio
-              ) }
-              value={ t }
-              id={ t }
-              key={ t }
-              style={ doStyles(t) }
-              { ...(mapArrowNav && !isNaN(mapArrowNav) ? {
-                onKeyDown: handleKeyboardNav
-              } : {}) }
-            >
-            <span>{ Locale.reader.settings.themes[t as keyof typeof ThemeKeys] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
-            </Radio>
-          ) }
-        </div>
-      </RadioGroup>
-    </div>
+    <RadioGroup 
+      orientation="horizontal" 
+      value={ theme }
+      onChange={ handleTheme } 
+      className={ settingsStyles.readerSettingsReadioGroup }
+    >
+      <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
+      <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
+        { themeItems.current.map(( t ) => 
+          <Radio
+            className={ classNames(
+              settingsStyles.readerSettingsRadio, 
+              settingsStyles.readerSettingsThemeRadio
+            ) }
+            value={ t }
+            id={ t }
+            key={ t }
+            style={ doStyles(t) }
+          >
+          <span>{ Locale.reader.settings.themes[t as keyof typeof ThemeKeys] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
+          </Radio>
+        ) }
+      </div>
+    </RadioGroup>
     </>
   )
 }

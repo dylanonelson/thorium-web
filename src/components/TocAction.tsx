@@ -3,6 +3,7 @@ import React from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
+import { Link } from "@readium/shared";
 import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
 
 import tocStyles from "./assets/styles/toc.module.css";
@@ -19,6 +20,7 @@ import {
   UNSTABLE_TreeItemContent as TreeItemContent,
 } from "react-aria-components";
 
+import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useDocking } from "@/hooks/useDocking";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -28,6 +30,7 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
   const tocTree = useAppSelector(state => state.publication.tocTree);
   const dispatch = useAppDispatch();
+  const { goLink } = useEpubNavigator();
 
   const docking = useDocking(ActionKeys.toc);
   const sheetType = docking.sheetType;
@@ -38,6 +41,11 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
       isOpen: value 
     }));
   }
+
+  const handleClick = (href:string) => {
+    const link: Link = new Link({ href: href });
+    goLink(link,true, () => {});
+  };
 
   return(
     <>
