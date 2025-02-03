@@ -190,7 +190,7 @@ export const RSPrefs: IRSPrefs = {
     ],
     collapse: {
       [StaticBreakpoints.compact]: 2,
-      [StaticBreakpoints.medium]: 1
+      [StaticBreakpoints.medium]: 3
     }, 
     keys: {
       [ActionKeys.settings]: {
