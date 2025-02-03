@@ -84,7 +84,7 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
     >
       { tocTree && tocTree.length > 0 
       ? (<Tree
-          aria-label="Files"
+          aria-label={ Locale.reader.toc.entries }
           selectionMode="none"
           items={ tocTree }
           className={ tocStyles.tocTree }
