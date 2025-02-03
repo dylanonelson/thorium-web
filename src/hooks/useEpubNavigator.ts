@@ -316,7 +316,7 @@ export const useEpubNavigator = () => {
 
         if (navigatorInstance?.layout === EPUBLayout.fixed) {
           // @ts-ignore
-          FXLPositionChanged.observe((nav.current?.pool.spineElement as HTMLElement), {
+          FXLPositionChanged.observe((navigatorInstance?.pool.spineElement as HTMLElement), {
             attributeFilter: ["style"], 
             attributeOldValue: true
           });
