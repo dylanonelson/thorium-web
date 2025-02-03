@@ -18,6 +18,8 @@ import { CloseButton } from "../CloseButton";
 
 import { FocusScope, OverlayProvider, useButton, useDialog, useModal, useOverlay } from "react-aria";
 
+import { useAppSelector } from "@/lib/hooks";
+
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
 import classNames from "classnames";
@@ -187,6 +189,8 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   onClosePressCallback,
   children 
 }) => {
+  const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
+
   const sheetRef = useRef<SheetRef | null>(null);
   const sheetContainerRef = useRef<HTMLDivElement | null>(null);
   const bottomSheetBodyRef = useRef<HTMLDivElement | null>(null);
@@ -398,6 +402,13 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
           }) 
         }
         onSnap={ (index) => { snapIdx.current = index }}
+        prefersReducedMotion={ reducedMotion }
+        // Otherwise buggy with prefersReducedMotion
+        // as the bottom sheet won’t be displayed on mount
+        style={{
+          zIndex: isOpen ? "999999" : "-1",
+          visibility: isOpen ? "visible" : "hidden"
+        }}
       >
         <OverlayProvider>
           <FocusScope 
