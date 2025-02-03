@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
@@ -10,9 +10,14 @@ import tocStyles from "./assets/styles/toc.module.css";
 import TocIcon from "./assets/icons/toc.svg";
 
 import { ActionIcon } from "./Templates/ActionIcon";
-import { ListBox, ListBoxItem } from "react-aria-components";
 import { SheetWithType } from "./Sheets/SheetWithType";
 import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
+import { Button, Collection } from "react-aria-components";
+import {
+  UNSTABLE_Tree as Tree,
+  UNSTABLE_TreeItem as TreeItem,
+  UNSTABLE_TreeItemContent as TreeItemContent,
+} from "react-aria-components";
 
 import { useDocking } from "@/hooks/useDocking";
 
@@ -21,6 +26,7 @@ import { setActionOpen } from "@/lib/actionsReducer";
 
 export const TocActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
+  const tocTree = useAppSelector(state => state.publication.tocTree);
   const dispatch = useAppDispatch();
 
   const docking = useDocking(ActionKeys.toc);
@@ -49,14 +55,36 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
         docker: docking.getDocker()
       } }
     >
-      {/* toc.items.length > 0 
-        ? <ListBox className={ tocStyles.listBox } items={ toc.items }>
-            { item => <ListBoxItem className={ tocStyles.listItem } id={ item.title } data-href={ item.href }>{ item.title }</ListBoxItem> }
-          </ListBox>
-        : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
-      */}
-        
-      <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
+      { tocTree && tocTree.length > 0 
+      ? (<Tree
+          aria-label="Files"
+          selectionMode="multiple"
+          items={ tocTree }
+          className={ tocStyles.reactAriaTree }
+        >
+          { function renderItem(item) {
+            return (
+              <TreeItem textValue={ item.title || "" }>
+                <TreeItemContent>
+                  { item.children 
+                    ? (<Button slot="chevron">
+                        <svg viewBox="0 0 24 24">
+                        <path d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                      </svg>
+                    </Button>) 
+                    : null
+                  }
+                    {item.title}
+                </TreeItemContent>
+                <Collection items={ item.children }>
+                  { renderItem }
+                </Collection>
+              </TreeItem>
+            );
+          }}
+        </Tree>) 
+      : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
+    }
     </SheetWithType>
     </>
   )
