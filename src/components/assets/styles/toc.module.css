@@ -1,13 +1,66 @@
-.toc {}
-
-.listBox {
-  max-height: calc(100vh - (var(--icon-size, 24px) * 6));
-  max-height: calc(100dvh - (var(--icon-size, 24px) * 6));
-  overflow-y: scroll;
+.tocTree {
+  background: var(--theme-background);
+  color: var(--theme-text);
+  outline: none;
+  width: 100%;
+  max-height: 100%;
+  box-sizing: border-box;
 }
 
-.listItem {
-  display: block;
+/* React Aria is providing a --tree-item-level as items are not nested */
+.tocTreeItem {
+  display: flex;
+  padding: calc(var(--layout-spacing) / 2);
+  padding-inline-start: calc((var(--tree-item-level) - 1) * var(--layout-spacing));
+  border-radius: var(--layout-radius);
+}
+
+.tocTreeItemLink {
+  order: 1;
+  flex: 1 1 auto;
+}
+
+.tocTreeItemButton {
+  order: 2;
+  align-self: flex-end;
+  width: calc(var(--icon-size, 24px) * 5/6);
+  height: calc(var(--icon-size, 24px) * 5/6);
+  margin-inline-start: auto;
+}
+
+.tocTreeItemButton + .tocTreeItemLink {
+  flex: 0 0 auto;
+}
+
+.tocTreeItem *[data-href] {
+  cursor: pointer;
+}
+
+/* [data-hover] is only updated on tree items that can be expanded ATM… */
+.tocTreeItem:hover {
+  background-color: var(--theme-hover);
+}
+
+.tocTreeItem[data-focus-visible] {
+  outline: 2px solid var(--theme-focus);
+}
+
+.tocTreeItem[data-disabled] {
+  color: var(--theme-disable);
+}
+
+.tocTreeItemButton svg {
+  rotate: 0deg;
+  transition: rotate 200ms;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3px;
+}
+
+.tocTreeItem[data-expanded] .tocTreeItemButton svg {
+  rotate: 90deg;
 }
 
 .empty {

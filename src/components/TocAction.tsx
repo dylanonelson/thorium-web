@@ -25,6 +25,7 @@ import { useDocking } from "@/hooks/useDocking";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
+import { SheetTypes } from "@/models/sheets";
 
 export const TocActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
@@ -42,9 +43,22 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
     }));
   }
 
-  const handleClick = (href:string) => {
+  const handleClick = (href: string) => {
+    if (!href) return;
+
     const link: Link = new Link({ href: href });
-    goLink(link,true, () => {});
+
+    const cb = actionState.isOpen && 
+      (sheetType === SheetTypes.dockedStart || sheetType === SheetTypes.dockedEnd)
+        ? () => {} 
+        : () => {
+          dispatch(setActionOpen({ 
+            key: ActionKeys.toc,
+            isOpen: false 
+          }));
+        }
+
+    goLink(link, true, cb);
   };
 
   return(
@@ -66,23 +80,31 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
       { tocTree && tocTree.length > 0 
       ? (<Tree
           aria-label="Files"
-          selectionMode="multiple"
+          selectionMode="none"
           items={ tocTree }
-          className={ tocStyles.reactAriaTree }
+          className={ tocStyles.tocTree }
         >
           { function renderItem(item) {
             return (
-              <TreeItem textValue={ item.title || "" }>
+              <TreeItem 
+                className={ tocStyles.tocTreeItem }
+                textValue={ item.title || "" }>
                 <TreeItemContent>
                   { item.children 
-                    ? (<Button slot="chevron">
+                    ? (<Button slot="chevron" className={ tocStyles.tocTreeItemButton }>
                         <svg viewBox="0 0 24 24">
                         <path d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                       </svg>
                     </Button>) 
                     : null
                   }
-                    {item.title}
+                    <div
+                      className={ tocStyles.tocTreeItemLink}
+                      data-href={ item.href } 
+                      onClick={ () => handleClick(item.href) }
+                    >
+                      { item.title }
+                    </div>
                 </TreeItemContent>
                 <Collection items={ item.children }>
                   { renderItem }
