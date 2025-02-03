@@ -33,9 +33,10 @@ import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
 import { localData } from "@/helpers/localData";
 import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
+import { createTocTree } from "@/helpers/toc/createTocTree";
 
 import { setImmersive, setHovering, toggleImmersive, setPlatformModifier, setDirection, setArrows } from "@/lib/readerReducer";
-import { setFXL, setRTL, setProgression, setRunningHead } from "@/lib/publicationReducer";
+import { setFXL, setRTL, setProgression, setRunningHead, setTocTree } from "@/lib/publicationReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
@@ -331,6 +332,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     let positionsList: Locator[] | undefined;
 
+    // Create a heirarchical tree structure for the table of contents
+    // where each entry has a unique id property and store this on the publication state
+    let idCounter = 0;
+    const idGenerator = () => `toc-${++idCounter}`;
+    const tocTree = createTocTree(publication.current.tableOfContents?.items || [], idGenerator);
+    dispatch(setTocTree(tocTree));
 
     const fetchPositions = async () => {
       positionsList = await publication.current?.positionsFromManifest();
