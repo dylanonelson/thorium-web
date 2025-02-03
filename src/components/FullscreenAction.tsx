@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
@@ -26,6 +26,9 @@ export const FullscreenAction: React.FC<IActionComponentTrigger> = ({ variant })
   const fs = useFullscreen();
   const dispatch = useAppDispatch();
 
+  const label = fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger;
+  const icon = fs.isFullscreen ? FullscreenExit : FullscreenCorners;
+
   const handlePress = () => {
     fs.handleFullscreen();
     // Has to be dispatched manually, otherwise stays true… 
@@ -43,8 +46,8 @@ export const FullscreenAction: React.FC<IActionComponentTrigger> = ({ variant })
     <>
     { (variant && variant === ActionComponentVariant.menu) 
       ? <OverflowMenuItem 
-          label={ Locale.reader.fullscreen.trigger }
-          SVG={ FullscreenCorners } 
+          label={ label }
+          SVG={ icon } 
           shortcut={ RSPrefs.actions.keys[ActionKeys.fullscreen].shortcut }
           onActionCallback={ fs.handleFullscreen } 
           id={ ActionKeys.fullscreen }
@@ -52,8 +55,8 @@ export const FullscreenAction: React.FC<IActionComponentTrigger> = ({ variant })
       : <ActionIcon 
           className={ readerSharedUI.iconCompSm }
           visibility={ RSPrefs.actions.keys[ActionKeys.fullscreen].visibility }  
-          ariaLabel={ fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger }
-          SVG={ fs.isFullscreen ? FullscreenExit : FullscreenCorners } 
+          ariaLabel={ label }
+          SVG={ icon } 
           placement="bottom" 
           tooltipLabel={ Locale.reader.fullscreen.tooltip } 
           onPressCallback={ handlePress } 

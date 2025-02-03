@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
