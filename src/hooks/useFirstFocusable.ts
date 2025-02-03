@@ -21,11 +21,11 @@ export const useFirstFocusable = ({
     const firstFocusable: HTMLElement | null = withinRef.current.querySelector("[data-selected]");
         
     if (firstFocusable) {
-      firstFocusable.focus();
+      firstFocusable.focus({ preventScroll: true });
       focusedElement.current = firstFocusable;
     } else {
       if (fallbackRef?.current) {
-        fallbackRef.current.focus();
+        fallbackRef.current.focus({ preventScroll: true });
         focusedElement.current = fallbackRef.current;
       } else {
         focusedElement.current = null;

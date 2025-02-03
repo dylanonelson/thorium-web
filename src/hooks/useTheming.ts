@@ -3,7 +3,8 @@ import { useCallback, useEffect, useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
 
-import { useBreakpoints } from "./useBreakpoints"
+import { useBreakpoints } from "./useBreakpoints";
+import { useReducedMotion } from "./useReducedMotion";
 import { useColorScheme } from "./useColorScheme";
 
 import { useAppSelector } from "@/lib/hooks";
@@ -14,6 +15,7 @@ import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 // Reader still has to handle the side effects on Navigator
 export const useTheming = () => {
   const breakpoints = useBreakpoints();
+  const reducedMotion = useReducedMotion();
   const colorScheme = useColorScheme();
   const colorSchemeRef = useRef(colorScheme);
   const theme = useAppSelector(state => state.theming.theme);
@@ -57,6 +59,7 @@ export const useTheming = () => {
   return {
     breakpoints,
     colorScheme,
+    reducedMotion, 
     inferThemeAuto
   }
 }
