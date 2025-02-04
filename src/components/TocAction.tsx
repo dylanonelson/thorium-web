@@ -10,9 +10,9 @@ import tocStyles from "./assets/styles/toc.module.css";
 
 import TocIcon from "./assets/icons/toc.svg";
 
-import { ActionIcon } from "./Templates/ActionIcon";
+import { ActionIcon } from "./ActionTriggers/ActionIcon";
 import { SheetWithType } from "./Sheets/SheetWithType";
-import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
+import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
 import { Button, Collection, Key } from "react-aria-components";
 import {
   UNSTABLE_Tree as Tree,

@@ -12,8 +12,8 @@ import { LayoutDirection } from "@/models/layout";
 import DockToLeft from "../../assets/icons/dock_to_right.svg";
 import DocktoRight from "../../assets/icons/dock_to_left.svg";
 
-import { ActionIcon } from "@/components/Templates/ActionIcon";
-import { OverflowMenuItem } from "@/components/Templates/OverflowMenuItem";
+import { ActionIcon } from "@/components/ActionTriggers/ActionIcon";
+import { OverflowMenuItem } from "@/components/ActionTriggers/OverflowMenuItem";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";

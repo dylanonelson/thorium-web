@@ -10,8 +10,8 @@ import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 import FullscreenCorners from "./assets/icons/fullscreen.svg";
 import FullscreenExit from "./assets/icons/fullscreen_exit.svg";
 
-import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
-import { ActionIcon } from "./Templates/ActionIcon";
+import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
+import { ActionIcon } from "./ActionTriggers/ActionIcon";
 
 import { useFullscreen } from "@/hooks/useFullscreen";
 

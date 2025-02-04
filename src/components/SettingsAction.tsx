@@ -10,8 +10,8 @@ import settingsStyles from "./assets/styles/readerSettings.module.css";
 import TuneIcon from "./assets/icons/match_case.svg";
 
 import { SheetWithType } from "./Sheets/SheetWithType";
-import { ActionIcon } from "./Templates/ActionIcon";
-import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
+import { ActionIcon } from "./ActionTriggers/ActionIcon";
+import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 import { ReadingDisplayTheme } from "./ReadingDisplayTheme";

@@ -9,7 +9,7 @@ import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 import MenuIcon from "./assets/icons/more_vert.svg";
 
 import { Menu, MenuTrigger, Popover } from "react-aria-components";
-import { ActionIcon } from "./Templates/ActionIcon";
+import { ActionIcon } from "./ActionTriggers/ActionIcon";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { toggleImmersive } from "@/lib/readerReducer";
