@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
+import { RSPrefs } from "@/preferences";
+
 import { IReaderArrow } from "@/models/layout";
 import { StaticBreakpoints } from "@/models/staticBreakpoints";
 
@@ -12,7 +14,7 @@ import readerStateStyles from "./assets/styles/readerStates.module.css";
 import LeftArrow from "./assets/icons/arrow_back.svg";
 import RightArrow from "./assets/icons/arrow_forward.svg";
 
-import { Button, PressEvent, Tooltip, TooltipTrigger } from "react-aria-components";
+import { Button, Tooltip, TooltipTrigger } from "react-aria-components";
 
 import { usePrevious } from "@/hooks/usePrevious";
 
@@ -84,7 +86,15 @@ export const ArrowButton = (props: IReaderArrow) => {
   
   return (
     <>
-    <TooltipTrigger>
+    <TooltipTrigger 
+      { ...(RSPrefs.theming.arrow.tooltipDelay 
+        ? { 
+            delay: RSPrefs.theming.arrow.tooltipDelay,
+            closeDelay: RSPrefs.theming.arrow.tooltipDelay
+          } 
+        : {}
+      )}
+    >
       <Button
         ref={ button }
         aria-label={ label }

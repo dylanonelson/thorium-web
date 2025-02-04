@@ -80,7 +80,15 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
   
   return (
     <>
-    <TooltipTrigger>
+    <TooltipTrigger
+      { ...(RSPrefs.theming.icon.tooltipDelay 
+        ? { 
+            delay: RSPrefs.theming.icon.tooltipDelay,
+            closeDelay: RSPrefs.theming.icon.tooltipDelay
+          } 
+        : {}
+      )}
+    >
       <Button 
         ref={ triggerRef }
         className={ classNames(readerSharedUI.icon, handleClassNameFromState(), className) } 
