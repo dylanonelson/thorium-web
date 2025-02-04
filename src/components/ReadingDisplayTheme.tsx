@@ -108,10 +108,10 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
   return (
     <>
     <RadioGroup 
+      ref={ radioGroupRef }
       orientation="horizontal" 
       value={ theme }
-      onChange={ handleTheme } 
-      className={ settingsStyles.readerSettingsReadioGroup }
+      onChange={ handleTheme }
     >
       <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
       <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
@@ -125,9 +125,12 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
             id={ t }
             key={ t }
             style={ doStyles(t) }
+            { ...(mapArrowNav && !isNaN(mapArrowNav) ? {
+              onKeyDown: handleKeyboardNav
+            } : {}) }
           >
           <span>{ Locale.reader.settings.themes[t as keyof typeof ThemeKeys] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
-          </Radio>
+        </Radio>
         ) }
       </div>
     </RadioGroup>
