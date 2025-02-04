@@ -54,3 +54,9 @@ More details in [the @cloudflare/next-on-pages repo](https://github.com/cloudfla
 ## Icons
 
 The [Material Symbols and Icons](https://fonts.google.com/icons) are used as SVG (with default settings, outlined) but support for icon fonts may be added in the future.
+
+## Customize
+
+You can customize this project extensively through [Preferences](./src/preferences.ts): breakpoints, which and how to display actions, themes provided to users, configuration of the docking system, sizes and offsets of icons, etc.
+
+See [Customization in docs](./docs/Customization.md) for further details.
