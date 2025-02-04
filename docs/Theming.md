@@ -32,9 +32,9 @@ Object `layout` allows to configure:
 
 ## Arrows and icons
 
-Object `arrow` allows to configure the `size` and `offset` (in `px`) of the left and right `arrow` used to progress through paged resources.
+Object `arrow` allows to configure the `size` and `offset` (in `px`), as well as the `tooltipDelay` (in `ms`), of the left and right `arrow` used to progress through paged resources.
 
-Object `icon` allows to configure the `size` and `tooltipOffset` (in `px`) of icon buttons throughout the UI.
+Object `icon` allows to configure the `size` and `tooltipOffset` (in `px`), as well as the `tooltipDelay` (in `ms`), of icon buttons throughout the UI.
 
 ## Themes
 

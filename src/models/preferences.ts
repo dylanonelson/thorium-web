@@ -34,10 +34,12 @@ export interface IRSPrefs {
     arrow: {
       size: number;
       offset: number;
+      tooltipDelay?: number;
     };
     icon: {
       size: number;
       tooltipOffset: number;
+      tooltipDelay?: number;
     };
     layout: {
       radius: number;

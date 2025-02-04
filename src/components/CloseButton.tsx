@@ -20,7 +20,15 @@ export const CloseButton = ({
   if (withTooltip) {
     return (
       <>
-      <TooltipTrigger>
+      <TooltipTrigger
+        { ...(RSPrefs.theming.icon.tooltipDelay 
+          ? { 
+              delay: RSPrefs.theming.icon.tooltipDelay,
+              closeDelay: RSPrefs.theming.icon.tooltipDelay
+            } 
+          : {}
+        )}
+      >
         <Button 
           ref={ ref }
           className={ className || readerSharedUI.closeButton } 
