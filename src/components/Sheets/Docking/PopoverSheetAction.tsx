@@ -10,8 +10,8 @@ import { DockingKeys } from "@/models/docking";
 
 import Stack from "../../assets/icons/stack.svg";
 
-import { ActionIcon } from "@/components/Templates/ActionIcon";
-import { OverflowMenuItem } from "@/components/Templates/OverflowMenuItem";
+import { ActionIcon } from "@/components/ActionTriggers/ActionIcon";
+import { OverflowMenuItem } from "@/components/ActionTriggers/OverflowMenuItem";
 
 import { useActions } from "@/hooks/useActions";
 

@@ -10,8 +10,8 @@ import { DockingKeys } from "@/models/docking";
 
 import Dialog from "../../assets/icons/dialogs.svg";
 
-import { ActionIcon } from "@/components/Templates/ActionIcon";
-import { OverflowMenuItem } from "@/components/Templates/OverflowMenuItem";
+import { ActionIcon } from "@/components/ActionTriggers/ActionIcon";
+import { OverflowMenuItem } from "@/components/ActionTriggers/OverflowMenuItem";
 
 import { useActions } from "@/hooks/useActions";
 

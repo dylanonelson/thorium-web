@@ -7,8 +7,8 @@ import { ActionComponentVariant, ActionKeys, IActionComponentTrigger } from "@/m
 
 import TargetIcon from "./assets/icons/point_scan.svg";
 
-import { ActionIcon } from "./Templates/ActionIcon";
-import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
+import { ActionIcon } from "./ActionTriggers/ActionIcon";
+import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
 
 export const JumpToPositionAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
   return(
