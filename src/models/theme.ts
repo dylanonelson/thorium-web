@@ -22,7 +22,7 @@ export interface IThemeTokens {
   subdue: string;
   disable: string;
   hover: string;
-  onHover: any;
+  onHover: string;
   select: string;
   onSelect: string;
   focus: string;

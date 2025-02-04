@@ -1,5 +1,5 @@
 import { ActionsStateKeys, IActionStateObject } from "@/models/state/actionsState";
-import { DockedKeys, DockingKeys } from "@/models/docking";
+import { DockingKeys } from "@/models/docking";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -32,7 +32,7 @@ export const useActions = () => {
   }
 
   const findDocked = () => {
-    const docked: DockedKeys[] = [];
+    const docked: ActionsStateKeys[] = [];
 
     (Object.entries(actions) as [ActionsStateKeys, IActionStateObject][]).forEach(([ key, value ]) => { 
       if (value.docking === DockingKeys.start || value.docking === DockingKeys.end) docked.push(key);
