@@ -1,6 +1,5 @@
-import { ActionKeys, IOverflowMenu } from "../actions";
+import { ActionKeys } from "../actions";
 import { Docked, DockingKeys } from "../docking";
-import { SheetTypes } from "../sheets";
 
 export type ActionsStateKeys = Exclude<ActionKeys, ActionKeys.fullscreen>;
 export type OverflowStateKeys = string;
