@@ -1,7 +1,6 @@
 import { IActionPref } from "./actions";
 import { IDockingPref } from "./docking";
-import { LayoutDirection } from "./layout";
-import { SheetTypes } from "./sheets";
+import { Constraints, ILayoutDefaults, LayoutDirection } from "./layout";
 import { ShortcutRepresentation } from "./shortcut";
 import { StaticBreakpoints } from "./staticBreakpoints";
 import { IThemeTokens, ThemeKeys } from "./theme";
@@ -18,13 +17,6 @@ export enum ScrollBackTo {
   bottom = "bottom",
   untouched = "untouched"
 }
-
-export interface ILayoutDefaults {
-  dockingWidth: number;
-  scrim: string;
-}
-
-export type Constraints = Extract<SheetTypes, SheetTypes.bottomSheet | SheetTypes.popover>;
 
 export interface IRSPrefs {
   direction?: LayoutDirection,
