@@ -30,9 +30,9 @@ Snap points are using 3 optional properties to build the draggable bottom sheet:
 
 Their value can be:
 
-- `percentage`: the height of the screen as a percentage;
-- `full-height`: the entire height of the screen (`BottomSheetDetent`);
-- `content-height`: the height of the content the sheet contains (`BottomSheetDetent`).
+- `number`: the height of the screen as a percentage;
+- string `full-height`: the entire height of the screen (type of `BottomSheetDetent`);
+- string `content-height`: the height of the content the sheet contains (type of `BottomSheetDetent`).
 
 ### Logic
 
@@ -46,3 +46,47 @@ For instance:
 
 - `minHeight: full-height` will make the bottom sheet an animated fullscreen sheet you can close by dragging but with no snap point.
 - `peekHeight: content-height` will make the bottom sheet draggable with 2 snap points, effectively transforming the `peekHeight` into the max height, constrained by its content’s. 
+
+## Examples
+
+This would be the configuration for settings as a bottom sheet on the smaller breakpoint (and popover otherwise)
+
+```
+[ActionKeys.settings]: {
+  ...
+  sheet: {
+    defaultSheet: SheetTypes.popover,
+    breakpoints: {
+      [StaticBreakpoints.compact]: SheetTypes.bottomSheet
+    }
+  },
+  ...
+  snapped: {
+    scrim: true,
+    peekHeight: 50,
+    minHeight: 30,
+    maxHeight: 100
+  }
+}
+```
+
+In this case, we apply the default scrim, and percentages for each snap point. The bottom sheet will open at 50% of the height of the screen, its min-height is 30% and is max-height is fullscreen.
+
+If you’d like a bottom sheet with no snap point for the Jump to Position Action container with no scrim, then:
+
+```
+[ActionKeys.jumpToPosition]: {
+  ...
+  sheet: {
+    defaultSheet: SheetTypes.popover,
+    breakpoints: {
+      [StaticBreakpoints.compact]: SheetTypes.bottomSheet
+    }
+  },
+  ...
+  snapped: {
+    scrim: false,
+    minHeight: "content-height",
+  }
+}
+```
