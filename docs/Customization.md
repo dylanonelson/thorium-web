@@ -95,6 +95,8 @@ This document also explains in depth how you can add your own themes, customize,
 
 TBD.
 
+**Please note support for shortcuts is very basic at the moment, and is consequently limited.** Any contribution to improve it will be greatly appreciated.
+
 You can set the `representation` of the special keys displayed in the shortcut component with enum `ShortcutRepresentation` (`symbol`, `short`, `long`).
 
 For instance, for key `Option` on Mac, `symbol` is `⌥`, `short` is `alt`, and `long` is `Option`.
@@ -167,6 +169,10 @@ keys: {
 This means a bottom sheet will be used when the breakpoint is `compact`, and a popover in all other breakpoints.
 
 ### Shortcut (WIP)
+
+TBD.
+
+**Please note support for shortcuts is very basic at the moment, and is consequently limited.** Any contribution to improve it will be greatly appreciated.
 
 You can configure a shortcut for each action by setting property `shortcut`.
 
