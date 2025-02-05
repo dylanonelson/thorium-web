@@ -354,6 +354,10 @@ export const useEpubNavigator = () => {
     navigatorInstance?.goLink(link, animated, callback);
   }, []);
 
+  const go = useCallback((locator: Locator, animated: boolean, callback: cbb) => {
+    navigatorInstance?.go(locator, animated, callback);
+  }, []);
+
   const navLayout = useCallback(() => {
     return navigatorInstance?.layout;
   }, []);
@@ -376,6 +380,7 @@ export const useEpubNavigator = () => {
     goBackward, 
     goForward,
     goLink, 
+    go, 
     navLayout, 
     currentLocator,
     getCframes, 
