@@ -4,7 +4,7 @@ This project has been designed to be highly customizable from the start, with [m
 
 ## Direction
 
-The App UI supports both Left-to-Right (LTR) and Right-to-Left (RTL) languages through an optional property `direction`. It will switch the entire layout, including the docking panels, independently of the publication’s reading progression.
+The App UI supports both Left-to-Right (LTR) and Right-to-Left (RTL) languages through optional property `direction`. It will switch the entire layout, including the docking panels, independently of the publication’s reading progression.
 
 Values can be `ltr` or `rtl` and a `LayoutDirection` enum is available as well. 
 
@@ -15,6 +15,16 @@ The `typography` object can be used to set the following properties:
 - `pageGutter`;
 - `optimalLineLength`; 
 - `minimalLineLength`.
+
+For instance: 
+
+```
+typography: {
+  minimalLineLength: 35,
+  optimalLineLength: 65,
+  pageGutter: 20
+}
+```
 
 ### Page Gutter
 
@@ -79,7 +89,7 @@ See the [dedicated Theming doc](./Theming.md).
 
 You can configure `breakpoints`, that are re-used multiple times throughout preferences, in `theming`. 
 
-This document also explains in more depth how you can add your own themes, customize, or remove existing ones. Without having to add or modify any component.
+This document also explains in depth how you can add your own themes, customize, or remove existing ones. Without having to add or modify any component.
 
 ## Shortcuts (WIP)
 
@@ -101,6 +111,17 @@ You can customize the order of the actions in the `displayOrder` array, and remo
 
 Enum `ActionKeys` is provided to keep things consistent across the entire codebase.
 
+For instance:
+
+actions: {
+  ...
+  displayOrder: [
+    ActionKeys.settings,
+    ActionKeys.toc,
+    ActionKeys.fullscreen
+  ]
+}
+
 ### Collapsibility and Visibility
 
 You can enable collapsibility i.e. an overflow menu will be used based on your configuration, and set the visibility of eact action. More details in the dedicated [Collapsibility doc](Collapsibility.md).
@@ -114,6 +135,25 @@ The `keys` object contains the configuration for each `action`, with optional pr
   - as an override of this default for specific breakpoints in a `breakpoints` object (value is a key of `SheetTypes` enum).
 - `docked`: the configuration for docking. See the [docking doc](./Docking.md) for further details.
 - `snapped`: the configuration for snap points. See the [snap points doc](Snappoints.md) for further details.
+
+For instance, if you want a popover sheet for Settings, except in the smaller breakpoint, you would do:
+
+```
+keys: {
+  ...
+  [ActionKeys.settings]: {
+    ...
+    sheet: {
+      defaultSheet: SheetTypes.popover,
+      breakpoints: {
+        [StaticBreakpoints.compact]: SheetTypes.bottomSheet
+      }
+    }
+  }
+}
+```
+
+This means a bottom sheet will be used when the breakpoint is `compact`, and a popover in all other breakpoints.
 
 ### Shortcut (WIP)
 
