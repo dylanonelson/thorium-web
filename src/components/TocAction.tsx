@@ -1,10 +1,13 @@
 import React from "react";
 
 import { RSPrefs } from "@/preferences";
+
 import Locale from "../resources/locales/en.json";
 
 import { Link } from "@readium/shared";
 import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+import { SheetTypes } from "@/models/sheets";
+import { LayoutDirection } from "@/models/layout";
 
 import tocStyles from "./assets/styles/toc.module.css";
 
@@ -25,12 +28,15 @@ import { useDocking } from "@/hooks/useDocking";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
-import { SheetTypes } from "@/models/sheets";
 
 export const TocActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
+  const direction = useAppSelector(state => state.reader.direction);
+  const isRTL = direction === LayoutDirection.rtl;
+
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
   const tocTree = useAppSelector(state => state.publication.tocTree);
   const dispatch = useAppDispatch();
+
   const { goLink } = useEpubNavigator();
 
   const docking = useDocking(ActionKeys.toc);
@@ -99,7 +105,11 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
               >
                 <TreeItemContent>
                   { item.children 
-                    ? (<Button slot="chevron" className={ tocStyles.tocTreeItemButton }>
+                    ? (<Button 
+                        slot="chevron" 
+                        className={ tocStyles.tocTreeItemButton }
+                        { ...(isRTL ? { style: { transform: "scaleX(-1)" }} : {}) }
+                      >
                         <svg viewBox="0 0 24 24">
                         <path d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                       </svg>
