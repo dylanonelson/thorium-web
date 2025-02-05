@@ -22,15 +22,19 @@ export const Shortcut: React.FC<IShortcut> = ({
   if (shortcutObj) {
     let shortcutRepresentation = [];
 
-    for (const prop in shortcutObj) {
-      if (prop !== "key" && prop !== "platformKey") {
-        const metaKey = metaKeys[prop];
-        shortcutRepresentation.push(metaKey[representation]);
-      } else if (prop === "platformKey") {
-        shortcutRepresentation.push(platformModifier[representation]);
-      } else {
-        shortcutRepresentation.push(shortcutObj[prop]);
+    for (const prop in shortcutObj.modifiers) {
+      if (shortcutObj.modifiers[prop]) {
+        if (prop === "platformKey") {
+          shortcutRepresentation.push(platformModifier[representation]);
+        } else {
+          const metaKey = metaKeys[prop];
+          shortcutRepresentation.push(metaKey[representation]);
+        }
       }
+    }
+
+    if (shortcutObj.char) {
+      shortcutRepresentation.push(shortcutObj.char);
     }
 
     if (shortcutRepresentation.length > 0) {

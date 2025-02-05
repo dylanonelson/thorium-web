@@ -1,3 +1,5 @@
+import { ActionKeys } from "./actions";
+
 export interface IKey {
   [key: string]: string;
   longform: string;
@@ -44,15 +46,21 @@ export interface IShortcut {
 }
 
 export interface PShortcut {
-  [key: string]: string | boolean | undefined;
-  altKey?: boolean;
-  ctrlKey?: boolean;
-  metaKey?: boolean;
-  platformKey?: boolean;
-  shiftKey?: boolean;
   key?: string;
+  char?: string;
+  modifiers: {
+    [key: string]: boolean;
+    altKey: boolean;
+    ctrlKey: boolean;
+    metaKey: boolean;
+    platformKey: boolean;
+    shiftKey: boolean;
+  }
 }
 
 export interface PShortcuts {
-  [key: string]: PShortcut;
+  [key: string]: {
+    actionKey: ActionKeys;
+    modifiers: PShortcut["modifiers"];
+  }
 }

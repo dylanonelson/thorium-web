@@ -9,6 +9,7 @@ import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
 import { ScrollBackTo } from "@/models/preferences";
+import { ActionKeys } from "@/models/actions";
 import { ThemeKeys } from "@/models/theme";
 import { IRCSSSettings } from "@/models/rcss-settings";
 
@@ -37,6 +38,7 @@ import { createTocTree } from "@/helpers/toc/createTocTree";
 
 import { setImmersive, setHovering, toggleImmersive, setPlatformModifier, setDirection, setArrows } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead, setTocTree } from "@/lib/publicationReducer";
+import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
@@ -181,8 +183,21 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         activateImmersiveOnAction();
       }
     },
-    toggleFullscreen: () => {
-      fs.handleFullscreen();
+    toggleAction: (actionKey) => {  
+      switch (actionKey) {
+        case ActionKeys.fullscreen:
+          fs.handleFullscreen();
+          break;
+        case ActionKeys.settings:
+        case ActionKeys.toc:
+          dispatch(toggleActionOpen({
+            key: actionKey
+          }))
+          break;
+        case ActionKeys.jumpToPosition:
+        default:
+          break
+      }
     }
   });
 
