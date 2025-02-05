@@ -15,17 +15,23 @@
   border-radius: var(--layout-radius);
 }
 
+.tocTree:has(.tocTreeItemButton) .tocTreeItem {
+  padding-inline-start: calc((var(--tree-item-level) * var(--layout-spacing)) + (var(--layout-spacing) / 2));
+}
+
+.tocTree .tocTreeItem:has(.tocTreeItemButton) {
+  padding-inline-start: calc(((var(--tree-item-level) - 1) * var(--layout-spacing)));
+}
+
 .tocTreeItemText {
-  order: 1;
   flex: 1 1 auto;
 }
 
 .tocTreeItemButton {
-  order: 2;
-  align-self: flex-end;
+  align-self: flex-start;
   width: calc(var(--icon-size, 24px) * 5/6);
   height: calc(var(--icon-size, 24px) * 5/6);
-  margin-inline-start: auto;
+  margin-inline-end: calc(var(--layout-spacing) / 2);
 }
 
 .tocTreeItemButton + .tocTreeItemText {
