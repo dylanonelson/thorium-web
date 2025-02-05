@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { ActionKeys } from "@/models/actions";
-import { ActionsStateKeys, IActionOverflowOpenPayload, IActionsState, IActionStateDockPayload, IActionStateOpenPayload, IActionStateSlotPayload, IActionStateSlotWidthPayload } from "@/models/state/actionsState";
+import { ActionsStateKeys, IActionOverflowOpenPayload, IActionsState, IActionStateDockPayload, IActionStateOpenPayload, IActionStateSlotPayload, IActionStateSlotWidthPayload, IActionStateTogglePayload } from "@/models/state/actionsState";
 import { DockingKeys } from "@/models/docking";
 
 const initialState: IActionsState = {
@@ -132,6 +132,8 @@ export const actionsSlice = createSlice({
       };
     },
     setActionOpen: (state, action: IActionStateOpenPayload) => {
+      console.log(action);
+      
       switch (action.payload.key) {
         case ActionKeys.jumpToPosition:
         case ActionKeys.toc:
@@ -163,6 +165,24 @@ export const actionsSlice = createSlice({
           break;
         default:
           break;
+      }
+    },
+    toggleActionOpen: (state, action: IActionStateTogglePayload) => {
+      switch (action.payload.key) {
+        case ActionKeys.jumpToPosition:
+        case ActionKeys.toc:
+        case ActionKeys.settings:
+          const payload = {
+            key: action.payload.key,
+            isOpen: state.keys[action.payload.key].isOpen ? !state.keys[action.payload.key].isOpen : true
+          };
+          actionsSlice.caseReducers.setActionOpen(state, {
+            type: "toggleActionOpen",
+            payload: payload
+          });
+          break;
+        default:
+          break; 
       }
     },
     setOverflow: (state, action: IActionOverflowOpenPayload) => {
@@ -221,6 +241,7 @@ export const actionsSlice = createSlice({
 export const { 
   dockAction, 
   setActionOpen, 
+  toggleActionOpen, 
   setOverflow, 
   activateDockPanel, 
   deactivateDockPanel, 

@@ -179,7 +179,7 @@ export const RSPrefs: IRSPrefs = {
   },
   shortcuts: {
     representation: ShortcutRepresentation.symbol,
-    joiner: " + "
+    joiner: "+"
   },
   actions: {
     displayOrder: [
@@ -198,7 +198,7 @@ export const RSPrefs: IRSPrefs = {
     keys: {
       [ActionKeys.settings]: {
         visibility: ActionVisibility.partially,
-        shortcut: null, // `${ShortcutMetaKeywords.platform}+P`,
+        shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+P`,
         sheet: {
           defaultSheet: SheetTypes.popover,
           breakpoints: {
@@ -218,11 +218,11 @@ export const RSPrefs: IRSPrefs = {
       },
       [ActionKeys.fullscreen]: {
         visibility: ActionVisibility.partially,
-        shortcut: null, // `${ShortcutMetaKeywords.platform}+F11`
+        shortcut: null
       },
       [ActionKeys.toc]: {
         visibility: ActionVisibility.partially,
-        shortcut: null, // `${ShortcutMetaKeywords.platform}+N`,
+        shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+T`,
         sheet: {
           defaultSheet: SheetTypes.popover,
           breakpoints: {
@@ -240,7 +240,7 @@ export const RSPrefs: IRSPrefs = {
       },
       [ActionKeys.jumpToPosition]: {
         visibility: ActionVisibility.overflow,
-        shortcut: null, // `${ShortcutMetaKeywords.platform}+J`,
+        shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
         docked: {
           dockable: DockTypes.none
         }

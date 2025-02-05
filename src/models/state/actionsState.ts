@@ -30,6 +30,13 @@ export interface IActionStateOpenPayload {
   }
 }
 
+export interface IActionStateTogglePayload {
+  type: string;
+  payload: {
+    key: ActionsStateKeys
+  }
+}
+
 export interface IActionOverflowOpenPayload {
   type: string;
   payload: {

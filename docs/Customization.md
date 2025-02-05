@@ -101,6 +101,17 @@ For instance, for key `Option` on Mac, `symbol` is `⌥`, `short` is `alt`, and 
 
 You can also configure an optional `joiner` string that will be added between keys.
 
+For instance:
+
+```
+shortcuts: {
+  representation: ShortcutRepresentation.short,
+  joiner: "+"
+}
+```
+
+Will display shortcuts as `Alt+Shift+{ Key }`.
+
 ## Actions
 
 Action Components can be a simple trigger (e.g. fullscreen), or a combination of a trigger and a sheet/container (e.g. Settings, Toc). This should explain why a lot of their properties are optional when configured in `keys`.
@@ -157,7 +168,31 @@ This means a bottom sheet will be used when the breakpoint is `compact`, and a p
 
 ### Shortcut (WIP)
 
-Not supported at the moment. TBD.
+You can configure a shortcut for each action by setting property `shortcut`.
+
+Its value can be:
+
+- `null`, if you don’t want to assign a shortcut to the action;
+- a `string` that must meet several requirements due to current limitations.
+
+These limitations are:
+
+- modifier keys must use a value in the `ShortcutMetaKeywords` enum to be recognized;
+- keys must be separated by `+` or `-`;
+- only a single character is allowed in addition to modifier keys.
+
+For instance:
+
+```
+[ActionKeys.toc]: {
+  ...
+  shortcut: `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+T`
+}
+```
+
+Will toggle the Table of contents’ container when combination `Shift, Option, T` is pressed.
+
+Note `ShortcutMetaKeywords.platform` is provided as an alias mapping to the Command/Meta Key on MacOS, and Control Key on other platforms.
 
 ## Docking
 
