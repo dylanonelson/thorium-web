@@ -179,7 +179,7 @@ These limitations are:
 
 - modifier keys must use a value in the `ShortcutMetaKeywords` enum to be recognized;
 - keys must be separated by `+` or `-`;
-- only a single alphanumerical character is allowed in addition to modifier keys.
+- only a single alpha character is allowed in addition to modifier keys.
 
 For instance:
 
