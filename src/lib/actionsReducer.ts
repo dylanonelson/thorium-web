@@ -131,9 +131,7 @@ export const actionsSlice = createSlice({
         docking: action.payload.dockingKey 
       };
     },
-    setActionOpen: (state, action: IActionStateOpenPayload) => {
-      console.log(action);
-      
+    setActionOpen: (state, action: IActionStateOpenPayload) => {      
       switch (action.payload.key) {
         case ActionKeys.jumpToPosition:
         case ActionKeys.toc:
