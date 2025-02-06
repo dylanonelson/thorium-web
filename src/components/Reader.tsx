@@ -42,15 +42,20 @@ import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
+import { StaticBreakpoints } from "@/models/staticBreakpoints";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
   const publication = useRef<Publication | null>(null);
   const localDataKey = useRef(`${selfHref}-current-location`);
+  const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
 
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
   const theme = useAppSelector(state => state.theming.theme);
+
+  const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
+  const staticBreakpointRef = useRef(staticBreakpoint);
 
   const RCSSSettings = useRef<IRCSSSettings>({
     paginated: isPaged,
@@ -270,7 +275,14 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     if (navLayout() === EPUBLayout.reflowable) {
       const applyLayout = async () => {
         if (isPaged) { 
-          await applyColumns(colCount);
+          if (
+              staticBreakpoint === StaticBreakpoints.large || 
+              staticBreakpoint === StaticBreakpoints.xLarge
+          ) {
+            await applyColumns(colCount, arrowsWidth.current); 
+          } else {
+            await applyColumns(colCount);
+          }
         } else {
           await applyScrollable();
         }
@@ -279,17 +291,28 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         .catch(console.error);
     }
       
-  }, [isPaged, colCount, navLayout, applyColumns, applyScrollable]);
+  }, [isPaged, colCount, staticBreakpoint, navLayout, applyColumns, applyScrollable]);
 
   useEffect(() => {
     RCSSSettings.current.colCount = colCount;
 
     if (navLayout() === EPUBLayout.reflowable) {
+      if (
+        staticBreakpoint === StaticBreakpoints.large || 
+        staticBreakpoint === StaticBreakpoints.xLarge
+    ) {
+      handleColCountReflow(colCount, arrowsWidth.current);
+    } else {
       handleColCountReflow(colCount);
+    }
     } else if (navLayout() === EPUBLayout.fixed) {
       colCount === "1" ? setFXLPages(1) : setFXLPages(0);
     }
-  }, [colCount, navLayout, setFXLPages, handleColCountReflow]);
+  }, [colCount, staticBreakpoint, navLayout, setFXLPages, handleColCountReflow]);
+
+  useEffect(() => {
+    staticBreakpointRef.current = staticBreakpoint;
+  }, [staticBreakpoint]);
 
   // Handling side effects on Navigator
   useEffect(() => {
@@ -303,14 +326,22 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [theme, handleTheme, theming]);
 
   const handleResize = debounce(() => {
+    let constrain = 0;
+    if (
+      staticBreakpointRef.current === StaticBreakpoints.large || 
+      staticBreakpointRef.current === StaticBreakpoints.xLarge
+    ) {
+      constrain = arrowsWidth.current
+    }
+
     if (navLayout() === EPUBLayout.reflowable) {      
       if (RCSSSettings.current.paginated) {
-        handleColCountReflow(RCSSSettings.current.colCount);
+        handleColCountReflow(RCSSSettings.current.colCount, constrain);
       } else {
         handleScrollReflow();
       }
     } else if (navLayout() === EPUBLayout.fixed) {
-      handleFXLReflow();
+      handleFXLReflow(constrain);
     }
   }, 250);
 
