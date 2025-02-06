@@ -39,7 +39,6 @@ export const useEpubNavigator = () => {
   const publication = useRef<Publication | null>(null);
   const localDataKey = useRef<string | null>(null);
 
-  const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
   const optimalLineLength = useRef<IOptimalLineLength | null>(null);
 
   const scrollAffordanceTop = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.topAffordance, placement: "top" }));
@@ -63,7 +62,7 @@ export const useEpubNavigator = () => {
     })
   }, []);
 
-  const handleColCountReflow = useCallback((colCount: string) => {
+  const handleColCountReflow = useCallback((colCount: string, constrain?: number) => {
     if (container.current && containerParent.current) {
       if (!optimalLineLength.current) {
         optimalLineLength.current = getOptimalLineLength({
@@ -77,14 +76,15 @@ export const useEpubNavigator = () => {
         });
       }
 
+      const constrainedWidth = containerParent.current.clientWidth - (constrain || 0);
       let RCSSColCount = 1;
 
       if (colCount === "auto") {
-        RCSSColCount = autoPaginate(containerParent.current.clientWidth, optimalLineLength.current.optimal);
+        RCSSColCount = autoPaginate(constrainedWidth, optimalLineLength.current.optimal);
       } else if (colCount === "2") {
           if (optimalLineLength.current.min !== null) {
           const requiredWidth = ((2 * optimalLineLength.current.min) * optimalLineLength.current.fontSize);
-          containerParent.current.clientWidth > requiredWidth ? RCSSColCount = 2 : RCSSColCount = 1;
+          constrainedWidth > requiredWidth ? RCSSColCount = 2 : RCSSColCount = 1;
         } else {
           RCSSColCount = 2;
         }
@@ -93,14 +93,13 @@ export const useEpubNavigator = () => {
       }
 
       const optimalLineLengthToPx = optimalLineLength.current.optimal * optimalLineLength.current.fontSize;
-      const containerWithArrows = containerParent.current.clientWidth - arrowsWidth.current;
       let containerWidth = containerParent.current.clientWidth;
       if (RCSSColCount > 1 && optimalLineLength.current.min !== null) {
-        containerWidth = Math.min((RCSSColCount * optimalLineLengthToPx), containerWithArrows);
+        containerWidth = Math.min((RCSSColCount * optimalLineLengthToPx), constrainedWidth);
         dispatch(setDynamicBreakpoint(true));
       } else {
-        if ((optimalLineLengthToPx + arrowsWidth.current) <= containerWithArrows) {
-          containerWidth = containerWithArrows;
+        if ((optimalLineLengthToPx + (constrain || 0)) <= constrainedWidth) {
+          containerWidth = constrainedWidth;
           dispatch(setDynamicBreakpoint(true));
         } else {
           dispatch(setDynamicBreakpoint(false));
@@ -109,8 +108,8 @@ export const useEpubNavigator = () => {
       container.current.style.width = `${ containerWidth }px`;
 
       applyReadiumCSSStyles({
-        "--USER__colCount": `${RCSSColCount}`,
-        "--RS__defaultLineLength": `${optimalLineLength.current.optimal}rem`
+        "--USER__colCount": `${ RCSSColCount }`,
+        "--RS__defaultLineLength": `${ optimalLineLength.current.optimal }rem`
       })
     }
   }, [applyReadiumCSSStyles, dispatch]);
@@ -136,14 +135,17 @@ export const useEpubNavigator = () => {
       }
 
       applyReadiumCSSStyles({
-        "--RS__defaultLineLength": `${optimalLineLength.current.optimal}rem`
+        "--RS__defaultLineLength": `${ optimalLineLength.current.optimal }rem`
       })
     }
   }, [applyReadiumCSSStyles, dispatch]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
-  const handleFXLReflow = useCallback(() => {
+  const handleFXLReflow = useCallback((constrain?: number) => {
+    if (container.current && containerParent.current) {
+      container.current.style.width = `${ containerParent.current.clientWidth - (constrain || 0) }px`;
+    }
     (navigatorInstance?.pool as FXLFramePoolManager).resizeHandler();
   }, []);
 
@@ -171,7 +173,7 @@ export const useEpubNavigator = () => {
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
-  const applyColumns = useCallback(async (colCount: string) => {
+  const applyColumns = useCallback(async (colCount: string, constrain?: number) => {
     applyReadiumCSSStyles({
       "--USER__view": "readium-paged-on"
     });
@@ -179,7 +181,7 @@ export const useEpubNavigator = () => {
       await navigatorInstance?.setReadingProgression(ReadingProgression.ltr);
     }
     unmountScroll();
-    handleColCountReflow(colCount);
+    handleColCountReflow(colCount, constrain);
   }, [applyReadiumCSSStyles, handleColCountReflow, unmountScroll]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
