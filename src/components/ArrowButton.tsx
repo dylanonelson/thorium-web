@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { RSPrefs } from "@/preferences";
 
 import { IReaderArrow } from "@/models/layout";
-import { StaticBreakpoints } from "@/models/staticBreakpoints";
 
 import Locale from "../resources/locales/en.json";
 
@@ -26,7 +25,6 @@ import classNames from "classnames";
 
 export const ArrowButton = (props: IReaderArrow) => {
   const button = useRef<HTMLButtonElement>(null);
-  const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const isRTL = useAppSelector(state => state.publication.isRTL);
   const hasArrows = useAppSelector(state => state.reader.hasArrows);
 
@@ -56,12 +54,9 @@ export const ArrowButton = (props: IReaderArrow) => {
     return className;
   };
 
-  const handleClassNameFromBreakpoint = () => {
+  const handleClassNameFromSpaceProp = () => {
     let className = "";
-    if (
-      staticBreakpoint === StaticBreakpoints.large || 
-      staticBreakpoint === StaticBreakpoints.xLarge
-    ) {
+    if (props.occupySpace) {
       className = arrowStyles.viewportLarge;
     }
     return className;
@@ -101,7 +96,7 @@ export const ArrowButton = (props: IReaderArrow) => {
         onPress={ () => handleOnPress(props.onPressCallback) }
         onHoverChange={ (e) => setIsHovering(e) } 
         onKeyDown={ blurOnEsc }
-        className={ classNames(props.className, handleClassNameFromBreakpoint(), handleClassNameFromState()) }
+        className={ classNames(props.className, handleClassNameFromSpaceProp(), handleClassNameFromState()) }
         isDisabled={ props.disabled }
         preventFocusOnPress={ true }
       >

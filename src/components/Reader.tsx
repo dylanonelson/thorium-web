@@ -8,6 +8,7 @@ import Locale from "../resources/locales/en.json";
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
+import { StaticBreakpoints } from "@/models/staticBreakpoints";
 import { ScrollBackTo } from "@/models/preferences";
 import { ActionKeys } from "@/models/actions";
 import { ThemeKeys } from "@/models/theme";
@@ -42,7 +43,6 @@ import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 
 import debounce from "debounce";
-import { StaticBreakpoints } from "@/models/staticBreakpoints";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -55,7 +55,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const theme = useAppSelector(state => state.theming.theme);
 
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
-  const staticBreakpointRef = useRef(staticBreakpoint);
+  const arrowsOccupySpace = staticBreakpoint && 
+    (staticBreakpoint === StaticBreakpoints.large || staticBreakpoint === StaticBreakpoints.xLarge)
 
   const RCSSSettings = useRef<IRCSSSettings>({
     paginated: isPaged,
@@ -275,10 +276,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     if (navLayout() === EPUBLayout.reflowable) {
       const applyLayout = async () => {
         if (isPaged) { 
-          if (
-              staticBreakpoint === StaticBreakpoints.large || 
-              staticBreakpoint === StaticBreakpoints.xLarge
-          ) {
+          if (arrowsOccupySpace) {
             await applyColumns(colCount, arrowsWidth.current); 
           } else {
             await applyColumns(colCount);
@@ -291,16 +289,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         .catch(console.error);
     }
       
-  }, [isPaged, colCount, staticBreakpoint, navLayout, applyColumns, applyScrollable]);
+  }, [isPaged, colCount, arrowsOccupySpace, navLayout, applyColumns, applyScrollable]);
 
   useEffect(() => {
     RCSSSettings.current.colCount = colCount;
 
     if (navLayout() === EPUBLayout.reflowable) {
-      if (
-        staticBreakpoint === StaticBreakpoints.large || 
-        staticBreakpoint === StaticBreakpoints.xLarge
-    ) {
+      if (arrowsOccupySpace) {
       handleColCountReflow(colCount, arrowsWidth.current);
     } else {
       handleColCountReflow(colCount);
@@ -308,11 +303,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     } else if (navLayout() === EPUBLayout.fixed) {
       colCount === "1" ? setFXLPages(1) : setFXLPages(0);
     }
-  }, [colCount, staticBreakpoint, navLayout, setFXLPages, handleColCountReflow]);
-
-  useEffect(() => {
-    staticBreakpointRef.current = staticBreakpoint;
-  }, [staticBreakpoint]);
+  }, [colCount, arrowsOccupySpace, navLayout, setFXLPages, handleColCountReflow]);
 
   // Handling side effects on Navigator
   useEffect(() => {
@@ -326,13 +317,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [theme, handleTheme, theming]);
 
   const handleResize = debounce(() => {
-    let constrain = 0;
-    if (
-      staticBreakpointRef.current === StaticBreakpoints.large || 
-      staticBreakpointRef.current === StaticBreakpoints.xLarge
-    ) {
-      constrain = arrowsWidth.current
-    }
+    let constrain = arrowsOccupySpace ? arrowsWidth.current : 0;
 
     if (navLayout() === EPUBLayout.reflowable) {      
       if (RCSSSettings.current.paginated) {
@@ -421,6 +406,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           ? <nav className={ arrowStyles.container } id={ arrowStyles.left }>
               <ArrowButton 
                 direction="left" 
+                occupySpace={ arrowsOccupySpace || false }
                 disabled={ atPublicationStart } 
                 onPressCallback={ () => goLeft(true, activateImmersiveOnAction) }
               />
@@ -434,7 +420,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         { isPaged 
           ? <nav className={ arrowStyles.container } id={ arrowStyles.right }>
               <ArrowButton 
-                direction="right"  
+                direction="right" 
+                occupySpace={ arrowsOccupySpace || false }
                 disabled={ atPublicationEnd } 
                 onPressCallback={ () => goRight(true, activateImmersiveOnAction) }
               />
