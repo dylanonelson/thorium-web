@@ -4,6 +4,8 @@ import { RSPrefs } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
+import Chevron from "./assets/icons/chevron_right.svg";
+
 import { Link } from "@readium/shared";
 import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
 import { SheetTypes } from "@/models/sheets";
@@ -110,9 +112,7 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
                         className={ tocStyles.tocTreeItemButton }
                         { ...(isRTL ? { style: { transform: "scaleX(-1)" }} : {}) }
                       >
-                        <svg viewBox="0 0 24 24">
-                        <path d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                      </svg>
+                        <Chevron aria-hidden="true" focusable="false" />
                     </Button>) 
                     : null
                   }
