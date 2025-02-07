@@ -1,19 +1,18 @@
 // Peripherals based on XBReader
 import { RSPrefs } from "@/preferences";
-import { buildShortcut, PShortcut } from "./keyboard/buildShortcut";
+
+import { ActionKeys } from "@/models/actions";
+import { PShortcuts } from "@/models/shortcut";
+
+import { buildShortcut } from "./keyboard/buildShortcut";
 
 import { useAppStore } from "@/lib/hooks";
 import { isInteractiveElement } from "./isInteractiveElement";
-import { ActionKeys } from "@/components/Templates/ActionComponent";
 
 export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
   goProgression: (shiftKey?: boolean) => void;
-  toggleFullscreen: () => void;
-}
-
-interface PShortcuts {
-  [key: string]: PShortcut;
+  toggleAction: (action: ActionKeys) => void;
 }
 
 export default class Peripherals {
@@ -38,19 +37,25 @@ export default class Peripherals {
   private retrieveShortcuts() {
     const shortcutsObj: PShortcuts = {};
 
-    for (const actionKey in ActionKeys) {
-      const shortcutString = RSPrefs.actions[actionKey as keyof typeof ActionKeys].shortcut;
+    RSPrefs.actions.displayOrder.forEach((actionKey) => {
+      const shortcutString = RSPrefs.actions.keys[actionKey as keyof typeof ActionKeys].shortcut;
       
       if (shortcutString) {
         const shortcutObj = buildShortcut(shortcutString);
 
-        Object.defineProperty(shortcutsObj, actionKey, {
-          value: shortcutObj,
-          writable: false,
-          enumerable: true
-        });
+        if (shortcutObj?.key) {
+          Object.defineProperty(shortcutsObj, shortcutObj.key, {
+            value: {
+              actionKey: actionKey,
+              modifiers: shortcutObj.modifiers
+            },
+            writable: false,
+            enumerable: true
+          });
+        }
       }
-    }
+    });
+    
     return shortcutsObj;
   }
 
@@ -80,37 +85,49 @@ export default class Peripherals {
   }
 
   onkeydown(e: KeyboardEvent) {
-    if (!isInteractiveElement(document.activeElement)) {
-      switch(e.code) {
-        case "Space":
-          this.callbacks.goProgression(e.shiftKey);
-          break;
-        case "ArrowRight":
-          this.callbacks.moveTo("right");
-          break;
-        case "ArrowLeft":
-          this.callbacks.moveTo("left");
-          break;
-        case "ArrowUp":
-        case "PageUp":
-          this.callbacks.moveTo("up");
-          break;
-        case "ArrowDown":
-        case "PageDown":
-          this.callbacks.moveTo("down");
-          break;
-        case "Home":
-          this.callbacks.moveTo("home");
-          break;
-        case "End":
-          this.callbacks.moveTo("end");
-          break;
-        case "F11":
-          if (e[this.getPlatformModifier()]) this.callbacks.toggleFullscreen();
-          break;
-        default:
-          break;
-      } 
+    const focusIsSafe = !isInteractiveElement(document.activeElement);
+    
+    switch(e.code) {
+      case "Space":
+        focusIsSafe && this.callbacks.goProgression(e.shiftKey);
+        break;
+      case "ArrowRight":
+        focusIsSafe && this.callbacks.moveTo("right");
+        break;
+      case "ArrowLeft":
+        focusIsSafe && this.callbacks.moveTo("left");
+        break;
+      case "ArrowUp":
+      case "PageUp":
+        focusIsSafe && this.callbacks.moveTo("up");
+        break;
+      case "ArrowDown":
+      case "PageDown":
+        focusIsSafe && this.callbacks.moveTo("down");
+        break;
+      case "Home":
+        focusIsSafe && this.callbacks.moveTo("home");
+        break;
+      case "End":
+        focusIsSafe && this.callbacks.moveTo("end");
+        break;
+      default:
+        if (this.shortcuts.hasOwnProperty(e.code)) {
+          const customShortcutObj = this.shortcuts[e.code];
+          const sendCallback = Object.entries(customShortcutObj.modifiers).every(( [modifier, value] ) => {
+            if (modifier === "platformKey") {
+              return e[this.getPlatformModifier()] === value;
+            } else {
+              return e[modifier as "altKey" | "ctrlKey" | "metaKey" | "shiftKey"] === value;
+            }
+          })
+            
+          if (sendCallback) {
+            e.preventDefault();
+            this.callbacks.toggleAction(customShortcutObj.actionKey)
+          };
+        }
+        break;
     }
   }
 }

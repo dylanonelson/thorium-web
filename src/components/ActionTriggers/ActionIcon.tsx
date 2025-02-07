@@ -1,28 +1,19 @@
-import React, { ComponentType, SVGProps, useRef } from "react";
+import React, { useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
+
+import { ActionVisibility, IActionIconProps } from "@/models/actions";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "../assets/styles/readerStates.module.css";
 
-import { Button, Tooltip, TooltipTrigger, TooltipProps, PressEvent, ButtonProps } from "react-aria-components";
+import { Button, Tooltip, TooltipTrigger, ButtonProps } from "react-aria-components";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setImmersive } from "@/lib/readerReducer";
 
-import classNames from "classnames";
 import { isActiveElement, isKeyboardTriggered } from "@/helpers/focus";
-import { ActionVisibility } from "./ActionComponent";
-
-export interface IActionIconProps {
-  className?: string;
-  ariaLabel: string;
-  SVG: ComponentType<SVGProps<SVGElement>>;
-  placement: TooltipProps["placement"];
-  tooltipLabel: string;
-  visibility: ActionVisibility;
-  onPressCallback?: (e: PressEvent) => void;
-}
+import classNames from "classnames";
 
 export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IActionIconProps> = ({
   className,
@@ -32,9 +23,10 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
   tooltipLabel,
   visibility,
   onPressCallback,
+  isDisabled,
   ...props
 }) => {
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
 
@@ -80,14 +72,22 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
 
   const blurOnEsc = (event: React.KeyboardEvent) => {
   // TODO: handle Tooltip cos first time you press esc, it’s the tooltip that is closed.
-    if (isActiveElement(triggerRef.current) && event.code === "Escape") {
-      triggerRef.current!.blur();
+    if (triggerRef.current && isActiveElement(triggerRef.current) && event.code === "Escape") {
+      triggerRef.current.blur();
     }
   };
   
   return (
     <>
-    <TooltipTrigger>
+    <TooltipTrigger
+      { ...(RSPrefs.theming.icon.tooltipDelay 
+        ? { 
+            delay: RSPrefs.theming.icon.tooltipDelay,
+            closeDelay: RSPrefs.theming.icon.tooltipDelay
+          } 
+        : {}
+      )}
+    >
       <Button 
         ref={ triggerRef }
         className={ classNames(readerSharedUI.icon, handleClassNameFromState(), className) } 
@@ -95,9 +95,10 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
         onPress={ onPressCallback || defaultOnPressFunc }
         onKeyDown={ blurOnEsc } 
         onFocus={ handleImmersive }
+        isDisabled={ isDisabled }
         { ...props }
       >
-      <SVG aria-hidden="true" focusable="false" />  
+        <SVG aria-hidden="true" focusable="false" />  
       </Button>
       <Tooltip
         className={ readerSharedUI.tooltip }

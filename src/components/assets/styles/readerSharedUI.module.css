@@ -1,46 +1,47 @@
-.icon {
+.icon,
+.dockerButton,
+.closeButton {
   box-sizing: border-box;
   padding: calc(var(--icon-size, 24px) * (1/4));
   text-align: center;
-  border-radius: 5px;
+  border-radius: var(--layout-radius);
 }
 
-.icon svg {
+.closeButton {
+  margin-inline-start: auto;
+}
+
+.icon svg,
+.dockerButton svg,
+.closeButton svg {
   fill: var(--theme-text);
   width: var(--icon-size, 24px);
   height: var(--icon-size, 24px);
+}
+
+.icon[data-hovered],
+.dockerButton[data-hovered],
+.closeButton[data-hovered] {
+  background-color: var(--theme-hover);
+}
+
+.icon[data-focus-visible],
+.dockerButton[data-focus-visible],
+.closeButton[data-focus-visible] {
+  outline: 2px solid var(--theme-focus);
+}
+
+.icon[data-disabled] svg,
+.dockerButton[data-disabled] svg,
+.closeButton[data-disabled] svg {
+  fill: var(--theme-disable);
 }
 
 .tooltip {
   background-color: var(--theme-text);
   color: var(--theme-background);
   padding: 5px;
-  border-radius: 5px;
-}
-
-.closeButton {
-  width: var(--icon-size, 24px);
-  height: var(--icon-size, 24px);
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border-radius: 5px;
-}
-
-.closeButton svg {
-  fill: var(--theme-text);
-  width: 100%;
-  height: 100%;
-}
-
-.icon[data-hovered],
-.closeButton[data-hovered] {
-  background-color: var(--theme-hover);
-}
-
-.icon[data-focus-visible],
-.closeButton[data-focus-visible] {
-  outline: 2px solid var(--theme-focus);
+  border-radius: var(--layout-radius);
 }
 
 /* Utils to improve icons’ consistency */
@@ -65,9 +66,4 @@
 
 .iconApplyStroke svg {
   stroke: var(--theme-text);
-}
-
-.popoverHeading {
-  font-size: 1.25rem;
-  margin: 0 0 1rem 0;
 }

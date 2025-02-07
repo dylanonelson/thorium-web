@@ -3,83 +3,99 @@ import React from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
+import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+
 import settingsStyles from "./assets/styles/readerSettings.module.css";
-import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import TuneIcon from "./assets/icons/match_case.svg";
-import CloseIcon from "./assets/icons/close.svg";
 
-import { Button, Dialog, DialogTrigger, Heading, Popover, Separator } from "react-aria-components";
-import { ActionIcon } from "./Templates/ActionIcon";
-import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
-import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
+import { SheetWithType } from "./Sheets/SheetWithType";
+import { ActionIcon } from "./ActionTriggers/ActionIcon";
+import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
 import { ReadingDisplayCol } from "./ReadingDisplayCol";
 import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
 import { ReadingDisplayTheme } from "./ReadingDisplayTheme";
 
-import { setHovering, setSettingsOpen } from "@/lib/readerReducer";
+import { useDocking } from "@/hooks/useDocking";
+
+import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setActionOpen } from "@/lib/actionsReducer";
 
-export const SettingsAction: React.FC<IActionComponent> = ({ variant }) => {
-  const isOpen = useAppSelector(state => state.reader.settingsOpen);
+export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
+  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
   const dispatch = useAppDispatch();
+  
+  const docking = useDocking(ActionKeys.settings);
+  const sheetType = docking.sheetType;
 
-  const setOpen = (value: boolean) => {
-    dispatch(setSettingsOpen(value));
+  const setOpen = (value: boolean) => {    
+    dispatch(setActionOpen({
+      key: ActionKeys.settings,
+      isOpen: value
+    }));
 
     // hover false otherwise it tends to stay on close button press…
     if (!value) dispatch(setHovering(false));
   }
 
+  return(
+    <>
+    <SheetWithType 
+      sheetType={ sheetType }
+      sheetProps={ {
+        id: ActionKeys.settings,
+        triggerRef: triggerRef,
+        heading: Locale.reader.settings.heading,
+        className: settingsStyles.readerSettings,
+        placement: "bottom", 
+        isOpen: actionState.isOpen || false,
+        onOpenChangeCallback: setOpen, 
+        onClosePressCallback: () => setOpen(false),
+        docker: docking.getDocker()
+      } }
+    >
+      <ReadingDisplayTheme mapArrowNav={ 2 } />
+      <ReadingDisplayCol />
+      <ReadingDisplayLayout />
+    </SheetWithType>
+    </>
+  )
+}
 
-  if (variant && variant === ActionComponentVariant.menu) {
-    return(
-      <>
-        <OverflowMenuItem 
+export const SettingsAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
+  const dispatch = useAppDispatch();
+
+  const setOpen = (value: boolean) => {    
+    dispatch(setActionOpen({
+      key: ActionKeys.settings,
+      isOpen: value
+    }));
+
+    // hover false otherwise it tends to stay on close button press…
+    if (!value) dispatch(setHovering(false));
+  }
+
+  return(
+    <>
+    { (variant && variant === ActionComponentVariant.menu) 
+      ? <OverflowMenuItem 
           label={ Locale.reader.settings.trigger }
           SVG={ TuneIcon }
-          shortcut={ RSPrefs.actions.settings.shortcut } 
+          shortcut={ RSPrefs.actions.keys[ActionKeys.settings].shortcut } 
           id={ ActionKeys.settings }
+          onActionCallback={ () => setOpen(!actionState.isOpen) }
         />
-      </>
-    )
-  } else {
-    return(
-      <>
-      <DialogTrigger>
-        <ActionIcon 
-          visibility={ RSPrefs.actions[ActionKeys.settings].visibility }
+      : <ActionIcon 
+          visibility={ RSPrefs.actions.keys[ActionKeys.settings].visibility }
           ariaLabel={ Locale.reader.settings.trigger }
           SVG={ TuneIcon } 
           placement="bottom" 
           tooltipLabel={ Locale.reader.settings.tooltip } 
-          onPressCallback={ () => setOpen(true) }
+          onPressCallback={ () => setOpen(!actionState.isOpen) }
         />
-        <Popover 
-          placement="bottom" 
-          className={ settingsStyles.readerSettingsPopover }
-          isOpen={ isOpen }
-          onOpenChange={ setOpen } 
-          >
-          <Dialog>
-            <Button 
-              autoFocus={ true }
-              className={ readerSharedUI.closeButton } 
-              aria-label={ Locale.reader.settings.close } 
-              onPress={ () => setOpen(false) }
-            >
-              <CloseIcon aria-hidden="true" focusable="false" />
-            </Button>
-            <Heading slot="title" className={ readerSharedUI.popoverHeading }>{ Locale.reader.settings.heading }</Heading>
-            <ReadingDisplayTheme />
-            <Separator />
-            <ReadingDisplayCol />
-            <Separator />
-            <ReadingDisplayLayout />
-          </Dialog>
-        </Popover>
-      </DialogTrigger>
-      </>
-    )
-  }
+    }
+    </>
+  )
 }

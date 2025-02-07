@@ -2,11 +2,7 @@ import { useEffect } from "react";
 import { useMediaQuery } from "./useMediaQuery";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setColorScheme } from "@/lib/themeReducer";
-
-export enum ColorScheme {
-  light = "light",
-  dark = "dark"
-}
+import { ColorScheme } from "@/models/theme";
 
 export const useColorScheme = () => {
   const colorScheme = useAppSelector(state => state.theming.colorScheme);
