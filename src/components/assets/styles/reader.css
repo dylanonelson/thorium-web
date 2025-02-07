@@ -1,5 +1,4 @@
 :root {
-  /* Borrowed from Thorium src/renderer/assets/styles/variable.scss */
   --theme-text: ;
   --theme-background: ;
   --theme-link: ;
@@ -13,20 +12,37 @@
   --theme-focus: ;
   --theme-elevate: ;
   --theme-immerse: ;
+
+  --layout-radius: ;
+  --layout-spacing: ;
 }
 
 html,
 body {
   min-height: 100%;
+  margin: 0;
   overflow: hidden;
   touch-action: pan-x pan-y;
   overscroll-behavior-x: none;
   overscroll-behavior-y: none;
+  background-color: var(--theme-background);
+  color: var(--theme-text);
 }
 
-body {
+main {
+  width: 100%;
+  height: 100%;
   margin: 0;
-  background-color: #FFFFFF;
+}
+
+.left-dock {
+  height: 100vh;
+  height: 100dvh;
+}
+
+.right-dock {
+  height: 100vh;
+  height: 100dvh;
 }
 
 #bottom-bar,
@@ -37,11 +53,9 @@ body {
   background-color: var(--theme-background);
 }
 
-/* Necessary to have all three so that there is no offset when switching paginated/scroll */
 #top-bar {
-  min-height: calc(var(--icon-size, 24px) * 2.5);
-  height: calc(var(--icon-size, 24px) * 2.5);
-  max-height: calc(var(--icon-size, 24px) * 2.5);
+  /* Otherwise it will shrink/grow when switching paginated/scroll with bottom bar toggled */
+  flex: 0 0 calc(var(--icon-size, 24px) * 2.5);
 }
 
 #bottom-bar {
@@ -51,9 +65,11 @@ body {
   align-items: center;
 }
 
-main {
+#reader-main {
+  position: relative;
   display: flex;
   flex-direction: column;
+  flex: 1 1 0;
   height: 100vh;
   height: 100dvh;
   background-color: var(--theme-background);
@@ -61,6 +77,7 @@ main {
 
 #wrapper {
   height: 100%;
+  width: 100%;
   margin: 0;
 }
 
@@ -117,6 +134,8 @@ button {
 
   /* Focus no outline */
   outline: none;
+  /* No tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent;
 }
 
 ::selection {

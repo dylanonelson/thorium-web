@@ -30,7 +30,7 @@
   /* height: var(--arrow-size, 40px); */
   height: 40vh;
   height: 40dvh;
-  border-radius: 5px;
+  border-radius: var(--layout-radius);
   pointer-events: auto;
   box-sizing: border-box;
   padding: 5px;

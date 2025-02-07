@@ -1,26 +1,12 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 
 import { RSPrefs } from "@/preferences";
+
+import { BreakpointRange, BreakpointRanges, Breakpoints, StaticBreakpoints } from "@/models/staticBreakpoints";
+
 import { setStaticBreakpoint } from "@/lib/themeReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useMediaQuery } from "./useMediaQuery";
-
-export enum StaticBreakpoints {
-  compact = "compact",
-  medium = "medium",
-  expanded = "expanded",
-  large = "large",
-  xLarge = "xLarge"
-}
-
-export type Breakpoints = { [key in StaticBreakpoints]: boolean | null } & { current: string | undefined } & { ranges: BreakpointRanges };
-
-type BreakpointRange = {
-  min: number | null,
-  max: number | null
-}
-
-type BreakpointRanges = { [key in StaticBreakpoints]: BreakpointRange | null; }
 
 export const useBreakpoints = () => {
   const [isClient, setIsClient] = useState(false);

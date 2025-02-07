@@ -1,28 +1,33 @@
 import React from "react";
 
-import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
+import Locale from "../resources/locales/en.json";
+
+import { ActionComponentVariant, ActionKeys, IActionComponentTrigger } from "@/models/actions";
+
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import FullscreenCorners from "./assets/icons/fullscreen.svg";
 import FullscreenExit from "./assets/icons/fullscreen_exit.svg";
 
-import { OverflowMenuItem } from "./Templates/OverflowMenuItem";
-import { ActionIcon } from "./Templates/ActionIcon";
+import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
+import { ActionIcon } from "./ActionTriggers/ActionIcon";
 
 import { useFullscreen } from "@/hooks/useFullscreen";
-import { ActionComponentVariant, ActionKeys, IActionComponent } from "./Templates/ActionComponent";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setHovering } from "@/lib/readerReducer";
 import { isIOSish } from "@/helpers/keyboard/getPlatform";
 
-export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
+export const FullscreenAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
   // Note: Not using React Aria ToggleButton here as fullscreen is quite
   // difficult to control in isolation due to collapsibility + shortcuts
 
   const fs = useFullscreen();
   const dispatch = useAppDispatch();
+
+  const label = fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger;
+  const icon = fs.isFullscreen ? FullscreenExit : FullscreenCorners;
 
   const handlePress = () => {
     fs.handleFullscreen();
@@ -37,31 +42,26 @@ export const FullscreenAction: React.FC<IActionComponent> = ({ variant }) => {
   // And more values here: https://web.dev/learn/pwa/detection
   if (!document.fullscreenEnabled || isIOSish()) return null;
 
-  if (variant && variant === ActionComponentVariant.menu) {
-    return(
-      <>
-      <OverflowMenuItem 
-        label={ Locale.reader.fullscreen.trigger }
-        SVG={ FullscreenCorners } 
-        shortcut={ RSPrefs.actions.fullscreen.shortcut }
-        onActionCallback={ fs.handleFullscreen } 
-        id={ ActionKeys.fullscreen }
-      />
-      </>
-    )
-  } else {
-    return(
-      <>
-      <ActionIcon 
-        className={ readerSharedUI.iconCompSm }
-        visibility={ RSPrefs.actions[ActionKeys.fullscreen].visibility }  
-        ariaLabel={ fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger }
-        SVG={ fs.isFullscreen ? FullscreenExit : FullscreenCorners } 
-        placement="bottom" 
-        tooltipLabel={ Locale.reader.fullscreen.tooltip } 
-        onPressCallback={ handlePress } 
-      />
-      </>
-    )
-  }
+  return(
+    <>
+    { (variant && variant === ActionComponentVariant.menu) 
+      ? <OverflowMenuItem 
+          label={ label }
+          SVG={ icon } 
+          shortcut={ RSPrefs.actions.keys[ActionKeys.fullscreen].shortcut }
+          onActionCallback={ fs.handleFullscreen } 
+          id={ ActionKeys.fullscreen }
+        />
+      : <ActionIcon 
+          className={ readerSharedUI.iconCompSm }
+          visibility={ RSPrefs.actions.keys[ActionKeys.fullscreen].visibility }  
+          ariaLabel={ label }
+          SVG={ icon } 
+          placement="bottom" 
+          tooltipLabel={ Locale.reader.fullscreen.tooltip } 
+          onPressCallback={ handlePress } 
+        />
+    } 
+    </>
+  )
 }
