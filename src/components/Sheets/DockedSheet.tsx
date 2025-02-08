@@ -56,12 +56,12 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     { React.Children.toArray(children).length > 0 
       ? <>
         { isOpen && dockPortal && createPortal(
+          <div className={ classNames(sheetStyles.dockedSheet, className, classFromFlow()) }>
           <FocusScope 
             contain={ false }
             autoFocus={ true } 
             restoreFocus={ true }
           >
-            <div className={ classNames(sheetStyles.dockedSheet, className, classFromFlow()) }>
             <div className={ sheetStyles.sheetHeader }>
               <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
@@ -79,8 +79,9 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
             >
               { children }
             </div>
+          </FocusScope>
           </div>
-        </FocusScope>, dockPortal) 
+        , dockPortal) 
         }
         </>
       : <></> }
