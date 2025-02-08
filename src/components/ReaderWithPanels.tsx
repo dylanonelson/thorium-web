@@ -73,10 +73,6 @@ const DockPanel = ({
   const direction = useAppSelector(state => state.reader.direction);
   const dispatch = useAppDispatch();
 
-  const dockKey = flow === DockingKeys.end 
-    ? DockingKeys.end 
-    : DockingKeys.start;
-
   const dockClassName = flow === DockingKeys.end && direction === LayoutDirection.ltr ? "right-dock" : "left-dock";
 
   const makeDockLabel = useCallback(() => {    
@@ -101,24 +97,24 @@ const DockPanel = ({
   const collapsePanel = useCallback(() => {
     if (panelRef.current) {
       panelRef.current.collapse();
-      dispatch(collapseDockPanel(dockKey));
+      dispatch(collapseDockPanel(flow));
     }
-  }, [dispatch, dockKey]);
+  }, [dispatch, flow]);
 
   const expandPanel = useCallback(() => {
     if (panelRef.current) {
       panelRef.current.expand();
-      dispatch(expandDockPanel(dockKey));
+      dispatch(expandDockPanel(flow));
     }
-  }, [dispatch, dockKey]);
+  }, [dispatch, flow]);
 
   useEffect(() => {
-    dispatch(activateDockPanel(dockKey));
+    dispatch(activateDockPanel(flow));
 
     return () => {
-      dispatch(deactivateDockPanel(dockKey));
+      dispatch(deactivateDockPanel(flow));
     }
-  }, [dispatch, dockKey]);
+  }, [dispatch, flow]);
 
   useEffect(() => {
     isPopulated || forceExpand ? expandPanel() : collapsePanel();
@@ -134,7 +130,7 @@ const DockPanel = ({
       /> 
     } 
     <Panel 
-      id={ `${ dockKey }-panel` } 
+      id={ `${ flow }-panel` } 
       order={ flow === DockingKeys.end ? 3 : 1 } 
       collapsible={ true }
       collapsedSize={ 0 }
@@ -145,12 +141,12 @@ const DockPanel = ({
       onCollapse={ collapsePanel }
       onExpand={ expandPanel }
       onResize={ (size: number) => size !== 0 && dispatch(setDockPanelWidth({
-        key: dockKey,
+        key: flow,
         width: sizes.getCurrentPxWidth(size)
       }))}
     >
       <div 
-        id={ dockKey } 
+        id={ flow } 
         aria-label={ makeDockLabel() }
         className={ dockClassName }
       ></div>
