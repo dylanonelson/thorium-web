@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
-
+import { useCallback, useEffect } from "react";
+import { useIsClient } from "./useIsClient";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFullscreen } from "@/lib/readerReducer";
 
 export const useFullscreen = () => {
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useIsClient();
   const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
   const dispatch = useAppDispatch();
 
@@ -14,10 +14,6 @@ export const useFullscreen = () => {
     } else if (document.exitFullscreen) {
       document.exitFullscreen();
     }
-  }, []);
-
-  useLayoutEffect(() => {
-    if (typeof window !== "undefined") setIsClient(true);
   }, []);
 
   useEffect(() => {

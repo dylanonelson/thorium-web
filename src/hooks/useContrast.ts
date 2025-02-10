@@ -1,11 +1,12 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect } from "react";
 import { Contrast } from "@/models/theme";
 import { useMediaQuery } from "./useMediaQuery";
+import { useIsClient } from "./useIsClient";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setContrast } from "@/lib/themeReducer";
 
 export const useContrast = () => {
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useIsClient();
   const contrast = useAppSelector(state => state.theming.prefersContrast);
   const dispatch = useAppDispatch();
 
@@ -14,13 +15,9 @@ export const useContrast = () => {
   const prefersMoreContrast = useMediaQuery(`(prefers-contrast: ${ Contrast.more })`);
   const prefersCustomContrast = useMediaQuery(`(prefers-contrast: ${ Contrast.custom })`);
 
-  useLayoutEffect(() => {
-    if (typeof window !== "undefined") setIsClient(true);
-  }, []);
-
   useEffect(() => {
     if (!isClient) return;
-    
+
     if (prefersNoContrast) {
       dispatch(setContrast(Contrast.none));
     } else if (prefersLessContrast) {
