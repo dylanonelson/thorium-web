@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { useIsClient } from "./useIsClient";
 
 export const useFirstFocusable = ({
   withinRef,
@@ -10,11 +9,10 @@ export const useFirstFocusable = ({
   trackedState: boolean, 
   fallbackRef?: React.RefObject<HTMLElement | null> 
 }) => {
-  const isClient = useIsClient();
   const focusedElement = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (!isClient || !withinRef.current || !trackedState) return;
+    if (!withinRef.current || !trackedState) return;
     
     // WIP: Pick the fist element that is selected. 
     // Expecting this to become more complex 
@@ -32,7 +30,7 @@ export const useFirstFocusable = ({
         focusedElement.current = null;
       }
     }
-  }, [isClient, trackedState, withinRef, fallbackRef]);
+  }, [trackedState, withinRef, fallbackRef]);
 
   return focusedElement.current;
 }

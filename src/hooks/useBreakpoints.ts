@@ -3,14 +3,12 @@ import { useEffect } from "react";
 import { RSPrefs } from "@/preferences";
 
 import { BreakpointRange, BreakpointRanges, Breakpoints, StaticBreakpoints } from "@/models/staticBreakpoints";
+import { useMediaQuery } from "./useMediaQuery";
 
 import { setStaticBreakpoint } from "@/lib/themeReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useMediaQuery } from "./useMediaQuery";
-import { useIsClient } from "./useIsClient";
 
 export const useBreakpoints = () => {
-  const isClient = useIsClient();
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const dispatch = useAppDispatch();
 
@@ -81,8 +79,6 @@ export const useBreakpoints = () => {
   };
 
   useEffect(() => {
-    if (!isClient) return;
-
     if (breakpoints[StaticBreakpoints.compact]) {
       dispatch(setStaticBreakpoint(StaticBreakpoints.compact));
     } else if (breakpoints[StaticBreakpoints.medium]) {
