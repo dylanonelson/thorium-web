@@ -1,4 +1,5 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useIsClient } from "./useIsClient";
 
 export const useFirstFocusable = ({
   withinRef,
@@ -9,12 +10,8 @@ export const useFirstFocusable = ({
   trackedState: boolean, 
   fallbackRef?: React.RefObject<HTMLElement | null> 
 }) => {
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useIsClient();
   const focusedElement = useRef<HTMLElement | null>(null);
-  
-  useLayoutEffect(() => {
-    if (typeof window !== "undefined") setIsClient(true);
-  }, []);
 
   useEffect(() => {
     if (!isClient || !withinRef.current || !trackedState) return;

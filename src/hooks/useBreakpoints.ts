@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { RSPrefs } from "@/preferences";
 
@@ -7,9 +7,10 @@ import { BreakpointRange, BreakpointRanges, Breakpoints, StaticBreakpoints } fro
 import { setStaticBreakpoint } from "@/lib/themeReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useMediaQuery } from "./useMediaQuery";
+import { useIsClient } from "./useIsClient";
 
 export const useBreakpoints = () => {
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useIsClient();
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const dispatch = useAppDispatch();
 
@@ -78,10 +79,6 @@ export const useBreakpoints = () => {
     current: staticBreakpoint,
     ranges: ranges
   };
-  
-  useLayoutEffect(() => {
-    if (typeof window !== "undefined") setIsClient(true);
-  }, []);
 
   useEffect(() => {
     if (!isClient) return;

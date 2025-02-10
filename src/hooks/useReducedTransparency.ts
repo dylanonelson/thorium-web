@@ -1,18 +1,15 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect } from "react";
 import { useMediaQuery } from "./useMediaQuery";
+import { useIsClient } from "./useIsClient";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setReducedTransparency } from "@/lib/themeReducer";
 
 export const useReducedTransparency = () => {
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useIsClient();
   const reducedTransparency = useAppSelector(state => state.theming.prefersReducedTransparency);
   const dispatch = useAppDispatch();
 
   const prefersReducedTransparency = useMediaQuery("(prefers-reduced-transparency: reduce)");
-
-  useLayoutEffect(() => {
-    if (typeof window !== "undefined") setIsClient(true);
-  }, []);
 
   useEffect(() => {
     if (!isClient) return;
