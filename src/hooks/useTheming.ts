@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { RSPrefs } from "@/preferences";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
@@ -18,6 +18,7 @@ import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 // Takes care of the init of theming and side effects on :root/html
 // Reader still has to handle the side effects on Navigator
 export const useTheming = () => {
+  const [isClient, setIsClient] = useState(false);
   const breakpoints = useBreakpoints();
   const reducedMotion = useReducedMotion();
   const reducedTransparency = useReducedTransparency()
@@ -53,16 +54,24 @@ export const useTheming = () => {
     }
   }, [inferThemeAuto]);
 
+  useLayoutEffect(() => {
+    if (typeof window !== "undefined") setIsClient(true);
+  }, []);
+
   // On mount add custom props to :root/html
   useEffect(() => {
+    if (!isClient) return;
+
     initThemingCustomProps();
-  }, [initThemingCustomProps]);
+  }, [isClient, initThemingCustomProps]);
 
   // Update theme custom props
   useEffect(() => {
+    if (!isClient) return;
+
     colorSchemeRef.current = colorScheme;
     setThemeCustomProps(theme);
-  }, [setThemeCustomProps, theme, colorScheme]);
+  }, [isClient, setThemeCustomProps, theme, colorScheme]);
 
   return {
     breakpoints,

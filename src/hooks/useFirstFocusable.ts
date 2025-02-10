@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export const useFirstFocusable = ({
   withinRef,
@@ -9,11 +9,15 @@ export const useFirstFocusable = ({
   trackedState: boolean, 
   fallbackRef?: React.RefObject<HTMLElement | null> 
 }) => {
-
+  const [isClient, setIsClient] = useState(false);
   const focusedElement = useRef<HTMLElement | null>(null);
   
+  useLayoutEffect(() => {
+    if (typeof window !== "undefined") setIsClient(true);
+  }, []);
+
   useEffect(() => {
-    if (!withinRef.current || !trackedState) return;
+    if (!isClient || !withinRef.current || !trackedState) return;
     
     // WIP: Pick the fist element that is selected. 
     // Expecting this to become more complex 
@@ -31,7 +35,7 @@ export const useFirstFocusable = ({
         focusedElement.current = null;
       }
     }
-  }, [trackedState, withinRef, fallbackRef]);
+  }, [isClient, trackedState, withinRef, fallbackRef]);
 
   return focusedElement.current;
 }
