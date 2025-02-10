@@ -7,7 +7,7 @@ export default function Home() {
     <main>
       <h1>Welcome to the Readium Playground (Under Development)</h1>
 
-      <p>Here’s a quick access to a reflowable and a Fixed-Layout Publication:</p>
+      <p>Here’s a list of reflowable and fixed-layout publications you can read and test:</p>
 
       <ul>
         <li>
