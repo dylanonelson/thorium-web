@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { IThemeState } from "@/models/state/themingState";
-import { ColorScheme, ThemeKeys } from "@/models/theme";
+import { ColorScheme, Contrast, ThemeKeys } from "@/models/theme";
 
 const initialState: IThemeState = {
   monochrome: false,
@@ -9,7 +9,7 @@ const initialState: IThemeState = {
   theme: ThemeKeys.auto,
   prefersReducedMotion: false,
   prefersReducedTransparency: false, 
-  prefersContrast: false,
+  prefersContrast: Contrast.none,
   forcedColors: false, 
   hasReachedDynamicBreakpoint: false,
   staticBreakpoint: undefined
