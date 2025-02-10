@@ -84,19 +84,19 @@ export const useBreakpoints = () => {
   }, []);
 
   useEffect(() => {
-    if (isClient) {
-      if (breakpoints[StaticBreakpoints.compact]) {
-        dispatch(setStaticBreakpoint(StaticBreakpoints.compact));
-      } else if (breakpoints[StaticBreakpoints.medium]) {
-        dispatch(setStaticBreakpoint(StaticBreakpoints.medium));
-      } else if (breakpoints[StaticBreakpoints.expanded]) {
-        dispatch(setStaticBreakpoint(StaticBreakpoints.expanded))
-      } else if (breakpoints[StaticBreakpoints.large]) {
-        dispatch(setStaticBreakpoint(StaticBreakpoints.large));
-      } else if (breakpoints[StaticBreakpoints.xLarge]) {
-        dispatch(setStaticBreakpoint(StaticBreakpoints.xLarge))
-      };
-    }
+    if (!isClient) return;
+
+    if (breakpoints[StaticBreakpoints.compact]) {
+      dispatch(setStaticBreakpoint(StaticBreakpoints.compact));
+    } else if (breakpoints[StaticBreakpoints.medium]) {
+      dispatch(setStaticBreakpoint(StaticBreakpoints.medium));
+    } else if (breakpoints[StaticBreakpoints.expanded]) {
+      dispatch(setStaticBreakpoint(StaticBreakpoints.expanded))
+    } else if (breakpoints[StaticBreakpoints.large]) {
+      dispatch(setStaticBreakpoint(StaticBreakpoints.large));
+    } else if (breakpoints[StaticBreakpoints.xLarge]) {
+      dispatch(setStaticBreakpoint(StaticBreakpoints.xLarge))
+    };
   });
 
   return breakpoints;
