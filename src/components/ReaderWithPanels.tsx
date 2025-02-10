@@ -22,12 +22,16 @@ import parseTemplate from "json-templates";
 const DockHandle = ({
   flow,
   isResizable,
+  isPopulated, 
   hasDragIndicator
 }: { 
   flow: DockingKeys.start | DockingKeys.end;
   isResizable: boolean;
+  isPopulated: boolean;
   hasDragIndicator?: boolean;
 }) => {
+  const handleID = `${ flow }-resize-handle`;
+
   const direction = useAppSelector(state => state.reader.direction);
 
   const classFromFlow = useCallback(() => {
@@ -41,8 +45,10 @@ const DockHandle = ({
   return(
     <>
     <PanelResizeHandle 
+      id={ handleID } 
       className={ dockStyles.dockResizeHandle }
       disabled={ !isResizable }
+      tabIndex={ isPopulated ? 0 : -1 }
     >
       { isResizable && hasDragIndicator && 
         <div className={ classNames(dockStyles.dockResizeHandleGrab, classFromFlow()) }></div> 
@@ -126,6 +132,7 @@ const DockPanel = ({
       <DockHandle 
         flow={ DockingKeys.end } 
         isResizable={ isResizable } 
+        isPopulated={ isPopulated }
         hasDragIndicator={ hasDragIndicator } 
       /> 
     } 
@@ -155,6 +162,7 @@ const DockPanel = ({
       <DockHandle 
         flow={ DockingKeys.start } 
         isResizable={ isResizable } 
+        isPopulated={ isPopulated } 
         hasDragIndicator={ hasDragIndicator } 
       /> 
     } 
