@@ -5,6 +5,7 @@ import { ColorScheme, ThemeKeys } from "@/models/theme";
 
 import { useBreakpoints } from "./useBreakpoints";
 import { useReducedMotion } from "./useReducedMotion";
+import { useReducedTransparency } from "./useReducedTransparency";
 import { useColorScheme } from "./useColorScheme";
 import { useContrast } from "./useContrast";
 import { useForcedColors } from "./useForcedColors";
@@ -19,6 +20,7 @@ import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 export const useTheming = () => {
   const breakpoints = useBreakpoints();
   const reducedMotion = useReducedMotion();
+  const reducedTransparency = useReducedTransparency()
   const monochrome = useMonochrome();
   const colorScheme = useColorScheme();
   const colorSchemeRef = useRef(colorScheme);
@@ -64,11 +66,12 @@ export const useTheming = () => {
 
   return {
     breakpoints,
+    reducedMotion, 
+    reducedTransparency, 
     monochrome, 
     colorScheme,
     contrast, 
     forcedColors, 
-    reducedMotion, 
     inferThemeAuto
   }
 }

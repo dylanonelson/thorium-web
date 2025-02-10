@@ -6,6 +6,7 @@ export interface IThemeState {
   colorScheme: ColorScheme;
   theme: ThemeKeys;
   prefersReducedMotion: boolean;
+  prefersReducedTransparency: boolean;
   prefersContrast: boolean;
   forcedColors: boolean;
   hasReachedDynamicBreakpoint: boolean;

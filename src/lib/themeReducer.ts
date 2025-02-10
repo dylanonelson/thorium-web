@@ -8,6 +8,7 @@ const initialState: IThemeState = {
   colorScheme: ColorScheme.light,
   theme: ThemeKeys.auto,
   prefersReducedMotion: false,
+  prefersReducedTransparency: false, 
   prefersContrast: false,
   forcedColors: false, 
   hasReachedDynamicBreakpoint: false,
@@ -30,6 +31,9 @@ export const themeSlice = createSlice({
     setReducedMotion: (state, action) => {
       state.prefersReducedMotion = action.payload
     },
+    setReducedTransparency: (state, action) => {
+      state.prefersReducedTransparency = action.payload
+    },
     setContrast: (state, action) => {
       state.prefersContrast = action.payload
     },
@@ -51,6 +55,7 @@ export const {
   setColorScheme, 
   setTheme, 
   setReducedMotion, 
+  setReducedTransparency, 
   setContrast, 
   setForcedColors, 
   setDynamicBreakpoint, 
