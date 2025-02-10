@@ -32,6 +32,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     children 
   }) => {
   const dockPortal = flow && document.getElementById(flow);
+  const dockedSheetHeaderRef = useRef<HTMLDivElement | null>(null);
   const dockedSheetBodyRef = useRef<HTMLDivElement | null>(null);
   const dockedSheetCloseRef = useRef<HTMLButtonElement | null>(null);
 
@@ -56,13 +57,21 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     { React.Children.toArray(children).length > 0 
       ? <>
         { isOpen && dockPortal && createPortal(
-          <div className={ classNames(sheetStyles.dockedSheet, className, classFromFlow()) }>
+          <div 
+            className={ classNames(sheetStyles.dockedSheet, className, classFromFlow()) }
+            style={{
+              "--sheet-sticky-header": dockedSheetHeaderRef.current ? `${ dockedSheetHeaderRef.current.clientHeight }px` : undefined
+            }}
+          >
           <FocusScope 
             contain={ false }
             autoFocus={ true } 
             restoreFocus={ true }
           >
-            <div className={ sheetStyles.sheetHeader }>
+            <div 
+              ref={ dockedSheetHeaderRef }
+              className={ sheetStyles.sheetHeader }
+            >
               <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
               <Docker 
