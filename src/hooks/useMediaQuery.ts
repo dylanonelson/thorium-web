@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { useIsClient } from "./useIsClient";
 
 export const useMediaQuery = (query: string | null) => {
-  const isClient = useIsClient();
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {
-    if (!isClient || !query) return;
+    if (!query) return;
 
     const mq = window.matchMedia(query);
 
@@ -27,7 +25,7 @@ export const useMediaQuery = (query: string | null) => {
     mq.addEventListener("change", handleMatch);
 
     return () => mq.removeEventListener("change", handleMatch);
-  }, [isClient, matches, query]);
+  }, [matches, query]);
 
   return matches;
 }

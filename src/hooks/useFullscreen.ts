@@ -9,28 +9,25 @@ export const useFullscreen = () => {
   const dispatch = useAppDispatch();
 
   const handleFullscreen = useCallback(() => {
+    if (!isClient) return;
+
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
     } else if (document.exitFullscreen) {
       document.exitFullscreen();
     }
-  }, []);
+  }, [isClient]);
 
   useEffect(() => {
-    if (!isClient) return;
-
     const onFSchange = () => {
       dispatch(setFullscreen(Boolean(document.fullscreenElement)));
     }
-
     document.addEventListener("fullscreenchange", onFSchange);
 
     return () => {
-      if (!isClient) return;
-
       document.removeEventListener("fullscreenchange", onFSchange);
     }
-  }, [isClient, dispatch]);
+  }, [dispatch]);
 
   return {
     isFullscreen,

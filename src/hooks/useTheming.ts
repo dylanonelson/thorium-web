@@ -19,7 +19,7 @@ import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 // Takes care of the init of theming and side effects on :root/html
 // Reader still has to handle the side effects on Navigator
 export const useTheming = () => {
-  const isClient = useIsClient();
+  const isClient = useIsClient()
   const breakpoints = useBreakpoints();
   const reducedMotion = useReducedMotion();
   const reducedTransparency = useReducedTransparency()
@@ -35,6 +35,8 @@ export const useTheming = () => {
   }, []);
 
   const initThemingCustomProps = useCallback(() => {
+    if (!isClient) return;
+
     const props = {
       ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
       ...propsToCSSVars(RSPrefs.theming.icon, "icon"),
@@ -43,9 +45,11 @@ export const useTheming = () => {
     for (let p in props) {
       document.documentElement.style.setProperty(p, props[p])
     }
-  }, []);
+  }, [isClient]);
 
   const setThemeCustomProps = useCallback((t: ThemeKeys) => {
+    if (!isClient) return;
+
     if (t === ThemeKeys.auto) t = inferThemeAuto();
   
     const props = propsToCSSVars(RSPrefs.theming.themes.keys[t], "theme");
@@ -53,22 +57,18 @@ export const useTheming = () => {
     for (let p in props) {
       document.documentElement.style.setProperty(p, props[p])
     }
-  }, [inferThemeAuto]);
+  }, [isClient, inferThemeAuto]);
 
   // On mount add custom props to :root/html
   useEffect(() => {
-    if (!isClient) return;
-
     initThemingCustomProps();
-  }, [isClient, initThemingCustomProps]);
+  }, [initThemingCustomProps]);
 
   // Update theme custom props
   useEffect(() => {
-    if (!isClient) return;
-
     colorSchemeRef.current = colorScheme;
     setThemeCustomProps(theme);
-  }, [isClient, setThemeCustomProps, theme, colorScheme]);
+  }, [setThemeCustomProps, theme, colorScheme]);
 
   return {
     breakpoints,
