@@ -9,13 +9,13 @@ import sheetStyles from "../assets/styles/sheet.module.css";
 
 import { Heading } from "react-aria-components";
 import { Docker } from "./Docking/Docker";
+import { FocusScope } from "react-aria";
 
 import { useAppSelector } from "@/lib/hooks";
 
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
 import classNames from "classnames";
-import { FocusScope } from "react-aria";
 
 export interface IDockedSheet extends ISheet {
   flow: DockingKeys.start | DockingKeys.end | null;
@@ -57,16 +57,16 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     { React.Children.toArray(children).length > 0 
       ? <>
         { isOpen && dockPortal && createPortal(
+        <FocusScope 
+          contain={ false }
+          autoFocus={ true } 
+          restoreFocus={ true }
+        >
           <div 
             className={ classNames(sheetStyles.dockedSheet, className, classFromFlow()) }
             style={{
               "--sheet-sticky-header": dockedSheetHeaderRef.current ? `${ dockedSheetHeaderRef.current.clientHeight }px` : undefined
             }}
-          >
-          <FocusScope 
-            contain={ false }
-            autoFocus={ true } 
-            restoreFocus={ true }
           >
             <div 
               ref={ dockedSheetHeaderRef }
@@ -88,8 +88,8 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
             >
               { children }
             </div>
-          </FocusScope>
           </div>
+        </FocusScope>
         , dockPortal) 
         }
         </>
