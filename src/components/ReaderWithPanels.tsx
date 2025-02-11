@@ -64,6 +64,7 @@ const DockPanel = ({
   sizes,
   isResizable,
   isPopulated,
+  isCollapsed,
   forceExpand,
   hasDragIndicator 
 }: {
@@ -72,6 +73,7 @@ const DockPanel = ({
   sizes: IDockPanelSizes;
   isResizable: boolean;
   isPopulated: boolean;
+  isCollapsed: boolean;
   forceExpand: boolean;
   hasDragIndicator?: boolean;
 }) => {
@@ -88,17 +90,23 @@ const DockPanel = ({
     } else {
       label += Locale.reader.app.docking.dockingLeft
     }
-    if (!isPopulated) {
-      if (actionKey) {
-        const jsonTemplate = parseTemplate(Locale.reader.app.docking.dockingEmpty);
+
+    if (actionKey) {
+      if (!isPopulated) {
+        const jsonTemplate = parseTemplate(Locale.reader.app.docking.dockingClosed);
         // @ts-ignore
         label += ` – ${ jsonTemplate({ action: Locale.reader[actionKey].heading }) }`
-      } else {
-        label += ` – ${ Locale.reader.app.docking.dockingEmpty }`
+      } else if (isCollapsed) {
+        const jsonTemplate = parseTemplate(Locale.reader.app.docking.dockingCollapsed);
+        // @ts-ignore
+        label += ` – ${ jsonTemplate({ action: Locale.reader[actionKey].heading }) }`
       }
+    } else {
+      label += ` – ${ Locale.reader.app.docking.dockingEmpty }`
     }
+
     return label;
-  }, [flow, direction, isPopulated, actionKey]);
+  }, [flow, direction, isPopulated, isCollapsed, actionKey]);
 
   const collapsePanel = useCallback(() => {
     if (panelRef.current) {
@@ -151,6 +159,7 @@ const DockPanel = ({
         key: flow,
         width: sizes.getCurrentPxWidth(size)
       }))}
+      inert={ isCollapsed } 
     >
       <div 
         id={ flow } 
@@ -216,6 +225,7 @@ export const ReaderWithDock = ({
             }} 
             isResizable={ startPanel.isResizable() }
             isPopulated={ startPanel.isPopulated() }
+            isCollapsed={ startPanel.isCollapsed() } 
             forceExpand={ startPanel.forceExpand() }
             hasDragIndicator={ startPanel.hasDragIndicator() }
           />
@@ -238,6 +248,7 @@ export const ReaderWithDock = ({
             }} 
             isResizable={ endPanel.isResizable() }
             isPopulated={ endPanel.isPopulated() }
+            isCollapsed={ endPanel.isCollapsed() } 
             forceExpand={ endPanel.forceExpand() }
             hasDragIndicator={ endPanel.hasDragIndicator() }
           />

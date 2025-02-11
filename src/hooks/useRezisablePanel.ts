@@ -33,6 +33,10 @@ export const useRezisablePanel = (panel: Docked) => {
     return panel.active && actions.isOpen(panel.actionKey);
   };
 
+  const isCollapsed = () => {
+    return panel.collapsed;
+  }
+
   const forceExpand = () => {
     return isPopulated() && previouslyCollapsed && !panel.collapsed;
   }
@@ -89,6 +93,7 @@ export const useRezisablePanel = (panel: Docked) => {
   return {
     currentKey, 
     isPopulated, 
+    isCollapsed, 
     forceExpand, 
     isResizable,
     hasDragIndicator, 
