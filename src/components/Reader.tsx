@@ -238,7 +238,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       return true;
     },
     click: function (_e: FrameClickEvent): boolean {
-      toggleIsImmersive()
       return true;
     },
     zoom: function (_scale: number): void {},
