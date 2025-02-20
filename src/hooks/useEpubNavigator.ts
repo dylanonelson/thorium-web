@@ -5,7 +5,7 @@ import { RSPrefs } from "@/preferences";
 import { ScrollBackTo } from "@/models/preferences";
 import { ThemeKeys } from "@/models/theme";
 
-import fontStacks from "readium-css/css/vars/fontStacks.json";
+import fontStacks from "@readium/css/css/vars/fontStacks.json";
 
 import { EPUBLayout, Link, Locator, Publication, ReadingProgression } from "@readium/shared";
 import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager, FXLFramePoolManager } from "@readium/navigator";
@@ -209,10 +209,10 @@ export const useEpubNavigator = () => {
           "--USER__appearance": "readium-day-on",
           "--USER__backgroundColor": "",
           "--USER__textColor": "",
-          "--RS__linkColor": "",
-          "--RS__visitedColor": "",
-          "--RS__selectionBackgroundColor": "",
-          "--RS__selectionTextColor": ""
+          "--USER__linkColor": "",
+          "--USER__visitedColor": "",
+          "--USER__selectionBackgroundColor": "",
+          "--USER__selectionTextColor": ""
         });
         break;
       case ThemeKeys.sepia:
@@ -220,10 +220,10 @@ export const useEpubNavigator = () => {
           "--USER__appearance": "readium-sepia-on",
           "--USER__backgroundColor": "",
           "--USER__textColor": "",
-          "--RS__linkColor": "",
-          "--RS__visitedColor": "",
-          "--RS__selectionBackgroundColor": "",
-          "--RS__selectionTextColor": ""
+          "--USER__linkColor": "",
+          "--USER__visitedColor": "",
+          "--USER__selectionBackgroundColor": "",
+          "--USER__selectionTextColor": ""
         });
         break;
       case ThemeKeys.dark:
@@ -231,10 +231,10 @@ export const useEpubNavigator = () => {
           "--USER__appearance": "readium-night-on",
           "--USER__backgroundColor": "",
           "--USER__textColor": "",
-          "--RS__linkColor": "",
-          "--RS__visitedColor": "",
-          "--RS__selectionBackgroundColor": "",
-          "--RS__selectionTextColor": ""
+          "--USER__linkColor": "",
+          "--USER__visitedColor": "",
+          "--USER__selectionBackgroundColor": "",
+          "--USER__selectionTextColor": ""
         });
         break;
       default:
@@ -242,10 +242,10 @@ export const useEpubNavigator = () => {
           "--USER__appearance": "",
           "--USER__backgroundColor": RSPrefs.theming.themes.keys[t].background,
           "--USER__textColor": RSPrefs.theming.themes.keys[t].text,
-          "--RS__linkColor": RSPrefs.theming.themes.keys[t].link,
-          "--RS__visitedColor": RSPrefs.theming.themes.keys[t].visited,
-          "--RS__selectionBackgroundColor": RSPrefs.theming.themes.keys[t].select,
-          "--RS__selectionTextColor": RSPrefs.theming.themes.keys[t].onSelect
+          "--USER__linkColor": RSPrefs.theming.themes.keys[t].link,
+          "--USER__visitedColor": RSPrefs.theming.themes.keys[t].visited,
+          "--USER__selectionBackgroundColor": RSPrefs.theming.themes.keys[t].select,
+          "--USER__selectionTextColor": RSPrefs.theming.themes.keys[t].onSelect
         });
         break;
     }
