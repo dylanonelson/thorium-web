@@ -1,12 +1,13 @@
 import { StaticBreakpoints } from "../staticBreakpoints";
-import { ColorScheme, ThemeKeys } from "../theme";
+import { ColorScheme, Contrast, ThemeKeys } from "../theme";
 
 export interface IThemeState {
   monochrome: boolean;
   colorScheme: ColorScheme;
   theme: ThemeKeys;
   prefersReducedMotion: boolean;
-  prefersContrast: boolean;
+  prefersReducedTransparency: boolean;
+  prefersContrast: Contrast;
   forcedColors: boolean;
   hasReachedDynamicBreakpoint: boolean;
   staticBreakpoint?: StaticBreakpoints;

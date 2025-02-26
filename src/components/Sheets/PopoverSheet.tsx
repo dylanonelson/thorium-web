@@ -28,8 +28,10 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
     children 
   }) => {
   const popoverRef = useRef<HTMLDivElement | null>(null);
+  const popoverHeaderRef = useRef<HTMLDivElement | null>(null);
   const popoverBodyRef = useRef<HTMLDivElement | null>(null);
   const popoverCloseRef = useRef<HTMLButtonElement | null>(null);
+
   const firstFocusable = useFirstFocusable({
     withinRef: popoverBodyRef, 
     trackedState: isOpen, 
@@ -52,9 +54,15 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
         isOpen={ isOpen }
         onOpenChange={ onOpenChangeCallback } 
         maxHeight={ computeMaxHeight() }
+        style={{
+          "--sheet-sticky-header": popoverHeaderRef.current ? `${ popoverHeaderRef.current.clientHeight }px` : undefined
+        }}
       >
         <Dialog className={ sheetStyles.sheetDialog }>
-          <div className={ sheetStyles.sheetHeader }>
+          <div 
+            ref={ popoverHeaderRef }
+            className={ sheetStyles.sheetHeader }
+          >
             <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
             
             <Docker 

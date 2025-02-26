@@ -22,12 +22,16 @@ import parseTemplate from "json-templates";
 const DockHandle = ({
   flow,
   isResizable,
+  isPopulated, 
   hasDragIndicator
 }: { 
   flow: DockingKeys.start | DockingKeys.end;
   isResizable: boolean;
+  isPopulated: boolean;
   hasDragIndicator?: boolean;
 }) => {
+  const handleID = `${ flow }-resize-handle`;
+
   const direction = useAppSelector(state => state.reader.direction);
 
   const classFromFlow = useCallback(() => {
@@ -41,8 +45,10 @@ const DockHandle = ({
   return(
     <>
     <PanelResizeHandle 
+      id={ handleID } 
       className={ dockStyles.dockResizeHandle }
       disabled={ !isResizable }
+      tabIndex={ isPopulated ? 0 : -1 }
     >
       { isResizable && hasDragIndicator && 
         <div className={ classNames(dockStyles.dockResizeHandleGrab, classFromFlow()) }></div> 
@@ -58,6 +64,7 @@ const DockPanel = ({
   sizes,
   isResizable,
   isPopulated,
+  isCollapsed,
   forceExpand,
   hasDragIndicator 
 }: {
@@ -66,16 +73,13 @@ const DockPanel = ({
   sizes: IDockPanelSizes;
   isResizable: boolean;
   isPopulated: boolean;
+  isCollapsed: boolean;
   forceExpand: boolean;
   hasDragIndicator?: boolean;
 }) => {
   const panelRef = useRef<ImperativePanelHandle>(null);
   const direction = useAppSelector(state => state.reader.direction);
   const dispatch = useAppDispatch();
-
-  const dockKey = flow === DockingKeys.end 
-    ? DockingKeys.end 
-    : DockingKeys.start;
 
   const dockClassName = flow === DockingKeys.end && direction === LayoutDirection.ltr ? "right-dock" : "left-dock";
 
@@ -86,39 +90,45 @@ const DockPanel = ({
     } else {
       label += Locale.reader.app.docking.dockingLeft
     }
-    if (!isPopulated) {
-      if (actionKey) {
-        const jsonTemplate = parseTemplate(Locale.reader.app.docking.dockingEmpty);
+
+    if (actionKey) {
+      if (!isPopulated) {
+        const jsonTemplate = parseTemplate(Locale.reader.app.docking.dockingClosed);
         // @ts-ignore
         label += ` – ${ jsonTemplate({ action: Locale.reader[actionKey].heading }) }`
-      } else {
-        label += ` – ${ Locale.reader.app.docking.dockingEmpty }`
+      } else if (isCollapsed) {
+        const jsonTemplate = parseTemplate(Locale.reader.app.docking.dockingCollapsed);
+        // @ts-ignore
+        label += ` – ${ jsonTemplate({ action: Locale.reader[actionKey].heading }) }`
       }
+    } else {
+      label += ` – ${ Locale.reader.app.docking.dockingEmpty }`
     }
+
     return label;
-  }, [flow, direction, isPopulated, actionKey]);
+  }, [flow, direction, isPopulated, isCollapsed, actionKey]);
 
   const collapsePanel = useCallback(() => {
     if (panelRef.current) {
       panelRef.current.collapse();
-      dispatch(collapseDockPanel(dockKey));
+      dispatch(collapseDockPanel(flow));
     }
-  }, [dispatch, dockKey]);
+  }, [dispatch, flow]);
 
   const expandPanel = useCallback(() => {
     if (panelRef.current) {
       panelRef.current.expand();
-      dispatch(expandDockPanel(dockKey));
+      dispatch(expandDockPanel(flow));
     }
-  }, [dispatch, dockKey]);
+  }, [dispatch, flow]);
 
   useEffect(() => {
-    dispatch(activateDockPanel(dockKey));
+    dispatch(activateDockPanel(flow));
 
     return () => {
-      dispatch(deactivateDockPanel(dockKey));
+      dispatch(deactivateDockPanel(flow));
     }
-  }, [dispatch, dockKey]);
+  }, [dispatch, flow]);
 
   useEffect(() => {
     isPopulated || forceExpand ? expandPanel() : collapsePanel();
@@ -130,11 +140,12 @@ const DockPanel = ({
       <DockHandle 
         flow={ DockingKeys.end } 
         isResizable={ isResizable } 
+        isPopulated={ isPopulated }
         hasDragIndicator={ hasDragIndicator } 
       /> 
     } 
     <Panel 
-      id={ `${ dockKey }-panel` } 
+      id={ `${ flow }-panel` } 
       order={ flow === DockingKeys.end ? 3 : 1 } 
       collapsible={ true }
       collapsedSize={ 0 }
@@ -145,12 +156,13 @@ const DockPanel = ({
       onCollapse={ collapsePanel }
       onExpand={ expandPanel }
       onResize={ (size: number) => size !== 0 && dispatch(setDockPanelWidth({
-        key: dockKey,
+        key: flow,
         width: sizes.getCurrentPxWidth(size)
       }))}
+      inert={ isCollapsed } 
     >
       <div 
-        id={ dockKey } 
+        id={ flow } 
         aria-label={ makeDockLabel() }
         className={ dockClassName }
       ></div>
@@ -159,6 +171,7 @@ const DockPanel = ({
       <DockHandle 
         flow={ DockingKeys.start } 
         isResizable={ isResizable } 
+        isPopulated={ isPopulated } 
         hasDragIndicator={ hasDragIndicator } 
       /> 
     } 
@@ -212,6 +225,7 @@ export const ReaderWithDock = ({
             }} 
             isResizable={ startPanel.isResizable() }
             isPopulated={ startPanel.isPopulated() }
+            isCollapsed={ startPanel.isCollapsed() } 
             forceExpand={ startPanel.forceExpand() }
             hasDragIndicator={ startPanel.hasDragIndicator() }
           />
@@ -234,6 +248,7 @@ export const ReaderWithDock = ({
             }} 
             isResizable={ endPanel.isResizable() }
             isPopulated={ endPanel.isPopulated() }
+            isCollapsed={ endPanel.isCollapsed() } 
             forceExpand={ endPanel.forceExpand() }
             hasDragIndicator={ endPanel.hasDragIndicator() }
           />
