@@ -85,22 +85,46 @@ export const useEpubNavigator = () => {
         break;
       case ThemeKeys.light:
         navigatorInstance?.submitPreferences(new EpubPreferences({
-          theme: Theme.day
+          theme: Theme.day,
+          backgroundColor: null,
+          textColor: null,
+          linkColor: null,
+          selectionBackgroundColor: null,
+          selectionTextColor: null,
+          visitedColor: null
         }));
         break;
       case ThemeKeys.sepia:
         navigatorInstance?.submitPreferences(new EpubPreferences({
-          theme: Theme.sepia
+          theme: Theme.sepia,
+          backgroundColor: null,
+          textColor: null,
+          linkColor: null,
+          selectionBackgroundColor: null,
+          selectionTextColor: null,
+          visitedColor: null
         }));
         break;
       case ThemeKeys.dark:
         navigatorInstance?.submitPreferences(new EpubPreferences({
-          theme: Theme.night
+          theme: Theme.night,
+          backgroundColor: null,
+          textColor: null,
+          linkColor: null,
+          selectionBackgroundColor: null,
+          selectionTextColor: null,
+          visitedColor: null
         }));
         break;
       default:
         navigatorInstance?.submitPreferences(new EpubPreferences({
-          theme: Theme.custom
+          theme: Theme.custom,
+          backgroundColor: RSPrefs.theming.themes.keys[t].background,
+          textColor: RSPrefs.theming.themes.keys[t].text,
+          linkColor: RSPrefs.theming.themes.keys[t].link,
+          selectionBackgroundColor: RSPrefs.theming.themes.keys[t].select,
+          selectionTextColor: RSPrefs.theming.themes.keys[t].onSelect,
+          visitedColor: RSPrefs.theming.themes.keys[t].visited
         }));
         break;
     }
