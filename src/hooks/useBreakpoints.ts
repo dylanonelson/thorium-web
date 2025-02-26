@@ -1,15 +1,14 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { RSPrefs } from "@/preferences";
 
 import { BreakpointRange, BreakpointRanges, Breakpoints, StaticBreakpoints } from "@/models/staticBreakpoints";
+import { useMediaQuery } from "./useMediaQuery";
 
 import { setStaticBreakpoint } from "@/lib/themeReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useMediaQuery } from "./useMediaQuery";
 
 export const useBreakpoints = () => {
-  const [isClient, setIsClient] = useState(false);
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const dispatch = useAppDispatch();
 
@@ -78,25 +77,19 @@ export const useBreakpoints = () => {
     current: staticBreakpoint,
     ranges: ranges
   };
-  
-  useLayoutEffect(() => {
-    if (typeof window !== "undefined") setIsClient(true);
-  }, []);
 
   useEffect(() => {
-    if (isClient) {
-      if (breakpoints[StaticBreakpoints.compact]) {
-        dispatch(setStaticBreakpoint(StaticBreakpoints.compact));
-      } else if (breakpoints[StaticBreakpoints.medium]) {
-        dispatch(setStaticBreakpoint(StaticBreakpoints.medium));
-      } else if (breakpoints[StaticBreakpoints.expanded]) {
-        dispatch(setStaticBreakpoint(StaticBreakpoints.expanded))
-      } else if (breakpoints[StaticBreakpoints.large]) {
-        dispatch(setStaticBreakpoint(StaticBreakpoints.large));
-      } else if (breakpoints[StaticBreakpoints.xLarge]) {
-        dispatch(setStaticBreakpoint(StaticBreakpoints.xLarge))
-      };
-    }
+    if (breakpoints[StaticBreakpoints.compact]) {
+      dispatch(setStaticBreakpoint(StaticBreakpoints.compact));
+    } else if (breakpoints[StaticBreakpoints.medium]) {
+      dispatch(setStaticBreakpoint(StaticBreakpoints.medium));
+    } else if (breakpoints[StaticBreakpoints.expanded]) {
+      dispatch(setStaticBreakpoint(StaticBreakpoints.expanded))
+    } else if (breakpoints[StaticBreakpoints.large]) {
+      dispatch(setStaticBreakpoint(StaticBreakpoints.large));
+    } else if (breakpoints[StaticBreakpoints.xLarge]) {
+      dispatch(setStaticBreakpoint(StaticBreakpoints.xLarge))
+    };
   });
 
   return breakpoints;

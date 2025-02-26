@@ -7,9 +7,9 @@ import { DockTypes, DockingKeys } from "./models/docking";
 import { ThemeKeys } from "./models/theme";
 import { LayoutDirection } from "./models/layout";
 
-import dayMode from "readium-css/css/vars/day.json";
-import sepiaMode from "readium-css/css/vars/sepia.json";
-import nightMode from "readium-css/css/vars/night.json";
+import dayMode from "@readium/css/css/vars/day.json";
+import sepiaMode from "@readium/css/css/vars/sepia.json";
+import nightMode from "@readium/css/css/vars/night.json";
 
 export const RSPrefs: IRSPrefs = {
   direction: LayoutDirection.ltr,

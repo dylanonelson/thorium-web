@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { IThemeState } from "@/models/state/themingState";
-import { ColorScheme, ThemeKeys } from "@/models/theme";
+import { ColorScheme, Contrast, ThemeKeys } from "@/models/theme";
 
 const initialState: IThemeState = {
   monochrome: false,
   colorScheme: ColorScheme.light,
   theme: ThemeKeys.auto,
   prefersReducedMotion: false,
-  prefersContrast: false,
+  prefersReducedTransparency: false, 
+  prefersContrast: Contrast.none,
   forcedColors: false, 
   hasReachedDynamicBreakpoint: false,
   staticBreakpoint: undefined
@@ -29,6 +30,9 @@ export const themeSlice = createSlice({
     },
     setReducedMotion: (state, action) => {
       state.prefersReducedMotion = action.payload
+    },
+    setReducedTransparency: (state, action) => {
+      state.prefersReducedTransparency = action.payload
     },
     setContrast: (state, action) => {
       state.prefersContrast = action.payload
@@ -51,6 +55,7 @@ export const {
   setColorScheme, 
   setTheme, 
   setReducedMotion, 
+  setReducedTransparency, 
   setContrast, 
   setForcedColors, 
   setDynamicBreakpoint, 

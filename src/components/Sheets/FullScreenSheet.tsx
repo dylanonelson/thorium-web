@@ -25,8 +25,10 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
     onClosePressCallback,
     children 
   }) => {
+  const fullScreenHeaderRef = useRef<HTMLDivElement | null>(null);
   const fullScreenBodyRef = useRef<HTMLDivElement | null>(null);
   const fullScreenCloseRef = useRef<HTMLButtonElement | null>(null);
+
   const firstFocusable = useFirstFocusable({
     withinRef: fullScreenBodyRef, 
     trackedState: isOpen, 
@@ -41,9 +43,15 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
         onOpenChange={ onOpenChangeCallback }
         isDismissable={ true }
         className={ classNames(sheetStyles.fullScreenSheet, className) }
+        style={{
+          "--sheet-sticky-header": fullScreenHeaderRef.current ? `${ fullScreenHeaderRef.current.clientHeight }px` : undefined
+        }}
       >
         <Dialog className={ sheetStyles.sheetDialog }>
-          <div className={ sheetStyles.sheetHeader }>
+          <div 
+            ref={ fullScreenHeaderRef }
+            className={ sheetStyles.sheetHeader }
+          >
             <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
             <CloseButton

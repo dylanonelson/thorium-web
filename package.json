@@ -7,7 +7,7 @@
     "web reader"
   ],
   "license": "BSD-3-Clause",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -19,7 +19,7 @@
     "build:injectables": "cd ./src/readium/ts-toolkit/navigator-html-injectables && pnpm run build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "npx @cloudflare/next-on-pages@1 && npx wrangler pages deploy",
+    "deploy": "npx @cloudflare/next-on-pages && npx wrangler pages deploy",
     "preinstall": "npx only-allow pnpm && cd ./src/readium/ts-toolkit && pnpm install",
     "postinstall": "pnpm run build:submodules"
   },
@@ -27,12 +27,12 @@
     "@readium/navigator": "link:src/readium/ts-toolkit/navigator",
     "@readium/navigator-html-injectables": "link:src/readium/ts-toolkit/navigator-html-injectables",
     "@readium/shared": "link:src/readium/ts-toolkit/shared",
-    "@reduxjs/toolkit": "^2.5.0",
+    "@reduxjs/toolkit": "^2.5.1",
     "classnames": "^2.5.1",
     "debounce": "^2.2.0",
     "json-templates": "^5.1.0",
-    "motion": "^12.0.1",
-    "next": "15.1.4",
+    "motion": "^12.4.2",
+    "next": "15.1.7",
     "react": "^19.0.0",
     "react-aria": "^3.37.0",
     "react-aria-components": "^1.6.0",
@@ -43,23 +43,14 @@
     "react-stately": "^3.35.0"
   },
   "devDependencies": {
+    "@readium/css": "github:readium/readium-css",
     "@svgr/webpack": "^8.1.0",
     "@types/json-templates": "^3.0.3",
-    "@types/node": "^22.10.7",
-    "@types/react": "^19.0.7",
+    "@types/node": "^22.13.1",
+    "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
-    "eslint": "^9.18.0",
-    "eslint-config-next": "15.1.4",
-    "readium-css": "github:readium/readium-css",
-    "typescript": "^5.7.3",
-    "vercel": "39.1.1"
-  },
-  "overrides": {
-    "@babel/core": "7.25.2",
-    "vercel": "$vercel"
-  },
-  "resolutions": {
-    "@babel/core": "7.25.2",
-    "vercel": "$vercel"
+    "eslint": "^9.20.0",
+    "eslint-config-next": "15.1.7",
+    "typescript": "^5.7.3"
   }
 }

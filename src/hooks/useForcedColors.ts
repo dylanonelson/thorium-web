@@ -10,6 +10,7 @@ export const useForcedColors = () => {
   const forcedColors = useMediaQuery("(forced-colors: active)");
 
   useEffect(() => {
+
     dispatch(setForcedColors(forcedColors));
   }, [dispatch, forcedColors]);
 

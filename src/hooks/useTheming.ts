@@ -3,8 +3,10 @@ import { useCallback, useEffect, useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
 
+import { useIsClient } from "./useIsClient";
 import { useBreakpoints } from "./useBreakpoints";
 import { useReducedMotion } from "./useReducedMotion";
+import { useReducedTransparency } from "./useReducedTransparency";
 import { useColorScheme } from "./useColorScheme";
 import { useContrast } from "./useContrast";
 import { useForcedColors } from "./useForcedColors";
@@ -17,8 +19,10 @@ import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 // Takes care of the init of theming and side effects on :root/html
 // Reader still has to handle the side effects on Navigator
 export const useTheming = () => {
+  const isClient = useIsClient()
   const breakpoints = useBreakpoints();
   const reducedMotion = useReducedMotion();
+  const reducedTransparency = useReducedTransparency()
   const monochrome = useMonochrome();
   const colorScheme = useColorScheme();
   const colorSchemeRef = useRef(colorScheme);
@@ -31,6 +35,8 @@ export const useTheming = () => {
   }, []);
 
   const initThemingCustomProps = useCallback(() => {
+    if (!isClient) return;
+
     const props = {
       ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
       ...propsToCSSVars(RSPrefs.theming.icon, "icon"),
@@ -39,9 +45,11 @@ export const useTheming = () => {
     for (let p in props) {
       document.documentElement.style.setProperty(p, props[p])
     }
-  }, []);
+  }, [isClient]);
 
   const setThemeCustomProps = useCallback((t: ThemeKeys) => {
+    if (!isClient) return;
+
     if (t === ThemeKeys.auto) t = inferThemeAuto();
   
     const props = propsToCSSVars(RSPrefs.theming.themes.keys[t], "theme");
@@ -49,7 +57,7 @@ export const useTheming = () => {
     for (let p in props) {
       document.documentElement.style.setProperty(p, props[p])
     }
-  }, [inferThemeAuto]);
+  }, [isClient, inferThemeAuto]);
 
   // On mount add custom props to :root/html
   useEffect(() => {
@@ -64,11 +72,12 @@ export const useTheming = () => {
 
   return {
     breakpoints,
+    reducedMotion, 
+    reducedTransparency, 
     monochrome, 
     colorScheme,
     contrast, 
     forcedColors, 
-    reducedMotion, 
     inferThemeAuto
   }
 }

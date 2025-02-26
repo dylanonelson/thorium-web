@@ -9,9 +9,8 @@ export const useFirstFocusable = ({
   trackedState: boolean, 
   fallbackRef?: React.RefObject<HTMLElement | null> 
 }) => {
-
   const focusedElement = useRef<HTMLElement | null>(null);
-  
+
   useEffect(() => {
     if (!withinRef.current || !trackedState) return;
     

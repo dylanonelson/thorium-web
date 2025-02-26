@@ -6,7 +6,8 @@
         "dockingLeft": "Docked panel left",
         "dockingRight": "Docked panel right",
         "dockingEmpty": "Currently empty",
-        "dockingClosed": "Contains closed {{ action }}"
+        "dockingClosed": "Is closed, contains {{ action }}",
+        "dockingCollapsed": "Is Collapsed, contains {{ action }}"
       },
       "header": {
         "label": "Top bar",
