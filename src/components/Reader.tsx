@@ -85,15 +85,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     navLayout,
     currentLocator,
     getCframes,
-    applyColumns, 
-    applyScrollable, 
+    applyPaged, 
+    applyScroll, 
     scrollBackTo, 
-    applyReadiumCSSStyles,
-    handleColCountReflow,
-    handleScrollReflow,
-    handleFXLReflow, 
     handleTheme, 
-    setFXLPages,  
+    setConstraint, 
+    setFXLPages,
+    setReflowColumns, 
     handleProgression
   } = useEpubNavigator();
 
@@ -133,19 +131,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   };
 
   const initReadingEnv = async () => {
-    if (navLayout() === EPUBLayout.reflowable) {
-      if (RCSSSettings.current.theme === ThemeKeys.auto) {
-        handleTheme(theming.inferThemeAuto());
-      } else { 
-        handleTheme(RCSSSettings.current.theme);
-      }  
-
-      if (RCSSSettings.current.paginated) {
-        await applyColumns(RCSSSettings.current.colCount);
-      } else {
-        await applyScrollable();
-      }
-    } else if (navLayout() === EPUBLayout.fixed) {
+    if (navLayout() === EPUBLayout.fixed) {
       // [TMP] Working around positionChanged not firing consistently for FXL
       // Init’ing so that progression can be populated on first spread loaded
       const cLoc = currentLocator();
@@ -271,34 +257,26 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     if (navLayout() === EPUBLayout.reflowable) {
       const applyLayout = async () => {
         if (isPaged) { 
-          if (arrowsOccupySpace) {
-            await applyColumns(colCount, arrowsWidth.current); 
-          } else {
-            await applyColumns(colCount);
-          }
+          await applyPaged(); 
         } else {
-          await applyScrollable();
+          await applyScroll();
         }
       }
       applyLayout()
         .catch(console.error);
     }
       
-  }, [isPaged, colCount, arrowsOccupySpace, navLayout, applyColumns, applyScrollable]);
+  }, [isPaged, colCount, arrowsOccupySpace, navLayout, applyPaged, applyScroll]);
 
   useEffect(() => {
     RCSSSettings.current.colCount = colCount;
 
     if (navLayout() === EPUBLayout.reflowable) {
-      if (arrowsOccupySpace) {
-      handleColCountReflow(colCount, arrowsWidth.current);
-    } else {
-      handleColCountReflow(colCount);
-    }
+      setReflowColumns(parseInt(colCount));
     } else if (navLayout() === EPUBLayout.fixed) {
-      colCount === "1" ? setFXLPages(1) : setFXLPages(0);
+      colCount === "1" ? setFXLPages(1) : setFXLPages(null);
     }
-  }, [colCount, arrowsOccupySpace, navLayout, setFXLPages, handleColCountReflow]);
+  }, [colCount, arrowsOccupySpace, navLayout, setFXLPages, setReflowColumns]);
 
   // Handling side effects on Navigator
   useEffect(() => {
@@ -311,32 +289,14 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
   }, [theme, handleTheme, theming]);
 
-  const handleResize = debounce(() => {
-    let constrain = arrowsOccupySpace ? arrowsWidth.current : 0;
-
-    if (navLayout() === EPUBLayout.reflowable) {      
-      if (RCSSSettings.current.paginated) {
-        handleColCountReflow(RCSSSettings.current.colCount, constrain);
-      } else {
-        handleScrollReflow();
-      }
-    } else if (navLayout() === EPUBLayout.fixed) {
-      handleFXLReflow(constrain);
-    }
-  }, 250);
-
   useEffect(() => {
     RSPrefs.direction && dispatch(setDirection(RSPrefs.direction));
     dispatch(setPlatformModifier(getPlatformModifier()));
+  }, [dispatch]);
 
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("orientationchange", handleResize);
-    
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("orientationchange", handleResize);
-    }
-  }, [dispatch, handleResize]);
+  useEffect(() => {
+    setConstraint(arrowsOccupySpace ? arrowsWidth.current : 0);
+  }, [arrowsOccupySpace, setConstraint])
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -399,7 +359,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   return (
     <>
     <main>
-      <ReaderWithDock resizeCallback={ handleResize }>
+      <ReaderWithDock>
         <div id="reader-main">
           <ReaderHeader />
 
