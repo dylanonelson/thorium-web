@@ -2,13 +2,15 @@ import { useCallback, useMemo, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
-import { ScrollBackTo } from "@/models/preferences";
-import { ThemeKeys } from "@/models/theme";
 
 import fontStacks from "@readium/css/css/vars/fontStacks.json";
 
+import { ScrollBackTo } from "@/models/preferences";
+import { ThemeKeys } from "@/models/theme";
+
 import { EPUBLayout, Link, Locator, Publication, ReadingProgression } from "@readium/shared";
 import { EpubNavigator, EpubNavigatorListeners, FrameManager, FXLFrameManager, FXLFramePoolManager } from "@readium/navigator";
+import { IEpubDefaults, IEpubPreferences } from "@/readium/ts-toolkit/navigator/src/epub/preferences";
 
 import { useAppDispatch } from "@/lib/hooks";
 
@@ -30,6 +32,8 @@ export interface IEpubNavigatorConfig {
   listeners: EpubNavigatorListeners;
   positionsList?: Locator[];
   initialPosition?: Locator;
+  preferences?: IEpubPreferences;
+  defaults?: IEpubDefaults;
   localDataKey: string;
 }
 
@@ -311,7 +315,14 @@ export const useEpubNavigator = () => {
       publication.current = config.publication;
       localDataKey.current = config.localDataKey;
 
-      navigatorInstance = new EpubNavigator(config.container, config.publication, config.listeners, config.positionsList, config.initialPosition);
+      navigatorInstance = new EpubNavigator(
+        config.container, 
+        config.publication, 
+        config.listeners, 
+        config.positionsList, 
+        config.initialPosition, 
+        { preferences: config.preferences || {}, defaults: config.defaults || {} }
+      );
 
       navigatorInstance.load().then(() => {
         cb();

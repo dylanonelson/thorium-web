@@ -134,10 +134,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const initReadingEnv = async () => {
     if (navLayout() === EPUBLayout.reflowable) {
-      applyReadiumCSSStyles({
-        "--RS__pageGutter": `${RSPrefs.typography.pageGutter}px`
-      });
-
       if (RCSSSettings.current.theme === ThemeKeys.auto) {
         handleTheme(theming.inferThemeAuto());
       } else { 
@@ -385,6 +381,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           listeners: listeners, 
           positionsList: positionsList,
           initialPosition: initialPosition,
+          preferences: {
+            pageGutter: RSPrefs.typography.pageGutter,
+            optimalLineLength: RSPrefs.typography.optimalLineLength,
+            minimalLineLength: RSPrefs.typography.minimalLineLength,
+            constraint: arrowsOccupySpace ? arrowsWidth.current : 0
+          },
           localDataKey: localDataKey.current,
         }, () => p.observe(window));
       });
