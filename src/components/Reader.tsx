@@ -348,6 +348,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       .catch(console.error)
       .then(() => {
         const initialPosition = localData.get(localDataKey.current);
+        // Fails while theme is OK
+        const initialConstraint = arrowsOccupySpace ? arrowsWidth.current : 0;
         const themeProps = theme === ThemeKeys.auto 
           ? listThemeProps(theming.inferThemeAuto()) 
           : listThemeProps(theme);
@@ -362,7 +364,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             pageGutter: RSPrefs.typography.pageGutter,
             optimalLineLength: RSPrefs.typography.optimalLineLength,
             minimalLineLength: RSPrefs.typography.minimalLineLength,
-            constraint: arrowsOccupySpace ? arrowsWidth.current : 0,
+            constraint: initialConstraint,
             ...themeProps
           },
           localDataKey: localDataKey.current,

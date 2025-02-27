@@ -135,7 +135,7 @@ export const useEpubNavigator = () => {
   const handleTheme = useCallback(async (t: ThemeKeys) => {    
     const themeProps = listThemeProps(t);
     await navigatorInstance?.submitPreferences(new EpubPreferences(themeProps));
-  }, []);
+  }, [listThemeProps]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
