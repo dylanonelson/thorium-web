@@ -271,22 +271,31 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   useEffect(() => {
     RCSSSettings.current.colCount = colCount;
 
-    if (navLayout() === EPUBLayout.reflowable) {
-      setReflowColumns(parseInt(colCount));
-    } else if (navLayout() === EPUBLayout.fixed) {
-      colCount === "1" ? setFXLPages(1) : setFXLPages(null);
+    const applyColCount = async () => {
+      if (navLayout() === EPUBLayout.reflowable) {
+        const count = colCount === "auto" ? null : parseInt(colCount);
+        await setReflowColumns(count);
+      } else if (navLayout() === EPUBLayout.fixed) {
+        await colCount === "1" ? setFXLPages(1) : setFXLPages(null);
+      }
     }
+    applyColCount()
+      .catch(console.error);
   }, [colCount, arrowsOccupySpace, navLayout, setFXLPages, setReflowColumns]);
 
   // Handling side effects on Navigator
   useEffect(() => {
     RCSSSettings.current.theme = theme;
     
-    if (theme === ThemeKeys.auto) {
-      handleTheme(theming.inferThemeAuto());
-    } else {
-      handleTheme(theme);
+    const applyTheme = async () => {
+      if (theme === ThemeKeys.auto) {
+        await handleTheme(theming.inferThemeAuto());
+      } else {
+        await handleTheme(theme);
+      } 
     }
+    applyTheme()
+      .catch(console.error);
   }, [theme, handleTheme, theming]);
 
   useEffect(() => {
@@ -295,7 +304,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [dispatch]);
 
   useEffect(() => {
-    setConstraint(arrowsOccupySpace ? arrowsWidth.current : 0);
+    const applyConstraint = async () => {
+      await setConstraint(arrowsOccupySpace ? arrowsWidth.current : 0)
+    }
+    applyConstraint()
+      .catch(console.error);
   }, [arrowsOccupySpace, setConstraint])
 
   useEffect(() => {
