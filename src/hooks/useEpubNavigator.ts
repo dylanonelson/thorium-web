@@ -67,24 +67,24 @@ export const useEpubNavigator = () => {
 
   const applyPaged = useCallback(async () => {
     unmountScroll();
-    navigatorInstance?.submitPreferences(new EpubPreferences({
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
       scroll: false
     }))
   }, [unmountScroll]);
 
   const applyScroll = useCallback(async () => {
-    navigatorInstance?.submitPreferences(new EpubPreferences({
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
       scroll: true
     }));
     mountScroll();
   }, [mountScroll]);
 
-  const handleTheme = useCallback((t: ThemeKeys) => {    
+  const handleTheme = useCallback(async (t: ThemeKeys) => {    
     switch(t) {
       case ThemeKeys.auto:
         break;
       case ThemeKeys.light:
-        navigatorInstance?.submitPreferences(new EpubPreferences({
+        await navigatorInstance?.submitPreferences(new EpubPreferences({
           theme: Theme.day,
           backgroundColor: null,
           textColor: null,
@@ -95,7 +95,7 @@ export const useEpubNavigator = () => {
         }));
         break;
       case ThemeKeys.sepia:
-        navigatorInstance?.submitPreferences(new EpubPreferences({
+        await navigatorInstance?.submitPreferences(new EpubPreferences({
           theme: Theme.sepia,
           backgroundColor: null,
           textColor: null,
@@ -106,7 +106,7 @@ export const useEpubNavigator = () => {
         }));
         break;
       case ThemeKeys.dark:
-        navigatorInstance?.submitPreferences(new EpubPreferences({
+        await navigatorInstance?.submitPreferences(new EpubPreferences({
           theme: Theme.night,
           backgroundColor: null,
           textColor: null,
@@ -117,7 +117,7 @@ export const useEpubNavigator = () => {
         }));
         break;
       default:
-        navigatorInstance?.submitPreferences(new EpubPreferences({
+        await navigatorInstance?.submitPreferences(new EpubPreferences({
           theme: Theme.custom,
           backgroundColor: RSPrefs.theming.themes.keys[t].background,
           textColor: RSPrefs.theming.themes.keys[t].text,
@@ -147,20 +147,20 @@ export const useEpubNavigator = () => {
     }
   }, []);
 
-  const setConstraint = useCallback((constraint: number) => {
-    navigatorInstance?.submitPreferences(new EpubPreferences({
+  const setConstraint = useCallback(async (constraint: number) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
       constraint: constraint
     }))
   }, []);
 
-  const setFXLPages = useCallback((count: number | null) => {
-    navigatorInstance?.submitPreferences(new EpubPreferences({ 
+  const setFXLPages = useCallback(async (count: number | null) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({ 
       columnCount: count 
     }));
   }, []);
 
-  const setReflowColumns = useCallback((count: number | null) => {
-    navigatorInstance?.submitPreferences(new EpubPreferences({
+  const setReflowColumns = useCallback(async (count: number | null) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
       columnCount: count
     }))
   }, []);
