@@ -79,12 +79,13 @@ export const useEpubNavigator = () => {
     mountScroll();
   }, [mountScroll]);
 
-  const handleTheme = useCallback(async (t: ThemeKeys) => {    
+  const listThemeProps = useCallback((t: ThemeKeys) => {
+    let themeProps = {};
     switch(t) {
       case ThemeKeys.auto:
         break;
       case ThemeKeys.light:
-        await navigatorInstance?.submitPreferences(new EpubPreferences({
+        themeProps = {
           theme: Theme.day,
           backgroundColor: null,
           textColor: null,
@@ -92,10 +93,10 @@ export const useEpubNavigator = () => {
           selectionBackgroundColor: null,
           selectionTextColor: null,
           visitedColor: null
-        }));
+        };
         break;
       case ThemeKeys.sepia:
-        await navigatorInstance?.submitPreferences(new EpubPreferences({
+        themeProps = {
           theme: Theme.sepia,
           backgroundColor: null,
           textColor: null,
@@ -103,10 +104,10 @@ export const useEpubNavigator = () => {
           selectionBackgroundColor: null,
           selectionTextColor: null,
           visitedColor: null
-        }));
+        };
         break;
       case ThemeKeys.dark:
-        await navigatorInstance?.submitPreferences(new EpubPreferences({
+        themeProps = {
           theme: Theme.night,
           backgroundColor: null,
           textColor: null,
@@ -114,10 +115,10 @@ export const useEpubNavigator = () => {
           selectionBackgroundColor: null,
           selectionTextColor: null,
           visitedColor: null
-        }));
+        };
         break;
       default:
-        await navigatorInstance?.submitPreferences(new EpubPreferences({
+        themeProps = {
           theme: Theme.custom,
           backgroundColor: RSPrefs.theming.themes.keys[t].background,
           textColor: RSPrefs.theming.themes.keys[t].text,
@@ -125,10 +126,16 @@ export const useEpubNavigator = () => {
           selectionBackgroundColor: RSPrefs.theming.themes.keys[t].select,
           selectionTextColor: RSPrefs.theming.themes.keys[t].onSelect,
           visitedColor: RSPrefs.theming.themes.keys[t].visited
-        }));
+        };
         break;
     }
-  }, [])
+    return themeProps;
+  }, []);
+
+  const handleTheme = useCallback(async (t: ThemeKeys) => {    
+    const themeProps = listThemeProps(t);
+    await navigatorInstance?.submitPreferences(new EpubPreferences(themeProps));
+  }, []);
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
@@ -286,6 +293,7 @@ export const useEpubNavigator = () => {
     applyPaged,
     applyScroll,
     scrollBackTo, 
+    listThemeProps, 
     handleTheme, 
     setConstraint, 
     setFXLPages, 

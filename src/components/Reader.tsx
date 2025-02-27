@@ -88,6 +88,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     applyPaged, 
     applyScroll, 
     scrollBackTo, 
+    listThemeProps, 
     handleTheme, 
     setConstraint, 
     setFXLPages,
@@ -309,7 +310,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
     applyConstraint()
       .catch(console.error);
-  }, [arrowsOccupySpace, setConstraint])
+  }, [arrowsOccupySpace, setConstraint]);
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -347,7 +348,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       .catch(console.error)
       .then(() => {
         const initialPosition = localData.get(localDataKey.current);
-
+        const themeProps = theme === ThemeKeys.auto 
+          ? listThemeProps(theming.inferThemeAuto()) 
+          : listThemeProps(theme);
+  
         EpubNavigatorLoad({
           container: container.current, 
           publication: publication.current!,
@@ -358,7 +362,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             pageGutter: RSPrefs.typography.pageGutter,
             optimalLineLength: RSPrefs.typography.optimalLineLength,
             minimalLineLength: RSPrefs.typography.minimalLineLength,
-            constraint: arrowsOccupySpace ? arrowsWidth.current : 0
+            constraint: arrowsOccupySpace ? arrowsWidth.current : 0,
+            ...themeProps
           },
           localDataKey: localDataKey.current,
         }, () => p.observe(window));
