@@ -14,7 +14,6 @@ import { useAppDispatch } from "@/lib/hooks";
 import { ScrollAffordance } from "@/helpers/scrollAffordance";
 import { localData } from "@/helpers/localData";
 import { setProgression } from "@/lib/publicationReducer";
-import { setDynamicBreakpoint } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
 
