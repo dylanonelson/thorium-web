@@ -9,6 +9,5 @@ export interface IThemeState {
   prefersReducedTransparency: boolean;
   prefersContrast: Contrast;
   forcedColors: boolean;
-  hasReachedDynamicBreakpoint: boolean;
   staticBreakpoint?: StaticBreakpoints;
 }
