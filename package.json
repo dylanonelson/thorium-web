@@ -27,11 +27,11 @@
     "@readium/navigator": "link:src/readium/ts-toolkit/navigator",
     "@readium/navigator-html-injectables": "link:src/readium/ts-toolkit/navigator-html-injectables",
     "@readium/shared": "link:src/readium/ts-toolkit/shared",
-    "@reduxjs/toolkit": "^2.5.1",
+    "@reduxjs/toolkit": "^2.6.0",
     "classnames": "^2.5.1",
     "debounce": "^2.2.0",
     "json-templates": "^5.1.0",
-    "motion": "^12.4.2",
+    "motion": "^12.4.7",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-aria": "^3.37.0",
@@ -46,11 +46,11 @@
     "@readium/css": "github:readium/readium-css",
     "@svgr/webpack": "^8.1.0",
     "@types/json-templates": "^3.0.3",
-    "@types/node": "^22.13.1",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
-    "eslint": "^9.20.0",
+    "@types/node": "^22.13.8",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "eslint": "^9.21.0",
     "eslint-config-next": "15.1.7",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   }
 }
