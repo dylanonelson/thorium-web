@@ -40,7 +40,7 @@ import { createTocTree } from "@/helpers/toc/createTocTree";
 import { setImmersive, setHovering, toggleImmersive, setPlatformModifier, setDirection, setArrows } from "@/lib/readerReducer";
 import { setFXL, setRTL, setProgression, setRunningHead, setTocTree } from "@/lib/publicationReducer";
 import { toggleActionOpen } from "@/lib/actionsReducer";
-import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
 
 import debounce from "debounce";
 
@@ -140,7 +140,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
   };
 
-  const p = new Peripherals({
+  const p = new Peripherals(useAppStore(), {
     moveTo: (direction) => {
       switch(direction) {
         case "right":

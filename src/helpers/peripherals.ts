@@ -15,22 +15,18 @@ export interface PCallbacks {
   toggleAction: (action: ActionKeys) => void;
 }
 
-const usePeripheralsStore = () => {
-  const store = useAppStore();
-  return store;
-}
-
 export default class Peripherals {
   private readonly observers = ["keydown"];
   private targets: EventTarget[] = [];
   private readonly callbacks: PCallbacks;
-  private readonly store = usePeripheralsStore();
+  private readonly store: ReturnType<typeof useAppStore>;
   private readonly shortcuts: PShortcuts;
 
-  constructor(callbacks: PCallbacks) {
+  constructor(store: ReturnType<typeof useAppStore>, callbacks: PCallbacks) {
     this.observers.forEach((method) => {
       (this as any)["on" + method] = (this as any)["on" + method].bind(this);
     });
+    this.store = store;
     this.callbacks = callbacks;
     this.shortcuts = this.retrieveShortcuts();
   }
