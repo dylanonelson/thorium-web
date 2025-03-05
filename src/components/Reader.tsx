@@ -86,15 +86,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     goLeft, 
     goRight, 
     goBackward, 
-    goForward,
-    applyPaged, 
-    applyScroll, 
+    goForward, 
     scrollBackTo, 
     listThemeProps, 
-    handleTheme, 
-    setConstraint, 
-    setFXLPages,
-    setReflowColumns, 
+    applyConstraint, 
     handleProgression,
     navLayout,
     currentLocator,
@@ -259,50 +254,16 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   useEffect(() => {
     cache.current.settings.paginated = isPaged;
-
-    if (navLayout() === EPUBLayout.reflowable) {
-      const applyLayout = async () => {
-        if (isPaged) { 
-          await applyPaged(); 
-        } else {
-          await applyScroll();
-        }
-      }
-      applyLayout()
-        .catch(console.error);
-    }
-      
-  }, [isPaged, colCount, arrowsOccupySpace, navLayout, applyPaged, applyScroll]);
+  }, [isPaged]);
 
   useEffect(() => {
     cache.current.settings.colCount = colCount;
-
-    const applyColCount = async () => {
-      if (navLayout() === EPUBLayout.reflowable) {
-        const count = colCount === "auto" ? null : parseInt(colCount);
-        await setReflowColumns(count);
-      } else if (navLayout() === EPUBLayout.fixed) {
-        await colCount === "1" ? setFXLPages(1) : setFXLPages(null);
-      }
-    }
-    applyColCount()
-      .catch(console.error);
-  }, [colCount, arrowsOccupySpace, navLayout, setFXLPages, setReflowColumns]);
+  }, [colCount]);
 
   // Handling side effects on Navigator
   useEffect(() => {
     cache.current.settings.theme = theme;
-    
-    const applyTheme = async () => {
-      if (theme === ThemeKeys.auto) {
-        await handleTheme(theming.inferThemeAuto());
-      } else {
-        await handleTheme(theme);
-      } 
-    }
-    applyTheme()
-      .catch(console.error);
-  }, [theme, handleTheme, theming]);
+  }, [theme]);
 
   useEffect(() => {
     cache.current.arrowsOccupySpace = arrowsOccupySpace || false;
@@ -314,12 +275,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [dispatch]);
 
   useEffect(() => {
-    const applyConstraint = async () => {
-      await setConstraint(arrowsOccupySpace ? arrowsWidth.current : 0)
+    const handleConstraint = async () => {
+      await applyConstraint(arrowsOccupySpace ? arrowsWidth.current : 0)
     }
-    applyConstraint()
+    handleConstraint()
       .catch(console.error);
-  }, [arrowsOccupySpace, setConstraint]);
+  }, [arrowsOccupySpace, applyConstraint]);
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);

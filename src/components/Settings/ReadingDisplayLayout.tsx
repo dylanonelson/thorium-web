@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -11,28 +11,30 @@ import PaginatedIcon from "../assets/icons/docs.svg";
 
 import { RadioGroup, Radio, Label } from "react-aria-components";
 
-import { setPaged } from "@/lib/readerReducer";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+
+import { useAppSelector } from "@/lib/hooks";
 
 export const ReadingDisplayLayout = () => {
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const isFXL = useAppSelector(state => state.publication.isFXL);
-  const dispatch = useAppDispatch();
 
-  const handleChange = (value: string) => {
+  const { applyScroll } = useEpubNavigator();
+
+  const handleChange = useCallback(async (value: string) => {
     if (value === ReadingDisplayLayoutOption.paginated) {
-      dispatch(setPaged(true));
+      await applyScroll(false);
     } else {
-      dispatch(setPaged(false));
+      await applyScroll(true);
     }
-  }
+  }, [applyScroll]);
   
   return (
     <>
     <RadioGroup 
       orientation="horizontal" 
       value={ isPaged ? ReadingDisplayLayoutOption.paginated : ReadingDisplayLayoutOption.scroll } 
-      onChange={ handleChange } 
+      onChange={ async (val: string) => await handleChange(val) } 
       className={ settingsStyles.readerSettingsReadioGroup }
     >
       <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.layout.title }</Label>

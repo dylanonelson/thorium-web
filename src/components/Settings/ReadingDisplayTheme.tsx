@@ -1,7 +1,7 @@
-import React, { CSSProperties, useRef } from "react";
+import React, { CSSProperties, useCallback, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
-import { ThemeKeys } from "@/models/theme";
+import { ColorScheme, ThemeKeys } from "@/models/theme";
 
 import Locale from "../../resources/locales/en.json";
 import settingsStyles from "../assets/styles/readerSettings.module.css";
@@ -13,6 +13,8 @@ import { LayoutDirection } from "@/models/layout";
 
 import { Label, Radio, RadioGroup } from "react-aria-components";
 
+import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 import { setTheme } from "@/lib/themeReducer";
@@ -23,6 +25,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
   const radioGroupRef = useRef<HTMLDivElement | null>(null);
 
   const theme = useAppSelector(state => state.theming.theme);
+  const colorScheme = useAppSelector(state => state.theming.colorScheme)
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === LayoutDirection.rtl
@@ -31,9 +34,15 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
 
   const dispatch = useAppDispatch();
 
-  const handleTheme = (value: string) => {
-    dispatch(setTheme(value));
-  };
+  const { applyTheme } = useEpubNavigator();
+
+  const handleTheme = useCallback(async (value: ThemeKeys) => {
+    if (value === ThemeKeys.auto) {
+      colorScheme === ColorScheme.dark ? handleTheme(ThemeKeys.dark) : handleTheme(ThemeKeys.light);
+    } else {
+      await applyTheme(value);
+    }
+  }, [applyTheme, colorScheme]);
 
   // Yeah so it’s easier to inline styles from preferences for these
   // than spamming the entire app with all custom properties right now
@@ -111,7 +120,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
       ref={ radioGroupRef }
       orientation="horizontal" 
       value={ theme }
-      onChange={ handleTheme }
+      onChange={ async (val) => await handleTheme(val as ThemeKeys) }
     >
       <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
       <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
