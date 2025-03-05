@@ -1,13 +1,13 @@
 import React from "react";
 
-import Locale from "../resources/locales/en.json";
+import Locale from "../../resources/locales/en.json";
 
 import { ReadingDisplayLayoutOption } from "@/models/layout";
 
-import settingsStyles from "./assets/styles/readerSettings.module.css";
+import settingsStyles from "../assets/styles/readerSettings.module.css";
 
-import ScrollableIcon from "./assets/icons/contract.svg";
-import PaginatedIcon from "./assets/icons/docs.svg";
+import ScrollableIcon from "../assets/icons/contract.svg";
+import PaginatedIcon from "../assets/icons/docs.svg";
 
 import { RadioGroup, Radio, Label } from "react-aria-components";
 

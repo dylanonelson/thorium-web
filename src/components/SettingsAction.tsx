@@ -12,9 +12,9 @@ import TuneIcon from "./assets/icons/match_case.svg";
 import { SheetWithType } from "./Sheets/SheetWithType";
 import { ActionIcon } from "./ActionTriggers/ActionIcon";
 import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
-import { ReadingDisplayCol } from "./ReadingDisplayCol";
-import { ReadingDisplayLayout } from "./ReadingDisplayLayout";
-import { ReadingDisplayTheme } from "./ReadingDisplayTheme";
+import { ReadingDisplayCol } from "./Settings/ReadingDisplayCol";
+import { ReadingDisplayLayout } from "./Settings/ReadingDisplayLayout";
+import { ReadingDisplayTheme } from "./Settings/ReadingDisplayTheme";
 
 import { useDocking } from "@/hooks/useDocking";
 
