@@ -93,7 +93,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     handleProgression,
     navLayout,
     currentLocator,
-    getCframes
+    getCframes,
+    applyScroll
   } = useEpubNavigator();
 
   const activateImmersiveOnAction = useCallback(() => {
@@ -203,7 +204,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       );
       p.observe(window);
     },
-    positionChanged: debounce(function (locator: Locator): void {
+    positionChanged: async function (locator: Locator): Promise<void> {
       window.focus();
 
       // This can’t be relied upon with FXL to handleProgression at the moment,
@@ -212,10 +213,22 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       // in FXL, only first_visible_locator will, which is why it triggers when
       // the spread has not been shown yet, but won’t if you just slid to them.
       if (navLayout() === EPUBLayout.reflowable) {
-        handleProgression(locator);
-        localData.set(localDataKey.current, locator);
+        // Due to the lack of injection API we need to force scroll 
+        // to mount/unmount scroll affordances ATM
+        const currentLocator = localData.get(localDataKey.current);
+  
+        if (currentLocator?.href !== locator.href) {
+          await applyScroll(!cache.current.settings.paginated);
+        } 
+        
+        const debouncedHandleProgression = debounce(
+          () => {
+            handleProgression(locator);
+            localData.set(localDataKey.current, locator);
+          }, 250);
+        debouncedHandleProgression();
       }
-    }, 250),
+    },
     tap: function (_e: FrameClickEvent): boolean {
       handleTap(_e);
       return true;

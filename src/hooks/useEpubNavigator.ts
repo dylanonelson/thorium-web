@@ -268,10 +268,6 @@ export const useEpubNavigator = () => {
     return navigatorInstance?.currentLocator;
   }, []);
 
-  const preferencesEditor = useCallback(() => {
-    return navigatorInstance?.preferencesEditor;
-  }, [])
-
   // Warning: this is an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
   const getCframes = useCallback(() => {
@@ -296,7 +292,6 @@ export const useEpubNavigator = () => {
     handleProgression,
     navLayout, 
     currentLocator,
-    preferencesEditor, 
     getCframes
   }
 }
