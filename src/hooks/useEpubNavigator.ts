@@ -9,11 +9,13 @@ import { ThemeKeys } from "@/models/theme";
 import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
 import { EpubNavigator, EpubNavigatorListeners, EpubPreferences, FrameManager, FXLFrameManager, IEpubDefaults, IEpubPreferences, Theme } from "@readium/navigator";
 
-import { useAppDispatch } from "@/lib/hooks";
-
 import { ScrollAffordance } from "@/helpers/scrollAffordance";
 import { localData } from "@/helpers/localData";
+
+import { useAppDispatch } from "@/lib/hooks";
 import { setProgression } from "@/lib/publicationReducer";
+import { setColCount, setPaged } from "@/lib/readerReducer";
+import { setTheme } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
 
@@ -64,19 +66,15 @@ export const useEpubNavigator = () => {
     });
   }, []);
 
-  const applyPaged = useCallback(async () => {
-    unmountScroll();
+  const applyScroll = useCallback(async (scroll: boolean) => {
+    if (navigatorInstance === null || navigatorInstance.layout === EPUBLayout.fixed) return;
+    if (!scroll) unmountScroll();
     await navigatorInstance?.submitPreferences(new EpubPreferences({
-      scroll: false
-    }))
-  }, [unmountScroll]);
-
-  const applyScroll = useCallback(async () => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      scroll: true
+      scroll: scroll
     }));
-    mountScroll();
-  }, [mountScroll]);
+    if (scroll) mountScroll();
+    dispatch(setPaged(!scroll));
+  }, [dispatch, mountScroll, unmountScroll]);
 
   const listThemeProps = useCallback((t: ThemeKeys) => {
     let themeProps = {};
@@ -131,10 +129,33 @@ export const useEpubNavigator = () => {
     return themeProps;
   }, []);
 
-  const handleTheme = useCallback(async (t: ThemeKeys) => {    
+  const applyTheme = useCallback(async (t: ThemeKeys) => {    
     const themeProps = listThemeProps(t);
     await navigatorInstance?.submitPreferences(new EpubPreferences(themeProps));
-  }, [listThemeProps]);
+    dispatch(setTheme(t));
+  }, [dispatch, listThemeProps]);
+
+  const applyConstraint = useCallback(async (constraint: number) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      constraint: constraint
+    }))
+  }, []);
+
+  const applyColCount = useCallback(async (count: string | null) => {    
+    const colCount = count === "auto" ? null : Number(count);
+    
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      columnCount: colCount
+    }));
+
+    dispatch(setColCount(count));
+  }, [dispatch]);
+
+  const handleProgression = useCallback((locator: Locator) => {
+    const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
+      
+    dispatch(setProgression( { currentPositions: navigatorInstance?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression }));
+  }, [dispatch]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
@@ -152,30 +173,6 @@ export const useEpubNavigator = () => {
       });
     }
   }, []);
-
-  const setConstraint = useCallback(async (constraint: number) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      constraint: constraint
-    }))
-  }, []);
-
-  const setFXLPages = useCallback(async (count: number | null) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({ 
-      columnCount: count 
-    }));
-  }, []);
-
-  const setReflowColumns = useCallback(async (count: number | null) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      columnCount: count
-    }))
-  }, []);
-
-  const handleProgression = useCallback((locator: Locator) => {
-    const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
-      
-    dispatch(setProgression( { currentPositions: navigatorInstance?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression }));
-  }, [dispatch]);  
 
   // [TMP] Working around positionChanged not firing consistently for FXL
   // We’re observing the FXLFramePoolManager spine div element’s style
@@ -290,14 +287,12 @@ export const useEpubNavigator = () => {
     goForward,
     goLink, 
     go, 
-    applyPaged,
     applyScroll,
     scrollBackTo, 
     listThemeProps, 
-    handleTheme, 
-    setConstraint, 
-    setFXLPages, 
-    setReflowColumns, 
+    applyTheme, 
+    applyConstraint, 
+    applyColCount, 
     handleProgression,
     navLayout, 
     currentLocator,
