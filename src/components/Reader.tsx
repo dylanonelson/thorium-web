@@ -12,7 +12,7 @@ import { StaticBreakpoints } from "@/models/staticBreakpoints";
 import { ScrollBackTo } from "@/models/preferences";
 import { ActionKeys } from "@/models/actions";
 import { ThemeKeys } from "@/models/theme";
-import { IRCSSSettings } from "@/models/rcss-settings";
+import { ICache } from "@/models/reader";
 
 import {
   BasicTextSelection,
@@ -56,16 +56,21 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const arrowsOccupySpace = staticBreakpoint && 
-    (staticBreakpoint === StaticBreakpoints.large || staticBreakpoint === StaticBreakpoints.xLarge)
-
-  const RCSSSettings = useRef<IRCSSSettings>({
-    paginated: isPaged,
-    colCount: colCount,
-    theme: theme
-  });
+    (staticBreakpoint === StaticBreakpoints.large || staticBreakpoint === StaticBreakpoints.xLarge);
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
-  const isImmersiveRef = useRef(isImmersive);
+
+  // We need to use a cache so that we can use updated values
+  // without re-rendering the component, and reloading EpubNavigator
+  const cache = useRef<ICache>({
+    isImmersive: isImmersive,
+    arrowsOccupySpace: arrowsOccupySpace || false,
+    settings: {
+      paginated: isPaged,
+      colCount: colCount,
+      theme: theme
+    }
+  });
 
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
   const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
@@ -97,7 +102,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   } = useEpubNavigator();
 
   const activateImmersiveOnAction = useCallback(() => {
-    if (!isImmersiveRef.current) dispatch(setImmersive(true));
+    if (!cache.current.isImmersive) dispatch(setImmersive(true));
   }, [dispatch]);
 
   const toggleIsImmersive = useCallback(() => {
@@ -108,14 +113,14 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [dispatch]);
 
   useEffect(() => {
-    isImmersiveRef.current = isImmersive;
+    cache.current.isImmersive = isImmersive;
   }, [isImmersive]);
 
   // Warning: this is using navigator’s internal methods that will become private, do not rely on them
   // See https://github.com/readium/playground/issues/25
   const handleTap = (event: FrameClickEvent) => {
     const _cframes = getCframes();
-    if (_cframes && RCSSSettings.current.paginated) {
+    if (_cframes && cache.current.settings.paginated) {
       const oneQuarter = ((_cframes.length === 2 ? _cframes[0]!.window.innerWidth + _cframes[1]!.window.innerWidth : _cframes![0]!.window.innerWidth) * window.devicePixelRatio) / 4;
     
       if (event.x < oneQuarter) {
@@ -144,27 +149,27 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     moveTo: (direction) => {
       switch(direction) {
         case "right":
-          if (RCSSSettings.current.paginated) goRight(true, activateImmersiveOnAction);
+          if (cache.current.settings.paginated) goRight(true, activateImmersiveOnAction);
           break;
         case "left":
-          if (RCSSSettings.current.paginated) goLeft(true, activateImmersiveOnAction);
+          if (cache.current.settings.paginated) goLeft(true, activateImmersiveOnAction);
           break;
         case "up":
         case "home":
           // Home should probably go to first column/page of chapter in reflow?
-          if (!RCSSSettings.current.paginated) activateImmersiveOnAction();
+          if (!cache.current.settings.paginated) activateImmersiveOnAction();
           break;
         case "down":
         case "end":
           // End should probably go to last column/page of chapter in reflow?
-          if (!RCSSSettings.current.paginated) activateImmersiveOnAction();
+          if (!cache.current.settings.paginated) activateImmersiveOnAction();
           break;
         default:
           break;
       }
     },
     goProgression: (shiftKey) => {
-      if (RCSSSettings.current.paginated) {
+      if (cache.current.settings?.paginated) {
         shiftKey 
           ? goBackward(true, activateImmersiveOnAction) 
           : goForward(true, activateImmersiveOnAction);
@@ -253,7 +258,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   };
 
   useEffect(() => {
-    RCSSSettings.current.paginated = isPaged;
+    cache.current.settings.paginated = isPaged;
 
     if (navLayout() === EPUBLayout.reflowable) {
       const applyLayout = async () => {
@@ -270,7 +275,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [isPaged, colCount, arrowsOccupySpace, navLayout, applyPaged, applyScroll]);
 
   useEffect(() => {
-    RCSSSettings.current.colCount = colCount;
+    cache.current.settings.colCount = colCount;
 
     const applyColCount = async () => {
       if (navLayout() === EPUBLayout.reflowable) {
@@ -286,7 +291,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   // Handling side effects on Navigator
   useEffect(() => {
-    RCSSSettings.current.theme = theme;
+    cache.current.settings.theme = theme;
     
     const applyTheme = async () => {
       if (theme === ThemeKeys.auto) {
@@ -298,6 +303,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     applyTheme()
       .catch(console.error);
   }, [theme, handleTheme, theming]);
+
+  useEffect(() => {
+    cache.current.arrowsOccupySpace = arrowsOccupySpace || false;
+  }, [arrowsOccupySpace]);
 
   useEffect(() => {
     RSPrefs.direction && dispatch(setDirection(RSPrefs.direction));
@@ -348,9 +357,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       .catch(console.error)
       .then(() => {
         const initialPosition = localData.get(localDataKey.current);
-        // Fails while theme is OK
-        const initialConstraint = arrowsOccupySpace ? arrowsWidth.current : 0;
-        const themeProps = theme === ThemeKeys.auto 
+
+        const initialConstraint = cache.current.arrowsOccupySpace ? arrowsWidth.current : 0;
+        const themeProps = cache.current.settings.theme === ThemeKeys.auto 
           ? listThemeProps(theming.inferThemeAuto()) 
           : listThemeProps(theme);
   
