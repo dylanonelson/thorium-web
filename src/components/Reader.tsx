@@ -82,9 +82,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     goRight, 
     goBackward, 
     goForward,
-    navLayout,
-    currentLocator,
-    getCframes,
     applyPaged, 
     applyScroll, 
     scrollBackTo, 
@@ -93,7 +90,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     setConstraint, 
     setFXLPages,
     setReflowColumns, 
-    handleProgression
+    handleProgression,
+    navLayout,
+    currentLocator,
+    getCframes
   } = useEpubNavigator();
 
   const activateImmersiveOnAction = useCallback(() => {

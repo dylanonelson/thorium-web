@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 
-import Locale from "../resources/locales/en.json";
+import Locale from "../../resources/locales/en.json";
 
-import settingsStyles from "./assets/styles/readerSettings.module.css";
+import settingsStyles from "../assets/styles/readerSettings.module.css";
 
-import AutoLayoutIcon from "./assets/icons/document_scanner.svg";
-import OneColIcon from "./assets/icons/article.svg";
-import TwoColsIcon from "./assets/icons/menu_book.svg";
+import AutoLayoutIcon from "../assets/icons/document_scanner.svg";
+import OneColIcon from "../assets/icons/article.svg";
+import TwoColsIcon from "../assets/icons/menu_book.svg";
 
 import { RadioGroup, Radio, Label } from "react-aria-components";
 

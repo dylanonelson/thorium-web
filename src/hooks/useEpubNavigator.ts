@@ -18,7 +18,7 @@ import { setProgression } from "@/lib/publicationReducer";
 type cbb = (ok: boolean) => void;
 
 // Module scoped, singleton instance of navigator
-let navigatorInstance:EpubNavigator | null = null;
+let navigatorInstance: EpubNavigator | null = null;
 
 export interface IEpubNavigatorConfig {
   container: HTMLDivElement | null;
@@ -271,6 +271,10 @@ export const useEpubNavigator = () => {
     return navigatorInstance?.currentLocator;
   }, []);
 
+  const preferencesEditor = useCallback(() => {
+    return navigatorInstance?.preferencesEditor;
+  }, [])
+
   // Warning: this is an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
   const getCframes = useCallback(() => {
@@ -286,9 +290,6 @@ export const useEpubNavigator = () => {
     goForward,
     goLink, 
     go, 
-    navLayout, 
-    currentLocator,
-    getCframes, 
     applyPaged,
     applyScroll,
     scrollBackTo, 
@@ -297,6 +298,10 @@ export const useEpubNavigator = () => {
     setConstraint, 
     setFXLPages, 
     setReflowColumns, 
-    handleProgression
+    handleProgression,
+    navLayout, 
+    currentLocator,
+    preferencesEditor, 
+    getCframes
   }
 }

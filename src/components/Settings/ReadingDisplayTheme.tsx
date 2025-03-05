@@ -3,10 +3,10 @@ import React, { CSSProperties, useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import { ThemeKeys } from "@/models/theme";
 
-import Locale from "../resources/locales/en.json";
-import settingsStyles from "./assets/styles/readerSettings.module.css";
+import Locale from "../../resources/locales/en.json";
+import settingsStyles from "../assets/styles/readerSettings.module.css";
 
-import CheckIcon from "./assets/icons/check.svg";
+import CheckIcon from "../assets/icons/check.svg";
 
 import { ActionKeys } from "@/models/actions";
 import { LayoutDirection } from "@/models/layout";
