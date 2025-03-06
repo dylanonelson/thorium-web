@@ -4,6 +4,7 @@ import { ColorScheme } from "./theme";
 export interface ICache {
   isImmersive: boolean;
   arrowsOccupySpace: boolean;
-  colorScheme?: ColorScheme;
   settings: IRCSSSettings;
+  colorScheme?: ColorScheme;
+  reducedMotion?: boolean;
 }

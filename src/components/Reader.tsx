@@ -56,6 +56,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const theme = useAppSelector(state => state.theming.theme);
   const previousTheme = usePrevious(theme);
   const colorScheme = useAppSelector(state => state.theming.colorScheme);
+  const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
 
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const arrowsOccupySpace = staticBreakpoint && 
@@ -68,12 +69,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const cache = useRef<ICache>({
     isImmersive: isImmersive,
     arrowsOccupySpace: arrowsOccupySpace || false,
-    colorScheme: colorScheme,
     settings: {
       paginated: isPaged,
       colCount: colCount,
       theme: theme
-    }
+    },
+    colorScheme: colorScheme,
+    reducedMotion: reducedMotion
   });
 
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
@@ -129,10 +131,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       const oneQuarter = ((_cframes.length === 2 ? _cframes[0]!.window.innerWidth + _cframes[1]!.window.innerWidth : _cframes![0]!.window.innerWidth) * window.devicePixelRatio) / 4;
     
       if (event.x < oneQuarter) {
-        goLeft(true, activateImmersiveOnAction);
+        goLeft(!cache.current.reducedMotion, activateImmersiveOnAction);
       } 
       else if (event.x > oneQuarter * 3) {
-        goRight(true, activateImmersiveOnAction);
+        goRight(!cache.current.reducedMotion, activateImmersiveOnAction);
       } else if (oneQuarter <= event.x && event.x <= oneQuarter * 3) {
         toggleIsImmersive();
       }
@@ -154,10 +156,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     moveTo: (direction) => {
       switch(direction) {
         case "right":
-          if (cache.current.settings.paginated) goRight(true, activateImmersiveOnAction);
+          if (cache.current.settings.paginated) goRight(!cache.current.reducedMotion, activateImmersiveOnAction);
           break;
         case "left":
-          if (cache.current.settings.paginated) goLeft(true, activateImmersiveOnAction);
+          if (cache.current.settings.paginated) goLeft(!cache.current.reducedMotion, activateImmersiveOnAction);
           break;
         case "up":
         case "home":
@@ -176,8 +178,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     goProgression: (shiftKey) => {
       if (cache.current.settings?.paginated) {
         shiftKey 
-          ? goBackward(true, activateImmersiveOnAction) 
-          : goForward(true, activateImmersiveOnAction);
+          ? goBackward(!cache.current.reducedMotion, activateImmersiveOnAction) 
+          : goForward(!cache.current.reducedMotion, activateImmersiveOnAction);
       } else {
         activateImmersiveOnAction();
       }
@@ -291,6 +293,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     cache.current.arrowsOccupySpace = arrowsOccupySpace || false;
   }, [arrowsOccupySpace]);
 
+  useEffect(() => {
+    cache.current.reducedMotion = reducedMotion;
+  }, [reducedMotion]);
+
   // Theme can also change on colorScheme change so
   // we have to handle this side-effect but we can’t
   // from the ReadingDisplayTheme component since it
@@ -399,7 +405,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
                 direction="left" 
                 occupySpace={ arrowsOccupySpace || false }
                 disabled={ atPublicationStart } 
-                onPressCallback={ () => goLeft(true, activateImmersiveOnAction) }
+                onPressCallback={ () => goLeft(!reducedMotion, activateImmersiveOnAction) }
               />
           </nav> 
           : <></> }
@@ -414,7 +420,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
                 direction="right" 
                 occupySpace={ arrowsOccupySpace || false }
                 disabled={ atPublicationEnd } 
-                onPressCallback={ () => goRight(true, activateImmersiveOnAction) }
+                onPressCallback={ () => goRight(!reducedMotion, activateImmersiveOnAction) }
               />
             </nav> 
           : <></> }
