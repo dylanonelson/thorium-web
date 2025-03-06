@@ -1,7 +1,7 @@
 import React, { CSSProperties, useCallback, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
-import { ColorScheme, ThemeKeys } from "@/models/theme";
+import { ThemeKeys } from "@/models/theme";
 
 import Locale from "../../resources/locales/en.json";
 import settingsStyles from "../assets/styles/readerSettings.module.css";
@@ -37,14 +37,10 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
   const { applyTheme } = useEpubNavigator();
 
   const handleTheme = useCallback(async (value: ThemeKeys) => {
-    if (value === ThemeKeys.auto) {
-      colorScheme === ColorScheme.dark ? handleTheme(ThemeKeys.dark) : handleTheme(ThemeKeys.light);
-    } else {
-      await applyTheme(value);
-    }
+    await applyTheme(value, colorScheme);
   }, [applyTheme, colorScheme]);
 
-  // Yeah so it’s easier to inline styles from preferences for these
+  // It’s easier to inline styles from preferences for these
   // than spamming the entire app with all custom properties right now
   const doStyles = (t: ThemeKeys) => {
     let cssProps: CSSProperties = {

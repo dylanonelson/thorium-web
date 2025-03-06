@@ -30,6 +30,7 @@ import { ReaderFooter } from "./ReaderFooter";
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useFullscreen } from "@/hooks/useFullscreen";
 import { useTheming } from "@/hooks/useTheming";
+import { usePrevious } from "@/hooks/usePrevious";
 
 import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
@@ -53,6 +54,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
   const theme = useAppSelector(state => state.theming.theme);
+  const previousTheme = usePrevious(theme);
+  const colorScheme = useAppSelector(state => state.theming.colorScheme);
 
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const arrowsOccupySpace = staticBreakpoint && 
@@ -94,7 +97,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     navLayout,
     currentLocator,
     getCframes,
-    applyScroll
+    applyScroll,
+    applyTheme
   } = useEpubNavigator();
 
   const activateImmersiveOnAction = useCallback(() => {
@@ -281,6 +285,22 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   useEffect(() => {
     cache.current.arrowsOccupySpace = arrowsOccupySpace || false;
   }, [arrowsOccupySpace]);
+
+  // Theme can also change on colorScheme change so
+  // we have to handle this side-effect but we can’t
+  // from the ReadingDisplayTheme component since it
+  // would have to be mounted for this to work
+  useEffect(() => {
+    // Protecting against re-applying on theme change
+    if (theme !== ThemeKeys.auto && previousTheme !== theme) return;
+
+    const applyCurrentTheme = async () => {
+      await applyTheme(theme, colorScheme);
+    };
+
+    applyCurrentTheme()
+      .catch(console.error);
+  }, [theme, previousTheme, colorScheme, applyTheme]);
 
   useEffect(() => {
     RSPrefs.direction && dispatch(setDirection(RSPrefs.direction));
