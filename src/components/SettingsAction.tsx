@@ -59,8 +59,8 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
     >
       { !isFXL && <ReadingDisplaySize /> }
       <ReadingDisplayTheme mapArrowNav={ 2 } />
-      <ReadingDisplayCol />
       <ReadingDisplayLayout />
+      <ReadingDisplayCol />
     </SheetWithType>
     </>
   )
