@@ -21,8 +21,10 @@ import { useDocking } from "@/hooks/useDocking";
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
+import { ReadingDisplaySize } from "./Settings/ReadingDisplaySize";
 
 export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
+  const isFXL = useAppSelector(state => state.publication.isFXL);
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
   const dispatch = useAppDispatch();
   
@@ -55,6 +57,7 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
         docker: docking.getDocker()
       } }
     >
+      { !isFXL && <ReadingDisplaySize /> }
       <ReadingDisplayTheme mapArrowNav={ 2 } />
       <ReadingDisplayCol />
       <ReadingDisplayLayout />

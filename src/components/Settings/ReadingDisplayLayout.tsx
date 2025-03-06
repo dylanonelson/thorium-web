@@ -35,7 +35,7 @@ export const ReadingDisplayLayout = () => {
       orientation="horizontal" 
       value={ isPaged ? ReadingDisplayLayoutOption.paginated : ReadingDisplayLayoutOption.scroll } 
       onChange={ async (val: string) => await handleChange(val) } 
-      className={ settingsStyles.readerSettingsReadioGroup }
+      className={ settingsStyles.readerSettingsGroup }
     >
       <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.layout.title }</Label>
       <div className={ settingsStyles.readerSettingsRadioWrapper }>

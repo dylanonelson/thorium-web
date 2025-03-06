@@ -31,7 +31,7 @@ export const ReadingDisplayCol = () => {
       orientation="horizontal" 
       value={`${ colCount }`} 
       onChange={ async (val: string) => await handleChange(val) }
-      className={ settingsStyles.readerSettingsReadioGroup }
+      className={ settingsStyles.readerSettingsGroup }
       isDisabled={ scrollable }
     >
       <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.column.title }</Label>

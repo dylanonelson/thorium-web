@@ -156,6 +156,40 @@ export const useEpubNavigator = () => {
     dispatch(setColCount(count));
   }, [dispatch]);
 
+  const incrementSize = useCallback(async () => {
+    const editor = navigatorInstance?.preferencesEditor;
+    if (editor) {
+      if (!editor.fontSize.value) {
+        editor.fontSize.value = 1;
+      }
+      editor.fontSize.increment();
+      await navigatorInstance?.submitPreferences(editor.preferences);
+    }
+  }, []);
+
+  const decrementSize = useCallback(async () => {
+    const editor = navigatorInstance?.preferencesEditor;
+    if (editor) {
+      if (!editor.fontSize.value) {
+        editor.fontSize.value = 1;
+      }
+      editor.fontSize.decrement();
+      await navigatorInstance?.submitPreferences(editor.preferences);
+    }
+  }, []);
+
+  const getCurrentSize = useCallback(() => {
+    return navigatorInstance?.settings.fontSize;
+  }, []);
+
+  const getSizeRange = useCallback(() => {
+    const editor = navigatorInstance?.preferencesEditor;
+    if (editor) {
+      return editor.fontSize.supportedRange;
+    }
+    return null;
+  }, []);
+
   const handleProgression = useCallback((locator: Locator) => {
     const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
       
@@ -294,6 +328,10 @@ export const useEpubNavigator = () => {
     applyTheme, 
     applyConstraint, 
     applyColCount, 
+    incrementSize,
+    decrementSize,
+    getCurrentSize,
+    getSizeRange,
     handleProgression,
     navLayout, 
     currentLocator,

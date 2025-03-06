@@ -102,6 +102,20 @@
         "contrast2": "Contrast 2",
         "contrast3": "Contrast 3"
       },
+      "zoom": {
+        "title": "Zoom",
+        "increaseTooltip": "Increase",
+        "increase": "Increase zoom",
+        "decreaseTooltip": "Decrease",
+        "decrease": "Decrease zoom"
+      },
+      "text": {
+        "title": "Text",
+        "increaseTooltip": "Increase",
+        "increase": "Increase text size",
+        "decreaseTooltip": "Decrease",
+        "decrease": "Decrease text size"
+      },
       "layout": {
         "title": "Layout",
         "scrolled": "Scrollable",
