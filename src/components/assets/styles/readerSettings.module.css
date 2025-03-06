@@ -1,27 +1,40 @@
-.readerSettings {}
+.tmpDisabling {
+  opacity: var(--theme-immerse);
+  cursor: not-allowed;
+}
 
-.readerSettingsReadioGroup {
+.readerSettingsGroup,
+.readerSettingsGroup {
   margin: calc(var(--layout-spacing) * 2) 0; 
 }
 
-.readerSettings .readerSettingsReadioGroup:first-of-type {
+.readerSettings .readerSettingsGroup:first-of-type {
   margin-top: 0;
 }
 
-.readerSettings .readerSettingsReadioGroup:last-of-type {
+.readerSettings .readerSettingsGroup:last-of-type {
   margin-bottom: 0;
 }
 
-.readerSettingsLabel {
+.readerSettingsLabel,
+.readerSettingsGroupTitle {
   display: block;
   font-weight: bold;
 }
 
-.readerSettingsRadioWrapper {
+.readerSettingsRadioWrapper,
+.readerSettingsGroupWrapper {
   display: flex;
   gap: var(--layout-spacing);
   margin: var(--layout-spacing) 0;
   text-align: center;
+}
+
+.readerSettingsGroupValue {
+  padding-inline: calc(var(--layout-spacing) / 2);
+  color: var(--theme-text);
+  font-weight: bold;
+  align-self: center;
 }
 
 .readerSettingsRadio {

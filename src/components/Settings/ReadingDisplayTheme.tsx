@@ -117,6 +117,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
       orientation="horizontal" 
       value={ theme }
       onChange={ async (val) => await handleTheme(val as ThemeKeys) }
+      className={ settingsStyles.readerSettingsGroup }
     >
       <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
       <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
