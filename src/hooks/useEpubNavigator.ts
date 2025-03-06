@@ -4,7 +4,7 @@ import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
 
 import { ScrollBackTo } from "@/models/preferences";
-import { ThemeKeys } from "@/models/theme";
+import { ColorScheme, ThemeKeys } from "@/models/theme";
 
 import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
 import { EpubNavigator, EpubNavigatorListeners, EpubPreferences, FrameManager, FXLFrameManager, IEpubDefaults, IEpubPreferences, Theme } from "@readium/navigator";
@@ -129,8 +129,17 @@ export const useEpubNavigator = () => {
     return themeProps;
   }, []);
 
-  const applyTheme = useCallback(async (t: ThemeKeys) => {    
-    const themeProps = listThemeProps(t);
+  const applyTheme = useCallback(async (t: ThemeKeys, colorScheme?: ColorScheme) => {
+    let themeProps: { [key: string]: any } = {};
+    if (t === ThemeKeys.auto) {
+      if (colorScheme === ColorScheme.dark) {
+        themeProps = listThemeProps(ThemeKeys.dark);
+      } else {
+        themeProps = listThemeProps(ThemeKeys.light);
+      }
+    } else {
+      themeProps = listThemeProps(t);
+    }
     await navigatorInstance?.submitPreferences(new EpubPreferences(themeProps));
     dispatch(setTheme(t));
   }, [dispatch, listThemeProps]);
