@@ -41,21 +41,21 @@ export const ReadingDisplayLayout = () => {
       <div className={ settingsStyles.readerSettingsRadioWrapper }>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 
-          value={ ReadingDisplayLayoutOption.scroll } 
-          id={ ReadingDisplayLayoutOption.scroll } 
-          isDisabled={ isFXL }
-        >
-          <ScrollableIcon aria-hidden="true" focusable="false" />
-          <span>{ Locale.reader.settings.layout.scrolled }</span>
-        </Radio>
-        <Radio 
-          className={ settingsStyles.readerSettingsRadio } 
           value={ ReadingDisplayLayoutOption.paginated } 
           id={ ReadingDisplayLayoutOption.paginated } 
           isDisabled={ false }
         >
           <PaginatedIcon aria-hidden="true" focusable="false" />
           <span>{ Locale.reader.settings.layout.paginated }</span>
+        </Radio>
+        <Radio 
+          className={ settingsStyles.readerSettingsRadio } 
+          value={ ReadingDisplayLayoutOption.scroll } 
+          id={ ReadingDisplayLayoutOption.scroll } 
+          isDisabled={ isFXL }
+        >
+          <ScrollableIcon aria-hidden="true" focusable="false" />
+          <span>{ Locale.reader.settings.layout.scrolled }</span>
         </Radio>
       </div>
     </RadioGroup>
