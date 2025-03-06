@@ -76,8 +76,13 @@ export const useEpubNavigator = () => {
     dispatch(setPaged(!scroll));
   }, [dispatch, mountScroll, unmountScroll]);
 
-  const listThemeProps = useCallback((t: ThemeKeys) => {
+  const listThemeProps = useCallback((t: ThemeKeys, colorScheme?: ColorScheme) => {
+    if (t === ThemeKeys.auto && colorScheme) {
+      t = colorScheme === ColorScheme.dark ? ThemeKeys.dark : ThemeKeys.light;
+    }
+
     let themeProps = {};
+
     switch(t) {
       case ThemeKeys.auto:
         break;
@@ -130,16 +135,7 @@ export const useEpubNavigator = () => {
   }, []);
 
   const applyTheme = useCallback(async (t: ThemeKeys, colorScheme?: ColorScheme) => {
-    let themeProps: { [key: string]: any } = {};
-    if (t === ThemeKeys.auto) {
-      if (colorScheme === ColorScheme.dark) {
-        themeProps = listThemeProps(ThemeKeys.dark);
-      } else {
-        themeProps = listThemeProps(ThemeKeys.light);
-      }
-    } else {
-      themeProps = listThemeProps(t);
-    }
+    const themeProps = listThemeProps(t, colorScheme);
     await navigatorInstance?.submitPreferences(new EpubPreferences(themeProps));
     dispatch(setTheme(t));
   }, [dispatch, listThemeProps]);

@@ -68,6 +68,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const cache = useRef<ICache>({
     isImmersive: isImmersive,
     arrowsOccupySpace: arrowsOccupySpace || false,
+    colorScheme: colorScheme,
     settings: {
       paginated: isPaged,
       colCount: colCount,
@@ -81,7 +82,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const dispatch = useAppDispatch();
 
   const fs = useFullscreen();
-  
+
   // The reason why we’re not using theming for states e.g theming.theme 
   // instead of useAppSelector is that theming will move to a higher-level component 
   // and not reside in Reader anymore so we would eventually have to use Redux states
@@ -295,6 +296,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   // from the ReadingDisplayTheme component since it
   // would have to be mounted for this to work
   useEffect(() => {
+    if (cache.current.colorScheme !== colorScheme) {
+      cache.current.colorScheme = colorScheme;
+    }
+
     // Protecting against re-applying on theme change
     if (theme !== ThemeKeys.auto && previousTheme !== theme) return;
 
@@ -357,9 +362,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         const initialPosition = localData.get(localDataKey.current);
 
         const initialConstraint = cache.current.arrowsOccupySpace ? arrowsWidth.current : 0;
-        const themeProps = cache.current.settings.theme === ThemeKeys.auto 
-          ? listThemeProps(theming.inferThemeAuto()) 
-          : listThemeProps(theme);
+        const themeProps = listThemeProps(cache.current.settings.theme, cache.current.colorScheme);
   
         EpubNavigatorLoad({
           container: container.current, 
