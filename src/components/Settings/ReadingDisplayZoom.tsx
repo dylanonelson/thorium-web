@@ -8,6 +8,8 @@ import settingsStyles from "../assets/styles/readerSettings.module.css";
 
 import Decrease from "../assets/icons/text_decrease.svg";
 import Increase from "../assets/icons/text_increase.svg";
+import ZoomOut from "../assets/icons/zoom_out.svg";
+import ZoomIn from "../assets/icons/zoom_in.svg";
 
 import { Button, Group, Tooltip, TooltipTrigger } from "react-aria-components";
 
@@ -16,7 +18,7 @@ import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-export const ReadingDisplaySize = () => {
+export const ReadingDisplayZoom = () => {
   const [currentSize, setCurrentSize] = React.useState<number | null>(null);
   const isFXL = useAppSelector((state) => state.publication.isFXL);
   
@@ -68,7 +70,10 @@ export const ReadingDisplaySize = () => {
           //  isDisabled={ getSizeRange() !== null && currentSize === getSizeRange()?.[0] }
           isDisabled={ true }
           >
-            <Decrease aria-hidden="true" focusable="false" />
+            { isFXL 
+              ? <ZoomOut aria-hidden="true" focusable="false" /> 
+              : <Decrease aria-hidden="true" focusable="false" /> 
+            }
           </Button>
           <Tooltip
             className={ readerSharedUI.tooltip }
@@ -102,7 +107,10 @@ export const ReadingDisplaySize = () => {
             // isDisabled={ getSizeRange() !== null && currentSize === getSizeRange()?.[1] }
             isDisabled={ true }
           >
-            <Increase aria-hidden="true" focusable="false" />
+            { isFXL 
+              ? <ZoomIn aria-hidden="true" focusable="false" /> 
+              : <Increase aria-hidden="true" focusable="false" />
+            }
           </Button>
           <Tooltip
             className={ readerSharedUI.tooltip }
