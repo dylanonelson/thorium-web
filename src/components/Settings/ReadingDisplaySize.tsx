@@ -34,7 +34,7 @@ export const ReadingDisplaySize = () => {
 
   React.useEffect(() => {
     updateSize();
-  }, []);
+  });
 
   return (
     <Group 
