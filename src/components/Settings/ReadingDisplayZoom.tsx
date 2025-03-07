@@ -16,8 +16,6 @@ import { Button, Group, Tooltip, TooltipTrigger } from "react-aria-components";
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useAppSelector } from "@/lib/hooks";
 
-import classNames from "classnames";
-
 export const ReadingDisplayZoom = () => {
   const [currentSize, setCurrentSize] = React.useState<number | null>(null);
   const isFXL = useAppSelector((state) => state.publication.isFXL);
@@ -40,7 +38,7 @@ export const ReadingDisplayZoom = () => {
 
   return (
     <Group 
-      className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.tmpDisabling) }
+      className={ settingsStyles.readerSettingsGroup }
       aria-labelledby="displaySizeTitle" 
     >
       <div 
@@ -67,8 +65,7 @@ export const ReadingDisplayZoom = () => {
               await decrementSize();
               updateSize();
             } }
-          //  isDisabled={ getSizeRange() !== null && currentSize === getSizeRange()?.[0] }
-          isDisabled={ true }
+            isDisabled={ getSizeRange() !== null && currentSize === getSizeRange()?.[0] }
           >
             { isFXL 
               ? <ZoomOut aria-hidden="true" focusable="false" /> 
@@ -104,8 +101,7 @@ export const ReadingDisplayZoom = () => {
               await incrementSize();
               updateSize();
             } }
-            // isDisabled={ getSizeRange() !== null && currentSize === getSizeRange()?.[1] }
-            isDisabled={ true }
+            isDisabled={ getSizeRange() !== null && currentSize === getSizeRange()?.[1] }
           >
             { isFXL 
               ? <ZoomIn aria-hidden="true" focusable="false" /> 
