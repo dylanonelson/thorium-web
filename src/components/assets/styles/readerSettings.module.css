@@ -1,8 +1,3 @@
-.tmpDisabling {
-  opacity: var(--theme-immerse);
-  cursor: not-allowed;
-}
-
 .readerSettingsGroup,
 .readerSettingsGroup {
   margin: calc(var(--layout-spacing) * 2) 0; 
