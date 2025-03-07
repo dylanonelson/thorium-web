@@ -20,9 +20,9 @@ import { SheetWithType } from "./Sheets/SheetWithType";
 import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
 import { Button, Collection, Key } from "react-aria-components";
 import {
-  UNSTABLE_Tree as Tree,
-  UNSTABLE_TreeItem as TreeItem,
-  UNSTABLE_TreeItemContent as TreeItemContent,
+  Tree,
+  TreeItem,
+  TreeItemContent
 } from "react-aria-components";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
