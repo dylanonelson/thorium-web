@@ -5,6 +5,8 @@ import { useCallback, useEffect, useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
+import fontStacks from "@readium/css/css/vars/fontStacks.json";
+
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
@@ -380,6 +382,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             pageGutter: RSPrefs.typography.pageGutter,
             optimalLineLength: RSPrefs.typography.optimalLineLength,
             minimalLineLength: RSPrefs.typography.minimalLineLength,
+            fontFamily: fontStacks.RS__oldStyleTf,
             constraint: initialConstraint,
             ...themeProps
           },
