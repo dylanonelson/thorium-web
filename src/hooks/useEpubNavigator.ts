@@ -7,14 +7,14 @@ import { ScrollBackTo } from "@/models/preferences";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
 
 import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
-import { EpubNavigator, EpubNavigatorListeners, EpubPreferences, FrameManager, FXLFrameManager, IEpubDefaults, IEpubPreferences, Theme } from "@readium/navigator";
+import { EpubNavigator, EpubNavigatorListeners, EpubPreferences, FrameManager, FXLFrameManager, IEpubDefaults, IEpubPreferences, PaginationStrategy, Theme } from "@readium/navigator";
 
 import { ScrollAffordance } from "@/helpers/scrollAffordance";
 import { localData } from "@/helpers/localData";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setProgression } from "@/lib/publicationReducer";
-import { setColCount, setPaged } from "@/lib/readerReducer";
+import { setColCount, setPaged, setPaginationStrategy } from "@/lib/readerReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
@@ -154,6 +154,14 @@ export const useEpubNavigator = () => {
     }));
 
     dispatch(setColCount(count));
+  }, [dispatch]);
+
+  const applyPaginationStrategy = useCallback(async (strategy: PaginationStrategy) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      paginationStrategy: strategy
+    }));
+
+    dispatch(setPaginationStrategy(strategy));
   }, [dispatch]);
 
   const incrementSize = useCallback(async () => {
@@ -328,6 +336,7 @@ export const useEpubNavigator = () => {
     applyTheme, 
     applyConstraint, 
     applyColCount, 
+    applyPaginationStrategy,
     incrementSize,
     decrementSize,
     getCurrentSize,

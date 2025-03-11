@@ -20,7 +20,7 @@ import {
   BasicTextSelection,
   FrameClickEvent,
 } from "@readium/navigator-html-injectables";
-import { EpubNavigatorListeners, FrameManager, FXLFrameManager } from "@readium/navigator";
+import { EpubNavigatorListeners, FrameManager, FXLFrameManager, PaginationStrategy } from "@readium/navigator";
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
 import { ReaderWithDock } from "./ReaderWithPanels";
@@ -55,6 +55,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
+  const paginationStrategy = useAppSelector(state => state.reader.paginationStrategy);
   const theme = useAppSelector(state => state.theming.theme);
   const previousTheme = usePrevious(theme);
   const colorScheme = useAppSelector(state => state.theming.colorScheme);
@@ -74,6 +75,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     settings: {
       paginated: isPaged,
       colCount: colCount,
+      paginationStrategy: paginationStrategy,
       theme: theme
     },
     colorScheme: colorScheme,
@@ -286,6 +288,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     cache.current.settings.colCount = colCount;
   }, [colCount]);
 
+  useEffect(() => {
+    cache.current.settings.paginationStrategy = paginationStrategy;
+  }, [paginationStrategy]);
+
   // Handling side effects on Navigator
   useEffect(() => {
     cache.current.settings.theme = theme;
@@ -382,8 +388,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             pageGutter: RSPrefs.typography.pageGutter,
             optimalLineLength: RSPrefs.typography.optimalLineLength,
             minimalLineLength: RSPrefs.typography.minimalLineLength,
+            maximalLineLength: RSPrefs.typography.maximalLineLength,
             fontFamily: fontStacks.RS__oldStyleTf,
             constraint: initialConstraint,
+            paginationStrategy: cache.current.settings.paginationStrategy,
             ...themeProps
           },
           localDataKey: localDataKey.current,

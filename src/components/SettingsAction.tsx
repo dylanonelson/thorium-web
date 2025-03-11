@@ -22,6 +22,7 @@ import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 import { ReadingDisplayZoom } from "./Settings/ReadingDisplayZoom";
+import { ReadingDisplayPaginationStrategy } from "./Settings/ReadingDisplayPaginationStrategy";
 
 export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
   const isFXL = useAppSelector(state => state.publication.isFXL);
@@ -61,6 +62,7 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
       <ReadingDisplayTheme mapArrowNav={ 2 } />
       <ReadingDisplayLayout />
       <ReadingDisplayCol />
+      { !isFXL && <ReadingDisplayPaginationStrategy /> }
     </SheetWithType>
     </>
   )
