@@ -18,12 +18,19 @@ export enum ScrollBackTo {
   untouched = "untouched"
 }
 
+export enum PaginationStrategy {
+  lineLength = "lineLength",
+  columns = "columns"
+}
+
 export interface IRSPrefs {
   direction?: LayoutDirection,
   typography: {
     minimalLineLength?: number | null;
+    maximalLineLength?: number | null;
     optimalLineLength: number;
     pageGutter: number;
+    paginationStrategy?: PaginationStrategy | null;
   };
   scroll: {
     topAffordance: ScrollAffordancePref;

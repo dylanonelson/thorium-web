@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IReaderState } from "@/models/state/readerState";
 import { defaultPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { LayoutDirection } from "@/models/layout";
+import { PaginationStrategy } from "@/models/preferences";
 
 const initialState: IReaderState = {
   direction: LayoutDirection.ltr,
@@ -12,6 +13,7 @@ const initialState: IReaderState = {
   isFullscreen: false,
   isPaged: true,
   colCount: "auto",
+  paginationStrategy: PaginationStrategy.lineLength,
   platformModifier: defaultPlatformModifier
 }
 
@@ -45,6 +47,9 @@ export const readerSlice = createSlice({
     },
     setColCount: (state, action) => {
       state.colCount = action.payload
+    },
+    setPaginationStrategy: (state, action) => {
+      state.paginationStrategy = action.payload
     }
   }
 })
@@ -59,7 +64,8 @@ export const {
   setArrows, 
   setFullscreen, 
   setPaged, 
-  setColCount
+  setColCount,
+  setPaginationStrategy
 } = readerSlice.actions;
 
 export default readerSlice.reducer;

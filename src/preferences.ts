@@ -1,4 +1,4 @@
-import { IRSPrefs, ScrollAffordancePref, ScrollBackTo } from "./models/preferences";
+import { IRSPrefs, PaginationStrategy, ScrollAffordancePref, ScrollBackTo } from "./models/preferences";
 import { StaticBreakpoints } from "./models/staticBreakpoints";
 import { ShortcutMetaKeywords, ShortcutRepresentation } from "./models/shortcut";
 import { ActionKeys, ActionVisibility } from "./models/actions";
@@ -14,9 +14,11 @@ import nightMode from "@readium/css/css/vars/night.json";
 export const RSPrefs: IRSPrefs = {
   direction: LayoutDirection.ltr,
   typography: {
-    minimalLineLength: 35, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
+    minimalLineLength: 40, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
-    pageGutter: 20 // body padding in px
+    maximalLineLength: 85, // undefined | null | number of characters.
+    pageGutter: 20, // body padding in px
+    paginationStrategy: PaginationStrategy.lineLength
   },
   scroll: {
     topAffordance: ScrollAffordancePref.none,
