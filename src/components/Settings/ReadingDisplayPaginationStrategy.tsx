@@ -16,6 +16,7 @@ import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
 export const ReadingDisplayPaginationStrategy = () => {
   const paginationStrategy = useAppSelector(state => state.reader.paginationStrategy);
+  const colCount = useAppSelector(state => state.reader.colCount);
 
   const { applyPaginationStrategy } = useEpubNavigator();
 
@@ -37,6 +38,7 @@ export const ReadingDisplayPaginationStrategy = () => {
           className={ settingsStyles.readerSettingsRadio } 
           value={ PaginationStrategy.lineLength } 
           id={ PaginationStrategy.lineLength } 
+          isDisabled={ colCount !== "auto" }
         >
           <RangeIcon aria-hidden="true" focusable="false" />
           <span>{ Locale.reader.settings.paginationStrategy.lineLength }</span>
@@ -45,6 +47,7 @@ export const ReadingDisplayPaginationStrategy = () => {
           className={ settingsStyles.readerSettingsRadio } 
           value={ PaginationStrategy.columns } 
           id={ PaginationStrategy.columns } 
+          isDisabled={ colCount !== "auto" } 
         >
           <AddColumnIcon aria-hidden="true" focusable="false" />
           <span>{ Locale.reader.settings.paginationStrategy.columns }</span>
