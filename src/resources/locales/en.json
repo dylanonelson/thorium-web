@@ -132,6 +132,9 @@
         "none": "Balanced",
         "lineLength": "Line length",
         "columns": "Columns"
+      },
+      "maxChars": {
+        "label": "Disable maximal line length"
       }
     }
   }

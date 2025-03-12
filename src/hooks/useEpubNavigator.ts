@@ -165,6 +165,13 @@ export const useEpubNavigator = () => {
     dispatch(setPaginationStrategy(strategy));
   }, [dispatch]);
 
+  // TMP for testing purposes
+  const nullifyMaxChars = useCallback(async (b: boolean) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      maximalLineLength: b ? null : RSPrefs.typography.maximalLineLength
+    }));
+  }, []);
+
   const incrementSize = useCallback(async () => {
     const editor = navigatorInstance?.preferencesEditor;
     if (editor) {
@@ -338,6 +345,7 @@ export const useEpubNavigator = () => {
     applyConstraint, 
     applyColCount, 
     applyPaginationStrategy,
+    nullifyMaxChars,
     incrementSize,
     decrementSize,
     getCurrentSize,
