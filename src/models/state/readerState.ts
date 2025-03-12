@@ -1,5 +1,5 @@
 import { LayoutDirection } from "../layout";
-import { PaginationStrategy } from "../preferences";
+import { RSPaginationStrategy } from "../preferences";
 import { IPlatformModifier } from "../shortcut";
 
 export interface IReaderState {
@@ -10,6 +10,6 @@ export interface IReaderState {
   isFullscreen: boolean;
   isPaged: boolean;
   colCount: string;
-  paginationStrategy: PaginationStrategy;
+  paginationStrategy: RSPaginationStrategy;
   platformModifier: IPlatformModifier;
 }

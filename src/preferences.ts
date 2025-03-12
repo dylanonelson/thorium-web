@@ -1,4 +1,4 @@
-import { IRSPrefs, PaginationStrategy, ScrollAffordancePref, ScrollBackTo } from "./models/preferences";
+import { IRSPrefs, RSPaginationStrategy, ScrollAffordancePref, ScrollBackTo } from "./models/preferences";
 import { StaticBreakpoints } from "./models/staticBreakpoints";
 import { ShortcutMetaKeywords, ShortcutRepresentation } from "./models/shortcut";
 import { ActionKeys, ActionVisibility } from "./models/actions";
@@ -18,7 +18,7 @@ export const RSPrefs: IRSPrefs = {
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
     maximalLineLength: 85, // undefined | null | number of characters.
     pageGutter: 20, // body padding in px
-    paginationStrategy: PaginationStrategy.lineLength
+    paginationStrategy: RSPaginationStrategy.none
   },
   scroll: {
     topAffordance: ScrollAffordancePref.none,

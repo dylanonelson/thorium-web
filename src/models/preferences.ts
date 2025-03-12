@@ -18,7 +18,8 @@ export enum ScrollBackTo {
   untouched = "untouched"
 }
 
-export enum PaginationStrategy {
+export enum RSPaginationStrategy {
+  none = "none",
   lineLength = "lineLength",
   columns = "columns"
 }
@@ -30,7 +31,7 @@ export interface IRSPrefs {
     maximalLineLength?: number | null;
     optimalLineLength: number;
     pageGutter: number;
-    paginationStrategy?: PaginationStrategy | null;
+    paginationStrategy?: RSPaginationStrategy | null;
   };
   scroll: {
     topAffordance: ScrollAffordancePref;
