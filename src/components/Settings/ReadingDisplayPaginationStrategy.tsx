@@ -2,10 +2,11 @@ import { useCallback } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { PaginationStrategy } from "@/models/preferences";
+import { RSPaginationStrategy } from "@/models/preferences";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
+import FitIcon from "../assets/icons/fit_width.svg";
 import RangeIcon from "../assets/icons/arrow_range.svg";
 import AddColumnIcon from "../assets/icons/add_column_right.svg";
 
@@ -21,7 +22,7 @@ export const ReadingDisplayPaginationStrategy = () => {
   const { applyPaginationStrategy } = useEpubNavigator();
 
   const handleChange = useCallback(async (value: string) => {
-      await applyPaginationStrategy(value as PaginationStrategy);
+      await applyPaginationStrategy(value as RSPaginationStrategy);
     }, [applyPaginationStrategy]);
 
   return(
@@ -36,8 +37,17 @@ export const ReadingDisplayPaginationStrategy = () => {
       <div className={ settingsStyles.readerSettingsRadioWrapper }>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 
-          value={ PaginationStrategy.lineLength } 
-          id={ PaginationStrategy.lineLength } 
+          value={ RSPaginationStrategy.none } 
+          id={ RSPaginationStrategy.none } 
+          isDisabled={ colCount !== "auto" }
+        >
+          <FitIcon aria-hidden="true" focusable="false" />
+          <span>{ Locale.reader.settings.paginationStrategy.none }</span>
+        </Radio>
+        <Radio 
+          className={ settingsStyles.readerSettingsRadio } 
+          value={ RSPaginationStrategy.lineLength } 
+          id={ RSPaginationStrategy.lineLength } 
           isDisabled={ colCount !== "auto" }
         >
           <RangeIcon aria-hidden="true" focusable="false" />
@@ -45,8 +55,8 @@ export const ReadingDisplayPaginationStrategy = () => {
         </Radio>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 
-          value={ PaginationStrategy.columns } 
-          id={ PaginationStrategy.columns } 
+          value={ RSPaginationStrategy.columns } 
+          id={ RSPaginationStrategy.columns } 
           isDisabled={ colCount !== "auto" } 
         >
           <AddColumnIcon aria-hidden="true" focusable="false" />

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IReaderState } from "@/models/state/readerState";
 import { defaultPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { LayoutDirection } from "@/models/layout";
-import { PaginationStrategy } from "@/models/preferences";
+import { RSPaginationStrategy } from "@/models/preferences";
 
 const initialState: IReaderState = {
   direction: LayoutDirection.ltr,
@@ -13,7 +13,7 @@ const initialState: IReaderState = {
   isFullscreen: false,
   isPaged: true,
   colCount: "auto",
-  paginationStrategy: PaginationStrategy.lineLength,
+  paginationStrategy: RSPaginationStrategy.none,
   platformModifier: defaultPlatformModifier
 }
 

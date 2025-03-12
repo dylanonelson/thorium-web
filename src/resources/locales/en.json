@@ -129,6 +129,7 @@
       },
       "paginationStrategy": {
         "title": "Pagination strategy",
+        "none": "Disabled",
         "lineLength": "Line length",
         "columns": "Columns"
       }

@@ -3,7 +3,7 @@ import { useCallback, useMemo, useRef } from "react";
 import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
 
-import { ScrollBackTo } from "@/models/preferences";
+import { RSPaginationStrategy, ScrollBackTo } from "@/models/preferences";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
 
 import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
@@ -146,7 +146,7 @@ export const useEpubNavigator = () => {
     }))
   }, []);
 
-  const applyColCount = useCallback(async (count: string | null) => {    
+  const applyColCount = useCallback(async (count: string) => {    
     const colCount = count === "auto" ? null : Number(count);
     
     await navigatorInstance?.submitPreferences(new EpubPreferences({
@@ -156,9 +156,10 @@ export const useEpubNavigator = () => {
     dispatch(setColCount(count));
   }, [dispatch]);
 
-  const applyPaginationStrategy = useCallback(async (strategy: PaginationStrategy) => {
+  const applyPaginationStrategy = useCallback(async (strategy: RSPaginationStrategy) => {
+    const pStrategy = strategy === RSPaginationStrategy.none ? null : strategy;
     await navigatorInstance?.submitPreferences(new EpubPreferences({
-      paginationStrategy: strategy
+      paginationStrategy: pStrategy as PaginationStrategy | null
     }));
 
     dispatch(setPaginationStrategy(strategy));
