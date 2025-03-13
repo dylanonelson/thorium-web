@@ -3,7 +3,8 @@ import { useCallback, useMemo, useRef } from "react";
 import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
 
-import { RSPaginationStrategy, ScrollBackTo } from "@/models/preferences";
+import { ScrollBackTo } from "@/models/preferences";
+import { RSPaginationStrategy } from "@/models/layout";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
 
 import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";

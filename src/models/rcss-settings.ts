@@ -1,4 +1,4 @@
-import { RSPaginationStrategy } from "./preferences";
+import { RSPaginationStrategy } from "./layout";
 import { ThemeKeys } from "./theme";
 
 export interface IRCSSSettings {
