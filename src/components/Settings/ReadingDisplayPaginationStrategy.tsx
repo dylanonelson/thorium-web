@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { RSPaginationStrategy } from "@/models/preferences";
+import { RSPaginationStrategy } from "@/models/layout";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 

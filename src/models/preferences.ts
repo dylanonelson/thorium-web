@@ -1,6 +1,6 @@
 import { IActionPref } from "./actions";
 import { IDockingPref } from "./docking";
-import { Constraints, ILayoutDefaults, LayoutDirection } from "./layout";
+import { Constraints, ILayoutDefaults, LayoutDirection, RSPaginationStrategy } from "./layout";
 import { ShortcutRepresentation } from "./shortcut";
 import { StaticBreakpoints } from "./staticBreakpoints";
 import { IThemeTokens, ThemeKeys } from "./theme";
@@ -16,12 +16,6 @@ export enum ScrollBackTo {
   top = "top",
   bottom = "bottom",
   untouched = "untouched"
-}
-
-export enum RSPaginationStrategy {
-  margin = "margin",
-  lineLength = "lineLength",
-  columns = "columns"
 }
 
 export interface IRSPrefs {

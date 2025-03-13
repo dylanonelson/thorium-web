@@ -1,5 +1,7 @@
 import { SheetTypes } from "./sheets";
 
+import fontStacks from "@readium/css/css/vars/fontStacks.json";
+
 export enum LayoutDirection {
   ltr = "ltr",
   rtl = "rtl"
@@ -15,6 +17,12 @@ export type Constraints = Extract<SheetTypes, SheetTypes.bottomSheet | SheetType
 export enum ReadingDisplayLayoutOption { 
   scroll = "scroll_option",
   paginated = "page_option"
+}
+
+export enum RSPaginationStrategy {
+  margin = "margin",
+  lineLength = "lineLength",
+  columns = "columns"
 }
 
 export interface IReaderArrow {

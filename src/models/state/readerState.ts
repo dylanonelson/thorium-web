@@ -1,5 +1,5 @@
 import { LayoutDirection } from "../layout";
-import { RSPaginationStrategy } from "../preferences";
+import { RSPaginationStrategy } from "../layout";
 import { IPlatformModifier } from "../shortcut";
 
 export interface IReaderState {

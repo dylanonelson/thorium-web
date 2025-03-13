@@ -2,8 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { IReaderState } from "@/models/state/readerState";
 import { defaultPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
-import { LayoutDirection } from "@/models/layout";
-import { RSPaginationStrategy } from "@/models/preferences";
+import { LayoutDirection, RSPaginationStrategy } from "@/models/layout";
 
 const initialState: IReaderState = {
   direction: LayoutDirection.ltr,
