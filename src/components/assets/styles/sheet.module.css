@@ -104,6 +104,12 @@
 }
 
 .dockedSheet {
+  /* We need absolute positioning so that RAC FocusScope scrolls properly on tabbing */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   overflow-y: auto;
   scroll-padding-top: calc(var(--sheet-sticky-header, 80px) + var(--layout-spacing));
   scroll-padding-bottom: var(--layout-spacing);
