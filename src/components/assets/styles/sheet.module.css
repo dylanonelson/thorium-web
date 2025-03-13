@@ -38,9 +38,7 @@
 }
 
 /* React Modal Sheet handles scroll + sticky header so no need for scroll-padding here */
-.bottomSheetModal {
-  /* We need to change position so that focus on tap/click doesn’t scroll-shift the sheet off its position */
-  position: fixed !important;
+.bottomSheetModal {  
   box-sizing: border-box;
   max-width: var(--constraints-bottomSheet, 600px);
   left: max(calc((100% - var(--constraints-bottomSheet, 600px)) / 2), 0px) !important;
