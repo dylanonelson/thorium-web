@@ -18,6 +18,7 @@ import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
 export const ReadingDisplayPaginationStrategy = () => {
   const paginationStrategy = useAppSelector(state => state.reader.paginationStrategy);
+  const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
 
   const { applyPaginationStrategy } = useEpubNavigator();
@@ -46,6 +47,7 @@ export const ReadingDisplayPaginationStrategy = () => {
           className={ settingsStyles.readerSettingsRadio } 
           value={ RSPaginationStrategy.margin } 
           id={ RSPaginationStrategy.margin } 
+          isDisabled={ !isPaged }
         >
           <FitIcon aria-hidden="true" focusable="false" />
           <span>{ Locale.reader.settings.paginationStrategy.margin }</span>
@@ -54,6 +56,7 @@ export const ReadingDisplayPaginationStrategy = () => {
           className={ settingsStyles.readerSettingsRadio } 
           value={ RSPaginationStrategy.lineLength } 
           id={ RSPaginationStrategy.lineLength } 
+          isDisabled={ !isPaged }
         >
           <RangeIcon aria-hidden="true" focusable="false" />
           <span>{ Locale.reader.settings.paginationStrategy.lineLength }</span>
@@ -62,7 +65,7 @@ export const ReadingDisplayPaginationStrategy = () => {
           className={ settingsStyles.readerSettingsRadio } 
           value={ RSPaginationStrategy.columns } 
           id={ RSPaginationStrategy.columns } 
-          isDisabled={ colCount !== "auto" } 
+          isDisabled={ !isPaged || colCount !== "auto" } 
         >
           <AddColumnIcon aria-hidden="true" focusable="false" />
           <span>{ Locale.reader.settings.paginationStrategy.columns }</span>
