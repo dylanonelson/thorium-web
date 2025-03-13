@@ -11,6 +11,10 @@
   gap: 2px;
 }
 
+.dockPanelContainer {
+  position: relative;
+}
+
 .dockResizeHandle {
   position: relative;
   width: 0;
