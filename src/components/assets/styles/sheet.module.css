@@ -84,6 +84,11 @@
   color: var(--theme-text);
 }
 
+.bottomSheetScroller {
+  /* Needed for RAC FocusScope keyboard focus scrolling */
+  position: relative;
+}
+
 .dragIndicator {
   width: calc(var(--icon-size, 40px) * 1.5);
   position: absolute;
