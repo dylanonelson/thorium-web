@@ -38,7 +38,7 @@
 }
 
 /* React Modal Sheet handles scroll + sticky header so no need for scroll-padding here */
-.bottomSheetModal {  
+.bottomSheetModal {
   box-sizing: border-box;
   max-width: var(--constraints-bottomSheet, 600px);
   left: max(calc((100% - var(--constraints-bottomSheet, 600px)) / 2), 0px) !important;
@@ -108,12 +108,8 @@
 }
 
 .dockedSheet {
-  /* We need absolute positioning so that RAC FocusScope scrolls properly on tabbing */
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  /* We need relative positioning so that RAC FocusScope scrolls properly on tabbing */
+  position: relative;
   overflow-y: auto;
   scroll-padding-top: calc(var(--sheet-sticky-header, 80px) + var(--layout-spacing));
   scroll-padding-bottom: var(--layout-spacing);
