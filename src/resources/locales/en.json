@@ -129,7 +129,7 @@
       },
       "paginationStrategy": {
         "title": "Pagination strategy",
-        "none": "Balanced",
+        "margin": "Margin",
         "lineLength": "Line length",
         "columns": "Columns"
       },

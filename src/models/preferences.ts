@@ -19,7 +19,7 @@ export enum ScrollBackTo {
 }
 
 export enum RSPaginationStrategy {
-  none = "none",
+  margin = "margin",
   lineLength = "lineLength",
   columns = "columns"
 }

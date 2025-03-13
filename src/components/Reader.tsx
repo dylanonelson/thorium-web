@@ -11,7 +11,7 @@ import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
 import { StaticBreakpoints } from "@/models/staticBreakpoints";
-import { RSPaginationStrategy, ScrollBackTo } from "@/models/preferences";
+import { ScrollBackTo } from "@/models/preferences";
 import { ActionKeys } from "@/models/actions";
 import { ThemeKeys } from "@/models/theme";
 import { ICache } from "@/models/reader";
@@ -377,9 +377,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
         const initialConstraint = cache.current.arrowsOccupySpace ? arrowsWidth.current : 0;
         const themeProps = listThemeProps(cache.current.settings.theme, cache.current.colorScheme);
-        const strategy: PaginationStrategy | null = cache.current.settings.paginationStrategy === RSPaginationStrategy.none 
-          ? null 
-          : cache.current.settings.paginationStrategy as unknown as PaginationStrategy;
   
         EpubNavigatorLoad({
           container: container.current, 
@@ -394,7 +391,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             maximalLineLength: RSPrefs.typography.maximalLineLength,
             fontFamily: fontStacks.RS__oldStyleTf,
             constraint: initialConstraint,
-            paginationStrategy: strategy,
+            paginationStrategy: RSPrefs.typography.paginationStrategy as unknown as PaginationStrategy,
             ...themeProps
           },
           localDataKey: localDataKey.current,

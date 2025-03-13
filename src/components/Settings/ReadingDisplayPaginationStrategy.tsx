@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -23,8 +23,14 @@ export const ReadingDisplayPaginationStrategy = () => {
   const { applyPaginationStrategy } = useEpubNavigator();
 
   const handleChange = useCallback(async (value: string) => {
-      await applyPaginationStrategy(value as RSPaginationStrategy);
-    }, [applyPaginationStrategy]);
+    await applyPaginationStrategy(value as RSPaginationStrategy);
+  }, [applyPaginationStrategy]);
+
+  useEffect(() => {
+    if (colCount !== "auto" && paginationStrategy === RSPaginationStrategy.columns) {
+      handleChange(RSPaginationStrategy.lineLength);
+    }
+  }, [colCount, paginationStrategy, handleChange]);
 
   return(
     <>
@@ -38,18 +44,16 @@ export const ReadingDisplayPaginationStrategy = () => {
       <div className={ settingsStyles.readerSettingsRadioWrapper }>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 
-          value={ RSPaginationStrategy.none } 
-          id={ RSPaginationStrategy.none } 
-          isDisabled={ colCount !== "auto" }
+          value={ RSPaginationStrategy.margin } 
+          id={ RSPaginationStrategy.margin } 
         >
           <FitIcon aria-hidden="true" focusable="false" />
-          <span>{ Locale.reader.settings.paginationStrategy.none }</span>
+          <span>{ Locale.reader.settings.paginationStrategy.margin }</span>
         </Radio>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 
           value={ RSPaginationStrategy.lineLength } 
           id={ RSPaginationStrategy.lineLength } 
-          isDisabled={ colCount !== "auto" }
         >
           <RangeIcon aria-hidden="true" focusable="false" />
           <span>{ Locale.reader.settings.paginationStrategy.lineLength }</span>

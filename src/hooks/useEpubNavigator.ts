@@ -157,9 +157,8 @@ export const useEpubNavigator = () => {
   }, [dispatch]);
 
   const applyPaginationStrategy = useCallback(async (strategy: RSPaginationStrategy) => {
-    const pStrategy = strategy === RSPaginationStrategy.none ? null : strategy;
     await navigatorInstance?.submitPreferences(new EpubPreferences({
-      paginationStrategy: pStrategy as PaginationStrategy | null
+      paginationStrategy: strategy as unknown as PaginationStrategy
     }));
 
     dispatch(setPaginationStrategy(strategy));

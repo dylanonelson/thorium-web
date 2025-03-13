@@ -18,7 +18,7 @@ export const RSPrefs: IRSPrefs = {
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
     maximalLineLength: 85, // undefined | null | number of characters.
     pageGutter: 20, // body padding in px
-    paginationStrategy: RSPaginationStrategy.none
+    paginationStrategy: RSPaginationStrategy.lineLength
   },
   scroll: {
     topAffordance: ScrollAffordancePref.none,
