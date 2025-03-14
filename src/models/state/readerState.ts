@@ -11,5 +11,6 @@ export interface IReaderState {
   isPaged: boolean;
   colCount: string;
   paginationStrategy: RSPaginationStrategy;
+  fontFamily: string;
   platformModifier: IPlatformModifier;
 }

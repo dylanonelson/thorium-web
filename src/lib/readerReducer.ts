@@ -13,6 +13,7 @@ const initialState: IReaderState = {
   isPaged: true,
   colCount: "auto",
   paginationStrategy: RSPaginationStrategy.lineLength,
+  fontFamily: "oldStyle",
   platformModifier: defaultPlatformModifier
 }
 
@@ -49,6 +50,9 @@ export const readerSlice = createSlice({
     },
     setPaginationStrategy: (state, action) => {
       state.paginationStrategy = action.payload
+    },
+    setFontFamily: (state, action) => {
+      state.fontFamily = action.payload
     }
   }
 })
@@ -64,7 +68,8 @@ export const {
   setFullscreen, 
   setPaged, 
   setColCount,
-  setPaginationStrategy
+  setPaginationStrategy,
+  setFontFamily
 } = readerSlice.actions;
 
 export default readerSlice.reducer;
