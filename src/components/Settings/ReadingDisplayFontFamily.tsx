@@ -27,7 +27,11 @@ export const ReadingDisplayFontFamily = () => {
   const handleFontFamily = useCallback((key: Key) => {
     if (key === fontFamily) return;
 
-    const selectedOption = fontFamilyOptions.current.find(option => option.id === key);
+    const selectedOption = fontFamilyOptions.current.find((option) => option.id === key) as {
+      id: keyof typeof ReadingDisplayFontFamilyOptions;
+      label: string;
+      value: string | null;
+    };
     if (selectedOption) {
       applyFontFamily(selectedOption);
     }
@@ -63,8 +67,8 @@ export const ReadingDisplayFontFamily = () => {
               className={ settingsStyles.readerSettingsDropdownListboxItem } 
               id={ item.id } 
               key={ item.id } 
-              textValue={ item.value }
-              style={ { fontFamily: item.value } }
+              textValue={ item.value || undefined }
+              style={ { fontFamily: item.value || undefined } }
             >
               { item.label }
             </ListBoxItem> 

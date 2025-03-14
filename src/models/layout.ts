@@ -26,6 +26,7 @@ export enum RSPaginationStrategy {
 }
 
 export const ReadingDisplayFontFamilyOptions = {
+  publisher: null,
   oldStyle: fontStacks.RS__oldStyleTf,
   modern: fontStacks.RS__modernTf,
   sans: fontStacks.RS__sansTf,

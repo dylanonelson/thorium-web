@@ -16,7 +16,7 @@ export const RSPrefs: IRSPrefs = {
   typography: {
     minimalLineLength: 40, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
-    maximalLineLength: 85, // undefined | null | number of characters.
+    maximalLineLength: 75, // undefined | null | number of characters.
     pageGutter: 20, // body padding in px
     paginationStrategy: RSPaginationStrategy.lineLength
   },

@@ -4,7 +4,7 @@ import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
 
 import { ScrollBackTo } from "@/models/preferences";
-import { RSPaginationStrategy } from "@/models/layout";
+import { ReadingDisplayFontFamilyOptions, RSPaginationStrategy } from "@/models/layout";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
 
 import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
@@ -206,7 +206,7 @@ export const useEpubNavigator = () => {
     return null;
   }, []);
 
-  const applyFontFamily = useCallback(async (fontFamily: { id: string, value: string }) => {
+  const applyFontFamily = useCallback(async (fontFamily: { id: keyof typeof ReadingDisplayFontFamilyOptions, value: string | null }) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences({
       fontFamily: fontFamily.value
     }));
