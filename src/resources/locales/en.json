@@ -118,6 +118,7 @@
       },
       "fontFamily": {
         "title": "Font family",
+        "publisher": "Publisher’s font",
         "oldStyle": "Old style serif",
         "modern": "Modern serif",
         "sans": "Sans-serif",

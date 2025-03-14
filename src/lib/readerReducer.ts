@@ -13,7 +13,7 @@ const initialState: IReaderState = {
   isPaged: true,
   colCount: "auto",
   paginationStrategy: RSPaginationStrategy.lineLength,
-  fontFamily: "oldStyle",
+  fontFamily: "publisher",
   platformModifier: defaultPlatformModifier
 }
 
