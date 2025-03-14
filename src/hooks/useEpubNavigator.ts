@@ -15,7 +15,7 @@ import { localData } from "@/helpers/localData";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setProgression } from "@/lib/publicationReducer";
-import { setColCount, setPaged, setPaginationStrategy } from "@/lib/readerReducer";
+import { setColCount, setFontFamily, setPaged, setPaginationStrategy } from "@/lib/readerReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
@@ -206,6 +206,13 @@ export const useEpubNavigator = () => {
     return null;
   }, []);
 
+  const applyFontFamily = useCallback(async (fontFamily: { id: string, value: string }) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      fontFamily: fontFamily.value
+    }));
+    dispatch(setFontFamily(fontFamily.id));
+  }, [dispatch]);
+
   const handleProgression = useCallback((locator: Locator) => {
     const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
       
@@ -345,6 +352,7 @@ export const useEpubNavigator = () => {
     applyConstraint, 
     applyColCount, 
     applyPaginationStrategy,
+    applyFontFamily, 
     nullifyMaxChars,
     incrementSize,
     decrementSize,

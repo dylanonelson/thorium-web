@@ -25,6 +25,14 @@ export enum RSPaginationStrategy {
   columns = "columns"
 }
 
+export const ReadingDisplayFontFamilyOptions = {
+  oldStyle: fontStacks.RS__oldStyleTf,
+  modern: fontStacks.RS__modernTf,
+  sans: fontStacks.RS__sansTf,
+  humanist: fontStacks.RS__humanistTf,
+  monospace: fontStacks.RS__monospaceTf
+}
+
 export interface IReaderArrow {
   direction: "left" | "right";
   occupySpace: boolean;
