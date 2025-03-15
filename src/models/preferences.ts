@@ -20,6 +20,7 @@ export enum ScrollBackTo {
 
 export interface IRSPrefs {
   direction?: LayoutDirection,
+  locale?: string;
   typography: {
     minimalLineLength?: number | null;
     maximalLineLength?: number | null;

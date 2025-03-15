@@ -49,7 +49,9 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
     };
 
     if (t === ThemeKeys.auto) {
-      cssProps.background = `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThemeKeys.light].background } 0%, ${ RSPrefs.theming.themes.keys[ThemeKeys.dark].background } 48%)`;
+      cssProps.background = isRTL 
+        ? `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThemeKeys.dark].background } 48%, ${ RSPrefs.theming.themes.keys[ThemeKeys.light].background } 100%)` 
+        : `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThemeKeys.light].background } 0%, ${ RSPrefs.theming.themes.keys[ThemeKeys.dark].background } 48%)`;
       cssProps.color = "#ffffff";
       cssProps.border = `1px solid ${ RSPrefs.theming.themes.keys[ThemeKeys.light].subdue }`;
     } else {

@@ -46,6 +46,7 @@ import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
 
 import debounce from "debounce";
+import { I18nProvider } from "react-aria";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -408,6 +409,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   return (
     <>
+    <I18nProvider locale={  RSPrefs.locale  }>
     <main>
       <ReaderWithDock>
         <div id="reader-main">
@@ -443,5 +445,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         </div>
     </ReaderWithDock>
   </main>
+  </I18nProvider>
   </>
 )};
