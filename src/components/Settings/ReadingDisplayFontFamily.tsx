@@ -1,4 +1,4 @@
-import { Key, useCallback, useEffect, useRef } from "react";
+import { Key, useCallback, useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
