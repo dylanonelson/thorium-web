@@ -105,6 +105,11 @@
   border-radius: var(--layout-radius);
   box-sizing: border-box;
   border: 1px solid var(--theme-subdue);
+  max-width: 100%;
+}
+
+.readerSettingsDropdownButton[data-focus-visible] {
+  outline: 2px solid var(--theme-focus);
 }
 
 .readerSettingsDropdownButton svg {
@@ -156,8 +161,7 @@
 .readerSettingsSwitch {
   display: flex;
   align-items: center;
-  gap: 0.571rem;
-  font-size: 1.143rem;
+  gap: 5px;
   color: var(--theme-text);
 }
 
