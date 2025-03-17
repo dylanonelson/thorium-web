@@ -41,7 +41,7 @@ export const ReadingDisplayLayoutStrategy = () => {
       onChange={ async (val: string) => await handleChange(val) } 
       className={ settingsStyles.readerSettingsGroup }
     >
-      <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.layoutStrategy.title }</Label>
+      <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.layoutStrategy.title }</Label>
       <div className={ settingsStyles.readerSettingsRadioWrapper }>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 
@@ -49,7 +49,7 @@ export const ReadingDisplayLayoutStrategy = () => {
           id={ RSLayoutStrategy.margin } 
         >
           <FitIcon aria-hidden="true" focusable="false" />
-          <span>{ Locale.reader.settings.layoutStrategy.margin }</span>
+          <span>{ Locale.reader.layoutStrategy.margin }</span>
         </Radio>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 
@@ -57,7 +57,7 @@ export const ReadingDisplayLayoutStrategy = () => {
           id={ RSLayoutStrategy.lineLength } 
         >
           <RangeIcon aria-hidden="true" focusable="false" />
-          <span>{ Locale.reader.settings.layoutStrategy.lineLength }</span>
+          <span>{ Locale.reader.layoutStrategy.lineLength }</span>
         </Radio>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 
@@ -66,7 +66,7 @@ export const ReadingDisplayLayoutStrategy = () => {
           isDisabled={ !isPaged || colCount !== "auto" } 
         >
           <AddColumnIcon aria-hidden="true" focusable="false" />
-          <span>{ Locale.reader.settings.layoutStrategy.columns }</span>
+          <span>{ Locale.reader.layoutStrategy.columns }</span>
         </Radio>
       </div>
     </RadioGroup>

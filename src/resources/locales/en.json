@@ -86,6 +86,17 @@
         "trigger": "Display actions"
       }
     },
+    "layoutStrategy": {
+      "tooltip": "Layout",
+      "trigger": "Layout strategy",
+      "close": "Close layout strategy menu",
+      "heading": "Layout strategy",
+      "title": "Strategy",
+      "margin": "Margin",
+      "lineLength": "Line length",
+      "columns": "Columns",
+      "maxChars": "Disable maximal line length"
+    },
     "settings": {
       "tooltip": "Settings",
       "trigger": "Settings menu",
@@ -135,15 +146,6 @@
         "auto": "Auto",
         "one": "1 col",
         "two": "2 cols"
-      },
-      "layoutStrategy": {
-        "title": "Layout strategy",
-        "margin": "Margin",
-        "lineLength": "Line length",
-        "columns": "Columns"
-      },
-      "maxChars": {
-        "label": "Disable maximal line length"
       }
     }
   }
