@@ -2,10 +2,10 @@ import { Fragment, useRef } from "react";
 
 import { ActionComponentVariant, IActionsWithCollapsibility } from "@/models/actions";
 
+import { Toolbar } from "react-aria-components";
 import { OverflowMenu } from "./OverflowMenu";
 
 import { useCollapsibility } from "@/hooks/useCollapsibility";
-import { Toolbar } from "react-aria-components";
 
 export const ActionsWithCollapsibility = ({
   id, 

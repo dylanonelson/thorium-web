@@ -16,6 +16,8 @@ import { ActionKeys } from "@/models/actions";
 import { ThemeKeys } from "@/models/theme";
 import { ICache } from "@/models/reader";
 
+import { I18nProvider } from "react-aria";
+
 import {
   BasicTextSelection,
   FrameClickEvent,
@@ -46,7 +48,6 @@ import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
 
 import debounce from "debounce";
-import { I18nProvider } from "react-aria";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
