@@ -17,9 +17,9 @@ import { useAppSelector } from "@/lib/hooks";
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
 export const ReadingDisplayLayoutStrategy = () => {
-  const layoutStrategy = useAppSelector(state => state.reader.layoutStrategy);
+  const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const isPaged = useAppSelector(state => state.reader.isPaged);
-  const colCount = useAppSelector(state => state.reader.colCount);
+  const colCount = useAppSelector(state => state.settings.colCount);
 
   const { applyLayoutStrategy } = useEpubNavigator();
 

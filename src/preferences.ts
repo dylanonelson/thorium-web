@@ -5,7 +5,7 @@ import { ActionKeys, ActionVisibility } from "./models/actions";
 import { SheetTypes } from "./models/sheets";
 import { DockTypes, DockingKeys } from "./models/docking";
 import { ThemeKeys } from "./models/theme";
-import { LayoutDirection, RSLayoutStrategy } from "./models/layout";
+import { LayoutDirection, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./models/layout";
 
 import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";
@@ -19,7 +19,12 @@ export const RSPrefs: IRSPrefs = {
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
     maximalLineLength: 75, // undefined | null | number of characters.
     pageGutter: 20, // body padding in px
-    layoutStrategy: RSLayoutStrategy.lineLength
+    layoutStrategy: RSLayoutStrategy.lineLength,
+    spacing: {
+      [ReadingDisplayLineHeightOptions.small]: 1.3,
+      [ReadingDisplayLineHeightOptions.medium]: 1.5,
+      [ReadingDisplayLineHeightOptions.large]: 1.75
+    }
   },
   scroll: {
     topAffordance: ScrollAffordancePref.none,

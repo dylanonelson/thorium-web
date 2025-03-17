@@ -4,7 +4,7 @@ import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
 
 import { ScrollBackTo } from "@/models/preferences";
-import { ReadingDisplayFontFamilyOptions, RSLayoutStrategy } from "@/models/layout";
+import { ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
 
 import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
@@ -15,7 +15,8 @@ import { localData } from "@/helpers/localData";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setProgression } from "@/lib/publicationReducer";
-import { setColCount, setFontFamily, setPaged, setLayoutStrategy } from "@/lib/readerReducer";
+import { setPaged } from "@/lib/readerReducer";
+import { setColCount, setFontFamily, setFontSize, setLayoutStrategy, setLineHeight } from "@/lib/settingsReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
@@ -180,8 +181,9 @@ export const useEpubNavigator = () => {
       }
       editor.fontSize.increment();
       await navigatorInstance?.submitPreferences(editor.preferences);
+      dispatch(setFontSize(navigatorInstance?.settings.fontSize));
     }
-  }, []);
+  }, [dispatch]);
 
   const decrementSize = useCallback(async () => {
     const editor = navigatorInstance?.preferencesEditor;
@@ -191,12 +193,9 @@ export const useEpubNavigator = () => {
       }
       editor.fontSize.decrement();
       await navigatorInstance?.submitPreferences(editor.preferences);
+      dispatch(setFontSize(navigatorInstance?.settings.fontSize));
     }
-  }, []);
-
-  const getCurrentSize = useCallback(() => {
-    return navigatorInstance?.settings.fontSize;
-  }, []);
+  }, [dispatch]);
 
   const getSizeRange = useCallback(() => {
     const editor = navigatorInstance?.preferencesEditor;
@@ -217,6 +216,22 @@ export const useEpubNavigator = () => {
     const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
       
     dispatch(setProgression( { currentPositions: navigatorInstance?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression }));
+  }, [dispatch]);
+
+  const applyLineHeight = useCallback(async (value: string) => {
+    const computedValue: number = RSPrefs.typography.spacing?.[value as ReadingDisplayLineHeightOptions] ?? 
+          (value === ReadingDisplayLineHeightOptions.small 
+            ? 1.3 
+            : value === ReadingDisplayLineHeightOptions.medium 
+              ? 1.5 
+              : 1.75
+          );
+
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      publisherStyles: false,
+      lineHeight: computedValue
+    }));
+    dispatch(setLineHeight(value));
   }, [dispatch]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
@@ -353,10 +368,10 @@ export const useEpubNavigator = () => {
     applyColCount, 
     applyLayoutStrategy,
     applyFontFamily, 
+    applyLineHeight, 
     nullifyMaxChars,
     incrementSize,
     decrementSize,
-    getCurrentSize,
     getSizeRange,
     handleProgression,
     navLayout, 
