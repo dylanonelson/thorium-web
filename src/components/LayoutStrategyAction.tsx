@@ -1,41 +1,34 @@
-import React from "react";
-
 import { RSPrefs } from "@/preferences";
+
 import Locale from "../resources/locales/en.json";
+
+import LayoutIcon from "./assets/icons/fit_page_width.svg";
 
 import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
-import TuneIcon from "./assets/icons/match_case.svg";
-
-import { SheetWithType } from "./Sheets/SheetWithType";
 import { ActionIcon } from "./ActionTriggers/ActionIcon";
 import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
-import { ReadingDisplayCol } from "./Settings/ReadingDisplayCol";
-import { ReadingDisplayLayout } from "./Settings/ReadingDisplayLayout";
-import { ReadingDisplayTheme } from "./Settings/ReadingDisplayTheme";
 
-import { useDocking } from "@/hooks/useDocking";
-
-import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
-import { ReadingDisplayZoom } from "./Settings/ReadingDisplayZoom";
-import { ReadingDisplayLayoutStrategy } from "./Settings/ReadingDisplayLayoutStrategy";
-import { ReadingDisplayFontFamily } from "./Settings/ReadingDisplayFontFamily";
+import { setHovering } from "@/lib/readerReducer";
 
-export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
-  const isFXL = useAppSelector(state => state.publication.isFXL);
-  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
+import { useDocking } from "@/hooks/useDocking";
+import { SheetWithType } from "./Sheets/SheetWithType";
+import { ReadingDisplayLayoutStrategy } from "./Settings/ReadingDisplayLayoutStrategy";
+
+export const LayoutStrategiesActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
+  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.layoutStrategy]);
   const dispatch = useAppDispatch();
   
-  const docking = useDocking(ActionKeys.settings);
+  const docking = useDocking(ActionKeys.layoutStrategy);
   const sheetType = docking.sheetType;
 
   const setOpen = (value: boolean) => {    
     dispatch(setActionOpen({
-      key: ActionKeys.settings,
+      key: ActionKeys.layoutStrategy,
       isOpen: value
     }));
 
@@ -48,9 +41,9 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
     <SheetWithType 
       sheetType={ sheetType }
       sheetProps={ {
-        id: ActionKeys.settings,
+        id: ActionKeys.layoutStrategy,
         triggerRef: triggerRef,
-        heading: Locale.reader.settings.heading,
+        heading: Locale.reader.layoutStrategy.heading,
         className: settingsStyles.readerSettings,
         placement: "bottom", 
         isOpen: actionState.isOpen || false,
@@ -59,23 +52,19 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
         docker: docking.getDocker()
       } }
     >
-      { !isFXL && <ReadingDisplayZoom /> }
-      { !isFXL && <ReadingDisplayFontFamily />}
-      <ReadingDisplayTheme mapArrowNav={ 2 } />
-      <ReadingDisplayLayout />
-      <ReadingDisplayCol />
+      <ReadingDisplayLayoutStrategy />
     </SheetWithType>
     </>
   )
 }
 
-export const SettingsAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
-  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
+export const LayoutStrategyAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.layoutStrategy]);
   const dispatch = useAppDispatch();
 
   const setOpen = (value: boolean) => {    
     dispatch(setActionOpen({
-      key: ActionKeys.settings,
+      key: ActionKeys.layoutStrategy,
       isOpen: value
     }));
 
@@ -87,18 +76,18 @@ export const SettingsAction: React.FC<IActionComponentTrigger> = ({ variant }) =
     <>
     { (variant && variant === ActionComponentVariant.menu) 
       ? <OverflowMenuItem 
-          label={ Locale.reader.settings.trigger }
-          SVG={ TuneIcon }
-          shortcut={ RSPrefs.actions.keys[ActionKeys.settings].shortcut } 
-          id={ ActionKeys.settings }
+          label={ Locale.reader.layoutStrategy.trigger }
+          SVG={ LayoutIcon }
+          shortcut={ RSPrefs.actions.keys[ActionKeys.layoutStrategy].shortcut } 
+          id={ ActionKeys.layoutStrategy }
           onActionCallback={ () => setOpen(!actionState.isOpen) }
         />
       : <ActionIcon 
-          visibility={ RSPrefs.actions.keys[ActionKeys.settings].visibility }
-          ariaLabel={ Locale.reader.settings.trigger }
-          SVG={ TuneIcon } 
+          visibility={ RSPrefs.actions.keys[ActionKeys.layoutStrategy].visibility }
+          ariaLabel={ Locale.reader.layoutStrategy.trigger }
+          SVG={ LayoutIcon } 
           placement="bottom" 
-          tooltipLabel={ Locale.reader.settings.tooltip } 
+          tooltipLabel={ Locale.reader.layoutStrategy.tooltip } 
           onPressCallback={ () => setOpen(!actionState.isOpen) }
         />
     }

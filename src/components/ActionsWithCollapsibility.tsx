@@ -42,6 +42,7 @@ export const ActionsWithCollapsibility = ({
 
       <OverflowMenu 
         id={ id }
+        triggerRef={ ref }
         display={ overflowMenuDisplay || true }
         className={ overflowMenuClassName } 
         actionFallback={ overflowActionCallback }

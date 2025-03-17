@@ -32,7 +32,7 @@ export const ReadingDisplayMaxChars = () => {
           onChange={ setSelected }
         >
           <div className={ settingsStyles.readerSettingsSwitchIndicator } />
-          { Locale.reader.settings.maxChars.label }
+          { Locale.reader.layoutStrategy.maxChars }
       </Switch>
       </div>
     }

@@ -189,6 +189,7 @@ export const RSPrefs: IRSPrefs = {
       ActionKeys.settings,
       ActionKeys.toc,
       ActionKeys.fullscreen,
+      ActionKeys.layoutStrategy
     //  ActionKeys.jumpToPosition
     ],
     collapse: {
@@ -239,6 +240,23 @@ export const RSPrefs: IRSPrefs = {
           width: 360,
           minWidth: 320,
           maxWidth: 450
+        }
+      },
+      [ActionKeys.layoutStrategy]: {
+        visibility: ActionVisibility.overflow,
+        shortcut: null,
+        sheet: {
+          defaultSheet: SheetTypes.popover,
+          breakpoints: {
+            [StaticBreakpoints.compact]: SheetTypes.bottomSheet
+          }
+        },
+        docked: {
+          dockable: DockTypes.none
+        },
+        snapped: {
+          scrim: true,
+          minHeight: "content-height"
         }
       },
       [ActionKeys.jumpToPosition]: {
