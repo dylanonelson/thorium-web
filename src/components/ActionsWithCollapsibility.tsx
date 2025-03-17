@@ -5,6 +5,7 @@ import { ActionComponentVariant, IActionsWithCollapsibility } from "@/models/act
 import { OverflowMenu } from "./OverflowMenu";
 
 import { useCollapsibility } from "@/hooks/useCollapsibility";
+import { Toolbar } from "react-aria-components";
 
 export const ActionsWithCollapsibility = ({
   id, 
@@ -21,7 +22,7 @@ export const ActionsWithCollapsibility = ({
 
   return (
     <>
-    <div 
+    <Toolbar 
       ref={ ref }
       className={ className } 
       aria-label={ label }
@@ -46,7 +47,7 @@ export const ActionsWithCollapsibility = ({
         actionFallback={ overflowActionCallback }
         actionItems={ Actions.MenuItems }
       />
-    </div>
+    </Toolbar>
     </>
   )
 }
