@@ -136,8 +136,8 @@
         "one": "1 col",
         "two": "2 cols"
       },
-      "paginationStrategy": {
-        "title": "Pagination strategy",
+      "layoutStrategy": {
+        "title": "Layout strategy",
         "margin": "Margin",
         "lineLength": "Line length",
         "columns": "Columns"

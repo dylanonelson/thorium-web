@@ -22,7 +22,7 @@ import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 import { ReadingDisplayZoom } from "./Settings/ReadingDisplayZoom";
-import { ReadingDisplayPaginationStrategy } from "./Settings/ReadingDisplayPaginationStrategy";
+import { ReadingDisplayLayoutStrategy } from "./Settings/ReadingDisplayLayoutStrategy";
 import { ReadingDisplayFontFamily } from "./Settings/ReadingDisplayFontFamily";
 
 export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
@@ -64,7 +64,7 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
       <ReadingDisplayTheme mapArrowNav={ 2 } />
       <ReadingDisplayLayout />
       <ReadingDisplayCol />
-      { !isFXL && <ReadingDisplayPaginationStrategy /> }
+      { !isFXL && <ReadingDisplayLayoutStrategy /> }
     </SheetWithType>
     </>
   )

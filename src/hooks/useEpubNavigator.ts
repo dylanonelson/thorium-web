@@ -4,18 +4,18 @@ import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
 
 import { ScrollBackTo } from "@/models/preferences";
-import { ReadingDisplayFontFamilyOptions, RSPaginationStrategy } from "@/models/layout";
+import { ReadingDisplayFontFamilyOptions, RSLayoutStrategy } from "@/models/layout";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
 
 import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
-import { EpubNavigator, EpubNavigatorListeners, EpubPreferences, FrameManager, FXLFrameManager, IEpubDefaults, IEpubPreferences, PaginationStrategy, Theme } from "@readium/navigator";
+import { EpubNavigator, EpubNavigatorListeners, EpubPreferences, FrameManager, FXLFrameManager, IEpubDefaults, IEpubPreferences, LayoutStrategy, Theme } from "@readium/navigator";
 
 import { ScrollAffordance } from "@/helpers/scrollAffordance";
 import { localData } from "@/helpers/localData";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setProgression } from "@/lib/publicationReducer";
-import { setColCount, setFontFamily, setPaged, setPaginationStrategy } from "@/lib/readerReducer";
+import { setColCount, setFontFamily, setPaged, setLayoutStrategy } from "@/lib/readerReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
@@ -157,12 +157,12 @@ export const useEpubNavigator = () => {
     dispatch(setColCount(count));
   }, [dispatch]);
 
-  const applyPaginationStrategy = useCallback(async (strategy: RSPaginationStrategy) => {
+  const applyLayoutStrategy = useCallback(async (strategy: RSLayoutStrategy) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences({
-      paginationStrategy: strategy as unknown as PaginationStrategy
+      layoutStrategy: strategy as unknown as LayoutStrategy
     }));
 
-    dispatch(setPaginationStrategy(strategy));
+    dispatch(setLayoutStrategy(strategy));
   }, [dispatch]);
 
   // TMP for testing purposes
@@ -351,7 +351,7 @@ export const useEpubNavigator = () => {
     applyTheme, 
     applyConstraint, 
     applyColCount, 
-    applyPaginationStrategy,
+    applyLayoutStrategy,
     applyFontFamily, 
     nullifyMaxChars,
     incrementSize,
