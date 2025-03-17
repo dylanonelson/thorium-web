@@ -1,5 +1,5 @@
 import { LayoutDirection, ReadingDisplayFontFamilyOptions } from "../layout";
-import { RSPaginationStrategy } from "../layout";
+import { RSLayoutStrategy } from "../layout";
 import { IPlatformModifier } from "../shortcut";
 
 export interface IReaderState {
@@ -10,7 +10,7 @@ export interface IReaderState {
   isFullscreen: boolean;
   isPaged: boolean;
   colCount: string;
-  paginationStrategy: RSPaginationStrategy;
+  layoutStrategy: RSLayoutStrategy;
   fontFamily: keyof typeof ReadingDisplayFontFamilyOptions;
   platformModifier: IPlatformModifier;
 }

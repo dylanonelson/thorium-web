@@ -22,7 +22,7 @@ import {
   BasicTextSelection,
   FrameClickEvent,
 } from "@readium/navigator-html-injectables";
-import { EpubNavigatorListeners, FrameManager, FXLFrameManager, PaginationStrategy } from "@readium/navigator";
+import { EpubNavigatorListeners, FrameManager, FXLFrameManager, LayoutStrategy } from "@readium/navigator";
 import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
 
 import { ReaderWithDock } from "./ReaderWithPanels";
@@ -57,7 +57,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const isPaged = useAppSelector(state => state.reader.isPaged);
   const colCount = useAppSelector(state => state.reader.colCount);
-  const paginationStrategy = useAppSelector(state => state.reader.paginationStrategy);
+  const layoutStrategy = useAppSelector(state => state.reader.layoutStrategy);
   const theme = useAppSelector(state => state.theming.theme);
   const previousTheme = usePrevious(theme);
   const colorScheme = useAppSelector(state => state.theming.colorScheme);
@@ -77,7 +77,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     settings: {
       paginated: isPaged,
       colCount: colCount,
-      paginationStrategy: paginationStrategy,
+      layoutStrategy: layoutStrategy,
       theme: theme
     },
     colorScheme: colorScheme,
@@ -294,8 +294,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [colCount]);
 
   useEffect(() => {
-    cache.current.settings.paginationStrategy = paginationStrategy;
-  }, [paginationStrategy]);
+    cache.current.settings.layoutStrategy = layoutStrategy;
+  }, [layoutStrategy]);
 
   // Handling side effects on Navigator
   useEffect(() => {
@@ -396,7 +396,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             maximalLineLength: RSPrefs.typography.maximalLineLength,
             fontFamily: fontStacks.RS__oldStyleTf,
             constraint: initialConstraint,
-            paginationStrategy: RSPrefs.typography.paginationStrategy as unknown as PaginationStrategy,
+            layoutStrategy: RSPrefs.typography.layoutStrategy as unknown as LayoutStrategy,
             ...themeProps
           },
           localDataKey: localDataKey.current,

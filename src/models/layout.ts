@@ -19,7 +19,7 @@ export enum ReadingDisplayLayoutOption {
   paginated = "page_option"
 }
 
-export enum RSPaginationStrategy {
+export enum RSLayoutStrategy {
   margin = "margin",
   lineLength = "lineLength",
   columns = "columns"
