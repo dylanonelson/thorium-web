@@ -9,8 +9,5 @@ export interface IReaderState {
   hasArrows: boolean;
   isFullscreen: boolean;
   isPaged: boolean;
-  colCount: string;
-  layoutStrategy: RSLayoutStrategy;
-  fontFamily: keyof typeof ReadingDisplayFontFamilyOptions;
   platformModifier: IPlatformModifier;
 }

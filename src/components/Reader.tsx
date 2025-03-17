@@ -56,8 +56,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
 
   const isPaged = useAppSelector(state => state.reader.isPaged);
-  const colCount = useAppSelector(state => state.reader.colCount);
-  const layoutStrategy = useAppSelector(state => state.reader.layoutStrategy);
+  const colCount = useAppSelector(state => state.settings.colCount);
+  const fontSize = useAppSelector(state => state.settings.fontSize);
+  const fontFamily = useAppSelector(state => state.settings.fontFamily);
+  const lineHeight = useAppSelector(state => state.settings.lineHeight);
+  const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const theme = useAppSelector(state => state.theming.theme);
   const previousTheme = usePrevious(theme);
   const colorScheme = useAppSelector(state => state.theming.colorScheme);
@@ -77,6 +80,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     settings: {
       paginated: isPaged,
       colCount: colCount,
+      fontSize: fontSize,
+      fontFamily: fontFamily,
+      lineHeight: lineHeight,
       layoutStrategy: layoutStrategy,
       theme: theme
     },
@@ -292,6 +298,18 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   useEffect(() => {
     cache.current.settings.colCount = colCount;
   }, [colCount]);
+
+  useEffect(() => {
+    cache.current.settings.fontSize = fontSize;
+  }, [fontSize]);
+
+  useEffect(() => {
+    cache.current.settings.fontFamily = fontFamily;
+  }, [fontFamily]);
+
+  useEffect(() => {
+    cache.current.settings.lineHeight = lineHeight;
+  }, [lineHeight]);
 
   useEffect(() => {
     cache.current.settings.layoutStrategy = layoutStrategy;

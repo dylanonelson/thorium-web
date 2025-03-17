@@ -14,7 +14,7 @@ import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useAppSelector } from "@/lib/hooks";
 
 export const ReadingDisplayFontFamily = () => {
-  const fontFamily = useAppSelector(state => state.reader.fontFamily);
+  const fontFamily = useAppSelector(state => state.settings.fontFamily);
   const fontFamilyOptions = useRef(Object.entries(ReadingDisplayFontFamilyOptions).map(([property, stack]) => ({
       id: property,
       label: Locale.reader.settings.fontFamily[property as keyof typeof Locale.reader.settings.fontFamily],

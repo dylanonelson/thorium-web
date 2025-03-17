@@ -136,6 +136,12 @@
         "humanist": "Humanist sans-serif",
         "monospace": "Monospace"
       },
+      "lineHeight": {
+        "title": "Spacing",
+        "small": "Tight",
+        "medium": "Balanced",
+        "large": "Loose"
+      },
       "layout": {
         "title": "Layout",
         "scrolled": "Scrollable",
