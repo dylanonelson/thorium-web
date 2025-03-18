@@ -6,6 +6,7 @@ import { SheetTypes } from "./models/sheets";
 import { DockTypes, DockingKeys } from "./models/docking";
 import { ThemeKeys } from "./models/theme";
 import { LayoutDirection, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./models/layout";
+import { SettingsKeys } from "./models/settings";
 
 import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";
@@ -301,5 +302,19 @@ export const RSPrefs: IRSPrefs = {
         shortcut: null
       }
     }
+  },
+  settings: {
+    reflowOrder: [
+      SettingsKeys.zoom,
+      SettingsKeys.fontFamily,
+      SettingsKeys.theme,
+      SettingsKeys.lineHeight,
+      SettingsKeys.layout,
+      SettingsKeys.columns
+    ],
+    fxlOrder: [
+      SettingsKeys.theme,
+      SettingsKeys.columns
+    ]
   }
 }
