@@ -219,7 +219,7 @@ export const useEpubNavigator = () => {
   }, [dispatch]);
 
   const applyLineHeight = useCallback(async (value: string) => {
-    const computedValue: number = RSPrefs.typography.spacing?.[value as ReadingDisplayLineHeightOptions] ?? 
+    const computedValue: number = RSPrefs.settings.spacing?.[value as ReadingDisplayLineHeightOptions] ?? 
           (value === ReadingDisplayLineHeightOptions.small 
             ? 1.3 
             : value === ReadingDisplayLineHeightOptions.medium 
