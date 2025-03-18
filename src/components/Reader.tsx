@@ -293,7 +293,19 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   useEffect(() => {
     cache.current.settings.paginated = isPaged;
-  }, [isPaged]);
+
+    const handleConstraint = async (value: number) => {
+      await applyConstraint(value)
+    }
+
+    if (isPaged) {
+      handleConstraint(arrowsOccupySpace ? arrowsWidth.current : 0)
+        .catch(console.error);
+    } else {
+      handleConstraint(0)
+        .catch(console.error);
+    }
+  }, [isPaged, arrowsOccupySpace, applyConstraint]);
 
   useEffect(() => {
     cache.current.settings.colCount = colCount;
@@ -412,7 +424,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             optimalLineLength: RSPrefs.typography.optimalLineLength,
             minimalLineLength: RSPrefs.typography.minimalLineLength,
             maximalLineLength: RSPrefs.typography.maximalLineLength,
-            fontFamily: fontStacks.RS__oldStyleTf,
             constraint: initialConstraint,
             layoutStrategy: RSPrefs.typography.layoutStrategy as unknown as LayoutStrategy,
             ...themeProps
