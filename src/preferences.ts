@@ -20,12 +20,7 @@ export const RSPrefs: IRSPrefs = {
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
     maximalLineLength: 75, // undefined | null | number of characters.
     pageGutter: 20, // body padding in px
-    layoutStrategy: RSLayoutStrategy.lineLength,
-    spacing: {
-      [ReadingDisplayLineHeightOptions.small]: 1.3,
-      [ReadingDisplayLineHeightOptions.medium]: 1.5,
-      [ReadingDisplayLineHeightOptions.large]: 1.75
-    }
+    layoutStrategy: RSLayoutStrategy.lineLength
   },
   scroll: {
     topAffordance: ScrollAffordancePref.none,
@@ -315,6 +310,11 @@ export const RSPrefs: IRSPrefs = {
     fxlOrder: [
       SettingsKeys.theme,
       SettingsKeys.columns
-    ]
+    ],
+    spacing: {
+      [ReadingDisplayLineHeightOptions.small]: 1.3,
+      [ReadingDisplayLineHeightOptions.medium]: 1.5,
+      [ReadingDisplayLineHeightOptions.large]: 1.75
+    }
   }
 }

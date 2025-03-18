@@ -28,9 +28,6 @@ export interface IRSPrefs {
     optimalLineLength: number;
     pageGutter: number;
     layoutStrategy?: RSLayoutStrategy | null;
-    spacing?: {
-      [key in ReadingDisplayLineHeightOptions]: number
-    }
   };
   scroll: {
     topAffordance: ScrollAffordancePref;
@@ -75,6 +72,9 @@ export interface IRSPrefs {
   docking: IDockingPref;
   settings: {
     reflowOrder: SettingsKeys[],
-    fxlOrder: SettingsKeys[]
+    fxlOrder: SettingsKeys[],
+    spacing?: {
+      [key in ReadingDisplayLineHeightOptions]: number
+    }
   }
 }
