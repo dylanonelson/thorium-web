@@ -12,9 +12,9 @@ export const SwitchWrapper: React.FC<SwitchProps & ISettingsSwitchProps> = ({
   heading, 
   label,
   onChangeCallback,
-  isSelected,
-  isDisabled,
-  isReadOnly,
+  selected,
+  disabled,
+  readOnly,
   ...props
 }) => {
   return(
@@ -24,10 +24,10 @@ export const SwitchWrapper: React.FC<SwitchProps & ISettingsSwitchProps> = ({
       <Switch 
         name={ name }
         className={ classNames(settingsStyles.readerSettingsSwitch, className) }
-        isSelected={ isSelected }
+        isSelected={ selected }
         onChange={ onChangeCallback }
-        isDisabled={ isDisabled }
-        isReadOnly={ isReadOnly }
+        isDisabled={ disabled }
+        isReadOnly={ readOnly }
         { ...props }
       >
         <div className={ settingsStyles.readerSettingsSwitchIndicator } />

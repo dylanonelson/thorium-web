@@ -1,3 +1,4 @@
+import { ComponentType, SVGProps } from "react";
 import { ReadingDisplayAlignOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./layout";
 import { ThemeKeys } from "./theme";
 
@@ -10,13 +11,36 @@ export enum SettingsKeys {
   columns = "columns"
 }
 
+export interface ISettingsSteppersProps {
+  decrementIcon: ComponentType<SVGProps<SVGElement>>;
+  decrementLabel: string;
+  incrementIcon: ComponentType<SVGProps<SVGElement>>;
+  incrementLabel: string;
+}
+
+export interface ISettingsNumberFieldProps {
+  className?: string;
+  label: string;
+  defaultValue?: number;
+  value: number;
+  onChangeCallback: (value: number) => void;
+  range: [number, number];
+  step: number;
+  steppers: ISettingsSteppersProps;
+  format: Intl.NumberFormatOptions;
+  disabled?: boolean;
+  wheelDisabled?: boolean;
+  virtualKeyboardDisabled?: boolean;
+  readOnly?: boolean;
+}
+
 export interface ISettingsSwitchProps {
   name?: string;
   className?: string;
   heading?: string;
   label: string;
   onChangeCallback: (isSelected: boolean) => void;
-  isSelected: boolean;
+  selected: boolean;
   disabled?: boolean;
   readOnly?: boolean;
 }
