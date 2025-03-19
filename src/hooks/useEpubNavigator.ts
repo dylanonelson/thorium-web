@@ -173,29 +173,20 @@ export const useEpubNavigator = () => {
     }));
   }, []);
 
-  const incrementSize = useCallback(async () => {
-    const editor = navigatorInstance?.preferencesEditor;
-    if (editor) {
-      if (!editor.fontSize.value) {
-        editor.fontSize.value = 1;
-      }
-      editor.fontSize.increment();
-      await navigatorInstance?.submitPreferences(editor.preferences);
-      dispatch(setFontSize(navigatorInstance?.settings.fontSize));
-    }
+  const applyZoom = useCallback(async (value: number) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      fontSize: value
+    }));
+    dispatch(setFontSize(navigatorInstance?.settings.fontSize));
   }, [dispatch]);
 
-  const decrementSize = useCallback(async () => {
+  const getSizeStep = useCallback(() => {
     const editor = navigatorInstance?.preferencesEditor;
     if (editor) {
-      if (!editor.fontSize.value) {
-        editor.fontSize.value = 1;
-      }
-      editor.fontSize.decrement();
-      await navigatorInstance?.submitPreferences(editor.preferences);
-      dispatch(setFontSize(navigatorInstance?.settings.fontSize));
+      return editor.fontSize.step;
     }
-  }, [dispatch]);
+    return null;
+  }, []);
 
   const getSizeRange = useCallback(() => {
     const editor = navigatorInstance?.preferencesEditor;
@@ -370,8 +361,8 @@ export const useEpubNavigator = () => {
     applyFontFamily, 
     applyLineHeight, 
     nullifyMaxChars,
-    incrementSize,
-    decrementSize,
+    applyZoom,
+    getSizeStep, 
     getSizeRange,
     handleProgression,
     navLayout, 
