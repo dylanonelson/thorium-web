@@ -19,7 +19,6 @@ export const SwitchWrapper: React.FC<SwitchProps & ISettingsSwitchProps> = ({
 }) => {
   return(
     <>
-    <div className={ settingsStyles.readerSettingsGroup }>
       { heading && <Heading className={ settingsStyles.readerSettingsLabel }>{ heading }</Heading> }
       <Switch 
         name={ name }
@@ -33,7 +32,6 @@ export const SwitchWrapper: React.FC<SwitchProps & ISettingsSwitchProps> = ({
         <div className={ settingsStyles.readerSettingsSwitchIndicator } />
         { label }
       </Switch>
-    </div>
     </>
   )
 }

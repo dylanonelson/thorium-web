@@ -10,6 +10,20 @@
   margin-bottom: 0;
 }
 
+.readerSettingsGroupFlex {
+  display: flex;
+  gap: calc(var(--layout-spacing) / 2);
+}
+
+.readerSettingsNumberField {
+  width: fit-content;
+}
+
+.readerSettingsAdvancedIcon {
+  align-self: flex-start;
+  margin-inline-start: auto;
+}
+
 .readerSettingsLabel {
   display: block;
   font-weight: bold;
