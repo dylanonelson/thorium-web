@@ -4,11 +4,11 @@ import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
 
 import { ScrollBackTo } from "@/models/preferences";
-import { ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
+import { ReadingDisplayAlignOptions, ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
 
 import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
-import { EpubNavigator, EpubNavigatorListeners, EpubPreferences, FrameManager, FXLFrameManager, IEpubDefaults, IEpubPreferences, LayoutStrategy, Theme } from "@readium/navigator";
+import { EpubNavigator, EpubNavigatorListeners, EpubPreferences, FrameManager, FXLFrameManager, IEpubDefaults, IEpubPreferences, LayoutStrategy, TextAlignment, Theme } from "@readium/navigator";
 
 import { ScrollAffordance } from "@/helpers/scrollAffordance";
 import { localData } from "@/helpers/localData";
@@ -16,7 +16,7 @@ import { localData } from "@/helpers/localData";
 import { useAppDispatch } from "@/lib/hooks";
 import { setProgression } from "@/lib/publicationReducer";
 import { setPaged } from "@/lib/readerReducer";
-import { setColCount, setFontFamily, setFontSize, setLayoutStrategy, setLineHeight } from "@/lib/settingsReducer";
+import { setAlign, setColCount, setFontFamily, setFontSize, setLayoutStrategy, setLineHeight } from "@/lib/settingsReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
@@ -225,6 +225,20 @@ export const useEpubNavigator = () => {
     dispatch(setLineHeight(value));
   }, [dispatch]);
 
+  const applyTextAlign = useCallback(async (value: ReadingDisplayAlignOptions) => {
+    const textAlign: TextAlignment | null = value === ReadingDisplayAlignOptions.start 
+      ? TextAlignment.start 
+      : value === ReadingDisplayAlignOptions.justify 
+        ? TextAlignment.justify 
+        : TextAlignment.start;
+
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      textAlign: textAlign,
+      publisherStyles: false
+    }));
+    dispatch(setAlign(value));
+  }, [dispatch]);
+
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/readium/playground/issues/25
   const scrollBackTo = useCallback((position: ScrollBackTo) => {
@@ -359,7 +373,8 @@ export const useEpubNavigator = () => {
     applyColCount, 
     applyLayoutStrategy,
     applyFontFamily, 
-    applyLineHeight, 
+    applyLineHeight,
+    applyTextAlign,  
     nullifyMaxChars,
     applyZoom,
     getSizeStep, 

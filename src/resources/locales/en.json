@@ -148,6 +148,12 @@
         "auto": "Auto",
         "one": "1 col",
         "two": "2 cols"
+      },
+      "align": {
+        "title": "Text alignment",
+        "left": "Left",
+        "justify": "Justify",
+        "right": "Right"
       }
     }
   }

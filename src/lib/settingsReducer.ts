@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
+import { ReadingDisplayAlignOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
 import { ISettingsState } from "@/models/state/settingsState";
 
 const initialState: ISettingsState = {
@@ -8,6 +8,7 @@ const initialState: ISettingsState = {
   fontSize: 1,
   fontFamily: "publisher",
   lineHeight: ReadingDisplayLineHeightOptions.medium,
+  align: null,
   layoutStrategy: RSLayoutStrategy.lineLength,
 }
 
@@ -27,6 +28,9 @@ export const settingsSlice = createSlice({
     setLineHeight: (state, action) => {
       state.lineHeight = action.payload
     },
+    setAlign: (state, action) => {
+      state.align = action.payload
+    },
     setLayoutStrategy: (state, action) => {
       state.layoutStrategy = action.payload
     }
@@ -39,6 +43,7 @@ export const {
   setFontSize,
   setFontFamily,
   setLineHeight,
+  setAlign, 
   setLayoutStrategy,
 } = settingsSlice.actions;
 
