@@ -1,7 +1,5 @@
 import React, { useCallback } from "react";
 
-import { RSPrefs } from "@/preferences";
-
 import Locale from "../../resources/locales/en.json";
 
 import { ReadingDisplayLineHeightOptions } from "@/models/layout";
@@ -31,7 +29,7 @@ export const ReadingDisplayLineHeight = () => {
     <>
     <RadioGroup 
       orientation="horizontal" 
-      value={`${ lineHeight }`} 
+      value={ lineHeight } 
       onChange={ async (val: string) => await handleChange(val) }
       className={ settingsStyles.readerSettingsGroup }
     >

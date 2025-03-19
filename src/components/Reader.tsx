@@ -60,6 +60,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const fontSize = useAppSelector(state => state.settings.fontSize);
   const fontFamily = useAppSelector(state => state.settings.fontFamily);
   const lineHeight = useAppSelector(state => state.settings.lineHeight);
+  const align = useAppSelector(state => state.settings.align);
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const theme = useAppSelector(state => state.theming.theme);
   const previousTheme = usePrevious(theme);
@@ -83,6 +84,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       fontSize: fontSize,
       fontFamily: fontFamily,
       lineHeight: lineHeight,
+      align: align,
       layoutStrategy: layoutStrategy,
       theme: theme
     },
@@ -291,6 +293,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     textSelected: function (_selection: BasicTextSelection): void {},
   };
 
+  // Handling side effects on Navigator
+
   useEffect(() => {
     cache.current.settings.paginated = isPaged;
 
@@ -324,10 +328,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [lineHeight]);
 
   useEffect(() => {
+    cache.current.settings.align = align;
+  }, [align]);
+
+  useEffect(() => {
     cache.current.settings.layoutStrategy = layoutStrategy;
   }, [layoutStrategy]);
 
-  // Handling side effects on Navigator
   useEffect(() => {
     cache.current.settings.theme = theme;
   }, [theme]);

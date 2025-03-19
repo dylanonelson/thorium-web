@@ -1,4 +1,4 @@
-import { ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./layout";
+import { ReadingDisplayAlignOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./layout";
 import { ThemeKeys } from "./theme";
 
 export enum SettingsKeys {
@@ -16,6 +16,7 @@ export interface IRCSSSettings {
   fontSize: number;
   fontFamily: string;
   lineHeight: ReadingDisplayLineHeightOptions;
+  align: ReadingDisplayAlignOptions | null;
   layoutStrategy: RSLayoutStrategy;
   theme: ThemeKeys;
 }
