@@ -115,16 +115,12 @@
       },
       "zoom": {
         "title": "Zoom",
-        "increaseTooltip": "Increase",
         "increase": "Increase zoom",
-        "decreaseTooltip": "Decrease",
         "decrease": "Decrease zoom"
       },
       "fontSize": {
         "title": "Font size",
-        "increaseTooltip": "Increase",
         "increase": "Increase font size",
-        "decreaseTooltip": "Decrease",
         "decrease": "Decrease font size"
       },
       "fontFamily": {

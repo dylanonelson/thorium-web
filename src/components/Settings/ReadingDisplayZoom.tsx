@@ -1,6 +1,5 @@
 import React from "react";
 
-import { RSPrefs } from "@/preferences";
 import Locale from "../../resources/locales/en.json";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
@@ -36,6 +35,9 @@ export const ReadingDisplayZoom = () => {
       step={ getSizeStep() || 0.1 }
       formatOptions={{ style: "percent" }} 
       onChange={ async(value) => await applyZoom(value) }
+      decrementAriaLabel={ isFXL ? Locale.reader.settings.zoom.decrease : Locale.reader.settings.fontSize.decrease }
+      incrementAriaLabel={ isFXL ? Locale.reader.settings.zoom.increase : Locale.reader.settings.fontSize.increase }
+      isWheelDisabled={ true }
     >
       <Label className={ settingsStyles.readerSettingsLabel }>
         { isFXL ? Locale.reader.settings.zoom.title : Locale.reader.settings.fontSize.title }
@@ -45,7 +47,6 @@ export const ReadingDisplayZoom = () => {
         <Button 
           slot="decrement" 
           className={ readerSharedUI.icon }
-          aria-label={ isFXL ? Locale.reader.settings.zoom.decrease : Locale.reader.settings.fontSize.decrease }
         >
           { isFXL 
             ? <ZoomOut aria-hidden="true" focusable="false" /> 
@@ -53,12 +54,11 @@ export const ReadingDisplayZoom = () => {
           }
         </Button>
 
-        <Input className={ settingsStyles.readerSettingsInput } />
+        <Input className={ settingsStyles.readerSettingsInput } inputMode="none" />
 
         <Button 
           slot="increment" 
           className={ readerSharedUI.icon }
-          aria-label={ isFXL ? Locale.reader.settings.zoom.increase : Locale.reader.settings.fontSize.increase }
         >
           { isFXL 
             ? <ZoomIn aria-hidden="true" focusable="false" /> 
