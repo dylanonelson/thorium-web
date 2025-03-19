@@ -13,9 +13,6 @@ import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useAppSelector } from "@/lib/hooks";
-import { AdvancedIcon } from "./Wrappers/AdvancedIcon";
-
-import classNames from "classnames";
 
 export const ReadingDisplayZoom = () => {
   const fontSize = useAppSelector((state) => state.settings.fontSize);
@@ -29,34 +26,24 @@ export const ReadingDisplayZoom = () => {
 
   return (
     <>
-    <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsGroupFlex) }>
-      <NumberFieldWrapper
-        defaultValue={ 1 } 
-        value={ fontSize } 
-        onChangeCallback={ async(value) => await applyZoom(value) } 
-        label={ isFXL ? Locale.reader.settings.zoom.title : Locale.reader.settings.fontSize.title }
-        range={ getSizeRange() || [0.7, 2.5] }
-        step={ getSizeStep() || 0.1 }
-        steppers={{
-          decrementIcon: isFXL ? ZoomOut : Decrease,
-          decrementLabel: isFXL ? Locale.reader.settings.zoom.decrease : Locale.reader.settings.fontSize.decrease,
-          incrementIcon: isFXL ? ZoomIn : Increase,
-          incrementLabel: isFXL ? Locale.reader.settings.zoom.increase : Locale.reader.settings.fontSize.increase
-        }}
-        format={{ style: "percent" }} 
-        wheelDisabled={ true }
-        virtualKeyboardDisabled={ true }
-      /> 
-      { !isFXL && <AdvancedIcon
-          isDisabled={ true }
-          className={ settingsStyles.readerSettingsAdvancedIcon }
-          ariaLabel={ Locale.reader.settings.fontSize.advanced.trigger }
-          placement="top"
-          tooltipLabel={ Locale.reader.settings.fontSize.advanced.tooltip }
-          onPressCallback={ () => {} }
-        />
-      }
-    </div>
+    <NumberFieldWrapper
+      className={ settingsStyles.readerSettingsGroup }
+      defaultValue={ 1 } 
+      value={ fontSize } 
+      onChangeCallback={ async(value) => await applyZoom(value) } 
+      label={ isFXL ? Locale.reader.settings.zoom.title : Locale.reader.settings.fontSize.title }
+      range={ getSizeRange() || [0.7, 2.5] }
+      step={ getSizeStep() || 0.1 }
+      steppers={{
+        decrementIcon: isFXL ? ZoomOut : Decrease,
+        decrementLabel: isFXL ? Locale.reader.settings.zoom.decrease : Locale.reader.settings.fontSize.decrease,
+        incrementIcon: isFXL ? ZoomIn : Increase,
+        incrementLabel: isFXL ? Locale.reader.settings.zoom.increase : Locale.reader.settings.fontSize.increase
+      }}
+      format={{ style: "percent" }} 
+      wheelDisabled={ true }
+      virtualKeyboardDisabled={ true }
+    /> 
     </>
   );
 };
