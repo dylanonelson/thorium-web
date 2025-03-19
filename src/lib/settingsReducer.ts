@@ -9,6 +9,7 @@ const initialState: ISettingsState = {
   fontFamily: "publisher",
   lineHeight: ReadingDisplayLineHeightOptions.medium,
   align: null,
+  hyphens: null,
   layoutStrategy: RSLayoutStrategy.lineLength,
 }
 
@@ -31,6 +32,9 @@ export const settingsSlice = createSlice({
     setAlign: (state, action) => {
       state.align = action.payload
     },
+    setHyphens: (state, action) => {
+      state.hyphens = action.payload
+    },
     setLayoutStrategy: (state, action) => {
       state.layoutStrategy = action.payload
     }
@@ -44,6 +48,7 @@ export const {
   setFontFamily,
   setLineHeight,
   setAlign, 
+  setHyphens, 
   setLayoutStrategy,
 } = settingsSlice.actions;
 

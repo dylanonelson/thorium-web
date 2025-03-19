@@ -61,6 +61,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const fontFamily = useAppSelector(state => state.settings.fontFamily);
   const lineHeight = useAppSelector(state => state.settings.lineHeight);
   const align = useAppSelector(state => state.settings.align);
+  const hyphens = useAppSelector(state => state.settings.hyphens);
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const theme = useAppSelector(state => state.theming.theme);
   const previousTheme = usePrevious(theme);
@@ -85,6 +86,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       fontFamily: fontFamily,
       lineHeight: lineHeight,
       align: align,
+      hyphens: hyphens,
       layoutStrategy: layoutStrategy,
       theme: theme
     },
@@ -330,6 +332,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   useEffect(() => {
     cache.current.settings.align = align;
   }, [align]);
+
+  useEffect(() => {
+    cache.current.settings.hyphens = hyphens;
+  }, [hyphens]);
 
   useEffect(() => {
     cache.current.settings.layoutStrategy = layoutStrategy;

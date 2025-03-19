@@ -13,6 +13,7 @@
 .readerSettingsLabel {
   display: block;
   font-weight: bold;
+  font-size: 1rem;
 }
 
 .readerSettingsRadioWrapper,

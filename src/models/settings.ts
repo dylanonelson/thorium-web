@@ -10,6 +10,17 @@ export enum SettingsKeys {
   columns = "columns"
 }
 
+export interface ISettingsSwitchProps {
+  name?: string;
+  className?: string;
+  heading?: string;
+  label: string;
+  onChangeCallback: (isSelected: boolean) => void;
+  isSelected: boolean;
+  disabled?: boolean;
+  readOnly?: boolean;
+}
+
 export interface IRCSSSettings {
   paginated: boolean;
   colCount: string;
@@ -17,6 +28,7 @@ export interface IRCSSSettings {
   fontFamily: string;
   lineHeight: ReadingDisplayLineHeightOptions;
   align: ReadingDisplayAlignOptions | null;
+  hyphens: boolean | null;
   layoutStrategy: RSLayoutStrategy;
   theme: ThemeKeys;
 }
