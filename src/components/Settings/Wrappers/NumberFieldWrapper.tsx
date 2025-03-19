@@ -31,8 +31,8 @@ export const NumberFieldWrapper: React.FC<NumberFieldProps & ISettingsNumberFiel
       className={ classNames(settingsStyles.readerSettingsGroup, className) }
       defaultValue={ defaultValue }
       value={ value }
-      minValue={ range[0] }
-      maxValue={ range[1] }
+      minValue={ Math.min(...range) }
+      maxValue={ Math.max(...range) }
       step={ step }
       formatOptions={ format } 
       onChange={ onChangeCallback }
