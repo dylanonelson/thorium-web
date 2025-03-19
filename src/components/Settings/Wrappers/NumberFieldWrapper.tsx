@@ -28,7 +28,7 @@ export const NumberFieldWrapper: React.FC<NumberFieldProps & ISettingsNumberFiel
 
   return (
     <NumberField 
-      className={ classNames(settingsStyles.readerSettingsGroup, className) }
+      className={ classNames(settingsStyles.readerSettingsNumberField, className) }
       defaultValue={ defaultValue }
       value={ value }
       minValue={ Math.min(...range) }

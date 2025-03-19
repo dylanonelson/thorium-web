@@ -1,6 +1,7 @@
 import { ComponentType, SVGProps } from "react";
 import { ReadingDisplayAlignOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./layout";
 import { ThemeKeys } from "./theme";
+import { PressEvent, TooltipProps } from "react-aria-components";
 
 export enum SettingsKeys {
   zoom = "zoom",
@@ -9,6 +10,15 @@ export enum SettingsKeys {
   layout = "layout",
   theme = "theme",
   columns = "columns"
+}
+
+export interface IAdvancedIconProps {
+  className?: string;
+  ariaLabel: string;
+  placement: TooltipProps["placement"];
+  tooltipLabel: string;
+  onPressCallback: (e: PressEvent) => void;
+  isDisabled?: boolean;
 }
 
 export interface ISettingsSteppersProps {
