@@ -20,7 +20,7 @@ export const ReadingDisplayHyphens = () => {
       heading={ Locale.reader.settings.hyphens.title }
       label={ Locale.reader.settings.hyphens.label }
       onChangeCallback={ async (isSelected: boolean) => await applyHyphens(isSelected) }
-      isSelected={ hyphens ?? false }
+      selected={ hyphens ?? false }
     />
     </>
   )
