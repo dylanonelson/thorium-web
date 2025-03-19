@@ -16,7 +16,7 @@ import { localData } from "@/helpers/localData";
 import { useAppDispatch } from "@/lib/hooks";
 import { setProgression } from "@/lib/publicationReducer";
 import { setPaged } from "@/lib/readerReducer";
-import { setAlign, setColCount, setFontFamily, setFontSize, setLayoutStrategy, setLineHeight } from "@/lib/settingsReducer";
+import { setAlign, setColCount, setFontFamily, setFontSize, setHyphens, setLayoutStrategy, setLineHeight } from "@/lib/settingsReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
@@ -233,10 +233,18 @@ export const useEpubNavigator = () => {
         : TextAlignment.start;
 
     await navigatorInstance?.submitPreferences(new EpubPreferences({
-      textAlign: textAlign,
-      publisherStyles: false
+      publisherStyles: false,
+      textAlign: textAlign
     }));
     dispatch(setAlign(value));
+  }, [dispatch]);
+
+  const applyHyphens = useCallback(async (value: boolean) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      publisherStyles: false,
+      hyphens: value
+    }));
+    dispatch(setHyphens(value));
   }, [dispatch]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
@@ -374,7 +382,8 @@ export const useEpubNavigator = () => {
     applyLayoutStrategy,
     applyFontFamily, 
     applyLineHeight,
-    applyTextAlign,  
+    applyTextAlign, 
+    applyHyphens, 
     nullifyMaxChars,
     applyZoom,
     getSizeStep, 

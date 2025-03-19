@@ -3,9 +3,7 @@ import { useEffect, useState } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../../resources/locales/en.json";
 
-import settingsStyles from "../assets/styles/readerSettings.module.css";
-
-import { Switch } from "react-aria-components";
+import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
@@ -25,16 +23,11 @@ export const ReadingDisplayMaxChars = () => {
   return(
     <>
     { RSPrefs.typography.maximalLineLength &&
-      <div>
-        <Switch 
-          className={ settingsStyles.readerSettingsSwitch }
-          isSelected={ selected }
-          onChange={ setSelected }
-        >
-          <div className={ settingsStyles.readerSettingsSwitchIndicator } />
-          { Locale.reader.layoutStrategy.maxChars }
-      </Switch>
-      </div>
+      <SwitchWrapper 
+        label={ Locale.reader.layoutStrategy.maxChars }
+        onChangeCallback={ setSelected }
+        isSelected={ selected }
+      />
     }
     </>
   )

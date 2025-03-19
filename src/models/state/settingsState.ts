@@ -11,5 +11,6 @@ export interface ISettingsState {
   fontFamily: keyof typeof ReadingDisplayFontFamilyOptions;
   lineHeight: ReadingDisplayLineHeightOptions;
   align: ReadingDisplayAlignOptions | null;
+  hyphens: boolean | null;
   layoutStrategy: RSLayoutStrategy;
 }

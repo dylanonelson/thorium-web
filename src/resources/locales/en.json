@@ -154,6 +154,10 @@
         "left": "Left",
         "justify": "Justify",
         "right": "Right"
+      },
+      "hyphens": {
+        "title": "Hyphenation",
+        "label": "Enable hyphens"
       }
     }
   }
