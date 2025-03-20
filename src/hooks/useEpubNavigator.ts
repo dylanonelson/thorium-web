@@ -227,17 +227,23 @@ export const useEpubNavigator = () => {
   }, [dispatch]);
 
   const applyTextAlign = useCallback(async (value: ReadingDisplayAlignOptions) => {
-    const textAlign: TextAlignment | null = value === ReadingDisplayAlignOptions.start 
-      ? TextAlignment.start 
-      : value === ReadingDisplayAlignOptions.justify 
-        ? TextAlignment.justify 
-        : TextAlignment.start;
+    const textAlign: TextAlignment | null = value === ReadingDisplayAlignOptions.publisher 
+      ? null 
+      : value === ReadingDisplayAlignOptions.start 
+        ? TextAlignment.start 
+        : TextAlignment.justify;
+
+    const hyphens = textAlign === null 
+      ? null 
+      : (navigatorInstance?.settings.hyphens ?? textAlign === TextAlignment.justify);
 
     await navigatorInstance?.submitPreferences(new EpubPreferences({
       publisherStyles: false,
-      textAlign: textAlign
+      textAlign: textAlign,
+      hyphens: hyphens
     }));
     dispatch(setAlign(value));
+    dispatch(setHyphens(hyphens));
   }, [dispatch]);
 
   const applyHyphens = useCallback(async (value: boolean) => {

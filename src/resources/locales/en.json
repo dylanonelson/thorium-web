@@ -167,6 +167,7 @@
       },
       "align": {
         "title": "Text alignment",
+        "publisher": "Default",
         "left": "Left",
         "justify": "Justify",
         "right": "Right"

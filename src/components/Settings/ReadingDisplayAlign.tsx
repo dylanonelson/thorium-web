@@ -7,6 +7,7 @@ import { IAdvancedDisplayProps } from "@/models/settings";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
+import BookIcon from "../assets/icons/book.svg";
 import LeftAlignIcon from "../assets/icons/format_align_left.svg";
 import RightAlignIcon from "../assets/icons/format_align_right.svg";
 import JustifyIcon from "../assets/icons/format_align_justify.svg";
@@ -41,6 +42,13 @@ export const ReadingDisplayAlign: React.FC<IAdvancedDisplayProps> = ({ standalon
         </Label>
       }
       <div className={ settingsStyles.readerSettingsRadioWrapper }>
+        <Radio 
+          className={ settingsStyles.readerSettingsRadio } 
+          value={ ReadingDisplayAlignOptions.publisher } 
+        >
+          <BookIcon aria-hidden="true" focusable="false" />
+          <span>{ Locale.reader.settings.align.publisher }</span>
+        </Radio>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 
           value={ ReadingDisplayAlignOptions.start } 

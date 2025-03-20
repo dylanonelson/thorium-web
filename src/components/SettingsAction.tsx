@@ -88,9 +88,9 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
     if (!value) dispatch(setHovering(false));
   }
 
-  const setInitial = () => {
+  const setInitial = useCallback(() => {
     dispatch(setSettingsContainer(SettingsContainerKeys.initial));
-  }
+  }, [dispatch]);
 
   const renderSettings = useCallback(() => {
     switch (contains) {
