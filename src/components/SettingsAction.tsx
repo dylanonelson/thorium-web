@@ -4,7 +4,7 @@ import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
-import { SettingsKeys } from "@/models/settings";
+import { ISettingsMapObject, SettingsKeys } from "@/models/settings";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
@@ -19,6 +19,8 @@ import { ReadingDisplayTheme } from "./Settings/ReadingDisplayTheme";
 import { ReadingDisplayZoom } from "./Settings/ReadingDisplayZoom";
 import { ReadingDisplayFontFamily } from "./Settings/ReadingDisplayFontFamily";
 import { ReadingDisplayLineHeight } from "./Settings/ReadingDisplayLineHeight";
+import { ReadingDisplayText } from "./Settings/ReadingDisplayText";
+import { ReadingDisplaySpacing } from "./Settings/ReadingDisplaySpacing";
 
 import { useDocking } from "@/hooks/useDocking";
 
@@ -26,27 +28,33 @@ import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
-const SettingsMap = {
+const SettingsMap: { [key in SettingsKeys]: ISettingsMapObject } = {
   [SettingsKeys.columns]: {
-    comp: ReadingDisplayCol
+    Comp: ReadingDisplayCol
   },
   [SettingsKeys.fontFamily]: {
-    comp: ReadingDisplayFontFamily
+    Comp: ReadingDisplayFontFamily
   },
   [SettingsKeys.layout]: {
-    comp: ReadingDisplayLayout
+    Comp: ReadingDisplayLayout
   },
   [SettingsKeys.lineHeight]: {
-    comp: ReadingDisplayLineHeight
+    Comp: ReadingDisplayLineHeight
+  },
+  [SettingsKeys.spacing]: {
+    Comp: ReadingDisplaySpacing
+  },
+  [SettingsKeys.text]: {
+    Comp: ReadingDisplayText
   },
   [SettingsKeys.theme]: {
-    comp: ReadingDisplayTheme,
+    Comp: ReadingDisplayTheme,
     props: {
       mapArrowNav: 2
     }
   },
   [SettingsKeys.zoom]: {
-    comp: ReadingDisplayZoom
+    Comp: ReadingDisplayZoom
   }
 }
 
@@ -89,7 +97,7 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
       { 
         settingItems.current.map((key: SettingsKeys) => {
           const setting = SettingsMap[key];
-          return <setting.comp key={ key } { ...("props" in setting ? setting.props : {}) } />;
+          return <setting.Comp key={ key } { ...setting.props } />;
         })
       }
     </SheetWithType>
