@@ -9,7 +9,14 @@ export enum SettingsKeys {
   lineHeight = "lineHeight",
   layout = "layout",
   theme = "theme",
-  columns = "columns"
+  columns = "columns",
+  text = "text",
+  spacing = "spacing"
+}
+
+export interface ISettingsMapObject {
+  Comp: React.FC<IAdvancedDisplayProps> | React.ComponentType<any>;
+  props?: any;
 }
 
 export interface IAdvancedIconProps {
@@ -19,6 +26,10 @@ export interface IAdvancedIconProps {
   tooltipLabel: string;
   onPressCallback: (e: PressEvent) => void;
   isDisabled?: boolean;
+}
+
+export interface IAdvancedDisplayProps {
+  standalone?: boolean;
 }
 
 export interface ISettingsSteppersProps {

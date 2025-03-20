@@ -301,9 +301,9 @@ export const RSPrefs: IRSPrefs = {
   settings: {
     reflowOrder: [
       SettingsKeys.zoom,
-      SettingsKeys.fontFamily,
+      SettingsKeys.text,
       SettingsKeys.theme,
-      SettingsKeys.lineHeight,
+      SettingsKeys.spacing,
       SettingsKeys.layout,
       SettingsKeys.columns
     ],
