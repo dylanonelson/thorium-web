@@ -29,6 +29,8 @@ settings: {
 }
 ```
 
+Note that if you are using a standalone component in an Advanced component (either in `main` or `displayOrder`), it will be filtered so that it is not rendered twice.
+
 ### Standalone components
 
 All settings components are standalone by default, which means you can organise them as you see fit to build your own Settings panel.
