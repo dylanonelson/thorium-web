@@ -36,6 +36,16 @@ export const defaultTextSettingsOrder = [
   TextSettingsKeys.hyphens
 ]
 
+export enum SpacingSettingsKeys {
+  lineHeight = "lineHeight"
+}
+
+export const defaultSpacingSettingsMain = [SpacingSettingsKeys.lineHeight];
+
+export const defaultSpacingSettingsOrder = [
+  SpacingSettingsKeys.lineHeight
+]
+
 export const defaultLineHeights = {
   [ReadingDisplayLineHeightOptions.small]: 1.25,
   [ReadingDisplayLineHeightOptions.medium]: 1.5,

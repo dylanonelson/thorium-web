@@ -3,8 +3,23 @@ import React, { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
-import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
-import { ISettingsMapObject, SettingsContainerKeys, SettingsKeys } from "@/models/settings";
+import { 
+  ActionComponentVariant, 
+  ActionKeys, 
+  IActionComponentContainer, 
+  IActionComponentTrigger 
+} from "@/models/actions";
+import { 
+  defaultSpacingSettingsMain, 
+  defaultSpacingSettingsOrder, 
+  defaultTextSettingsMain, 
+  defaultTextSettingsOrder, 
+  ISettingsMapObject, 
+  SettingsContainerKeys, 
+  SettingsKeys, 
+  SpacingSettingsKeys, 
+  TextSettingsKeys 
+} from "@/models/settings";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
@@ -92,6 +107,24 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
     dispatch(setSettingsContainer(SettingsContainerKeys.initial));
   }, [dispatch]);
 
+  const isTextNested = (key: SettingsKeys) => {
+    return [
+      RSPrefs.settings.text?.main,
+      defaultTextSettingsMain,
+      RSPrefs.settings.text?.displayOrder,
+      defaultTextSettingsOrder,
+    ].some(arr => arr?.includes(key as unknown as TextSettingsKeys));
+  };
+  
+  const isSpacingNested = (key: SettingsKeys) => {
+    return [
+      RSPrefs.settings.spacing?.main,
+      defaultSpacingSettingsMain,
+      RSPrefs.settings.spacing?.displayOrder,
+      defaultSpacingSettingsOrder,
+    ].some(arr => arr?.includes(key as unknown as SpacingSettingsKeys));
+  };
+
   const renderSettings = useCallback(() => {
     switch (contains) {
       case SettingsContainerKeys.text:
@@ -102,10 +135,12 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
         return (
           <>
             {
-              settingItems.current.map((key: SettingsKeys) => {
-                const setting = SettingsMap[key];
-                return <setting.Comp key={ key } { ...setting.props } />;
-              })
+              settingItems.current
+                .filter((key: SettingsKeys) => !(isTextNested(key) || isSpacingNested(key)))
+                .map((key: SettingsKeys) => {
+                  const setting = SettingsMap[key];
+                  return <setting.Comp key={ key } { ...setting.props } />;
+                })
             }
           </>
         );
