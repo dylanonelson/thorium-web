@@ -73,10 +73,8 @@ export interface IRSPrefs {
   settings: {
     reflowOrder: SettingsKeys[];
     fxlOrder: SettingsKeys[];
-    advancedOrder?: {
-      text?: TextSettingsKeys[]
-    };
     text?: {
+      displayOrder?: TextSettingsKeys[];
       main?: TextSettingsKeys[]
     };
     spacing?: {
