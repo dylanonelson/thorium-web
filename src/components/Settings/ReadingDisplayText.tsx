@@ -27,15 +27,16 @@ const TextSettingsMap: { [key in TextSettingsKeys]: ISettingsMapObject } = {
 
 export const ReadingDisplayText = () => {
   const main = RSPrefs.settings.text?.main || defaultTextSettingsMain;
+  const isAdvanced = main.length < Object.keys(TextSettingsMap).length;
 
   return(
     <>
     <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }>
       { main.map((key: TextSettingsKeys, index) => {
         const { Comp } = TextSettingsMap[key];
-        return <Comp key={ key } standalone={ index !== 0 } />;
+        return <Comp key={ key } standalone={ !isAdvanced || index !== 0 } />;
       }) }
-      { main.length < Object.keys(TextSettingsMap).length && (
+      { isAdvanced && (
         <AdvancedIcon
           isDisabled={ true }
           className={ settingsStyles.readerSettingsAdvancedIcon }

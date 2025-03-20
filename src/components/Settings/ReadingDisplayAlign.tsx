@@ -35,7 +35,9 @@ export const ReadingDisplayAlign: React.FC<IAdvancedDisplayProps> = ({ standalon
       value={ textAlign } 
       onChange={ async (val: string) => await handleChange(val) }
     >
-      <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.align.title }</Label>
+      <Label className={ settingsStyles.readerSettingsLabel }>
+        { standalone ? Locale.reader.settings.align.title : Locale.reader.settings.text.title }
+      </Label>
       <div className={ settingsStyles.readerSettingsRadioWrapper }>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 
