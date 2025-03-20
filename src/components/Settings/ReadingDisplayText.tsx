@@ -2,7 +2,13 @@ import { RSPrefs } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { defaultTextSettingsMain, ISettingsMapObject, TextSettingsKeys } from "@/models/settings";
+import { 
+  defaultTextSettingsMain, 
+  defaultTextSettingsOrder, 
+  ISettingsMapObject, 
+  SettingsContainerKeys, 
+  TextSettingsKeys 
+} from "@/models/settings";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
@@ -12,6 +18,9 @@ import { AdvancedIcon } from "./Wrappers/AdvancedIcon";
 import { ReadingDisplayAlign } from "./ReadingDisplayAlign";
 import { ReadingDisplayFontFamily } from "./ReadingDisplayFontFamily";
 import { ReadingDisplayHyphens } from "./ReadingDisplayHyphens";
+
+import { useAppDispatch } from "@/lib/hooks";
+import { setSettingsContainer } from "@/lib/readerReducer";
 
 import classNames from "classnames";
 
@@ -31,6 +40,12 @@ export const ReadingDisplayText = () => {
   const main = RSPrefs.settings.text?.main || defaultTextSettingsMain;
   const isAdvanced = main.length < Object.keys(TextSettingsMap).length;
 
+  const dispatch = useAppDispatch();
+
+  const setTextContainer = () => {
+    dispatch(setSettingsContainer(SettingsContainerKeys.text));
+  }
+
   return(
     <>
     <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }>
@@ -44,15 +59,27 @@ export const ReadingDisplayText = () => {
       }) }
       { isAdvanced && (
         <AdvancedIcon
-          isDisabled={ true }
           className={ settingsStyles.readerSettingsAdvancedIcon }
           ariaLabel={ Locale.reader.settings.text.advanced.trigger }
           placement="top"
           tooltipLabel={ Locale.reader.settings.text.advanced.tooltip }
-          onPressCallback={ () => {} }
+          onPressCallback={ setTextContainer }
         />
       ) }
     </div>
+    </>
+  )
+}
+
+export const ReadingDisplayTextContainer = () => {
+  const displayOrder = RSPrefs.settings.text?.displayOrder || defaultTextSettingsOrder;
+
+  return(
+    <>
+    { displayOrder.map((key: TextSettingsKeys) => {
+      const { Comp } = TextSettingsMap[key];
+      return <Comp key={ key } standalone={ true } />;
+    }) }
     </>
   )
 }

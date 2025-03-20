@@ -3,6 +3,12 @@ import { ReadingDisplayAlignOptions, ReadingDisplayLineHeightOptions, RSLayoutSt
 import { ThemeKeys } from "./theme";
 import { PressEvent, TooltipProps } from "react-aria-components";
 
+export enum SettingsContainerKeys {
+  initial = "initial",
+  text = "text",
+  spacing = "spacing"
+}
+
 export enum SettingsKeys {
   align = "align",
   columns = "columns",
