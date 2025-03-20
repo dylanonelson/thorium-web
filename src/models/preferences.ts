@@ -77,7 +77,7 @@ export interface IRSPrefs {
       text?: TextSettingsKeys[]
     };
     text?: {
-      main?: TextSettingsKeys
+      main?: TextSettingsKeys[]
     };
     spacing?: {
       lineHeight?: {

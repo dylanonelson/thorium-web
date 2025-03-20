@@ -10,9 +10,8 @@
   margin-bottom: 0;
 }
 
-.readerSettingsGroupFlex {
-  display: flex;
-  gap: calc(var(--layout-spacing) / 2);
+.readerSettingsAdvancedGroup {
+  position: relative;
 }
 
 .readerSettingsNumberField {
@@ -20,8 +19,9 @@
 }
 
 .readerSettingsAdvancedIcon {
-  align-self: flex-start;
-  margin-inline-start: auto;
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-start: 0;
 }
 
 .readerSettingsLabel {
@@ -44,7 +44,7 @@
   width: fit-content;
 }
 
-.readerSettingsGroupFlex .readerSettingsRadioWrapper {
+.readerSettingsAdvancedGroup .readerSettingsRadioWrapper {
   margin-bottom: 0;
 }
 
