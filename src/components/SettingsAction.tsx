@@ -13,14 +13,17 @@ import TuneIcon from "./assets/icons/match_case.svg";
 import { SheetWithType } from "./Sheets/SheetWithType";
 import { ActionIcon } from "./ActionTriggers/ActionIcon";
 import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
+
+import { ReadingDisplayAlign } from "./Settings/ReadingDisplayAlign";
 import { ReadingDisplayCol } from "./Settings/ReadingDisplayCol";
+import { ReadingDisplayFontFamily } from "./Settings/ReadingDisplayFontFamily";
+import { ReadingDisplayHyphens } from "./Settings/ReadingDisplayHyphens";
 import { ReadingDisplayLayout } from "./Settings/ReadingDisplayLayout";
+import { ReadingDisplayLineHeight } from "./Settings/ReadingDisplayLineHeight";
+import { ReadingDisplaySpacing } from "./Settings/ReadingDisplaySpacing";
+import { ReadingDisplayText } from "./Settings/ReadingDisplayText";
 import { ReadingDisplayTheme } from "./Settings/ReadingDisplayTheme";
 import { ReadingDisplayZoom } from "./Settings/ReadingDisplayZoom";
-import { ReadingDisplayFontFamily } from "./Settings/ReadingDisplayFontFamily";
-import { ReadingDisplayLineHeight } from "./Settings/ReadingDisplayLineHeight";
-import { ReadingDisplayText } from "./Settings/ReadingDisplayText";
-import { ReadingDisplaySpacing } from "./Settings/ReadingDisplaySpacing";
 
 import { useDocking } from "@/hooks/useDocking";
 
@@ -29,11 +32,17 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
 const SettingsMap: { [key in SettingsKeys]: ISettingsMapObject } = {
+  [SettingsKeys.align]: {
+    Comp: ReadingDisplayAlign
+  },
   [SettingsKeys.columns]: {
     Comp: ReadingDisplayCol
   },
   [SettingsKeys.fontFamily]: {
     Comp: ReadingDisplayFontFamily
+  },
+  [SettingsKeys.hyphens]: {
+    Comp: ReadingDisplayHyphens
   },
   [SettingsKeys.layout]: {
     Comp: ReadingDisplayLayout

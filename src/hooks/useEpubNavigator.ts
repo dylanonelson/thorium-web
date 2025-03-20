@@ -6,6 +6,7 @@ import { RSPrefs } from "@/preferences";
 import { ScrollBackTo } from "@/models/preferences";
 import { ReadingDisplayAlignOptions, ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
+import { defaultLineHeights } from "@/models/settings";
 
 import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
 import { EpubNavigator, EpubNavigatorListeners, EpubPreferences, FrameManager, FXLFrameManager, IEpubDefaults, IEpubPreferences, LayoutStrategy, TextAlignment, Theme } from "@readium/navigator";
@@ -210,12 +211,12 @@ export const useEpubNavigator = () => {
   }, [dispatch]);
 
   const applyLineHeight = useCallback(async (value: string) => {
-    const computedValue: number = RSPrefs.settings.spacing?.[value as ReadingDisplayLineHeightOptions] ?? 
+    const computedValue: number = RSPrefs.settings.spacing?.lineHeight?.[value as ReadingDisplayLineHeightOptions] ?? 
           (value === ReadingDisplayLineHeightOptions.small 
-            ? 1.3 
+            ? defaultLineHeights[ReadingDisplayLineHeightOptions.small] 
             : value === ReadingDisplayLineHeightOptions.medium 
-              ? 1.5 
-              : 1.75
+              ? defaultLineHeights[ReadingDisplayLineHeightOptions.medium] 
+              : defaultLineHeights[ReadingDisplayLineHeightOptions.large]
           );
 
     await navigatorInstance?.submitPreferences(new EpubPreferences({

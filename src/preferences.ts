@@ -6,7 +6,7 @@ import { SheetTypes } from "./models/sheets";
 import { DockTypes, DockingKeys } from "./models/docking";
 import { ThemeKeys } from "./models/theme";
 import { LayoutDirection, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./models/layout";
-import { SettingsKeys } from "./models/settings";
+import { SettingsKeys, TextSettingsKeys } from "./models/settings";
 
 import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";
@@ -311,10 +311,20 @@ export const RSPrefs: IRSPrefs = {
       SettingsKeys.theme,
       SettingsKeys.columns
     ],
+    advancedOrder: {
+      text: [
+        TextSettingsKeys.fontFamily,
+        TextSettingsKeys.align,
+        TextSettingsKeys.hyphens
+      ]
+    },
+    text: {},
     spacing: {
-      [ReadingDisplayLineHeightOptions.small]: 1.3,
-      [ReadingDisplayLineHeightOptions.medium]: 1.5,
-      [ReadingDisplayLineHeightOptions.large]: 1.75
+      lineHeight: {
+        [ReadingDisplayLineHeightOptions.small]: 1.3,
+        [ReadingDisplayLineHeightOptions.medium]: 1.5,
+        [ReadingDisplayLineHeightOptions.large]: 1.75
+      }
     }
   }
 }
