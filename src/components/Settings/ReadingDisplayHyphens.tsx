@@ -18,8 +18,10 @@ export const ReadingDisplayHyphens: React.FC<IAdvancedDisplayProps> = ({ standal
   return(
     <>
     <SwitchWrapper 
-      { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
-      heading={ standalone ? Locale.reader.settings.hyphens.title : Locale.reader.settings.text.title }
+      { ...(standalone ? { 
+        className: settingsStyles.readerSettingsGroup, 
+        heading: Locale.reader.settings.hyphens.title 
+      } : {}) }
       label={ Locale.reader.settings.hyphens.label }
       onChangeCallback={ async (isSelected: boolean) => await applyHyphens(isSelected) }
       selected={ hyphens ?? false }

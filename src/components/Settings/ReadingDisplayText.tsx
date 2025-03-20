@@ -1,9 +1,12 @@
+import { RSPrefs } from "@/preferences";
+
 import Locale from "../../resources/locales/en.json";
 
 import { defaultTextSettingsMain, ISettingsMapObject, TextSettingsKeys } from "@/models/settings";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
+import { Heading } from "react-aria-components";
 import { AdvancedIcon } from "./Wrappers/AdvancedIcon";
 
 import { ReadingDisplayAlign } from "./ReadingDisplayAlign";
@@ -11,7 +14,6 @@ import { ReadingDisplayFontFamily } from "./ReadingDisplayFontFamily";
 import { ReadingDisplayHyphens } from "./ReadingDisplayHyphens";
 
 import classNames from "classnames";
-import { RSPrefs } from "@/preferences";
 
 const TextSettingsMap: { [key in TextSettingsKeys]: ISettingsMapObject } = {
   [TextSettingsKeys.align]: {
@@ -32,6 +34,10 @@ export const ReadingDisplayText = () => {
   return(
     <>
     <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }>
+      { isAdvanced && 
+        <Heading className={ settingsStyles.readerSettingsLabel }>
+          { Locale.reader.settings.text.title }
+        </Heading> }
       { main.map((key: TextSettingsKeys, index) => {
         const { Comp } = TextSettingsMap[key];
         return <Comp key={ key } standalone={ !isAdvanced || index !== 0 } />;

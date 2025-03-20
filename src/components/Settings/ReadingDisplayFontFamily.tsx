@@ -42,12 +42,14 @@ export const ReadingDisplayFontFamily: React.FC<IAdvancedDisplayProps> = ({ stan
     <>
     <Select
       { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+      { ...(!standalone ? { "aria-label": Locale.reader.settings.fontFamily.title } : {}) }
       selectedKey={ fontFamily }
       onSelectionChange={ handleFontFamily }
     >
-      <Label className={ settingsStyles.readerSettingsLabel }>
-        { standalone ? Locale.reader.settings.fontFamily.title : Locale.reader.settings.text.title }
-      </Label>
+      { standalone && <Label className={ settingsStyles.readerSettingsLabel }>
+          { Locale.reader.settings.fontFamily.title }
+        </Label>
+      }
       <Button 
         className={ settingsStyles.readerSettingsDropdownButton }
       >
