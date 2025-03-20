@@ -4,14 +4,36 @@ import { ThemeKeys } from "./theme";
 import { PressEvent, TooltipProps } from "react-aria-components";
 
 export enum SettingsKeys {
-  zoom = "zoom",
-  fontFamily = "fontFamily",
-  lineHeight = "lineHeight",
-  layout = "layout",
-  theme = "theme",
+  align = "align",
   columns = "columns",
+  fontFamily = "fontFamily",
+  hyphens = "hyphens",
+  layout = "layout",
+  lineHeight = "lineHeight",
+  spacing = "spacing",
   text = "text",
-  spacing = "spacing"
+  theme = "theme",
+  zoom = "zoom"
+}
+
+export enum TextSettingsKeys {
+  align = "align",
+  fontFamily = "fontFamily",
+  hyphens = "hyphens"
+}
+
+export const defaultTextSettingsMain = TextSettingsKeys.fontFamily;
+
+export const defaultTextSettingsOrder = [
+  TextSettingsKeys.fontFamily,
+  TextSettingsKeys.align,
+  TextSettingsKeys.hyphens
+]
+
+export const defaultLineHeights = {
+  [ReadingDisplayLineHeightOptions.small]: 1.25,
+  [ReadingDisplayLineHeightOptions.medium]: 1.5,
+  [ReadingDisplayLineHeightOptions.large]: 1.75
 }
 
 export interface ISettingsMapObject {
