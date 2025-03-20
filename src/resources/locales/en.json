@@ -121,13 +121,9 @@
       "fontSize": {
         "title": "Font size",
         "increase": "Increase font size",
-        "decrease": "Decrease font size",
-        "advanced": {
-          "tooltip": "More options",
-          "trigger": "More options"
-        }
+        "decrease": "Decrease font size"
       },
-      "fontFamily": {
+      "text": {
         "title": "Font family",
         "labels": {
           "publisher": "Publisher’s font",
@@ -142,11 +138,15 @@
           "trigger": "More options"
         }
       },
-      "lineHeight": {
+      "spacing": {
         "title": "Spacing",
         "small": "Tight",
         "medium": "Balanced",
-        "large": "Loose"
+        "large": "Loose",
+        "advanced": {
+          "tooltip": "More options",
+          "trigger": "More options"
+        }
       },
       "layout": {
         "title": "Layout",

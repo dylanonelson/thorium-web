@@ -36,37 +36,37 @@ export const ReadingDisplayLineHeight = () => {
         value={ lineHeight } 
         onChange={ async (val: string) => await handleChange(val) }
       >
-        <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.lineHeight.title }</Label>
+        <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.spacing.title }</Label>
         <div className={ settingsStyles.readerSettingsRadioWrapper }>
           <Radio 
             className={ settingsStyles.readerSettingsRadio } 
             value={ ReadingDisplayLineHeightOptions.small } 
           >
             <SmallIcon aria-hidden="true" focusable="false" />
-            <span>{ Locale.reader.settings.lineHeight.small }</span>
+            <span>{ Locale.reader.settings.spacing.small }</span>
           </Radio>
           <Radio 
             className={ settingsStyles.readerSettingsRadio } 
             value={ ReadingDisplayLineHeightOptions.medium } 
           >
             <MediumIcon aria-hidden="true" focusable="false" />
-            <span>{ Locale.reader.settings.lineHeight.medium }</span>
+            <span>{ Locale.reader.settings.spacing.medium }</span>
           </Radio>
           <Radio 
             className={ settingsStyles.readerSettingsRadio } 
             value={ ReadingDisplayLineHeightOptions.large }
           >
             <LargeIcon aria-hidden="true" focusable="false" />
-            <span>{ Locale.reader.settings.lineHeight.large }</span>
+            <span>{ Locale.reader.settings.spacing.large }</span>
           </Radio>
         </div>
       </RadioGroup>
       <AdvancedIcon
         isDisabled={ true }
         className={ settingsStyles.readerSettingsAdvancedIcon }
-        ariaLabel={ Locale.reader.settings.fontSize.advanced.trigger }
+        ariaLabel={ Locale.reader.settings.spacing.advanced.trigger }
         placement="top"
-        tooltipLabel={ Locale.reader.settings.fontSize.advanced.tooltip }
+        tooltipLabel={ Locale.reader.settings.spacing.advanced.tooltip }
         onPressCallback={ () => {} }
       />
     </div>

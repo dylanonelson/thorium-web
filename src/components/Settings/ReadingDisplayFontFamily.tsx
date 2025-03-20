@@ -20,7 +20,7 @@ export const ReadingDisplayFontFamily = () => {
   const fontFamily = useAppSelector(state => state.settings.fontFamily);
   const fontFamilyOptions = useRef(Object.entries(ReadingDisplayFontFamilyOptions).map(([property, stack]) => ({
       id: property,
-      label: Locale.reader.settings.fontFamily.labels[property as keyof typeof Locale.reader.settings.fontFamily.labels],
+      label: Locale.reader.settings.text.labels[property as keyof typeof Locale.reader.settings.text.labels],
       value: stack
     }))
   );
@@ -50,7 +50,7 @@ export const ReadingDisplayFontFamily = () => {
         <Label
           className={ settingsStyles.readerSettingsLabel }
         >
-          { Locale.reader.settings.fontFamily.title }
+          { Locale.reader.settings.text.title }
         </Label>
         <Button 
           className={ settingsStyles.readerSettingsDropdownButton }
@@ -82,9 +82,9 @@ export const ReadingDisplayFontFamily = () => {
       <AdvancedIcon
         isDisabled={ true }
         className={ settingsStyles.readerSettingsAdvancedIcon }
-        ariaLabel={ Locale.reader.settings.fontFamily.advanced.trigger }
+        ariaLabel={ Locale.reader.settings.text.advanced.trigger }
         placement="top"
-        tooltipLabel={ Locale.reader.settings.fontFamily.advanced.tooltip }
+        tooltipLabel={ Locale.reader.settings.text.advanced.tooltip }
         onPressCallback={ () => {} }
       />
     </div>
