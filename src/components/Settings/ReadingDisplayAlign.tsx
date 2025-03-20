@@ -31,13 +31,15 @@ export const ReadingDisplayAlign: React.FC<IAdvancedDisplayProps> = ({ standalon
     <>
     <RadioGroup 
       { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+      { ...(!standalone ? { "aria-label": Locale.reader.settings.align.title } : {}) }
       orientation="horizontal" 
       value={ textAlign } 
       onChange={ async (val: string) => await handleChange(val) }
     >
-      <Label className={ settingsStyles.readerSettingsLabel }>
-        { standalone ? Locale.reader.settings.align.title : Locale.reader.settings.text.title }
-      </Label>
+      { standalone && <Label className={ settingsStyles.readerSettingsLabel }>
+          { Locale.reader.settings.align.title }
+        </Label>
+      }
       <div className={ settingsStyles.readerSettingsRadioWrapper }>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 
