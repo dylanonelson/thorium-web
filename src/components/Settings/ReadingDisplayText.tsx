@@ -27,20 +27,24 @@ const TextSettingsMap: { [key in TextSettingsKeys]: ISettingsMapObject } = {
 
 export const ReadingDisplayText = () => {
   const main = RSPrefs.settings.text?.main || defaultTextSettingsMain;
-  const Comp = TextSettingsMap[main].Comp;
 
   return(
     <>
-    <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsGroupFlex) }>
-      { <Comp standalone={ false } /> }
-      <AdvancedIcon
-        isDisabled={ true }
-        className={ settingsStyles.readerSettingsAdvancedIcon }
-        ariaLabel={ Locale.reader.settings.text.advanced.trigger }
-        placement="top"
-        tooltipLabel={ Locale.reader.settings.text.advanced.tooltip }
-        onPressCallback={ () => {} }
-      />
+    <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }>
+      { main.map((key: TextSettingsKeys, index) => {
+        const { Comp } = TextSettingsMap[key];
+        return <Comp key={ key } standalone={ index !== 0 } />;
+      }) }
+      { main.length < Object.keys(TextSettingsMap).length && (
+        <AdvancedIcon
+          isDisabled={ true }
+          className={ settingsStyles.readerSettingsAdvancedIcon }
+          ariaLabel={ Locale.reader.settings.text.advanced.trigger }
+          placement="top"
+          tooltipLabel={ Locale.reader.settings.text.advanced.tooltip }
+          onPressCallback={ () => {} }
+        />
+      ) }
     </div>
     </>
   )

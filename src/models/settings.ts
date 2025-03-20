@@ -22,7 +22,7 @@ export enum TextSettingsKeys {
   hyphens = "hyphens"
 }
 
-export const defaultTextSettingsMain = TextSettingsKeys.fontFamily;
+export const defaultTextSettingsMain = [TextSettingsKeys.fontFamily];
 
 export const defaultTextSettingsOrder = [
   TextSettingsKeys.fontFamily,

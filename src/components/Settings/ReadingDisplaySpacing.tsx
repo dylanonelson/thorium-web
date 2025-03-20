@@ -12,7 +12,7 @@ import classNames from "classnames";
 export const ReadingDisplaySpacing = () => {
   return (
     <>
-    <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsGroupFlex) }>
+    <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }>
       <ReadingDisplayLineHeight standalone={ false } />
       <AdvancedIcon
         isDisabled={ true }
