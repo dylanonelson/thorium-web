@@ -8,7 +8,7 @@ const initialState: ISettingsState = {
   fontSize: 1,
   fontFamily: "publisher",
   lineHeight: ReadingDisplayLineHeightOptions.medium,
-  align: null,
+  align: ReadingDisplayAlignOptions.publisher,
   hyphens: null,
   layoutStrategy: RSLayoutStrategy.lineLength,
 }
