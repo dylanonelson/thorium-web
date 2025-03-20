@@ -311,14 +311,13 @@ export const RSPrefs: IRSPrefs = {
       SettingsKeys.theme,
       SettingsKeys.columns
     ],
-    advancedOrder: {
-      text: [
+    text: {
+      displayOrder: [
         TextSettingsKeys.fontFamily,
         TextSettingsKeys.align,
         TextSettingsKeys.hyphens
       ]
     },
-    text: {},
     spacing: {
       lineHeight: {
         [ReadingDisplayLineHeightOptions.small]: 1.3,
