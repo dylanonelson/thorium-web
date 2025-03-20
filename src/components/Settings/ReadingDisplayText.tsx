@@ -17,6 +17,7 @@ import { AdvancedIcon } from "./Wrappers/AdvancedIcon";
 
 import { ReadingDisplayAlign } from "./ReadingDisplayAlign";
 import { ReadingDisplayFontFamily } from "./ReadingDisplayFontFamily";
+import { ReadingDisplayFontWeight } from "./ReadingDisplayFontWeight";
 import { ReadingDisplayHyphens } from "./ReadingDisplayHyphens";
 
 import { useAppDispatch } from "@/lib/hooks";
@@ -30,6 +31,9 @@ const TextSettingsMap: { [key in TextSettingsKeys]: ISettingsMapObject } = {
   },
   [TextSettingsKeys.fontFamily]: {
     Comp: ReadingDisplayFontFamily
+  },
+  [TextSettingsKeys.fontWeight]: {
+    Comp: ReadingDisplayFontWeight
   },
   [TextSettingsKeys.hyphens]: {
     Comp: ReadingDisplayHyphens

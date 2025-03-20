@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from "react";
+import { use, useCallback, useMemo, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
@@ -17,7 +17,7 @@ import { localData } from "@/helpers/localData";
 import { useAppDispatch } from "@/lib/hooks";
 import { setProgression } from "@/lib/publicationReducer";
 import { setPaged } from "@/lib/readerReducer";
-import { setAlign, setColCount, setFontFamily, setFontSize, setHyphens, setLayoutStrategy, setLineHeight } from "@/lib/settingsReducer";
+import { setAlign, setColCount, setFontFamily, setFontSize, setFontWeight, setHyphens, setLayoutStrategy, setLineHeight } from "@/lib/settingsReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
@@ -196,6 +196,13 @@ export const useEpubNavigator = () => {
     }
     return null;
   }, []);
+
+  const applyFontWeight = useCallback(async (value: number) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      fontWeight: value
+    }));
+    dispatch(setFontWeight(value));
+  }, [dispatch]);
 
   const applyFontFamily = useCallback(async (fontFamily: { id: keyof typeof ReadingDisplayFontFamilyOptions, value: string | null }) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences({
@@ -387,6 +394,7 @@ export const useEpubNavigator = () => {
     applyConstraint, 
     applyColCount, 
     applyLayoutStrategy,
+    applyFontWeight,
     applyFontFamily, 
     applyLineHeight,
     applyTextAlign, 

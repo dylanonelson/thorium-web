@@ -134,6 +134,11 @@
           "monospace": "Monospace" 
         }
       },
+      "fontWeight": {
+        "title": "Font weight",
+        "increase": "Increase font weight",
+        "decrease": "Decrease font weight"
+      },
       "text": {
         "title": "Text",
         "advanced": {
