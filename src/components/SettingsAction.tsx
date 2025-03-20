@@ -32,6 +32,7 @@ import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
 import { ReadingDisplayAlign } from "./Settings/ReadingDisplayAlign";
 import { ReadingDisplayCol } from "./Settings/ReadingDisplayCol";
 import { ReadingDisplayFontFamily } from "./Settings/ReadingDisplayFontFamily";
+import { ReadingDisplayFontWeight } from "./Settings/ReadingDisplayFontWeight";
 import { ReadingDisplayHyphens } from "./Settings/ReadingDisplayHyphens";
 import { ReadingDisplayLayout } from "./Settings/ReadingDisplayLayout";
 import { ReadingDisplayLineHeight } from "./Settings/ReadingDisplayLineHeight";
@@ -55,6 +56,9 @@ const SettingsMap: { [key in SettingsKeys]: ISettingsMapObject } = {
   },
   [SettingsKeys.fontFamily]: {
     Comp: ReadingDisplayFontFamily
+  },
+  [SettingsKeys.fontWeight]: {
+    Comp: ReadingDisplayFontWeight
   },
   [SettingsKeys.hyphens]: {
     Comp: ReadingDisplayHyphens
@@ -109,20 +113,16 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
 
   const isTextNested = (key: SettingsKeys) => {
     return [
-      RSPrefs.settings.text?.main,
-      defaultTextSettingsMain,
-      RSPrefs.settings.text?.displayOrder,
-      defaultTextSettingsOrder,
-    ].some(arr => arr?.includes(key as unknown as TextSettingsKeys));
+      RSPrefs.settings.text?.main || defaultTextSettingsMain,
+      RSPrefs.settings.text?.displayOrder || defaultTextSettingsOrder,
+    ].some(arr => arr.includes(key as unknown as TextSettingsKeys));
   };
-  
+
   const isSpacingNested = (key: SettingsKeys) => {
     return [
-      RSPrefs.settings.spacing?.main,
-      defaultSpacingSettingsMain,
-      RSPrefs.settings.spacing?.displayOrder,
-      defaultSpacingSettingsOrder,
-    ].some(arr => arr?.includes(key as unknown as SpacingSettingsKeys));
+      RSPrefs.settings.spacing?.main || defaultSpacingSettingsMain,
+      RSPrefs.settings.spacing?.displayOrder || defaultSpacingSettingsOrder,
+    ].some(arr => arr.includes(key as unknown as SpacingSettingsKeys));
   };
 
   const renderSettings = useCallback(() => {

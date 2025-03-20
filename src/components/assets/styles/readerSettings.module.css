@@ -60,6 +60,10 @@
   max-width: 10ch;
 }
 
+.readerSettingsGroupWrapper[data-disabled] .readerSettingsInput {
+  color: var(--theme-disable)
+}
+
 .readerSettingsRadio {
   padding: 5px;
   border-radius: var(--layout-radius);

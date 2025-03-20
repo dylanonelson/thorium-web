@@ -13,6 +13,7 @@ export enum SettingsKeys {
   align = "align",
   columns = "columns",
   fontFamily = "fontFamily",
+  fontWeight = "fontWeight",
   hyphens = "hyphens",
   layout = "layout",
   lineHeight = "lineHeight",
@@ -25,6 +26,7 @@ export enum SettingsKeys {
 export enum TextSettingsKeys {
   align = "align",
   fontFamily = "fontFamily",
+  fontWeight = "fontWeight",
   hyphens = "hyphens"
 }
 
@@ -32,6 +34,7 @@ export const defaultTextSettingsMain = [TextSettingsKeys.fontFamily];
 
 export const defaultTextSettingsOrder = [
   TextSettingsKeys.fontFamily,
+  TextSettingsKeys.fontWeight,
   TextSettingsKeys.align,
   TextSettingsKeys.hyphens
 ]
@@ -78,6 +81,7 @@ export interface ISettingsSteppersProps {
 }
 
 export interface ISettingsNumberFieldProps {
+  standalone?: boolean;
   className?: string;
   label: string;
   defaultValue?: number;
@@ -86,7 +90,7 @@ export interface ISettingsNumberFieldProps {
   range: [number, number];
   step: number;
   steppers: ISettingsSteppersProps;
-  format: Intl.NumberFormatOptions;
+  format?: Intl.NumberFormatOptions;
   disabled?: boolean;
   wheelDisabled?: boolean;
   virtualKeyboardDisabled?: boolean;
@@ -108,6 +112,7 @@ export interface IRCSSSettings {
   paginated: boolean;
   colCount: string;
   fontSize: number;
+  fontWeight: number;
   fontFamily: string;
   lineHeight: ReadingDisplayLineHeightOptions;
   align: ReadingDisplayAlignOptions | null;
