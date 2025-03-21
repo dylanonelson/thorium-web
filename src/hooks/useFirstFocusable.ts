@@ -9,7 +9,7 @@ export const useFirstFocusable = ({
   withinRef: React.RefObject<HTMLElement | null>, 
   trackedState: boolean, 
   fallbackRef?: React.RefObject<HTMLElement | null>,
-  dependencies?: any[]
+  dependencies?: unknown[]
 }) => {
   const focusedElement = useRef<HTMLElement | null>(null);
 
@@ -32,7 +32,7 @@ export const useFirstFocusable = ({
         focusedElement.current = null;
       }
     }
-  }, [trackedState, withinRef, fallbackRef, ...dependencies]);
+  }, [trackedState, withinRef, fallbackRef, dependencies]);
 
   return focusedElement.current;
 }
