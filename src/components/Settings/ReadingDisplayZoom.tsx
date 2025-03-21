@@ -27,6 +27,7 @@ export const ReadingDisplayZoom = () => {
   return (
     <>
     <NumberFieldWrapper
+      standalone={ true }
       className={ settingsStyles.readerSettingsGroup }
       defaultValue={ 1 } 
       value={ fontSize } 
