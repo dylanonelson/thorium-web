@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { use, useCallback, useEffect, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
@@ -72,6 +72,7 @@ import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
 
 import debounce from "debounce";
+import { li } from "motion/react-client";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -87,6 +88,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const lineHeight = useAppSelector(state => state.settings.lineHeight);
   const align = useAppSelector(state => state.settings.align);
   const hyphens = useAppSelector(state => state.settings.hyphens);
+  const paraIndent = useAppSelector(state => state.settings.paraIndent);
+  const paraSpacing = useAppSelector(state => state.settings.paraSpacing);
+  const lineLength = useAppSelector(state => state.settings.lineLength);
+  const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
+  const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const theme = useAppSelector(state => state.theming.theme);
   const previousTheme = usePrevious(theme);
@@ -113,6 +119,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       lineHeight: lineHeight,
       align: align,
       hyphens: hyphens,
+      paraIndent: paraIndent,
+      paraSpacing: paraSpacing,
+      lineLength: lineLength,
+      letterSpacing: letterSpacing,
+      wordSpacing: wordSpacing,
       layoutStrategy: layoutStrategy,
       theme: theme
     },
@@ -366,6 +377,26 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   useEffect(() => {
     cache.current.settings.hyphens = hyphens;
   }, [hyphens]);
+
+  useEffect(() => {
+    cache.current.settings.paraIndent = paraIndent;
+  }, [paraIndent]);
+
+  useEffect(() => {
+    cache.current.settings.paraSpacing = paraSpacing;
+  }, [paraSpacing]);
+
+  useEffect(() => {
+    cache.current.settings.lineLength = lineLength;
+  }, [lineLength]);
+
+  useEffect(() => {
+    cache.current.settings.letterSpacing = letterSpacing;
+  }, [letterSpacing]);
+
+  useEffect(() => {
+    cache.current.settings.wordSpacing = wordSpacing;
+  }, [wordSpacing]);
 
   useEffect(() => {
     cache.current.settings.layoutStrategy = layoutStrategy;

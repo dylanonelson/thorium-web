@@ -24,7 +24,7 @@ export const ReadingDisplayHyphens: React.FC<IAdvancedDisplayProps> = ({ standal
       } : {}) }
       label={ Locale.reader.settings.hyphens.label }
       onChangeCallback={ async (isSelected: boolean) => await applyHyphens(isSelected) }
-      selected={ hyphens ?? false }
+      isSelected={ hyphens ?? false }
     />
     </>
   )
