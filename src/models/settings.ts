@@ -42,6 +42,7 @@ export const defaultTextSettingsOrder = [
 export enum SpacingSettingsKeys {
   lineHeight = "lineHeight",
   letterSpacing = "letterSpacing",
+  paraSpacing = "paraSpacing",
   wordSpacing = "wordSpacing"
 }
 
@@ -49,6 +50,7 @@ export const defaultSpacingSettingsMain = [SpacingSettingsKeys.lineHeight];
 
 export const defaultSpacingSettingsOrder = [
   SpacingSettingsKeys.lineHeight,
+  SpacingSettingsKeys.paraSpacing,
   SpacingSettingsKeys.wordSpacing,
   SpacingSettingsKeys.letterSpacing
 ]
@@ -56,6 +58,11 @@ export const defaultSpacingSettingsOrder = [
 export interface ISettingsRangePref {
   range: [number, number];
   step: number
+}
+
+export const defaultParaSpacing: ISettingsRangePref = {
+  range: [0, 3],
+  step: 0.5
 }
 
 export const defaultWordSpacing: ISettingsRangePref = {
