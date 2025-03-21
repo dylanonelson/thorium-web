@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import { RSPrefs } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
@@ -46,9 +48,9 @@ export const ReadingDisplayText = () => {
 
   const dispatch = useAppDispatch();
 
-  const setTextContainer = () => {
+  const setTextContainer = useCallback(() => {
     dispatch(setSettingsContainer(SettingsContainerKeys.text));
-  }
+  }, [dispatch]);
 
   return(
     <>

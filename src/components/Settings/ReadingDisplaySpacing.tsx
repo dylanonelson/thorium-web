@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import { RSPrefs } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
@@ -55,9 +57,9 @@ export const ReadingDisplaySpacing = () => {
   
   const dispatch = useAppDispatch();
   
-  const setSpacingContainer = () => {
+  const setSpacingContainer = useCallback(() => {
     dispatch(setSettingsContainer(SettingsContainerKeys.spacing));
-  }
+  }, [dispatch]);
 
   return (
     <>

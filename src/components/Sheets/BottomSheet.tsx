@@ -196,7 +196,8 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   isOpen,
   onOpenChangeCallback, 
   onClosePressCallback,
-  children 
+  children,
+  updateFocus
 }) => {
   const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
 
@@ -383,7 +384,8 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   const firstFocusable = useFirstFocusable({
     withinRef: bottomSheetBodyRef, 
     trackedState: isOpen, 
-    fallbackRef: bottomSheetCloseRef
+    fallbackRef: bottomSheetCloseRef,
+    updateState: updateFocus
   });
 
   let sheetState = useOverlayTriggerState({
