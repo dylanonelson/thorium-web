@@ -80,7 +80,7 @@ export interface ISettingsSteppersProps {
   incrementLabel: string;
 }
 
-export interface ISettingsNumberFieldProps {
+interface ISettingsRangeProps {
   standalone?: boolean;
   className?: string;
   label: string;
@@ -89,13 +89,16 @@ export interface ISettingsNumberFieldProps {
   onChangeCallback: (value: number) => void;
   range: [number, number];
   step: number;
-  steppers: ISettingsSteppersProps;
   format?: Intl.NumberFormatOptions;
-  disabled?: boolean;
-  wheelDisabled?: boolean;
+}
+
+export interface ISettingsNumberFieldProps extends ISettingsRangeProps {
+  steppers: ISettingsSteppersProps;
   virtualKeyboardDisabled?: boolean;
   readOnly?: boolean;
 }
+
+export interface ISettingsSliderProps extends ISettingsRangeProps {}
 
 export interface ISettingsSwitchProps {
   name?: string;

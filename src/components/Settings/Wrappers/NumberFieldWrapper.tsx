@@ -20,8 +20,6 @@ export const NumberFieldWrapper: React.FC<NumberFieldProps & ISettingsNumberFiel
   step,
   steppers,
   format,
-  disabled,
-  wheelDisabled,
   virtualKeyboardDisabled,
   readOnly,
   ...props
@@ -39,8 +37,6 @@ export const NumberFieldWrapper: React.FC<NumberFieldProps & ISettingsNumberFiel
       onChange={ onChangeCallback }
       decrementAriaLabel={ steppers.decrementLabel }
       incrementAriaLabel={ steppers.incrementLabel }
-      isDisabled={ disabled }
-      isWheelDisabled={ wheelDisabled }
       { ...(!standalone ? { "aria-label": label } : {}) }
       { ...props }
     >
