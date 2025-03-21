@@ -18,6 +18,7 @@ import { AdvancedIcon } from "./Wrappers/AdvancedIcon";
 
 import { ReadingDisplayLetterSpacing } from "./ReadingDisplayLetterSpacing";
 import { ReadingDisplayLineHeight } from "./ReadingDisplayLineHeight";
+import { ReadingDisplayParaSpacing } from "./ReadingDisplayParaSpacing";
 import { ReadingDisplayWordSpacing } from "./ReadingDisplayWordSpacing";
 
 import { useAppDispatch } from "@/lib/hooks";
@@ -31,6 +32,9 @@ const SpacingSettingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } =
   },
   [SpacingSettingsKeys.lineHeight]: {
     Comp: ReadingDisplayLineHeight
+  },
+  [SpacingSettingsKeys.paraSpacing]: {
+    Comp: ReadingDisplayParaSpacing
   },
   [SpacingSettingsKeys.wordSpacing]: {
     Comp: ReadingDisplayWordSpacing

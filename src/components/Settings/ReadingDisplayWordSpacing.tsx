@@ -28,7 +28,7 @@ export const ReadingDisplayWordSpacing: React.FC<IAdvancedDisplayProps> = ({ sta
       label={ Locale.reader.settings.wordSpacing.title }
       range={ wordSpacingRangeConfig.range }
       step={ wordSpacingRangeConfig.step }
-      format={ { style: "percent" } }
+      format={{ style: "percent" }}
       standalone={ standalone }
     /> 
     </>
