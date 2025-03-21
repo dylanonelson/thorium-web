@@ -32,8 +32,7 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
   const firstFocusable = useFirstFocusable({
     withinRef: fullScreenBodyRef, 
     trackedState: isOpen, 
-    fallbackRef: fullScreenCloseRef,
-    dependencies: [children]
+    fallbackRef: fullScreenCloseRef
   });
 
   return (

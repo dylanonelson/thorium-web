@@ -41,8 +41,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
   const firstFocusable = useFirstFocusable({
     withinRef: dockedSheetBodyRef, 
     trackedState: isOpen, 
-    fallbackRef: dockedSheetCloseRef,
-    dependencies: [children]
+    fallbackRef: dockedSheetCloseRef
   }); 
 
   const classFromFlow = useCallback(() => {
