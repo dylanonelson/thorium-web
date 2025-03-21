@@ -47,7 +47,8 @@ import {
   setHyphens, 
   setLayoutStrategy, 
   setLetterSpacing, 
-  setLineHeight 
+  setLineHeight, 
+  setWordSpacing
 } from "@/lib/settingsReducer";
 import { setTheme } from "@/lib/themeReducer";
 
@@ -240,6 +241,14 @@ export const useEpubNavigator = () => {
       fontWeight: value
     }));
     dispatch(setFontWeight(value));
+  }, [dispatch]);
+
+  const applyWordSpacing = useCallback(async (value: number | null) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      publisherStyles: false,
+      wordSpacing: value === 0 ? null : value
+    }));
+    dispatch(setWordSpacing(value));
   }, [dispatch]);
 
   const applyLetterSpacing = useCallback(async (value: number | null) => {
@@ -435,6 +444,7 @@ export const useEpubNavigator = () => {
     applyLayoutStrategy,
     applyFontFamily, 
     applyFontWeight,
+    applyWordSpacing,
     applyLetterSpacing,
     applyLineHeight,
     applyTextAlign, 

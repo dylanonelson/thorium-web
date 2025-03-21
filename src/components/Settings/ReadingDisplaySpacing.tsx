@@ -12,16 +12,18 @@ import {
   SpacingSettingsKeys 
 } from "@/models/settings";
 
+import { Heading } from "react-aria-components";
+
 import { AdvancedIcon } from "./Wrappers/AdvancedIcon";
 
-import { ReadingDisplayLineHeight } from "./ReadingDisplayLineHeight";
 import { ReadingDisplayLetterSpacing } from "./ReadingDisplayLetterSpacing";
+import { ReadingDisplayLineHeight } from "./ReadingDisplayLineHeight";
+import { ReadingDisplayWordSpacing } from "./ReadingDisplayWordSpacing";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
 import classNames from "classnames";
-import { Heading } from "react-aria-components";
 
 const SpacingSettingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } = {
   [SpacingSettingsKeys.letterSpacing]: {
@@ -29,6 +31,9 @@ const SpacingSettingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } =
   },
   [SpacingSettingsKeys.lineHeight]: {
     Comp: ReadingDisplayLineHeight
+  },
+  [SpacingSettingsKeys.wordSpacing]: {
+    Comp: ReadingDisplayWordSpacing
   }
 }
 
