@@ -36,7 +36,7 @@ import { ReadingDisplayFontWeight } from "./Settings/ReadingDisplayFontWeight";
 import { ReadingDisplayHyphens } from "./Settings/ReadingDisplayHyphens";
 import { ReadingDisplayLayout } from "./Settings/ReadingDisplayLayout";
 import { ReadingDisplayLineHeight } from "./Settings/ReadingDisplayLineHeight";
-import { ReadingDisplaySpacing } from "./Settings/ReadingDisplaySpacing";
+import { ReadingDisplaySpacing, ReadingDisplaySpacingContainer } from "./Settings/ReadingDisplaySpacing";
 import { ReadingDisplayText, ReadingDisplayTextContainer } from "./Settings/ReadingDisplayText";
 import { ReadingDisplayTheme } from "./Settings/ReadingDisplayTheme";
 import { ReadingDisplayZoom } from "./Settings/ReadingDisplayZoom";
@@ -46,6 +46,7 @@ import { useDocking } from "@/hooks/useDocking";
 import { setHovering, setSettingsContainer } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
+import { get } from "http";
 
 const SettingsMap: { [key in SettingsKeys]: ISettingsMapObject } = {
   [SettingsKeys.align]: {
@@ -129,6 +130,9 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
     switch (contains) {
       case SettingsContainerKeys.text:
         return <ReadingDisplayTextContainer />;
+      
+      case SettingsContainerKeys.spacing:
+        return <ReadingDisplaySpacingContainer />;
 
       case SettingsContainerKeys.initial:
       default:
@@ -147,6 +151,20 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
     }
   }, [contains]);
 
+  const getHeading = useCallback(() => {
+    switch (contains) {
+      case SettingsContainerKeys.text:
+        return Locale.reader.settings.text.title;
+
+      case SettingsContainerKeys.spacing:
+        return Locale.reader.settings.spacing.title;
+
+      case SettingsContainerKeys.initial:
+      default:
+        return Locale.reader.settings.heading;
+    }
+  }, [contains]);
+
   // Reset when closed
   useEffect(() => {
     if (!actionState.isOpen) setInitial();
@@ -159,9 +177,7 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
       sheetProps={ {
         id: ActionKeys.settings,
         triggerRef: triggerRef,
-        heading: contains === SettingsContainerKeys.initial 
-          ? Locale.reader.settings.heading 
-          : Locale.reader.settings.text.title,
+        heading: getHeading(),
         className: settingsStyles.readerSettings,
         placement: "bottom", 
         isOpen: actionState.isOpen || false,

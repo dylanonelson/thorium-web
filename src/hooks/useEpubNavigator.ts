@@ -46,6 +46,7 @@ import {
   setFontWeight, 
   setHyphens, 
   setLayoutStrategy, 
+  setLetterSpacing, 
   setLineHeight 
 } from "@/lib/settingsReducer";
 import { setTheme } from "@/lib/themeReducer";
@@ -227,6 +228,13 @@ export const useEpubNavigator = () => {
     return null;
   }, []);
 
+  const applyFontFamily = useCallback(async (fontFamily: { id: keyof typeof ReadingDisplayFontFamilyOptions, value: string | null }) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      fontFamily: fontFamily.value
+    }));
+    dispatch(setFontFamily(fontFamily.id));
+  }, [dispatch]);
+
   const applyFontWeight = useCallback(async (value: number) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences({
       fontWeight: value
@@ -234,11 +242,12 @@ export const useEpubNavigator = () => {
     dispatch(setFontWeight(value));
   }, [dispatch]);
 
-  const applyFontFamily = useCallback(async (fontFamily: { id: keyof typeof ReadingDisplayFontFamilyOptions, value: string | null }) => {
+  const applyLetterSpacing = useCallback(async (value: number | null) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences({
-      fontFamily: fontFamily.value
+      publisherStyles: false,
+      letterSpacing: value === 0 ? null : value
     }));
-    dispatch(setFontFamily(fontFamily.id));
+    dispatch(setLetterSpacing(value));
   }, [dispatch]);
 
   const handleProgression = useCallback((locator: Locator) => {
@@ -424,8 +433,9 @@ export const useEpubNavigator = () => {
     applyConstraint, 
     applyColCount, 
     applyLayoutStrategy,
-    applyFontWeight,
     applyFontFamily, 
+    applyFontWeight,
+    applyLetterSpacing,
     applyLineHeight,
     applyTextAlign, 
     applyHyphens, 

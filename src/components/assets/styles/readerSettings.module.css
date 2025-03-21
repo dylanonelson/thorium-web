@@ -159,7 +159,9 @@
   grid-area: track;
   position: relative;
   height: 30px;
-  width: 100%;
+  width: auto;
+  box-sizing: border-box;
+  margin-inline: calc(var(--layout-spacing) / 2);
 }
 
 .readerSettingsSliderTrack::before {
