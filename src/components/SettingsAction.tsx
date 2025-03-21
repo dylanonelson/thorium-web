@@ -199,7 +199,7 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
         onOpenChangeCallback: setOpen, 
         onClosePressCallback: () => { contains === SettingsContainerKeys.initial ? setOpen(false) : setInitial() },
         docker: docking.getDocker(),
-        updateFocus: contains
+        resetFocus: contains
       } }
     >
       { renderSettings() }

@@ -47,7 +47,8 @@ const BottomSheetContainer = ({
   sheetContainerRef,
   bottomSheetBodyRef,
   bottomSheetCloseRef,
-  children
+  children,
+  resetScroll
 }: {
   sheetState: OverlayTriggerState;
   className: string;
@@ -64,6 +65,7 @@ const BottomSheetContainer = ({
   bottomSheetBodyRef: RefObject<HTMLDivElement | null>;
   bottomSheetCloseRef: RefObject<HTMLButtonElement | null>;
   children: ReactNode;
+  resetScroll?: unknown;
 }) => {
   const sheetScroller = useRef<HTMLDivElement | null>(null);
   const dialog = useDialog({}, sheetContainerRef);
@@ -127,7 +129,7 @@ const BottomSheetContainer = ({
     if (sheetScroller.current) {
       (sheetScroller.current.scrollTop = 0);
     }
-  }, [children]);
+  }, [resetScroll]);
 
   return (
     <>
@@ -197,7 +199,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   onOpenChangeCallback, 
   onClosePressCallback,
   children,
-  updateFocus
+  resetFocus
 }) => {
   const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
 
@@ -385,7 +387,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
     withinRef: bottomSheetBodyRef, 
     trackedState: isOpen, 
     fallbackRef: bottomSheetCloseRef,
-    updateState: updateFocus
+    updateState: resetFocus
   });
 
   let sheetState = useOverlayTriggerState({
@@ -442,6 +444,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
               sheetContainerRef={ sheetContainerRef }
               bottomSheetBodyRef={ bottomSheetBodyRef }
               bottomSheetCloseRef={ bottomSheetCloseRef }
+              resetScroll={ resetFocus}
             >
               { children }
             </BottomSheetContainer>

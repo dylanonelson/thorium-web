@@ -30,7 +30,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     docker, 
     flow,
     children,
-    updateFocus
+    resetFocus
   }) => {
   const dockPortal = flow && document.getElementById(flow);
   const dockedSheetHeaderRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +43,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     withinRef: dockedSheetBodyRef, 
     trackedState: isOpen, 
     fallbackRef: dockedSheetCloseRef,
-    updateState: updateFocus
+    updateState: resetFocus
   }); 
 
   const classFromFlow = useCallback(() => {
