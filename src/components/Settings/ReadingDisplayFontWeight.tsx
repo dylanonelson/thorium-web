@@ -13,6 +13,7 @@ import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
 import { useAppSelector } from "@/lib/hooks";
+import { SliderWrapper } from "./Wrappers/SliderWrapper";
 
 export const ReadingDisplayFontWeight: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
   const fontFamily = useAppSelector(state => state.settings.fontFamily);
@@ -22,7 +23,7 @@ export const ReadingDisplayFontWeight: React.FC<IAdvancedDisplayProps> = ({ stan
 
   return(
     <>
-    <NumberFieldWrapper
+    <SliderWrapper
       { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
       defaultValue={ 400 } 
       value={ fontWeight } 
@@ -30,15 +31,7 @@ export const ReadingDisplayFontWeight: React.FC<IAdvancedDisplayProps> = ({ stan
       label={ Locale.reader.settings.fontWeight.title }
       range={ fontWeightRangeConfig.range }
       step={ fontWeightRangeConfig.step }
-      steppers={{
-        decrementIcon: MinusIcon,
-        decrementLabel: Locale.reader.settings.fontWeight.decrease,
-        incrementIcon: PlusIcon,
-        incrementLabel: Locale.reader.settings.fontWeight.increase
-      }}
-      wheelDisabled={ true }
-      virtualKeyboardDisabled={ true }
-      disabled={ fontFamily === "publisher" }
+      isDisabled={ fontFamily === "publisher" }
       standalone={ standalone }
     /> 
     </>

@@ -41,7 +41,7 @@ export const ReadingDisplayZoom = () => {
         incrementLabel: isFXL ? Locale.reader.settings.zoom.increase : Locale.reader.settings.fontSize.increase
       }}
       format={{ style: "percent" }} 
-      wheelDisabled={ true }
+      isWheelDisabled={ true }
       virtualKeyboardDisabled={ true }
     /> 
     </>
