@@ -3,11 +3,13 @@ import { useEffect, useRef } from "react";
 export const useFirstFocusable = ({
   withinRef,
   trackedState,
-  fallbackRef
+  fallbackRef,
+  dependencies = []
 }: { 
   withinRef: React.RefObject<HTMLElement | null>, 
   trackedState: boolean, 
-  fallbackRef?: React.RefObject<HTMLElement | null> 
+  fallbackRef?: React.RefObject<HTMLElement | null>,
+  dependencies?: any[]
 }) => {
   const focusedElement = useRef<HTMLElement | null>(null);
 
@@ -30,7 +32,7 @@ export const useFirstFocusable = ({
         focusedElement.current = null;
       }
     }
-  }, [trackedState, withinRef, fallbackRef]);
+  }, [trackedState, withinRef, fallbackRef, ...dependencies]);
 
   return focusedElement.current;
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 import { ISheet } from "@/models/sheets";
 
@@ -35,7 +35,8 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
   const firstFocusable = useFirstFocusable({
     withinRef: popoverBodyRef, 
     trackedState: isOpen, 
-    fallbackRef: popoverCloseRef
+    fallbackRef: popoverCloseRef,
+    dependencies: [ children ]
   });
 
   const computeMaxHeight = useCallback(() => {

@@ -375,7 +375,8 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   const firstFocusable = useFirstFocusable({
     withinRef: bottomSheetBodyRef, 
     trackedState: isOpen, 
-    fallbackRef: bottomSheetCloseRef
+    fallbackRef: bottomSheetCloseRef,
+    dependencies: [ children ]
   });
 
   let sheetState = useOverlayTriggerState({
