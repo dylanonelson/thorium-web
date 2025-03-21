@@ -40,14 +40,26 @@ export const defaultTextSettingsOrder = [
 ]
 
 export enum SpacingSettingsKeys {
-  lineHeight = "lineHeight"
+  lineHeight = "lineHeight",
+  letterSpacing = "letterSpacing"
 }
 
 export const defaultSpacingSettingsMain = [SpacingSettingsKeys.lineHeight];
 
 export const defaultSpacingSettingsOrder = [
-  SpacingSettingsKeys.lineHeight
+  SpacingSettingsKeys.lineHeight,
+  SpacingSettingsKeys.letterSpacing
 ]
+
+export interface ISettingsRangePref {
+  range: [number, number];
+  step: number
+}
+
+export const defaultLetterSpacing: ISettingsRangePref = {
+  range: [0, 0.5],
+  step: 0.0625
+}
 
 export const defaultLineHeights = {
   [ReadingDisplayLineHeightOptions.small]: 1.25,

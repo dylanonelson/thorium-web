@@ -320,6 +320,10 @@ export const RSPrefs: IRSPrefs = {
       ]
     },
     spacing: {
+      letterSpacing: {
+        range: [0, 0.5],
+        step: 0.0625
+      },
       lineHeight: {
         [ReadingDisplayLineHeightOptions.small]: 1.3,
         [ReadingDisplayLineHeightOptions.medium]: 1.5,

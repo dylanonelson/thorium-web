@@ -30,13 +30,15 @@ export const ReadingDisplayLineHeight: React.FC<IAdvancedDisplayProps> = ({ stan
     <>
      <RadioGroup 
       { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+      { ...(!standalone ? { "aria-label": Locale.reader.settings.fontFamily.title } : {}) }
       orientation="horizontal" 
       value={ lineHeight } 
       onChange={ async (val: string) => await handleChange(val) }
     >
-      <Label className={ settingsStyles.readerSettingsLabel }>
-        { standalone ? Locale.reader.settings.lineHeight.title : Locale.reader.settings.spacing.title }
-      </Label>
+      { standalone && <Label className={ settingsStyles.readerSettingsLabel }>
+         { Locale.reader.settings.lineHeight.title }
+        </Label>
+      }
       <div className={ settingsStyles.readerSettingsRadioWrapper }>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 

@@ -152,6 +152,11 @@
         "medium": "Balanced",
         "large": "Loose"
       },
+      "letterSpacing": {
+        "title": "Letter spacing",
+        "increase": "Increase letter spacing",
+        "decrease": "Decrease letter spacing"
+      },
       "spacing": {
         "title": "Spacing",
         "advanced": {
