@@ -44,6 +44,7 @@ export const defaultTextSettingsOrder = [
 ]
 
 export enum SpacingSettingsKeys {
+  defaults = "defaults",
   lineHeight = "lineHeight",
   letterSpacing = "letterSpacing",
   paraIndent = "paraIndent",
@@ -54,6 +55,7 @@ export enum SpacingSettingsKeys {
 export const defaultSpacingSettingsMain = [SpacingSettingsKeys.lineHeight];
 
 export const defaultSpacingSettingsOrder = [
+  SpacingSettingsKeys.defaults,
   SpacingSettingsKeys.lineHeight,
   SpacingSettingsKeys.paraSpacing,
   SpacingSettingsKeys.paraIndent,

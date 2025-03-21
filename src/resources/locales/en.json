@@ -177,7 +177,8 @@
         "advanced": {
           "tooltip": "More options",
           "trigger": "More spacing options"
-        }
+        },
+        "default": "Use publication’s styles"
       },
       "layout": {
         "title": "Layout",

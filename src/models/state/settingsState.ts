@@ -18,5 +18,6 @@ export interface ISettingsState {
   lineLength: number | null;
   letterSpacing: number | null;
   wordSpacing: number | null;
+  spacingDefaults: boolean;
   layoutStrategy: RSLayoutStrategy;
 }
