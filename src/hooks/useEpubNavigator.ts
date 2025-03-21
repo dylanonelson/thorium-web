@@ -50,6 +50,7 @@ import {
   setLineHeight, 
   setParaIndent, 
   setParaSpacing, 
+  setSpacingDefaults, 
   setWordSpacing
 } from "@/lib/settingsReducer";
 import { setTheme } from "@/lib/themeReducer";
@@ -245,20 +246,22 @@ export const useEpubNavigator = () => {
     dispatch(setFontWeight(value));
   }, [dispatch]);
 
-  const applyParaSpacing = useCallback(async (value: number) => {
+  const applyParaSpacing = useCallback(async (value: number | null) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences({
       publisherStyles: false,
       paragraphSpacing: value
     }));
     dispatch(setParaSpacing(value));
+    dispatch(setSpacingDefaults(false));
   }, [dispatch]);
 
-  const applyParaIndent = useCallback(async (value: number) => {
+  const applyParaIndent = useCallback(async (value: number | null) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences({
       publisherStyles: false,
       paragraphIndent: value
     }));
     dispatch(setParaIndent(value));
+    dispatch(setSpacingDefaults(false));
   }, [dispatch]);
 
   const applyWordSpacing = useCallback(async (value: number | null) => {
@@ -267,6 +270,7 @@ export const useEpubNavigator = () => {
       wordSpacing: value
     }));
     dispatch(setWordSpacing(value));
+    dispatch(setSpacingDefaults(false));
   }, [dispatch]);
 
   const applyLetterSpacing = useCallback(async (value: number | null) => {
@@ -275,13 +279,25 @@ export const useEpubNavigator = () => {
       letterSpacing: value
     }));
     dispatch(setLetterSpacing(value));
+    dispatch(setSpacingDefaults(false));
   }, [dispatch]);
 
-  const handleProgression = useCallback((locator: Locator) => {
-    const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
-      
-    dispatch(setProgression( { currentPositions: navigatorInstance?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression }));
-  }, [dispatch]);
+  const applySpacingDefaults = useCallback(async (values: {
+    lineHeight: number | null,
+    paraSpacing: number | null,
+    paraIndent: number | null,
+    letterSpacing: number | null,
+    wordSpacing: number | null
+  }) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      publisherStyles: false,
+      lineHeight: values.lineHeight,
+      paragraphSpacing: values.paraSpacing,
+      paragraphIndent: values.paraIndent,
+      letterSpacing: values.letterSpacing,
+      wordSpacing: values.wordSpacing
+    }));
+  }, []);
 
   const applyLineHeight = useCallback(async (value: string) => {
     const computedValue: number = RSPrefs.settings.spacing?.lineHeight?.[value as ReadingDisplayLineHeightOptions] ?? 
@@ -297,6 +313,7 @@ export const useEpubNavigator = () => {
       lineHeight: computedValue
     }));
     dispatch(setLineHeight(value));
+    dispatch(setSpacingDefaults(false));
   }, [dispatch]);
 
   const applyTextAlign = useCallback(async (value: ReadingDisplayAlignOptions) => {
@@ -325,6 +342,12 @@ export const useEpubNavigator = () => {
       hyphens: value
     }));
     dispatch(setHyphens(value));
+  }, [dispatch]);
+
+  const handleProgression = useCallback((locator: Locator) => {
+    const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
+      
+    dispatch(setProgression( { currentPositions: navigatorInstance?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression }));
   }, [dispatch]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
@@ -469,6 +492,7 @@ export const useEpubNavigator = () => {
     applyLineHeight,
     applyTextAlign, 
     applyHyphens, 
+    applySpacingDefaults,
     nullifyMaxChars,
     applyZoom,
     getSizeStep, 

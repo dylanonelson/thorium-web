@@ -17,6 +17,7 @@ const initialState: ISettingsState = {
   lineLength: null,
   letterSpacing: null,
   wordSpacing: null,
+  spacingDefaults: true,
   layoutStrategy: RSLayoutStrategy.lineLength,
 }
 
@@ -60,6 +61,9 @@ export const settingsSlice = createSlice({
     setWordSpacing: (state, action) => {
       state.wordSpacing = action.payload
     },
+    setSpacingDefaults: (state, action) => {
+      state.spacingDefaults = action.payload
+    },
     setLayoutStrategy: (state, action) => {
       state.layoutStrategy = action.payload
     }
@@ -80,6 +84,7 @@ export const {
   setLineLength,
   setLetterSpacing,
   setWordSpacing,
+  setSpacingDefaults,
   setLayoutStrategy,
 } = settingsSlice.actions;
 

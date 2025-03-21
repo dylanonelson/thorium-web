@@ -20,6 +20,7 @@ import { ReadingDisplayLetterSpacing } from "./ReadingDisplayLetterSpacing";
 import { ReadingDisplayLineHeight } from "./ReadingDisplayLineHeight";
 import { ReadingDisplayParaIndent } from "./ReadingDisplayParaIndent";
 import { ReadingDisplayParaSpacing } from "./ReadingDisplayParaSpacing";
+import { ReadingDisplaySpacingDefaults } from "./ReadingDisplaySpacingDefaults";
 import { ReadingDisplayWordSpacing } from "./ReadingDisplayWordSpacing";
 
 import { useAppDispatch } from "@/lib/hooks";
@@ -28,6 +29,9 @@ import { setSettingsContainer } from "@/lib/readerReducer";
 import classNames from "classnames";
 
 const SpacingSettingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } = {
+  [SpacingSettingsKeys.defaults]: {
+    Comp: ReadingDisplaySpacingDefaults
+  },
   [SpacingSettingsKeys.letterSpacing]: {
     Comp: ReadingDisplayLetterSpacing
   },
