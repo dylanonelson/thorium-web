@@ -16,10 +16,14 @@ export enum SettingsKeys {
   fontWeight = "fontWeight",
   hyphens = "hyphens",
   layout = "layout",
+  letterSpacing = "letterSpacing",
   lineHeight = "lineHeight",
+  paraIndent = "paraIndent",
+  paraSpacing = "paraSpacing",
   spacing = "spacing",
   text = "text",
   theme = "theme",
+  wordSpacing = "wordSpacing",
   zoom = "zoom"
 }
 
