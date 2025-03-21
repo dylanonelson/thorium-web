@@ -1,15 +1,36 @@
-import { use, useCallback, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
 
 import { ScrollBackTo } from "@/models/preferences";
-import { ReadingDisplayAlignOptions, ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
+import { 
+  ReadingDisplayAlignOptions, 
+  ReadingDisplayFontFamilyOptions, 
+  ReadingDisplayLineHeightOptions, 
+  RSLayoutStrategy 
+} from "@/models/layout";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
 import { defaultLineHeights } from "@/models/settings";
 
-import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
-import { EpubNavigator, EpubNavigatorListeners, EpubPreferences, FrameManager, FXLFrameManager, IEpubDefaults, IEpubPreferences, LayoutStrategy, TextAlignment, Theme } from "@readium/navigator";
+import { 
+  EPUBLayout, 
+  Link, 
+  Locator, 
+  Publication 
+} from "@readium/shared";
+import { 
+  EpubNavigator, 
+  EpubNavigatorListeners, 
+  EpubPreferences, 
+  FrameManager, 
+  FXLFrameManager, 
+  IEpubDefaults, 
+  IEpubPreferences, 
+  LayoutStrategy, 
+  TextAlignment, 
+  Theme 
+} from "@readium/navigator";
 
 import { ScrollAffordance } from "@/helpers/scrollAffordance";
 import { localData } from "@/helpers/localData";
@@ -17,7 +38,16 @@ import { localData } from "@/helpers/localData";
 import { useAppDispatch } from "@/lib/hooks";
 import { setProgression } from "@/lib/publicationReducer";
 import { setPaged } from "@/lib/readerReducer";
-import { setAlign, setColCount, setFontFamily, setFontSize, setFontWeight, setHyphens, setLayoutStrategy, setLineHeight } from "@/lib/settingsReducer";
+import { 
+  setAlign, 
+  setColCount, 
+  setFontFamily, 
+  setFontSize, 
+  setFontWeight, 
+  setHyphens, 
+  setLayoutStrategy, 
+  setLineHeight 
+} from "@/lib/settingsReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;

@@ -5,11 +5,6 @@ import settingsStyles from "../assets/styles/readerSettings.module.css";
 import { IAdvancedDisplayProps } from "@/models/settings";
 import { fontWeightRangeConfig } from "@readium/navigator";
 
-import MinusIcon from "../assets/icons/remove.svg";
-import PlusIcon from "../assets/icons/add.svg";
-
-import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
-
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
 import { useAppSelector } from "@/lib/hooks";

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
