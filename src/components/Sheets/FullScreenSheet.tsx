@@ -33,7 +33,7 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
     withinRef: fullScreenBodyRef, 
     trackedState: isOpen, 
     fallbackRef: fullScreenCloseRef,
-    dependencies: [ children ]
+    dependencies: [children]
   });
 
   return (
