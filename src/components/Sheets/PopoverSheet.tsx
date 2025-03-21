@@ -35,8 +35,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
   const firstFocusable = useFirstFocusable({
     withinRef: popoverBodyRef, 
     trackedState: isOpen, 
-    fallbackRef: popoverCloseRef,
-    dependencies: [children]
+    fallbackRef: popoverCloseRef
   });
 
   const computeMaxHeight = useCallback(() => {
