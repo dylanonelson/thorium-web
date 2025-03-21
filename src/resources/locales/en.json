@@ -157,6 +157,11 @@
         "increase": "Increase paragraph spacing",
         "decrease": "Decrease paragraph spacing"
       },
+      "paraIndent": {
+        "title": "Paragraph indent",
+        "increase": "Increase paragraph indent",
+        "decrease": "Decrease paragraph indent"
+      },
       "wordSpacing": {
         "title": "Word spacing",
         "increase": "Increase word spacing",

@@ -80,6 +80,7 @@ export interface IRSPrefs {
     spacing?: {
       main?: SpacingSettingsKeys[];
       displayOrder?: SpacingSettingsKeys[];
+      paraIndent?: ISettingsRangePref;
       paraSpacing?: ISettingsRangePref;
       wordSpacing?: ISettingsRangePref;
       letterSpacing?: ISettingsRangePref;

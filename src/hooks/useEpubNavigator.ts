@@ -48,6 +48,7 @@ import {
   setLayoutStrategy, 
   setLetterSpacing, 
   setLineHeight, 
+  setParaIndent, 
   setParaSpacing, 
   setWordSpacing
 } from "@/lib/settingsReducer";
@@ -252,6 +253,14 @@ export const useEpubNavigator = () => {
     dispatch(setParaSpacing(value));
   }, [dispatch]);
 
+  const applyParaIndent = useCallback(async (value: number) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      publisherStyles: false,
+      paragraphIndent: value
+    }));
+    dispatch(setParaIndent(value));
+  }, [dispatch]);
+
   const applyWordSpacing = useCallback(async (value: number | null) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences({
       publisherStyles: false,
@@ -454,6 +463,7 @@ export const useEpubNavigator = () => {
     applyFontFamily, 
     applyFontWeight,
     applyParaSpacing,
+    applyParaIndent,
     applyWordSpacing,
     applyLetterSpacing,
     applyLineHeight,
