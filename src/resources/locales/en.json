@@ -157,6 +157,11 @@
         "increase": "Increase letter spacing",
         "decrease": "Decrease letter spacing"
       },
+      "wordSpacing": {
+        "title": "Word spacing",
+        "increase": "Increase word spacing",
+        "decrease": "Decrease word spacing"
+      },
       "spacing": {
         "title": "Spacing",
         "advanced": {
