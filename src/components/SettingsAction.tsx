@@ -35,10 +35,14 @@ import { ReadingDisplayFontFamily } from "./Settings/ReadingDisplayFontFamily";
 import { ReadingDisplayFontWeight } from "./Settings/ReadingDisplayFontWeight";
 import { ReadingDisplayHyphens } from "./Settings/ReadingDisplayHyphens";
 import { ReadingDisplayLayout } from "./Settings/ReadingDisplayLayout";
+import { ReadingDisplayLetterSpacing } from "./Settings/ReadingDisplayLetterSpacing";
 import { ReadingDisplayLineHeight } from "./Settings/ReadingDisplayLineHeight";
+import { ReadingDisplayParaIndent } from "./Settings/ReadingDisplayParaIndent";
+import { ReadingDisplayParaSpacing } from "./Settings/ReadingDisplayParaSpacing";
 import { ReadingDisplaySpacing, ReadingDisplaySpacingContainer } from "./Settings/ReadingDisplaySpacing";
 import { ReadingDisplayText, ReadingDisplayTextContainer } from "./Settings/ReadingDisplayText";
 import { ReadingDisplayTheme } from "./Settings/ReadingDisplayTheme";
+import { ReadingDisplayWordSpacing } from "./Settings/ReadingDisplayWordSpacing";
 import { ReadingDisplayZoom } from "./Settings/ReadingDisplayZoom";
 
 import { useDocking } from "@/hooks/useDocking";
@@ -46,7 +50,6 @@ import { useDocking } from "@/hooks/useDocking";
 import { setHovering, setSettingsContainer } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
-import { get } from "http";
 
 const SettingsMap: { [key in SettingsKeys]: ISettingsMapObject } = {
   [SettingsKeys.align]: {
@@ -67,8 +70,17 @@ const SettingsMap: { [key in SettingsKeys]: ISettingsMapObject } = {
   [SettingsKeys.layout]: {
     Comp: ReadingDisplayLayout
   },
+  [SettingsKeys.letterSpacing]: {
+    Comp: ReadingDisplayLetterSpacing
+  },
   [SettingsKeys.lineHeight]: {
     Comp: ReadingDisplayLineHeight
+  },
+  [SettingsKeys.paraIndent]: {
+    Comp: ReadingDisplayParaIndent
+  },
+  [SettingsKeys.paraSpacing]: {
+    Comp: ReadingDisplayParaSpacing
   },
   [SettingsKeys.spacing]: {
     Comp: ReadingDisplaySpacing
@@ -81,6 +93,9 @@ const SettingsMap: { [key in SettingsKeys]: ISettingsMapObject } = {
     props: {
       mapArrowNav: 2
     }
+  },
+  [SettingsKeys.wordSpacing]: {
+    Comp: ReadingDisplayWordSpacing
   },
   [SettingsKeys.zoom]: {
     Comp: ReadingDisplayZoom
