@@ -71,6 +71,22 @@ If all nestable components are listed in `main`, then the Spacing component beha
 
 The components to display in the “sub-panel”, and their order. Note components listed in `main` will not automatically be added to this array.
 
+### LetterSpacing (optional)
+
+This allows to customize the range for letter spacing.
+
+For instance: 
+
+```
+spacing: {
+  ...
+  letterSpacing: {
+    range: [0, 0.5],
+    step: 0.125
+  }
+}
+```
+
 ### LineHeight (optional)
 
 This allows to customize the value for line-heights. It must be a ratio (`number`).
@@ -78,12 +94,60 @@ This allows to customize the value for line-heights. It must be a ratio (`number
 For instance:
 
 ```
-spacing:
-  ... 
+spacing: {
+  ...
   lineHeight: {
     [ReadingDisplayLineHeightOptions.small]: 1.3,
     [ReadingDisplayLineHeightOptions.medium]: 1.5,
     [ReadingDisplayLineHeightOptions.large]: 1.75
+  }
+}
+```
+
+### ParaIndent (optional)
+
+This allows to customize the range for paragraph indents.
+
+For instance: 
+
+```
+spacing: {
+  ...
+  paraIndent: {
+    range: [0, 3],
+    step: 0.5
+  }
+}
+```
+
+### ParaSpacing (optional)
+
+This allows to customize the range for paragraph spacing/margins.
+
+For instance: 
+
+```
+spacing: {
+  ...
+  paraSpacing: {
+    range: [0, 2],
+    step: 0.5
+  }
+}
+```
+
+### wordSpacing (optional)
+
+This allows to customize the range for word spacing.
+
+For instance: 
+
+```
+spacing: {
+  ...
+  wordSpacing: {
+    range: [0, 1],
+    step: 0.125
   }
 }
 ```
