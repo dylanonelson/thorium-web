@@ -50,7 +50,7 @@ import {
   setLineHeight, 
   setParaIndent, 
   setParaSpacing, 
-  setSpacingDefaults, 
+  setPublisherStyles, 
   setWordSpacing
 } from "@/lib/settingsReducer";
 import { setTheme } from "@/lib/themeReducer";
@@ -252,7 +252,7 @@ export const useEpubNavigator = () => {
       paragraphSpacing: value
     }));
     dispatch(setParaSpacing(value));
-    dispatch(setSpacingDefaults(false));
+    dispatch(setPublisherStyles(false));
   }, [dispatch]);
 
   const applyParaIndent = useCallback(async (value: number | null) => {
@@ -261,7 +261,7 @@ export const useEpubNavigator = () => {
       paragraphIndent: value
     }));
     dispatch(setParaIndent(value));
-    dispatch(setSpacingDefaults(false));
+    dispatch(setPublisherStyles(false));
   }, [dispatch]);
 
   const applyWordSpacing = useCallback(async (value: number | null) => {
@@ -270,7 +270,7 @@ export const useEpubNavigator = () => {
       wordSpacing: value
     }));
     dispatch(setWordSpacing(value));
-    dispatch(setSpacingDefaults(false));
+    dispatch(setPublisherStyles(false));
   }, [dispatch]);
 
   const applyLetterSpacing = useCallback(async (value: number | null) => {
@@ -279,7 +279,7 @@ export const useEpubNavigator = () => {
       letterSpacing: value
     }));
     dispatch(setLetterSpacing(value));
-    dispatch(setSpacingDefaults(false));
+    dispatch(setPublisherStyles(false));
   }, [dispatch]);
 
   const applySpacingDefaults = useCallback(async (values: {
@@ -313,7 +313,7 @@ export const useEpubNavigator = () => {
       lineHeight: computedValue
     }));
     dispatch(setLineHeight(value));
-    dispatch(setSpacingDefaults(false));
+    dispatch(setPublisherStyles(false));
   }, [dispatch]);
 
   const applyTextAlign = useCallback(async (value: ReadingDisplayAlignOptions) => {

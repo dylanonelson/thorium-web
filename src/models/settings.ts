@@ -44,18 +44,18 @@ export const defaultTextSettingsOrder = [
 ]
 
 export enum SpacingSettingsKeys {
-  defaults = "defaults",
   lineHeight = "lineHeight",
   letterSpacing = "letterSpacing",
   paraIndent = "paraIndent",
   paraSpacing = "paraSpacing",
+  publisherStyles = "publisherStyles",
   wordSpacing = "wordSpacing"
 }
 
 export const defaultSpacingSettingsMain = [SpacingSettingsKeys.lineHeight];
 
 export const defaultSpacingSettingsOrder = [
-  SpacingSettingsKeys.defaults,
+  SpacingSettingsKeys.publisherStyles,
   SpacingSettingsKeys.lineHeight,
   SpacingSettingsKeys.paraSpacing,
   SpacingSettingsKeys.paraIndent,

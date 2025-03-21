@@ -172,13 +172,15 @@
         "increase": "Increase letter spacing",
         "decrease": "Decrease letter spacing"
       },
+      "publisherStyles": {
+        "label": "Use original formatting"
+      },
       "spacing": {
         "title": "Spacing",
         "advanced": {
           "tooltip": "More options",
           "trigger": "More spacing options"
-        },
-        "default": "Use publication’s styles"
+        }
       },
       "layout": {
         "title": "Layout",
