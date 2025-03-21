@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import { RSPrefs } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
@@ -12,11 +14,10 @@ import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setSpacingDefaults } from "@/lib/settingsReducer";
-import { useCallback } from "react";
+import { setPublisherStyles } from "@/lib/settingsReducer";
 
-export const ReadingDisplaySpacingDefaults: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
-  const spacingDefaults = useAppSelector(state => state.settings.spacingDefaults);
+export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+  const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
 
   const lineHeight = useAppSelector(state => state.settings.lineHeight);
   const paraIndent = useAppSelector(state => state.settings.paraIndent);
@@ -51,7 +52,7 @@ export const ReadingDisplaySpacingDefaults: React.FC<IAdvancedDisplayProps> = ({
       wordSpacing
     };
     await applySpacingDefaults(values);
-    dispatch(setSpacingDefaults(isSelected));
+    dispatch(setPublisherStyles(isSelected));
   }, [applySpacingDefaults, dispatch, lineHeight, paraIndent, paraSpacing, letterSpacing, wordSpacing]);
 
   return(
@@ -60,9 +61,9 @@ export const ReadingDisplaySpacingDefaults: React.FC<IAdvancedDisplayProps> = ({
       { ...(standalone ? { 
         className: settingsStyles.readerSettingsGroup
       } : {}) }
-      label={ Locale.reader.settings.spacing.default }
+      label={ Locale.reader.settings.publisherStyles.label }
       onChangeCallback={ async (isSelected: boolean) => await handleChange(isSelected) }
-      isSelected={ spacingDefaults }
+      isSelected={ publisherStyles }
     />
     </>
   )
