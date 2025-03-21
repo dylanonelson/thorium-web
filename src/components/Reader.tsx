@@ -5,8 +5,6 @@ import { useCallback, useEffect, useRef } from "react";
 import { RSPrefs } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
-import fontStacks from "@readium/css/css/vars/fontStacks.json";
-
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
@@ -22,8 +20,21 @@ import {
   BasicTextSelection,
   FrameClickEvent,
 } from "@readium/navigator-html-injectables";
-import { EpubNavigatorListeners, FrameManager, FXLFrameManager, LayoutStrategy } from "@readium/navigator";
-import { Locator, Manifest, Publication, Fetcher, HttpFetcher, EPUBLayout, ReadingProgression } from "@readium/shared";
+import { 
+  EpubNavigatorListeners, 
+  FrameManager, 
+  FXLFrameManager, 
+  LayoutStrategy 
+} from "@readium/navigator";
+import { 
+  Locator, 
+  Manifest, 
+  Publication, 
+  Fetcher, 
+  HttpFetcher, 
+  EPUBLayout, 
+  ReadingProgression 
+} from "@readium/shared";
 
 import { ReaderWithDock } from "./ReaderWithPanels";
 
@@ -42,8 +53,21 @@ import { localData } from "@/helpers/localData";
 import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { createTocTree } from "@/helpers/toc/createTocTree";
 
-import { setImmersive, setHovering, toggleImmersive, setPlatformModifier, setDirection, setArrows } from "@/lib/readerReducer";
-import { setFXL, setRTL, setProgression, setRunningHead, setTocTree } from "@/lib/publicationReducer";
+import { 
+  setImmersive, 
+  setHovering, 
+  toggleImmersive, 
+  setPlatformModifier, 
+  setDirection, 
+  setArrows 
+} from "@/lib/readerReducer";
+import { 
+  setFXL, 
+  setRTL, 
+  setProgression, 
+  setRunningHead, 
+  setTocTree 
+} from "@/lib/publicationReducer";
 import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
 
