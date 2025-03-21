@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { ReadingDisplayAlignOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
 import { ISettingsState } from "@/models/state/settingsState";
+import { s } from "motion/react-client";
 
 const initialState: ISettingsState = {
   colCount: "auto",
@@ -11,6 +12,11 @@ const initialState: ISettingsState = {
   lineHeight: ReadingDisplayLineHeightOptions.medium,
   align: ReadingDisplayAlignOptions.publisher,
   hyphens: null,
+  paraIndent: null,
+  paraSpacing: null,
+  lineLength: null,
+  letterSpacing: null,
+  wordSpacing: null,
   layoutStrategy: RSLayoutStrategy.lineLength,
 }
 
@@ -39,6 +45,21 @@ export const settingsSlice = createSlice({
     setHyphens: (state, action) => {
       state.hyphens = action.payload
     },
+    setParaIndent: (state, action) => {
+      state.paraIndent = action.payload
+    },
+    setParaSpacing: (state, action) => {
+      state.paraSpacing = action.payload
+    },
+    setLineLength: (state, action) => {
+      state.lineLength = action.payload
+    },
+    setLetterSpacing: (state, action) => {
+      state.letterSpacing = action.payload
+    },
+    setWordSpacing: (state, action) => {
+      state.wordSpacing = action.payload
+    },
     setLayoutStrategy: (state, action) => {
       state.layoutStrategy = action.payload
     }
@@ -54,6 +75,11 @@ export const {
   setLineHeight,
   setAlign, 
   setHyphens, 
+  setParaIndent,
+  setParaSpacing,
+  setLineLength,
+  setLetterSpacing,
+  setWordSpacing,
   setLayoutStrategy,
 } = settingsSlice.actions;
 

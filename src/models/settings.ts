@@ -105,10 +105,8 @@ export interface ISettingsSwitchProps {
   className?: string;
   heading?: string;
   label: string;
+  isSelected: boolean;
   onChangeCallback: (isSelected: boolean) => void;
-  selected: boolean;
-  disabled?: boolean;
-  readOnly?: boolean;
 }
 
 export interface IRCSSSettings {
@@ -120,6 +118,11 @@ export interface IRCSSSettings {
   lineHeight: ReadingDisplayLineHeightOptions;
   align: ReadingDisplayAlignOptions | null;
   hyphens: boolean | null;
+  paraIndent: number | null;
+  paraSpacing: number | null;
+  lineLength: number | null;
+  letterSpacing: number | null;
+  wordSpacing: number | null;
   layoutStrategy: RSLayoutStrategy;
   theme: ThemeKeys;
 }

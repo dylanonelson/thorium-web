@@ -13,5 +13,10 @@ export interface ISettingsState {
   lineHeight: ReadingDisplayLineHeightOptions;
   align: ReadingDisplayAlignOptions;
   hyphens: boolean | null;
+  paraIndent: number | null;
+  paraSpacing: number | null;
+  lineLength: number | null;
+  letterSpacing: number | null;
+  wordSpacing: number | null;
   layoutStrategy: RSLayoutStrategy;
 }
