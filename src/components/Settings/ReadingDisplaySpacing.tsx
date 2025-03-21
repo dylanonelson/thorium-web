@@ -18,6 +18,7 @@ import { AdvancedIcon } from "./Wrappers/AdvancedIcon";
 
 import { ReadingDisplayLetterSpacing } from "./ReadingDisplayLetterSpacing";
 import { ReadingDisplayLineHeight } from "./ReadingDisplayLineHeight";
+import { ReadingDisplayParaIndent } from "./ReadingDisplayParaIndent";
 import { ReadingDisplayParaSpacing } from "./ReadingDisplayParaSpacing";
 import { ReadingDisplayWordSpacing } from "./ReadingDisplayWordSpacing";
 
@@ -32,6 +33,9 @@ const SpacingSettingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } =
   },
   [SpacingSettingsKeys.lineHeight]: {
     Comp: ReadingDisplayLineHeight
+  },
+  [SpacingSettingsKeys.paraIndent]: {
+    Comp: ReadingDisplayParaIndent
   },
   [SpacingSettingsKeys.paraSpacing]: {
     Comp: ReadingDisplayParaSpacing
