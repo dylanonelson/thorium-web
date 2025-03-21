@@ -26,7 +26,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
     placement,
     docker,
     children,
-    updateFocus
+    resetFocus
   }) => {
   const popoverRef = useRef<HTMLDivElement | null>(null);
   const popoverHeaderRef = useRef<HTMLDivElement | null>(null);
@@ -37,7 +37,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
     withinRef: popoverBodyRef, 
     trackedState: isOpen, 
     fallbackRef: popoverCloseRef,
-    updateState: updateFocus
+    updateState: resetFocus
   });
 
   const computeMaxHeight = useCallback(() => {
