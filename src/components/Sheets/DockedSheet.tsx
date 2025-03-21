@@ -42,7 +42,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     withinRef: dockedSheetBodyRef, 
     trackedState: isOpen, 
     fallbackRef: dockedSheetCloseRef,
-    dependencies: [ children ]
+    dependencies: [children]
   }); 
 
   const classFromFlow = useCallback(() => {

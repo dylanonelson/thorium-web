@@ -65,6 +65,7 @@ const BottomSheetContainer = ({
   bottomSheetCloseRef: RefObject<HTMLButtonElement | null>;
   children: ReactNode;
 }) => {
+  const sheetScroller = useRef<HTMLDivElement | null>(null);
   const dialog = useDialog({}, sheetContainerRef);
   const overlay = useOverlay({ 
     onClose: sheetState.close, 
@@ -122,6 +123,12 @@ const BottomSheetContainer = ({
     }
   });
 
+  useEffect(() => {
+    if (sheetScroller.current) {
+      (sheetScroller.current.scrollTop = 0);
+    }
+  }, [children]);
+
   return (
     <>
     <Sheet.Container 
@@ -161,6 +168,7 @@ const BottomSheetContainer = ({
         { ...(isDraggable ? { style: { paddingBottom: sheetRef.current?.y }} : {} )}
       >
         <Sheet.Scroller 
+          ref={ sheetScroller}
           draggable={ false }
           className={ sheetStyles.bottomSheetScroller }
         >
@@ -376,7 +384,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
     withinRef: bottomSheetBodyRef, 
     trackedState: isOpen, 
     fallbackRef: bottomSheetCloseRef,
-    dependencies: [ children ]
+    dependencies: [children]
   });
 
   let sheetState = useOverlayTriggerState({
