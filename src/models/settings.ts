@@ -153,8 +153,8 @@ export interface IRCSSSettings {
   colCount: string;
   fontSize: number;
   fontWeight: number;
-  fontFamily: string;
-  lineHeight: ReadingDisplayLineHeightOptions;
+  fontFamily: string | null;
+  lineHeight: ReadingDisplayLineHeightOptions | null;
   align: ReadingDisplayAlignOptions | null;
   hyphens: boolean | null;
   paraIndent: number | null;

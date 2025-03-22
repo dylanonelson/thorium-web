@@ -7,6 +7,7 @@ import { IAdvancedDisplayProps } from "@/models/settings";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
+import BookIcon from "../assets/icons/book.svg";
 import SmallIcon from "../assets/icons/density_small.svg";
 import MediumIcon from "../assets/icons/density_medium.svg";
 import LargeIcon from "../assets/icons/density_large.svg";
@@ -18,6 +19,7 @@ import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useAppSelector } from "@/lib/hooks";
 
 export const ReadingDisplayLineHeight: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+  const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
   const lineHeight = useAppSelector(state => state.settings.lineHeight);
 
   const { applyLineHeight } = useEpubNavigator();
@@ -32,7 +34,7 @@ export const ReadingDisplayLineHeight: React.FC<IAdvancedDisplayProps> = ({ stan
       { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
       { ...(!standalone ? { "aria-label": Locale.reader.settings.fontFamily.title } : {}) }
       orientation="horizontal" 
-      value={ lineHeight } 
+      value={ publisherStyles ? ReadingDisplayLineHeightOptions.publisher : lineHeight } 
       onChange={ async (val: string) => await handleChange(val) }
     >
       { standalone && <Label className={ settingsStyles.readerSettingsLabel }>
@@ -40,6 +42,13 @@ export const ReadingDisplayLineHeight: React.FC<IAdvancedDisplayProps> = ({ stan
         </Label>
       }
       <div className={ settingsStyles.readerSettingsRadioWrapper }>
+      <Radio 
+          className={ settingsStyles.readerSettingsRadio } 
+          value={ ReadingDisplayLineHeightOptions.publisher } 
+        >
+          <BookIcon aria-hidden="true" focusable="false" />
+          <span>{ Locale.reader.settings.lineHeight.publisher }</span>
+        </Radio>
         <Radio 
           className={ settingsStyles.readerSettingsRadio } 
           value={ ReadingDisplayLineHeightOptions.small } 

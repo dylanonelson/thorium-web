@@ -39,7 +39,7 @@ export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({
       wordSpacing: null
     } : 
     {
-      lineHeight: RSPrefs.settings.spacing?.lineHeight?.[lineHeight] ?? 
+      lineHeight: lineHeight === ReadingDisplayLineHeightOptions.publisher ? null : RSPrefs.settings.spacing?.lineHeight?.[lineHeight] ?? 
                 (lineHeight === ReadingDisplayLineHeightOptions.small 
                   ? defaultLineHeights[ReadingDisplayLineHeightOptions.small] 
                   : lineHeight === ReadingDisplayLineHeightOptions.medium 

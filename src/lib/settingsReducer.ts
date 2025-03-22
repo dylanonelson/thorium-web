@@ -2,14 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { ReadingDisplayAlignOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
 import { ISettingsState } from "@/models/state/settingsState";
-import { s } from "motion/react-client";
 
 const initialState: ISettingsState = {
   colCount: "auto",
   fontSize: 1,
   fontWeight: 400,
   fontFamily: "publisher",
-  lineHeight: ReadingDisplayLineHeightOptions.medium,
+  lineHeight: ReadingDisplayLineHeightOptions.publisher,
   align: ReadingDisplayAlignOptions.publisher,
   hyphens: null,
   paraIndent: null,
