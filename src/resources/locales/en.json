@@ -148,6 +148,7 @@
       },
       "lineHeight": {
         "title": "Line height",
+        "publisher": "Default",
         "small": "Tight",
         "medium": "Balanced",
         "large": "Loose"

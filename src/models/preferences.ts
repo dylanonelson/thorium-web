@@ -82,7 +82,7 @@ export interface IRSPrefs {
       displayOrder?: SpacingSettingsKeys[];
       letterSpacing?: ISettingsRangePref;
       lineHeight?: {
-        [key in ReadingDisplayLineHeightOptions]: number
+        [key in Exclude<ReadingDisplayLineHeightOptions, ReadingDisplayLineHeightOptions.publisher>]: number
       };
       paraIndent?: ISettingsRangePref;
       paraSpacing?: ISettingsRangePref;
