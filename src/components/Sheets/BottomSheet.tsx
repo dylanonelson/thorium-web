@@ -1,6 +1,6 @@
 import React, { KeyboardEvent, ReactNode, RefObject, useCallback, useEffect, useRef, useState } from "react";
 
-import {OverlayTriggerState, useOverlayTriggerState} from "react-stately";
+import { OverlayTriggerState, useOverlayTriggerState } from "react-stately";
 
 import { RSPrefs } from "@/preferences";
 
@@ -47,8 +47,7 @@ const BottomSheetContainer = ({
   sheetContainerRef,
   bottomSheetBodyRef,
   bottomSheetCloseRef,
-  children,
-  resetScroll
+  children
 }: {
   sheetState: OverlayTriggerState;
   className: string;
@@ -65,9 +64,7 @@ const BottomSheetContainer = ({
   bottomSheetBodyRef: RefObject<HTMLDivElement | null>;
   bottomSheetCloseRef: RefObject<HTMLButtonElement | null>;
   children: ReactNode;
-  resetScroll?: unknown;
 }) => {
-  const sheetScroller = useRef<HTMLDivElement | null>(null);
   const dialog = useDialog({}, sheetContainerRef);
   const overlay = useOverlay({ 
     onClose: sheetState.close, 
@@ -125,12 +122,6 @@ const BottomSheetContainer = ({
     }
   });
 
-  useEffect(() => {
-    if (sheetScroller.current) {
-      (sheetScroller.current.scrollTop = 0);
-    }
-  }, [resetScroll]);
-
   return (
     <>
     <Sheet.Container 
@@ -170,16 +161,11 @@ const BottomSheetContainer = ({
         { ...(isDraggable ? { style: { paddingBottom: sheetRef.current?.y }} : {} )}
       >
         <Sheet.Scroller 
-          ref={ sheetScroller}
+          ref={ bottomSheetBodyRef }
           draggable={ false }
-          className={ sheetStyles.bottomSheetScroller }
+          className={ classNames(sheetStyles.bottomSheetScroller, sheetStyles.sheetBody) }
         >
-          <div 
-            ref={ bottomSheetBodyRef } 
-            className={ sheetStyles.sheetBody }
-          >
-            { children }
-          </div>
+          { children }
         </Sheet.Scroller>
       </Sheet.Content>
     </Sheet.Container>
@@ -444,7 +430,6 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
               sheetContainerRef={ sheetContainerRef }
               bottomSheetBodyRef={ bottomSheetBodyRef }
               bottomSheetCloseRef={ bottomSheetCloseRef }
-              resetScroll={ resetFocus}
             >
               { children }
             </BottomSheetContainer>
