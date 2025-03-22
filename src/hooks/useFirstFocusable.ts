@@ -41,6 +41,7 @@ export const useFirstFocusable = ({
   
     if (firstFocusable) {
       firstFocusable.focus({ preventScroll: true });
+      withinRef.current.scrollTop = 0;
       focusedElement.current = firstFocusable;
     } else {
       if (fallbackRef?.current) {
