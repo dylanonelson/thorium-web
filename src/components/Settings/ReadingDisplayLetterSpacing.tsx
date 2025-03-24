@@ -4,33 +4,63 @@ import Locale from "../../resources/locales/en.json";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
-import { defaultLetterSpacing, IAdvancedDisplayProps } from "@/models/settings";
+import { 
+  defaultLetterSpacing, 
+  IAdvancedDisplayProps, 
+  SettingsRangeVariant 
+} from "@/models/settings";
 
+import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 import { SliderWrapper } from "./Wrappers/SliderWrapper";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
 import { useAppSelector } from "@/lib/hooks";
 
-export const ReadingDisplayLetterSpacing: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+export const ReadingDisplayLetterSpacing: React.FC<IAdvancedDisplayProps> = ({ 
+  standalone = true
+}) => {
   const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
-  const letterSpacingRangeConfig = RSPrefs.settings.spacing?.letterSpacing || defaultLetterSpacing;
+  const letterSpacingRangeConfig = {
+      variant: RSPrefs.settings.spacing?.letterSpacing?.variant ?? defaultLetterSpacing.variant,
+      range: RSPrefs.settings.spacing?.letterSpacing?.range ?? defaultLetterSpacing.range,
+      step: RSPrefs.settings.spacing?.letterSpacing?.step ?? defaultLetterSpacing.step
+    };
 
   const { applyLetterSpacing } = useEpubNavigator();
 
   return (
     <>
-    <SliderWrapper
-      { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
-      defaultValue={ 0 } 
-      value={ letterSpacing || 0 } 
-      onChangeCallback={ async(value) => await applyLetterSpacing(value) } 
-      label={ Locale.reader.settings.letterSpacing.title }
-      range={ letterSpacingRangeConfig.range }
-      step={ letterSpacingRangeConfig.step }
-      format={ { style: "percent" } }
-      standalone={ standalone }
-    /> 
+    { letterSpacingRangeConfig.variant === SettingsRangeVariant.numberField 
+      ? <NumberFieldWrapper 
+        standalone={ standalone }
+        { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+        defaultValue={ 0 } 
+        value={ letterSpacing || 0 } 
+        onChangeCallback={ async(value) => await applyLetterSpacing(value) } 
+        label={ Locale.reader.settings.letterSpacing.title }
+        range={ letterSpacingRangeConfig.range }
+        step={ letterSpacingRangeConfig.step }
+        steppers={{
+          decrementLabel: Locale.reader.settings.letterSpacing.decrease,
+          incrementLabel: Locale.reader.settings.letterSpacing.increase
+        }}
+        format={{ style: "percent" }} 
+        isWheelDisabled={ true }
+        virtualKeyboardDisabled={ true }
+      />
+      : <SliderWrapper
+        standalone={ standalone }
+        { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+        defaultValue={ 0 } 
+        value={ letterSpacing || 0 } 
+        onChangeCallback={ async(value) => await applyLetterSpacing(value) } 
+        label={ Locale.reader.settings.letterSpacing.title }
+        range={ letterSpacingRangeConfig.range }
+        step={ letterSpacingRangeConfig.step }
+        format={ { style: "percent" } }
+      />
+    } 
     </>
   )
 }

@@ -73,7 +73,7 @@ The components to display in the “sub-panel”, and their order. Note componen
 
 ### LetterSpacing (optional)
 
-This allows to customize the range for letter spacing.
+This allows to customize the range for letter spacing and its variant.
 
 For instance: 
 
@@ -81,6 +81,7 @@ For instance:
 spacing: {
   ...
   letterSpacing: {
+    variant: SettingsRangeVariant.slider,
     range: [0, 0.5],
     step: 0.125
   }
@@ -106,7 +107,7 @@ spacing: {
 
 ### ParaIndent (optional)
 
-This allows to customize the range for paragraph indents.
+This allows to customize the range for paragraph indents and its variant.
 
 For instance: 
 
@@ -114,6 +115,7 @@ For instance:
 spacing: {
   ...
   paraIndent: {
+    variant: SettingsRangeVariant.numberField,
     range: [0, 3],
     step: 0.5
   }
@@ -122,7 +124,7 @@ spacing: {
 
 ### ParaSpacing (optional)
 
-This allows to customize the range for paragraph spacing/margins.
+This allows to customize the range for paragraph spacing/margins and its variant.
 
 For instance: 
 
@@ -130,6 +132,7 @@ For instance:
 spacing: {
   ...
   paraSpacing: {
+    variant: SettingsRangeVariant.numberField,
     range: [0, 2],
     step: 0.5
   }
@@ -138,7 +141,7 @@ spacing: {
 
 ### wordSpacing (optional)
 
-This allows to customize the range for word spacing.
+This allows to customize the range for word spacing and its variant.
 
 For instance: 
 
@@ -146,6 +149,7 @@ For instance:
 spacing: {
   ...
   wordSpacing: {
+    variant: SettingsRangeVariant.slider,
     range: [0, 1],
     step: 0.125
   }
