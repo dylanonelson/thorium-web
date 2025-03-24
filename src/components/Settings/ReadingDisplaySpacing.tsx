@@ -4,8 +4,6 @@ import { RSPrefs } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import settingsStyles from "../assets/styles/readerSettings.module.css";
-
 import { 
   defaultSpacingSettingsMain, 
   defaultSpacingSettingsOrder, 
@@ -14,9 +12,7 @@ import {
   SpacingSettingsKeys 
 } from "@/models/settings";
 
-import { Heading } from "react-aria-components";
-
-import { AdvancedIcon } from "./Wrappers/AdvancedIcon";
+import { ReadingDisplayGroupWrapper } from "./Wrappers/ReadingDisplayGroupWrapper";
 
 import { ReadingDisplayLetterSpacing } from "./ReadingDisplayLetterSpacing";
 import { ReadingDisplayLineHeight } from "./ReadingDisplayLineHeight";
@@ -27,8 +23,6 @@ import { ReadingDisplayWordSpacing } from "./ReadingDisplayWordSpacing";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
-
-import classNames from "classnames";
 
 const SpacingSettingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } = {
   [SpacingSettingsKeys.letterSpacing]: {
@@ -52,16 +46,6 @@ const SpacingSettingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } =
 }
 
 export const ReadingDisplaySpacing = () => {
-  const main = RSPrefs.settings.spacing?.main || defaultSpacingSettingsMain;
-  const displayOrder = RSPrefs.settings.spacing?.displayOrder !== undefined 
-    ? RSPrefs.settings.spacing?.displayOrder 
-    : defaultSpacingSettingsOrder;
-
-  const isAdvanced = (
-    main.length < Object.keys(SpacingSettingsMap).length && 
-    displayOrder && displayOrder.length > 0
-  );
-  
   const dispatch = useAppDispatch();
   
   const setSpacingContainer = useCallback(() => {
@@ -70,29 +54,21 @@ export const ReadingDisplaySpacing = () => {
 
   return (
     <>
-    <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }>
-      { isAdvanced && 
-        <Heading className={ classNames(settingsStyles.readerSettingsLabel, settingsStyles.readerSettingsGroupLabel) }>
-          { Locale.reader.settings.spacing.title }
-        </Heading> }
-      { main.map((key: SpacingSettingsKeys, index) => {
-        const { Comp } = SpacingSettingsMap[key];
-        return <Comp key={ key } standalone={ !isAdvanced || index !== 0 } />;
-      }) }
-      { isAdvanced && (
-        <AdvancedIcon
-          className={ settingsStyles.readerSettingsAdvancedIcon }
-          ariaLabel={ Locale.reader.settings.spacing.advanced.trigger }
-          placement="top"
-          tooltipLabel={ Locale.reader.settings.spacing.advanced.tooltip }
-          onPressCallback={ setSpacingContainer }
-        />
-      ) }
-    </div>
+     <ReadingDisplayGroupWrapper 
+      heading={ Locale.reader.settings.spacing.title }
+      moreLabel={ Locale.reader.settings.spacing.advanced.trigger }
+      moreTooltip={ Locale.reader.settings.spacing.advanced.tooltip }
+      onMorePressCallback={ setSpacingContainer }
+      settingsMap={ SpacingSettingsMap }
+      prefs={ RSPrefs.settings.spacing }
+      defaultPrefs={ {
+        main: defaultSpacingSettingsMain, 
+        displayOrder: defaultSpacingSettingsOrder
+      }}
+    />
     </>
   );
 }
-
 
 export const ReadingDisplaySpacingContainer = () => {
   const displayOrder = RSPrefs.settings.spacing?.displayOrder || defaultSpacingSettingsOrder;
