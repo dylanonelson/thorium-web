@@ -20,6 +20,7 @@ export enum SettingsKeys {
   lineHeight = "lineHeight",
   paraIndent = "paraIndent",
   paraSpacing = "paraSpacing",
+  publisherStyles = "publisherStyles",
   spacing = "spacing",
   text = "text",
   theme = "theme",
