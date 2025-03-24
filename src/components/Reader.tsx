@@ -279,7 +279,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       if (navLayout() === EPUBLayout.reflowable) {
         // Due to the lack of injection API we need to force scroll 
         // to mount/unmount scroll affordances ATM
-        const currentLocator = localData.get(localDataKey.current);
+      //  const currentLocator = localData.get(localDataKey.current);
         
         const debouncedHandleProgression = debounce(
           async () => {
@@ -287,9 +287,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             // We need to debounce because of swipe, which has a 150ms animation in Column Snapper, 
             // otherwise the iframe will stay hidden since we must change the ReadingProgression,
             // that requires re-loading the frame pool
-            if (currentLocator?.href !== locator.href) {
+        /*    if (currentLocator?.href !== locator.href) {
               await applyScroll(!cache.current.settings.paginated);
-            } 
+            } */
             handleProgression(locator);
             localData.set(localDataKey.current, locator);
           }, 250);
