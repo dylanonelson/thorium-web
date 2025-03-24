@@ -18,6 +18,7 @@ import { ReadingDisplayAlign } from "./ReadingDisplayAlign";
 import { ReadingDisplayFontFamily } from "./ReadingDisplayFontFamily";
 import { ReadingDisplayFontWeight } from "./ReadingDisplayFontWeight";
 import { ReadingDisplayHyphens } from "./ReadingDisplayHyphens";
+import { ReadingDisplayNormalizeText } from "./ReadingDisplayNormalizeText";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
@@ -34,6 +35,9 @@ const TextSettingsMap: { [key in TextSettingsKeys]: ISettingsMapObject } = {
   },
   [TextSettingsKeys.hyphens]: {
     Comp: ReadingDisplayHyphens
+  },
+  [TextSettingsKeys.normalizeText]: {
+    Comp: ReadingDisplayNormalizeText
   }
 }
 

@@ -42,6 +42,7 @@ import { ReadingDisplayParaSpacing } from "./Settings/ReadingDisplayParaSpacing"
 import { ReadingDisplayPublisherStyles } from "./Settings/ReadingDisplayPublisherStyles";
 import { ReadingDisplaySpacing, ReadingDisplaySpacingContainer } from "./Settings/ReadingDisplaySpacing";
 import { ReadingDisplayText, ReadingDisplayTextContainer } from "./Settings/ReadingDisplayText";
+import { ReadingDisplayNormalizeText } from "./Settings/ReadingDisplayNormalizeText";
 import { ReadingDisplayTheme } from "./Settings/ReadingDisplayTheme";
 import { ReadingDisplayWordSpacing } from "./Settings/ReadingDisplayWordSpacing";
 import { ReadingDisplayZoom } from "./Settings/ReadingDisplayZoom";
@@ -91,6 +92,9 @@ const SettingsMap: { [key in SettingsKeys]: ISettingsMapObject } = {
   },
   [SettingsKeys.text]: {
     Comp: ReadingDisplayText
+  },
+  [SettingsKeys.normalizeText]: {
+    Comp: ReadingDisplayNormalizeText
   },
   [SettingsKeys.theme]: {
     Comp: ReadingDisplayTheme,
