@@ -43,6 +43,10 @@ Enums `TextSettingsKeys` and `SpacingSettingsKeys` list which components can be 
 
 When used, a button will be added to access the nested components.
 
+## Zoom (optional)
+
+The zoom object is responsible for the zoom/font-size Component. It accepts a `variant` from enum `SettingsRangeVariant`.
+
 ## Text (optional)
 
 The text object is responsible for the advanced Text Component, which provides an extra container to display more options.
@@ -88,6 +92,8 @@ spacing: {
 }
 ```
 
+**Warning:** Please make sure to verify the NumberField variant is working properly with your step as the React Aria Component used may encounter issues when rounding values, resulting in a broken setting.
+
 ### LineHeight (optional)
 
 This allows to customize the value for line-heights. It must be a ratio (`number`).
@@ -122,6 +128,8 @@ spacing: {
 }
 ```
 
+**Warning:** Please make sure to verify the NumberField variant is working properly with your step as the React Aria Component used may encounter issues when rounding values, resulting in a broken setting.
+
 ### ParaSpacing (optional)
 
 This allows to customize the range for paragraph spacing/margins and its variant.
@@ -139,6 +147,8 @@ spacing: {
 }
 ```
 
+**Warning:** Please make sure to verify the NumberField variant is working properly with your step as the React Aria Component used may encounter issues when rounding values, resulting in a broken setting.
+
 ### wordSpacing (optional)
 
 This allows to customize the range for word spacing and its variant.
@@ -155,3 +165,5 @@ spacing: {
   }
 }
 ```
+
+**Warning:** Please make sure to verify the NumberField variant is working properly with your step as the React Aria Component used may encounter issues when rounding values, resulting in a broken setting.
