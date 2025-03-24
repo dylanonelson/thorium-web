@@ -6,7 +6,7 @@ import Locale from "../../resources/locales/en.json";
 
 import { 
   defaultTextSettingsMain, 
-  defaultTextSettingsOrder, 
+  defaultTextSettingsSubpanel, 
   ISettingsMapObject, 
   SettingsContainerKeys, 
   TextSettingsKeys 
@@ -59,7 +59,7 @@ export const ReadingDisplayText = () => {
       prefs={ RSPrefs.settings.text }
       defaultPrefs={ {
         main: defaultTextSettingsMain, 
-        displayOrder: defaultTextSettingsOrder
+        subPanel: defaultTextSettingsSubpanel
       }}
     />
     </>
@@ -67,7 +67,7 @@ export const ReadingDisplayText = () => {
 }
 
 export const ReadingDisplayTextContainer = () => {
-  const displayOrder = RSPrefs.settings.text?.displayOrder || defaultTextSettingsOrder;
+  const displayOrder = RSPrefs.settings.text?.subPanel || defaultTextSettingsSubpanel;
 
   return(
     <>
