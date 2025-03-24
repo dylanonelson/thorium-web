@@ -64,29 +64,39 @@ export const defaultSpacingSettingsOrder = [
   SpacingSettingsKeys.letterSpacing
 ]
 
-export interface ISettingsRangePref {
-  range: [number, number];
-  step: number
+export enum SettingsRangeVariant {
+  slider = "slider",
+  numberField = "numberField"
 }
 
-export const defaultParaSpacing: ISettingsRangePref = {
+export interface ISettingsRangePref {
+  variant?: SettingsRangeVariant;
+  range?: [number, number];
+  step?: number;
+}
+
+export const defaultParaSpacing: Required<ISettingsRangePref> = {
+  variant: SettingsRangeVariant.slider,
   range: [0, 3],
   step: 0.5
 }
 
-export const defaultParaIndent: ISettingsRangePref = {
+export const defaultParaIndent: Required<ISettingsRangePref> = {
+  variant: SettingsRangeVariant.slider,
   range: [0, 2],
   step: 0.25
 }
 
-export const defaultWordSpacing: ISettingsRangePref = {
+export const defaultWordSpacing: Required<ISettingsRangePref> = {
+  variant: SettingsRangeVariant.numberField,
   range: [0, 1],
-  step: 0.125
+  step: 0.1
 }
 
-export const defaultLetterSpacing: ISettingsRangePref = {
+export const defaultLetterSpacing: Required<ISettingsRangePref> = {
+  variant: SettingsRangeVariant.numberField,
   range: [0, 0.5],
-  step: 0.0625
+  step: 0.05
 }
 
 export const defaultLineHeights = {
@@ -114,9 +124,9 @@ export interface IAdvancedDisplayProps {
 }
 
 export interface ISettingsSteppersProps {
-  decrementIcon: ComponentType<SVGProps<SVGElement>>;
+  decrementIcon?: ComponentType<SVGProps<SVGElement>> | null;
   decrementLabel: string;
-  incrementIcon: ComponentType<SVGProps<SVGElement>>;
+  incrementIcon?: ComponentType<SVGProps<SVGElement>> | null;
   incrementLabel: string;
 }
 
