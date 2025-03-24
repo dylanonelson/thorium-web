@@ -12,10 +12,7 @@ import {
   TextSettingsKeys 
 } from "@/models/settings";
 
-import settingsStyles from "../assets/styles/readerSettings.module.css";
-
-import { Heading } from "react-aria-components";
-import { AdvancedIcon } from "./Wrappers/AdvancedIcon";
+import { ReadingDisplayGroupWrapper } from "./Wrappers/ReadingDisplayGroupWrapper";
 
 import { ReadingDisplayAlign } from "./ReadingDisplayAlign";
 import { ReadingDisplayFontFamily } from "./ReadingDisplayFontFamily";
@@ -24,8 +21,6 @@ import { ReadingDisplayHyphens } from "./ReadingDisplayHyphens";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
-
-import classNames from "classnames";
 
 const TextSettingsMap: { [key in TextSettingsKeys]: ISettingsMapObject } = {
   [TextSettingsKeys.align]: {
@@ -43,16 +38,6 @@ const TextSettingsMap: { [key in TextSettingsKeys]: ISettingsMapObject } = {
 }
 
 export const ReadingDisplayText = () => {
-  const main = RSPrefs.settings.text?.main || defaultTextSettingsMain;
-  const displayOrder = RSPrefs.settings.text?.displayOrder !== undefined 
-    ? RSPrefs.settings.text?.displayOrder 
-    : defaultTextSettingsOrder;
-
-  const isAdvanced = (
-    main.length < Object.keys(TextSettingsMap).length && 
-    displayOrder && displayOrder.length > 0
-  );
-
   const dispatch = useAppDispatch();
 
   const setTextContainer = useCallback(() => {
@@ -61,25 +46,18 @@ export const ReadingDisplayText = () => {
 
   return(
     <>
-    <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }>
-      { isAdvanced && 
-        <Heading className={ classNames(settingsStyles.readerSettingsLabel, settingsStyles.readerSettingsGroupLabel) }>
-          { Locale.reader.settings.text.title }
-        </Heading> }
-      { main.map((key: TextSettingsKeys, index) => {
-        const { Comp } = TextSettingsMap[key];
-        return <Comp key={ key } standalone={ !isAdvanced || index !== 0 } />;
-      }) }
-      { isAdvanced && (
-        <AdvancedIcon
-          className={ settingsStyles.readerSettingsAdvancedIcon }
-          ariaLabel={ Locale.reader.settings.text.advanced.trigger }
-          placement="top"
-          tooltipLabel={ Locale.reader.settings.text.advanced.tooltip }
-          onPressCallback={ setTextContainer }
-        />
-      ) }
-    </div>
+    <ReadingDisplayGroupWrapper 
+      heading={ Locale.reader.settings.text.title }
+      moreLabel={ Locale.reader.settings.text.advanced.trigger }
+      moreTooltip={ Locale.reader.settings.text.advanced.tooltip }
+      onMorePressCallback={ setTextContainer }
+      settingsMap={ TextSettingsMap }
+      prefs={ RSPrefs.settings.text }
+      defaultPrefs={ {
+        main: defaultTextSettingsMain, 
+        displayOrder: defaultTextSettingsOrder
+      }}
+    />
     </>
   )
 }

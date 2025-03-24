@@ -69,6 +69,23 @@ export enum SettingsRangeVariant {
   numberField = "numberField"
 }
 
+export interface ISettingsTextPref {
+  main?: TextSettingsKeys[];
+  displayOrder?: TextSettingsKeys[] | null;
+}
+
+export interface ISettingsSpacingPref {
+  main?: SpacingSettingsKeys[];
+  displayOrder?: SpacingSettingsKeys[] | null;
+  letterSpacing?: ISettingsRangePref;
+  lineHeight?: {
+    [key in Exclude<ReadingDisplayLineHeightOptions, ReadingDisplayLineHeightOptions.publisher>]: number
+  };
+  paraIndent?: ISettingsRangePref;
+  paraSpacing?: ISettingsRangePref;
+  wordSpacing?: ISettingsRangePref;
+}
+
 export interface ISettingsRangePref {
   variant?: SettingsRangeVariant;
   range?: [number, number];
@@ -108,6 +125,19 @@ export const defaultLineHeights = {
 export interface ISettingsMapObject {
   Comp: React.FC<IAdvancedDisplayProps> | React.ComponentType<any>;
   props?: any;
+}
+
+export interface IReadingDisplayGroupWrapperProps {
+  heading: string;
+  moreLabel: string;
+  moreTooltip: string;
+  onMorePressCallback: (e: PressEvent) => void;
+  settingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } | { [key in TextSettingsKeys]: ISettingsMapObject };
+  prefs?: ISettingsTextPref | ISettingsSpacingPref;
+  defaultPrefs: {
+    main: TextSettingsKeys[] | SpacingSettingsKeys[];
+    displayOrder: TextSettingsKeys[] | SpacingSettingsKeys[];
+  };
 }
 
 export interface IAdvancedIconProps {
