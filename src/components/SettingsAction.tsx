@@ -39,6 +39,7 @@ import { ReadingDisplayLetterSpacing } from "./Settings/ReadingDisplayLetterSpac
 import { ReadingDisplayLineHeight } from "./Settings/ReadingDisplayLineHeight";
 import { ReadingDisplayParaIndent } from "./Settings/ReadingDisplayParaIndent";
 import { ReadingDisplayParaSpacing } from "./Settings/ReadingDisplayParaSpacing";
+import { ReadingDisplayPublisherStyles } from "./Settings/ReadingDisplayPublisherStyles";
 import { ReadingDisplaySpacing, ReadingDisplaySpacingContainer } from "./Settings/ReadingDisplaySpacing";
 import { ReadingDisplayText, ReadingDisplayTextContainer } from "./Settings/ReadingDisplayText";
 import { ReadingDisplayTheme } from "./Settings/ReadingDisplayTheme";
@@ -81,6 +82,9 @@ const SettingsMap: { [key in SettingsKeys]: ISettingsMapObject } = {
   },
   [SettingsKeys.paraSpacing]: {
     Comp: ReadingDisplayParaSpacing
+  },
+  [SettingsKeys.publisherStyles]: {
+    Comp: ReadingDisplayPublisherStyles
   },
   [SettingsKeys.spacing]: {
     Comp: ReadingDisplaySpacing
