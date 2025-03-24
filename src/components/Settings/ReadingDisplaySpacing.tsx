@@ -53,7 +53,14 @@ const SpacingSettingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } =
 
 export const ReadingDisplaySpacing = () => {
   const main = RSPrefs.settings.spacing?.main || defaultSpacingSettingsMain;
-  const isAdvanced = main.length < Object.keys(SpacingSettingsMap).length;
+  const displayOrder = RSPrefs.settings.spacing?.displayOrder !== undefined 
+    ? RSPrefs.settings.spacing?.displayOrder 
+    : defaultSpacingSettingsOrder;
+
+  const isAdvanced = (
+    main.length < Object.keys(SpacingSettingsMap).length && 
+    displayOrder && displayOrder.length > 0
+  );
   
   const dispatch = useAppDispatch();
   

@@ -78,11 +78,11 @@ export interface IRSPrefs {
     };
     text?: {
       main?: TextSettingsKeys[];
-      displayOrder?: TextSettingsKeys[];
+      displayOrder?: TextSettingsKeys[] | null;
     };
     spacing?: {
       main?: SpacingSettingsKeys[];
-      displayOrder?: SpacingSettingsKeys[];
+      displayOrder?: SpacingSettingsKeys[] | null;
       letterSpacing?: ISettingsRangePref;
       lineHeight?: {
         [key in Exclude<ReadingDisplayLineHeightOptions, ReadingDisplayLineHeightOptions.publisher>]: number

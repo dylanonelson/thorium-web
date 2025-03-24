@@ -44,7 +44,14 @@ const TextSettingsMap: { [key in TextSettingsKeys]: ISettingsMapObject } = {
 
 export const ReadingDisplayText = () => {
   const main = RSPrefs.settings.text?.main || defaultTextSettingsMain;
-  const isAdvanced = main.length < Object.keys(TextSettingsMap).length;
+  const displayOrder = RSPrefs.settings.text?.displayOrder !== undefined 
+    ? RSPrefs.settings.text?.displayOrder 
+    : defaultTextSettingsOrder;
+
+  const isAdvanced = (
+    main.length < Object.keys(TextSettingsMap).length && 
+    displayOrder && displayOrder.length > 0
+  );
 
   const dispatch = useAppDispatch();
 
