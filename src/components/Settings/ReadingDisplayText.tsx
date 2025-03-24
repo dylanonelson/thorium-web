@@ -56,7 +56,7 @@ export const ReadingDisplayText = () => {
     <>
     <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }>
       { isAdvanced && 
-        <Heading className={ settingsStyles.readerSettingsLabel }>
+        <Heading className={ classNames(settingsStyles.readerSettingsLabel, settingsStyles.readerSettingsGroupLabel) }>
           { Locale.reader.settings.text.title }
         </Heading> }
       { main.map((key: TextSettingsKeys, index) => {
