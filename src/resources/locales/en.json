@@ -139,6 +139,21 @@
         "increase": "Increase font weight",
         "decrease": "Decrease font weight"
       },
+      "normalizeText": {
+        "title": "Text normalization",
+        "label": "Remove all text formatting"
+      },
+      "align": {
+        "title": "Text alignment",
+        "publisher": "Default",
+        "left": "Left",
+        "justify": "Justify",
+        "right": "Right"
+      },
+      "hyphens": {
+        "title": "Hyphenation",
+        "label": "Enable hyphens"
+      },
       "text": {
         "title": "Text",
         "advanced": {
@@ -193,17 +208,6 @@
         "auto": "Auto",
         "one": "1 col",
         "two": "2 cols"
-      },
-      "align": {
-        "title": "Text alignment",
-        "publisher": "Default",
-        "left": "Left",
-        "justify": "Justify",
-        "right": "Right"
-      },
-      "hyphens": {
-        "title": "Hyphenation",
-        "label": "Enable hyphens"
       }
     }
   }

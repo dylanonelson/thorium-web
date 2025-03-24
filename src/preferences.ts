@@ -315,6 +315,7 @@ export const RSPrefs: IRSPrefs = {
       displayOrder: [
         TextSettingsKeys.fontFamily,
         TextSettingsKeys.fontWeight,
+        TextSettingsKeys.normalizeText,
         TextSettingsKeys.align,
         TextSettingsKeys.hyphens
       ]

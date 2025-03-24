@@ -48,6 +48,7 @@ import {
   setLayoutStrategy, 
   setLetterSpacing, 
   setLineHeight, 
+  setNormalizeText, 
   setParaIndent, 
   setParaSpacing, 
   setPublisherStyles, 
@@ -346,6 +347,14 @@ export const useEpubNavigator = () => {
     dispatch(setHyphens(value));
   }, [dispatch]);
 
+  const applyNormalizeText = useCallback(async (value: boolean) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences({
+      publisherStyles: false,
+      textNormalization: value
+    }));
+    dispatch(setNormalizeText(value));
+  }, [dispatch]);
+
   const handleProgression = useCallback((locator: Locator) => {
     const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
       
@@ -494,6 +503,7 @@ export const useEpubNavigator = () => {
     applyLineHeight,
     applyTextAlign, 
     applyHyphens, 
+    applyNormalizeText, 
     applySpacingDefaults,
     nullifyMaxChars,
     applyZoom,

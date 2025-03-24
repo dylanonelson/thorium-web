@@ -94,6 +94,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
   const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
+  const normalizeText = useAppSelector(state => state.settings.normalizeText);
   const theme = useAppSelector(state => state.theming.theme);
   const previousTheme = usePrevious(theme);
   const colorScheme = useAppSelector(state => state.theming.colorScheme);
@@ -125,7 +126,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       letterSpacing: letterSpacing,
       wordSpacing: wordSpacing,
       layoutStrategy: layoutStrategy,
-      theme: theme
+      theme: theme,
+      normalizeText: normalizeText
     },
     colorScheme: colorScheme,
     reducedMotion: reducedMotion
@@ -405,6 +407,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   useEffect(() => {
     cache.current.settings.theme = theme;
   }, [theme]);
+
+  useEffect(() => {
+    cache.current.settings.normalizeText = normalizeText;
+  }, [normalizeText]);
 
   useEffect(() => {
     cache.current.arrowsOccupySpace = arrowsOccupySpace || false;

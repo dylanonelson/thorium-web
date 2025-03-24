@@ -17,6 +17,7 @@ const initialState: ISettingsState = {
   letterSpacing: null,
   wordSpacing: null,
   publisherStyles: true,
+  normalizeText: false,
   layoutStrategy: RSLayoutStrategy.lineLength,
 }
 
@@ -63,6 +64,9 @@ export const settingsSlice = createSlice({
     setPublisherStyles: (state, action) => {
       state.publisherStyles = action.payload
     },
+    setNormalizeText: (state, action) => {
+      state.normalizeText = action.payload
+    },
     setLayoutStrategy: (state, action) => {
       state.layoutStrategy = action.payload
     }
@@ -84,7 +88,8 @@ export const {
   setLetterSpacing,
   setWordSpacing,
   setPublisherStyles,
-  setLayoutStrategy,
+  setNormalizeText,
+  setLayoutStrategy
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

@@ -19,5 +19,6 @@ export interface ISettingsState {
   letterSpacing: number | null;
   wordSpacing: number | null;
   publisherStyles: boolean;
+  normalizeText: boolean;
   layoutStrategy: RSLayoutStrategy;
 }

@@ -18,6 +18,7 @@ export enum SettingsKeys {
   layout = "layout",
   letterSpacing = "letterSpacing",
   lineHeight = "lineHeight",
+  normalizeText = "normalizeText",
   paraIndent = "paraIndent",
   paraSpacing = "paraSpacing",
   publisherStyles = "publisherStyles",
@@ -32,7 +33,8 @@ export enum TextSettingsKeys {
   align = "align",
   fontFamily = "fontFamily",
   fontWeight = "fontWeight",
-  hyphens = "hyphens"
+  hyphens = "hyphens",
+  normalizeText = "normalizeText"
 }
 
 export const defaultTextSettingsMain = [TextSettingsKeys.fontFamily];
@@ -40,6 +42,7 @@ export const defaultTextSettingsMain = [TextSettingsKeys.fontFamily];
 export const defaultTextSettingsOrder = [
   TextSettingsKeys.fontFamily,
   TextSettingsKeys.fontWeight,
+  TextSettingsKeys.normalizeText,
   TextSettingsKeys.align,
   TextSettingsKeys.hyphens
 ]
@@ -205,4 +208,5 @@ export interface IRCSSSettings {
   wordSpacing: number | null;
   layoutStrategy: RSLayoutStrategy;
   theme: ThemeKeys;
+  normalizeText: boolean;
 }
