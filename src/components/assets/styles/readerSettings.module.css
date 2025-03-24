@@ -31,10 +31,14 @@
   margin: 0;
 }
 
+.readerSettingsGroupLabel {
+  padding-top: calc(var(--icon-size, 24px) * (1/3));
+}
+
 .readerSettingsRadioWrapper,
 .readerSettingsGroupWrapper {
   display: flex;
-  gap: var(--layout-spacing);
+  gap: var(--layout-spacing) calc(var(--layout-spacing) / 2);
   margin: var(--layout-spacing) 0;
   text-align: center;
   border-radius: var(--layout-radius);

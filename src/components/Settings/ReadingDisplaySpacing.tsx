@@ -65,7 +65,7 @@ export const ReadingDisplaySpacing = () => {
     <>
     <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }>
       { isAdvanced && 
-        <Heading className={ settingsStyles.readerSettingsLabel }>
+        <Heading className={ classNames(settingsStyles.readerSettingsLabel, settingsStyles.readerSettingsGroupLabel) }>
           { Locale.reader.settings.spacing.title }
         </Heading> }
       { main.map((key: SpacingSettingsKeys, index) => {
