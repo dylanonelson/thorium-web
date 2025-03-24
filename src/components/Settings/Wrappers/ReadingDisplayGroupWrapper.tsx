@@ -22,9 +22,9 @@ export const ReadingDisplayGroupWrapper: React.FC<IReadingDisplayGroupWrapperPro
   defaultPrefs
 }) => {
   const main = prefs?.main || defaultPrefs.main;
-    const displayOrder = prefs?.displayOrder !== undefined 
-      ? prefs.displayOrder 
-      : defaultPrefs.displayOrder;
+    const displayOrder = prefs?.subPanel !== undefined 
+      ? prefs.subPanel 
+      : defaultPrefs.subPanel;
   
     const isAdvanced = (
       main.length < Object.keys(settingsMap).length && 

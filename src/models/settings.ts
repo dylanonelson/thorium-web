@@ -39,7 +39,7 @@ export enum TextSettingsKeys {
 
 export const defaultTextSettingsMain = [TextSettingsKeys.fontFamily];
 
-export const defaultTextSettingsOrder = [
+export const defaultTextSettingsSubpanel = [
   TextSettingsKeys.fontFamily,
   TextSettingsKeys.fontWeight,
   TextSettingsKeys.normalizeText,
@@ -58,7 +58,7 @@ export enum SpacingSettingsKeys {
 
 export const defaultSpacingSettingsMain = [SpacingSettingsKeys.lineHeight];
 
-export const defaultSpacingSettingsOrder = [
+export const defaultSpacingSettingsSubpanel = [
   SpacingSettingsKeys.publisherStyles,
   SpacingSettingsKeys.lineHeight,
   SpacingSettingsKeys.paraSpacing,
@@ -74,12 +74,12 @@ export enum SettingsRangeVariant {
 
 export interface ISettingsTextPref {
   main?: TextSettingsKeys[];
-  displayOrder?: TextSettingsKeys[] | null;
+  subPanel?: TextSettingsKeys[] | null;
 }
 
 export interface ISettingsSpacingPref {
   main?: SpacingSettingsKeys[];
-  displayOrder?: SpacingSettingsKeys[] | null;
+  subPanel?: SpacingSettingsKeys[] | null;
   letterSpacing?: ISettingsRangePref;
   lineHeight?: {
     [key in Exclude<ReadingDisplayLineHeightOptions, ReadingDisplayLineHeightOptions.publisher>]: number
@@ -139,7 +139,7 @@ export interface IReadingDisplayGroupWrapperProps {
   prefs?: ISettingsTextPref | ISettingsSpacingPref;
   defaultPrefs: {
     main: TextSettingsKeys[] | SpacingSettingsKeys[];
-    displayOrder: TextSettingsKeys[] | SpacingSettingsKeys[];
+    subPanel: TextSettingsKeys[] | SpacingSettingsKeys[];
   };
 }
 

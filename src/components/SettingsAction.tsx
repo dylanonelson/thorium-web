@@ -11,9 +11,9 @@ import {
 } from "@/models/actions";
 import { 
   defaultSpacingSettingsMain, 
-  defaultSpacingSettingsOrder, 
+  defaultSpacingSettingsSubpanel, 
   defaultTextSettingsMain, 
-  defaultTextSettingsOrder, 
+  defaultTextSettingsSubpanel, 
   ISettingsMapObject, 
   SettingsContainerKeys, 
   SettingsKeys, 
@@ -138,14 +138,14 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
   const isTextNested = (key: SettingsKeys) => {
     return [
       RSPrefs.settings.text?.main || defaultTextSettingsMain,
-      RSPrefs.settings.text?.displayOrder || defaultTextSettingsOrder,
+      RSPrefs.settings.text?.subPanel || defaultTextSettingsSubpanel,
     ].some(arr => arr.includes(key as unknown as TextSettingsKeys));
   };
 
   const isSpacingNested = (key: SettingsKeys) => {
     return [
       RSPrefs.settings.spacing?.main || defaultSpacingSettingsMain,
-      RSPrefs.settings.spacing?.displayOrder || defaultSpacingSettingsOrder,
+      RSPrefs.settings.spacing?.subPanel || defaultSpacingSettingsSubpanel,
     ].some(arr => arr.includes(key as unknown as SpacingSettingsKeys));
   };
 

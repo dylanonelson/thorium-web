@@ -312,7 +312,7 @@ export const RSPrefs: IRSPrefs = {
       SettingsKeys.columns
     ],
     text: {
-      displayOrder: [
+      subPanel: [
         TextSettingsKeys.fontFamily,
         TextSettingsKeys.fontWeight,
         TextSettingsKeys.normalizeText,

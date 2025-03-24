@@ -6,7 +6,7 @@ import Locale from "../../resources/locales/en.json";
 
 import { 
   defaultSpacingSettingsMain, 
-  defaultSpacingSettingsOrder, 
+  defaultSpacingSettingsSubpanel, 
   ISettingsMapObject, 
   SettingsContainerKeys, 
   SpacingSettingsKeys 
@@ -63,7 +63,7 @@ export const ReadingDisplaySpacing = () => {
       prefs={ RSPrefs.settings.spacing }
       defaultPrefs={ {
         main: defaultSpacingSettingsMain, 
-        displayOrder: defaultSpacingSettingsOrder
+        subPanel: defaultSpacingSettingsSubpanel
       }}
     />
     </>
@@ -71,7 +71,7 @@ export const ReadingDisplaySpacing = () => {
 }
 
 export const ReadingDisplaySpacingContainer = () => {
-  const displayOrder = RSPrefs.settings.spacing?.displayOrder || defaultSpacingSettingsOrder;
+  const displayOrder = RSPrefs.settings.spacing?.subPanel || defaultSpacingSettingsSubpanel;
 
   return(
     <>

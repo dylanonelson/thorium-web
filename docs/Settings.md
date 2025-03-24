@@ -57,9 +57,9 @@ The `main` property accepts an array of `TextSettingsKeys`. These components wil
 
 If all nestable components are listed in `main`, then the Text component behaves as if all its nested components are standalone, and will not create a button to access them – as they are already accessible.
 
-### DisplayOrder (optional)
+### SubPanel (optional)
 
-The components to display in the “sub-panel”, and their order. Note components listed in `main` will not automatically be added to this array.
+The `subPanel` property accepts and array of the keys for components to display in the “sub-panel”, and their order. Note components listed in `main` will not automatically be added to this array.
 
 ## Spacing (optional)
 
@@ -71,9 +71,9 @@ The `main` property accepts an array of `SpacingSettingsKeys`. These components 
 
 If all nestable components are listed in `main`, then the Spacing component behaves as if all its nested components are standalone, and will not create a button to access them – as they are already accessible.
 
-### DisplayOrder (optional)
+### SubPanel (optional)
 
-The components to display in the “sub-panel”, and their order. Note components listed in `main` will not automatically be added to this array.
+The `subPanel` property accepts and array of the keys for components to display in the “sub-panel”, and their order. Note components listed in `main` will not automatically be added to this array.
 
 ### LetterSpacing (optional)
 
