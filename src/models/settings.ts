@@ -2,6 +2,7 @@ import { ComponentType, SVGProps } from "react";
 import { ReadingDisplayAlignOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./layout";
 import { ThemeKeys } from "./theme";
 import { PressEvent, TooltipProps } from "react-aria-components";
+import { SheetHeaderVariant } from "./sheets";
 
 export enum SettingsContainerKeys {
   initial = "initial",
@@ -75,11 +76,13 @@ export enum SettingsRangeVariant {
 export interface ISettingsTextPref {
   main?: TextSettingsKeys[];
   subPanel?: TextSettingsKeys[] | null;
+  header?: SheetHeaderVariant;
 }
 
 export interface ISettingsSpacingPref {
   main?: SpacingSettingsKeys[];
   subPanel?: SpacingSettingsKeys[] | null;
+  header?: SheetHeaderVariant;
   letterSpacing?: ISettingsRangePref;
   lineHeight?: {
     [key in Exclude<ReadingDisplayLineHeightOptions, ReadingDisplayLineHeightOptions.publisher>]: number

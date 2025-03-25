@@ -2,7 +2,7 @@ import { IRSPrefs, ScrollAffordancePref, ScrollBackTo } from "./models/preferenc
 import { StaticBreakpoints } from "./models/staticBreakpoints";
 import { ShortcutMetaKeywords, ShortcutRepresentation } from "./models/shortcut";
 import { ActionKeys, ActionVisibility } from "./models/actions";
-import { SheetTypes } from "./models/sheets";
+import { SheetHeaderVariant, SheetTypes } from "./models/sheets";
 import { DockTypes, DockingKeys } from "./models/docking";
 import { ThemeKeys } from "./models/theme";
 import { LayoutDirection, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./models/layout";
@@ -312,6 +312,7 @@ export const RSPrefs: IRSPrefs = {
       SettingsKeys.columns
     ],
     text: {
+      header: SheetHeaderVariant.previous,
       subPanel: [
         TextSettingsKeys.fontFamily,
         TextSettingsKeys.fontWeight,
@@ -321,6 +322,7 @@ export const RSPrefs: IRSPrefs = {
       ]
     },
     spacing: {
+      header: SheetHeaderVariant.previous,
       lineHeight: {
         [ReadingDisplayLineHeightOptions.small]: 1.3,
         [ReadingDisplayLineHeightOptions.medium]: 1.5,

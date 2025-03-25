@@ -98,6 +98,8 @@ export interface ICloseButton {
   withTooltip?: string;
 }
 
+export type IBackButton = Omit<ICloseButton, "withTooltip">;
+
 export interface IActionTokens {
   visibility: ActionVisibility;
   shortcut: string | null;
