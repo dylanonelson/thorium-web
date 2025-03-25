@@ -15,7 +15,7 @@ export interface ISettingsState {
   layoutStrategy: RSLayoutStrategy;
   letterSpacing: number | null;
   lineHeight: ReadingDisplayLineHeightOptions;
-  lineLength: number | null;
+  lineLength: number[] | null;
   normalizeText: boolean;
   paraIndent: number | null;
   paraSpacing: number | null;
