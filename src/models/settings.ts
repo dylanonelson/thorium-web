@@ -156,6 +156,10 @@ export interface IAdvancedDisplayProps {
   standalone?: boolean;
 }
 
+export interface ILineLengthDisplayProps {
+  reversed?: boolean;
+}
+
 export interface ISettingsSteppersProps {
   decrementIcon?: ComponentType<SVGProps<SVGElement>> | null;
   decrementLabel: string;
@@ -193,20 +197,21 @@ export interface ISettingsSwitchProps {
 }
 
 export interface IRCSSSettings {
-  paginated: boolean;
+  align: ReadingDisplayAlignOptions | null;
   colCount: string;
+  fontFamily: string | null;
   fontSize: number;
   fontWeight: number;
-  fontFamily: string | null;
-  lineHeight: ReadingDisplayLineHeightOptions | null;
-  align: ReadingDisplayAlignOptions | null;
   hyphens: boolean | null;
+  letterSpacing: number | null;
+  lineLength: number | null;
+  lineHeight: ReadingDisplayLineHeightOptions | null;
+  layoutStrategy: RSLayoutStrategy;
+  normalizeText: boolean;
+  paginated: boolean;
   paraIndent: number | null;
   paraSpacing: number | null;
-  lineLength: number | null;
-  letterSpacing: number | null;
-  wordSpacing: number | null;
-  layoutStrategy: RSLayoutStrategy;
+  publisherStyles: boolean;
   theme: ThemeKeys;
-  normalizeText: boolean;
+  wordSpacing: number | null;
 }
