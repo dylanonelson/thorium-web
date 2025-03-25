@@ -46,6 +46,10 @@
           "trigger": "Close",
           "tooltip": "Close"
         }
+      },
+      "back": {
+        "trigger": "Go Back",
+        "tooltip": "Go Back"
       }
     },
     "navigation": {
