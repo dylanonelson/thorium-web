@@ -11,7 +11,7 @@ import RangeIcon from "../assets/icons/arrow_range.svg";
 import AddColumnIcon from "../assets/icons/add_column_right.svg";
 
 import { Label, Radio, RadioGroup } from "react-aria-components";
-import { ReadingDisplayMaxChars } from "./ReadingDisplayMaxChars";
+import { ReadingDisplayLineLengths } from "./ReadingDisplayLineLengths";
 
 import { useAppSelector } from "@/lib/hooks";
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
@@ -70,7 +70,7 @@ export const ReadingDisplayLayoutStrategy = () => {
         </Radio>
       </div>
     </RadioGroup>
-    <ReadingDisplayMaxChars />
+    <ReadingDisplayLineLengths />
     </>
   )
 }
