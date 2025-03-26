@@ -72,6 +72,7 @@ import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
 
 import debounce from "debounce";
+import { setTheme } from "@/lib/themeReducer";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -155,13 +156,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     goForward, 
     scrollBackTo, 
     listThemeProps, 
-    applyConstraint, 
     handleProgression,
     navLayout,
     currentLocator,
     getCframes,
     applyScroll,
-    applyTheme
+    submitPreferences
   } = useEpubNavigator();
 
   const activateImmersiveOnAction = useCallback(() => {
@@ -335,6 +335,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     textSelected: function (_selection: BasicTextSelection): void {},
   };
 
+  const applyConstraint = useCallback(async (value: number) => {
+    await submitPreferences({
+      constraint: value
+    })
+  }, [submitPreferences]);
+
   // Handling side effects on Navigator
 
   useEffect(() => {
@@ -434,12 +440,14 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     if (theme !== ThemeKeys.auto && previousTheme !== theme) return;
 
     const applyCurrentTheme = async () => {
-      await applyTheme(theme, colorScheme);
+      const themeProps = listThemeProps(theme, colorScheme);
+      await submitPreferences(themeProps);
+      dispatch(setTheme(theme));
     };
 
     applyCurrentTheme()
       .catch(console.error);
-  }, [theme, previousTheme, colorScheme, applyTheme]);
+  }, [theme, previousTheme, colorScheme, listThemeProps, submitPreferences, dispatch]);
 
   useEffect(() => {
     RSPrefs.direction && dispatch(setDirection(RSPrefs.direction));
