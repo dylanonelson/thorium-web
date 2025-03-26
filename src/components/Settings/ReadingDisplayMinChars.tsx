@@ -26,7 +26,7 @@ export const ReadingDisplayMinChars = () => {
       <div className={ settingsStyles.readerSettingsGroup }>
         <SwitchWrapper 
           label={ Locale.reader.layoutStrategy.minChars }
-          onChangeCallback={ async (isSelected: boolean) => await nullifyMinChars(isSelected ? null : lineLength) }
+          onChangeCallback={ async (isSelected: boolean) => await nullifyMinChars(isSelected ? null : lineLength || RSPrefs.typography.minimalLineLength) }
           isSelected={ minChars }
           isDisabled={ layoutStrategy !== RSLayoutStrategy.columns && colCount !== "2" }
         />

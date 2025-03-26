@@ -230,7 +230,7 @@ export const useEpubNavigator = () => {
   }, []);
 
   // TMP for testing purposes
-  const nullifyMinChars = useCallback(async (value: number | null) => {
+  const nullifyMinChars = useCallback(async (value: number | null | undefined) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences({
       minimalLineLength: value
     }));
@@ -238,7 +238,7 @@ export const useEpubNavigator = () => {
   }, [dispatch]);
 
   // TMP for testing purposes
-  const nullifyMaxChars = useCallback(async (value: number | null) => {
+  const nullifyMaxChars = useCallback(async (value: number | null | undefined) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences({
       maximalLineLength: value
     }));
