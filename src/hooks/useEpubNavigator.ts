@@ -23,10 +23,12 @@ import {
   EpubNavigator, 
   EpubNavigatorListeners, 
   EpubPreferences, 
+  EpubSettings, 
   FrameManager, 
   FXLFrameManager, 
   IEpubDefaults, 
   IEpubPreferences, 
+  IEpubSettings, 
   LayoutStrategy, 
   TextAlignment, 
   Theme 
@@ -176,35 +178,13 @@ export const useEpubNavigator = () => {
     return themeProps;
   }, []);
 
-  const applyTheme = useCallback(async (t: ThemeKeys, colorScheme?: ColorScheme) => {
-    const themeProps = listThemeProps(t, colorScheme);
-    await navigatorInstance?.submitPreferences(new EpubPreferences(themeProps));
-    dispatch(setTheme(t));
-  }, [dispatch, listThemeProps]);
-
-  const applyConstraint = useCallback(async (constraint: number) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      constraint: constraint
-    }))
+  const submitPreferences = useCallback(async (preferences: IEpubPreferences) => {
+    await navigatorInstance?.submitPreferences(new EpubPreferences(preferences));
   }, []);
 
-  const applyColCount = useCallback(async (count: string) => {    
-    const colCount = count === "auto" ? null : Number(count);
-    
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      columnCount: colCount
-    }));
-
-    dispatch(setColCount(count));
-  }, [dispatch]);
-
-  const applyLayoutStrategy = useCallback(async (strategy: RSLayoutStrategy) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      layoutStrategy: strategy as unknown as LayoutStrategy
-    }));
-
-    dispatch(setLayoutStrategy(strategy));
-  }, [dispatch]);
+  const getSetting = useCallback(async (settingKey: keyof IEpubPreferences) => {
+    return navigatorInstance?.settings[settingKey];
+  }, []);
 
   const applyZoom = useCallback(async (value: number) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences({
@@ -281,128 +261,6 @@ export const useEpubNavigator = () => {
     }
     return null;
   }, []);
-
-  const applyFontFamily = useCallback(async (fontFamily: { id: keyof typeof ReadingDisplayFontFamilyOptions, value: string | null }) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      fontFamily: fontFamily.value
-    }));
-    dispatch(setFontFamily(fontFamily.id));
-  }, [dispatch]);
-
-  const applyFontWeight = useCallback(async (value: number) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      fontWeight: value
-    }));
-    dispatch(setFontWeight(value));
-  }, [dispatch]);
-
-  const applyParaSpacing = useCallback(async (value: number | null) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      publisherStyles: false,
-      paragraphSpacing: value
-    }));
-    dispatch(setParaSpacing(value));
-    dispatch(setPublisherStyles(false));
-  }, [dispatch]);
-
-  const applyParaIndent = useCallback(async (value: number | null) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      publisherStyles: false,
-      paragraphIndent: value
-    }));
-    dispatch(setParaIndent(value));
-    dispatch(setPublisherStyles(false));
-  }, [dispatch]);
-
-  const applyWordSpacing = useCallback(async (value: number | null) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      publisherStyles: false,
-      wordSpacing: value
-    }));
-    dispatch(setWordSpacing(value));
-    dispatch(setPublisherStyles(false));
-  }, [dispatch]);
-
-  const applyLetterSpacing = useCallback(async (value: number | null) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      publisherStyles: false,
-      letterSpacing: value
-    }));
-    dispatch(setLetterSpacing(value));
-    dispatch(setPublisherStyles(false));
-  }, [dispatch]);
-
-  const applySpacingDefaults = useCallback(async (values: {
-    lineHeight: number | null,
-    paraSpacing: number | null,
-    paraIndent: number | null,
-    letterSpacing: number | null,
-    wordSpacing: number | null
-  }) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      publisherStyles: false,
-      lineHeight: values.lineHeight,
-      paragraphSpacing: values.paraSpacing,
-      paragraphIndent: values.paraIndent,
-      letterSpacing: values.letterSpacing,
-      wordSpacing: values.wordSpacing
-    }));
-  }, []);
-
-  const applyLineHeight = useCallback(async (value: string) => {
-    const computedValue = value === ReadingDisplayLineHeightOptions.publisher 
-      ? null 
-      : RSPrefs.settings.spacing?.lineHeight?.[value as Exclude<ReadingDisplayLineHeightOptions, ReadingDisplayLineHeightOptions.publisher>] ?? 
-          (value === ReadingDisplayLineHeightOptions.small 
-            ? defaultLineHeights[ReadingDisplayLineHeightOptions.small] 
-            : value === ReadingDisplayLineHeightOptions.medium 
-              ? defaultLineHeights[ReadingDisplayLineHeightOptions.medium] 
-              : defaultLineHeights[ReadingDisplayLineHeightOptions.large]
-          );
-
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      publisherStyles: false,
-      lineHeight: computedValue
-    }));
-    dispatch(setLineHeight(value));
-    dispatch(setPublisherStyles(false));
-  }, [dispatch]);
-
-  const applyTextAlign = useCallback(async (value: ReadingDisplayAlignOptions) => {
-    const textAlign: TextAlignment | null = value === ReadingDisplayAlignOptions.publisher 
-      ? null 
-      : value === ReadingDisplayAlignOptions.start 
-        ? TextAlignment.start 
-        : TextAlignment.justify;
-
-    const hyphens = textAlign === null 
-      ? null 
-      : (navigatorInstance?.settings.hyphens ?? textAlign === TextAlignment.justify);
-
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      publisherStyles: false,
-      textAlign: textAlign,
-      hyphens: hyphens
-    }));
-    dispatch(setAlign(value));
-    dispatch(setHyphens(hyphens));
-  }, [dispatch]);
-
-  const applyHyphens = useCallback(async (value: boolean) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      publisherStyles: false,
-      hyphens: value
-    }));
-    dispatch(setHyphens(value));
-  }, [dispatch]);
-
-  const applyNormalizeText = useCallback(async (value: boolean) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      publisherStyles: false,
-      textNormalization: value
-    }));
-    dispatch(setNormalizeText(value));
-  }, [dispatch]);
 
   const handleProgression = useCallback((locator: Locator) => {
     const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
@@ -539,21 +397,6 @@ export const useEpubNavigator = () => {
     applyScroll,
     scrollBackTo, 
     listThemeProps, 
-    applyTheme, 
-    applyConstraint, 
-    applyColCount, 
-    applyLayoutStrategy,
-    applyFontFamily, 
-    applyFontWeight,
-    applyParaSpacing,
-    applyParaIndent,
-    applyWordSpacing,
-    applyLetterSpacing,
-    applyLineHeight,
-    applyTextAlign, 
-    applyHyphens, 
-    applyNormalizeText, 
-    applySpacingDefaults,
     nullifyMinChars,
     nullifyMaxChars,
     applyZoom,
@@ -566,6 +409,9 @@ export const useEpubNavigator = () => {
     handleProgression,
     navLayout, 
     currentLocator,
+    preferencesEditor: navigatorInstance?.preferencesEditor,
+    getSetting,
+    submitPreferences,
     getCframes
   }
 }
