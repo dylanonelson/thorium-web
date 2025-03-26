@@ -1,5 +1,9 @@
 import { useCallback } from "react";
 
+import { RSPrefs } from "@/preferences";
+
+import { RSLayoutStrategy } from "@/models/layout";
+
 import Locale from "../../resources/locales/en.json";
 
 import { IAdvancedDisplayProps } from "@/models/settings";
@@ -15,7 +19,6 @@ import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTmpMaxChars, setTmpMinChars } from "@/lib/settingsReducer";
-import { RSLayoutStrategy } from "@/models/layout";
 
 // TMP Component that is not meant to be implemented AS-IS, for testing purposes
 export const ReadingDisplayLineLengths: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
@@ -71,7 +74,7 @@ export const ReadingDisplayLineLengths: React.FC<IAdvancedDisplayProps> = ({ sta
         decrementLabel: Locale.reader.layoutStrategy.minimalLineLength.decrease,
         incrementLabel: Locale.reader.layoutStrategy.minimalLineLength.increase
       }}
-      range={ lineLengthRangeConfig.range }
+      range={ [lineLengthRangeConfig.range[0], optimal || RSPrefs.typography.optimalLineLength] }
       step={ lineLengthRangeConfig.step }
       isDisabled={ layoutStrategy !== RSLayoutStrategy.columns && colCount !== "2" }
     /> 
@@ -103,7 +106,7 @@ export const ReadingDisplayLineLengths: React.FC<IAdvancedDisplayProps> = ({ sta
         decrementLabel: Locale.reader.layoutStrategy.maximalLineLength.decrease,
         incrementLabel: Locale.reader.layoutStrategy.maximalLineLength.increase
       }}
-      range={ lineLengthRangeConfig.range }
+      range={ [optimal || RSPrefs.typography.optimalLineLength, lineLengthRangeConfig.range[1]] }
       step={ lineLengthRangeConfig.step }
       isDisabled={ layoutStrategy !== RSLayoutStrategy.lineLength }
     /> 
