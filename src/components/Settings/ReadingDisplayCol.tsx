@@ -28,6 +28,7 @@ export const ReadingDisplayCol = () => {
 
     await submitPreferences({ columnCount: colCount });
     
+    // TODO: See how best to handle this for 2 -> 1 column if minimal null
     dispatch(setColCount(value));
   }, [submitPreferences, dispatch]);
 

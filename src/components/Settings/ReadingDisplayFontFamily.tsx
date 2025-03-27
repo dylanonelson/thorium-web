@@ -39,6 +39,7 @@ export const ReadingDisplayFontFamily: React.FC<IAdvancedDisplayProps> = ({ stan
     
     if (selectedOption) {
       await submitPreferences({ fontFamily: selectedOption.value });
+      
       const currentSetting = getSetting("fontFamily");
       const selectedOptionId = Object.keys(ReadingDisplayFontFamilyOptions).find(key => ReadingDisplayFontFamilyOptions[key as keyof typeof ReadingDisplayFontFamilyOptions] === currentSetting) as keyof typeof ReadingDisplayFontFamilyOptions;
       dispatch(setFontFamily(selectedOptionId || ReadingDisplayFontFamilyOptions.publisher));
