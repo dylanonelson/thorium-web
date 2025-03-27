@@ -46,8 +46,10 @@ export const ReadingDisplayAlign: React.FC<IAdvancedDisplayProps> = ({ standalon
         hyphens: hyphens
       });
       
-      // TODO: derive from computedValue
-      dispatch(setAlign(value));
+      const textAlignSetting = getSetting("textAlign") as TextAlignment | null;
+      const textAlignValue = textAlignSetting === null ? ReadingDisplayAlignOptions.publisher : textAlignSetting as unknown as ReadingDisplayAlignOptions;
+      
+      dispatch(setAlign(textAlignValue));
       dispatch(setHyphens(getSetting("hyphens")));
   }, [getSetting, submitPreferences, dispatch]);
 
