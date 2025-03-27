@@ -27,6 +27,7 @@ import {
   EpubNavigatorListeners, 
   FrameManager, 
   FXLFrameManager, 
+  IEpubDefaults, 
   IEpubPreferences, 
   LayoutStrategy, 
   TextAlignment
@@ -84,6 +85,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const publication = useRef<Publication | null>(null);
   const localDataKey = useRef(`${selfHref}-current-location`);
   const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
+
+  const isFXL = useAppSelector(state => state.publication.isFXL);
 
   const align = useAppSelector(state => state.settings.align);
   const colCount = useAppSelector(state => state.settings.colCount);
@@ -445,14 +448,16 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     if (theme !== ThemeKeys.auto && previousTheme !== theme) return;
 
     const applyCurrentTheme = async () => {
-      const themeProps = listThemeProps(theme, colorScheme);
+      const themeKeys = isFXL ? RSPrefs.theming.themes.fxlOrder : RSPrefs.theming.themes.reflowOrder;
+      const themeKey = themeKeys.includes(theme) ? theme : ThemeKeys.auto;
+      const themeProps = listThemeProps(themeKey, colorScheme);
       await submitPreferences(themeProps);
-      dispatch(setTheme(theme));
+      dispatch(setTheme(themeKey));
     };
 
     applyCurrentTheme()
       .catch(console.error);
-  }, [theme, previousTheme, colorScheme, listThemeProps, submitPreferences, dispatch]);
+  }, [theme, previousTheme, colorScheme, isFXL, listThemeProps, submitPreferences, dispatch]);
 
   useEffect(() => {
     RSPrefs.direction && dispatch(setDirection(RSPrefs.direction));
@@ -502,10 +507,16 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     fetchPositions()
       .catch(console.error)
       .then(() => {
+        const isFXL = publication.current?.metadata.getPresentation()?.layout === EPUBLayout.fixed;
+
         const initialPosition = localData.get(localDataKey.current);
 
         const initialConstraint = cache.current.arrowsOccupySpace ? arrowsWidth.current : 0;
-        const themeProps = listThemeProps(cache.current.settings.theme, cache.current.colorScheme);
+        
+        const themeKeys = isFXL ? RSPrefs.theming.themes.fxlOrder : RSPrefs.theming.themes.reflowOrder;
+        const theme = themeKeys.includes(cache.current.settings.theme) ? cache.current.settings.theme : ThemeKeys.auto;
+        const themeProps = listThemeProps(theme, cache.current.colorScheme);
+
         const lineHeightOptions = {
             [ReadingDisplayLineHeightOptions.publisher]: null,
             [ReadingDisplayLineHeightOptions.small]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.small] || defaultLineHeights[ReadingDisplayLineHeightOptions.small],
@@ -513,7 +524,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             [ReadingDisplayLineHeightOptions.large]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.large] || defaultLineHeights[ReadingDisplayLineHeightOptions.large],
           };
 
-        const preferences: IEpubPreferences = {
+        const preferences: IEpubPreferences = isFXL ? {} : {
           columnCount: cache.current.settings.colCount === "auto" ? null : Number(cache.current.settings.colCount),
           constraint: initialConstraint,
           fontFamily: cache.current.settings.fontFamily && ReadingDisplayFontFamilyOptions[cache.current.settings.fontFamily],
@@ -524,9 +535,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           letterSpacing: cache.current.settings.letterSpacing,
           lineHeight: cache.current.settings.lineHeight === null ? null : lineHeightOptions[cache.current.settings.lineHeight],
           lineLength: cache.current.settings.lineLength,
-        //  maximalLineLength: undefined,
-        //  minimalLineLength: undefined,
-        //  optimalLineLength: undefined,
           paragraphIndent: cache.current.settings.paraIndent,
           paragraphSpacing: cache.current.settings.paraSpacing,
           publisherStyles: cache.current.settings.publisherStyles,
@@ -536,6 +544,14 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           wordSpacing: cache.current.settings.wordSpacing,
           ...themeProps
         };
+
+        const defaults: IEpubDefaults = isFXL ? {} : {
+          layoutStrategy: RSPrefs.typography.layoutStrategy as LayoutStrategy | null | undefined,
+          maximalLineLength: RSPrefs.typography.maximalLineLength, 
+          minimalLineLength: RSPrefs.typography.minimalLineLength, 
+          optimalLineLength: RSPrefs.typography.optimalLineLength,
+          pageGutter: RSPrefs.typography.pageGutter
+        }
   
         EpubNavigatorLoad({
           container: container.current, 
@@ -544,13 +560,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           positionsList: positionsList,
           initialPosition: initialPosition,
           preferences: preferences,
-          defaults: { 
-            layoutStrategy: RSPrefs.typography.layoutStrategy as LayoutStrategy | null | undefined,
-            maximalLineLength: RSPrefs.typography.maximalLineLength, 
-            minimalLineLength: RSPrefs.typography.minimalLineLength, 
-            optimalLineLength: RSPrefs.typography.optimalLineLength,
-            pageGutter: RSPrefs.typography.pageGutter
-          },
+          defaults: defaults,
           localDataKey: localDataKey.current,
         }, () => p.observe(window));
       });
