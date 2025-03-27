@@ -1,17 +1,10 @@
-import { use, useCallback, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
 import { RSPrefs } from "@/preferences";
 
 import { ScrollBackTo } from "@/models/preferences";
-import { 
-  ReadingDisplayAlignOptions, 
-  ReadingDisplayFontFamilyOptions, 
-  ReadingDisplayLineHeightOptions, 
-  RSLayoutStrategy 
-} from "@/models/layout";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
-import { defaultLineHeights } from "@/models/settings";
 
 import { 
   EPUBLayout, 
@@ -28,9 +21,6 @@ import {
   FXLFrameManager, 
   IEpubDefaults, 
   IEpubPreferences, 
-  IEpubSettings, 
-  LayoutStrategy, 
-  TextAlignment, 
   Theme 
 } from "@readium/navigator";
 
@@ -40,26 +30,6 @@ import { localData } from "@/helpers/localData";
 import { useAppDispatch } from "@/lib/hooks";
 import { setProgression } from "@/lib/publicationReducer";
 import { setPaged } from "@/lib/readerReducer";
-import { 
-  setAlign, 
-  setColCount, 
-  setFontFamily, 
-  setFontSize, 
-  setFontWeight, 
-  setHyphens, 
-  setLayoutStrategy, 
-  setLetterSpacing, 
-  setLineHeight, 
-  setNormalizeText, 
-  setParaIndent, 
-  setParaSpacing, 
-  setPublisherStyles, 
-  setTmpLineLengths, 
-  setTmpMaxChars, 
-  setTmpMinChars, 
-  setWordSpacing
-} from "@/lib/settingsReducer";
-import { setTheme } from "@/lib/themeReducer";
 
 type cbb = (ok: boolean) => void;
 
