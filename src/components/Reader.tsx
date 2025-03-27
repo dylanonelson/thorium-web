@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
+
 import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
@@ -13,6 +14,8 @@ import { ScrollBackTo } from "@/models/preferences";
 import { ActionKeys } from "@/models/actions";
 import { ThemeKeys } from "@/models/theme";
 import { ICache } from "@/models/reader";
+import { ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions } from "@/models/layout";
+import { defaultLineHeights } from "@/models/settings";
 
 import { I18nProvider } from "react-aria";
 
@@ -24,7 +27,9 @@ import {
   EpubNavigatorListeners, 
   FrameManager, 
   FXLFrameManager, 
-  LayoutStrategy 
+  IEpubPreferences, 
+  LayoutStrategy, 
+  TextAlignment
 } from "@readium/navigator";
 import { 
   Locator, 
@@ -53,6 +58,9 @@ import { localData } from "@/helpers/localData";
 import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { createTocTree } from "@/helpers/toc/createTocTree";
 
+import { toggleActionOpen } from "@/lib/actionsReducer";
+import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
+import { setTheme } from "@/lib/themeReducer";
 import { 
   setImmersive, 
   setHovering, 
@@ -68,11 +76,8 @@ import {
   setRunningHead, 
   setTocTree 
 } from "@/lib/publicationReducer";
-import { toggleActionOpen } from "@/lib/actionsReducer";
-import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
 
 import debounce from "debounce";
-import { setTheme } from "@/lib/themeReducer";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -501,6 +506,36 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
         const initialConstraint = cache.current.arrowsOccupySpace ? arrowsWidth.current : 0;
         const themeProps = listThemeProps(cache.current.settings.theme, cache.current.colorScheme);
+        const lineHeightOptions = {
+            [ReadingDisplayLineHeightOptions.publisher]: null,
+            [ReadingDisplayLineHeightOptions.small]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.small] || defaultLineHeights[ReadingDisplayLineHeightOptions.small],
+            [ReadingDisplayLineHeightOptions.medium]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.medium] || defaultLineHeights[ReadingDisplayLineHeightOptions.medium],
+            [ReadingDisplayLineHeightOptions.large]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.large] || defaultLineHeights[ReadingDisplayLineHeightOptions.large],
+          };
+
+        const preferences: IEpubPreferences = {
+          columnCount: cache.current.settings.colCount === "auto" ? null : Number(cache.current.settings.colCount),
+          constraint: initialConstraint,
+          fontFamily: cache.current.settings.fontFamily && ReadingDisplayFontFamilyOptions[cache.current.settings.fontFamily],
+          fontSize: cache.current.settings.fontSize,
+          fontWeight: cache.current.settings.fontWeight,
+          hyphens: cache.current.settings.hyphens,
+          layoutStrategy: cache.current.settings.layoutStrategy as unknown as LayoutStrategy | null | undefined,
+          letterSpacing: cache.current.settings.letterSpacing,
+          lineHeight: cache.current.settings.lineHeight === null ? null : lineHeightOptions[cache.current.settings.lineHeight],
+          lineLength: cache.current.settings.lineLength,
+        //  maximalLineLength: undefined,
+        //  minimalLineLength: undefined,
+        //  optimalLineLength: undefined,
+          paragraphIndent: cache.current.settings.paraIndent,
+          paragraphSpacing: cache.current.settings.paraSpacing,
+          publisherStyles: cache.current.settings.publisherStyles,
+        //  scroll: !cache.current.settings.paginated,
+          textAlign: cache.current.settings.align as unknown as TextAlignment | null | undefined,
+          textNormalization: cache.current.settings.normalizeText,
+          wordSpacing: cache.current.settings.wordSpacing,
+          ...themeProps
+        };
   
         EpubNavigatorLoad({
           container: container.current, 
@@ -508,14 +543,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           listeners: listeners, 
           positionsList: positionsList,
           initialPosition: initialPosition,
-          preferences: {
-            pageGutter: RSPrefs.typography.pageGutter,
+          preferences: preferences,
+          defaults: { 
+            layoutStrategy: RSPrefs.typography.layoutStrategy as LayoutStrategy | null | undefined,
+            maximalLineLength: RSPrefs.typography.maximalLineLength, 
+            minimalLineLength: RSPrefs.typography.minimalLineLength, 
             optimalLineLength: RSPrefs.typography.optimalLineLength,
-            minimalLineLength: RSPrefs.typography.minimalLineLength,
-            maximalLineLength: RSPrefs.typography.maximalLineLength,
-            constraint: initialConstraint,
-            layoutStrategy: RSPrefs.typography.layoutStrategy as unknown as LayoutStrategy,
-            ...themeProps
+            pageGutter: RSPrefs.typography.pageGutter
           },
           localDataKey: localDataKey.current,
         }, () => p.observe(window));

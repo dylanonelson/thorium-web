@@ -1,5 +1,5 @@
 import { ComponentType, SVGProps } from "react";
-import { ReadingDisplayAlignOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./layout";
+import { ReadingDisplayAlignOptions, ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./layout";
 import { ThemeKeys } from "./theme";
 import { PressEvent, TooltipProps } from "react-aria-components";
 import { SheetHeaderVariant } from "./sheets";
@@ -206,7 +206,7 @@ export interface ISettingsSwitchProps {
 export interface IRCSSSettings {
   align: ReadingDisplayAlignOptions | null;
   colCount: string;
-  fontFamily: string | null;
+  fontFamily: keyof typeof ReadingDisplayFontFamilyOptions | null;
   fontSize: number;
   fontWeight: number;
   hyphens: boolean | null;
