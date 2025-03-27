@@ -530,7 +530,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           paragraphIndent: cache.current.settings.paraIndent,
           paragraphSpacing: cache.current.settings.paraSpacing,
           publisherStyles: cache.current.settings.publisherStyles,
-        //  scroll: !cache.current.settings.paginated,
+          scroll: !cache.current.settings.paginated,
           textAlign: cache.current.settings.align as unknown as TextAlignment | null | undefined,
           textNormalization: cache.current.settings.normalizeText,
           wordSpacing: cache.current.settings.wordSpacing,
