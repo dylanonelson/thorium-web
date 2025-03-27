@@ -57,7 +57,7 @@ export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({
     };
     await submitPreferences(values);
 
-    dispatch(setPublisherStyles(await getSetting("publisherStyles")));
+    dispatch(setPublisherStyles(getSetting("publisherStyles")));
   }, [submitPreferences, getSetting, dispatch, lineHeight, paraIndent, paraSpacing, letterSpacing, wordSpacing]);
 
   return(

@@ -100,6 +100,12 @@ export interface ISettingsRangePref {
   step?: number;
 }
 
+export const defaultFontSize: Required<ISettingsRangePref> = {
+  variant: SettingsRangeVariant.numberField,
+  range: [0.7, 2.5],
+  step: 0.05
+}
+
 export const defaultParaSpacing: Required<ISettingsRangePref> = {
   variant: SettingsRangeVariant.slider,
   range: [0, 3],

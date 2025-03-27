@@ -37,8 +37,8 @@ export const ReadingDisplayLetterSpacing: React.FC<IAdvancedDisplayProps> = ({ s
       letterSpacing: value
     });
 
-    dispatch(setLetterSpacing(await getSetting("letterSpacing")));
-    dispatch(setPublisherStyles(await getSetting("publisherStyles")));
+    dispatch(setLetterSpacing(getSetting("letterSpacing")));
+    dispatch(setPublisherStyles(getSetting("publisherStyles")));
   }, [submitPreferences, getSetting, dispatch]);
 
   return (

@@ -182,84 +182,8 @@ export const useEpubNavigator = () => {
     await navigatorInstance?.submitPreferences(new EpubPreferences(preferences));
   }, []);
 
-  const getSetting = useCallback(async (settingKey: keyof IEpubPreferences) => {
-    return navigatorInstance?.settings[settingKey];
-  }, []);
-
-  const applyZoom = useCallback(async (value: number) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      fontSize: value
-    }));
-    dispatch(setFontSize(navigatorInstance?.settings.fontSize));
-  }, [dispatch]);
-
-  const getSizeStep = useCallback(() => {
-    const editor = navigatorInstance?.preferencesEditor;
-    if (editor) {
-      return editor.fontSize.step;
-    }
-    return null;
-  }, []);
-
-  const getSizeRange = useCallback(() => {
-    const editor = navigatorInstance?.preferencesEditor;
-    if (editor) {
-      return editor.fontSize.supportedRange;
-    }
-    return null;
-  }, []);
-
-  // TMP for testing purposes
-  const nullifyMinChars = useCallback(async (value: number | null | undefined) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      minimalLineLength: value
-    }));
-    dispatch(setTmpMinChars(value === null));
-  }, [dispatch]);
-
-  // TMP for testing purposes
-  const nullifyMaxChars = useCallback(async (value: number | null | undefined) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      maximalLineLength: value
-    }));
-    dispatch(setTmpMaxChars(value === null));
-  }, [dispatch]);
-
-  const applyLineLengths = useCallback(async (value: number[]) => {
-    await navigatorInstance?.submitPreferences(new EpubPreferences({
-      minimalLineLength: value[0],
-      lineLength: value[1],
-      maximalLineLength: value[2]
-    }));
-    dispatch(setTmpLineLengths(value));
-  }, [dispatch]);
-
-  const getLineLengths = useCallback(() => {
-    const minimal = navigatorInstance?.settings.minimalLineLength || RSPrefs.typography.minimalLineLength;
-    const optimal = navigatorInstance?.settings.optimalLineLength || RSPrefs.typography.optimalLineLength;
-    const maximal = navigatorInstance?.settings.maximalLineLength || RSPrefs.typography.maximalLineLength;
-
-    return {
-      minimal: minimal,
-      optimal: optimal,
-      maximal: maximal
-    }
-  }, []);
-
-  const getLengthStep = useCallback(() => {
-    const editor = navigatorInstance?.preferencesEditor;
-    if (editor) {
-      return editor.lineLength.step;
-    }
-    return null;
-  }, []);
-
-  const getLengthRange = useCallback(() => {
-    const editor = navigatorInstance?.preferencesEditor;
-    if (editor) {
-      return editor.lineLength.supportedRange;
-    }
-    return null;
+  const getSetting = useCallback(<K extends keyof EpubSettings>(settingKey: K) => {
+    return navigatorInstance?.settings[settingKey] as EpubSettings[K];
   }, []);
 
   const handleProgression = useCallback((locator: Locator) => {
@@ -397,15 +321,6 @@ export const useEpubNavigator = () => {
     applyScroll,
     scrollBackTo, 
     listThemeProps, 
-    nullifyMinChars,
-    nullifyMaxChars,
-    applyZoom,
-    getSizeStep, 
-    getSizeRange,
-    applyLineLengths,
-    getLineLengths,
-    getLengthStep,
-    getLengthRange,
     handleProgression,
     navLayout, 
     currentLocator,
