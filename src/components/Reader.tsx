@@ -492,13 +492,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     let positionsList: Locator[] | undefined;
 
-    // Create a heirarchical tree structure for the table of contents
-    // where each entry has a unique id property and store this on the publication state
-    let idCounter = 0;
-    const idGenerator = () => `toc-${++idCounter}`;
-    const tocTree = createTocTree(publication.current.tableOfContents?.items || [], idGenerator);
-    dispatch(setTocTree(tocTree));
-
     const fetchPositions = async () => {
       positionsList = await publication.current?.positionsFromManifest();
       if (positionsList && positionsList.length > 0) dispatch(setProgression( { totalPositions: positionsList.length }));
@@ -507,6 +500,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     fetchPositions()
       .catch(console.error)
       .then(() => {
+        // Create a heirarchical tree structure for the table of contents
+        // where each entry has a unique id property and store this on the publication state
+        let idCounter = 0;
+        const idGenerator = () => `toc-${++idCounter}`;
+        const tocTree = createTocTree(publication.current?.tableOfContents?.items || [], idGenerator, positionsList);
+        dispatch(setTocTree(tocTree));
+
         const isFXL = publication.current?.metadata.getPresentation()?.layout === EPUBLayout.fixed;
 
         const initialPosition = localData.get(localDataKey.current);
