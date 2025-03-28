@@ -117,7 +117,8 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
                     : null
                   }
                     <div className={ tocStyles.tocTreeItemText }>
-                      { item.title }
+                      <div className={ tocStyles.tocTreeItemTextTitle }>{ item.title }</div>
+                      { item.position && <div className={ tocStyles.tocTreeItemTextPosition }>{ item.position }</div> }
                     </div>
                 </TreeItemContent>
                 <Collection items={ item.children }>
