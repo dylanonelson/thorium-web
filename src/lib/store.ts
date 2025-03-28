@@ -8,6 +8,8 @@ import themeReducer from "@/lib/themeReducer";
 import actionsReducer from "@/lib/actionsReducer";
 import publicationReducer from "./publicationReducer";
 
+import debounce from "debounce";
+
 const updateActionsState = (state: IActionsState) => {
   const updatedKeys = Object.fromEntries(
     Object.entries(state.keys).map(([key, value]) => [
@@ -67,9 +69,11 @@ export const makeStore = () => {
     },
   });
 
-  store.subscribe(() => {
+  const saveStateDebounced = debounce(() => {
     saveState(store.getState());
-  });
+  }, 500);
+
+  store.subscribe(saveStateDebounced);
 
   return store;
 }
