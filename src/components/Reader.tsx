@@ -532,16 +532,20 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           fontWeight: cache.current.settings.fontWeight,
           hyphens: cache.current.settings.hyphens,
           layoutStrategy: cache.current.settings.layoutStrategy as unknown as LayoutStrategy | null | undefined,
-          letterSpacing: cache.current.settings.letterSpacing,
-          lineHeight: cache.current.settings.lineHeight === null ? null : lineHeightOptions[cache.current.settings.lineHeight],
+          letterSpacing: cache.current.settings.publisherStyles ? undefined : cache.current.settings.letterSpacing,
+          lineHeight: cache.current.settings.publisherStyles 
+            ? undefined 
+            : cache.current.settings.lineHeight === null 
+              ? null 
+              : lineHeightOptions[cache.current.settings.lineHeight],
           lineLength: cache.current.settings.lineLength,
-          paragraphIndent: cache.current.settings.paraIndent,
-          paragraphSpacing: cache.current.settings.paraSpacing,
+          paragraphIndent: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paraIndent,
+          paragraphSpacing: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paraSpacing,
           publisherStyles: cache.current.settings.publisherStyles,
           scroll: !cache.current.settings.paginated,
           textAlign: cache.current.settings.align as unknown as TextAlignment | null | undefined,
           textNormalization: cache.current.settings.normalizeText,
-          wordSpacing: cache.current.settings.wordSpacing,
+          wordSpacing: cache.current.settings.publisherStyles ? undefined : cache.current.settings.wordSpacing,
           ...themeProps
         };
 
