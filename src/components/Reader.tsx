@@ -479,8 +479,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     publication.current = new Publication({
       manifest: manifest,
-      fetcher: fetcher,
-    });    
+      fetcher: fetcher
+    });
 
     dispatch(setRTL(publication.current.metadata.effectiveReadingProgression === ReadingProgression.rtl));
     dispatch(setFXL(publication.current.metadata.getPresentation()?.layout === EPUBLayout.fixed));
@@ -542,6 +542,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           paragraphIndent: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paraIndent,
           paragraphSpacing: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paraSpacing,
           publisherStyles: cache.current.settings.publisherStyles,
+          // TODO: This is initial false cos of store.ts logic
+          // But the problem is mounting scroll affordances since
+          // it will create an infinite loop if added to frame loaded…
           scroll: !cache.current.settings.paginated,
           textAlign: cache.current.settings.align as unknown as TextAlignment | null | undefined,
           textNormalization: cache.current.settings.normalizeText,
