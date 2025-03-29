@@ -20,8 +20,8 @@ export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
 
   const lineHeight = useAppSelector(state => state.settings.lineHeight);
-  const paraIndent = useAppSelector(state => state.settings.paraIndent);
-  const paraSpacing = useAppSelector(state => state.settings.paraSpacing);
+  const paragraphIndent = useAppSelector(state => state.settings.paragraphIndent);
+  const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
   const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
   const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
 
@@ -40,8 +40,8 @@ export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({
     const values = isSelected ? 
     {
       lineHeight: null,
-      paraIndent: null,
-      paraSpacing: null,
+      paragraphIndent: null,
+      paragraphSpacing: null,
       letterSpacing: null,
       wordSpacing: null,
       publisherStyles: true
@@ -50,8 +50,8 @@ export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({
       lineHeight: lineHeight === ReadingDisplayLineHeightOptions.publisher 
         ? null 
         : lineHeightOptions.current[lineHeight as keyof typeof ReadingDisplayLineHeightOptions],
-      paraIndent,
-      paraSpacing,
+      paragraphIndent,
+      paragraphSpacing,
       letterSpacing,
       wordSpacing,
       publisherStyles: false
@@ -59,7 +59,7 @@ export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({
     await submitPreferences(values);
 
     dispatch(setPublisherStyles(getSetting("publisherStyles")));
-  }, [submitPreferences, getSetting, dispatch, lineHeight, paraIndent, paraSpacing, letterSpacing, wordSpacing]);
+  }, [submitPreferences, getSetting, dispatch, lineHeight, paragraphIndent, paragraphSpacing, letterSpacing, wordSpacing]);
 
   return(
     <>

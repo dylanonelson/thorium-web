@@ -88,8 +88,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const isFXL = useAppSelector(state => state.publication.isFXL);
 
-  const align = useAppSelector(state => state.settings.align);
-  const colCount = useAppSelector(state => state.settings.colCount);
+  const textAlign = useAppSelector(state => state.settings.textAlign);
+  const columnCount = useAppSelector(state => state.settings.columnCount);
   const fontFamily = useAppSelector(state => state.settings.fontFamily);
   const fontSize = useAppSelector(state => state.settings.fontSize);
   const fontWeight = useAppSelector(state => state.settings.fontWeight);
@@ -99,10 +99,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
   const lineLength = useAppSelector(state => state.settings.lineLength);
   const lineHeight = useAppSelector(state => state.settings.lineHeight);
-  const normalizeText = useAppSelector(state => state.settings.normalizeText);
-  const paraIndent = useAppSelector(state => state.settings.paraIndent);
-  const paraSpacing = useAppSelector(state => state.settings.paraSpacing);
+  const paragraphIndent = useAppSelector(state => state.settings.paragraphIndent);
+  const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
+  const textNormalization = useAppSelector(state => state.settings.textNormalization);
   const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
   const theme = useAppSelector(state => state.theming.theme);
   const previousTheme = usePrevious(theme);
@@ -121,8 +121,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     isImmersive: isImmersive,
     arrowsOccupySpace: arrowsOccupySpace || false,
     settings: {
-      align: align,
-      colCount: colCount,
+      columnCount: columnCount,
       fontFamily: fontFamily,
       fontSize: fontSize,
       fontWeight: fontWeight,
@@ -131,11 +130,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       letterSpacing: letterSpacing,
       lineHeight: lineHeight,
       lineLength: lineLength,
-      normalizeText: normalizeText,
-      paginated: isPaged,
-      paraIndent: paraIndent,
-      paraSpacing: paraSpacing,
+      paragraphIndent: paragraphIndent,
+      paragraphSpacing: paragraphSpacing,
       publisherStyles: publisherStyles,
+      scroll: !isPaged,
+      textAlign: textAlign,
+      textNormalization: textNormalization,
       theme: theme,
       wordSpacing: wordSpacing
     },
@@ -191,7 +191,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   // See https://github.com/readium/playground/issues/25
   const handleTap = (event: FrameClickEvent) => {
     const _cframes = getCframes();
-    if (_cframes && cache.current.settings.paginated) {
+    if (_cframes && !cache.current.settings.scroll) {
       const oneQuarter = ((_cframes.length === 2 ? _cframes[0]!.window.innerWidth + _cframes[1]!.window.innerWidth : _cframes![0]!.window.innerWidth) * window.devicePixelRatio) / 4;
     
       if (event.x < oneQuarter) {
@@ -220,27 +220,27 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     moveTo: (direction) => {
       switch(direction) {
         case "right":
-          if (cache.current.settings.paginated) goRight(!cache.current.reducedMotion, activateImmersiveOnAction);
+          if (!cache.current.settings.scroll) goRight(!cache.current.reducedMotion, activateImmersiveOnAction);
           break;
         case "left":
-          if (cache.current.settings.paginated) goLeft(!cache.current.reducedMotion, activateImmersiveOnAction);
+          if (!cache.current.settings.scroll) goLeft(!cache.current.reducedMotion, activateImmersiveOnAction);
           break;
         case "up":
         case "home":
           // Home should probably go to first column/page of chapter in reflow?
-          if (!cache.current.settings.paginated) activateImmersiveOnAction();
+          if (cache.current.settings.scroll) activateImmersiveOnAction();
           break;
         case "down":
         case "end":
           // End should probably go to last column/page of chapter in reflow?
-          if (!cache.current.settings.paginated) activateImmersiveOnAction();
+          if (cache.current.settings.scroll) activateImmersiveOnAction();
           break;
         default:
           break;
       }
     },
     goProgression: (shiftKey) => {
-      if (cache.current.settings?.paginated) {
+      if (!cache.current.settings?.scroll) {
         shiftKey 
           ? goBackward(!cache.current.reducedMotion, activateImmersiveOnAction) 
           : goForward(!cache.current.reducedMotion, activateImmersiveOnAction);
@@ -299,7 +299,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             // that requires re-loading the frame pool
             const currentLocator = localData.get(localDataKey.current);
             if (currentLocator?.href !== locator.href) {
-              await applyScroll(!cache.current.settings.paginated);
+              await applyScroll(cache.current.settings.scroll);
             }
             handleProgression(locator);
             localData.set(localDataKey.current, locator);
@@ -352,7 +352,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   // Handling side effects on Navigator
 
   useEffect(() => {
-    cache.current.settings.paginated = isPaged;
+    cache.current.settings.scroll = !isPaged;
 
     const handleConstraint = async (value: number) => {
       await applyConstraint(value)
@@ -368,12 +368,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [isPaged, arrowsOccupySpace, applyConstraint]);
 
   useEffect(() => {
-    cache.current.settings.align = align;
-  }, [align]);
-
-  useEffect(() => {
-    cache.current.settings.colCount = colCount;
-  }, [colCount]);
+    cache.current.settings.columnCount = columnCount;
+  }, [columnCount]);
 
   useEffect(() => {
     cache.current.settings.fontFamily = fontFamily;
@@ -408,16 +404,20 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [lineLength]);
 
   useEffect(() => {
-    cache.current.settings.normalizeText = normalizeText;
-  }, [normalizeText]);
+    cache.current.settings.paragraphIndent = paragraphIndent;
+  }, [paragraphIndent]);
 
   useEffect(() => {
-    cache.current.settings.paraIndent = paraIndent;
-  }, [paraIndent]);
+    cache.current.settings.paragraphSpacing = paragraphSpacing;
+  }, [paragraphSpacing]);
 
   useEffect(() => {
-    cache.current.settings.paraSpacing = paraSpacing;
-  }, [paraSpacing]);
+    cache.current.settings.textAlign = textAlign;
+  }, [textAlign]);
+
+  useEffect(() => {
+    cache.current.settings.textNormalization = textNormalization;
+  }, [textNormalization]);
 
   useEffect(() => {
     cache.current.settings.theme = theme;
@@ -525,7 +525,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           };
 
         const preferences: IEpubPreferences = isFXL ? {} : {
-          columnCount: cache.current.settings.colCount === "auto" ? null : Number(cache.current.settings.colCount),
+          columnCount: cache.current.settings.columnCount === "auto" ? null : Number(cache.current.settings.columnCount),
           constraint: initialConstraint,
           fontFamily: cache.current.settings.fontFamily && ReadingDisplayFontFamilyOptions[cache.current.settings.fontFamily],
           fontSize: cache.current.settings.fontSize,
@@ -539,15 +539,15 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
               ? null 
               : lineHeightOptions[cache.current.settings.lineHeight],
           lineLength: cache.current.settings.lineLength,
-          paragraphIndent: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paraIndent,
-          paragraphSpacing: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paraSpacing,
+          paragraphIndent: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paragraphIndent,
+          paragraphSpacing: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paragraphSpacing,
           publisherStyles: cache.current.settings.publisherStyles,
           // TODO: This is initial false cos of store.ts logic
           // But the problem is mounting scroll affordances since
           // it will create an infinite loop if added to frame loaded…
-          scroll: !cache.current.settings.paginated,
-          textAlign: cache.current.settings.align as unknown as TextAlignment | null | undefined,
-          textNormalization: cache.current.settings.normalizeText,
+          scroll: cache.current.settings.scroll,
+          textAlign: cache.current.settings.textAlign as unknown as TextAlignment | null | undefined,
+          textNormalization: cache.current.settings.textNormalization,
           wordSpacing: cache.current.settings.publisherStyles ? undefined : cache.current.settings.wordSpacing,
           ...themeProps
         };

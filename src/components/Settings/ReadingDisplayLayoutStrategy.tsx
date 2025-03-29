@@ -22,7 +22,7 @@ import { setLayoutStrategy } from "@/lib/settingsReducer";
 export const ReadingDisplayLayoutStrategy = () => {
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const isPaged = useAppSelector(state => state.reader.isPaged);
-  const colCount = useAppSelector(state => state.settings.colCount);
+  const columnCount = useAppSelector(state => state.settings.columnCount);
   const dispatch = useAppDispatch();
 
   const { getSetting, submitPreferences } = useEpubNavigator();
@@ -35,12 +35,12 @@ export const ReadingDisplayLayoutStrategy = () => {
 
   useEffect(() => {
     const updateIfNeeded = async () => {
-      if (colCount !== "auto" && layoutStrategy === RSLayoutStrategy.columns) {
+      if (columnCount !== "auto" && layoutStrategy === RSLayoutStrategy.columns) {
         await updatePreference(RSLayoutStrategy.lineLength);
       }
     };
     updateIfNeeded();
-  }, [colCount, layoutStrategy, updatePreference]);
+  }, [columnCount, layoutStrategy, updatePreference]);
 
   return(
     <>
@@ -72,7 +72,7 @@ export const ReadingDisplayLayoutStrategy = () => {
           className={ settingsStyles.readerSettingsRadio } 
           value={ RSLayoutStrategy.columns } 
           id={ RSLayoutStrategy.columns } 
-          isDisabled={ !isPaged || colCount !== "auto" } 
+          isDisabled={ !isPaged || columnCount !== "auto" } 
         >
           <AddColumnIcon aria-hidden="true" focusable="false" />
           <span>{ Locale.reader.layoutStrategy.columns }</span>
