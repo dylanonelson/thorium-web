@@ -50,10 +50,10 @@ export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({
       lineHeight: lineHeight === ReadingDisplayLineHeightOptions.publisher 
         ? null 
         : lineHeightOptions.current[lineHeight as keyof typeof ReadingDisplayLineHeightOptions],
-      paragraphIndent,
-      paragraphSpacing,
-      letterSpacing,
-      wordSpacing,
+      paragraphIndent: paragraphIndent || 0,
+      paragraphSpacing: paragraphSpacing || 0,
+      letterSpacing: letterSpacing || 0,
+      wordSpacing: wordSpacing || 0,
       publisherStyles: false
     };
     await submitPreferences(values);
