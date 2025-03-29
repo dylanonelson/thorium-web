@@ -63,6 +63,10 @@
   color: var(--theme-disable);
 }
 
+.tocTreeItem[data-selected] {
+  background-color: var(--theme-hover);
+}
+
 .tocTreeItemButton svg {
   rotate: 0deg;
   transition: rotate 200ms;
