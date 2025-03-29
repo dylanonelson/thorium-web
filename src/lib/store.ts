@@ -16,7 +16,7 @@ const updateActionsState = (state: IActionsState) => {
       key,
       {
         ...value,
-        isOpen: value.docking === DockingKeys.transient && value.isOpen === true ? false : value.isOpen,
+        isOpen: value.docking === DockingKeys.transient || value.docking === null && value.isOpen === true ? false : value.isOpen,
       },
     ])
   );

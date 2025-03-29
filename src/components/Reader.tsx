@@ -16,6 +16,7 @@ import { ThemeKeys } from "@/models/theme";
 import { ICache } from "@/models/reader";
 import { ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions } from "@/models/layout";
 import { defaultLineHeights } from "@/models/settings";
+import { TocItem } from "@/models/toc";
 
 import { I18nProvider } from "react-aria";
 
@@ -39,7 +40,8 @@ import {
   Fetcher, 
   HttpFetcher, 
   EPUBLayout, 
-  ReadingProgression 
+  ReadingProgression, 
+  Link
 } from "@readium/shared";
 
 import { ReaderWithDock } from "./ReaderWithPanels";
@@ -75,7 +77,8 @@ import {
   setRTL, 
   setProgression, 
   setRunningHead, 
-  setTocTree 
+  setTocTree, 
+  setTocEntry
 } from "@/lib/publicationReducer";
 
 import debounce from "debounce";
@@ -87,6 +90,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
 
   const isFXL = useAppSelector(state => state.publication.isFXL);
+  const tocTree = useAppSelector(state => state.publication.tocTree);
+  const tocEntry = useAppSelector(state => state.publication.tocEntry);
 
   const textAlign = useAppSelector(state => state.settings.textAlign);
   const columnCount = useAppSelector(state => state.settings.columnCount);
@@ -139,6 +144,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       theme: theme,
       wordSpacing: wordSpacing
     },
+    tocTree: tocTree,
     colorScheme: colorScheme,
     reducedMotion: reducedMotion
   });
@@ -216,6 +222,30 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
   };
 
+  const handleTocEntryOnNav = useCallback((link?: Link) => {
+    if (!link) return;
+
+    if (cache.current.tocTree) {
+      const findMatch = (items: TocItem[]): TocItem | undefined => {
+        for (const item of items) {
+          if (item.href === link.href) {
+            return item;
+          }
+          if (item.children) {
+            const match = findMatch(item.children);
+            if (match) {
+              return match;
+            }
+          }
+        }
+        return undefined;
+      };
+
+      const match = findMatch(cache.current.tocTree);
+      if (match) dispatch(setTocEntry(match.id));
+    }
+  }, [dispatch]);
+
   const p = new Peripherals(useAppStore(), {
     moveTo: (direction) => {
       switch(direction) {
@@ -282,6 +312,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     positionChanged: async function (locator: Locator): Promise<void> {
       window.focus();
 
+      const currentLocator = localData.get(localDataKey.current);
+      if (currentLocator?.href !== locator.href) {
+        handleTocEntryOnNav(new Link(locator));
+      }
+
       // This can’t be relied upon with FXL to handleProgression at the moment,
       // Only reflowable snappers will register the "progress" event
       // that triggers positionChanged every time the progression changes
@@ -289,15 +324,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       // the spread has not been shown yet, but won’t if you just slid to them.
       if (navLayout() === EPUBLayout.reflowable) {
         // Due to the lack of injection API we need to force scroll 
-        // to mount/unmount scroll affordances ATM
-        
+        // to mount/unmount scroll affordances ATM  
         const debouncedHandleProgression = debounce(
           async () => {
             // TMP: To mount/unmount scroll affordances in the absence of the injection API. 
             // We need to debounce because of swipe, which has a 150ms animation in Column Snapper, 
             // otherwise the iframe will stay hidden since we must change the ReadingProgression,
             // that requires re-loading the frame pool
-            const currentLocator = localData.get(localDataKey.current);
             if (currentLocator?.href !== locator.href) {
               await applyScroll(cache.current.settings.scroll);
             }
@@ -428,6 +461,22 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [wordSpacing]);
 
   useEffect(() => {
+    cache.current.tocTree = tocTree;
+
+    if (tocEntry) return;
+
+    const knownPosition: Locator = localData.get(localDataKey.current);
+    if (knownPosition) {
+      handleTocEntryOnNav(new Link(knownPosition));
+    } else {
+      const initialTocEntry = tocTree?.[0];
+      if (initialTocEntry) {
+        handleTocEntryOnNav(new Link({ href: initialTocEntry.href }));
+      }
+    }
+  }, [tocTree, tocEntry, handleTocEntryOnNav]);
+
+  useEffect(() => {
     cache.current.arrowsOccupySpace = arrowsOccupySpace || false;
   }, [arrowsOccupySpace]);
 
@@ -500,16 +549,16 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     fetchPositions()
       .catch(console.error)
       .then(() => {
+        const isFXL = publication.current?.metadata.getPresentation()?.layout === EPUBLayout.fixed;
+
+        const initialPosition: Locator = localData.get(localDataKey.current);
+
         // Create a heirarchical tree structure for the table of contents
         // where each entry has a unique id property and store this on the publication state
         let idCounter = 0;
         const idGenerator = () => `toc-${++idCounter}`;
         const tocTree = createTocTree(publication.current?.tableOfContents?.items || [], idGenerator, positionsList);
         dispatch(setTocTree(tocTree));
-
-        const isFXL = publication.current?.metadata.getPresentation()?.layout === EPUBLayout.fixed;
-
-        const initialPosition = localData.get(localDataKey.current);
 
         const initialConstraint = cache.current.arrowsOccupySpace ? arrowsWidth.current : 0;
         

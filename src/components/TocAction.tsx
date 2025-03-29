@@ -18,7 +18,7 @@ import TocIcon from "./assets/icons/toc.svg";
 import { ActionIcon } from "./ActionTriggers/ActionIcon";
 import { SheetWithType } from "./Sheets/SheetWithType";
 import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
-import { Button, Collection, Key } from "react-aria-components";
+import { Button, Collection, Selection } from "react-aria-components";
 import {
   Tree,
   TreeItem,
@@ -30,8 +30,10 @@ import { useDocking } from "@/hooks/useDocking";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
+import { setTocEntry } from "@/lib/publicationReducer";
 
 export const TocActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
+  const tocEntry = useAppSelector(state => state.publication.tocEntry);
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === LayoutDirection.rtl;
 
@@ -51,8 +53,12 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
     }));
   }
 
-  const handleAction = (key: Key) => {
-    if (!key) return;
+  const handleAction = (keys: Selection) => {
+    if (keys === "all" || !keys || keys.size === 0) return;
+
+    const key = [...keys][0];
+
+    console.log(key);
     
     const el = document.querySelector(`[data-key=${key}]`);
     const href = el?.getAttribute("data-href");
@@ -63,8 +69,11 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
 
     const cb = actionState.isOpen && 
       (sheetType === SheetTypes.dockedStart || sheetType === SheetTypes.dockedEnd)
-        ? () => {} 
+        ? () => {
+          dispatch(setTocEntry(key));
+        } 
         : () => {
+          dispatch(setTocEntry(key));
           dispatch(setActionOpen({ 
             key: ActionKeys.toc,
             isOpen: false 
@@ -93,10 +102,16 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
       { tocTree && tocTree.length > 0 
       ? (<Tree
           aria-label={ Locale.reader.toc.entries }
-          selectionMode="none"
+          selectionMode="single"
           items={ tocTree }
           className={ tocStyles.tocTree }
-          onAction={ handleAction }
+          onSelectionChange={ handleAction }
+          defaultSelectedKeys={ tocEntry ? [tocEntry] : [] }
+          selectedKeys={ tocEntry ? [tocEntry] : [] } 
+          defaultExpandedKeys={ tocTree
+            .filter(item => item.children?.some(child => child.id === tocEntry))
+            .map(item => item.id) 
+          }
         >
           { function renderItem(item) {
             return (
