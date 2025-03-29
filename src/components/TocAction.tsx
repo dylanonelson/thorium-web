@@ -10,6 +10,7 @@ import { Link } from "@readium/shared";
 import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
 import { SheetTypes } from "@/models/sheets";
 import { LayoutDirection } from "@/models/layout";
+import { TocItem } from "@/models/toc";
 
 import tocStyles from "./assets/styles/toc.module.css";
 
@@ -83,6 +84,13 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
     goLink(link, true, cb);
   };
 
+  const isItemInChildren = (item: TocItem, tocEntry?: string): boolean => {
+    if (item.children && tocEntry) {
+      return item.children.some(child => child.id === tocEntry || isItemInChildren(child, tocEntry));
+    }
+    return false;
+  };
+
   return(
     <>
     <SheetWithType 
@@ -109,7 +117,7 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
           defaultSelectedKeys={ tocEntry ? [tocEntry] : [] }
           selectedKeys={ tocEntry ? [tocEntry] : [] } 
           defaultExpandedKeys={ tocTree
-            .filter(item => item.children?.some(child => child.id === tocEntry))
+            .filter(item => isItemInChildren(item, tocEntry))
             .map(item => item.id) 
           }
         >
