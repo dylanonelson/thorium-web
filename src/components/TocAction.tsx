@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 
 import { RSPrefs } from "@/preferences";
 
@@ -11,6 +11,7 @@ import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionC
 import { SheetTypes } from "@/models/sheets";
 import { LayoutDirection } from "@/models/layout";
 import { TocItem } from "@/models/toc";
+import { DockingKeys } from "@/models/docking";
 
 import tocStyles from "./assets/styles/toc.module.css";
 
@@ -47,12 +48,12 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
   const docking = useDocking(ActionKeys.toc);
   const sheetType = docking.sheetType;
 
-  const setOpen = (value: boolean) => {
+  const setOpen = useCallback((value: boolean) => {
     dispatch(setActionOpen({ 
       key: ActionKeys.toc,
       isOpen: value 
     }));
-  }
+  }, [dispatch]);
 
   const handleAction = (keys: Selection) => {
     if (keys === "all" || !keys || keys.size === 0) return;
@@ -83,6 +84,25 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
 
     goLink(link, true, cb);
   };
+
+  // Since React Aria components intercept keys and do not continue propagation
+  // we have to handle the escape key in capture phase
+  useEffect(() => {
+    if (actionState.isOpen && (!actionState.docking || actionState.docking === DockingKeys.transient)) {
+      const handleEscape = (event: KeyboardEvent) => {
+        if (event.key === "Escape") {
+          setOpen(false);
+        }
+      };
+
+      document.addEventListener("keydown", handleEscape, true);
+
+      return () => {
+        document.removeEventListener("keydown", handleEscape, true);
+      };
+    }
+}, [actionState, setOpen]);
+
 
   const isItemInChildren = (item: TocItem, tocEntry?: string): boolean => {
     if (item.children && tocEntry) {
