@@ -21,7 +21,7 @@ import { setLayoutStrategy } from "@/lib/settingsReducer";
 
 export const ReadingDisplayLayoutStrategy = () => {
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
-  const isPaged = useAppSelector(state => state.reader.isPaged);
+  const isScroll = useAppSelector(state => state.settings.scroll);
   const columnCount = useAppSelector(state => state.settings.columnCount);
   const dispatch = useAppDispatch();
 
@@ -72,7 +72,7 @@ export const ReadingDisplayLayoutStrategy = () => {
           className={ settingsStyles.readerSettingsRadio } 
           value={ RSLayoutStrategy.columns } 
           id={ RSLayoutStrategy.columns } 
-          isDisabled={ !isPaged || columnCount !== "auto" } 
+          isDisabled={ isScroll || columnCount !== "auto" } 
         >
           <AddColumnIcon aria-hidden="true" focusable="false" />
           <span>{ Locale.reader.layoutStrategy.columns }</span>

@@ -16,10 +16,9 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setColumnCount } from "@/lib/settingsReducer";
 
 export const ReadingDisplayCol = () => {
-  const isPaged = useAppSelector(state => state.reader.isPaged);
+  const isScroll = useAppSelector(state => state.settings.scroll);
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const columnCount = useAppSelector(state => state.settings.columnCount) || "auto";
-  const scrollable = !isPaged;
   const dispatch = useAppDispatch();
 
   const { submitPreferences } = useEpubNavigator();
@@ -40,7 +39,7 @@ export const ReadingDisplayCol = () => {
       value={ columnCount } 
       onChange={ async (val: string) => await updatePreference(val) }
       className={ settingsStyles.readerSettingsGroup }
-      isDisabled={ scrollable && !isFXL }
+      isDisabled={ isScroll && !isFXL }
     >
       <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.column.title }</Label>
       <div className={ settingsStyles.readerSettingsRadioWrapper }>

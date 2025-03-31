@@ -21,6 +21,7 @@ export interface ISettingsState {
   paragraphIndent: number | null;
   paragraphSpacing: number | null;
   publisherStyles: boolean;
+  scroll: boolean;
   textAlign: ReadingDisplayAlignOptions;
   textNormalization: boolean;
   wordSpacing: number | null;

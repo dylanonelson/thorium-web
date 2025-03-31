@@ -99,7 +99,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const fontSize = useAppSelector(state => state.settings.fontSize);
   const fontWeight = useAppSelector(state => state.settings.fontWeight);
   const hyphens = useAppSelector(state => state.settings.hyphens);
-  const isPaged = useAppSelector(state => state.reader.isPaged);
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
   const lineLength = useAppSelector(state => state.settings.lineLength);
@@ -107,6 +106,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const paragraphIndent = useAppSelector(state => state.settings.paragraphIndent);
   const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
+  const scroll = useAppSelector(state => state.settings.scroll);
+  const isPaged = !scroll;
   const textNormalization = useAppSelector(state => state.settings.textNormalization);
   const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
   const theme = useAppSelector(state => state.theming.theme);
@@ -138,7 +139,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       paragraphIndent: paragraphIndent,
       paragraphSpacing: paragraphSpacing,
       publisherStyles: publisherStyles,
-      scroll: !isPaged,
+      scroll: scroll,
       textAlign: textAlign,
       textNormalization: textNormalization,
       theme: theme,
@@ -219,6 +220,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       // Init’ing so that progression can be populated on first spread loaded
       const cLoc = currentLocator();
       if (cLoc) handleProgression(cLoc);
+    } else {
+      // [TMP] Working around lack of Injection API, otherwise the scroll affordances
+      // won’t be mounted on the initial load. We need a slight timeout otherwise
+      // ReadingDisplayLayout won’t be able to applyScroll itself due to lifecycle 
+      if (cache.current.settings.scroll) {
+        setTimeout(async () => await applyScroll(cache.current.settings.scroll), 100);
+      }
     }
   };
 
@@ -327,7 +335,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         // to mount/unmount scroll affordances ATM  
         const debouncedHandleProgression = debounce(
           async () => {
-            // TMP: To mount/unmount scroll affordances in the absence of the injection API. 
+            // TMP: To mount/unmount scroll affordances in the absence of the injection API.
+            // This is to make sure frames already loaded will mount/unmount scroll affordances. 
             // We need to debounce because of swipe, which has a 150ms animation in Column Snapper, 
             // otherwise the iframe will stay hidden since we must change the ReadingProgression,
             // that requires re-loading the frame pool
@@ -385,20 +394,20 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   // Handling side effects on Navigator
 
   useEffect(() => {
-    cache.current.settings.scroll = !isPaged;
+    cache.current.settings.scroll = scroll;
 
     const handleConstraint = async (value: number) => {
       await applyConstraint(value)
     }
 
-    if (isPaged) {
+    if (!scroll) {
       handleConstraint(arrowsOccupySpace ? arrowsWidth.current : 0)
         .catch(console.error);
     } else {
       handleConstraint(0)
         .catch(console.error);
     }
-  }, [isPaged, arrowsOccupySpace, applyConstraint]);
+  }, [scroll, arrowsOccupySpace, applyConstraint]);
 
   useEffect(() => {
     cache.current.settings.columnCount = columnCount;
@@ -591,9 +600,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           paragraphIndent: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paragraphIndent,
           paragraphSpacing: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paragraphSpacing,
           publisherStyles: cache.current.settings.publisherStyles,
-          // TODO: This is initial false cos of store.ts logic
-          // But the problem is mounting scroll affordances since
-          // it will create an infinite loop if added to frame loaded…
           scroll: cache.current.settings.scroll,
           textAlign: cache.current.settings.textAlign as unknown as TextAlignment | null | undefined,
           textNormalization: cache.current.settings.textNormalization,
