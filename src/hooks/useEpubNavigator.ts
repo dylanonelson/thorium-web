@@ -29,7 +29,7 @@ import { localData } from "@/helpers/localData";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setProgression } from "@/lib/publicationReducer";
-import { setPaged } from "@/lib/readerReducer";
+import { setScroll } from "@/lib/settingsReducer";
 
 type cbb = (ok: boolean) => void;
 
@@ -87,7 +87,7 @@ export const useEpubNavigator = () => {
       scroll: scroll
     }));
     if (scroll) mountScroll();
-    dispatch(setPaged(!scroll));
+    dispatch(setScroll(scroll));
   }, [dispatch, mountScroll, unmountScroll]);
 
   const listThemeProps = useCallback((t: ThemeKeys, colorScheme?: ColorScheme) => {

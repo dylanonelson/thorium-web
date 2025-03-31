@@ -16,6 +16,7 @@ const initialState: ISettingsState = {
   paragraphIndent: null,
   paragraphSpacing: null,
   publisherStyles: true,
+  scroll: false,
   textAlign: ReadingDisplayAlignOptions.publisher,
   textNormalization: false,
   wordSpacing: null,
@@ -64,6 +65,9 @@ export const settingsSlice = createSlice({
     setPublisherStyles: (state, action) => {
       state.publisherStyles = action.payload
     },
+    setScroll: (state, action) => {
+      state.scroll = action.payload
+    },
     setTextAlign: (state, action) => {
       state.textAlign = action.payload
     },
@@ -99,6 +103,7 @@ export const {
   setParagraphIndent,
   setParagraphSpacing,
   setPublisherStyles,
+  setScroll,
   setTextAlign,
   setTextNormalization, 
   setWordSpacing,

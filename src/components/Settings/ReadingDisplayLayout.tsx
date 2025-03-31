@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -16,24 +16,24 @@ import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useAppSelector } from "@/lib/hooks";
 
 export const ReadingDisplayLayout = () => {
-  const isPaged = useAppSelector(state => state.reader.isPaged);
+  const isScroll = useAppSelector(state => state.settings.scroll);
   const isFXL = useAppSelector(state => state.publication.isFXL);
 
   const { applyScroll } = useEpubNavigator();
 
-  const handleChange = useCallback(async (value: string) => {
+  const handleChange = async (value: string) => {    
     if (value === ReadingDisplayLayoutOptions.paginated) {
       await applyScroll(false);
     } else {
       await applyScroll(true);
     }
-  }, [applyScroll]);
-  
+  };
+
   return (
     <>
     <RadioGroup 
       orientation="horizontal" 
-      value={ isPaged ? ReadingDisplayLayoutOptions.paginated : ReadingDisplayLayoutOptions.scroll } 
+      value={ isScroll ? ReadingDisplayLayoutOptions.scroll : ReadingDisplayLayoutOptions.paginated } 
       onChange={ async (val: string) => await handleChange(val) } 
       className={ settingsStyles.readerSettingsGroup }
     >
