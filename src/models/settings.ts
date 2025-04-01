@@ -64,10 +64,10 @@ export const defaultSpacingSettingsMain = [
 export const defaultSpacingSettingsSubpanel = [
   SpacingSettingsKeys.publisherStyles,
   SpacingSettingsKeys.lineHeight,
-  SpacingSettingsKeys.paraSpacing,
-  SpacingSettingsKeys.paraIndent,
   SpacingSettingsKeys.wordSpacing,
-  SpacingSettingsKeys.letterSpacing
+  SpacingSettingsKeys.letterSpacing,
+  SpacingSettingsKeys.paraSpacing,
+  SpacingSettingsKeys.paraIndent
 ]
 
 export enum SettingsRangeVariant {
