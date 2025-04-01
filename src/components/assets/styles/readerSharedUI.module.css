@@ -12,6 +12,8 @@
   box-sizing: content-box;
   height: var(--icon-size, 24px);
   border: 2px solid transparent;
+  display: flex;
+  align-items: center;
 }
 
 .closeButton,
@@ -21,7 +23,8 @@
 
 .icon svg,
 .dockerButton svg,
-.closeButton svg {
+.closeButton svg,
+.backButton svg {
   fill: var(--theme-text);
   width: var(--icon-size, 24px);
   height: var(--icon-size, 24px);
@@ -41,14 +44,15 @@
   outline: 2px solid var(--theme-focus);
 }
 
-.icon[data-disabled] svg,
-.dockerButton[data-disabled] svg,
-.closeButton[data-disabled] svg {
-  fill: var(--theme-disable);
-}
-
 .backButton[data-disabled] {
   color: var(--theme-disable)
+}
+
+.icon[data-disabled] svg,
+.dockerButton[data-disabled] svg,
+.closeButton[data-disabled] svg,
+.backButton[data-disabled] svg {
+  fill: var(--theme-disable);
 }
 
 .tooltip {
