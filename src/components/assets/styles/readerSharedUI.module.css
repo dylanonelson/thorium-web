@@ -8,14 +8,20 @@
   border-radius: var(--layout-radius);
 }
 
-.closeButton {
+.backButton {
+  box-sizing: content-box;
+  height: var(--icon-size, 24px);
+  border: 2px solid transparent;
+}
+
+.closeButton,
+.backButton {
   margin-inline-start: auto;
 }
 
 .icon svg,
 .dockerButton svg,
-.closeButton svg,
-.backButton svg {
+.closeButton svg {
   fill: var(--theme-text);
   width: var(--icon-size, 24px);
   height: var(--icon-size, 24px);
@@ -23,7 +29,7 @@
 
 .icon[data-hovered],
 .dockerButton[data-hovered],
-.closeButton[data-hovered]
+.closeButton[data-hovered],
 .backButton[data-hovered] {
   background-color: var(--theme-hover);
 }
@@ -37,9 +43,12 @@
 
 .icon[data-disabled] svg,
 .dockerButton[data-disabled] svg,
-.closeButton[data-disabled] svg,
-.backButton[data-disabled] svg {
+.closeButton[data-disabled] svg {
   fill: var(--theme-disable);
+}
+
+.backButton[data-disabled] {
+  color: var(--theme-disable)
 }
 
 .tooltip {
