@@ -101,8 +101,7 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
         document.removeEventListener("keydown", handleEscape, true);
       };
     }
-}, [actionState, setOpen]);
-
+  }, [actionState, setOpen]);
 
   const isItemInChildren = (item: TocItem, tocEntry?: string): boolean => {
     if (item.children && tocEntry) {
