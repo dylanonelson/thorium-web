@@ -175,7 +175,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     navLayout,
     currentLocator,
     getCframes,
-    applyScroll,
+    handleScrollAffordances,
     submitPreferences
   } = useEpubNavigator();
 
@@ -221,12 +221,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       const cLoc = currentLocator();
       if (cLoc) handleProgression(cLoc);
     } else {
-      // [TMP] Working around lack of Injection API, otherwise the scroll affordances
-      // won’t be mounted on the initial load. We need a slight timeout otherwise
-      // ReadingDisplayLayout won’t be able to applyScroll itself due to lifecycle 
-      if (cache.current.settings.scroll) {
-        setTimeout(async () => await applyScroll(cache.current.settings.scroll), 100);
-      }
+      // [TMP] We need to handle this in multiple places due to the lack of Injection API.
+      // This mounts and unmounts scroll affordances on iframe loaded
+      handleScrollAffordances(cache.current.settings.scroll);
     }
   };
 
@@ -341,7 +338,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             // otherwise the iframe will stay hidden since we must change the ReadingProgression,
             // that requires re-loading the frame pool
             if (currentLocator?.href !== locator.href) {
-              await applyScroll(cache.current.settings.scroll);
+              handleScrollAffordances(cache.current.settings.scroll);
             }
             handleProgression(locator);
             localData.set(localDataKey.current, locator);
