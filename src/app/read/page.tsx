@@ -1,13 +1,17 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { HttpFetcher } from "@readium/shared";
 import { Link } from "@readium/shared";
 
-import { Reader } from "@/components/Reader";
+import "../../components/assets/styles/app.css";
 
 import StoreProvider from "../StoreProvider";
+
+import dynamic from "next/dynamic";
+
+const Reader = dynamic<{ rawManifest: object; selfHref: string }>(() => import("../../components/Reader").then((mod) => mod.Reader), { ssr: false });
 
 // TODO page metadata w/ generateMetadata
 
@@ -24,7 +28,7 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
   }, [searchParams]);
 
   useEffect(() => {
-    if (params) {
+    if (params && isClient) {
       let book = "moby-dick";
       let publicationURL = "";
       if (params["book"]) {
@@ -46,7 +50,7 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
       fetched.link().then((link) => {
         setSelfLink(link.toURL(publicationURL));
       });
-  
+
       fetched.readAsJSON().then((manifestData) => {
         setManifest(manifestData as object);
       }).catch((error) => {
@@ -54,7 +58,7 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
         setError(`Failed loading manifest ${ publicationURL }: ${ error.message }`);
       });
     }
-  }, [params]);
+  }, [params, isClient]);
 
   return (
     <>
