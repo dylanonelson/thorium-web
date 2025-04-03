@@ -157,11 +157,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const fs = useFullscreen();
 
-  // The reason why we’re not using theming for states e.g theming.theme 
-  // instead of useAppSelector is that theming will move to a higher-level component 
-  // and not reside in Reader anymore so we would eventually have to use Redux states
-  const theming = useTheming();
-
   const { 
     EpubNavigatorLoad, 
     EpubNavigatorDestroy, 

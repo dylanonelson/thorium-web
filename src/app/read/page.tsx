@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { HttpFetcher } from "@readium/shared";
 import { Link } from "@readium/shared";
 
-import "../../components/assets/styles/app.css";
-
-import StoreProvider from "../StoreProvider";
+import "../app.css";
 
 import dynamic from "next/dynamic";
 
 const Reader = dynamic<{ rawManifest: object; selfHref: string }>(() => import("../../components/Reader").then((mod) => mod.Reader), { ssr: false });
+
+import { useTheming } from "@/hooks/useTheming";
 
 // TODO page metadata w/ generateMetadata
 
@@ -21,6 +21,9 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
   const [error, setError] = useState("");
   const [manifest, setManifest] = useState<object | undefined>(undefined);
   const [selfLink, setSelfLink] = useState<string | undefined>(undefined);
+
+  // Init theming (breakpoints, theme, media queries…)
+  const theming = useTheming();
 
   useEffect(() => {
     setIsClient(true);
@@ -65,10 +68,8 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
     { error 
       ? <span>{error}</span> 
       : isClient && manifest && selfLink
-        ? <StoreProvider>
-            <Reader rawManifest={ manifest } selfHref={ selfLink } />
-          </StoreProvider> 
-        : <div className="readerLoader">Loading...</div>
+        ? <Reader rawManifest={ manifest } selfHref={ selfLink } />
+        : <div className="readerLoader">Loading...</div> 
     }
     </>
   );
