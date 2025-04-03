@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { RSPrefs } from "@/preferences";
 
@@ -45,14 +45,12 @@ import {
 } from "@readium/shared";
 
 import { ReaderWithDock } from "./ReaderWithPanels";
-
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useFullscreen } from "@/hooks/useFullscreen";
-import { useTheming } from "@/hooks/useTheming";
 import { usePrevious } from "@/hooks/usePrevious";
 
 import Peripherals from "@/helpers/peripherals";
@@ -66,6 +64,7 @@ import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
 import { setTheme } from "@/lib/themeReducer";
 import { 
   setImmersive, 
+  setLoading,
   setHovering, 
   toggleImmersive, 
   setPlatformModifier, 
@@ -82,6 +81,7 @@ import {
 } from "@/lib/publicationReducer";
 
 import debounce from "debounce";
+import { Dispatch } from "@reduxjs/toolkit";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -568,11 +568,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         const themeProps = listThemeProps(theme, cache.current.colorScheme);
 
         const lineHeightOptions = {
-            [ReadingDisplayLineHeightOptions.publisher]: null,
-            [ReadingDisplayLineHeightOptions.small]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.small] || defaultLineHeights[ReadingDisplayLineHeightOptions.small],
-            [ReadingDisplayLineHeightOptions.medium]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.medium] || defaultLineHeights[ReadingDisplayLineHeightOptions.medium],
-            [ReadingDisplayLineHeightOptions.large]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.large] || defaultLineHeights[ReadingDisplayLineHeightOptions.large],
-          };
+          [ReadingDisplayLineHeightOptions.publisher]: null,
+          [ReadingDisplayLineHeightOptions.small]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.small] || defaultLineHeights[ReadingDisplayLineHeightOptions.small],
+          [ReadingDisplayLineHeightOptions.medium]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.medium] || defaultLineHeights[ReadingDisplayLineHeightOptions.medium],
+          [ReadingDisplayLineHeightOptions.large]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.large] || defaultLineHeights[ReadingDisplayLineHeightOptions.large],
+        };
 
         const preferences: IEpubPreferences = isFXL ? {} : {
           columnCount: cache.current.settings.columnCount === "auto" ? null : Number(cache.current.settings.columnCount),
@@ -617,6 +617,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           defaults: defaults,
           localDataKey: localDataKey.current,
         }, () => p.observe(window));
+      })
+      .finally(() => {
+        const setLoadingThunk = (dispatch: Dispatch) => {
+          dispatch(setLoading(false));
+        };
+        dispatch(setLoadingThunk);
       });
 
     return () => {

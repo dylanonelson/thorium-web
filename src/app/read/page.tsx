@@ -2,16 +2,19 @@
 
 import { useEffect, useState } from "react";
 
+import Locale from "../../resources/locales/en.json";
+
 import { HttpFetcher } from "@readium/shared";
 import { Link } from "@readium/shared";
 
 import "../app.css";
 
 import dynamic from "next/dynamic";
-
 const Reader = dynamic<{ rawManifest: object; selfHref: string }>(() => import("../../components/Reader").then((mod) => mod.Reader), { ssr: false });
 
 import { useTheming } from "@/hooks/useTheming";
+
+import { useAppSelector } from "@/lib/hooks";
 
 // TODO page metadata w/ generateMetadata
 
@@ -21,6 +24,8 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
   const [error, setError] = useState("");
   const [manifest, setManifest] = useState<object | undefined>(undefined);
   const [selfLink, setSelfLink] = useState<string | undefined>(undefined);
+
+  const readerIsLoading = useAppSelector(state => state.reader.isLoading);
 
   // Init theming (breakpoints, theme, media queries…)
   const theming = useTheming();
@@ -67,9 +72,10 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
     <>
     { error 
       ? <span>{error}</span> 
-      : isClient && manifest && selfLink
-        ? <Reader rawManifest={ manifest } selfHref={ selfLink } />
-        : <div className="readerLoader">Loading...</div> 
+      : <>
+        { readerIsLoading && <div className="readerLoader">{ Locale.reader.app.loading }</div> }
+        { isClient && manifest && selfLink && <Reader rawManifest={ manifest } selfHref={ selfLink } /> }
+      </>
     }
     </>
   );
