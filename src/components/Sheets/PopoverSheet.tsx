@@ -1,10 +1,11 @@
 import React, { useCallback, useRef } from "react";
 
-import { ISheet } from "@/models/sheets";
+import { ISheet, SheetHeaderVariant } from "@/models/sheets";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 
 import { Dialog, Heading, Popover, PopoverProps } from "react-aria-components";
+import { BackButton } from "../BackButton";
 import { Docker } from "./Docking/Docker";
 
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
@@ -19,13 +20,16 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
     id,
     triggerRef,
     heading,
+    headerVariant,
     className, 
     isOpen,
     onOpenChangeCallback, 
     onClosePressCallback,
     placement,
     docker,
-    children 
+    children,
+    resetFocus,
+    dismissEscapeKeyClose
   }) => {
   const popoverRef = useRef<HTMLDivElement | null>(null);
   const popoverHeaderRef = useRef<HTMLDivElement | null>(null);
@@ -35,7 +39,8 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
   const firstFocusable = useFirstFocusable({
     withinRef: popoverBodyRef, 
     trackedState: isOpen, 
-    fallbackRef: popoverCloseRef
+    fallbackRef: popoverCloseRef,
+    updateState: resetFocus
   });
 
   const computeMaxHeight = useCallback(() => {
@@ -53,6 +58,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
         className={ classNames(sheetStyles.popOverSheet , className) }
         isOpen={ isOpen }
         onOpenChange={ onOpenChangeCallback } 
+        isKeyboardDismissDisabled={ dismissEscapeKeyClose }
         maxHeight={ computeMaxHeight() }
         style={{
           "--sheet-sticky-header": popoverHeaderRef.current ? `${ popoverHeaderRef.current.clientHeight }px` : undefined
@@ -62,15 +68,21 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
           <div 
             ref={ popoverHeaderRef }
             className={ sheetStyles.sheetHeader }
-          >
+          > 
             <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
             
-            <Docker 
-              id={ id }
-              keys={ docker || [] }
-              ref={ popoverCloseRef }
-              onCloseCallback={ onClosePressCallback }
-            /> 
+            { headerVariant === SheetHeaderVariant.previous 
+              ? <BackButton 
+                ref={ popoverCloseRef }
+                onPressCallback={ onClosePressCallback }
+              />
+              : <Docker 
+                id={ id }
+                keys={ docker || [] }
+                ref={ popoverCloseRef }
+                onCloseCallback={ onClosePressCallback }
+              />
+            } 
           </div>
 
           <div 

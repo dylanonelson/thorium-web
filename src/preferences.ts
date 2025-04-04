@@ -2,10 +2,11 @@ import { IRSPrefs, ScrollAffordancePref, ScrollBackTo } from "./models/preferenc
 import { StaticBreakpoints } from "./models/staticBreakpoints";
 import { ShortcutMetaKeywords, ShortcutRepresentation } from "./models/shortcut";
 import { ActionKeys, ActionVisibility } from "./models/actions";
-import { SheetTypes } from "./models/sheets";
+import { SheetHeaderVariant, SheetTypes } from "./models/sheets";
 import { DockTypes, DockingKeys } from "./models/docking";
 import { ThemeKeys } from "./models/theme";
-import { LayoutDirection } from "./models/layout";
+import { LayoutDirection, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./models/layout";
+import { SettingsKeys, TextSettingsKeys } from "./models/settings";
 
 import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";
@@ -13,10 +14,13 @@ import nightMode from "@readium/css/css/vars/night.json";
 
 export const RSPrefs: IRSPrefs = {
   direction: LayoutDirection.ltr,
+  locale: "en",
   typography: {
-    minimalLineLength: 35, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
+    minimalLineLength: 45, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
-    pageGutter: 20 // body padding in px
+    maximalLineLength: 75, // undefined | null | number of characters.
+    pageGutter: 20, // body padding in px
+    layoutStrategy: RSLayoutStrategy.lineLength
   },
   scroll: {
     topAffordance: ScrollAffordancePref.none,
@@ -186,6 +190,7 @@ export const RSPrefs: IRSPrefs = {
       ActionKeys.settings,
       ActionKeys.toc,
       ActionKeys.fullscreen,
+      ActionKeys.layoutStrategy
     //  ActionKeys.jumpToPosition
     ],
     collapse: {
@@ -238,6 +243,25 @@ export const RSPrefs: IRSPrefs = {
           maxWidth: 450
         }
       },
+      [ActionKeys.layoutStrategy]: {
+        visibility: ActionVisibility.overflow,
+        shortcut: null,
+        sheet: {
+          defaultSheet: SheetTypes.popover,
+          breakpoints: {
+            [StaticBreakpoints.compact]: SheetTypes.bottomSheet
+          }
+        },
+        docked: {
+          dockable: DockTypes.none
+        },
+        snapped: {
+          scrim: true,
+          peekHeight: 50,
+          minHeight: 30,
+          maxHeight: 100
+        }
+      },
       [ActionKeys.jumpToPosition]: {
         visibility: ActionVisibility.overflow,
         shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
@@ -273,6 +297,38 @@ export const RSPrefs: IRSPrefs = {
       [DockingKeys.transient]: {
         visibility: ActionVisibility.overflow,
         shortcut: null
+      }
+    }
+  },
+  settings: {
+    reflowOrder: [
+      SettingsKeys.zoom,
+      SettingsKeys.text,
+      SettingsKeys.theme,
+      SettingsKeys.spacing,
+      SettingsKeys.layout,
+      SettingsKeys.columns
+    ],
+    fxlOrder: [
+      SettingsKeys.theme,
+      SettingsKeys.columns
+    ],
+    text: {
+      header: SheetHeaderVariant.previous,
+      subPanel: [
+        TextSettingsKeys.fontFamily,
+        TextSettingsKeys.fontWeight,
+        TextSettingsKeys.align,
+        TextSettingsKeys.hyphens,
+        TextSettingsKeys.normalizeText
+      ]
+    },
+    spacing: {
+      header: SheetHeaderVariant.previous,
+      lineHeight: {
+        [ReadingDisplayLineHeightOptions.small]: 1.3,
+        [ReadingDisplayLineHeightOptions.medium]: 1.5,
+        [ReadingDisplayLineHeightOptions.large]: 1.75
       }
     }
   }

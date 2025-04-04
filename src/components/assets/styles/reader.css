@@ -27,6 +27,7 @@ body {
   overscroll-behavior-y: none;
   background-color: var(--theme-background);
   color: var(--theme-text);
+  position: relative;
 }
 
 main {
@@ -136,6 +137,21 @@ button {
   outline: none;
   /* No tap highlight on mobile */
   -webkit-tap-highlight-color: transparent;
+}
+
+input {
+  font-size: 1rem;
+  border-radius: 0;
+  text-align: inherit;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  cursor: text;
+  border: none;
+  color: inherit;
+  font: inherit;
+  /* Focus no outline */
+  outline: none;
 }
 
 ::selection {

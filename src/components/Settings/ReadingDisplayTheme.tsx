@@ -1,17 +1,19 @@
-import React, { CSSProperties, useRef } from "react";
+import React, { CSSProperties, useCallback, useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 import { ThemeKeys } from "@/models/theme";
 
-import Locale from "../resources/locales/en.json";
-import settingsStyles from "./assets/styles/readerSettings.module.css";
+import Locale from "../../resources/locales/en.json";
+import settingsStyles from "../assets/styles/readerSettings.module.css";
 
-import CheckIcon from "./assets/icons/check.svg";
+import CheckIcon from "../assets/icons/check.svg";
 
 import { ActionKeys } from "@/models/actions";
 import { LayoutDirection } from "@/models/layout";
 
 import { Label, Radio, RadioGroup } from "react-aria-components";
+
+import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
@@ -23,6 +25,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
   const radioGroupRef = useRef<HTMLDivElement | null>(null);
 
   const theme = useAppSelector(state => state.theming.theme);
+  const colorScheme = useAppSelector(state => state.theming.colorScheme)
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === LayoutDirection.rtl
@@ -31,11 +34,16 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
 
   const dispatch = useAppDispatch();
 
-  const handleTheme = (value: string) => {
-    dispatch(setTheme(value));
-  };
+  const { listThemeProps, submitPreferences } = useEpubNavigator();
 
-  // Yeah so it’s easier to inline styles from preferences for these
+  const updatePreference = useCallback(async (value: ThemeKeys) => {
+    const themeProps = listThemeProps(value, colorScheme);
+    await submitPreferences(themeProps);
+
+    dispatch(setTheme(value));
+  }, [listThemeProps, submitPreferences, dispatch, colorScheme]);
+
+  // It’s easier to inline styles from preferences for these
   // than spamming the entire app with all custom properties right now
   const doStyles = (t: ThemeKeys) => {
     let cssProps: CSSProperties = {
@@ -44,7 +52,9 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
     };
 
     if (t === ThemeKeys.auto) {
-      cssProps.background = `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThemeKeys.light].background } 0%, ${ RSPrefs.theming.themes.keys[ThemeKeys.dark].background } 48%)`;
+      cssProps.background = isRTL 
+        ? `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThemeKeys.dark].background } 48%, ${ RSPrefs.theming.themes.keys[ThemeKeys.light].background } 100%)` 
+        : `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThemeKeys.light].background } 0%, ${ RSPrefs.theming.themes.keys[ThemeKeys.dark].background } 48%)`;
       cssProps.color = "#ffffff";
       cssProps.border = `1px solid ${ RSPrefs.theming.themes.keys[ThemeKeys.light].subdue }`;
     } else {
@@ -59,13 +69,14 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
   // mapArrowNav is the number of columns. This assumption 
   // should be safe since even in vertical-writing, 
   // the layout should be horizontal (?)
-  const handleKeyboardNav = (e: React.KeyboardEvent) => {
+  const handleKeyboardNav = async (e: React.KeyboardEvent) => {
+    
     if (mapArrowNav && !isNaN(mapArrowNav)) {
-      const findNextVisualTheme = (perRow: number) => {
+      const findNextVisualTheme = async (perRow: number) => {
         const currentIdx = themeItems.current.findIndex((val) => val === theme);
         const nextIdx = currentIdx + perRow;
         if (nextIdx >= 0 && nextIdx < themeItems.current.length) {
-          dispatch(setTheme(themeItems.current[nextIdx]));
+          await updatePreference(themeItems.current[nextIdx]);
 
           // Focusing here instead of useEffect on theme change so that 
           // it doesn’t steal focus when themes is not the first radio group in the sheet
@@ -85,19 +96,19 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
           break;
         case "ArrowUp":
           e.preventDefault();
-          findNextVisualTheme(-mapArrowNav);
+          await findNextVisualTheme(-mapArrowNav);
           break;
         case "ArrowDown":
           e.preventDefault();
-          findNextVisualTheme(mapArrowNav);
+          await findNextVisualTheme(mapArrowNav);
           break;
         case "ArrowLeft":
           e.preventDefault();
-          isRTL ? findNextVisualTheme(1) : findNextVisualTheme(-1);
+          isRTL ? await findNextVisualTheme(1) : await findNextVisualTheme(-1);
           break;
         case "ArrowRight":
           e.preventDefault();
-          isRTL ? findNextVisualTheme(-1) : findNextVisualTheme(1);
+          isRTL ? await findNextVisualTheme(-1) : await findNextVisualTheme(1);
           break;
         default:
           break;
@@ -111,7 +122,8 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
       ref={ radioGroupRef }
       orientation="horizontal" 
       value={ theme }
-      onChange={ handleTheme }
+      onChange={ async (val) => await updatePreference(val as ThemeKeys) }
+      className={ settingsStyles.readerSettingsGroup }
     >
       <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
       <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
@@ -126,7 +138,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
             key={ t }
             style={ doStyles(t) }
             { ...(mapArrowNav && !isNaN(mapArrowNav) ? {
-              onKeyDown: handleKeyboardNav
+              onKeyDown: (async (e: React.KeyboardEvent) => await handleKeyboardNav(e))
             } : {}) }
           >
           <span>{ Locale.reader.settings.themes[t as keyof typeof ThemeKeys] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>

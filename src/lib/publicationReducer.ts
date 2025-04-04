@@ -9,6 +9,7 @@ const initialState: IPublicationState = {
   atPublicationStart: false,
   atPublicationEnd: false,
   tocTree: undefined, 
+  tocEntry: undefined
 }
 
 export const publicationSlice = createSlice({
@@ -36,6 +37,9 @@ export const publicationSlice = createSlice({
     setTocTree: (state, action) => {
       state.tocTree = action.payload;
     },
+    setTocEntry: (state, action) => {
+      state.tocEntry = action.payload;
+    }
   }
 });
 
@@ -48,6 +52,7 @@ export const {
   setPublicationStart,
   setPublicationEnd,
   setTocTree, 
+  setTocEntry
 } = publicationSlice.actions;
 
 export default publicationSlice.reducer;

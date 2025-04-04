@@ -2,12 +2,13 @@ import React, { useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ISheet } from "@/models/sheets";
+import { ISheet, SheetHeaderVariant } from "@/models/sheets";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
-import { Dialog, DialogTrigger, Heading, Modal } from "react-aria-components";
+import { Dialog, Heading, Modal } from "react-aria-components";
+import { BackButton } from "../BackButton";
 import { CloseButton } from "../CloseButton";
 
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
@@ -18,12 +19,15 @@ export interface IFullScreenSheet extends ISheet {};
 
 export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
     id, 
-    heading, 
+    heading,
+    headerVariant,
     className, 
     isOpen,
     onOpenChangeCallback, 
     onClosePressCallback,
-    children 
+    children,
+    resetFocus,
+    dismissEscapeKeyClose
   }) => {
   const fullScreenHeaderRef = useRef<HTMLDivElement | null>(null);
   const fullScreenBodyRef = useRef<HTMLDivElement | null>(null);
@@ -32,7 +36,8 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
   const firstFocusable = useFirstFocusable({
     withinRef: fullScreenBodyRef, 
     trackedState: isOpen, 
-    fallbackRef: fullScreenCloseRef
+    fallbackRef: fullScreenCloseRef,
+    updateState: resetFocus
   });
 
   return (
@@ -43,6 +48,7 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
         onOpenChange={ onOpenChangeCallback }
         isDismissable={ true }
         className={ classNames(sheetStyles.fullScreenSheet, className) }
+        isKeyboardDismissDisabled={ dismissEscapeKeyClose }
         style={{
           "--sheet-sticky-header": fullScreenHeaderRef.current ? `${ fullScreenHeaderRef.current.clientHeight }px` : undefined
         }}
@@ -54,12 +60,18 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
           >
             <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
-            <CloseButton
-              ref={ fullScreenCloseRef }
-              className={ readerSharedUI.closeButton } 
-              label={ Locale.reader.app.docker.close.trigger } 
-              onPressCallback={ onClosePressCallback }
-            />
+            { headerVariant === SheetHeaderVariant.previous
+              ? <BackButton 
+                ref={ fullScreenCloseRef }
+                onPressCallback={ onClosePressCallback }
+              />
+              : <CloseButton
+                ref={ fullScreenCloseRef }
+                className={ readerSharedUI.closeButton } 
+                label={ Locale.reader.app.docker.close.trigger } 
+                onPressCallback={ onClosePressCallback }
+              />
+            }
           </div>
               
           <div 

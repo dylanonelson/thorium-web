@@ -75,6 +75,7 @@ export const useTheming = () => {
     reducedMotion, 
     reducedTransparency, 
     monochrome, 
+    theme, 
     colorScheme,
     contrast, 
     forcedColors, 

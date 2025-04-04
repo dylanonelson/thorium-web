@@ -1,12 +1,12 @@
-import React, { KeyboardEvent, ReactNode, RefObject, useCallback, useEffect, useRef, useState } from "react";
+import React, { KeyboardEvent, ReactNode, RefObject, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import {OverlayTriggerState, useOverlayTriggerState} from "react-stately";
+import { OverlayTriggerState, useOverlayTriggerState } from "react-stately";
 
 import { RSPrefs } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { BottomSheetDetent, IScrimPref, ISheet } from "@/models/sheets";
+import { BottomSheetDetent, IScrimPref, ISheet, SheetHeaderVariant } from "@/models/sheets";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
@@ -14,6 +14,7 @@ import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import { Sheet, SheetRef } from "react-modal-sheet";
 import { DragIndicatorButton } from "./DragIndicator";
 import { Heading } from "react-aria-components";
+import { BackButton } from "../BackButton";
 import { CloseButton } from "../CloseButton";
 
 import { FocusScope, OverlayProvider, useButton, useDialog, useModal, useOverlay } from "react-aria";
@@ -36,10 +37,13 @@ const BottomSheetContainer = ({
   sheetState,
   className,
   heading,
+  headerVariant, 
+  onClosePressCallback,
   onDragPressCallback,
   onDragKeyCallback,
   isDraggable, 
   hasDetent, 
+  dismissEscapeKeyClose,
   maxWidth, 
   scrimPref, 
   sheetRef,
@@ -51,11 +55,13 @@ const BottomSheetContainer = ({
   sheetState: OverlayTriggerState;
   className: string;
   heading: string;
+  headerVariant?: SheetHeaderVariant;
   onClosePressCallback: () => void;
   onDragPressCallback: () => void;
   onDragKeyCallback: (event: KeyboardEvent) => void;
   isDraggable: boolean;
   hasDetent: BottomSheetDetent;
+  dismissEscapeKeyClose?: boolean;
   maxWidth?: string;
   scrimPref: IScrimPref;
   sheetRef: RefObject<SheetRef | null>;
@@ -68,7 +74,8 @@ const BottomSheetContainer = ({
   const overlay = useOverlay({ 
     onClose: sheetState.close, 
     isOpen: true, 
-    isDismissable: true 
+    isDismissable: true,
+    isKeyboardDismissDisabled: dismissEscapeKeyClose
   }, sheetContainerRef);
 
   const closeButton = useButton({}, bottomSheetCloseRef);
@@ -76,7 +83,7 @@ const BottomSheetContainer = ({
 
   useModal();
 
-  const getDetentClassName = () => {
+  const detentClassName = useMemo(() => {
     let className = "";
     if (hasDetent === "content-height") {
       className = sheetStyles.bottomSheetModalContentHeightDetent;
@@ -84,15 +91,15 @@ const BottomSheetContainer = ({
       className = sheetStyles.bottomSheetModalFullHeightDetent;
     }
     return className;
-  };
+  }, [hasDetent]);
 
-  const getScrimClassName = () => {
+  const scrimClassName = useMemo(() => {
     return scrimPref.active ? sheetStyles.bottomSheetScrim : "";
-  };
+  }, [scrimPref]);
 
-  const getFullscreenClassName = () => {
+  const fullscreenClassName = useMemo(() => {
     return isFullScreen ? sheetStyles.bottomSheetModalFullHeightReached : "";
-  };
+  }, [isFullScreen]);
 
   const fullScreenIntersectionCallback = useCallback((entries: IntersectionObserverEntry[]) => {
     entries.forEach( (entry) => {
@@ -124,7 +131,7 @@ const BottomSheetContainer = ({
   return (
     <>
     <Sheet.Container 
-      className={ classNames(sheetStyles.bottomSheetModal, getDetentClassName(), getFullscreenClassName() ) } 
+      className={ classNames(sheetStyles.bottomSheetModal, detentClassName, fullscreenClassName ) } 
       ref={ sheetContainerRef }
       { ...overlay.overlayProps as any}
       { ...dialog.dialogProps }
@@ -145,13 +152,20 @@ const BottomSheetContainer = ({
           >
             { heading }
           </Heading>
-          <CloseButton
-            ref={ bottomSheetCloseRef }
-            className={ readerSharedUI.closeButton } 
-            label={ Locale.reader.app.docker.close.trigger } 
-            onPressCallback={ sheetState.close }
-            { ...closeButton.buttonProps }
-          />
+
+          { headerVariant === SheetHeaderVariant.previous 
+            ? <BackButton 
+              ref={ bottomSheetCloseRef }
+              onPressCallback={ onClosePressCallback }
+            /> 
+            : <CloseButton
+              ref={ bottomSheetCloseRef }
+              className={ readerSharedUI.closeButton } 
+              label={ Locale.reader.app.docker.close.trigger } 
+              onPressCallback={ onClosePressCallback }
+              { ...closeButton.buttonProps }
+            />
+          }
         </div>
       </Sheet.Header>
       <Sheet.Content 
@@ -160,20 +174,16 @@ const BottomSheetContainer = ({
         { ...(isDraggable ? { style: { paddingBottom: sheetRef.current?.y }} : {} )}
       >
         <Sheet.Scroller 
+          ref={ bottomSheetBodyRef }
           draggable={ false }
-          className={ sheetStyles.bottomSheetScroller }
+          className={ classNames(sheetStyles.bottomSheetScroller, sheetStyles.sheetBody) }
         >
-          <div 
-            ref={ bottomSheetBodyRef } 
-            className={ sheetStyles.sheetBody }
-          >
-            { children }
-          </div>
+          { children }
         </Sheet.Scroller>
       </Sheet.Content>
     </Sheet.Container>
     <Sheet.Backdrop 
-      className={ classNames(sheetStyles.bottomSheetBackdrop, getScrimClassName()) } 
+      className={ classNames(sheetStyles.bottomSheetBackdrop, scrimClassName) } 
       { ...(scrimPref.override ? { style: { "--defaults-scrim": scrimPref.override }} : {}) }
     />
     </>
@@ -183,11 +193,14 @@ const BottomSheetContainer = ({
 export const BottomSheet: React.FC<IBottomSheet> = ({
   id,
   heading,
+  headerVariant,
   className, 
   isOpen,
   onOpenChangeCallback, 
   onClosePressCallback,
-  children 
+  children,
+  resetFocus,
+  dismissEscapeKeyClose
 }) => {
   const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
 
@@ -199,7 +212,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   const detent = useRef<BottomSheetDetent>("full-height");
   const isDraggable = useRef<boolean>(true);
 
-  const getSnapArray = useCallback(() => {
+  const snapArray = useMemo(() => {
     // Val is always checked in 0...1 range
     const getSecureVal = (val: number, ref: number) => {
       if (val > ref) {
@@ -302,16 +315,15 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
     return snapArray;
   }, [id]);
 
-  const snapArray = useRef<number[]>(getSnapArray());
   const snapIdx = useRef<number | null>(null);
 
   const onDragPressCallback = useCallback(() => {
     if (snapIdx.current !== null) {
       // Don’t forget we’re having to handle max @ 0 and min @ 2 (decreasing order)
-      const nextIdx = snapIdx.current === 0 ? snapArray.current.length - 1 : (snapIdx.current - 1);
+      const nextIdx = snapIdx.current === 0 ? snapArray.length - 1 : (snapIdx.current - 1);
       sheetRef.current?.snapTo(nextIdx);
     }
-  }, []);
+  }, [snapArray]);
 
   const onDragKeyCallback = useCallback((e: KeyboardEvent) => {
     if (snapIdx.current !== null) {
@@ -331,7 +343,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
           onClosePressCallback();
           break;
         case "ArrowDown":
-          if (snapIdx.current === snapArray.current.length - 1) {
+          if (snapIdx.current === snapArray.length - 1) {
             onClosePressCallback();
             break;
           }
@@ -341,9 +353,9 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
           break;
       }
     }
-  }, [onClosePressCallback]);
+  }, [snapArray, onClosePressCallback]);
 
-  const getMaxWidthPref = () => {
+  const maxWidthPref = useMemo(() => {
     const maxWidth = RSPrefs.actions.keys[id].snapped?.maxWidth;
     if (typeof maxWidth === "undefined") {
       return undefined;
@@ -352,9 +364,9 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
     } else {
       return `${ maxWidth }px`;
     }
-  };
+  }, [id]);
 
-  const getScrimPref = () => {
+  const scrimPref = useMemo(() => {
     let scrimPref: IScrimPref = {
       active: false,
       override: undefined
@@ -369,12 +381,13 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
     }
 
     return scrimPref;
-  };
+  }, [id]);
  
   const firstFocusable = useFirstFocusable({
     withinRef: bottomSheetBodyRef, 
     trackedState: isOpen, 
-    fallbackRef: bottomSheetCloseRef
+    fallbackRef: bottomSheetCloseRef,
+    updateState: resetFocus
   });
 
   let sheetState = useOverlayTriggerState({
@@ -391,10 +404,10 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
         isOpen={ sheetState.isOpen }
         onClose={ sheetState.close }
         onOpenEnd={ () => firstFocusable && firstFocusable.focus() }
-        { ...(snapArray.current.length > 1 
+        { ...(snapArray.length > 1 
           ? { 
-            snapPoints: snapArray.current, 
-            initialSnap: snapArray.current.length - 2,
+            snapPoints: snapArray, 
+            initialSnap: snapArray.length - 2,
             detent: detent.current
           } 
           : {
@@ -420,13 +433,15 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
               sheetState={ sheetState } 
               className={ className }
               heading={ heading }
+              headerVariant={ headerVariant }
               onClosePressCallback={ onClosePressCallback }
               onDragPressCallback={ onDragPressCallback }
               onDragKeyCallback={ onDragKeyCallback }
               isDraggable= { isDraggable.current }
               hasDetent={ detent.current }
-              maxWidth={ getMaxWidthPref() }
-              scrimPref={ getScrimPref() }
+              dismissEscapeKeyClose={ dismissEscapeKeyClose }
+              maxWidth={ maxWidthPref }
+              scrimPref={ scrimPref }
               sheetRef={ sheetRef } 
               sheetContainerRef={ sheetContainerRef }
               bottomSheetBodyRef={ bottomSheetBodyRef }
