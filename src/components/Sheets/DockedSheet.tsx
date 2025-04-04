@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 
-import { ISheet } from "@/models/sheets";
+import { ISheet, SheetHeaderVariant } from "@/models/sheets";
 import { DockingKeys } from "@/models/docking";
 import { LayoutDirection } from "@/models/layout";
 
@@ -9,6 +9,8 @@ import sheetStyles from "../assets/styles/sheet.module.css";
 
 import { Heading } from "react-aria-components";
 import { Docker } from "./Docking/Docker";
+import { BackButton } from "../BackButton";
+
 import { FocusScope } from "react-aria";
 
 import { useAppSelector } from "@/lib/hooks";
@@ -24,12 +26,14 @@ export interface IDockedSheet extends ISheet {
 export const DockedSheet: React.FC<IDockedSheet> = ({ 
     id,
     heading,
+    headerVariant,
     className, 
     isOpen,
     onClosePressCallback,
     docker, 
     flow,
-    children 
+    children,
+    resetFocus
   }) => {
   const dockPortal = flow && document.getElementById(flow);
   const dockedSheetHeaderRef = useRef<HTMLDivElement | null>(null);
@@ -41,7 +45,8 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
   const firstFocusable = useFirstFocusable({
     withinRef: dockedSheetBodyRef, 
     trackedState: isOpen, 
-    fallbackRef: dockedSheetCloseRef
+    fallbackRef: dockedSheetCloseRef,
+    updateState: resetFocus
   }); 
 
   const classFromFlow = useCallback(() => {
@@ -71,15 +76,21 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
             <div 
               ref={ dockedSheetHeaderRef }
               className={ sheetStyles.sheetHeader }
-            >
+            >             
               <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
-              <Docker 
-                id={ id }
-                keys={ docker || [] }
-                ref={ dockedSheetCloseRef }
-                onCloseCallback={ onClosePressCallback }
-              /> 
+              { headerVariant === SheetHeaderVariant.previous 
+                ? <BackButton 
+                  ref={ dockedSheetCloseRef }
+                  onPressCallback={ onClosePressCallback }
+                /> 
+                : <Docker 
+                  id={ id }
+                  keys={ docker || [] }
+                  ref={ dockedSheetCloseRef }
+                  onCloseCallback={ onClosePressCallback }
+                />
+              } 
             </div>
               
             <div 

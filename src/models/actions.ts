@@ -9,6 +9,7 @@ import { ActionsStateKeys } from "./state/actionsState";
 export enum ActionKeys {
   fullscreen = "fullscreen",
   jumpToPosition = "jumpToPosition",
+  layoutStrategy = "layoutStrategy",
   settings = "settings",
   toc = "toc"
 }
@@ -73,6 +74,7 @@ export interface IActionIconProps {
 export interface IOverflowMenu {
   id: string;
   actionItems: IActionsItem[];
+  triggerRef: RefObject<HTMLElement | null>;
   className?: string;
   actionFallback?: boolean;
   display: boolean;
@@ -95,6 +97,8 @@ export interface ICloseButton {
   onPressCallback: (e: PressEvent) => void;
   withTooltip?: string;
 }
+
+export type IBackButton = Omit<ICloseButton, "withTooltip">;
 
 export interface IActionTokens {
   visibility: ActionVisibility;

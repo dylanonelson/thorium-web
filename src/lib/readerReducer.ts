@@ -3,15 +3,16 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IReaderState } from "@/models/state/readerState";
 import { defaultPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
 import { LayoutDirection } from "@/models/layout";
+import { SettingsContainerKeys } from "@/models/settings";
 
 const initialState: IReaderState = {
   direction: LayoutDirection.ltr,
+  isLoading: true,
   isImmersive: false,
   isHovering: false,
   hasArrows: true,
   isFullscreen: false,
-  isPaged: true,
-  colCount: "auto",
+  settingsContainer: SettingsContainerKeys.initial,
   platformModifier: defaultPlatformModifier
 }
 
@@ -21,6 +22,9 @@ export const readerSlice = createSlice({
   reducers: {
     setDirection: (state, action) => {
       state.direction = action.payload
+    },
+    setLoading: (state, action) => {
+      state.isLoading = action.payload
     },
     setPlatformModifier: (state, action) => {
       state.platformModifier = action.payload
@@ -40,11 +44,8 @@ export const readerSlice = createSlice({
     setFullscreen: (state, action) => {
       state.isFullscreen = action.payload
     },
-    setPaged: (state, action) => {
-      state.isPaged = action.payload
-    },
-    setColCount: (state, action) => {
-      state.colCount = action.payload
+    setSettingsContainer: (state, action) => {
+      state.settingsContainer = action.payload
     }
   }
 })
@@ -52,14 +53,14 @@ export const readerSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { 
   setDirection, 
+  setLoading,
   setPlatformModifier, 
   setImmersive, 
   toggleImmersive, 
   setHovering, 
   setArrows, 
   setFullscreen, 
-  setPaged, 
-  setColCount
+  setSettingsContainer
 } = readerSlice.actions;
 
 export default readerSlice.reducer;

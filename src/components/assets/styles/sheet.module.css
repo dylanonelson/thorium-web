@@ -44,12 +44,28 @@
   left: max(calc((100% - var(--constraints-bottomSheet, 600px)) / 2), 0px) !important;
   background-color: var(--theme-background) !important;
   border: none;
-  filter: drop-shadow(var(--theme-elevate));
+  /* Animating drop-shadow pretty much kills performance, hence why we use a pseudo-element */
+  filter: none !important;
   box-shadow: none !important;
   /* M3 = 28dp, see https://m3.material.io/components/bottom-sheets/overview */
   border-top-left-radius: 28px !important;
   border-top-right-radius: 28px !important;
   transition: border-radius 0.5s;
+}
+
+.bottomSheetModal::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* important for performance */
+  transform: translateZ(0);
+  box-shadow: var(--theme-elevate);
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
 }
 
 .bottomSheetModalFullHeightDetent {
@@ -82,6 +98,12 @@
   color: var(--theme-text);
 }
 
+.bottomSheetScroller {
+  /* Needed for RAC FocusScope keyboard focus scrolling */
+  position: relative;
+  scroll-padding-bottom: calc(var(--layout-spacing) * 2);
+}
+
 .dragIndicator {
   width: calc(var(--icon-size, 40px) * 1.5);
   position: absolute;
@@ -102,6 +124,8 @@
 }
 
 .dockedSheet {
+  /* We need relative positioning so that RAC FocusScope scrolls properly on tabbing */
+  position: relative;
   overflow-y: auto;
   scroll-padding-top: calc(var(--sheet-sticky-header, 80px) + var(--layout-spacing));
   scroll-padding-bottom: var(--layout-spacing);

@@ -164,7 +164,7 @@ const DockPanel = ({
       <div 
         id={ flow } 
         aria-label={ makeDockLabel() }
-        className={ dockClassName }
+        className={ classNames(dockStyles.dockPanelContainer, dockClassName) }
       ></div>
     </Panel>
     { flow === DockingKeys.start && 
@@ -180,10 +180,8 @@ const DockPanel = ({
 };
 
 export const ReaderWithDock = ({ 
-  resizeCallback,
-  children, 
+  children
 }: { 
-  resizeCallback: () => void;
   children: ReactNode; 
 }) => {
   const dockingStart = useAppSelector(state => state.actions.dock[DockingKeys.start]);
@@ -211,7 +209,7 @@ export const ReaderWithDock = ({
 
     return (
       <>
-      <PanelGroup onLayout={ resizeCallback } direction="horizontal">
+      <PanelGroup direction="horizontal">
         { 
           (dockConfig === DockTypes.both || dockConfig === DockTypes.start) 
           && <DockPanel 

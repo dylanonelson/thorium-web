@@ -29,6 +29,10 @@ const initialState: IActionsState = {
     [ActionKeys.jumpToPosition]: {
       isOpen: null,
       docking: null
+    },
+    [ActionKeys.layoutStrategy]: {
+      isOpen: null,
+      docking: null
     }
   },
   overflow: {}
@@ -43,6 +47,7 @@ export const actionsSlice = createSlice({
         case ActionKeys.jumpToPosition:
         case ActionKeys.toc:
         case ActionKeys.settings:
+        case ActionKeys.layoutStrategy:
           // The user should be able to override the dock slot
           // so we override the previous value, and sync 
           // any other action with the same docking key
@@ -136,7 +141,7 @@ export const actionsSlice = createSlice({
         case ActionKeys.jumpToPosition:
         case ActionKeys.toc:
         case ActionKeys.settings:
-
+        case ActionKeys.layoutStrategy:
           // If the action is docked and set Open, we must take care of 
           // the dock panel’s collapsibility. Otherwise we end up with bugs 
           // i.e. user has to click/tap action icon twice to open, 
