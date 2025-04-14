@@ -79,9 +79,10 @@ import {
   setTocTree, 
   setTocEntry
 } from "@/lib/publicationReducer";
+import { Dispatch } from "@reduxjs/toolkit";
 
 import debounce from "debounce";
-import { Dispatch } from "@reduxjs/toolkit";
+import { isIpadOS } from "@/helpers/keyboard/getPlatform";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -599,6 +600,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         };
 
         const defaults: IEpubDefaults = isFXL ? {} : {
+          iPadOSPatch: isIpadOS(),
           layoutStrategy: RSPrefs.typography.layoutStrategy as LayoutStrategy | null | undefined,
           maximalLineLength: RSPrefs.typography.maximalLineLength, 
           minimalLineLength: RSPrefs.typography.minimalLineLength, 
