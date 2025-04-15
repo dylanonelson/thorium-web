@@ -53,6 +53,11 @@ It’s running with defaults, which means a commit triggers a build and deploy f
 
 More details in [the @cloudflare/next-on-pages repo](https://github.com/cloudflare/next-on-pages).
 
+## Known Issues
+
+- Fullscreen is not available on iOS and very limited on iPadOS. We encountered so many issues on iPadOS that it has been disabled for the time being.
+- on iPadOS, when the app is requested in its desktop version, some interventions are implemented in Safari to provide users with a “desktop-class experience.” Unfortunately, one of this intervention is impacting the font-size setting, and requires a flag to be toggled in the Preferences API in order to apply a patch. However, this patch may not catch all edge cases.
+
 ## Contributing
 
 We welcome contributions to Thorium web! If you're interested in helping out, please fork this repository and submit a pull request with your changes.
