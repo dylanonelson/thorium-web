@@ -13,7 +13,7 @@ Thorium Web is a web-based reader for EPUB and other digital publications, built
 
 To get started with Thorium Web, follow these steps:
 
-- Clone the repository: git clone [https://github.com/your-username/thorium-web.git](https://github.com/your-username/thorium-web.git`)
+- Fork or clone the repository: git clone [https://github.com/your-username/thorium-web.git](https://github.com/your-username/thorium-web.git`)
 - Install dependencies: `pnpm install`
 - Start the development server: `pnpm dev`
 - Open the reader in your web browser: [http://localhost:3000](http://localhost:3000)
@@ -30,9 +30,9 @@ See [Customization in docs](./docs/Customization.md) for further details.
 
 To build and deploy Thorium Web, run the following commands:
 
-```
-npm run build
-npm run deploy
+```bash
+pnpm build
+pnpm run deploy
 ```
 
 This will create a production-ready build of the reader and deploy it to the specified hosting platform.
