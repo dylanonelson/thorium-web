@@ -60,7 +60,7 @@ export const useEpubNavigator = () => {
   const dispatch = useAppDispatch();
 
   // Warning: this is using an internal member that will become private, do not rely on it
-  // See https://github.com/readium/playground/issues/25
+  // See https://github.com/edrlab/thorium-web/issues/25
   const mountScroll = useCallback(() => {
     navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {        
@@ -71,7 +71,7 @@ export const useEpubNavigator = () => {
   }, []);
 
   // Warning: this is using an internal member that will become private, do not rely on it
-  // See https://github.com/readium/playground/issues/25
+  // See https://github.com/edrlab/thorium-web/issues/25
   const unmountScroll = useCallback(() => {
     navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {
@@ -159,7 +159,7 @@ export const useEpubNavigator = () => {
   }, [dispatch]);
 
   // Warning: this is using an internal member that will become private, do not rely on it
-  // See https://github.com/readium/playground/issues/25
+  // See https://github.com/edrlab/thorium-web/issues/25
   const scrollBackTo = useCallback((position: ScrollBackTo) => {
     if (position !== ScrollBackTo.untouched) {
       navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
@@ -270,7 +270,7 @@ export const useEpubNavigator = () => {
   }, []);
 
   // Warning: this is an internal member that will become private, do not rely on it
-  // See https://github.com/readium/playground/issues/25
+  // See https://github.com/edrlab/thorium-web/issues/25
   const getCframes = useCallback(() => {
     return navigatorInstance?._cframes;
   }, []);

@@ -30,7 +30,7 @@ const updateActionsState = (state: IActionsState) => {
 
 const loadState = () => {
   try {
-    const serializedState = localStorage.getItem("playground-state");
+    const serializedState = localStorage.getItem("thorium-web-state");
     if (serializedState === null) {
       return { actions: undefined, settings: undefined, theming: undefined };
     }
@@ -45,7 +45,7 @@ const loadState = () => {
 const saveState = (state: object) => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem("playground-state", serializedState);
+    localStorage.setItem("thorium-web-state", serializedState);
   } catch (err) {
     console.error(err);
   }
