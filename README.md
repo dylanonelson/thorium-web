@@ -1,62 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Thorium Web
+
+Thorium Web is a web-based reader for EPUB and other digital publications, built using Next.js and modern web technologies. It is designed to provide a fast, responsive, and accessible reading experience.
+
+## Features
+
+- Supports EPUB
+- Fast and responsive rendering of publications using Next.js
+- Accessible design for readers with disabilities
+- Customizable reading experience with themes, adjustable font sizes, line heights, word- and letter-spacing, etc.
 
 ## Getting Started
 
-First, run the development server:
+To get started with Thorium Web, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Clone the repository: git clone [https://github.com/your-username/thorium-web.git](https://github.com/your-username/thorium-web.git`)
+- Install dependencies: `pnpm install`
+- Start the development server: `pnpm dev`
+- Open the reader in your web browser: [http://localhost:3000](http://localhost:3000)
+
+The development server will automatically reload the page when you make changes to the code.
+
+## Customizing
+
+You can customize this project extensively through [Preferences](./src/preferences.ts): breakpoints, which and how to display actions, themes provided to users, configuration of the docking system, sizes and offsets of icons, etc.
+
+See [Customization in docs](./docs/Customization.md) for further details.
+
+## Building and Deploying
+
+To build and deploy Thorium Web, run the following commands:
+
+```
+npm run build
+npm run deploy
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This will create a production-ready build of the reader and deploy it to the specified hosting platform.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-The Readium Playground is using the following configuration:
+This repository is using the following configuration:
 
 - Go-Toolkit on Google Cloud Run
-- Playground App on CloudFlare Worker
+- Thorium Web App on CloudFlare Pages
 - Assets e.g. demo EPUBs stored on Google Cloud Storage
 
 To deploy, the following script is run: 
 
 ```bash
-npx @cloudflare/next-on-pages@1 && npx wrangler pages deploy ./.vercel/output/static
+npx @cloudflare/next-on-pages && npx wrangler pages deploy
 ```
 
 It’s running with defaults, which means a commit triggers a build and deploy for the current branch to preview. You can then access the app from a subdomain using this branch name. 
 
 More details in [the @cloudflare/next-on-pages repo](https://github.com/cloudflare/next-on-pages).
 
-## Icons
+## Contributing
 
-The [Material Symbols and Icons](https://fonts.google.com/icons) are used as SVG (with default settings, outlined) but support for icon fonts may be added in the future.
+We welcome contributions to Thorium web! If you're interested in helping out, please fork this repository and submit a pull request with your changes.
 
-## Customize
+## License
 
-You can customize this project extensively through [Preferences](./src/preferences.ts): breakpoints, which and how to display actions, themes provided to users, configuration of the docking system, sizes and offsets of icons, etc.
+Thorium Web is licensed under the [BSD-3-Clause license](https://opensource.org/licenses/BSD-3-Clause).
 
-See [Customization in docs](./docs/Customization.md) for further details.
+## Acknowledgments
+
+Thorium Web is built using a number of open-source libraries and frameworks, including [Readium](https://readium.org/), [React](https://reactjs.org/), [React Aria](https://react-spectrum.adobe.com/react-aria/index.html), and [Material Symbols and Icons](https://fonts.google.com/icons). We are grateful for the contributions of the developers and maintainers of these projects.
