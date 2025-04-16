@@ -24,7 +24,7 @@ The development server will automatically reload the page when you make changes 
 
 You can customize this project extensively through [Preferences](./src/preferences.ts): breakpoints, which and how to display actions, themes provided to users, configuration of the docking system, sizes and offsets of icons, etc.
 
-See [Customization in docs](./docs/Customization.md) for further details.
+See [Customization in docs](./docs/customization/Customization.md) for further details.
 
 ## Building and Deploying
 
