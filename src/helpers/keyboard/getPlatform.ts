@@ -37,6 +37,13 @@ export const isMacish = () => {
   return MacOSPattern.test(platform);
 }
 
+// “Desktop-class” iPadOS
+export const isIpadOS = () => {
+  return !!(navigator.maxTouchPoints 
+        && navigator.maxTouchPoints > 2 
+        && navigator.userAgent.includes("Intel"));
+}
+
 // Stopgap measure for fullscreen on iPadOS, do not use elsewhere
 export const isIOSish = () => {
   const AppleMobilePattern = /ipod|iphone|ipad/i;
@@ -44,9 +51,6 @@ export const isIOSish = () => {
   if (AppleMobilePattern.test(platform)) {
     return true;
   } else {
-    // “Desktop-class” iPadOS
-    return navigator.maxTouchPoints 
-        && navigator.maxTouchPoints > 2 
-        && navigator.userAgent.includes("Mac");
+    return isIpadOS();
   }
 }
