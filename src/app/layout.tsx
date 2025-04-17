@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Thorium Web",
-  description: "Play with the capabilities of the Thorium Web Toolkit",
+  description: "Play with the capabilities of the Readium Web Toolkit",
 };
 
 export default function RootLayout({
