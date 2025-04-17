@@ -79,9 +79,9 @@ import {
   setTocTree, 
   setTocEntry
 } from "@/lib/publicationReducer";
+import { Dispatch } from "@reduxjs/toolkit";
 
 import debounce from "debounce";
-import { Dispatch } from "@reduxjs/toolkit";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const container = useRef<HTMLDivElement>(null);
