@@ -114,7 +114,7 @@ To get started with the implementation of Thorium Web, we need to set up a few t
 - **Server with publications:** We need a server that can store and serve publications with a Readium Web Publication Manifest and a Positions List. The resources of the publication must be fetchable separately. This can be a simple file server or a more complex system like Google Cloud Storage.
 - **Deployment platform for Next.js app:** We need a platform to deploy the Next.js app to. This can be Cloudflare Pages, Vercel, or another platform that supports Next.js deployments. [See Next.js documentation for more information](https://nextjs.org/docs/app/building-your-application/deploying).
 
-Route `/read` expects a URL-encoded `book` parameter pointing to the Readium Web Publication Manifest of the publication you want to display and navigate. The Positions List will automatically be fetched by `Reader`.
+Route `/read` expects a URL-encoded `book` parameter pointing to the Publication URL you want to display and navigate. The Readium Web Publication Manifest will be fetched from this URL. Then, in a second step, the Positions List will automatically be fetched by `Reader`.
 
 A handful of publications are listed at the root of the app for demonstration purposes. You could update this to have a dynamic collection with covers, etc.
 
