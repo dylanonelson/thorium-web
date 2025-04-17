@@ -109,7 +109,7 @@ Here's a high-level system diagram showing the relationships between the compone
 > [!Important]
 > The following are outside of the control of the Thorium Web project and must be implemented by the deployer.
 
-To get started with the implementation of Thorium Web, we need to set up a few things first:
+Thorium Web follows the [Readium Architecture](https://readium.org/architecture/). To get started with the implementation of Thorium Web, we need to set up a few things first:
 
 - **Server with publications:** We need a server that can store and serve publications with a Readium Web Publication Manifest and a Positions List. The resources of the publication must be fetchable separately. This can be a simple file server or a more complex system like Google Cloud Storage.
 - **Deployment platform for Next.js app:** We need a platform to deploy the Next.js app to. This can be Cloudflare Pages, Vercel, or another platform that supports Next.js deployments. [See Next.js documentation for more information](https://nextjs.org/docs/app/building-your-application/deploying).
@@ -155,7 +155,7 @@ You can rely on this error overlay to get information about errors and warnings 
 In addition to the error overlay provided by Next.js, there are of course several debugging tools that you can use to troubleshoot issues with Thorium Web:
 
 - **Browser DevTools:** The browser's DevTools provide a wealth of information about the application, including the ability to inspect elements, view the console, and debug JavaScript code.
-- **Console Logs:** Thorium Web and/or Readium ts-toolkit logsimportant events and errors to the console. You can view these logs in the browser's DevTools.
+- **Console Logs:** Thorium Web and/or Readium ts-toolkit log important events and errors to the console. You can view these logs in the browser's DevTools.
 - **Terminal output:** This terminal output is a useful resource for debugging issues with Next.js, and can help you identify problems with the development server or the application itself. It will also run a linter on build, that should help catch some problems.
 
 By using these tips and techniques, you should be able to troubleshoot and debug common issues with Thorium Web. If you're still having trouble, don't hesitate to reach out to the community for help!
@@ -177,4 +177,18 @@ Here are some best practices and recommendations for working with Thorium Web:
 
 ## Glossary
 
-TBD.
+[Go-Toolkit](https://github.com/readium/go-toolkit): The Go Toolkit is used to parse and stream packaged resources (EPUB, CBZ). It outputs a Readium Web Publication Manifest for each of them over HTTPS along with various complementary API responses (Positions List, Guided Navigation), and stream individual resources of these publications over HTTPS.
+
+[Readium Architecture](https://readium.org/architecture/): All Readium implementations (mobile, desktop or Web) are split in two main modules, which use the Readium Web Publication Manifest to communicate together. In Thorium Web, the Publication Server is responsible for serving a Readium Web Publication Manifest and the resources of a publication over HTTPS, and the Navigator is meant to navigate in the resources of a publication.
+
+Preferences API: The Preferences API is a way to submit a set of Preferences to the Navigator, which will then recalculate its settings and update the presentation. It is used in TS-Toolkit to configure Navigators.
+
+[Readium CSS](https://readium.org/readium-css/): Readium CSS is a CSS library whose purpose is to style EPUB publications in a reliable manner. It is used by Thorium Web to style EPUB publications through the Preferences API.
+
+[Readium Positions List](https://readium.org/architecture/models/locators/positions/): The Readium Positions List is a JSON-based document that contains the positions of the publication. It allows users to reference or access a specific position.
+
+[Readium Web](https://readium.org/web/): Readium Web is a toolkit for building Web Readers. It currently supports EPUB, with plans for PDF, audiobooks and comics/manga/webtoons in future revisions. It is divided into two separate toolkits: the client-side TS-Toolkit, and the server-side Go-Toolkit.
+
+[Readium Web Publication Manifest](https://readium.org/webpub-manifest/): The Readium Web Publication Manifest is a JSON-based document meant to represent and distribute publications over HTTPS. It is the primary exchange format used in the Readium Architecture and serves as the main building block for OPDS 2.0.
+
+[TS-Toolkit](https://github.com/readium/ts-toolkit): The TS-Toolkit interacts with a Readium Web Publication Manifest and related APIs, provide various navigators to handle various publication types (reflowable publications and fixed layout for now), along with the lower level API associated to these navigators (for example the Preferences API or Decorator API).
