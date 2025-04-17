@@ -5,7 +5,7 @@ import { Link } from "react-aria-components";
 export default function Home() {
   return (
     <main>
-      <h1>Welcome to the Readium Playground (Under Development)</h1>
+      <h1>Welcome to Thorium Web (Under Development)</h1>
 
       <p>Here’s a list of reflowable and fixed-layout publications you can read and test:</p>
 

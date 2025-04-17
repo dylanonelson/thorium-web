@@ -16,7 +16,7 @@ export interface IScrollAffordanceConfig {
 // but not particularly happy about that.
 // React Portal has a lots of caveats too but it may at least protect
 // the component from Navigator’s handling, although I’m not 100% sure yet.
-export const CUSTOM_SCHEME = "readium-playground:";
+export const CUSTOM_SCHEME = "thorium-web:";
 export enum ScrollActions {
   prev = CUSTOM_SCHEME + "go_prev",
   next = CUSTOM_SCHEME + "go_next"
@@ -33,8 +33,8 @@ export class ScrollAffordance {
   constructor(config: IScrollAffordanceConfig) {
     this.pref = config.pref;
     this.placement = config.placement;
-    this.id = `playground-scroll-affordance-wrapper-${config.placement}`;
-    this.className = config.className || "playground-scroll-affordance-wrapper";
+    this.id = `thorium-web-scroll-affordance-wrapper-${config.placement}`;
+    this.className = config.className || "thorium-web-scroll-affordance-wrapper";
     this.styleSheetContent = config.styleSheetContent;
   }
 
@@ -42,7 +42,7 @@ export class ScrollAffordance {
     const styleSheet = document.createElement("style");
     styleSheet.id = STYLESHEET_ID;
     styleSheet.dataset.readium = "true";
-    styleSheet.textContent = cssContent || `.playground-scroll-affordance-wrapper {
+    styleSheet.textContent = cssContent || `.thorium-web-scroll-affordance-wrapper {
       --color-text: currentColor;
 
       box-sizing: border-box;
@@ -52,21 +52,21 @@ export class ScrollAffordance {
       margin: 0;
       padding: 0;
     }
-    .playground-scroll-affordance-wrapper:focus-within {
+    .thorium-web-scroll-affordance-wrapper:focus-within {
       /* to get around hidden overflow cutting off focus ring w/o being too noticeable */
       padding: 0 2px;
     }
-    #playground-scroll-affordance-wrapper-top {
+    #thorium-web-scroll-affordance-wrapper-top {
       /* to get around hidden overflow cutting off focus ring */
       padding-top: 0.25rem;
       margin-bottom: 1.25rem;
     }
-    #playground-scroll-affordance-wrapper-bottom {
+    #thorium-web-scroll-affordance-wrapper-bottom {
       margin-top: 1.5rem;
       /* to get around hidden overflow cutting off focus ring */
       padding-bottom: 1.5rem;
     }
-    .playground-scroll-affordance-wrapper > a {
+    .thorium-web-scroll-affordance-wrapper > a {
       box-sizing: border-box;
       border: 1px solid color-mix(in srgb, var(--color-text) 50%, transparent);
       border-radius: 3px;
@@ -80,24 +80,24 @@ export class ScrollAffordance {
       font-style: normal;
       font-family: inherit;
     }
-    .playground-scroll-affordance-wrapper > a:hover {
+    .thorium-web-scroll-affordance-wrapper > a:hover {
       background-color: "color-mix(in srgb, var(--color-text) 15%, transparent)";
       border: 1px solid var(--color-text);
     }
-    .playground-scroll-affordance-wrapper > a:first-child:not(:last-child) {
+    .thorium-web-scroll-affordance-wrapper > a:first-child:not(:last-child) {
       text-align: right;
     }
-    .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-prev > span:before {
+    .thorium-web-scroll-affordance-wrapper > a.thorium-web-scroll-affordance-button-prev > span:before {
       content: "←";
       float: left;
       margin-right: 10px;
       color: "color-mix(in srgb, var(--color-text) 50%, transparent)";
     }
-    .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-prev:hover > span:before,
-    .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-next:hover > span:after {
+    .thorium-web-scroll-affordance-wrapper > a.thorium-web-scroll-affordance-button-prev:hover > span:before,
+    .thorium-web-scroll-affordance-wrapper > a.thorium-web-scroll-affordance-button-next:hover > span:after {
       color: var(--color-text);
     }
-    .playground-scroll-affordance-wrapper > a.playground-scroll-affordance-button-next > span:after {
+    .thorium-web-scroll-affordance-wrapper > a.thorium-web-scroll-affordance-button-next > span:after {
       content: "→";
       float: right;
       margin-left: 10px;
@@ -119,8 +119,8 @@ export class ScrollAffordance {
 
         if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.prev)) {
           prevAnchor = doc.createElement("a");
-          prevAnchor.className = `playground-scroll-affordance-button-prev`;
-          prevAnchor.id = `playground-scroll-affordance-button-prev-${this.placement}`;
+          prevAnchor.className = `thorium-web-scroll-affordance-button-prev`;
+          prevAnchor.id = `thorium-web-scroll-affordance-button-prev-${this.placement}`;
           prevAnchor.href = ScrollActions.prev;
 
           // In practice browsers don’t do anything with this? And since the href
@@ -134,8 +134,8 @@ export class ScrollAffordance {
 
         if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.next)) {
           nextAnchor = doc.createElement("a");
-          nextAnchor.className = `playground-scroll-affordance-button-next`;
-          nextAnchor.id = `<a id="playground-scroll-affordance-button-next-${this.placement}`;
+          nextAnchor.className = `thorium-web-scroll-affordance-button-next`;
+          nextAnchor.id = `<a id="thorium-web-scroll-affordance-button-next-${this.placement}`;
           nextAnchor.href = ScrollActions.next;
 
           // In practice browsers don’t do anything with this? And since the href
@@ -149,9 +149,9 @@ export class ScrollAffordance {
 
         if (prevAnchor || nextAnchor) {
           wrapper = doc.createElement("nav");
-          wrapper.id = `playground-scroll-affordance-wrapper-${this.placement}`;
-          wrapper.className = this.className || "playground-scroll-affordance-wrapper";
-          wrapper.dataset.playground = "true";
+          wrapper.id = `thorium-web-scroll-affordance-wrapper-${this.placement}`;
+          wrapper.className = this.className || "thorium-web-scroll-affordance-wrapper";
+          wrapper.dataset.readium = "true";
           wrapper.setAttribute("aria-label", Locale.reader.navigation.scroll.wrapper);
 
           if (prevAnchor) wrapper.append(prevAnchor);

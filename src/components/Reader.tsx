@@ -190,7 +190,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   }, [isImmersive]);
 
   // Warning: this is using navigator’s internal methods that will become private, do not rely on them
-  // See https://github.com/readium/playground/issues/25
+  // See https://github.com/edrlab/thorium-web/issues/25
   const handleTap = (event: FrameClickEvent) => {
     const _cframes = getCframes();
     if (_cframes && !cache.current.settings.scroll) {
@@ -300,7 +300,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     frameLoaded: async function (_wnd: Window): Promise<void> {
       await initReadingEnv();
       // Warning: this is using navigator’s internal methods that will become private, do not rely on them
-      // See https://github.com/readium/playground/issues/25
+      // See https://github.com/edrlab/thorium-web/issues/25
       const _cframes = getCframes();
       _cframes?.forEach(
         (frameManager: FrameManager | FXLFrameManager | undefined) => {
