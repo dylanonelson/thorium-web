@@ -32,7 +32,8 @@ Thorium Web uses [Next.js](https://nextjs.org/), a popular open-source React-bas
 - **Components:** Thorium Web UI is built using React Aria for its components. 
 - **Navigator:** Thorium Web implements navigators that are responsible for displaying and navigating publications. These navigators are client-only and part of [Readium TS-Toolkit](https://github.com/readium/ts-toolkit). Styling of EPUB publications is done through [Readium CSS](https://github.com/readium/readium-css).
 - **Publication Manifest:** Thorium Web relies on the [Readium Web Publication Manifest](https://readium.org/webpub-manifest/). The Readium Web Publication Manifest is a JSON-based document meant to represent and distribute publications over HTTPS. It is the primary exchange format used in the [Readium Architecture](https://readium.org/architecture/).
-- **Publication Parsing:** Publications are parsed using the [Readium Go-Toolkit](https://github.com/readium/go-toolkit) – it creates this Readium Web Publication manifest for instance.
+- **PositionsList:** The [positions list](https://readium.org/architecture/models/locators/positions/) is required by the Readium TS-Toolkit Navigator to operate.
+- **Publication Parsing:** Publications are parsed using the [Readium Go-Toolkit](https://github.com/readium/go-toolkit) – it creates this Readium Web Publication Manifest and Positions List for instance.
 - **Publication Storage:** Publications are stored on Google Cloud.
 
 In addition, [Redux](https://redux.js.org/) is used to manage global states.
@@ -70,6 +71,14 @@ Here's a high-level system diagram showing the relationships between the compone
        |
        v
 +---------------+
+|  Readium      |
+|  Positions    |
+|  List         |
++---------------+
+       |
+       |
+       v
++---------------+
 |  Readium Web  |
 |  Publication  |
 |  Manifest     |
@@ -92,18 +101,20 @@ Here's a high-level system diagram showing the relationships between the compone
 +----------------+
 ```
 
-**Note:** In the foreseeable future, all components and custom hooks of Thorium Web will be exported as Library, following the model of [React Spectrum](https://github.com/adobe/react-spectrum). This way you will be able to build a Reader using your framework of choice.
+> [!NOTE] 
+> In the foreseeable future, all components and custom hooks of Thorium Web will be exported as Library, following the model of [React Spectrum](https://github.com/adobe/react-spectrum). This way you will be able to build a Reader using your framework of choice.
 
 ## Prerequisites for implementation
 
-Note: The following are outside of the control of the Thorium Web project and must be implemented by the deployer.
+> [!Important]
+> The following are outside of the control of the Thorium Web project and must be implemented by the deployer.
 
 To get started with the implementation of Thorium Web, we need to set up a few things first:
 
-- **Server with publications:** We need a server that can store and serve publications with a Readium Web Publication Manifest (e.g. EPUB files). This can be a simple file server or a more complex system like Google Cloud Storage.
+- **Server with publications:** We need a server that can store and serve publications with a Readium Web Publication Manifest and a Positions List. The resources of the publication must be fetchable separately. This can be a simple file server or a more complex system like Google Cloud Storage.
 - **Deployment platform for Next.js app:** We need a platform to deploy the Next.js app to. This can be Cloudflare Pages, Vercel, or another platform that supports Next.js deployments. [See Next.js documentation for more information](https://nextjs.org/docs/app/building-your-application/deploying).
 
-Route `/read` expects a URL-encoded `book` parameter pointing to the Readium Web Publication Manifest of the publication you want to display and navigate.
+Route `/read` expects a URL-encoded `book` parameter pointing to the Readium Web Publication Manifest of the publication you want to display and navigate. The Positions List will automatically be fetched by `Reader`.
 
 A handful of publications are listed at the root of the app for demonstration purposes. You could update this to have a dynamic collection with covers, etc.
 
@@ -124,10 +135,10 @@ Our goal is to provide a flexible and adaptable platform that can meet the needs
 
 Thorium Web is a complex project that relies heavily on several other projects, including ts-toolkit and ReadiumCSS. As a result, some issues may have roots in these projects, and may require reporting in their respective issue trackers.
 
-Important: Before reporting an issue in the Thorium Web issue tracker, please check the following:
-
-- **ts-toolkit:** If the issue is related to the ts-toolkit (Navigator, injectables, shared models), please report it in the [ts-toolkit issue tracker](https://github.com/readium/ts-toolkit/issues).
-- **ReadiumCSS:** If the issue is related to EPUB rendering and settings, please report it in the [ReadiumCSS issue tracker](https://github.com/readium/readium-css/issues).
+> [!IMPORTANT]
+> Before reporting an issue in the Thorium Web issue tracker, please check the following:
+> - **ts-toolkit:** If the issue is related to the ts-toolkit (Navigator, injectables, shared models), please report it in the [ts-toolkit issue tracker](https://github.com/readium/ts-toolkit/issues).
+> - **ReadiumCSS:** If the issue is related to EPUB rendering and settings, please report it in the [ReadiumCSS issue tracker](https://github.com/readium/readium-css/issues).
 
 By reporting issues in the correct issue tracker, we can ensure that the root cause of the problem is addressed and fixed in the relevant project.
 
@@ -154,9 +165,6 @@ By using these tips and techniques, you should be able to troubleshoot and debug
 One common issue that can occur in Next.js applications is the `window` object being `undefined`. This can happen when trying to access the `window` object on the server-side, where it is not available. In particular, this error can occur when trying to pre-render pages that use the `Navigator` from ts-toolkit, which needs to be client-side. 
 
 ## Best Practices and Recommendations
-
-Offer advice on best practices for implementing the project, including coding standards, security considerations, and performance optimization.
-Provide recommendations for scaling, deploying, and maintaining the project.
 
 Here are some best practices and recommendations for working with Thorium Web:
 
