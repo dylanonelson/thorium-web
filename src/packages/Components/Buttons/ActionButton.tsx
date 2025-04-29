@@ -12,10 +12,6 @@ export interface ActionButtonProps extends ButtonProps {
   }
 }
 
-export interface NavigationButtonProps extends ActionButtonProps {
-  direction?: LayoutDirection
-}
-
 export const ActionButton = ({
   ref,
   tooltip,
