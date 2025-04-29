@@ -1,7 +1,7 @@
 import { ComponentType, SVGProps } from "react";
 import { ReadingDisplayAlignOptions, ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./layout";
 import { ThemeKeys } from "./theme";
-import { PressEvent, TooltipProps } from "react-aria-components";
+import { PressEvent } from "react-aria-components";
 import { SheetHeaderVariant } from "./sheets";
 
 export enum SettingsContainerKeys {
@@ -152,15 +152,6 @@ export interface IReadingDisplayGroupWrapperProps {
     main: TextSettingsKeys[] | SpacingSettingsKeys[];
     subPanel: TextSettingsKeys[] | SpacingSettingsKeys[];
   };
-}
-
-export interface IAdvancedIconProps {
-  className?: string;
-  ariaLabel: string;
-  placement: TooltipProps["placement"];
-  tooltipLabel: string;
-  onPressCallback: (e: PressEvent) => void;
-  isDisabled?: boolean;
 }
 
 export interface IAdvancedDisplayProps {

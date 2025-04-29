@@ -23,12 +23,13 @@ export const JumpToPositionAction: React.FC<IActionComponentTrigger> = ({ varian
         />
       : <ActionIcon
           visibility={ RSPrefs.actions.keys[ActionKeys.jumpToPosition].visibility } 
-          ariaLabel={ Locale.reader.jumpToPosition.trigger }
-          SVG={ TargetIcon } 
+          aria-label={ Locale.reader.jumpToPosition.trigger }
           placement="bottom" 
           tooltipLabel={ Locale.reader.jumpToPosition.tooltip }
-          onPressCallback={ () => {} }
-        />
+          onPress={ () => {} }
+        >
+          <TargetIcon aria-hidden="true" focusable="false" />
+        </ActionIcon>
     }
     </>
   )

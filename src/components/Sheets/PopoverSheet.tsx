@@ -1,16 +1,20 @@
 import React, { useCallback, useRef } from "react";
 
+import Locale from "../../resources/locales/en.json";
+
 import { ISheet, SheetHeaderVariant } from "@/models/sheets";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
+import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { Dialog, Heading, Popover, PopoverProps } from "react-aria-components";
-import { BackButton } from "../BackButton";
+import { NavigationButton } from "@/packages/Components/Buttons/NavigationButton";
 import { Docker } from "./Docking/Docker";
 
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 
 import classNames from "classnames";
+import { useAppSelector } from "@/lib/hooks";
 
 export interface IPopoverSheet extends ISheet {
   placement?: PopoverProps["placement"];
@@ -31,6 +35,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
     resetFocus,
     dismissEscapeKeyClose
   }) => {
+  const direction = useAppSelector(state => state.reader.direction);
   const popoverRef = useRef<HTMLDivElement | null>(null);
   const popoverHeaderRef = useRef<HTMLDivElement | null>(null);
   const popoverBodyRef = useRef<HTMLDivElement | null>(null);
@@ -72,9 +77,13 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
             <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
             
             { headerVariant === SheetHeaderVariant.previous 
-              ? <BackButton 
+              ? <NavigationButton 
+                direction={ direction }
+                label={ Locale.reader.app.back.trigger }
                 ref={ popoverCloseRef }
-                onPressCallback={ onClosePressCallback }
+                className={ classNames(className, readerSharedUI.backButton) } 
+                aria-label={ Locale.reader.app.back.trigger }
+                onPress={ onClosePressCallback }
               />
               : <Docker 
                 id={ id }

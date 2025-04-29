@@ -205,12 +205,13 @@ export const TocAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
         />
       : <ActionIcon 
           visibility={ RSPrefs.actions.keys[ActionKeys.toc].visibility }
-          ariaLabel={ Locale.reader.toc.trigger } 
-          SVG={ TocIcon } 
+          aria-label={ Locale.reader.toc.trigger } 
           placement="bottom"
           tooltipLabel={ Locale.reader.toc.tooltip } 
-          onPressCallback={ () => setOpen(!actionState.isOpen) }
-        />
+          onPress={ () => setOpen(!actionState.isOpen) }
+        >
+          <TocIcon aria-hidden="true" focusable="false" />
+        </ActionIcon>
     }
     </>
   )

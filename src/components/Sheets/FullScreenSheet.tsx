@@ -8,10 +8,11 @@ import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { Dialog, Heading, Modal } from "react-aria-components";
-import { BackButton } from "../BackButton";
-import { CloseButton } from "../CloseButton";
+import { NavigationButton } from "@/packages/Components/Buttons/NavigationButton";
+import { CloseButton } from "@/packages/Components/Buttons/CloseButton";
 
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
+import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
@@ -29,6 +30,7 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
     resetFocus,
     dismissEscapeKeyClose
   }) => {
+  const direction = useAppSelector(state => state.reader.direction);
   const fullScreenHeaderRef = useRef<HTMLDivElement | null>(null);
   const fullScreenBodyRef = useRef<HTMLDivElement | null>(null);
   const fullScreenCloseRef = useRef<HTMLButtonElement | null>(null);
@@ -61,15 +63,19 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
             <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
             { headerVariant === SheetHeaderVariant.previous
-              ? <BackButton 
+              ? <NavigationButton
+                direction={ direction }
+                label={ Locale.reader.app.back.trigger }
                 ref={ fullScreenCloseRef }
-                onPressCallback={ onClosePressCallback }
+                className={ classNames(className, readerSharedUI.backButton) } 
+                aria-label={ Locale.reader.app.back.trigger }
+                onPress={ onClosePressCallback }
               />
               : <CloseButton
                 ref={ fullScreenCloseRef }
                 className={ readerSharedUI.closeButton } 
-                label={ Locale.reader.app.docker.close.trigger } 
-                onPressCallback={ onClosePressCallback }
+                aria-label={ Locale.reader.app.docker.close.trigger } 
+                onPress={ onClosePressCallback }
               />
             }
           </div>

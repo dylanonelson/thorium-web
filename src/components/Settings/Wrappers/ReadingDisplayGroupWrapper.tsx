@@ -45,10 +45,10 @@ export const ReadingDisplayGroupWrapper: React.FC<IReadingDisplayGroupWrapperPro
       { isAdvanced && (
         <AdvancedIcon
           className={ settingsStyles.readerSettingsAdvancedIcon }
-          ariaLabel={ moreLabel }
+          aria-label={ moreLabel }
           placement="top"
           tooltipLabel={ moreTooltip }
-          onPressCallback={ onMorePressCallback }
+          onPress={ onMorePressCallback }
         />
       ) }
     </div>

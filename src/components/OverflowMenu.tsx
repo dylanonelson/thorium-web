@@ -38,12 +38,13 @@ export const OverflowMenu = ({
       <MenuTrigger onOpenChange={ (val) => toggleMenuState(val) }>
         <ActionIcon 
           className={ className ? className : overflowMenuStyles.activeButton }
-          ariaLabel={ Locale.reader.overflowMenu.active.trigger }
-          SVG={ MenuIcon } 
+          aria-label={ Locale.reader.overflowMenu.active.trigger }
           placement="bottom"
           tooltipLabel={ Locale.reader.overflowMenu.active.tooltip } 
           visibility={ ActionVisibility.always }
-        />
+        >
+          <MenuIcon aria-hidden="true" focusable="false" />
+        </ActionIcon>
         <Popover
           placement="bottom"
           className={ overflowMenuStyles.overflowPopover }
@@ -76,14 +77,15 @@ export const OverflowMenu = ({
         <>
         <ActionIcon 
           className={ className ? className : overflowMenuStyles.hintButton } 
-          ariaLabel={ Locale.reader.overflowMenu.hint.trigger }
-          SVG={ MenuIcon } 
+          aria-label={ Locale.reader.overflowMenu.hint.trigger }
           placement="bottom"
           tooltipLabel={ Locale.reader.overflowMenu.hint.tooltip } 
           visibility={ ActionVisibility.always }
-          onPressCallback={ () => { dispatch(toggleImmersive()) } }
+          onPress={ () => { dispatch(toggleImmersive()) } }
           preventFocusOnPress={ true }
-        />
+        >
+          <MenuIcon aria-hidden="true" focusable="false" />
+        </ActionIcon>
       </>
       )
     } else {

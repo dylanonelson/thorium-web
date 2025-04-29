@@ -1,15 +1,18 @@
 import React, { useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 
+import Locale from "../../resources/locales/en.json";
+
 import { ISheet, SheetHeaderVariant } from "@/models/sheets";
 import { DockingKeys } from "@/models/docking";
 import { LayoutDirection } from "@/models/layout";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
+import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { Heading } from "react-aria-components";
 import { Docker } from "./Docking/Docker";
-import { BackButton } from "../BackButton";
+import { NavigationButton } from "@/packages/Components/Buttons/NavigationButton";
 
 import { FocusScope } from "react-aria";
 
@@ -80,9 +83,13 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
               <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
               { headerVariant === SheetHeaderVariant.previous 
-                ? <BackButton 
+                ? <NavigationButton
+                  direction={ direction } 
+                  label={ Locale.reader.app.back.trigger }
                   ref={ dockedSheetCloseRef }
-                  onPressCallback={ onClosePressCallback }
+                  className={ classNames(className, readerSharedUI.backButton) } 
+                  aria-label={ Locale.reader.app.back.trigger }
+                  onPress={ onClosePressCallback }
                 /> 
                 : <Docker 
                   id={ id }

@@ -11,7 +11,7 @@ import { IActionsItem, IActionsMapObject } from "@/models/actions";
 
 import { Toolbar } from "react-aria-components";
 
-import { CloseButton } from "../../CloseButton";
+import { CloseButton } from "../../../packages/Components/Buttons/CloseButton";
 import { ActionsWithCollapsibility } from "@/components/ActionsWithCollapsibility";
 import { DockStartAction } from "./DockStartAction";
 import { DockEndAction } from "./DockEndAction";
@@ -65,9 +65,18 @@ export const Docker = ({
       <CloseButton 
         ref={ ref }
         className={ readerSharedUI.dockerButton } 
-        label={ Locale.reader.app.docker.close.trigger } 
-        onPressCallback={ onCloseCallback }
-        withTooltip={ Locale.reader.app.docker.close.tooltip }
+        aria-label={ Locale.reader.app.docker.close.trigger } 
+        onPress={ onCloseCallback }
+        tooltip={ {
+          trigger: {
+            delay: RSPrefs.theming.icon.tooltipDelay,
+            closeDelay: RSPrefs.theming.icon.tooltipDelay
+          },
+          tooltip: {
+            className: readerSharedUI.tooltip
+          },
+          label: Locale.reader.app.docker.close.tooltip
+        }}
       />
     </Toolbar>
     </>

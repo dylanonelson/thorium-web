@@ -1,5 +1,4 @@
 import { ComponentType, ReactNode, RefObject, SVGProps } from "react";
-import { PressEvent, TooltipProps } from "react-aria-components";
 import { DockingKeys, IDockedPref } from "./docking";
 import { StaticBreakpoints } from "./staticBreakpoints";
 import { ISnappedPref, SheetTypes } from "./sheets";
@@ -60,17 +59,6 @@ export interface IActionsItem {
   associatedKey?: ActionsStateKeys;
 }
 
-export interface IActionIconProps {
-  className?: string;
-  ariaLabel: string;
-  SVG: ComponentType<SVGProps<SVGElement>>;
-  placement: TooltipProps["placement"];
-  tooltipLabel: string;
-  visibility?: ActionVisibility;
-  onPressCallback?: (e: PressEvent) => void;
-  isDisabled?: boolean;
-}
-
 export interface IOverflowMenu {
   id: string;
   actionItems: IActionsItem[];
@@ -89,16 +77,6 @@ export interface IOverflowMenuItemProp {
   id: string;
   isDisabled?: boolean;
 }
-
-export interface ICloseButton {
-  ref?: React.ForwardedRef<HTMLButtonElement>;
-  className?: string;
-  label?: string;
-  onPressCallback: (e: PressEvent) => void;
-  withTooltip?: string;
-}
-
-export type IBackButton = Omit<ICloseButton, "withTooltip">;
 
 export interface IActionTokens {
   visibility: ActionVisibility;

@@ -274,12 +274,13 @@ export const SettingsAction: React.FC<IActionComponentTrigger> = ({ variant }) =
         />
       : <ActionIcon 
           visibility={ RSPrefs.actions.keys[ActionKeys.settings].visibility }
-          ariaLabel={ Locale.reader.settings.trigger }
-          SVG={ TuneIcon } 
+          aria-label={ Locale.reader.settings.trigger }
           placement="bottom" 
           tooltipLabel={ Locale.reader.settings.tooltip } 
-          onPressCallback={ () => setOpen(!actionState.isOpen) }
-        />
+          onPress={ () => setOpen(!actionState.isOpen) }
+        >
+          <TuneIcon aria-hidden="true" focusable="false" />
+        </ActionIcon>
     }
     </>
   )

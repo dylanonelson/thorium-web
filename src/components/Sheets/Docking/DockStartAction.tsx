@@ -51,13 +51,17 @@ export const DockStartAction: React.FC<IActionComponentTrigger> = ({ variant, as
         />
       : <ActionIcon 
           className={ readerSharedUI.dockerButton }  
-          ariaLabel={ localeKey.trigger }
-          SVG={ isRTL ? DocktoRight : DockToLeft } 
+          aria-label={ localeKey.trigger }
           placement="bottom" 
           tooltipLabel={ localeKey.tooltip } 
-          onPressCallback={ handlePress } 
+          onPress={ handlePress } 
           isDisabled={ isDisabled }
-        />
+        >
+          { isRTL 
+            ? <DocktoRight aria-hidden="true" focusable="false" /> 
+            : <DockToLeft aria-hidden="true" focusable="false" /> 
+          }
+        </ActionIcon>
     }
     </>
   )

@@ -84,12 +84,13 @@ export const LayoutStrategyAction: React.FC<IActionComponentTrigger> = ({ varian
         />
       : <ActionIcon 
           visibility={ RSPrefs.actions.keys[ActionKeys.layoutStrategy].visibility }
-          ariaLabel={ Locale.reader.layoutStrategy.trigger }
-          SVG={ LayoutIcon } 
+          aria-label={ Locale.reader.layoutStrategy.trigger }
           placement="bottom" 
           tooltipLabel={ Locale.reader.layoutStrategy.tooltip } 
-          onPressCallback={ () => setOpen(!actionState.isOpen) }
-        />
+          onPress={ () => setOpen(!actionState.isOpen) }
+        >
+          <LayoutIcon aria-hidden="true" focusable="false" />
+        </ActionIcon>
     }
     </>
   )
