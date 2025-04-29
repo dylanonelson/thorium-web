@@ -5,7 +5,11 @@ import ArrowForward from "./assets/icons/arrow_forward.svg";
 
 import { LayoutDirection } from "@/models/layout";
 
-import { ActionButton, NavigationButtonProps } from "./ActionButton";
+import { ActionButton, ActionButtonProps } from "./ActionButton";
+
+export interface NavigationButtonProps extends ActionButtonProps {
+  direction?: LayoutDirection
+}
 
 export const NavigationButton = ({
   direction,
