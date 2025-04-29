@@ -2,27 +2,23 @@ import React, { useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 
-import { IAdvancedIconProps } from "@/models/settings";
+import { ActionIconProps } from "@/components/ActionTriggers/ActionIcon";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import SettingIcon from "../../assets/icons/settings.svg";
 
-import { Button, Tooltip, TooltipTrigger, ButtonProps } from "react-aria-components";
+import { ActionButton } from "@/packages/Components/Buttons/ActionButton";
 
 import { isActiveElement } from "@/helpers/focus";
 
 import classNames from "classnames";
 
-export const AdvancedIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAdvancedIconProps> = ({
-  className,
-  ariaLabel, 
+export const AdvancedIcon = ({
   placement,
   tooltipLabel,
-  onPressCallback,
-  isDisabled,
   ...props
-}) => {
+  }: Omit<ActionIconProps, "visibility">) => {
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const blurOnEsc = (event: React.KeyboardEvent) => {
@@ -31,37 +27,27 @@ export const AdvancedIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & I
       triggerRef.current.blur();
     }
   };
-  
+
   return (
-    <>
-    <TooltipTrigger
-      { ...(RSPrefs.theming.icon.tooltipDelay 
-        ? { 
-            delay: RSPrefs.theming.icon.tooltipDelay,
-            closeDelay: RSPrefs.theming.icon.tooltipDelay
-          } 
-        : {}
-      )}
+    <ActionButton
+      ref={ triggerRef }
+      className={ classNames(readerSharedUI.icon, props.className) } 
+      onKeyDown={ blurOnEsc } 
+      tooltip={ tooltipLabel ? {
+        trigger: { 
+          delay: RSPrefs.theming.icon.tooltipDelay, 
+          closeDelay: RSPrefs.theming.icon.tooltipDelay 
+        },
+        tooltip: {
+          className: readerSharedUI.tooltip,
+          placement: placement,
+          offset: RSPrefs.theming.icon.tooltipOffset || 0
+        },
+        label: tooltipLabel
+      } : undefined }
+      { ...Object.fromEntries(Object.entries(props).filter(([key]) => key !== "className")) }
     >
-      <Button 
-        ref={ triggerRef }
-        className={ classNames(readerSharedUI.icon, className) } 
-        aria-label={ ariaLabel } 
-        onPress={ onPressCallback }
-        onKeyDown={ blurOnEsc } 
-        isDisabled={ isDisabled }
-        { ...props }
-      >
-        <SettingIcon aria-hidden="true" focusable="false" />  
-      </Button>
-      <Tooltip
-        className={ readerSharedUI.tooltip }
-        placement={ placement } 
-        offset={ RSPrefs.theming.icon.tooltipOffset || 0 }
-      >
-        { tooltipLabel }
-      </Tooltip>
-    </TooltipTrigger>
-    </>
+      <SettingIcon aria-hidden="true" focusable="false" />  
+    </ActionButton>
   )
 };

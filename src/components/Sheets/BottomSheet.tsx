@@ -14,8 +14,8 @@ import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import { Sheet, SheetRef } from "react-modal-sheet";
 import { DragIndicatorButton } from "./DragIndicator";
 import { Heading } from "react-aria-components";
-import { BackButton } from "../BackButton";
-import { CloseButton } from "../CloseButton";
+import { NavigationButton } from "@/packages/Components/Buttons/NavigationButton";
+import { CloseButton } from "@/packages/Components/Buttons/CloseButton";
 
 import { FocusScope, OverlayProvider, useButton, useDialog, useModal, useOverlay } from "react-aria";
 
@@ -70,6 +70,7 @@ const BottomSheetContainer = ({
   bottomSheetCloseRef: RefObject<HTMLButtonElement | null>;
   children: ReactNode;
 }) => {
+  const direction = useAppSelector((state) => state.reader.direction);
   const dialog = useDialog({}, sheetContainerRef);
   const overlay = useOverlay({ 
     onClose: sheetState.close, 
@@ -154,16 +155,20 @@ const BottomSheetContainer = ({
           </Heading>
 
           { headerVariant === SheetHeaderVariant.previous 
-            ? <BackButton 
+            ? <NavigationButton 
+              direction={ direction }
+              label={ Locale.reader.app.back.trigger }
               ref={ bottomSheetCloseRef }
-              onPressCallback={ onClosePressCallback }
+              className={ classNames(className, readerSharedUI.backButton) } 
+              aria-label={ Locale.reader.app.back.trigger }
+              onPress={ onClosePressCallback }
             /> 
             : <CloseButton
               ref={ bottomSheetCloseRef }
               className={ readerSharedUI.closeButton } 
-              label={ Locale.reader.app.docker.close.trigger } 
-              onPressCallback={ onClosePressCallback }
-              { ...closeButton.buttonProps }
+              aria-label={ Locale.reader.app.docker.close.trigger } 
+              onPress={ onClosePressCallback }
+              { ...closeButton }
             />
           }
         </div>

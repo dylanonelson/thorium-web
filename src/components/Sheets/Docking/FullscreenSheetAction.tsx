@@ -46,13 +46,14 @@ export const FullscreenSheetAction: React.FC<IActionComponentTrigger> = ({ varia
         />
       : <ActionIcon 
           className={ readerSharedUI.dockerButton }  
-          ariaLabel={ Locale.reader.app.docker.fullscreen.trigger }
-          SVG={ Dialog } 
+          aria-label={ Locale.reader.app.docker.fullscreen.trigger }
           placement="bottom" 
           tooltipLabel={ Locale.reader.app.docker.fullscreen.tooltip } 
-          onPressCallback={ handlePress } 
+          onPress={ handlePress } 
           isDisabled={ isDisabled }
-        />
+        >
+          <Dialog aria-hidden="true" focusable="false" />
+        </ActionIcon>
     }
     </>
   )

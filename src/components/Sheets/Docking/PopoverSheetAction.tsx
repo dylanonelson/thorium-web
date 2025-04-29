@@ -46,13 +46,14 @@ export const PopoverSheetAction: React.FC<IActionComponentTrigger> = ({ variant,
         />
       : <ActionIcon 
           className={ readerSharedUI.dockerButton }  
-          ariaLabel={ Locale.reader.app.docker.popover.trigger }
-          SVG={ Stack } 
+          aria-label={ Locale.reader.app.docker.popover.trigger }
           placement="bottom" 
           tooltipLabel={ Locale.reader.app.docker.popover.tooltip } 
-          onPressCallback={ handlePress } 
+          onPress={ handlePress } 
           isDisabled={ isDisabled }
-        />
+        >
+          <Stack aria-hidden="true" focusable="false" />
+        </ActionIcon>
     }
     </>
   )

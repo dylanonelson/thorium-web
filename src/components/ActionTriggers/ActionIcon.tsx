@@ -2,30 +2,35 @@ import React, { useRef } from "react";
 
 import { RSPrefs } from "@/preferences";
 
-import { ActionVisibility, IActionIconProps } from "@/models/actions";
+import { ActionVisibility } from "@/models/actions";
+import { TooltipProps } from "react-aria-components";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "../assets/styles/readerStates.module.css";
 
-import { Button, Tooltip, TooltipTrigger, ButtonProps } from "react-aria-components";
+import { ActionButton, ActionButtonProps } from "@/packages/Components/Buttons/ActionButton";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setImmersive } from "@/lib/readerReducer";
 
 import { isActiveElement, isKeyboardTriggered } from "@/helpers/focus";
+
 import classNames from "classnames";
 
-export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IActionIconProps> = ({
-  className,
-  ariaLabel, 
-  SVG,
-  placement,
-  tooltipLabel,
-  visibility,
-  onPressCallback,
-  isDisabled,
+export interface ActionIconProps extends ActionButtonProps {
+  visibility?: ActionVisibility;
+  placement?: TooltipProps["placement"];
+  tooltipLabel?: string;
+}
+
+export const ActionIcon = ({
+ visibility,
+ placement,
+ tooltipLabel,
   ...props
-}) => {
+}: ActionIconProps) => {
+  const children = props.children;
+
   const triggerRef = useRef<HTMLButtonElement>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
@@ -76,38 +81,29 @@ export const ActionIcon: React.FC<Pick<ButtonProps, "preventFocusOnPress"> & IAc
       triggerRef.current.blur();
     }
   };
-  
+
   return (
-    <>
-    <TooltipTrigger
-      { ...(RSPrefs.theming.icon.tooltipDelay 
-        ? { 
-            delay: RSPrefs.theming.icon.tooltipDelay,
-            closeDelay: RSPrefs.theming.icon.tooltipDelay
-          } 
-        : {}
-      )}
+    <ActionButton
+      ref={ triggerRef }
+      className={ classNames(readerSharedUI.icon, handleClassNameFromState(), props.className) } 
+      onPress={ props.onPress || defaultOnPressFunc }
+      onKeyDown={ blurOnEsc } 
+      onFocus={ handleImmersive }
+      tooltip={ tooltipLabel ? {
+        trigger: {
+          delay: RSPrefs.theming.icon.tooltipDelay,
+          closeDelay: RSPrefs.theming.icon.tooltipDelay
+        },
+        tooltip: {
+          className: readerSharedUI.tooltip,
+          placement: placement,
+          offset: RSPrefs.theming.icon.tooltipOffset || 0
+        },
+        label: tooltipLabel
+      } : undefined }
+      { ...Object.fromEntries(Object.entries(props).filter(([key]) => key !== "className")) }
     >
-      <Button 
-        ref={ triggerRef }
-        className={ classNames(readerSharedUI.icon, handleClassNameFromState(), className) } 
-        aria-label={ ariaLabel } 
-        onPress={ onPressCallback || defaultOnPressFunc }
-        onKeyDown={ blurOnEsc } 
-        onFocus={ handleImmersive }
-        isDisabled={ isDisabled }
-        { ...props }
-      >
-        <SVG aria-hidden="true" focusable="false" />  
-      </Button>
-      <Tooltip
-        className={ readerSharedUI.tooltip }
-        placement={ placement } 
-        offset={ RSPrefs.theming.icon.tooltipOffset || 0 }
-      >
-        { tooltipLabel }
-      </Tooltip>
-    </TooltipTrigger>
-    </>
+      { children }
+    </ActionButton>
   )
 };
