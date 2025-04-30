@@ -4,7 +4,8 @@ import { Inter } from "next/font/google";
 import { RSPrefs } from "@/preferences";
 import { LayoutDirection } from "@/models/layout";
 
-import StoreProvider from "../lib/StoreProvider";
+import StoreProvider from "@/lib/StoreProvider";
+import PreferencesProvider from "@/preferences/PreferencesProvider";
 
 export const runtime = "edge";
 
@@ -24,7 +25,9 @@ export default function RootLayout({
     <html lang="en" { ...(RSPrefs.direction && RSPrefs.direction === LayoutDirection.rtl ? { dir: RSPrefs.direction } : {}) }>
       <body className={ inter.className }>
         <StoreProvider>
-          { children  }
+          <PreferencesProvider>
+            { children  }
+          </PreferencesProvider>
         </StoreProvider>
       </body>
     </html>

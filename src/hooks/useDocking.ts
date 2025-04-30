@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import { DockTypes, BreakpointsDockingMap, DockingKeys } from "@/models/docking";
 import { BreakpointsSheetMap, SheetTypes } from "@/models/sheets";
@@ -17,6 +17,7 @@ import { useActions } from "./useActions";
 let dockingMap: Required<BreakpointsDockingMap> | null = null;
 
 export const useDocking = (key: ActionsStateKeys) => {
+  const RSPrefs = useContext(PreferencesContext);
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const actionState = useAppSelector(state => state.actions.keys[key]);
   const dispatch = useAppDispatch();
@@ -100,7 +101,7 @@ export const useDocking = (key: ActionsStateKeys) => {
     if (dockerKeys.length === 1 && dockerKeys[0] === DockingKeys.transient) return [];
 
     return dockerKeys;
-  }, [currentDockConfig, sheetPref, dockablePref, canBeDocked]);
+  }, [RSPrefs.docking.displayOrder, currentDockConfig, sheetPref, dockablePref, canBeDocked]);
 
   const getSheetType = useCallback(() => {
     // First check the dockable pref is none to return early

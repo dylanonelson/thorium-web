@@ -1,6 +1,6 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 import Locale from "../../../resources/locales/en.json";
 
 import dockerStyles from "../../assets/styles/docking.module.css";
@@ -35,7 +35,7 @@ export const Docker = ({
   ref,
   onCloseCallback
 }: IDocker) => {
-
+  const RSPrefs = useContext(PreferencesContext);
   const listActionItems = useCallback(() => {
     const actionsItems: IActionsItem[] = [];
 

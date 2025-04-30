@@ -6,7 +6,8 @@ export default defineConfig({
   name: "Thorium Web Components",
   entry: {
     components: "src/packages/Components/index.ts",
-    redux: "src/lib/index.ts"
+    redux: "src/lib/index.ts",
+    preferences: "src/preferences/index.ts"
   },
   esbuildPlugins: [svgrPlugin()],
   splitting: false,

@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 import Locale from "../../../resources/locales/en.json";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
@@ -19,6 +19,7 @@ import { useAppDispatch } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
 
 export const PopoverSheetAction: React.FC<IActionComponentTrigger> = ({ variant, associatedKey }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const actions = useActions();
   const isDisabled = !actions.isDocked(associatedKey);
     

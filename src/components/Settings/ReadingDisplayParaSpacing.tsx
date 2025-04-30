@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setParagraphSpacing, setPublisherStyles } from "@/lib/settingsReducer";
 
 export const ReadingDisplayParaSpacing: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
   const paragraphSpacingRangeConfig = {
     variant: RSPrefs.settings.spacing?.paragraphSpacing?.variant ?? defaultParagraphSpacing.variant,

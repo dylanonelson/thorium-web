@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useContext, useMemo, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import { ScrollBackTo } from "@/models/preferences";
 import { ColorScheme, ThemeKeys } from "@/models/theme";
@@ -49,6 +49,7 @@ export interface IEpubNavigatorConfig {
 }
 
 export const useEpubNavigator = () => {
+  const RSPrefs = useContext(PreferencesContext);
   const container = useRef<HTMLDivElement | null>(null);
   const containerParent = useRef<HTMLElement | null>(null);
   const publication = useRef<Publication | null>(null);
@@ -142,7 +143,7 @@ export const useEpubNavigator = () => {
         break;
     }
     return themeProps;
-  }, []);
+  }, [RSPrefs.theming.themes.keys]);
 
   const submitPreferences = useCallback(async (preferences: IEpubPreferences) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences(preferences));

@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setPublisherStyles, setWordSpacing } from "@/lib/settingsReducer";
 
 export const ReadingDisplayWordSpacing: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
   const wordSpacingRangeConfig = {
     variant: RSPrefs.settings.spacing?.wordSpacing?.variant ?? defaultWordSpacing.variant,

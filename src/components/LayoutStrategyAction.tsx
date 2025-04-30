@@ -1,4 +1,6 @@
-import { RSPrefs } from "@/preferences";
+import { useContext } from "react";
+
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
@@ -59,6 +61,8 @@ export const LayoutStrategiesActionContainer: React.FC<IActionComponentContainer
 }
 
 export const LayoutStrategyAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+  const RSPrefs = useContext(PreferencesContext);
+  
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.layoutStrategy]);
   const dispatch = useAppDispatch();
 

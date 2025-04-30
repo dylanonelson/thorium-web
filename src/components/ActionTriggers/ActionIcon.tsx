@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import { ActionVisibility } from "@/models/actions";
 import { TooltipProps } from "react-aria-components";
@@ -30,6 +30,7 @@ export const ActionIcon = ({
   ...props
 }: ActionIconProps) => {
   const children = props.children;
+  const RSPrefs = useContext(PreferencesContext);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);

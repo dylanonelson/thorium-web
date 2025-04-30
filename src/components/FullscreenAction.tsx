@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ActionComponentVariant, ActionKeys, IActionComponentTrigger } from "@/models/actions";
@@ -22,6 +22,8 @@ import { isIOSish } from "@/helpers/keyboard/getPlatform";
 export const FullscreenAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
   // Note: Not using React Aria ToggleButton here as fullscreen is quite
   // difficult to control in isolation due to collapsibility + shortcuts
+
+  const RSPrefs = useContext(PreferencesContext);
 
   const fs = useFullscreen();
   const dispatch = useAppDispatch();

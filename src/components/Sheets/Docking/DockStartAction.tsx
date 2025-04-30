@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 import Locale from "../../../resources/locales/en.json";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
@@ -20,6 +20,7 @@ import { dockAction } from "@/lib/actionsReducer";
 import { useActions } from "@/hooks/useActions";
 
 export const DockStartAction: React.FC<IActionComponentTrigger> = ({ variant, associatedKey }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === LayoutDirection.rtl;
   const localeKey = isRTL ? Locale.reader.app.docker.dockToRight : Locale.reader.app.docker.dockToLeft;

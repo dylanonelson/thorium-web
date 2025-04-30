@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLetterSpacing, setPublisherStyles } from "@/lib/settingsReducer";
 
 export const ReadingDisplayLetterSpacing: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
   const letterSpacingRangeConfig = {
     variant: RSPrefs.settings.spacing?.letterSpacing?.variant ?? defaultLetterSpacing.variant,

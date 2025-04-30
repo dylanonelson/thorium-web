@@ -1,8 +1,8 @@
-import React, { KeyboardEvent, ReactNode, RefObject, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { KeyboardEvent, ReactNode, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { OverlayTriggerState, useOverlayTriggerState } from "react-stately";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -208,6 +208,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   resetFocus,
   dismissEscapeKeyClose
 }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
 
   const sheetRef = useRef<SheetRef | null>(null);
@@ -319,7 +320,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
     }
 
     return snapArray;
-  }, [id]);
+  }, [id, RSPrefs.actions.keys]);
 
   const snapIdx = useRef<number | null>(null);
 
@@ -370,7 +371,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
     } else {
       return `${ maxWidth }px`;
     }
-  }, [id]);
+  }, [id, RSPrefs.actions.keys]);
 
   const scrimPref = useMemo(() => {
     let scrimPref: IScrimPref = {
@@ -387,7 +388,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
     }
 
     return scrimPref;
-  }, [id]);
+  }, [id, RSPrefs.actions.keys]);
  
   const firstFocusable = useFirstFocusable({
     withinRef: bottomSheetBodyRef, 

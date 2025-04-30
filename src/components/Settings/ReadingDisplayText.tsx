@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -42,6 +42,7 @@ const TextSettingsMap: { [key in TextSettingsKeys]: ISettingsMapObject } = {
 }
 
 export const ReadingDisplayText = () => {
+  const RSPrefs = useContext(PreferencesContext);
   const dispatch = useAppDispatch();
 
   const setTextContainer = useCallback(() => {
@@ -67,6 +68,7 @@ export const ReadingDisplayText = () => {
 }
 
 export const ReadingDisplayTextContainer = () => {
+  const RSPrefs = useContext(PreferencesContext);
   const displayOrder = RSPrefs.settings.text?.subPanel || defaultTextSettingsSubpanel;
 
   return(
