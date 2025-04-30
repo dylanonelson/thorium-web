@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import { RSPrefs } from "@/preferences";
 import { LayoutDirection } from "@/models/layout";
 
-import StoreProvider from "./StoreProvider";
+import StoreProvider from "../lib/StoreProvider";
 
 export const runtime = "edge";
 

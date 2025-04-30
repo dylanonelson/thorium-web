@@ -4,7 +4,10 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   name: "Thorium Web Components",
-  entry: ["src/packages/Components/index.ts"],
+  entry: {
+    components: "src/packages/Components/index.ts",
+    redux: "src/lib/index.ts"
+  },
   esbuildPlugins: [svgrPlugin()],
   splitting: false,
   sourcemap: true,
@@ -12,5 +15,6 @@ export default defineConfig({
   dts: true,
   treeshake: true,
   bundle: true,
+  noExternal: ["debounce"]
   // noExternal: [/(.*)/] That’s to bundle everything, including dependencies
 });
