@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "ES2015",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx", 
+    "outDir": "dist", 
+    "declaration": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@readium/shared/*": ["./src/readium/ts-toolkit/shared/*"],
+      "@readium/navigator/*": ["./src/readium/ts-toolkit/navigator/*"],
+      "@readium/navigator-html-injectables/*": ["./src/readium/ts-toolkit/navigator-html-injectables/*"],
+      "react": [ "./node_modules/@types/react" ]
+    }
+  },
+  "include": ["svgr.d.ts", "react.d.ts", "./src/packages/**/*.ts", "src/packages/**/*.tsx"]
+}
