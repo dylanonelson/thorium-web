@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
@@ -84,6 +84,8 @@ import { Dispatch } from "@reduxjs/toolkit";
 import debounce from "debounce";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
+  const RSPrefs = useContext(PreferencesContext);
+  
   const container = useRef<HTMLDivElement>(null);
   const publication = useRef<Publication | null>(null);
   const localDataKey = useRef(`${selfHref}-current-location`);
@@ -507,12 +509,12 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
     applyCurrentTheme()
       .catch(console.error);
-  }, [theme, previousTheme, colorScheme, isFXL, listThemeProps, submitPreferences, dispatch]);
+  }, [theme, previousTheme, RSPrefs.theming.themes, colorScheme, isFXL, listThemeProps, submitPreferences, dispatch]);
 
   useEffect(() => {
     RSPrefs.direction && dispatch(setDirection(RSPrefs.direction));
     dispatch(setPlatformModifier(getPlatformModifier()));
-  }, [dispatch]);
+  }, [RSPrefs.direction, dispatch]);
 
   useEffect(() => {
     const handleConstraint = async () => {

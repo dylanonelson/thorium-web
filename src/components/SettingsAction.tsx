@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
+
 import Locale from "../resources/locales/en.json";
 
 import { 
@@ -112,6 +113,7 @@ const SettingsMap: { [key in SettingsKeys]: ISettingsMapObject } = {
 }
 
 export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const contains = useAppSelector(state => state.reader.settingsContainer);
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
@@ -136,19 +138,19 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
     dispatch(setSettingsContainer(SettingsContainerKeys.initial));
   }, [dispatch]);
 
-  const isTextNested = (key: SettingsKeys) => {
+  const isTextNested = useCallback((key: SettingsKeys) => {
     return [
       RSPrefs.settings.text?.main || defaultTextSettingsMain,
       RSPrefs.settings.text?.subPanel || defaultTextSettingsSubpanel,
     ].some(arr => arr.includes(key as unknown as TextSettingsKeys));
-  };
+  }, [RSPrefs.settings.text]);
 
-  const isSpacingNested = (key: SettingsKeys) => {
+  const isSpacingNested = useCallback((key: SettingsKeys) => {
     return [
       RSPrefs.settings.spacing?.main || defaultSpacingSettingsMain,
       RSPrefs.settings.spacing?.subPanel || defaultSpacingSettingsSubpanel,
     ].some(arr => arr.includes(key as unknown as SpacingSettingsKeys));
-  };
+  }, [RSPrefs.settings.spacing]);
 
   const renderSettings = useCallback(() => {
     switch (contains) {
@@ -173,7 +175,7 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
           </>
         );
     }
-  }, [contains]);
+  }, [contains, isTextNested, isSpacingNested]);
 
   const getHeading = useCallback(() => {
     switch (contains) {
@@ -201,7 +203,7 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
       default:
         return SheetHeaderVariant.close;
     }
-  }, [contains]);
+  }, [contains, RSPrefs.settings.spacing, RSPrefs.settings.text]);
 
 useEffect(() => {
   const handleEscape = (event: KeyboardEvent) => {
@@ -249,6 +251,7 @@ useEffect(() => {
 }
 
 export const SettingsAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
   const dispatch = useAppDispatch();
 

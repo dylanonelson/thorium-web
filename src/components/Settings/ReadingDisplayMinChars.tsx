@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -17,6 +17,7 @@ import { setTmpMinChars } from "@/lib/settingsReducer";
 
 // TMP Component that is not meant to be implemented AS-IS, for testing purposes
 export const ReadingDisplayMinChars = () => {
+  const RSPrefs = useContext(PreferencesContext);
   const columnCount = useAppSelector(state => state.settings.columnCount);
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const lineLength = useAppSelector(state => state.settings.tmpLineLengths[0]);

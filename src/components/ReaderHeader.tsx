@@ -1,6 +1,7 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useContext, useRef } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
+
 import Locale from "../resources/locales/en.json";
 
 import { ActionKeys, IActionsItem, IActionsMapObject } from "@/models/actions";
@@ -43,6 +44,8 @@ const ActionsMap: { [key in ActionKeys]: IActionsMapObject } = {
 }
 
 export const ReaderHeader = () => {
+  const RSPrefs = useContext(PreferencesContext);
+  
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const actionsOrder = useRef(RSPrefs.actions.displayOrder);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);

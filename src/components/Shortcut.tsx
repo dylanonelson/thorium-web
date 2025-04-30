@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
+
 import { IShortcut, ShortcutRepresentation } from "@/models/shortcut";
 
 import { Keyboard } from "react-aria-components";
@@ -12,10 +13,14 @@ import { metaKeys } from "@/helpers/keyboard/getMetaKeys";
 export const Shortcut: React.FC<IShortcut> = ({
   className,
   rawForm,
-  representation = RSPrefs.shortcuts.representation || ShortcutRepresentation.symbol,
-  joiner = RSPrefs.shortcuts.joiner || " + "
+  representation,
+  joiner
 }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const platformModifier = useAppSelector(state => state.reader.platformModifier);
+
+  representation = representation ? representation : RSPrefs.shortcuts.representation || ShortcutRepresentation.symbol;
+  joiner = joiner ? joiner : RSPrefs.shortcuts.joiner || " + ";
 
   const shortcutObj = buildShortcut(rawForm);
 

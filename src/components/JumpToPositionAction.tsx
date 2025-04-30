@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ActionComponentVariant, ActionKeys, IActionComponentTrigger } from "@/models/actions";
@@ -11,6 +11,8 @@ import { ActionIcon } from "./ActionTriggers/ActionIcon";
 import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
 
 export const JumpToPositionAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+  const RSPrefs = useContext(PreferencesContext);
+  
   return(
     <>
     { (variant && variant === ActionComponentVariant.menu) 

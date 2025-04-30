@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
-import { RSPrefs } from "../preferences";
+import { PreferencesContext } from "../preferences";
 
 import { Docked, IDockedPref } from "../models/docking";
 
@@ -9,6 +9,7 @@ import { usePrevious } from "./usePrevious";
 import { useIsClient } from "./useIsClient";
 
 export const useRezisablePanel = (panel: Docked) => {
+  const RSPrefs = useContext(PreferencesContext);
   const isClient = useIsClient();
   const defaultWidth = RSPrefs.theming.layout.defaults.dockingWidth;
   const [pref, setPref] = useState<IDockedPref | null>(null);
@@ -88,7 +89,7 @@ export const useRezisablePanel = (panel: Docked) => {
   // When the docked action changes, we need to update its preferences 
   useEffect(() => {
     setPref(panel.actionKey ? RSPrefs.actions.keys[panel.actionKey].docked || null : null);
-  }, [panel.actionKey]);
+  }, [panel.actionKey, RSPrefs.actions.keys]);
 
   return {
     currentKey, 

@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import { ActionIconProps } from "@/components/ActionTriggers/ActionIcon";
 
@@ -19,6 +19,7 @@ export const AdvancedIcon = ({
   tooltipLabel,
   ...props
   }: Omit<ActionIconProps, "visibility">) => {
+  const RSPrefs = useContext(PreferencesContext);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const blurOnEsc = (event: React.KeyboardEvent) => {

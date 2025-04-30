@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import { BreakpointRange, BreakpointRanges, Breakpoints, StaticBreakpoints } from "@/models/staticBreakpoints";
 import { useMediaQuery } from "./useMediaQuery";
@@ -9,6 +9,7 @@ import { setStaticBreakpoint } from "@/lib/themeReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 export const useBreakpoints = () => {
+  const RSPrefs = useContext(PreferencesContext);
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
   const dispatch = useAppDispatch();
 

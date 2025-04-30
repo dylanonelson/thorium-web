@@ -1,6 +1,7 @@
-import { ReactNode, useCallback, useEffect, useRef } from "react";
+import { ReactNode, useCallback, useContext, useEffect, useRef } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
+
 import Locale from "../resources/locales/en.json";
 
 import dockStyles from "./assets/styles/docking.module.css";
@@ -184,6 +185,7 @@ export const ReaderWithDock = ({
 }: { 
   children: ReactNode; 
 }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const dockingStart = useAppSelector(state => state.actions.dock[DockingKeys.start]);
   const dockingEnd = useAppSelector(state => state.actions.dock[DockingKeys.end])
   const startPanel = useRezisablePanel(dockingStart);

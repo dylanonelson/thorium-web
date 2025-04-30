@@ -1,6 +1,6 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useContext, useRef } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setPublisherStyles } from "@/lib/settingsReducer";
 
 export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
 
   const lineHeight = useAppSelector(state => state.settings.lineHeight);

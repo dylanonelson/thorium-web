@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { IReaderArrow } from "@/models/layout";
 
-import { IReaderArrow, LayoutDirection } from "@/models/layout";
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
@@ -22,6 +22,8 @@ import { isActiveElement } from "@/helpers/focus";
 import classNames from "classnames";
 
 export const ArrowButton = (props: IReaderArrow) => {
+  const RSPrefs = useContext(PreferencesContext);
+  
   const buttonRef = useRef<HTMLButtonElement>(null);
   const isRTL = useAppSelector(state => state.publication.isRTL);
   const hasArrows = useAppSelector(state => state.reader.hasArrows);

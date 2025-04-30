@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -46,6 +46,7 @@ const SpacingSettingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } =
 }
 
 export const ReadingDisplaySpacing = () => {
+  const RSPrefs = useContext(PreferencesContext);
   const dispatch = useAppDispatch();
   
   const setSpacingContainer = useCallback(() => {
@@ -71,6 +72,7 @@ export const ReadingDisplaySpacing = () => {
 }
 
 export const ReadingDisplaySpacingContainer = () => {
+  const RSPrefs = useContext(PreferencesContext);
   const displayOrder = RSPrefs.settings.spacing?.subPanel || defaultSpacingSettingsSubpanel;
 
   return(

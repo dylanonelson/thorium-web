@@ -1,12 +1,12 @@
-import { IRSPrefs, ScrollAffordancePref, ScrollBackTo } from "./models/preferences";
-import { StaticBreakpoints } from "./models/staticBreakpoints";
-import { ShortcutMetaKeywords, ShortcutRepresentation } from "./models/shortcut";
-import { ActionKeys, ActionVisibility } from "./models/actions";
-import { SheetHeaderVariant, SheetTypes } from "./models/sheets";
-import { DockTypes, DockingKeys } from "./models/docking";
-import { ThemeKeys } from "./models/theme";
-import { LayoutDirection, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./models/layout";
-import { SettingsKeys, TextSettingsKeys } from "./models/settings";
+import { IRSPrefs, ScrollAffordancePref, ScrollBackTo } from "../models/preferences";
+import { StaticBreakpoints } from "../models/staticBreakpoints";
+import { ShortcutMetaKeywords, ShortcutRepresentation } from "../models/shortcut";
+import { ActionKeys, ActionVisibility } from "../models/actions";
+import { SheetHeaderVariant, SheetTypes } from "../models/sheets";
+import { DockTypes, DockingKeys } from "../models/docking";
+import { ThemeKeys } from "../models/theme";
+import { LayoutDirection, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "../models/layout";
+import { SettingsKeys, TextSettingsKeys } from "../models/settings";
 
 import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";

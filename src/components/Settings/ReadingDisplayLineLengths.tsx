@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import { RSLayoutStrategy } from "@/models/layout";
 
@@ -22,6 +22,7 @@ import { setTmpLineLengths, setTmpMaxChars, setTmpMinChars } from "@/lib/setting
 
 // TMP Component that is not meant to be implemented AS-IS, for testing purposes
 export const ReadingDisplayLineLengths: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const columnCount = useAppSelector(state => state.settings.columnCount);
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const tmpLineLengths = useAppSelector(state => state.settings.tmpLineLengths);

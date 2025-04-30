@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
@@ -183,6 +183,7 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
 }
 
 export const TocAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
   const dispatch = useAppDispatch();
 

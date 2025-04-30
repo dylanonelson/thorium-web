@@ -1,6 +1,6 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontSize } from "@/lib/settingsReducer";
 
 export const ReadingDisplayZoom = () => {
+  const RSPrefs = useContext(PreferencesContext);
   const fontSize = useAppSelector((state) => state.settings.fontSize);
   const isFXL = useAppSelector((state) => state.publication.isFXL);
   const dispatch = useAppDispatch();

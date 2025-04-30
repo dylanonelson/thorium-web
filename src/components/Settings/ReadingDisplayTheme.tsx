@@ -1,6 +1,7 @@
-import React, { CSSProperties, useCallback, useRef } from "react";
+import React, { CSSProperties, useCallback, useContext, useRef } from "react";
 
-import { RSPrefs } from "@/preferences";
+import { PreferencesContext } from "@/preferences";
+
 import { ThemeKeys } from "@/models/theme";
 
 import Locale from "../../resources/locales/en.json";
@@ -22,6 +23,7 @@ import { setTheme } from "@/lib/themeReducer";
 import classNames from "classnames";
 
 export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
+  const RSPrefs = useContext(PreferencesContext);
   const radioGroupRef = useRef<HTMLDivElement | null>(null);
 
   const theme = useAppSelector(state => state.theming.theme);
