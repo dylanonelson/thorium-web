@@ -156,7 +156,7 @@ const BottomSheetContainer = ({
 
           { headerVariant === SheetHeaderVariant.previous 
             ? <NavigationButton 
-              direction={ direction }
+              direction={ direction === "ltr" ? "left" : "right" }
               label={ Locale.reader.app.back.trigger }
               ref={ bottomSheetCloseRef }
               className={ classNames(className, readerSharedUI.backButton) } 

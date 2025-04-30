@@ -78,7 +78,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
             
             { headerVariant === SheetHeaderVariant.previous 
               ? <NavigationButton 
-                direction={ direction }
+                direction={ direction === "ltr" ? "left" : "right" }
                 label={ Locale.reader.app.back.trigger }
                 ref={ popoverCloseRef }
                 className={ classNames(className, readerSharedUI.backButton) } 

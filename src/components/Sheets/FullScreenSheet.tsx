@@ -64,7 +64,7 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
 
             { headerVariant === SheetHeaderVariant.previous
               ? <NavigationButton
-                direction={ direction }
+                direction={ direction === "ltr" ? "left" : "right" }
                 label={ Locale.reader.app.back.trigger }
                 ref={ fullScreenCloseRef }
                 className={ classNames(className, readerSharedUI.backButton) } 

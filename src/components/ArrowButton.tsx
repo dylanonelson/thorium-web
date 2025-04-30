@@ -80,7 +80,7 @@ export const ArrowButton = (props: IReaderArrow) => {
   return (
     <>
     <NavigationButton 
-      direction={ props.direction === "left" ? LayoutDirection.ltr : LayoutDirection.rtl }
+      direction={ props.direction }
       ref= { buttonRef }
       aria-label={ label }
       onPress={ () => handleOnPress(props.onPressCallback) }
