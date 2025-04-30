@@ -84,7 +84,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
 
               { headerVariant === SheetHeaderVariant.previous 
                 ? <NavigationButton
-                  direction={ direction } 
+                  direction={ direction === "ltr" ? "left" : "right" } 
                   label={ Locale.reader.app.back.trigger }
                   ref={ dockedSheetCloseRef }
                   className={ classNames(className, readerSharedUI.backButton) } 

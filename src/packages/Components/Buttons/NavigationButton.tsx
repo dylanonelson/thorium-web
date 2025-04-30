@@ -3,12 +3,10 @@ import React from "react";
 import ArrowBack from "./assets/icons/arrow_back.svg";
 import ArrowForward from "./assets/icons/arrow_forward.svg";
 
-import { LayoutDirection } from "@/models/layout";
-
 import { ActionButton, ActionButtonProps } from "./ActionButton";
 
 export interface NavigationButtonProps extends ActionButtonProps {
-  direction?: LayoutDirection
+  direction?: "left" | "right";
 }
 
 export const NavigationButton = ({
@@ -22,7 +20,7 @@ export const NavigationButton = ({
 
   const fallBackChildren = (
     <React.Fragment>
-      { direction === LayoutDirection.rtl
+      { direction === "right"
         ? <ArrowForward aria-hidden="true" focusable="false" />
         : <ArrowBack aria-hidden="true" focusable="false" />
       }
