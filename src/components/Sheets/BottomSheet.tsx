@@ -12,8 +12,8 @@ import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { Sheet, SheetRef } from "react-modal-sheet";
-import { DragIndicatorButton } from "./DragIndicator";
 import { Heading } from "react-aria-components";
+import { DragIndicatorButton } from "@/packages/Components/Buttons/DragIndicatorButton";
 import { NavigationButton } from "@/packages/Components/Buttons/NavigationButton";
 import { CloseButton } from "@/packages/Components/Buttons/CloseButton";
 
@@ -141,8 +141,9 @@ const BottomSheetContainer = ({
       <Sheet.Header>
         { isDraggable && 
           <DragIndicatorButton 
-            onPressCallback={ onDragPressCallback } 
-            onKeyUpCallback={ onDragKeyCallback }
+            className={ sheetStyles.dragIndicator }
+            onPress={ onDragPressCallback } 
+            onKeyUp={ onDragKeyCallback }
           /> 
         }
         <div className={ sheetStyles.bottomSheetHeader }>
