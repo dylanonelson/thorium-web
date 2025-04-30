@@ -1,5 +1,5 @@
 {
-  "name": "thorium-web",
+  "name": "@edrlab/thorium-web",
   "description": "Play with the capabilities of the Readium Web toolkit",
   "keywords": [
     "edrlab",
