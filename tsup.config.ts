@@ -16,6 +16,6 @@ export default defineConfig({
   dts: true,
   treeshake: true,
   bundle: true,
-  noExternal: ["debounce"]
+  noExternal: ["debounce", "react-resizable-panels", "react-modal-sheet"]
   // noExternal: [/(.*)/] That’s to bundle everything, including dependencies
 });
