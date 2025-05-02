@@ -39,7 +39,7 @@ export const ReadingDisplayMaxChars = () => {
       <div className={ settingsStyles.readerSettingsGroup }>
         <SwitchWrapper 
           label={ Locale.reader.layoutStrategy.maxChars }
-          onChangeCallback={ async (isSelected: boolean) => await updatePreference(isSelected ? null : lineLength || RSPrefs.typography.maximalLineLength) }
+          onChange={ async (isSelected: boolean) => await updatePreference(isSelected ? null : lineLength || RSPrefs.typography.maximalLineLength) }
           isSelected={ maxChars }
           isDisabled={ layoutStrategy !== RSLayoutStrategy.lineLength }
         />

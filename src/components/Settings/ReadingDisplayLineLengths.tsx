@@ -83,11 +83,10 @@ export const ReadingDisplayLineLengths: React.FC<IAdvancedDisplayProps> = ({ sta
     <>
     <NumberFieldWrapper
       standalone={ standalone }
-      { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+      label={ Locale.reader.layoutStrategy.minimalLineLength.title }
       defaultValue={ getSetting("minimalLineLength") ?? lineLengthRangeConfig.range[0] }
       value={ tmpLineLengths[0] } 
-      onChangeCallback={ async(value) => await updatePreference("min", value) } 
-      label={ Locale.reader.layoutStrategy.minimalLineLength.title }
+      onChange={ async(value) => await updatePreference("min", value) } 
       steppers={{
         decrementLabel: Locale.reader.layoutStrategy.minimalLineLength.decrease,
         incrementLabel: Locale.reader.layoutStrategy.minimalLineLength.increase
@@ -100,11 +99,10 @@ export const ReadingDisplayLineLengths: React.FC<IAdvancedDisplayProps> = ({ sta
 
     <NumberFieldWrapper
       standalone={ standalone }
-      { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+      label={ Locale.reader.layoutStrategy.optimalLineLength.title }
       defaultValue={ getSetting("optimalLineLength") } 
       value={ tmpLineLengths[1] } 
-      onChangeCallback={ async(value) => await updatePreference("optimal", value) } 
-      label={ Locale.reader.layoutStrategy.optimalLineLength.title }
+      onChange={ async(value) => await updatePreference("optimal", value) } 
       steppers={{
         decrementLabel: Locale.reader.layoutStrategy.optimalLineLength.decrease,
         incrementLabel: Locale.reader.layoutStrategy.optimalLineLength.increase
@@ -115,11 +113,10 @@ export const ReadingDisplayLineLengths: React.FC<IAdvancedDisplayProps> = ({ sta
     
     <NumberFieldWrapper
       standalone={ standalone }
-      { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+      label={ Locale.reader.layoutStrategy.maximalLineLength.title }
       defaultValue={ getSetting("maximalLineLength") || lineLengthRangeConfig.range[1] } 
       value={ tmpLineLengths[2] } 
-      onChangeCallback={ async(value) => await updatePreference("max", value) }
-      label={ Locale.reader.layoutStrategy.maximalLineLength.title }
+      onChange={ async(value) => await updatePreference("max", value) }
       steppers={{
         decrementLabel: Locale.reader.layoutStrategy.maximalLineLength.decrease,
         incrementLabel: Locale.reader.layoutStrategy.maximalLineLength.increase

@@ -1,7 +1,7 @@
 import { ComponentType, SVGProps } from "react";
 
-import PlusIcon from "../../assets/icons/add.svg";
-import MinusIcon from "../../assets/icons/remove.svg";
+import AddIcon from "./assets/icons/add.svg";
+import RemoveIcon from "./assets/icons/remove.svg";
 
 import { Button, Group, Input, Label, NumberField, NumberFieldProps } from "react-aria-components";
 
@@ -40,7 +40,7 @@ export const ThNumberField = ({
       incrementAriaLabel={ steppers.incrementLabel }
       { ...props }
     >
-      { label && <Label>
+      { label && <Label className={ classNames?.label }>
           { label }
         </Label>
       }
@@ -52,7 +52,7 @@ export const ThNumberField = ({
         >
           { steppers.decrementIcon 
             ? <steppers.decrementIcon aria-hidden="true" focusable="false" /> 
-            : <MinusIcon aria-hidden="true" focusable="false" /> }
+            : <AddIcon aria-hidden="true" focusable="false" /> }
         </Button>
 
         <Input 
@@ -66,7 +66,7 @@ export const ThNumberField = ({
         >
           { steppers.incrementIcon 
             ? <steppers.incrementIcon aria-hidden="true" focusable="false" /> 
-            : <PlusIcon aria-hidden="true" focusable="false" /> }
+            : <RemoveIcon aria-hidden="true" focusable="false" /> }
         </Button>
       </Group>
     </NumberField>

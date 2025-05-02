@@ -46,35 +46,33 @@ export const ReadingDisplayParaIndent: React.FC<IAdvancedDisplayProps> = ({ stan
     { paragraphIndentRangeConfig.variant === SettingsRangeVariant.numberField 
       ? <NumberFieldWrapper 
         standalone={ standalone }
-        { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+        label={ Locale.reader.settings.paraIndent.title }
         defaultValue={ 0 } 
         value={ paragraphIndent || 0 } 
-        onChangeCallback={ async(value) => await updatePreference(value) } 
-        label={ Locale.reader.settings.paraIndent.title }
+        onChange={ async(value) => await updatePreference(value) } 
         range={ paragraphIndentRangeConfig.range }
         step={ paragraphIndentRangeConfig.step }
         steppers={{
           decrementLabel: Locale.reader.settings.paraIndent.decrease,
           incrementLabel: Locale.reader.settings.paraIndent.increase
         }}
-        format={{
+        formatOptions={{
           signDisplay: "exceptZero",
           minimumFractionDigits: 0,
           maximumFractionDigits: 2
         }} 
         isWheelDisabled={ true }
-        virtualKeyboardDisabled={ true }
+        isVirtualKeyboardDisabled={ true }
       />
       : <SliderWrapper
         standalone={ standalone }
-        { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+        label={ Locale.reader.settings.paraIndent.title }
         defaultValue={ 0 } 
         value={ paragraphIndent || 0 } 
-        onChangeCallback={ async(value) => await updatePreference(value) } 
-        label={ Locale.reader.settings.paraIndent.title }
+        onChange={ async(value) => await updatePreference(value as number) } 
         range={ paragraphIndentRangeConfig.range }
         step={ paragraphIndentRangeConfig.step }
-        format={{
+        formatOptions={{
           signDisplay: "exceptZero",
           minimumFractionDigits: 0,
           maximumFractionDigits: 2

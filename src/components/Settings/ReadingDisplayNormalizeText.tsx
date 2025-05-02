@@ -28,12 +28,10 @@ export const ReadingDisplayNormalizeText: React.FC<IAdvancedDisplayProps> = ({ s
   return(
     <>
     <SwitchWrapper 
-      { ...(standalone ? { 
-        className: settingsStyles.readerSettingsGroup, 
-        heading: Locale.reader.settings.normalizeText.title 
-      } : {}) }
+      standalone={ standalone }
+      heading={ Locale.reader.settings.normalizeText.title }
       label={ Locale.reader.settings.normalizeText.label }
-      onChangeCallback={ async (isSelected: boolean) => await updatePreference(isSelected) }
+      onChange={ async (isSelected: boolean) => await updatePreference(isSelected) }
       isSelected={ textNormalization ?? false }
     />
     </>

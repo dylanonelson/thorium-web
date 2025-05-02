@@ -63,11 +63,9 @@ export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({
   return(
     <>
     <SwitchWrapper 
-      { ...(standalone ? { 
-        className: settingsStyles.readerSettingsGroup
-      } : {}) }
+      standalone={ standalone }
       label={ Locale.reader.settings.publisherStyles.label }
-      onChangeCallback={ async (isSelected: boolean) => await updatePreference(isSelected) }
+      onChange={ async (isSelected: boolean) => await updatePreference(isSelected) }
       isSelected={ publisherStyles }
     />
     </>

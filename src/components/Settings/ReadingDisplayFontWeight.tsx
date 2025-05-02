@@ -30,15 +30,14 @@ export const ReadingDisplayFontWeight: React.FC<IAdvancedDisplayProps> = ({ stan
   return(
     <>
     <SliderWrapper
-      { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+      standalone={ standalone }
+      label={ Locale.reader.settings.fontWeight.title }
       defaultValue={ 400 } 
       value={ fontWeight } 
-      onChangeCallback={ async(value) => await updatePreference(value) } 
-      label={ Locale.reader.settings.fontWeight.title }
+      onChange={ async(value) => await updatePreference(value as number) } 
       range={ fontWeightRangeConfig.range }
       step={ fontWeightRangeConfig.step }
       isDisabled={ fontFamily === "publisher" }
-      standalone={ standalone }
     /> 
     </>
   )
