@@ -20,6 +20,7 @@ import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLineHeight, setPublisherStyles } from "@/lib/settingsReducer";
+import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 
 export const ReadingDisplayLineHeight: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
   const RSPrefs = useContext(PreferencesContext);
@@ -54,48 +55,35 @@ export const ReadingDisplayLineHeight: React.FC<IAdvancedDisplayProps> = ({ stan
 
   return (
     <>
-     <RadioGroup 
-      { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
-      { ...(!standalone ? { "aria-label": Locale.reader.settings.fontFamily.title } : {}) }
-      orientation="horizontal" 
+    <RadioGroupWrapper 
+      standalone={ true }
+      label={ Locale.reader.settings.lineHeight.title }
+      orientation="horizontal"
       value={ publisherStyles ? ReadingDisplayLineHeightOptions.publisher : lineHeight } 
       onChange={ async (val: string) => await updatePreference(val) }
-    >
-      { standalone && <Label className={ settingsStyles.readerSettingsLabel }>
-         { Locale.reader.settings.lineHeight.title }
-        </Label>
-      }
-      <div className={ settingsStyles.readerSettingsRadioWrapper }>
-      <Radio 
-          className={ settingsStyles.readerSettingsRadio } 
-          value={ ReadingDisplayLineHeightOptions.publisher } 
-        >
-          <BookIcon aria-hidden="true" focusable="false" />
-          <span>{ Locale.reader.settings.lineHeight.publisher }</span>
-        </Radio>
-        <Radio 
-          className={ settingsStyles.readerSettingsRadio } 
-          value={ ReadingDisplayLineHeightOptions.small } 
-        >
-          <SmallIcon aria-hidden="true" focusable="false" />
-          <span>{ Locale.reader.settings.lineHeight.small }</span>
-        </Radio>
-        <Radio 
-          className={ settingsStyles.readerSettingsRadio } 
-          value={ ReadingDisplayLineHeightOptions.medium } 
-        >
-          <MediumIcon aria-hidden="true" focusable="false" />
-          <span>{ Locale.reader.settings.lineHeight.medium }</span>
-        </Radio>
-        <Radio 
-          className={ settingsStyles.readerSettingsRadio } 
-          value={ ReadingDisplayLineHeightOptions.large }
-        >
-          <LargeIcon aria-hidden="true" focusable="false" />
-          <span>{ Locale.reader.settings.lineHeight.large }</span>
-        </Radio>
-      </div>
-    </RadioGroup>
+      items={[
+        {
+          icon: BookIcon,
+          label: Locale.reader.settings.lineHeight.publisher, 
+          value: ReadingDisplayLineHeightOptions.publisher 
+        },
+        {
+          icon: SmallIcon,
+          label: Locale.reader.settings.lineHeight.small, 
+          value: ReadingDisplayLineHeightOptions.small 
+        },
+        {
+          icon: MediumIcon,
+          label: Locale.reader.settings.lineHeight.medium, 
+          value: ReadingDisplayLineHeightOptions.medium 
+        },
+        {
+          icon: LargeIcon,
+          label: Locale.reader.settings.lineHeight.large, 
+          value: ReadingDisplayLineHeightOptions.large 
+        },
+      ]}
+    />
     </>
   );
 }
