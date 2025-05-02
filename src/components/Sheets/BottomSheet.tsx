@@ -13,9 +13,9 @@ import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { Sheet, SheetRef } from "react-modal-sheet";
 import { Heading } from "react-aria-components";
-import { DragIndicatorButton } from "@/packages/Components/Buttons/DragIndicatorButton";
-import { NavigationButton } from "@/packages/Components/Buttons/NavigationButton";
-import { CloseButton } from "@/packages/Components/Buttons/CloseButton";
+import { ThDragIndicatorButton } from "@/packages/Components/Buttons/ThDragIndicatorButton";
+import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
+import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
 
 import { FocusScope, OverlayProvider, useButton, useDialog, useModal, useOverlay } from "react-aria";
 
@@ -140,7 +140,7 @@ const BottomSheetContainer = ({
     >
       <Sheet.Header>
         { isDraggable && 
-          <DragIndicatorButton 
+          <ThDragIndicatorButton 
             className={ sheetStyles.dragIndicator }
             onPress={ onDragPressCallback } 
             onKeyUp={ onDragKeyCallback }
@@ -156,7 +156,7 @@ const BottomSheetContainer = ({
           </Heading>
 
           { headerVariant === SheetHeaderVariant.previous 
-            ? <NavigationButton 
+            ? <ThNavigationButton 
               direction={ direction === "ltr" ? "left" : "right" }
               label={ Locale.reader.app.back.trigger }
               ref={ bottomSheetCloseRef }
@@ -164,7 +164,7 @@ const BottomSheetContainer = ({
               aria-label={ Locale.reader.app.back.trigger }
               onPress={ onClosePressCallback }
             /> 
-            : <CloseButton
+            : <ThCloseButton
               ref={ bottomSheetCloseRef }
               className={ readerSharedUI.closeButton } 
               aria-label={ Locale.reader.app.docker.close.trigger } 

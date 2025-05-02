@@ -12,7 +12,7 @@ import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { Heading } from "react-aria-components";
 import { Docker } from "./Docking/Docker";
-import { NavigationButton } from "@/packages/Components/Buttons/NavigationButton";
+import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 
 import { FocusScope } from "react-aria";
 
@@ -83,7 +83,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
               <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
               { headerVariant === SheetHeaderVariant.previous 
-                ? <NavigationButton
+                ? <ThNavigationButton
                   direction={ direction === "ltr" ? "left" : "right" } 
                   label={ Locale.reader.app.back.trigger }
                   ref={ dockedSheetCloseRef }

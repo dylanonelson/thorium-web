@@ -11,7 +11,7 @@ import { IActionsItem, IActionsMapObject } from "@/models/actions";
 
 import { Toolbar } from "react-aria-components";
 
-import { CloseButton } from "../../../packages/Components/Buttons/CloseButton";
+import { ThCloseButton } from "../../../packages/Components/Buttons/ThCloseButton";
 import { ActionsWithCollapsibility } from "@/components/ActionsWithCollapsibility";
 import { DockStartAction } from "./DockStartAction";
 import { DockEndAction } from "./DockEndAction";
@@ -62,7 +62,7 @@ export const Docker = ({
         label={ Locale.reader.app.docker.wrapper }
       />
 
-      <CloseButton 
+      <ThCloseButton 
         ref={ ref }
         className={ readerSharedUI.dockerButton } 
         aria-label={ Locale.reader.app.docker.close.trigger } 
