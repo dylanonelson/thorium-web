@@ -10,7 +10,7 @@ import arrowStyles from "./assets/styles/arrowButton.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 
-import { NavigationButton } from "@/packages/Components/Buttons/NavigationButton";
+import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 
 import { usePrevious } from "@/hooks/usePrevious";
 
@@ -81,7 +81,7 @@ export const ArrowButton = (props: IReaderArrow) => {
 
   return (
     <>
-    <NavigationButton 
+    <ThNavigationButton 
       direction={ props.direction }
       ref= { buttonRef }
       aria-label={ label }

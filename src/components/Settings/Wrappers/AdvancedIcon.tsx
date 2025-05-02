@@ -8,7 +8,7 @@ import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import SettingIcon from "../../assets/icons/settings.svg";
 
-import { ActionButton } from "@/packages/Components/Buttons/ActionButton";
+import { ThActionButton } from "@/packages/Components/Buttons/ThActionButton";
 
 import { isActiveElement } from "@/helpers/focus";
 
@@ -30,7 +30,7 @@ export const AdvancedIcon = ({
   };
 
   return (
-    <ActionButton
+    <ThActionButton
       ref={ triggerRef }
       className={ classNames(readerSharedUI.icon, props.className) } 
       onKeyDown={ blurOnEsc } 
@@ -49,6 +49,6 @@ export const AdvancedIcon = ({
       { ...Object.fromEntries(Object.entries(props).filter(([key]) => key !== "className")) }
     >
       <SettingIcon aria-hidden="true" focusable="false" />  
-    </ActionButton>
+    </ThActionButton>
   )
 };

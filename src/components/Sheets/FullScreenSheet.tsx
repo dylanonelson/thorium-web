@@ -8,8 +8,8 @@ import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { Dialog, Heading, Modal } from "react-aria-components";
-import { NavigationButton } from "@/packages/Components/Buttons/NavigationButton";
-import { CloseButton } from "@/packages/Components/Buttons/CloseButton";
+import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
+import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
 
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
 import { useAppSelector } from "@/lib/hooks";
@@ -63,7 +63,7 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
             <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
 
             { headerVariant === SheetHeaderVariant.previous
-              ? <NavigationButton
+              ? <ThNavigationButton
                 direction={ direction === "ltr" ? "left" : "right" }
                 label={ Locale.reader.app.back.trigger }
                 ref={ fullScreenCloseRef }
@@ -71,7 +71,7 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
                 aria-label={ Locale.reader.app.back.trigger }
                 onPress={ onClosePressCallback }
               />
-              : <CloseButton
+              : <ThCloseButton
                 ref={ fullScreenCloseRef }
                 className={ readerSharedUI.closeButton } 
                 aria-label={ Locale.reader.app.docker.close.trigger } 

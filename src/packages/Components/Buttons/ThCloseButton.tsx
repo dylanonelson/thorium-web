@@ -1,17 +1,17 @@
 import Close from "./assets/icons/close.svg";
 
-import { ActionButton, ActionButtonProps } from "./ActionButton";
+import { ThActionButton, ThActionButtonProps } from "./ThActionButton";
 
-export const CloseButton = ({
+export const ThCloseButton = ({
   label,
   ref,
   tooltip,
   ...props
-}: ActionButtonProps) => {
+}: ThActionButtonProps) => {
   const children = props.children;
 
   return (
-    <ActionButton
+    <ThActionButton
       ref={ ref }
       tooltip={ tooltip }
       { ...props }
@@ -23,6 +23,6 @@ export const CloseButton = ({
           { label }
           </> 
       }
-    </ActionButton>
+    </ThActionButton>
   )
 }

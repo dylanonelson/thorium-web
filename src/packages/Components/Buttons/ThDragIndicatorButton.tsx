@@ -2,7 +2,7 @@ import HorizontalRule from "./assets/icons/horizontal_rule.svg";
 
 import { Button, ButtonProps } from "react-aria-components";
 
-export const DragIndicatorButton = ({
+export const ThDragIndicatorButton = ({
   ...props
 }: ButtonProps) => {
   return (

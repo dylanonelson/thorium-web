@@ -8,7 +8,7 @@ import { TooltipProps } from "react-aria-components";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "../assets/styles/readerStates.module.css";
 
-import { ActionButton, ActionButtonProps } from "@/packages/Components/Buttons/ActionButton";
+import { ThActionButton, ThActionButtonProps } from "@/packages/Components/Buttons/ThActionButton";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setImmersive } from "@/lib/readerReducer";
@@ -17,7 +17,7 @@ import { isActiveElement, isKeyboardTriggered } from "@/helpers/focus";
 
 import classNames from "classnames";
 
-export interface ActionIconProps extends ActionButtonProps {
+export interface ActionIconProps extends ThActionButtonProps {
   visibility?: ActionVisibility;
   placement?: TooltipProps["placement"];
   tooltipLabel?: string;
@@ -84,7 +84,7 @@ export const ActionIcon = ({
   };
 
   return (
-    <ActionButton
+    <ThActionButton
       ref={ triggerRef }
       className={ classNames(readerSharedUI.icon, handleClassNameFromState(), props.className) } 
       onPress={ props.onPress || defaultOnPressFunc }
@@ -105,6 +105,6 @@ export const ActionIcon = ({
       { ...Object.fromEntries(Object.entries(props).filter(([key]) => key !== "className")) }
     >
       { children }
-    </ActionButton>
+    </ThActionButton>
   )
 };

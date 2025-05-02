@@ -8,7 +8,7 @@ import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { Dialog, Heading, Popover, PopoverProps } from "react-aria-components";
-import { NavigationButton } from "@/packages/Components/Buttons/NavigationButton";
+import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 import { Docker } from "./Docking/Docker";
 
 import { useFirstFocusable } from "@/hooks/useFirstFocusable";
@@ -77,7 +77,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
             <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
             
             { headerVariant === SheetHeaderVariant.previous 
-              ? <NavigationButton 
+              ? <ThNavigationButton 
                 direction={ direction === "ltr" ? "left" : "right" }
                 label={ Locale.reader.app.back.trigger }
                 ref={ popoverCloseRef }

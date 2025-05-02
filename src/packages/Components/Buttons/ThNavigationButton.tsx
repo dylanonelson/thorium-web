@@ -3,19 +3,19 @@ import React from "react";
 import ArrowBack from "./assets/icons/arrow_back.svg";
 import ArrowForward from "./assets/icons/arrow_forward.svg";
 
-import { ActionButton, ActionButtonProps } from "./ActionButton";
+import { ThActionButton, ThActionButtonProps } from "./ThActionButton";
 
-export interface NavigationButtonProps extends ActionButtonProps {
+export interface ThNavigationButtonProps extends ThActionButtonProps {
   direction?: "left" | "right";
 }
 
-export const NavigationButton = ({
+export const ThNavigationButton = ({
   direction,
   label,
   ref,
   tooltip,
   ...props
-}: NavigationButtonProps) => {
+}: ThNavigationButtonProps) => {
   const children = props.children;
 
   const fallBackChildren = (
@@ -29,12 +29,12 @@ export const NavigationButton = ({
   );
 
   return (
-    <ActionButton
+    <ThActionButton
       ref={ ref }
       tooltip={ tooltip }
       { ...props }
     >
       { children || fallBackChildren }
-    </ActionButton>
+    </ThActionButton>
   )
 }
