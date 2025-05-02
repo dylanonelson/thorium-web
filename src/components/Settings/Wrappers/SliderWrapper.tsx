@@ -1,43 +1,31 @@
 import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
-import { ISettingsSliderProps } from "@/models/settings";
-
-import { Label, Slider, SliderOutput, SliderProps, SliderThumb, SliderTrack } from "react-aria-components";
+import { ThSlider, ThSliderProps } from "@/packages/Components/Settings";
 
 import classNames from "classnames";
 
-export const SliderWrapper: React.FC<SliderProps & ISettingsSliderProps> = ({
-  standalone, 
-  className,
+export interface WrappedSliderProps extends Omit<ThSliderProps, "classNames"> {
+  standalone?: boolean;
+}
+
+export const SliderWrapper = ({
+  standalone,
   label,
-  defaultValue,
-  value,
-  onChangeCallback,
-  range,
-  step,
-  format,
   ...props
-}) => {
+}: WrappedSliderProps) => {
   return(
     <>
-    <Slider 
-      className={ classNames(settingsStyles.readerSettingsSlider, className) }
-      defaultValue={ defaultValue }
-      value={ value }
-      minValue={ Math.min(...range) }
-      maxValue={ Math.max(...range) }
-      step={ step }
-      formatOptions={ format }
-      onChange={ onChangeCallback }
-      { ...(!standalone ? { "aria-label": label } : {}) }
+    <ThSlider
       { ...props }
-    >
-      { standalone && <Label className={ classNames(settingsStyles.readerSettingsLabel, settingsStyles.readerSettingsSliderLabel) }>{ label }</Label> }
-      <SliderOutput className={ settingsStyles.readerSettingsSliderOutput } />
-      <SliderTrack className={ settingsStyles.readerSettingsSliderTrack }>
-        <SliderThumb className={ settingsStyles.readerSettingsSliderThumb } />
-      </SliderTrack>
-    </Slider>
+      { ...(standalone ? { label: label } : {"aria-label": label}) }
+      className={ classNames(settingsStyles.readerSettingsSlider, standalone ? settingsStyles.readerSettingsGroup : "") }
+      classNames={{
+        label: classNames(settingsStyles.readerSettingsLabel, settingsStyles.readerSettingsSliderLabel),
+        output: settingsStyles.readerSettingsSliderOutput,
+        track: settingsStyles.readerSettingsSliderTrack,
+        thumb: settingsStyles.readerSettingsSliderThumb
+      }}
+    />
     </>
   )
 }

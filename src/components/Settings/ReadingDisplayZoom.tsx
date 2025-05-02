@@ -48,11 +48,10 @@ export const ReadingDisplayZoom = () => {
     <>
     { zoomRangeConfig.variant === SettingsRangeVariant.numberField 
       ? <NumberFieldWrapper
-        standalone={ true }
-        className={ settingsStyles.readerSettingsGroup }
+        standalone={ true}
         defaultValue={ 1 } 
         value={ fontSize } 
-        onChangeCallback={ async(value) => await updatePreference(value) } 
+        onChange={ async(value) => await updatePreference(value) } 
         label={ isFXL ? Locale.reader.settings.zoom.title : Locale.reader.settings.fontSize.title }
         range={ zoomRangeConfig.range }
         step={ zoomRangeConfig.step }
@@ -62,20 +61,19 @@ export const ReadingDisplayZoom = () => {
           incrementIcon: isFXL ? ZoomIn : Increase,
           incrementLabel: isFXL ? Locale.reader.settings.zoom.increase : Locale.reader.settings.fontSize.increase
         }}
-        format={{ style: "percent" }} 
+        formatOptions={{ style: "percent" }} 
         isWheelDisabled={ true }
-        virtualKeyboardDisabled={ true }
+        isVirtualKeyboardDisabled={ true }
       />
       : <SliderWrapper
         standalone={ true }
-        className={ settingsStyles.readerSettingsGroup }
         defaultValue={ 1 } 
         value={ fontSize } 
-        onChangeCallback={ async(value) => await updatePreference(value) } 
+        onChange={ async(value) => await updatePreference(value as number) } 
         label={ isFXL ? Locale.reader.settings.zoom.title : Locale.reader.settings.fontSize.title }
         range={ zoomRangeConfig.range }
         step={ zoomRangeConfig.step }
-        format={{ style: "percent" }} 
+        formatOptions={{ style: "percent" }} 
       />
     } 
     </>

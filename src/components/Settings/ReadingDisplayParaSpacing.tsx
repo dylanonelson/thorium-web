@@ -46,35 +46,33 @@ export const ReadingDisplayParaSpacing: React.FC<IAdvancedDisplayProps> = ({ sta
     { paragraphSpacingRangeConfig.variant === SettingsRangeVariant.numberField 
       ? <NumberFieldWrapper 
         standalone={ standalone }
-        { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+        label={ Locale.reader.settings.paraSpacing.title }
         defaultValue={ 0 } 
         value={ paragraphSpacing || 0 } 
-        onChangeCallback={ async(value) => await updatePreference(value) } 
-        label={ Locale.reader.settings.paraSpacing.title }
+        onChange={ async(value) => await updatePreference(value) } 
         range={ paragraphSpacingRangeConfig.range }
         step={ paragraphSpacingRangeConfig.step }
         steppers={{
           decrementLabel: Locale.reader.settings.paraSpacing.decrease,
           incrementLabel: Locale.reader.settings.paraSpacing.increase
         }}
-        format={{
+        formatOptions={{
           signDisplay: "exceptZero",
           minimumFractionDigits: 0,
           maximumFractionDigits: 2
         }} 
         isWheelDisabled={ true }
-        virtualKeyboardDisabled={ true }
+        isVirtualKeyboardDisabled={ true }
       />
       : <SliderWrapper
         standalone={ standalone }
-        { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+        label={ Locale.reader.settings.paraSpacing.title }
         defaultValue={ 0 } 
         value={ paragraphSpacing || 0 } 
-        onChangeCallback={ async(value) => await updatePreference(value) } 
-        label={ Locale.reader.settings.paraSpacing.title }
+        onChange={ async(value) => await updatePreference(value as number) } 
         range={ paragraphSpacingRangeConfig.range }
         step={ paragraphSpacingRangeConfig.step }
-        format={{
+        formatOptions={{
           signDisplay: "exceptZero",
           minimumFractionDigits: 0,
           maximumFractionDigits: 2

@@ -46,31 +46,29 @@ export const ReadingDisplayLetterSpacing: React.FC<IAdvancedDisplayProps> = ({ s
     { letterSpacingRangeConfig.variant === SettingsRangeVariant.numberField 
       ? <NumberFieldWrapper 
         standalone={ standalone }
-        { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+        label={ Locale.reader.settings.letterSpacing.title }
         defaultValue={ 0 } 
         value={ letterSpacing || 0 } 
-        onChangeCallback={ async(value) => await updatePreference(value) } 
-        label={ Locale.reader.settings.letterSpacing.title }
+        onChange={ async(value) => await updatePreference(value) } 
         range={ letterSpacingRangeConfig.range }
         step={ letterSpacingRangeConfig.step }
         steppers={{
           decrementLabel: Locale.reader.settings.letterSpacing.decrease,
           incrementLabel: Locale.reader.settings.letterSpacing.increase
         }}
-        format={{ style: "percent" }} 
+        formatOptions={{ style: "percent" }} 
         isWheelDisabled={ true }
-        virtualKeyboardDisabled={ true }
+        isVirtualKeyboardDisabled={ true }
       />
       : <SliderWrapper
         standalone={ standalone }
-        { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+        label={ Locale.reader.settings.letterSpacing.title }
         defaultValue={ 0 } 
         value={ letterSpacing || 0 } 
-        onChangeCallback={ async(value) => await updatePreference(value) } 
-        label={ Locale.reader.settings.letterSpacing.title }
+        onChange={ async(value) => await updatePreference(value as number) } 
         range={ letterSpacingRangeConfig.range }
         step={ letterSpacingRangeConfig.step }
-        format={ { style: "percent" } }
+        formatOptions={ { style: "percent" } }
       />
     } 
     </>

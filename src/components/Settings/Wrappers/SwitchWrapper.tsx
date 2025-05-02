@@ -1,33 +1,31 @@
+import classNames from "classnames";
 import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
-import { ISettingsSwitchProps } from "@/models/settings";
+import { ThSwitch, ThSwitchProps } from "@/packages/Components/Settings";
 
-import { Heading, Switch, SwitchProps } from "react-aria-components";
+export interface WrappedSwitchProps extends ThSwitchProps {
+  standalone?: boolean;
+}
 
-export const SwitchWrapper: React.FC<SwitchProps & ISettingsSwitchProps> = ({
-  name,
-  className,
-  heading, 
+export const SwitchWrapper = ({
+  standalone,
   label,
-  isSelected,
-  onChangeCallback,
+  heading, 
   ...props
-}) => {
+}: WrappedSwitchProps) => {
   return(
     <>
-    <div className={ className }>
-      { heading && <Heading className={ settingsStyles.readerSettingsLabel }>{ heading }</Heading> }
-      <Switch 
-        name={ name }
-        className={ settingsStyles.readerSettingsSwitch }
-        isSelected={ isSelected }
-        onChange={ onChangeCallback }
-        { ...props }
-      >
-        <div className={ settingsStyles.readerSettingsSwitchIndicator } />
-        { label }
-      </Switch>
-    </div>
+    <ThSwitch 
+      { ...props }
+      { ...(standalone ? { heading: heading } : {}) }
+      label={ label }
+      className={ settingsStyles.readerSettingsSwitch }
+      classNames={{
+        wrapper: settingsStyles.readerSettingsGroup,
+        heading: settingsStyles.readerSettingsLabel,
+        indicator: settingsStyles.readerSettingsSwitchIndicator
+      }}
+    />
     </>
   )
 }

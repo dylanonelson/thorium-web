@@ -46,31 +46,29 @@ export const ReadingDisplayWordSpacing: React.FC<IAdvancedDisplayProps> = ({ sta
     { wordSpacingRangeConfig.variant === SettingsRangeVariant.numberField 
       ? <NumberFieldWrapper 
         standalone={ standalone }
-        { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+        label={ Locale.reader.settings.wordSpacing.title }
         defaultValue={ 0 } 
         value={ wordSpacing || 0 } 
-        onChangeCallback={ async(value) => await updatePreference(value) } 
-        label={ Locale.reader.settings.wordSpacing.title }
+        onChange={ async(value) => await updatePreference(value) } 
         range={ wordSpacingRangeConfig.range }
         step={ wordSpacingRangeConfig.step }
         steppers={{
           decrementLabel: Locale.reader.settings.wordSpacing.decrease,
           incrementLabel: Locale.reader.settings.wordSpacing.increase
         }}
-        format={{ style: "percent" }} 
+        formatOptions={{ style: "percent" }} 
         isWheelDisabled={ true }
-        virtualKeyboardDisabled={ true }
+        isVirtualKeyboardDisabled={ true }
       />
       : <SliderWrapper
         standalone={ standalone }
-        { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
+        label={ Locale.reader.settings.wordSpacing.title }
         defaultValue={ 0 } 
         value={ wordSpacing || 0 } 
-        onChangeCallback={ async(value) => await updatePreference(value) } 
-        label={ Locale.reader.settings.wordSpacing.title }
+        onChange={ async(value) => await updatePreference(value as number) } 
         range={ wordSpacingRangeConfig.range }
         step={ wordSpacingRangeConfig.step }
-        format={{ style: "percent" }}
+        formatOptions={{ style: "percent" }}
       /> 
     }
     </>

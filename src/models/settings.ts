@@ -158,42 +158,6 @@ export interface IAdvancedDisplayProps {
   standalone?: boolean;
 }
 
-export interface ISettingsSteppersProps {
-  decrementIcon?: ComponentType<SVGProps<SVGElement>> | null;
-  decrementLabel: string;
-  incrementIcon?: ComponentType<SVGProps<SVGElement>> | null;
-  incrementLabel: string;
-}
-
-interface ISettingsRangeProps {
-  standalone?: boolean;
-  className?: string;
-  label: string;
-  defaultValue: number;
-  value: number;
-  onChangeCallback: (value: number) => void;
-  range: [number, number];
-  step: number;
-  format?: Intl.NumberFormatOptions;
-}
-
-export interface ISettingsNumberFieldProps extends ISettingsRangeProps {
-  steppers: ISettingsSteppersProps;
-  virtualKeyboardDisabled?: boolean;
-  readOnly?: boolean;
-}
-
-export interface ISettingsSliderProps extends ISettingsRangeProps {}
-
-export interface ISettingsSwitchProps {
-  name?: string;
-  className?: string;
-  heading?: string;
-  label: string;
-  isSelected: boolean;
-  onChangeCallback: (isSelected: boolean) => void;
-}
-
 export interface IRCSSSettings {
   columnCount: string;
   fontFamily: keyof typeof ReadingDisplayFontFamilyOptions | null;

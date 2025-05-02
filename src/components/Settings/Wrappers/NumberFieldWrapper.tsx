@@ -1,78 +1,31 @@
-import React from "react";
-
-import { ISettingsNumberFieldProps } from "@/models/settings";
-
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
-import PlusIcon from "../../assets/icons/add.svg";
-import MinusIcon from "../../assets/icons/remove.svg";
-
-import { Button, Group, Input, Label, NumberField, NumberFieldProps } from "react-aria-components";
+import { ThNumberField, ThNumberFieldProps } from "@/packages/Components/Settings";
 
 import classNames from "classnames";
 
-export const NumberFieldWrapper: React.FC<NumberFieldProps & ISettingsNumberFieldProps> = ({
-  standalone, 
-  className,
+export interface WrappedNumberFieldProps extends Omit<ThNumberFieldProps, "classNames"> {
+  standalone?: boolean;
+}
+
+export const NumberFieldWrapper = ({
+  standalone,
   label,
-  defaultValue,
-  value,
-  onChangeCallback,
-  range,
-  step,
-  steppers,
-  format,
-  virtualKeyboardDisabled,
-  readOnly,
   ...props
-}) => {
+}: WrappedNumberFieldProps) => {
 
   return (
-    <NumberField 
-      className={ classNames(settingsStyles.readerSettingsNumberField, className) }
-      defaultValue={ defaultValue }
-      value={ value }
-      minValue={ Math.min(...range) }
-      maxValue={ Math.max(...range) }
-      step={ step }
-      formatOptions={ format } 
-      onChange={ onChangeCallback }
-      decrementAriaLabel={ steppers.decrementLabel }
-      incrementAriaLabel={ steppers.incrementLabel }
-      { ...(!standalone ? { "aria-label": label } : {}) }
+    <ThNumberField 
       { ...props }
-    >
-      { standalone && <Label className={ settingsStyles.readerSettingsLabel }>
-          { label }
-        </Label>
-      }
-
-      <Group className={ settingsStyles.readerSettingsGroupWrapper }>
-        <Button 
-          slot="decrement" 
-          className={ readerSharedUI.icon }
-        >
-          { steppers.decrementIcon 
-            ? <steppers.decrementIcon aria-hidden="true" focusable="false" /> 
-            : <MinusIcon aria-hidden="true" focusable="false" /> }
-        </Button>
-
-        <Input 
-          className={ settingsStyles.readerSettingsInput } 
-          readOnly={ readOnly } 
-          { ...(virtualKeyboardDisabled ? { inputMode: "none" } : {}) } 
-        />
-
-        <Button 
-          slot="increment" 
-          className={ readerSharedUI.icon }
-        >
-          { steppers.incrementIcon 
-            ? <steppers.incrementIcon aria-hidden="true" focusable="false" /> 
-            : <PlusIcon aria-hidden="true" focusable="false" /> }
-        </Button>
-      </Group>
-    </NumberField>
+      { ...(standalone ? { label: label } : { "aria-label": label }) }
+      className={ classNames(settingsStyles.readerSettingsNumbfield, standalone ? settingsStyles.readerSettingsGroup : "") }
+      classNames={{
+        group: settingsStyles.readerSettingsGroupWrapper,
+        label: settingsStyles.readerSettingsLabel,
+        stepper: readerSharedUI.icon,
+        input: settingsStyles.readerSettingsInput
+      }}
+    />
   );
 };
