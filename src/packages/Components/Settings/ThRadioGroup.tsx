@@ -1,4 +1,7 @@
+import React from "react";
+
 import { ComponentType, SVGProps } from "react";
+
 import { Label, Radio, RadioGroup, RadioGroupProps } from "react-aria-components"
 
 export interface RadioGroupItems {
@@ -11,7 +14,7 @@ export interface RadioGroupItems {
 export interface ThRadioGroupProps extends RadioGroupProps {
   ref?: React.ForwardedRef<HTMLDivElement>;
   label?: string;
-  items: RadioGroupItems[];
+  items?: RadioGroupItems[];
   classNames?: {
     wrapper?: string;
     label?: string;
@@ -26,28 +29,42 @@ export const ThRadioGroup = ({
   classNames,
   ...props
 }: ThRadioGroupProps) => {
-  return (
-    <RadioGroup 
-      { ...props }
-    >
-      { label && <Label className={ classNames?.label }>
-          { label }
-        </Label> 
-      }
-      <div className={ classNames?.wrapper}>
-        { items.map((item, index) => (
-          <Radio 
-            key={ index }
-            value={ item.value }
-            className={ classNames?.radio }
-          >
-            { item.icon && <item.icon aria-hidden="true" focusable="false" /> }
-            <span className={ classNames?.radioLabel }>
-              { item.label }
-            </span> 
-          </Radio>
-        )) }
-      </div>
-    </RadioGroup>
-  )
+  if (React.isValidElement(props.children)) {
+    return (
+      <RadioGroup 
+        { ...props }
+      >
+        { label && <Label className={ classNames?.label }>
+            { label }
+          </Label> 
+        }
+        { props.children }
+      </RadioGroup>
+    )
+  } else if (items) {
+    return (
+      <RadioGroup 
+        { ...props }
+      >
+        { label && <Label className={ classNames?.label }>
+            { label }
+          </Label> 
+        }
+        <div className={ classNames?.wrapper}>
+          { items.map((item, index) => (
+            <Radio 
+              key={ index }
+              value={ item.value }
+              className={ classNames?.radio }
+            >
+              { item.icon && <item.icon aria-hidden="true" focusable="false" /> }
+              <span className={ classNames?.radioLabel }>
+                { item.label }
+              </span> 
+            </Radio>
+          )) }
+        </div>
+      </RadioGroup>
+    )
+  }
 }

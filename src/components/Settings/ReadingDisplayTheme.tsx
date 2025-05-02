@@ -12,7 +12,8 @@ import CheckIcon from "../assets/icons/check.svg";
 import { ActionKeys } from "@/models/actions";
 import { LayoutDirection } from "@/models/layout";
 
-import { Label, Radio, RadioGroup } from "react-aria-components";
+import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
+import { Radio } from "react-aria-components";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
@@ -120,14 +121,13 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
 
   return (
     <>
-    <RadioGroup 
+    <RadioGroupWrapper
       ref={ radioGroupRef }
-      orientation="horizontal" 
+      standalone={ true }
+      label={ Locale.reader.settings.themes.title }
       value={ theme }
       onChange={ async (val) => await updatePreference(val as ThemeKeys) }
-      className={ settingsStyles.readerSettingsGroup }
     >
-      <Label className={ settingsStyles.readerSettingsLabel }>{ Locale.reader.settings.themes.title }</Label>
       <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
         { themeItems.current.map(( t ) => 
           <Radio
@@ -147,7 +147,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
         </Radio>
         ) }
       </div>
-    </RadioGroup>
+    </RadioGroupWrapper>
     </>
   )
 }
