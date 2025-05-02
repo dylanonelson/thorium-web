@@ -22,7 +22,9 @@ export const RadioGroupWrapper = ({
       label: settingsStyles.readerSettingsLabel,
       radio: settingsStyles.readerSettingsRadio
     }}
-  />
+  >
+    { props.children }
+  </ThRadioGroup>
   </>
   )
 }

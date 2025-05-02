@@ -7,14 +7,10 @@ import Locale from "../../resources/locales/en.json";
 import { ReadingDisplayLineHeightOptions } from "@/models/layout";
 import { defaultLineHeights, IAdvancedDisplayProps } from "@/models/settings";
 
-import settingsStyles from "../assets/styles/readerSettings.module.css";
-
 import BookIcon from "../assets/icons/book.svg";
 import SmallIcon from "../assets/icons/density_small.svg";
 import MediumIcon from "../assets/icons/density_medium.svg";
 import LargeIcon from "../assets/icons/density_large.svg";
-
-import { RadioGroup, Radio, Label } from "react-aria-components";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
@@ -56,7 +52,7 @@ export const ReadingDisplayLineHeight: React.FC<IAdvancedDisplayProps> = ({ stan
   return (
     <>
     <RadioGroupWrapper 
-      standalone={ true }
+      standalone={ standalone }
       label={ Locale.reader.settings.lineHeight.title }
       orientation="horizontal"
       value={ publisherStyles ? ReadingDisplayLineHeightOptions.publisher : lineHeight } 
