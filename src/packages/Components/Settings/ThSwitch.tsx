@@ -1,6 +1,7 @@
 import { Heading, Switch, SwitchProps } from "react-aria-components";
 
 export interface ThSwitchProps extends SwitchProps {
+  ref?: React.ForwardedRef<HTMLLabelElement>;
   label: string;
   heading?: string;
   classNames?: {
@@ -19,7 +20,10 @@ export const ThSwitch = ({
   return(
     <>
     <div className={ classNames?.wrapper }>
-      { heading && <Heading className={ classNames?.heading }>{ heading }</Heading> }
+      { heading && <Heading className={ classNames?.heading }>
+          { heading }
+        </Heading> 
+      }
       <Switch 
         { ...props }
       >

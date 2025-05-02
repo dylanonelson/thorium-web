@@ -1,6 +1,7 @@
 import { Label, Slider, SliderOutput, SliderProps, SliderThumb, SliderTrack } from "react-aria-components";
 
 export interface ThSliderProps extends Omit<SliderProps, "minValue" | "maxValue"> {
+  ref?: React.ForwardedRef<HTMLDivElement>;
   label?: string;
   range: number[];
   classNames?: {
@@ -24,7 +25,10 @@ export const ThSlider = ({
       maxValue={ Math.max(...range) }
       { ...props }
     >
-      { label && <Label className={ classNames?.label }>{ label }</Label> }
+      { label && <Label className={ classNames?.label }>
+          { label }
+        </Label> 
+      }
       <SliderOutput className={ classNames?.output } />
       <SliderTrack className={ classNames?.track }>
         <SliderThumb className={ classNames?.thumb } />

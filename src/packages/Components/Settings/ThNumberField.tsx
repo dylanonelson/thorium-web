@@ -6,6 +6,7 @@ import RemoveIcon from "./assets/icons/remove.svg";
 import { Button, Group, Input, Label, NumberField, NumberFieldProps } from "react-aria-components";
 
 export interface ThNumberFieldProps extends Omit<NumberFieldProps, "minValue" | "maxValue" | "decrementAriaLabel" | "incrementAriaLabel"> {
+  ref?: React.ForwardedRef<HTMLInputElement>;
   label?: string;
   range: number[];
   isVirtualKeyboardDisabled?: boolean;

@@ -3,12 +3,14 @@ import { Label, Radio, RadioGroup, RadioGroupProps } from "react-aria-components
 
 export interface RadioGroupItems {
   value: string;
-  icon: ComponentType<SVGProps<SVGElement>>;
+  icon?: ComponentType<SVGProps<SVGElement>>;
   label: string;
+  isDisabled?: boolean;
 }
 
 export interface ThRadioGroupProps extends RadioGroupProps {
-  label: string;
+  ref?: React.ForwardedRef<HTMLDivElement>;
+  label?: string;
   items: RadioGroupItems[];
   classNames?: {
     wrapper?: string;
@@ -28,7 +30,10 @@ export const ThRadioGroup = ({
     <RadioGroup 
       { ...props }
     >
-      <Label className={ classNames?.label }>{ label }</Label>
+      { label && <Label className={ classNames?.label }>
+          { label }
+        </Label> 
+      }
       <div className={ classNames?.wrapper}>
         { items.map((item, index) => (
           <Radio 
@@ -36,8 +41,10 @@ export const ThRadioGroup = ({
             value={ item.value }
             className={ classNames?.radio }
           >
-            <item.icon aria-hidden="true" focusable="false" />
-            <span className={ classNames?.radioLabel }>{ item.label }</span>
+            { item.icon && <item.icon aria-hidden="true" focusable="false" /> }
+            <span className={ classNames?.radioLabel }>
+              { item.label }
+            </span> 
           </Radio>
         )) }
       </div>

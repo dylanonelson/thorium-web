@@ -55,7 +55,7 @@ export const ReadingDisplaySpacing = () => {
 
   return (
     <>
-     <ReadingDisplayGroupWrapper 
+    <ReadingDisplayGroupWrapper 
       heading={ Locale.reader.settings.spacing.title }
       moreLabel={ Locale.reader.settings.spacing.advanced.trigger }
       moreTooltip={ Locale.reader.settings.spacing.advanced.tooltip }

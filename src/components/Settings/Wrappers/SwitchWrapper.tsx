@@ -3,7 +3,7 @@ import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
 import { ThSwitch, ThSwitchProps } from "@/packages/Components/Settings";
 
-export interface WrappedSwitchProps extends ThSwitchProps {
+export interface WrappedSwitchProps extends Omit<ThSwitchProps, "classNames"> {
   standalone?: boolean;
 }
 
