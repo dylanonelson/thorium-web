@@ -39,7 +39,7 @@ export const useRezisablePanel = (panel: Docked) => {
   }
 
   const forceExpand = () => {
-    return isPopulated() && previouslyCollapsed && !panel.collapsed;
+    return !!(isPopulated() && previouslyCollapsed && !panel.collapsed);
   }
 
   const currentKey = () => {
