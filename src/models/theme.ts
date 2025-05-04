@@ -1,15 +1,3 @@
-export enum ColorScheme {
-  light = "light",
-  dark = "dark"
-}
-
-export enum Contrast {
-  none = "no-preference",
-  more = "more",
-  less = "less",
-  custom = "custom"
-}
-
 export enum ThemeKeys {
   auto = "auto",
   light = "light",

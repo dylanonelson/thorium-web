@@ -5,8 +5,8 @@ import { PreferencesContext } from "../preferences";
 import { Docked, IDockedPref } from "../models/docking";
 
 import { useActions } from "./useActions";
-import { usePrevious } from "./usePrevious";
-import { useIsClient } from "./useIsClient";
+import { usePrevious } from "@/packages/Hooks/usePrevious";
+import { useIsClient } from "@/packages/Hooks/useIsClient";
 
 export const useRezisablePanel = (panel: Docked) => {
   const RSPrefs = useContext(PreferencesContext);

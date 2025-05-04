@@ -11,7 +11,7 @@ import { Dialog, Heading, Modal } from "react-aria-components";
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
 
-import { useFirstFocusable } from "@/hooks/useFirstFocusable";
+import { useFirstFocusable } from "@/packages/Hooks/useFirstFocusable";
 import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";

@@ -1,12 +1,9 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useIsClient } from "./useIsClient";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setFullscreen } from "@/lib/readerReducer";
 
-export const useFullscreen = () => {
+export const useFullscreen = (onChange?: (isFullscreen: boolean) => void) => {
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const isClient = useIsClient();
-  const isFullscreen = useAppSelector(state => state.reader.isFullscreen);
-  const dispatch = useAppDispatch();
 
   const handleFullscreen = useCallback(() => {
     if (!isClient) return;
@@ -20,14 +17,16 @@ export const useFullscreen = () => {
 
   useEffect(() => {
     const onFSchange = () => {
-      dispatch(setFullscreen(Boolean(document.fullscreenElement)));
+      const isFs = Boolean(document.fullscreenElement);
+      setIsFullscreen(isFs);
+      onChange && onChange(isFs);
     }
     document.addEventListener("fullscreenchange", onFSchange);
 
     return () => {
       document.removeEventListener("fullscreenchange", onFSchange);
     }
-  }, [dispatch]);
+  }, [onChange]);
 
   return {
     isFullscreen,

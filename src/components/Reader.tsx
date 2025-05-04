@@ -50,8 +50,8 @@ import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
-import { useFullscreen } from "@/hooks/useFullscreen";
-import { usePrevious } from "@/hooks/usePrevious";
+import { useFullscreen } from "@/packages/Hooks/useFullscreen";
+import { usePrevious } from "@/packages/Hooks/usePrevious";
 
 import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";

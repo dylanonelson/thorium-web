@@ -21,7 +21,7 @@ import { FocusScope, OverlayProvider, useButton, useDialog, useModal, useOverlay
 
 import { useAppSelector } from "@/lib/hooks";
 
-import { useFirstFocusable } from "@/hooks/useFirstFocusable";
+import { useFirstFocusable } from "@/packages/Hooks/useFirstFocusable";
 
 import classNames from "classnames";
 

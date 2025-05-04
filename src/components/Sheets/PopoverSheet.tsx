@@ -11,7 +11,7 @@ import { Dialog, Heading, Popover, PopoverProps } from "react-aria-components";
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 import { Docker } from "./Docking/Docker";
 
-import { useFirstFocusable } from "@/hooks/useFirstFocusable";
+import { useFirstFocusable } from "@/packages/Hooks/useFirstFocusable";
 
 import classNames from "classnames";
 import { useAppSelector } from "@/lib/hooks";

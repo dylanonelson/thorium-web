@@ -1,5 +1,7 @@
 import { StaticBreakpoints } from "../staticBreakpoints";
-import { ColorScheme, Contrast, ThemeKeys } from "../theme";
+import { ThemeKeys } from "../theme";
+import { ColorScheme } from "@/packages/Hooks/useColorScheme";
+import { Contrast } from "@/packages/Hooks/useContrast";
 
 export interface IThemeState {
   monochrome: boolean;

@@ -1,18 +1,26 @@
 import { useCallback, useContext, useEffect, useRef } from "react";
 
 import { PreferencesContext } from "@/preferences";
-import { ColorScheme, ThemeKeys } from "@/models/theme";
+import { ThemeKeys } from "@/models/theme";
 
-import { useIsClient } from "./useIsClient";
+import { useIsClient } from "@/packages/Hooks/useIsClient";
 import { useBreakpoints } from "./useBreakpoints";
-import { useReducedMotion } from "./useReducedMotion";
-import { useReducedTransparency } from "./useReducedTransparency";
-import { useColorScheme } from "./useColorScheme";
-import { useContrast } from "./useContrast";
-import { useForcedColors } from "./useForcedColors";
-import { useMonochrome } from "./useMonochrome";
+import { useReducedMotion } from "@/packages/Hooks/useReducedMotion";
+import { useReducedTransparency } from "@/packages/Hooks/useReducedTransparency";
+import { ColorScheme, useColorScheme } from "@/packages/Hooks/useColorScheme";
+import { Contrast, useContrast } from "@/packages/Hooks/useContrast";
+import { useForcedColors } from "@/packages/Hooks/useForcedColors";
+import { useMonochrome } from "@/packages/Hooks/useMonochrome";
 
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { 
+  setColorScheme, 
+  setContrast, 
+  setForcedColors, 
+  setMonochrome, 
+  setReducedMotion, 
+  setReducedTransparency 
+} from "@/lib";
 
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 
@@ -20,15 +28,18 @@ import { propsToCSSVars } from "@/helpers/propsToCSSVars";
 // Reader still has to handle the side effects on Navigator
 export const useTheming = () => {
   const RSPrefs = useContext(PreferencesContext);
-  const isClient = useIsClient()
+  const isClient = useIsClient();
+
+  const dispatch = useAppDispatch();
+
   const breakpoints = useBreakpoints();
-  const reducedMotion = useReducedMotion();
-  const reducedTransparency = useReducedTransparency()
-  const monochrome = useMonochrome();
-  const colorScheme = useColorScheme();
+  const reducedMotion = useReducedMotion((reducedMotion: boolean) => dispatch(setReducedMotion(reducedMotion)));
+  const reducedTransparency = useReducedTransparency((reducedTransparency: boolean) => dispatch(setReducedTransparency(reducedTransparency)));
+  const monochrome = useMonochrome((isMonochrome: boolean) => dispatch(setMonochrome(isMonochrome)));
+  const colorScheme = useColorScheme((colorScheme: ColorScheme) => dispatch(setColorScheme(colorScheme)));
   const colorSchemeRef = useRef(colorScheme);
-  const contrast = useContrast();
-  const forcedColors = useForcedColors();
+  const contrast = useContrast((contrast: Contrast) => dispatch(setContrast(contrast)));
+  const forcedColors = useForcedColors((forcedColors: boolean) => dispatch(setForcedColors(forcedColors)));
   const theme = useAppSelector(state => state.theming.theme);
 
   const inferThemeAuto = useCallback(() => {

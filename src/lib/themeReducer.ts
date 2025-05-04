@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { IThemeState } from "@/models/state/themingState";
-import { ColorScheme, Contrast, ThemeKeys } from "@/models/theme";
+import { ThemeKeys } from "@/models/theme";
+import { ColorScheme } from "@/packages/Hooks/useColorScheme";
+import { Contrast } from "@/packages/Hooks/useContrast";
 
 const initialState: IThemeState = {
   monochrome: false,
