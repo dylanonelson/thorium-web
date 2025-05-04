@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 import { PreferencesContext } from "@/preferences";
 
 import { BreakpointRange, BreakpointRanges, Breakpoints, StaticBreakpoints } from "@/models/staticBreakpoints";
-import { useMediaQuery } from "./useMediaQuery";
+import { useMediaQuery } from "@/packages/Hooks/useMediaQuery";
 
 import { setStaticBreakpoint } from "@/lib/themeReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

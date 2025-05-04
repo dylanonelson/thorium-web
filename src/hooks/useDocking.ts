@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 import { dockAction, setActionOpen } from "@/lib/actionsReducer";
 
-import { usePrevious } from "./usePrevious";
+import { usePrevious } from "@/packages/Hooks/usePrevious";
 import { useActions } from "./useActions";
 
 let dockingMap: Required<BreakpointsDockingMap> | null = null;

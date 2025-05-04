@@ -18,7 +18,7 @@ import { FocusScope } from "react-aria";
 
 import { useAppSelector } from "@/lib/hooks";
 
-import { useFirstFocusable } from "@/hooks/useFirstFocusable";
+import { useFirstFocusable } from "@/packages/Hooks/useFirstFocusable";
 
 import classNames from "classnames";
 

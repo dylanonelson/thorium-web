@@ -12,7 +12,7 @@ import readerStateStyles from "./assets/styles/readerStates.module.css";
 
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 
-import { usePrevious } from "@/hooks/usePrevious";
+import { usePrevious } from "@/packages/Hooks/usePrevious";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setArrows } from "@/lib/readerReducer";

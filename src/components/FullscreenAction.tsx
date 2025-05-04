@@ -13,10 +13,10 @@ import FullscreenExit from "./assets/icons/fullscreen_exit.svg";
 import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
 import { ActionIcon } from "./ActionTriggers/ActionIcon";
 
-import { useFullscreen } from "@/hooks/useFullscreen";
+import { useFullscreen } from "@/packages/Hooks/useFullscreen";
 
 import { useAppDispatch } from "@/lib/hooks";
-import { setHovering } from "@/lib/readerReducer";
+import { setFullscreen, setHovering } from "@/lib/readerReducer";
 import { isIOSish } from "@/helpers/keyboard/getPlatform";
 
 export const FullscreenAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
@@ -25,8 +25,8 @@ export const FullscreenAction: React.FC<IActionComponentTrigger> = ({ variant })
 
   const RSPrefs = useContext(PreferencesContext);
 
-  const fs = useFullscreen();
   const dispatch = useAppDispatch();
+  const fs = useFullscreen((isFullscreen) => dispatch(setFullscreen(isFullscreen)));
 
   const label = fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger;
   const Icon = fs.isFullscreen ? FullscreenExit : FullscreenCorners;

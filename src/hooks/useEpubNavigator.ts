@@ -6,7 +6,8 @@ import Locale from "../resources/locales/en.json";
 import { PreferencesContext } from "@/preferences";
 
 import { ScrollBackTo } from "@/models/preferences";
-import { ColorScheme, ThemeKeys } from "@/models/theme";
+import { ThemeKeys } from "@/models/theme";
+import { ColorScheme } from "@/packages/Hooks/useColorScheme";
 
 import { 
   EPUBLayout, 
