@@ -1,8 +1,14 @@
-import React from "react"
+import { ThHTMLAttributes } from "./ThHTMLAttributes";
 
-export const ThFooter = ({ ...props }: React.HTMLAttributes<HTMLDivElement>) => {
+export const ThFooter = ({ 
+  ref,
+  ...props 
+}: ThHTMLAttributes<HTMLDivElement>) => {
   return (
-    <aside { ...props }>
+    <aside 
+      ref={ ref } 
+      { ...props }
+    >
       { props.children }
     </aside>
   )

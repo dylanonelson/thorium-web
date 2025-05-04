@@ -12,6 +12,7 @@ export interface ThSwitchProps extends SwitchProps {
 }
 
 export const ThSwitch = ({
+  ref,
   label,
   classNames,
   heading, 
@@ -25,6 +26,7 @@ export const ThSwitch = ({
         </Heading> 
       }
       <Switch 
+        ref={ ref }
         { ...props }
       >
         <div className={ classNames?.indicator } />

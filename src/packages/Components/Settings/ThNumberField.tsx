@@ -25,6 +25,7 @@ export interface ThNumberFieldProps extends Omit<NumberFieldProps, "minValue" | 
 }
 
 export const ThNumberField = ({
+  ref,
   label,
   range,
   isVirtualKeyboardDisabled,
@@ -35,6 +36,7 @@ export const ThNumberField = ({
 
   return (
     <NumberField 
+      ref={ ref }
       minValue={ Math.min(...range) }
       maxValue={ Math.max(...range) }
       decrementAriaLabel={ steppers.decrementLabel }
