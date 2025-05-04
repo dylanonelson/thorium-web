@@ -13,6 +13,7 @@ export interface ThSliderProps extends Omit<SliderProps, "minValue" | "maxValue"
 }
 
 export const ThSlider = ({
+  ref,
   label,
   range,
   classNames,
@@ -21,6 +22,7 @@ export const ThSlider = ({
   return(
     <>
     <Slider 
+      ref={ ref }
       minValue={ Math.min(...range) }
       maxValue={ Math.max(...range) }
       { ...props }

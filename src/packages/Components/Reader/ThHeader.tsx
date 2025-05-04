@@ -1,8 +1,14 @@
-import React from "react"
+import { ThHTMLAttributes } from "./ThHTMLAttributes";
 
-export const ThHeader = ({ ...props }: React.HTMLAttributes<HTMLDivElement>) => {
+export const ThHeader = ({ 
+  ref,
+  ...props 
+}: ThHTMLAttributes<HTMLDivElement>) => {
   return (
-    <header { ...props }>
+    <header 
+      ref={ ref } 
+      { ...props }
+    >
       { props.children }
     </header>
   )

@@ -24,6 +24,7 @@ export interface ThRadioGroupProps extends RadioGroupProps {
 }
 
 export const ThRadioGroup = ({
+  ref,
   label,
   items,
   classNames,
@@ -32,6 +33,7 @@ export const ThRadioGroup = ({
   if (React.isValidElement(props.children)) {
     return (
       <RadioGroup 
+        ref={ ref }
         { ...props }
       >
         { label && <Label className={ classNames?.label }>
