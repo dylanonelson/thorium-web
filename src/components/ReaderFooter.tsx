@@ -6,6 +6,7 @@ import readerStateStyles from "./assets/styles/readerStates.module.css";
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
+import { ThFooter } from "@/packages/Components/Reader";
 import { ProgressionOf } from "./ProgressionOf";
 
 export const ReaderFooter = () => {
@@ -33,7 +34,7 @@ export const ReaderFooter = () => {
 
   return(
     <>
-    <aside 
+    <ThFooter 
       className={ handleClassNameFromState() } 
       id="bottom-bar" 
       aria-label={ Locale.reader.app.footer.label } 
@@ -41,7 +42,7 @@ export const ReaderFooter = () => {
       onMouseLeave={ removeHover }
     >
       <ProgressionOf />
-    </aside>
+    </ThFooter>
     </>
   )
 }
