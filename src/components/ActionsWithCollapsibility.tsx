@@ -2,7 +2,7 @@ import { Fragment, useRef } from "react";
 
 import { ActionComponentVariant, IActionsWithCollapsibility } from "@/models/actions";
 
-import { Toolbar } from "react-aria-components";
+import { ThActionsBar } from "@/packages/Components";
 import { OverflowMenu } from "./OverflowMenu";
 
 import { useCollapsibility } from "@/hooks/useCollapsibility";
@@ -22,7 +22,7 @@ export const ActionsWithCollapsibility = ({
 
   return (
     <>
-    <Toolbar 
+    <ThActionsBar 
       ref={ ref }
       className={ className } 
       aria-label={ label }
@@ -48,7 +48,7 @@ export const ActionsWithCollapsibility = ({
         actionFallback={ overflowActionCallback }
         actionItems={ Actions.MenuItems }
       />
-    </Toolbar>
+    </ThActionsBar>
     </>
   )
 }
