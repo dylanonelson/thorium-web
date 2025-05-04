@@ -9,6 +9,7 @@ import { ActionKeys, IActionsItem, IActionsMapObject } from "@/models/actions";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
+import { ThHeader } from "@/packages/Components/Reader";
 import { FullscreenAction } from "./FullscreenAction";
 import { JumpToPositionAction } from "./JumpToPositionAction";
 import { LayoutStrategyAction, LayoutStrategiesActionContainer } from "./LayoutStrategyAction";
@@ -89,7 +90,7 @@ export const ReaderHeader = () => {
 
   return (
     <>
-    <header 
+    <ThHeader 
       className={ classNames(readerHeaderStyles.header, handleClassNameFromState()) } 
       id="top-bar" 
       aria-label={ Locale.reader.app.header.label } 
@@ -107,7 +108,7 @@ export const ReaderHeader = () => {
         overflowActionCallback={ (isImmersive && !isHovering) }
         overflowMenuDisplay={ (!isImmersive || isHovering) }
       />
-    </header>
+    </ThHeader>
     </>
   );
 }
