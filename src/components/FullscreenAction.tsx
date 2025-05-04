@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
 import Locale from "../resources/locales/en.json";
@@ -26,7 +26,11 @@ export const FullscreenAction: React.FC<IActionComponentTrigger> = ({ variant })
   const RSPrefs = useContext(PreferencesContext);
 
   const dispatch = useAppDispatch();
-  const fs = useFullscreen((isFullscreen) => dispatch(setFullscreen(isFullscreen)));
+  const onChange = useCallback((isFullscreen: boolean) => {
+    dispatch(setFullscreen(isFullscreen));
+  }, [dispatch]);
+  
+  const fs = useFullscreen(onChange);
 
   const label = fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger;
   const Icon = fs.isFullscreen ? FullscreenExit : FullscreenCorners;
