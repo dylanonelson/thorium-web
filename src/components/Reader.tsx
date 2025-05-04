@@ -69,7 +69,8 @@ import {
   toggleImmersive, 
   setPlatformModifier, 
   setDirection, 
-  setArrows 
+  setArrows, 
+  setFullscreen
 } from "@/lib/readerReducer";
 import { 
   setFXL, 
@@ -157,7 +158,10 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
   const dispatch = useAppDispatch();
 
-  const fs = useFullscreen();
+  const onFsChange = useCallback((isFullscreen: boolean) => {
+      dispatch(setFullscreen(isFullscreen));
+    }, [dispatch]);
+  const fs = useFullscreen(onFsChange);
 
   const { 
     EpubNavigatorLoad, 
