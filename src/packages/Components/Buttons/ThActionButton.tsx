@@ -14,10 +14,9 @@ export interface ThActionButtonProps extends ButtonProps {
 export const ThActionButton = ({
   ref,
   tooltip,
+  children,
   ...props
-}: ThActionButtonProps) => {
-  const children = props.children;
-  
+}: ThActionButtonProps) => {  
   if (tooltip) {
     return (
       <>

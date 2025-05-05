@@ -14,10 +14,9 @@ export const ThNavigationButton = ({
   label,
   ref,
   tooltip,
+  children,
   ...props
 }: ThNavigationButtonProps) => {
-  const children = props.children;
-
   const fallBackChildren = (
     <React.Fragment>
       { direction === "right"

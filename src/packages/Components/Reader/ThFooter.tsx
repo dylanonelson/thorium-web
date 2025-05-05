@@ -2,6 +2,7 @@ import { ThHTMLAttributes } from "./ThHTMLAttributes";
 
 export const ThFooter = ({ 
   ref,
+  children,
   ...props 
 }: ThHTMLAttributes<HTMLDivElement>) => {
   return (
@@ -9,7 +10,7 @@ export const ThFooter = ({
       ref={ ref } 
       { ...props }
     >
-      { props.children }
+      { children }
     </aside>
   )
 }

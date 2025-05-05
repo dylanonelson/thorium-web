@@ -6,10 +6,9 @@ export const ThCloseButton = ({
   label,
   ref,
   tooltip,
+  children,
   ...props
 }: ThActionButtonProps) => {
-  const children = props.children;
-
   return (
     <ThActionButton
       ref={ ref }

@@ -2,6 +2,7 @@ import { ThHTMLAttributes } from "./ThHTMLAttributes";
 
 export const ThHeader = ({ 
   ref,
+  children,
   ...props 
 }: ThHTMLAttributes<HTMLDivElement>) => {
   return (
@@ -9,7 +10,7 @@ export const ThHeader = ({
       ref={ ref } 
       { ...props }
     >
-      { props.children }
+      { children }
     </header>
   )
 }

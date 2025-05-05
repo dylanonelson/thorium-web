@@ -7,6 +7,7 @@ export interface ThActionsBarProps extends ToolbarProps {
 
 export const ThActionsBar = ({ 
   ref, 
+  children, 
   ...props 
 }: ThActionsBarProps) => {
   const resolvedRef = useObjectRef(ref);
@@ -16,7 +17,7 @@ export const ThActionsBar = ({
       ref={ resolvedRef } 
       { ...props }
     >
-      { props.children }
+      { children }
     </Toolbar>
   )
 }
