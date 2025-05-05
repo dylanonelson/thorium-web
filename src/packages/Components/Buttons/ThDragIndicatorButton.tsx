@@ -8,6 +8,7 @@ export interface ThDragIndicatorButtonProps extends ButtonProps {
 
 export const ThDragIndicatorButton = ({
   ref,
+  children,
   ...props
 }: ThDragIndicatorButtonProps) => {
   return (
@@ -16,7 +17,7 @@ export const ThDragIndicatorButton = ({
       ref={ ref }
       { ...props }
     >
-      <HorizontalRule aria-hidden="true" focusable="false" />
+      { children ? children : <HorizontalRule aria-hidden="true" focusable="false" /> }
     </Button>
     </>
   )

@@ -6,7 +6,6 @@ export interface ThLoaderProps extends Omit<ThHTMLAttributes<HTMLDivElement>, "a
   ref?: React.ForwardedRef<HTMLDivElement>;
   isLoading: boolean;
   loader: ReactNode;
-  children: ReactNode;
 }
 
 // Since we are removing loader entirely, no need for aria-hidden={ !isLoading }

@@ -28,9 +28,10 @@ export const ThRadioGroup = ({
   label,
   items,
   classNames,
+  children,
   ...props
 }: ThRadioGroupProps) => {
-  if (React.isValidElement(props.children)) {
+  if (React.isValidElement(children)) {
     return (
       <RadioGroup 
         ref={ ref }
@@ -40,7 +41,7 @@ export const ThRadioGroup = ({
             { label }
           </Label> 
         }
-        { props.children }
+        { children }
       </RadioGroup>
     )
   } else if (items) {
