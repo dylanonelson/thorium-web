@@ -3,7 +3,7 @@ import svgrPlugin from "esbuild-plugin-svgr";
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  name: "Thorium Web Components",
+  name: "Thorium Web",
   entry: {
     components: "src/packages/Components/index.ts",
     hooks: "src/packages/Hooks/index.ts",
