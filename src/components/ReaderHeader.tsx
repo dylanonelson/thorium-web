@@ -9,13 +9,12 @@ import { ActionKeys, IActionsItem, IActionsMapObject } from "@/models/actions";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
-import { ThHeader } from "@/packages/Components/Reader";
+import { ThHeader, ThRunningHead } from "@/packages/Components";
 import { FullscreenAction } from "./FullscreenAction";
 import { JumpToPositionAction } from "./JumpToPositionAction";
 import { LayoutStrategyAction, LayoutStrategiesActionContainer } from "./LayoutStrategyAction";
 import { SettingsAction, SettingsActionContainer } from "./SettingsAction";
 import { TocAction, TocActionContainer } from "./TocAction";
-import { RunningHead } from "./RunningHead";
 import { ActionsWithCollapsibility } from "./ActionsWithCollapsibility";
 
 import { setHovering } from "@/lib/readerReducer";
@@ -48,6 +47,7 @@ export const ReaderHeader = () => {
   const RSPrefs = useContext(PreferencesContext);
   
   const isFXL = useAppSelector(state => state.publication.isFXL);
+  const runningHead = useAppSelector(state => state.publication.runningHead);
   const actionsOrder = useRef(RSPrefs.actions.displayOrder);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
@@ -97,7 +97,11 @@ export const ReaderHeader = () => {
       onMouseEnter={ setHover } 
       onMouseLeave={ removeHover }
     >
-      <RunningHead syncDocTitle={ true } />
+      <ThRunningHead 
+        label={ runningHead || Locale.reader.app.header.runningHeadFallback } 
+        syncDocTitle={ true }
+        aria-label={ Locale.reader.app.header.runningHead }
+      />
       
       <ActionsWithCollapsibility 
         id="reader-header-overflowMenu" 
