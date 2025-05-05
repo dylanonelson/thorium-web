@@ -4,29 +4,32 @@ import { IOverflowMenuItemProp } from "@/models/actions";
 
 import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 
-import { MenuItem, Text } from "react-aria-components";
+import { Text } from "react-aria-components";
 import { Shortcut } from "../Shortcut";
 
-export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
-  label,
-  SVG, 
-  shortcut,
-  onActionCallback, 
+import { ThMenuItem, ThMenuItemProps } from "@/packages/Components";
+
+export interface OverflowMenuItemProps extends Omit<ThMenuItemProps, "shortcut"> {
+  shortcut?: string | null
+}
+
+export const OverflowMenuItem = ({
   id,
-  isDisabled
-}) => {
+  label,
+  SVGIcon,
+  shortcut = undefined
+}: OverflowMenuItemProps) => {
   const menuItemLabelId = `${id}-label`;
   
   return(
     <>
-    <MenuItem 
+    <ThMenuItem 
       id={ id } 
+      label={ label }
       className={ overflowMenuStyles.menuItem } 
       aria-labelledby={ menuItemLabelId } 
-      onAction={ onActionCallback }
-      isDisabled={ isDisabled }
     >
-      <SVG aria-hidden="true" focusable="false" />
+      { SVGIcon && <SVGIcon aria-hidden="true" focusable="false" /> }
       <Text 
         className={ overflowMenuStyles.menuItemLabel } 
         slot="label"
@@ -38,7 +41,7 @@ export const OverflowMenuItem: React.FC<IOverflowMenuItemProp> = ({
         className={ overflowMenuStyles.menuItemKbdShortcut } 
         rawForm={ shortcut } 
       /> }
-    </MenuItem>
+    </ThMenuItem>
     </>
   )
 }

@@ -21,8 +21,7 @@ export const ThActionButton = ({
     return (
       <>
       <TooltipTrigger
-        delay={ tooltip.trigger.delay }
-        closeDelay={ tooltip.trigger.closeDelay }
+        { ...tooltip.trigger }
       >
         <Button 
           ref={ ref }

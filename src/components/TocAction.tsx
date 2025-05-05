@@ -199,10 +199,10 @@ export const TocAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
     { (variant && variant === ActionComponentVariant.menu) 
       ? <OverflowMenuItem 
           label={ Locale.reader.toc.trigger }
-          SVG={ TocIcon } 
+          SVGIcon={ TocIcon } 
           shortcut={ RSPrefs.actions.keys[ActionKeys.toc].shortcut }
           id={ ActionKeys.toc }
-          onActionCallback={ () => setOpen(!actionState.isOpen) }
+          onAction={ () => setOpen(!actionState.isOpen) }
         />
       : <ActionIcon 
           visibility={ RSPrefs.actions.keys[ActionKeys.toc].visibility }

@@ -81,10 +81,10 @@ export const LayoutStrategyAction: React.FC<IActionComponentTrigger> = ({ varian
     { (variant && variant === ActionComponentVariant.menu) 
       ? <OverflowMenuItem 
           label={ Locale.reader.layoutStrategy.trigger }
-          SVG={ LayoutIcon }
+          SVGIcon={ LayoutIcon }
           shortcut={ RSPrefs.actions.keys[ActionKeys.layoutStrategy].shortcut } 
           id={ ActionKeys.layoutStrategy }
-          onActionCallback={ () => setOpen(!actionState.isOpen) }
+          onAction={ () => setOpen(!actionState.isOpen) }
         />
       : <ActionIcon 
           visibility={ RSPrefs.actions.keys[ActionKeys.layoutStrategy].visibility }
