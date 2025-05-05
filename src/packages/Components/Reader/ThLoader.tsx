@@ -9,7 +9,7 @@ export interface ThLoaderProps extends Omit<ThHTMLAttributes<HTMLDivElement>, "a
   children: ReactNode;
 }
 
-// Since we are removing readerLoader entirely, no need for aria-hidden={ !isLoading }
+// Since we are removing loader entirely, no need for aria-hidden={ !isLoading }
 // No need for a label either since we are using the string for the animation
 export const ThLoader = ({ 
   ref, 
