@@ -11,12 +11,14 @@
   "license": "BSD-3-Clause",
   "version": "0.9",
   "private": false,
-  "main": "./dist/index.js",
   "files": [
     "./dist"
   ],
   "exports": {
-    ".": "./dist/index.js"
+    "./components": "./dist/components.js",
+    "./hooks": "./dist/hooks.js",
+    "./preferences": "./dist/preferences.js",
+    "./redux": "./dist/redux.js"
   },
   "scripts": {
     "dev": "next dev",
