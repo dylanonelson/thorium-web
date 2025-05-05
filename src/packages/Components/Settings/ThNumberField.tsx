@@ -10,7 +10,7 @@ export interface ThNumberFieldProps extends Omit<NumberFieldProps, "minValue" | 
   label?: string;
   range: number[];
   isVirtualKeyboardDisabled?: boolean;
-  steppers: {
+  steppers?: {
     decrementIcon?: ComponentType<SVGProps<SVGElement>> | null;
     decrementLabel: string;
     incrementIcon?: ComponentType<SVGProps<SVGElement>> | null;
@@ -39,8 +39,8 @@ export const ThNumberField = ({
       ref={ ref }
       minValue={ Math.min(...range) }
       maxValue={ Math.max(...range) }
-      decrementAriaLabel={ steppers.decrementLabel }
-      incrementAriaLabel={ steppers.incrementLabel }
+      decrementAriaLabel={ steppers?.decrementLabel }
+      incrementAriaLabel={ steppers?.incrementLabel }
       { ...props }
     >
       { label && <Label className={ classNames?.label }>
@@ -49,28 +49,32 @@ export const ThNumberField = ({
       }
 
       <Group className={ classNames?.group }>
-        <Button 
+        { steppers && 
+          <Button 
           slot="decrement" 
           className={ classNames?.stepper }
         >
           { steppers.decrementIcon 
             ? <steppers.decrementIcon aria-hidden="true" focusable="false" /> 
             : <AddIcon aria-hidden="true" focusable="false" /> }
-        </Button>
+          </Button> 
+        }
 
         <Input 
           className={ classNames?.input } 
           { ...(isVirtualKeyboardDisabled ? { inputMode: "none" } : {}) } 
         />
 
-        <Button 
-          slot="increment" 
-          className={ classNames?.stepper }
-        >
-          { steppers.incrementIcon 
-            ? <steppers.incrementIcon aria-hidden="true" focusable="false" /> 
-            : <RemoveIcon aria-hidden="true" focusable="false" /> }
-        </Button>
+        { steppers && 
+          <Button 
+            slot="increment" 
+            className={ classNames?.stepper }
+          >
+            { steppers.incrementIcon 
+              ? <steppers.incrementIcon aria-hidden="true" focusable="false" /> 
+              : <RemoveIcon aria-hidden="true" focusable="false" /> }
+          </Button>
+        }
       </Group>
     </NumberField>
   );
