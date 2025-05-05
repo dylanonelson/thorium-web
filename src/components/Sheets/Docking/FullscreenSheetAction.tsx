@@ -39,9 +39,9 @@ export const FullscreenSheetAction: React.FC<IActionComponentTrigger> = ({ varia
     { (variant && variant === ActionComponentVariant.menu) 
       ? <OverflowMenuItem 
           label={ Locale.reader.app.docker.fullscreen.trigger }
-          SVG={ Dialog } 
+          SVGIcon={ Dialog } 
           shortcut={ RSPrefs.docking.keys[DockingKeys.transient].shortcut }
-          onActionCallback={ handlePress } 
+          onAction={ handlePress } 
           id={ `${ DockingKeys.transient }-${ associatedKey }` } 
           isDisabled={ isDisabled }
         />

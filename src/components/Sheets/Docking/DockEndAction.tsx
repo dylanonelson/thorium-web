@@ -44,9 +44,9 @@ export const DockEndAction: React.FC<IActionComponentTrigger> = ({ variant, asso
     { (variant && variant === ActionComponentVariant.menu) 
       ? <OverflowMenuItem 
           label={ localeKey.trigger }
-          SVG={ isRTL ? DockToLeft : DocktoRight } 
+          SVGIcon={ isRTL ? DockToLeft : DocktoRight } 
           shortcut={ RSPrefs.docking.keys[DockingKeys.end].shortcut }
-          onActionCallback={ handlePress } 
+          onAction={ handlePress } 
           id={ `${ DockingKeys.end }-${ associatedKey }` }
           isDisabled={ isDisabled }
         />

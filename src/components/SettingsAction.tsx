@@ -270,10 +270,10 @@ export const SettingsAction: React.FC<IActionComponentTrigger> = ({ variant }) =
     { (variant && variant === ActionComponentVariant.menu) 
       ? <OverflowMenuItem 
           label={ Locale.reader.settings.trigger }
-          SVG={ TuneIcon }
+          SVGIcon={ TuneIcon }
           shortcut={ RSPrefs.actions.keys[ActionKeys.settings].shortcut } 
           id={ ActionKeys.settings }
-          onActionCallback={ () => setOpen(!actionState.isOpen) }
+          onAction={ () => setOpen(!actionState.isOpen) }
         />
       : <ActionIcon 
           visibility={ RSPrefs.actions.keys[ActionKeys.settings].visibility }

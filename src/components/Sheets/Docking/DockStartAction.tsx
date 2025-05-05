@@ -44,9 +44,9 @@ export const DockStartAction: React.FC<IActionComponentTrigger> = ({ variant, as
     { (variant && variant === ActionComponentVariant.menu) 
       ? <OverflowMenuItem 
           label={ localeKey.trigger }
-          SVG={ isRTL ? DocktoRight : DockToLeft } 
+          SVGIcon={ isRTL ? DocktoRight : DockToLeft } 
           shortcut={ RSPrefs.docking.keys[DockingKeys.start].shortcut }
-          onActionCallback={ handlePress } 
+          onAction={ handlePress } 
           id={ `${ DockingKeys.start }-${ associatedKey }` }
           isDisabled={ isDisabled }
         />
