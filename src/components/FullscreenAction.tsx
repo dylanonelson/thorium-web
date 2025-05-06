@@ -3,7 +3,8 @@ import React, { useCallback, useContext } from "react";
 import { PreferencesContext } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
-import { ActionComponentVariant, ActionKeys, IActionComponentTrigger } from "@/models/actions";
+import { ActionKeys, IActionComponentTrigger } from "@/models/actions";
+import { ThActionsTriggerVariant } from "@/packages/Components";
 
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
@@ -50,7 +51,7 @@ export const FullscreenAction: React.FC<IActionComponentTrigger> = ({ variant })
 
   return(
     <>
-    { (variant && variant === ActionComponentVariant.menu) 
+    { (variant && variant === ThActionsTriggerVariant.menu) 
       ? <OverflowMenuItem 
           label={ label }
           SVGIcon={ Icon } 

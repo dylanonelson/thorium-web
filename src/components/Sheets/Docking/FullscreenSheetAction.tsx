@@ -5,7 +5,8 @@ import Locale from "../../../resources/locales/en.json";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
-import { ActionComponentVariant, IActionComponentTrigger } from "@/models/actions";
+import { IActionComponentTrigger } from "@/models/actions";
+import { ThActionsTriggerVariant } from "@/packages/Components";
 import { DockingKeys } from "@/models/docking";
 
 import Dialog from "../../assets/icons/dialogs.svg";
@@ -36,7 +37,7 @@ export const FullscreenSheetAction: React.FC<IActionComponentTrigger> = ({ varia
   
   return(
     <>
-    { (variant && variant === ActionComponentVariant.menu) 
+    { (variant && variant === ThActionsTriggerVariant.menu) 
       ? <OverflowMenuItem 
           label={ Locale.reader.app.docker.fullscreen.trigger }
           SVGIcon={ Dialog } 

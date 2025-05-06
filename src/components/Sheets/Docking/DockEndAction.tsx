@@ -5,7 +5,8 @@ import Locale from "../../../resources/locales/en.json";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
-import { ActionComponentVariant, IActionComponentTrigger } from "@/models/actions";
+import { IActionComponentTrigger } from "@/models/actions";
+import { ThActionsTriggerVariant } from "@/packages/Components";
 import { DockingKeys } from "@/models/docking";
 import { LayoutDirection } from "@/models/layout";
 
@@ -41,7 +42,7 @@ export const DockEndAction: React.FC<IActionComponentTrigger> = ({ variant, asso
   
   return(
     <>
-    { (variant && variant === ActionComponentVariant.menu) 
+    { (variant && variant === ThActionsTriggerVariant.menu) 
       ? <OverflowMenuItem 
           label={ localeKey.trigger }
           SVGIcon={ isRTL ? DockToLeft : DocktoRight } 

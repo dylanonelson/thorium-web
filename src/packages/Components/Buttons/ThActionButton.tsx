@@ -5,8 +5,17 @@ export interface ThActionButtonProps extends ButtonProps {
   label?: string,
   ref?: React.ForwardedRef<HTMLButtonElement>,
   tooltip?: {
-    trigger: TooltipTriggerProps,
-    tooltip: TooltipProps,
+    /**
+     * Props for the tooltipTrigger component. See `TooltipTriggerProps` for more information.
+     */
+    trigger?: TooltipTriggerProps,
+    /**
+     * Props for the tooltip component. See `TooltipProps` for more information.
+     */
+    tooltip?: TooltipProps,
+    /**
+     * String for the tooltip
+     */
     label: string 
   }
 }

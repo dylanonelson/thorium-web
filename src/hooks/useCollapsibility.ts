@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { ActionVisibility, IActionPref, IActionsItem } from "@/models/actions";
-import { IDockingPref } from "@/models/docking";
+import { ActionKeys, ActionVisibility, IActionPref } from "@/models/actions";
+import { ThMenuEntry } from "@/packages/Components";
+import { DockingKeys, IDockingPref } from "@/models/docking";
 
 import { useAppSelector } from "@/lib/hooks";
 
-export const useCollapsibility = (items: IActionsItem[], prefs: IActionPref & IDockingPref) => {
-  const [ActionIcons, setActionIcons] = useState<IActionsItem[]>([]);
-  const [MenuItems, setMenuItems] = useState<IActionsItem[]>([]);
+export const useCollapsibility = (items: ThMenuEntry<ActionKeys | DockingKeys>[], prefs: IActionPref & IDockingPref) => {
+  const [ActionIcons, setActionIcons] = useState<ThMenuEntry<ActionKeys | DockingKeys>[]>([]);
+  const [MenuItems, setMenuItems] = useState<ThMenuEntry<ActionKeys | DockingKeys>[]>([]);
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
 
   const triageActions = useCallback(() => {
-    const actionIcons: IActionsItem[] = [];
-    const menuItems: IActionsItem[] = [];
+    const actionIcons: ThMenuEntry<ActionKeys | DockingKeys>[] = [];
+    const menuItems: ThMenuEntry<ActionKeys | DockingKeys>[] = [];
 
     let countdown: number = 0;
 

@@ -1,8 +1,8 @@
 import { Fragment, useRef } from "react";
 
-import { ActionComponentVariant, IActionsWithCollapsibility } from "@/models/actions";
+import { IActionsWithCollapsibility } from "@/models/actions";
 
-import { ThActionsBar } from "@/packages/Components";
+import { ThActionsBar, ThActionsTriggerVariant } from "@/packages/Components";
 import { OverflowMenu } from "./OverflowMenu";
 
 import { useCollapsibility } from "@/hooks/useCollapsibility";
@@ -27,15 +27,15 @@ export const ActionsWithCollapsibility = ({
       className={ className } 
       aria-label={ label }
     >
-      { Actions.ActionIcons.map(({ Trigger, Container, key, associatedKey, ...props }) => 
+      { Actions.ActionIcons.map(({ Trigger, Target, key, associatedKey, ...props }) => 
           <Fragment key={ key }>
             <Trigger 
               key={ `${ key }-trigger` } 
-              variant={ ActionComponentVariant.button }
+              variant={ ThActionsTriggerVariant.button }
               { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
               { ...props }
             />
-            { Container && <Container key={ `${ key }-container` } triggerRef={ ref } /> }
+            { Target && <Target key={ `${ key }-container` } triggerRef={ ref } /> }
           </Fragment>
         ) 
       }

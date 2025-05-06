@@ -7,7 +7,8 @@ import Locale from "../resources/locales/en.json";
 import Chevron from "./assets/icons/chevron_right.svg";
 
 import { Link } from "@readium/shared";
-import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+import { ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+import { ThActionsTriggerVariant } from "@/packages/Components";
 import { SheetTypes } from "@/models/sheets";
 import { LayoutDirection } from "@/models/layout";
 import { TocItem } from "@/models/toc";
@@ -196,7 +197,7 @@ export const TocAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
 
   return(
     <>
-    { (variant && variant === ActionComponentVariant.menu) 
+    { (variant && variant === ThActionsTriggerVariant.menu) 
       ? <OverflowMenuItem 
           label={ Locale.reader.toc.trigger }
           SVGIcon={ TocIcon } 

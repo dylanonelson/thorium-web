@@ -1,14 +1,14 @@
-import React, { useRef } from "react";
+import React from "react";
 
 import Locale from "../resources/locales/en.json";
 
-import { ActionComponentVariant, ActionVisibility, IOverflowMenu } from "@/models/actions";
+import { ActionVisibility, IOverflowMenu } from "@/models/actions";
 
 import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
 import MenuIcon from "./assets/icons/more_vert.svg";
 
-import { Menu, MenuTrigger, Popover } from "react-aria-components";
+import { ThMenu } from "@/packages/Components";
 import { ActionIcon } from "./ActionTriggers/ActionIcon";
 
 import { useAppDispatch } from "@/lib/hooks";
@@ -35,40 +35,34 @@ export const OverflowMenu = ({
   if (actionItems.length > 0 && (display)) {
     return (
       <>
-      <MenuTrigger onOpenChange={ (val) => toggleMenuState(val) }>
-        <ActionIcon 
-          className={ className ? className : overflowMenuStyles.activeButton }
-          aria-label={ Locale.reader.overflowMenu.active.trigger }
-          placement="bottom"
-          tooltipLabel={ Locale.reader.overflowMenu.active.tooltip } 
-          visibility={ ActionVisibility.always }
-        >
-          <MenuIcon aria-hidden="true" focusable="false" />
-        </ActionIcon>
-        <Popover
-          placement="bottom"
-          className={ overflowMenuStyles.overflowPopover }
-        >
-          <Menu 
-            id={ id }
-            selectionMode="none" 
-            className={ overflowMenuStyles.overflowMenu }
-            dependencies={ ["Trigger"] }
-          >
-            { actionItems.map(({ Trigger, key, associatedKey, ...props }) => 
-              <Trigger 
-                key={ `${ key }-menuItem` } 
-                variant={ ActionComponentVariant.menu }
-                { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
-                { ...props }
-              />
-            )}
-          </Menu>
-        </Popover>
-      </MenuTrigger>
-      { actionItems.map(({ Container, key }) => 
-        Container && <Container key={ `${ key }-container` } triggerRef={ triggerRef } />
-      )}
+      <ThMenu 
+        id={ id }
+        triggerRef={ triggerRef }
+        selectionMode="none" 
+        className={ overflowMenuStyles.overflowMenu }
+        dependencies={ ["Trigger"] }
+        items={ actionItems }
+        compounds={{
+          trigger: {
+            onOpenChange: (val) => toggleMenuState(val)
+          },
+          popover: {
+            placement: "bottom",
+            className: overflowMenuStyles.overflowPopover
+          },
+          button: (
+            <ActionIcon
+              className={ className ? className : overflowMenuStyles.activeButton }
+              aria-label={ Locale.reader.overflowMenu.active.trigger }
+              placement="bottom"
+              tooltipLabel={ Locale.reader.overflowMenu.active.tooltip }
+              visibility={ ActionVisibility.always }
+            >
+              <MenuIcon aria-hidden="true" focusable="false" />
+            </ActionIcon>
+          ),
+        }}
+      />
       </>
     )
   } else {
