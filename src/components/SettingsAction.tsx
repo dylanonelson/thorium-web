@@ -4,12 +4,12 @@ import { PreferencesContext } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
-import { 
-  ActionComponentVariant, 
+import {  
   ActionKeys, 
   IActionComponentContainer, 
   IActionComponentTrigger 
 } from "@/models/actions";
+import { ThActionsTriggerVariant } from "@/packages/Components";
 import { 
   defaultSpacingSettingsMain, 
   defaultSpacingSettingsSubpanel, 
@@ -267,7 +267,7 @@ export const SettingsAction: React.FC<IActionComponentTrigger> = ({ variant }) =
 
   return(
     <>
-    { (variant && variant === ActionComponentVariant.menu) 
+    { (variant && variant === ThActionsTriggerVariant.menu) 
       ? <OverflowMenuItem 
           label={ Locale.reader.settings.trigger }
           SVGIcon={ TuneIcon }

@@ -4,12 +4,12 @@ import { PreferencesContext } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
-import { ActionKeys, IActionsItem, IActionsMapObject } from "@/models/actions";
+import { ActionKeys, IActionsMapObject } from "@/models/actions";
 
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
-import { ThHeader, ThRunningHead } from "@/packages/Components";
+import { ThHeader, ThMenuEntry, ThRunningHead } from "@/packages/Components";
 import { FullscreenAction } from "./FullscreenAction";
 import { JumpToPositionAction } from "./JumpToPositionAction";
 import { LayoutStrategyAction, LayoutStrategiesActionContainer } from "./LayoutStrategyAction";
@@ -31,15 +31,15 @@ const ActionsMap: { [key in ActionKeys]: IActionsMapObject } = {
   },
   [ActionKeys.layoutStrategy]: {
     trigger: LayoutStrategyAction,
-    container: LayoutStrategiesActionContainer
+    target: LayoutStrategiesActionContainer
   },
   [ActionKeys.settings]: {
     trigger: SettingsAction,
-    container: SettingsActionContainer
+    target: SettingsActionContainer
   },
   [ActionKeys.toc]: {
     trigger: TocAction,
-    container: TocActionContainer
+    target: TocActionContainer
   }
 }
 
@@ -73,13 +73,13 @@ export const ReaderHeader = () => {
   };
 
   const listActionItems = useCallback(() => {
-    const actionsItems: IActionsItem[] = [];
+    const actionsItems: ThMenuEntry<ActionKeys>[] = [];
 
     actionsOrder.current.map((key: ActionKeys) => {
       if (key !== ActionKeys.layoutStrategy || !isFXL) {
         actionsItems.push({
           Trigger: ActionsMap[key].trigger,
-          Container: ActionsMap[key].container,
+          Target: ActionsMap[key].target,
           key: key
         });
       }

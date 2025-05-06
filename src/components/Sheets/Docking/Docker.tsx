@@ -7,7 +7,7 @@ import dockerStyles from "../../assets/styles/docking.module.css";
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { DockingKeys, IDocker } from "@/models/docking";
-import { IActionsItem, IActionsMapObject } from "@/models/actions";
+import { IActionsMapObject } from "@/models/actions";
 
 import { Toolbar } from "react-aria-components";
 
@@ -16,6 +16,7 @@ import { ActionsWithCollapsibility } from "@/components/ActionsWithCollapsibilit
 import { DockStartAction } from "./DockStartAction";
 import { DockEndAction } from "./DockEndAction";
 import { PopoverSheetAction } from "./PopoverSheetAction";
+import { ThMenuEntry } from "@/packages/Components";
 
 const DockingActionsMap: { [key in DockingKeys]: IActionsMapObject } = {
   [DockingKeys.start]: {
@@ -37,7 +38,7 @@ export const Docker = ({
 }: IDocker) => {
   const RSPrefs = useContext(PreferencesContext);
   const listActionItems = useCallback(() => {
-    const actionsItems: IActionsItem[] = [];
+    const actionsItems: ThMenuEntry<DockingKeys>[] = [];
 
     keys.map((key) => {
       actionsItems.push({

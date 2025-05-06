@@ -3,7 +3,8 @@ import React, { useContext } from "react";
 import { PreferencesContext } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
-import { ActionComponentVariant, ActionKeys, IActionComponentTrigger } from "@/models/actions";
+import { ActionKeys, IActionComponentTrigger } from "@/models/actions";
+import { ThActionsTriggerVariant } from "@/packages/Components";
 
 import TargetIcon from "./assets/icons/point_scan.svg";
 
@@ -15,7 +16,7 @@ export const JumpToPositionAction: React.FC<IActionComponentTrigger> = ({ varian
   
   return(
     <>
-    { (variant && variant === ActionComponentVariant.menu) 
+    { (variant && variant === ThActionsTriggerVariant.menu) 
       ? <OverflowMenuItem 
           label={ Locale.reader.jumpToPosition.trigger }
           SVGIcon={ TargetIcon }

@@ -4,6 +4,7 @@ import { StaticBreakpoints } from "./staticBreakpoints";
 import { ISnappedPref, SheetTypes } from "./sheets";
 import { Collapsibility } from "./collapsibility";
 import { ActionsStateKeys } from "./state/actionsState";
+import { ThActionsTriggerVariant, ThMenuEntry } from "@/packages/Components";
 
 export enum ActionKeys {
   fullscreen = "fullscreen",
@@ -19,18 +20,13 @@ export enum ActionVisibility {
   overflow = "overflow"
 }
 
-export enum ActionComponentVariant {
-  button = "iconButton",
-  menu = "menuItem"
-}
-
 export interface IActionsMapObject {
   trigger: React.FC<IActionComponentTrigger>;
-  container?: React.FC<IActionComponentContainer>;
+  target?: React.FC<IActionComponentContainer>;
 }
 
 export interface IActionComponentTrigger {
-  variant: ActionComponentVariant;
+  variant: ThActionsTriggerVariant;
   associatedKey?: ActionsStateKeys;
 }
 
@@ -40,7 +36,7 @@ export interface IActionComponentContainer {
 
 export interface IActions {
   id: string;
-  items: IActionsItem[];
+  items: ThMenuEntry<ActionKeys | DockingKeys>[];
   className: string;
   label: string;
 }
@@ -52,16 +48,9 @@ export interface IActionsWithCollapsibility extends IActions {
   overflowMenuDisplay?: boolean;
 }
 
-export interface IActionsItem {
-  Trigger: React.FunctionComponent<IActionComponentTrigger>;
-  Container?: React.FunctionComponent<IActionComponentContainer>
-  key: ActionKeys | DockingKeys;
-  associatedKey?: ActionsStateKeys;
-}
-
 export interface IOverflowMenu {
   id: string;
-  actionItems: IActionsItem[];
+  actionItems: ThMenuEntry<ActionKeys | DockingKeys>[];
   triggerRef: RefObject<HTMLElement | null>;
   className?: string;
   actionFallback?: boolean;

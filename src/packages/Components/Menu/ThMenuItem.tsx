@@ -22,8 +22,7 @@ export const ThMenuItem = ({
   children,
   ...props
 }: ThMenuItemProps) => {
-  const menuItemLabelId = `${ id }-label`;
-  
+  const menuItemLabelId = `${ id }-label`;  
   return(
     <>
     <MenuItem 

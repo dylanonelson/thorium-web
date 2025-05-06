@@ -6,7 +6,8 @@ import Locale from "../resources/locales/en.json";
 
 import LayoutIcon from "./assets/icons/fit_page_width.svg";
 
-import { ActionComponentVariant, ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+import { ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+import { ThActionsTriggerVariant } from "@/packages/Components";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
@@ -78,7 +79,7 @@ export const LayoutStrategyAction: React.FC<IActionComponentTrigger> = ({ varian
 
   return(
     <>
-    { (variant && variant === ActionComponentVariant.menu) 
+    { (variant && variant === ThActionsTriggerVariant.menu) 
       ? <OverflowMenuItem 
           label={ Locale.reader.layoutStrategy.trigger }
           SVGIcon={ LayoutIcon }

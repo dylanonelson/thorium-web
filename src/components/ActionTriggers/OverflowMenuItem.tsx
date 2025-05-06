@@ -1,7 +1,5 @@
 import React from "react";
 
-import { IOverflowMenuItemProp } from "@/models/actions";
-
 import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 
 import { Text } from "react-aria-components";
@@ -17,7 +15,8 @@ export const OverflowMenuItem = ({
   id,
   label,
   SVGIcon,
-  shortcut = undefined
+  shortcut = undefined,
+  ...props
 }: OverflowMenuItemProps) => {
   const menuItemLabelId = `${id}-label`;
   
@@ -28,6 +27,7 @@ export const OverflowMenuItem = ({
       label={ label }
       className={ overflowMenuStyles.menuItem } 
       aria-labelledby={ menuItemLabelId } 
+      { ...props }
     >
       { SVGIcon && <SVGIcon aria-hidden="true" focusable="false" /> }
       <Text 
