@@ -1,5 +1,5 @@
 import { IActionTokens } from "./actions";
-import { Collapsibility } from "./collapsibility";
+import { Collapsibility } from "@/packages/Components";
 import { ActionsStateKeys } from "./state/actionsState";
 import { StaticBreakpoints } from "./staticBreakpoints";
 

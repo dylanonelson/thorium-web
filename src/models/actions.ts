@@ -2,9 +2,8 @@ import { ComponentType, ReactNode, RefObject, SVGProps } from "react";
 import { DockingKeys, IDockedPref } from "./docking";
 import { StaticBreakpoints } from "./staticBreakpoints";
 import { ISnappedPref, SheetTypes } from "./sheets";
-import { Collapsibility } from "./collapsibility";
 import { ActionsStateKeys } from "./state/actionsState";
-import { CollapsiblePref, CollapsibilityVisibility, ThActionsTriggerVariant, ThMenuEntry } from "@/packages/Components";
+import { Collapsibility, CollapsiblePref, CollapsibilityVisibility, ThActionsTriggerVariant, ThMenuEntry } from "@/packages/Components";
 
 export enum ActionKeys {
   fullscreen = "fullscreen",
