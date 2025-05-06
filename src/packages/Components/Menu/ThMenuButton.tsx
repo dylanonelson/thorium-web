@@ -1,3 +1,5 @@
+"use client";
+
 import MoreVertIcon from "./assets/icons/more_vert.svg";
 
 import { ThActionButton, ThActionButtonProps } from "../Buttons/ThActionButton";

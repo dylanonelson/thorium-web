@@ -2,8 +2,8 @@ import React, { useContext, useRef } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
-import { ActionVisibility } from "@/models/actions";
 import { TooltipProps } from "react-aria-components";
+import { CollapsibilityVisibility } from "@/packages/Components";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "../assets/styles/readerStates.module.css";
@@ -18,7 +18,7 @@ import { isActiveElement, isKeyboardTriggered } from "@/helpers/focus";
 import classNames from "classnames";
 
 export interface ActionIconProps extends ThActionButtonProps {
-  visibility?: ActionVisibility;
+  visibility?: CollapsibilityVisibility;
   placement?: TooltipProps["placement"];
   tooltipLabel?: string;
 }
@@ -42,21 +42,21 @@ export const ActionIcon = ({
     let className = "";
     
     switch(visibility) {
-      case ActionVisibility.always:
+      case CollapsibilityVisibility.always:
         if (!isHovering && isImmersive) {
           className = readerStateStyles.subduedAlways;
         } else {
           className = visibility;
         }
         break;
-      case ActionVisibility.partially:
+      case CollapsibilityVisibility.partially:
         if (!isHovering && isImmersive) {
           className = readerStateStyles.subduedPartially;
         } else {
           className = visibility;
         }
         break;
-      case ActionVisibility.overflow:
+      case CollapsibilityVisibility.overflow:
       default:
         break;
     }

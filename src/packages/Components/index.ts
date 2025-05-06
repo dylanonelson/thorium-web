@@ -1,3 +1,5 @@
+"use client";
+
 export * from "./Actions"; 
 export * from "./Buttons";
 export * from "./Menu";

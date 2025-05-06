@@ -1,7 +1,10 @@
+"use client";
+
 import { IRSPrefs, ScrollAffordancePref, ScrollBackTo } from "../models/preferences";
 import { StaticBreakpoints } from "../models/staticBreakpoints";
 import { ShortcutMetaKeywords, ShortcutRepresentation } from "../models/shortcut";
-import { ActionKeys, ActionVisibility } from "../models/actions";
+import { CollapsibilityVisibility } from "@/packages/Components";
+import { ActionKeys } from "../models/actions";
 import { SheetHeaderVariant, SheetTypes } from "../models/sheets";
 import { DockTypes, DockingKeys } from "../models/docking";
 import { ThemeKeys } from "../models/theme";
@@ -202,7 +205,7 @@ export const RSPrefs: IRSPrefs = {
     }, 
     keys: {
       [ActionKeys.settings]: {
-        visibility: ActionVisibility.partially,
+        visibility: CollapsibilityVisibility.partially,
         shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+P`,
         sheet: {
           defaultSheet: SheetTypes.popover,
@@ -222,11 +225,11 @@ export const RSPrefs: IRSPrefs = {
         }
       },
       [ActionKeys.fullscreen]: {
-        visibility: ActionVisibility.partially,
+        visibility: CollapsibilityVisibility.partially,
         shortcut: null
       },
       [ActionKeys.toc]: {
-        visibility: ActionVisibility.partially,
+        visibility: CollapsibilityVisibility.partially,
         shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+T`,
         sheet: {
           defaultSheet: SheetTypes.popover,
@@ -244,7 +247,7 @@ export const RSPrefs: IRSPrefs = {
         }
       },
       [ActionKeys.layoutStrategy]: {
-        visibility: ActionVisibility.overflow,
+        visibility: CollapsibilityVisibility.overflow,
         shortcut: null,
         sheet: {
           defaultSheet: SheetTypes.popover,
@@ -263,7 +266,7 @@ export const RSPrefs: IRSPrefs = {
         }
       },
       [ActionKeys.jumpToPosition]: {
-        visibility: ActionVisibility.overflow,
+        visibility: CollapsibilityVisibility.overflow,
         shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
         docked: {
           dockable: DockTypes.none
@@ -287,15 +290,15 @@ export const RSPrefs: IRSPrefs = {
     collapse: true,
     keys: {
       [DockingKeys.start]: {
-        visibility: ActionVisibility.overflow,
+        visibility: CollapsibilityVisibility.overflow,
         shortcut: null
       },
       [DockingKeys.end]: {
-        visibility: ActionVisibility.overflow,
+        visibility: CollapsibilityVisibility.overflow,
         shortcut: null
       },
       [DockingKeys.transient]: {
-        visibility: ActionVisibility.overflow,
+        visibility: CollapsibilityVisibility.overflow,
         shortcut: null
       }
     }

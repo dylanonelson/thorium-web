@@ -1,3 +1,5 @@
+"use client";
+
 import { ComponentType, SVGProps } from "react";
 
 import AddIcon from "./assets/icons/add.svg";

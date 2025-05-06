@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ThHTMLAttributes, useEffect } from "react";
 
 export interface ThRunningHeadProps extends ThHTMLAttributes<HTMLHeadingElement> {

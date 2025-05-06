@@ -1,3 +1,5 @@
+"use client";
+
 import { useObjectRef } from "react-aria";
 import { Toolbar, ToolbarProps } from "react-aria-components";
 

@@ -4,7 +4,7 @@ import { StaticBreakpoints } from "./staticBreakpoints";
 import { ISnappedPref, SheetTypes } from "./sheets";
 import { Collapsibility } from "./collapsibility";
 import { ActionsStateKeys } from "./state/actionsState";
-import { ThActionsTriggerVariant, ThMenuEntry } from "@/packages/Components";
+import { CollapsibilityVisibility, ThActionsTriggerVariant, ThMenuEntry } from "@/packages/Components";
 
 export enum ActionKeys {
   fullscreen = "fullscreen",
@@ -12,12 +12,6 @@ export enum ActionKeys {
   layoutStrategy = "layoutStrategy",
   settings = "settings",
   toc = "toc"
-}
-
-export enum ActionVisibility {
-  always = "always",
-  partially = "partially",
-  overflow = "overflow"
 }
 
 export interface IActionsMapObject {
@@ -50,7 +44,7 @@ export interface IActionsWithCollapsibility extends IActions {
 
 export interface IOverflowMenu {
   id: string;
-  actionItems: ThMenuEntry<ActionKeys | DockingKeys>[];
+  items: ThMenuEntry<ActionKeys | DockingKeys>[];
   triggerRef: RefObject<HTMLElement | null>;
   className?: string;
   actionFallback?: boolean;
@@ -68,7 +62,7 @@ export interface IOverflowMenuItemProp {
 }
 
 export interface IActionTokens {
-  visibility: ActionVisibility;
+  visibility: CollapsibilityVisibility;
   shortcut: string | null;
   sheet?: {
     defaultSheet: Exclude<SheetTypes, SheetTypes.dockedStart | SheetTypes.dockedEnd>;

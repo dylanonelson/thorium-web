@@ -1,3 +1,5 @@
+"use client";
+
 import Close from "./assets/icons/close.svg";
 
 import { ThActionButton, ThActionButtonProps } from "./ThActionButton";

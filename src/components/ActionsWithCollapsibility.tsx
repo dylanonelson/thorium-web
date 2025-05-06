@@ -2,10 +2,10 @@ import { Fragment, useRef } from "react";
 
 import { IActionsWithCollapsibility } from "@/models/actions";
 
-import { ThActionsBar, ThActionsTriggerVariant } from "@/packages/Components";
+import { ThActionsBar, ThActionsTriggerVariant, ThCollapsibleActionsBar } from "@/packages/Components";
 import { OverflowMenu } from "./OverflowMenu";
 
-import { useCollapsibility } from "@/hooks/useCollapsibility";
+import { useAppSelector } from "@/lib";
 
 export const ActionsWithCollapsibility = ({
   id, 
@@ -18,37 +18,27 @@ export const ActionsWithCollapsibility = ({
   label
 }: IActionsWithCollapsibility) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const Actions = useCollapsibility(items, prefs);
+  const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
 
   return (
     <>
-    <ThActionsBar 
+    <ThCollapsibleActionsBar 
       ref={ ref }
-      className={ className } 
+      id={ id }
+      items={ items }
+      prefs={ prefs }
+      className={ className }
       aria-label={ label }
-    >
-      { Actions.ActionIcons.map(({ Trigger, Target, key, associatedKey, ...props }) => 
-          <Fragment key={ key }>
-            <Trigger 
-              key={ `${ key }-trigger` } 
-              variant={ ThActionsTriggerVariant.button }
-              { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
-              { ...props }
-            />
-            { Target && <Target key={ `${ key }-container` } triggerRef={ ref } /> }
-          </Fragment>
-        ) 
-      }
-
-      <OverflowMenu 
+      breakpoint={ staticBreakpoint }
+      overflowMenu={ (<OverflowMenu 
         id={ id }
         triggerRef={ ref }
         display={ overflowMenuDisplay || true }
         className={ overflowMenuClassName } 
         actionFallback={ overflowActionCallback }
-        actionItems={ Actions.MenuItems }
-      />
-    </ThActionsBar>
+        items={ [] }
+      />) }
+    />
     </>
   )
 }

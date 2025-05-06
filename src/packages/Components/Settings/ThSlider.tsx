@@ -1,3 +1,5 @@
+"use client";
+
 import { Label, Slider, SliderOutput, SliderProps, SliderThumb, SliderTrack } from "react-aria-components";
 
 export interface ThSliderProps extends Omit<SliderProps, "minValue" | "maxValue"> {
