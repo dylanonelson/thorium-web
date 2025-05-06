@@ -4,7 +4,7 @@ import { StaticBreakpoints } from "./staticBreakpoints";
 import { ISnappedPref, SheetTypes } from "./sheets";
 import { Collapsibility } from "./collapsibility";
 import { ActionsStateKeys } from "./state/actionsState";
-import { CollapsibilityVisibility, ThActionsTriggerVariant, ThMenuEntry } from "@/packages/Components";
+import { CollapsiblePref, CollapsibilityVisibility, ThActionsTriggerVariant, ThMenuEntry } from "@/packages/Components";
 
 export enum ActionKeys {
   fullscreen = "fullscreen",
@@ -36,7 +36,7 @@ export interface IActions {
 }
 
 export interface IActionsWithCollapsibility extends IActions {
-  prefs: any;
+  prefs: CollapsiblePref;
   overflowActionCallback?: boolean;
   overflowMenuClassName?: string;
   overflowMenuDisplay?: boolean;
