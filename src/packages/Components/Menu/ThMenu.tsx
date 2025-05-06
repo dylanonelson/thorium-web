@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useRef } from "react";
 
 import { Menu, MenuProps, MenuTrigger, MenuTriggerProps, Popover, PopoverProps } from "react-aria-components";

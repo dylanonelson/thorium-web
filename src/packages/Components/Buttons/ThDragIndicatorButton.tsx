@@ -1,3 +1,5 @@
+"use client";
+
 import HorizontalRule from "./assets/icons/horizontal_rule.svg";
 
 import { Button, ButtonProps } from "react-aria-components";

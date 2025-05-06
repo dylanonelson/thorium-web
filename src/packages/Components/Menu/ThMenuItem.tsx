@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 import { Keyboard, MenuItem, MenuItemProps, Text } from "react-aria-components";

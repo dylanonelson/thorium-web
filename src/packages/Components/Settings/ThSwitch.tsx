@@ -1,3 +1,5 @@
+"use client";
+
 import { Heading, Switch, SwitchProps } from "react-aria-components";
 
 export interface ThSwitchProps extends SwitchProps {

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 import ArrowBack from "./assets/icons/arrow_back.svg";

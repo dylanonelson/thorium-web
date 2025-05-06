@@ -1,27 +1,43 @@
+"use client";
+
 import { useCallback, useEffect, useState } from "react";
 
-import { ActionKeys, ActionVisibility, IActionPref } from "@/models/actions";
 import { ThMenuEntry } from "@/packages/Components";
-import { DockingKeys, IDockingPref } from "@/models/docking";
 
-import { useAppSelector } from "@/lib/hooks";
+export type Collapsibility = boolean | Record<string, number | "all">;
 
-export const useCollapsibility = (items: ThMenuEntry<ActionKeys | DockingKeys>[], prefs: IActionPref & IDockingPref) => {
-  const [ActionIcons, setActionIcons] = useState<ThMenuEntry<ActionKeys | DockingKeys>[]>([]);
-  const [MenuItems, setMenuItems] = useState<ThMenuEntry<ActionKeys | DockingKeys>[]>([]);
-  const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
+export enum CollapsibilityVisibility {
+  always = "always",
+  partially = "partially",
+  overflow = "overflow"
+}
+
+export interface CollapsiblePref {
+  displayOrder: string[];
+  collapse: Collapsibility;
+  keys: {
+    [key: string]: {
+      [key: string]: any;
+      visibility: CollapsibilityVisibility;
+    };
+  }
+}
+
+export const useCollapsibility = (items: ThMenuEntry<string>[], prefs: CollapsiblePref, breakpoint?: string) => {
+  const [ActionIcons, setActionIcons] = useState<ThMenuEntry<string>[]>([]);
+  const [MenuItems, setMenuItems] = useState<ThMenuEntry<string>[]>([]);
 
   const triageActions = useCallback(() => {
-    const actionIcons: ThMenuEntry<ActionKeys | DockingKeys>[] = [];
-    const menuItems: ThMenuEntry<ActionKeys | DockingKeys>[] = [];
+    const actionIcons: ThMenuEntry<string>[] = [];
+    const menuItems: ThMenuEntry<string>[] = [];
 
     let countdown: number = 0;
 
     if (prefs.collapse) {
       // Handling number of items to collapse
       if (typeof prefs.collapse === "object" && !(prefs.collapse instanceof Boolean)) {
-        if (staticBreakpoint) {
-          const prefForBreakpoint = prefs.collapse[staticBreakpoint];
+        if (breakpoint) {
+          const prefForBreakpoint = prefs.collapse[breakpoint];
           if (prefForBreakpoint) {
             if (prefForBreakpoint === "all") {
               countdown = 0;
@@ -41,10 +57,10 @@ export const useCollapsibility = (items: ThMenuEntry<ActionKeys | DockingKeys>[]
       // Creating a shallow copy so that actionsOrder doesn’t mutate between rerenders
       [...items].slice().reverse().map((item) => {
         const actionPref = prefs.keys[item.key];
-        if (actionPref.visibility === ActionVisibility.overflow) {
+        if (actionPref.visibility === CollapsibilityVisibility.overflow) {
           menuItems.unshift(item);
           --countdown;
-        } else if (actionPref.visibility === ActionVisibility.partially) {
+        } else if (actionPref.visibility === CollapsibilityVisibility.partially) {
           if (countdown > 0) {
             menuItems.unshift(item);
             --countdown;
@@ -64,11 +80,11 @@ export const useCollapsibility = (items: ThMenuEntry<ActionKeys | DockingKeys>[]
 
     setActionIcons(actionIcons);
     setMenuItems(menuItems);
-  }, [items, prefs, staticBreakpoint]);
+  }, [items, prefs, breakpoint]);
 
   useEffect(() => {
     triageActions();
-  }, [staticBreakpoint, triageActions, items, prefs]);
+  }, [breakpoint, triageActions, items, prefs]);
 
   return {
     ActionIcons,

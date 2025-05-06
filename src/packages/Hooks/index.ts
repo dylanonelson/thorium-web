@@ -1,3 +1,5 @@
+"use client";
+
 export * from "./useColorScheme";
 export * from "./useContrast";
 export * from "./useFirstFocusable";

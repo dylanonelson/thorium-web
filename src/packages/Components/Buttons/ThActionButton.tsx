@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, ButtonProps, Tooltip, TooltipProps, TooltipTrigger } from "react-aria-components";
 import { TooltipTriggerProps } from "react-aria";
 

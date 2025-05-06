@@ -1,3 +1,5 @@
+"use client";
+
 import { ThHTMLAttributes } from "./ThHTMLAttributes";
 
 export const ThHeader = ({ 

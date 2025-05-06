@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" { ...(RSPrefs.direction && RSPrefs.direction === LayoutDirection.rtl ? { dir: RSPrefs.direction } : {}) }>
+    <html lang="en">
       <body className={ inter.className }>
         <StoreProvider>
           <PreferencesProvider>
