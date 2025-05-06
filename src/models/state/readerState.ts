@@ -1,4 +1,4 @@
-import { LayoutDirection } from "../layout";
+import { LayoutDirection } from "@/preferences";
 import { SettingsContainerKeys } from "../settings";
 import { IPlatformModifier } from "../shortcut";
 

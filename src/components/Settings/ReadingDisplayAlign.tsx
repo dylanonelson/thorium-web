@@ -2,7 +2,8 @@ import React, { useCallback } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { LayoutDirection, ReadingDisplayAlignOptions } from "@/models/layout";
+import { ReadingDisplayAlignOptions } from "@/models/layout";
+import { LayoutDirection } from "@/preferences";
 import { IAdvancedDisplayProps } from "@/models/settings";
 import { TextAlignment } from "@readium/navigator";
 

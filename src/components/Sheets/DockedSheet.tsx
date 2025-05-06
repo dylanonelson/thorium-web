@@ -5,7 +5,7 @@ import Locale from "../../resources/locales/en.json";
 
 import { ISheet, SheetHeaderVariant } from "@/models/sheets";
 import { DockingKeys } from "@/models/docking";
-import { LayoutDirection } from "@/models/layout";
+import { LayoutDirection } from "@/preferences";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";

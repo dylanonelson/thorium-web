@@ -8,7 +8,7 @@ import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 import { IActionComponentTrigger } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components";
 import { DockingKeys } from "@/models/docking";
-import { LayoutDirection } from "@/models/layout";
+import { LayoutDirection } from "@/preferences";
 
 import DockToLeft from "../../assets/icons/dock_to_right.svg";
 import DocktoRight from "../../assets/icons/dock_to_left.svg";
