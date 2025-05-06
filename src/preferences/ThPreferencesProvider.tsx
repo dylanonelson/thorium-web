@@ -7,7 +7,7 @@ import { IRSPrefs } from '@/models/preferences';
 
 const PreferencesContext = createContext(RSPrefs);
 
-export default function PreferencesProvider({ value, children }: {
+export default function ThPreferencesProvider({ value, children }: {
   value?: IRSPrefs,
   children: React.ReactNode
 }) {
@@ -18,4 +18,4 @@ export default function PreferencesProvider({ value, children }: {
   );
 };
 
-export { PreferencesProvider, PreferencesContext };
+export { ThPreferencesProvider, PreferencesContext };

@@ -1,6 +1,7 @@
 import { IActionPref } from "./actions";
 import { IDockingPref } from "./docking";
-import { Constraints, ILayoutDefaults, LayoutDirection, RSLayoutStrategy } from "./layout";
+import { Constraints, ILayoutDefaults, RSLayoutStrategy } from "./layout";
+import { LayoutDirection } from "@/preferences";
 import { ISettingsSpacingPref, ISettingsTextPref, SettingsKeys, SettingsRangeVariant } from "./settings";
 import { ShortcutRepresentation } from "./shortcut";
 import { StaticBreakpoints } from "./staticBreakpoints";

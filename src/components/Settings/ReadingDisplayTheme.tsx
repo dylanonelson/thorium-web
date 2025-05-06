@@ -10,7 +10,7 @@ import settingsStyles from "../assets/styles/readerSettings.module.css";
 import CheckIcon from "../assets/icons/check.svg";
 
 import { ActionKeys } from "@/models/actions";
-import { LayoutDirection } from "@/models/layout";
+import { LayoutDirection } from "@/preferences";
 
 import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 import { Radio } from "react-aria-components";

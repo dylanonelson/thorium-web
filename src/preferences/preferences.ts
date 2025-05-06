@@ -8,7 +8,8 @@ import { ActionKeys } from "../models/actions";
 import { SheetHeaderVariant, SheetTypes } from "../models/sheets";
 import { DockTypes, DockingKeys } from "../models/docking";
 import { ThemeKeys } from "../models/theme";
-import { LayoutDirection, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "../models/layout";
+import { ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "../models/layout";
+import { LayoutDirection } from "./LayoutDirection";
 import { SettingsKeys, TextSettingsKeys } from "../models/settings";
 
 import dayMode from "@readium/css/css/vars/day.json";

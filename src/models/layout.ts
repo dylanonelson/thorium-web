@@ -2,11 +2,6 @@ import { SheetTypes } from "./sheets";
 
 import fontStacks from "@readium/css/css/vars/fontStacks.json";
 
-export enum LayoutDirection {
-  ltr = "ltr",
-  rtl = "rtl"
-}
-
 export interface ILayoutDefaults {
   dockingWidth: number;
   scrim: string;

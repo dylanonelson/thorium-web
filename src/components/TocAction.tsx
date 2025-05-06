@@ -10,7 +10,7 @@ import { Link } from "@readium/shared";
 import { ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components";
 import { SheetTypes } from "@/models/sheets";
-import { LayoutDirection } from "@/models/layout";
+import { LayoutDirection } from "@/preferences";
 import { TocItem } from "@/models/toc";
 import { DockingKeys } from "@/models/docking";
 
