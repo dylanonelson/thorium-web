@@ -4,8 +4,6 @@ import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import settingsStyles from "../assets/styles/readerSettings.module.css";
-
 import { 
   defaultLetterSpacing, 
   IAdvancedDisplayProps, 

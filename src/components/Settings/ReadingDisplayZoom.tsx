@@ -6,8 +6,6 @@ import Locale from "../../resources/locales/en.json";
 
 import { defaultFontSize, SettingsRangeVariant } from "@/models/settings";
 
-import settingsStyles from "../assets/styles/readerSettings.module.css";
-
 import Decrease from "../assets/icons/text_decrease.svg";
 import Increase from "../assets/icons/text_increase.svg";
 import ZoomOut from "../assets/icons/zoom_out.svg";

@@ -1,8 +1,6 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 
 import Locale from "../../resources/locales/en.json";
-
-import settingsStyles from "../assets/styles/readerSettings.module.css";
 
 import { IAdvancedDisplayProps } from "@/models/settings";
 

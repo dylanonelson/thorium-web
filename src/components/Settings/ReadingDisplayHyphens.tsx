@@ -2,8 +2,6 @@ import { useCallback } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import settingsStyles from "../assets/styles/readerSettings.module.css";
-
 import { IAdvancedDisplayProps } from "@/models/settings";
 import { ReadingDisplayAlignOptions } from "@/models/layout";
 
