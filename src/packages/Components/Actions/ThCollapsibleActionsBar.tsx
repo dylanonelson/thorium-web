@@ -7,12 +7,12 @@ import { ThActionsTriggerVariant } from "./ThActionsTriggerVariant";
 import { ThMenu, ThMenuEntry, THMenuProps } from "../Menu/ThMenu";
 
 import { useObjectRef } from "react-aria";
-import { useCollapsibility } from "./hooks/useCollapsibility";
+import { CollapsiblePref, useCollapsibility } from "./hooks/useCollapsibility";
 
 export interface ThCollapsibleActionsBarProps extends ThActionsBarProps {
   id: string;
   items: ThMenuEntry<string>[];
-  prefs: any;
+  prefs: CollapsiblePref;
   breakpoint?: string;
   children?: never;
   overflowMenu?: THMenuProps<string> | React.ReactElement<typeof ThMenu>;
