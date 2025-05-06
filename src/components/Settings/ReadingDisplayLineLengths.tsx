@@ -8,8 +8,6 @@ import Locale from "../../resources/locales/en.json";
 
 import { IAdvancedDisplayProps } from "@/models/settings";
 
-import settingsStyles from "../assets/styles/readerSettings.module.css";
-
 import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 
 import { ReadingDisplayMaxChars } from "./ReadingDisplayMaxChars";

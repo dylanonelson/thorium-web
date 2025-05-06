@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
 import { ThSwitch, ThSwitchProps } from "@/packages/Components/Settings";
