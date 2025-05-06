@@ -18,15 +18,16 @@ import { OverflowMenuItem } from "@/components/ActionTriggers/OverflowMenuItem";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
-import { useActions } from "@/hooks/useActions";
+import { useActions } from "@/packages/Components";
 
 export const DockStartAction: React.FC<IActionComponentTrigger> = ({ variant, associatedKey }) => {
   const RSPrefs = useContext(PreferencesContext);
   const direction = useAppSelector(state => state.reader.direction);
+  const actionsMap = useAppSelector(state => state.actions.keys);
   const isRTL = direction === LayoutDirection.rtl;
   const localeKey = isRTL ? Locale.reader.app.docker.dockToRight : Locale.reader.app.docker.dockToLeft;
 
-  const actions = useActions();
+  const actions = useActions(actionsMap);
   const isDisabled = actions.whichDocked(associatedKey) === DockingKeys.start;
   
   const dispatch = useAppDispatch();
