@@ -12,17 +12,18 @@ import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
 import { dockAction, setActionOpen } from "@/lib/actionsReducer";
 
 import { usePrevious } from "@/packages/Hooks/usePrevious";
-import { useActions } from "./useActions";
+import { useActions } from "@/packages/Components";
 
 let dockingMap: Required<BreakpointsDockingMap> | null = null;
 
 export const useDocking = (key: ActionsStateKeys) => {
   const RSPrefs = useContext(PreferencesContext);
   const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
-  const actionState = useAppSelector(state => state.actions.keys[key]);
+  const actionsMap = useAppSelector(state => state.actions.keys);
+  const actionState = actionsMap[key];
   const dispatch = useAppDispatch();
 
-  const actions = useActions();
+  const actions = useActions(actionsMap);
 
   if (!dockingMap) {
     dockingMap = makeBreakpointsMap<BreakpointsDockingMap>({

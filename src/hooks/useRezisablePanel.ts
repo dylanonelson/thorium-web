@@ -4,9 +4,10 @@ import { PreferencesContext } from "../preferences";
 
 import { Docked, IDockedPref } from "../models/docking";
 
-import { useActions } from "./useActions";
+import { useActions } from "@/packages/Components";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 import { useIsClient } from "@/packages/Hooks/useIsClient";
+import { useAppSelector } from "@/lib";
 
 export const useRezisablePanel = (panel: Docked) => {
   const RSPrefs = useContext(PreferencesContext);
@@ -14,7 +15,8 @@ export const useRezisablePanel = (panel: Docked) => {
   const defaultWidth = RSPrefs.theming.layout.defaults.dockingWidth;
   const [pref, setPref] = useState<IDockedPref | null>(null);
 
-  const actions = useActions();
+  const actionsMap = useAppSelector(state => state.actions.keys);
+  const actions = useActions(actionsMap);
   const previouslyCollapsed = usePrevious(panel.collapsed);
 
   const previousWidth = actions.getDockedWidth(panel.actionKey) || null;

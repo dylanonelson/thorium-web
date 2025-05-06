@@ -14,14 +14,15 @@ import Dialog from "../../assets/icons/dialogs.svg";
 import { ActionIcon } from "@/components/ActionTriggers/ActionIcon";
 import { OverflowMenuItem } from "@/components/ActionTriggers/OverflowMenuItem";
 
-import { useActions } from "@/hooks/useActions";
+import { useActions } from "@/packages/Components";
 
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
 
 export const FullscreenSheetAction: React.FC<IActionComponentTrigger> = ({ variant, associatedKey }) => {
   const RSPrefs = useContext(PreferencesContext);
-  const actions = useActions();
+  const actionsMap = useAppSelector(state => state.actions.keys);
+  const actions = useActions(actionsMap);
   const isDisabled = !actions.isDocked(associatedKey);
   
   const dispatch = useAppDispatch();
