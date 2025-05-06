@@ -9,7 +9,7 @@ import { ActionKeys, IActionsMapObject } from "@/models/actions";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
-import { ThHeader, ThMenuEntry, ThRunningHead } from "@/packages/Components";
+import { ThHeader, ThActionEntry, ThRunningHead } from "@/packages/Components";
 import { FullscreenAction } from "./FullscreenAction";
 import { JumpToPositionAction } from "./JumpToPositionAction";
 import { LayoutStrategyAction, LayoutStrategiesActionContainer } from "./LayoutStrategyAction";
@@ -73,7 +73,7 @@ export const ReaderHeader = () => {
   };
 
   const listActionItems = useCallback(() => {
-    const actionsItems: ThMenuEntry<ActionKeys>[] = [];
+    const actionsItems: ThActionEntry<ActionKeys>[] = [];
 
     actionsOrder.current.map((key: ActionKeys) => {
       if (key !== ActionKeys.layoutStrategy || !isFXL) {

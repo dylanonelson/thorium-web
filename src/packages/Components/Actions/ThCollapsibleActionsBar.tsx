@@ -4,14 +4,21 @@ import React, { Fragment } from "react";
 
 import { ThActionsBar, ThActionsBarProps } from "./ThActionsBar";
 import { ThActionsTriggerVariant } from "./ThActionsTriggerVariant";
-import { ThMenu, ThMenuEntry, THMenuProps } from "../Menu/ThMenu";
+import { ThMenu, THMenuProps } from "../Menu/ThMenu";
 
 import { useObjectRef } from "react-aria";
 import { CollapsiblePref, useCollapsibility } from "./hooks/useCollapsibility";
 
+export interface ThActionEntry<T> {
+  key: T;
+  associatedKey?: string;
+  Trigger: React.ComponentType<any>;
+  Target?: React.ComponentType<any>;
+}
+
 export interface ThCollapsibleActionsBarProps extends ThActionsBarProps {
   id: string;
-  items: ThMenuEntry<string>[];
+  items: ThActionEntry<string>[];
   prefs: CollapsiblePref;
   breakpoint?: string;
   children?: never;

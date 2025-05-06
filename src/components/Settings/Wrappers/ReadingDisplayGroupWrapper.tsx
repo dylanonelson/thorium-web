@@ -1,14 +1,13 @@
-import { 
-  IReadingDisplayGroupWrapperProps, 
-  ISettingsMapObject, 
-  SpacingSettingsKeys, 
-  TextSettingsKeys 
-} from "@/models/settings";
+import { useContext } from "react";
 
+import { IReadingDisplayGroupWrapperProps } from "@/models/settings";
+
+import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
-import { Heading } from "react-aria-components";
-import { AdvancedIcon } from "./AdvancedIcon";
+import { PreferencesContext } from "@/preferences";
+
+import { ThSettingsWrapper } from "@/packages/Components/Settings/ThSettingsWrapper/ThSettingsWrapper";
 
 import classNames from "classnames";
 
@@ -21,37 +20,48 @@ export const ReadingDisplayGroupWrapper: React.FC<IReadingDisplayGroupWrapperPro
   prefs,
   defaultPrefs
 }) => {
-  const main = prefs?.main || defaultPrefs.main;
-    const displayOrder = prefs?.subPanel !== undefined 
-      ? prefs.subPanel 
-      : defaultPrefs.subPanel;
+  const RSPrefs = useContext(PreferencesContext);
   
-    const isAdvanced = (
-      main.length < Object.keys(settingsMap).length && 
-      displayOrder && displayOrder.length > 0
-    );
+  const main = prefs?.main || defaultPrefs.main;
+  const displayOrder = prefs?.subPanel !== undefined 
+    ? prefs.subPanel 
+    : defaultPrefs.subPanel;
+
+  const resolvedPrefs = {
+    main: main,
+    subPanel: displayOrder
+  };
 
   return(
     <>
-    <div className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }>
-      { isAdvanced && 
-        <Heading className={ classNames(settingsStyles.readerSettingsLabel, settingsStyles.readerSettingsGroupLabel) }>
-          { heading }
-        </Heading> }
-      { main.map((key: TextSettingsKeys | SpacingSettingsKeys, index) => {
-        const { Comp } = (settingsMap as { [key in SpacingSettingsKeys | TextSettingsKeys]: ISettingsMapObject })[key];
-        return <Comp key={ key } standalone={ !isAdvanced || index !== 0 } />;
-      }) }
-      { isAdvanced && (
-        <AdvancedIcon
-          className={ settingsStyles.readerSettingsAdvancedIcon }
-          aria-label={ moreLabel }
-          placement="top"
-          tooltipLabel={ moreTooltip }
-          onPress={ onMorePressCallback }
-        />
-      ) }
-    </div>
+    <ThSettingsWrapper
+      className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }
+      items={ settingsMap }
+      prefs={ resolvedPrefs }
+      compounds={{
+        label: heading,
+        heading: {
+          className: classNames(settingsStyles.readerSettingsLabel, settingsStyles.readerSettingsGroupLabel)
+        },
+        button: {
+          className: classNames(readerSharedUI.icon, settingsStyles.readerSettingsAdvancedIcon),
+          "aria-label": moreLabel,
+          tooltip: {
+            trigger: {
+              delay: RSPrefs.theming.icon.tooltipDelay,
+              closeDelay: RSPrefs.theming.icon.tooltipDelay
+            },
+            tooltip: {
+              className: readerSharedUI.tooltip,
+              placement: "top",
+              offset: RSPrefs.theming.icon.tooltipOffset || 0
+            },
+            label: moreTooltip
+          },
+          onPress: onMorePressCallback
+        }
+      }}
+    />
     </>
   )
 }
