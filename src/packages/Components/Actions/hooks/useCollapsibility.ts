@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { ThMenuEntry } from "@/packages/Components";
+import { ThActionEntry } from "../ThCollapsibleActionsBar";
 
 export type Collapsibility = boolean | Record<string, number | "all">;
 
@@ -23,13 +23,13 @@ export interface CollapsiblePref {
   }
 }
 
-export const useCollapsibility = (items: ThMenuEntry<string>[], prefs: CollapsiblePref, breakpoint?: string) => {
-  const [ActionIcons, setActionIcons] = useState<ThMenuEntry<string>[]>([]);
-  const [MenuItems, setMenuItems] = useState<ThMenuEntry<string>[]>([]);
+export const useCollapsibility = (items: ThActionEntry<string>[], prefs: CollapsiblePref, breakpoint?: string) => {
+  const [ActionIcons, setActionIcons] = useState<ThActionEntry<string>[]>([]);
+  const [MenuItems, setMenuItems] = useState<ThActionEntry<string>[]>([]);
 
   const triageActions = useCallback(() => {
-    const actionIcons: ThMenuEntry<string>[] = [];
-    const menuItems: ThMenuEntry<string>[] = [];
+    const actionIcons: ThActionEntry<string>[] = [];
+    const menuItems: ThActionEntry<string>[] = [];
 
     let countdown: number = 0;
 

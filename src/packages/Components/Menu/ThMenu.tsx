@@ -6,18 +6,11 @@ import { Menu, MenuProps, MenuTrigger, MenuTriggerProps, Popover, PopoverProps }
 
 import { ThMenuButton } from "./ThMenuButton";
 import { ThActionButtonProps } from "../Buttons";
-import { ThActionsTriggerVariant } from "../Actions";
+import { ThActionEntry, ThActionsTriggerVariant } from "../Actions";
 
-export interface ThMenuEntry<T> {
-  key: T;
-  associatedKey?: string;
-  Trigger: React.ComponentType<any>;
-  Target?: React.ComponentType<any>;
-}
-
-export interface THMenuProps<T> extends MenuProps<ThMenuEntry<T>> {
+export interface THMenuProps<T> extends MenuProps<ThActionEntry<T>> {
   triggerRef?: React.RefObject<HTMLElement | null>;
-  items?: Iterable<ThMenuEntry<T>>;
+  items?: Iterable<ThActionEntry<T>>;
   children?: never;
   compounds?: {
     /**

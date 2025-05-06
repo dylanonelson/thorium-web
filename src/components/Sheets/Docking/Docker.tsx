@@ -16,7 +16,7 @@ import { ActionsWithCollapsibility } from "@/components/ActionsWithCollapsibilit
 import { DockStartAction } from "./DockStartAction";
 import { DockEndAction } from "./DockEndAction";
 import { PopoverSheetAction } from "./PopoverSheetAction";
-import { ThMenuEntry } from "@/packages/Components";
+import { ThActionEntry } from "@/packages/Components";
 
 const DockingActionsMap: { [key in DockingKeys]: IActionsMapObject } = {
   [DockingKeys.start]: {
@@ -38,7 +38,7 @@ export const Docker = ({
 }: IDocker) => {
   const RSPrefs = useContext(PreferencesContext);
   const listActionItems = useCallback(() => {
-    const actionsItems: ThMenuEntry<DockingKeys>[] = [];
+    const actionsItems: ThActionEntry<DockingKeys>[] = [];
 
     keys.map((key) => {
       actionsItems.push({

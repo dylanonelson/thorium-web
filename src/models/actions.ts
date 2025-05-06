@@ -3,7 +3,7 @@ import { DockingKeys, IDockedPref } from "./docking";
 import { StaticBreakpoints } from "./staticBreakpoints";
 import { ISnappedPref, SheetTypes } from "./sheets";
 import { ActionsStateKeys } from "./state/actionsState";
-import { Collapsibility, CollapsiblePref, CollapsibilityVisibility, ThActionsTriggerVariant, ThMenuEntry } from "@/packages/Components";
+import { Collapsibility, CollapsiblePref, CollapsibilityVisibility, ThActionsTriggerVariant, ThActionEntry } from "@/packages/Components";
 
 export enum ActionKeys {
   fullscreen = "fullscreen",
@@ -29,7 +29,7 @@ export interface IActionComponentContainer {
 
 export interface IActions {
   id: string;
-  items: ThMenuEntry<ActionKeys | DockingKeys>[];
+  items: ThActionEntry<ActionKeys | DockingKeys>[];
   className: string;
   label: string;
 }
@@ -43,7 +43,7 @@ export interface IActionsWithCollapsibility extends IActions {
 
 export interface IOverflowMenu {
   id: string;
-  items: ThMenuEntry<ActionKeys | DockingKeys>[];
+  items: ThActionEntry<ActionKeys | DockingKeys>[];
   triggerRef: RefObject<HTMLElement | null>;
   className?: string;
   actionFallback?: boolean;
