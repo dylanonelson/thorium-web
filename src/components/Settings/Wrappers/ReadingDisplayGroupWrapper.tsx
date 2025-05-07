@@ -7,7 +7,7 @@ import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
 import { PreferencesContext } from "@/preferences";
 
-import { ThSettingsWrapper } from "@/packages/Components/Settings/ThSettingsWrapper/ThSettingsWrapper";
+import { ThSettingsWrapper } from "@/packages/Components/";
 
 import classNames from "classnames";
 
