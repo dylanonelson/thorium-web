@@ -23,7 +23,7 @@ export const PopoverSheetAction: React.FC<IActionComponentTrigger> = ({ variant,
   const RSPrefs = useContext(PreferencesContext);
   const actionsMap = useAppSelector(state => state.actions.keys);
   const actions = useActions(actionsMap);
-  const isDisabled = actions.whichDocked(associatedKey) === DockingKeys.transient;
+  const isDisabled = !actions.isDocked(associatedKey) || actions.whichDocked(associatedKey) === DockingKeys.transient;
     
   const dispatch = useAppDispatch();
 
