@@ -3,11 +3,13 @@
 import React, { ThHTMLAttributes, useEffect } from "react";
 
 export interface ThRunningHeadProps extends ThHTMLAttributes<HTMLHeadingElement> {
+  ref?: React.Ref<HTMLHeadingElement>
   label: string;
   syncDocTitle?: boolean;  
 }
 
 export const ThRunningHead = ({ 
+  ref,
   label,
   syncDocTitle,
   ...props
@@ -20,6 +22,7 @@ export const ThRunningHead = ({
   return(
     <>
     <h1 
+      ref={ ref }
       { ...props }
     >
         { label }

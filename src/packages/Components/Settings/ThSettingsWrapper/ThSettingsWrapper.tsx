@@ -36,6 +36,7 @@ export interface ThSettingsWrapperProps extends ThHTMLAttributes<HTMLDivElement>
 
 // TODO: Handle Standalone and Usage as Group
 export const ThSettingsWrapper = ({
+  ref,
   items,
   prefs,
   compounds,
@@ -51,7 +52,10 @@ export const ThSettingsWrapper = ({
 
   return(
     <>
-    <div { ...props }>
+    <div 
+      ref={ ref }
+      { ...props }
+    >
       { isAdvanced && compounds?.label &&
         <Heading { ...compounds?.heading }>
           { compounds.label }

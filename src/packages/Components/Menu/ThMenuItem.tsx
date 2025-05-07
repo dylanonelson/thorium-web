@@ -5,6 +5,7 @@ import React from "react";
 import { Keyboard, MenuItem, MenuItemProps, Text } from "react-aria-components";
 
 export interface ThMenuItemProps extends MenuItemProps {
+  ref?: React.Ref<HTMLLIElement>;
   id: string;
   SVGIcon?: React.ComponentType<React.SVGProps<SVGElement>>;
   label: string;
@@ -16,6 +17,7 @@ export interface ThMenuItemProps extends MenuItemProps {
 }
 
 export const ThMenuItem = ({
+  ref,
   id,
   SVGIcon,
   label, 
@@ -28,6 +30,7 @@ export const ThMenuItem = ({
   return(
     <>
     <MenuItem 
+      ref={ ref }
       id={ id } 
       { ...(children ? {} : { "aria-labelledby": menuItemLabelId }) }
       { ...props }
