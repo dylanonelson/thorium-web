@@ -9,6 +9,7 @@ import { ThActionButtonProps } from "../Buttons";
 import { ThActionEntry, ThActionsTriggerVariant } from "../Actions";
 
 export interface THMenuProps<T> extends MenuProps<ThActionEntry<T>> {
+  ref?: React.ForwardedRef<HTMLDivElement>;
   triggerRef?: React.RefObject<HTMLElement | null>;
   items?: Iterable<ThActionEntry<T>>;
   children?: never;
@@ -29,7 +30,8 @@ export interface THMenuProps<T> extends MenuProps<ThActionEntry<T>> {
   }
 }
 
-export const ThMenu = ({ 
+export const ThMenu = ({
+  ref,
   id,
   triggerRef,
   items,
@@ -42,7 +44,9 @@ export const ThMenu = ({
   if (items) {
     return (
       <>
-      <MenuTrigger { ...compounds?.trigger }>
+      <MenuTrigger 
+        { ...compounds?.trigger }
+      >
       { compounds?.button && React.isValidElement(compounds.button) 
         ? compounds.button 
         : <ThMenuButton 
@@ -52,6 +56,7 @@ export const ThMenu = ({
         }
         <Popover { ...compounds?.popover }>
           <Menu 
+            ref={ ref }
             id={ id }
             dependencies={ dependencies }
             { ...props }
