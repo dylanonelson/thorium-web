@@ -51,7 +51,7 @@ export const useActions = <K extends string | number | symbol>(actionMap: ThActi
   };
 
   const isDocked = (key?: K | null) => {
-    return key ? actionMap[key].docking : false;
+    return key ? !!(actionMap[key].docking) : false;
   };
 
   const whichDocked = (key?: K | null) => {
