@@ -23,13 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={ inter.className }>
-        <ThDirectionSetter>
-          <StoreProvider>
-            <ThPreferencesProvider>
+        <StoreProvider>
+          <ThPreferencesProvider>
+            <ThDirectionSetter>
               { children  }
-            </ThPreferencesProvider>
-          </StoreProvider>
-        </ThDirectionSetter>
+            </ThDirectionSetter>
+          </ThPreferencesProvider>
+        </StoreProvider>
       </body>
     </html>
   );
