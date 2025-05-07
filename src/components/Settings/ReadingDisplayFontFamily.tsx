@@ -7,9 +7,9 @@ import { IAdvancedDisplayProps } from "@/models/settings";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
-import DropIcon from "../assets/icons/arrow_drop_down.svg";
+import { ThDropdown } from "@/packages/Components";
 
-import { Button, Label, ListBox, ListBoxItem, Popover, Select, SelectValue } from "react-aria-components";
+import { ListBox, ListBoxItem } from "react-aria-components";
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 
@@ -48,43 +48,48 @@ export const ReadingDisplayFontFamily: React.FC<IAdvancedDisplayProps> = ({ stan
 
   return(
     <>
-    <Select
-      { ...(standalone ? { className: settingsStyles.readerSettingsGroup } : {}) }
-      { ...(!standalone ? { "aria-label": Locale.reader.settings.fontFamily.title } : {}) }
+    <ThDropdown 
+      { ...(standalone 
+        ? { 
+          className: settingsStyles.readerSettingsGroup,
+          label: Locale.reader.settings.fontFamily.title
+        } 
+        : {
+          "aria-label": Locale.reader.settings.fontFamily.title
+        }) }
       selectedKey={ fontFamily }
       onSelectionChange={ async (key) => await updatePreference(key) }
-    >
-      { standalone && <Label className={ settingsStyles.readerSettingsLabel }>
-          { Locale.reader.settings.fontFamily.title }
-        </Label>
-      }
-      <Button 
-        className={ settingsStyles.readerSettingsDropdownButton }
-      >
-        <SelectValue />
-        <DropIcon aria-hidden="true" focusable="false" />
-      </Button>
-      <Popover
-        className={ settingsStyles.readerSettingsDropdownPopover }
-        placement="bottom"
-      >
-        <ListBox
-          className={ settingsStyles.readerSettingsDropdownListbox } 
-          items={ fontFamilyOptions.current }
-        >
-          { (item) => <ListBoxItem 
-              className={ settingsStyles.readerSettingsDropdownListboxItem } 
-              id={ item.id } 
-              key={ item.id } 
-              textValue={ item.value || undefined }
-              style={ { fontFamily: item.value || undefined } }
-            >
-              { item.label }
-            </ListBoxItem>
-          }
-        </ListBox>
-      </Popover>
-    </Select>
+      compounds={ {
+        label: {
+          className: settingsStyles.readerSettingsLabel
+        },
+        button: {
+          className: settingsStyles.readerSettingsDropdownButton
+        },
+        popover: {
+          className: settingsStyles.readerSettingsDropdownPopover,
+          placement: "bottom"
+        },
+        listbox: (
+          <ListBox
+            className={ settingsStyles.readerSettingsDropdownListbox }
+            items={ fontFamilyOptions.current }
+          >
+            { (item) => (
+              <ListBoxItem
+                className={ settingsStyles.readerSettingsDropdownListboxItem }
+                id={ item.id }
+                key={ item.id }
+                textValue={ item.value || undefined }
+                style={{ fontFamily: item.value || undefined }}
+              >
+                { item.label }
+              </ListBoxItem>
+            )}
+          </ListBox>
+        )
+      }}
+    />
     </>
   )
 }
