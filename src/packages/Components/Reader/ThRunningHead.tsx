@@ -1,8 +1,10 @@
 "use client";
 
-import React, { ThHTMLAttributes, useEffect } from "react";
+import React, { useEffect } from "react";
 
-export interface ThRunningHeadProps extends ThHTMLAttributes<HTMLHeadingElement> {
+import { HTMLAttributesWithRef } from "./HTMLAttributesWithRef";
+
+export interface ThRunningHeadProps extends HTMLAttributesWithRef<HTMLHeadingElement> {
   ref?: React.Ref<HTMLHeadingElement>
   label: string;
   syncDocTitle?: boolean;  

@@ -2,7 +2,6 @@
 
 export * from "./useColorScheme";
 export * from "./useContrast";
-export * from "./useFirstFocusable";
 export * from "./useForcedColors";
 export * from "./useFullscreen";
 export * from "./useMediaQuery"

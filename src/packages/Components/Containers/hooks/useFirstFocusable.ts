@@ -2,24 +2,24 @@
 
 import { useEffect, useRef } from "react";
 
-export const useFirstFocusable = ({
-  withinRef,
-  trackedState,
-  fallbackRef,
-  updateState
-}: { 
-  withinRef: React.RefObject<HTMLElement | null>, 
-  trackedState: boolean, 
-  fallbackRef?: React.RefObject<HTMLElement | null>,
-  updateState?: unknown
-}) => {
-  const focusedElement = useRef<HTMLElement | null>(null);
+export interface UseFirstFocusableProps {
+  withinRef: React.RefObject<HTMLElement | null>;
+  trackedState: boolean;
+  autoFocus?: boolean;
+  fallbackRef?: React.RefObject<HTMLElement | null>;
+  updateState?: unknown;
+}
+
+export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
+  const { withinRef, trackedState, autoFocus = true, fallbackRef, updateState } = props ?? {};
+
+  const focusableElement = useRef<HTMLElement | null>(null);
   const attemptsRef = useRef(0);
 
   useEffect(() => {
-    attemptsRef.current = 0;
+    if (!withinRef || !trackedState) return;
 
-    if (!withinRef.current || !trackedState) return;
+    attemptsRef.current = 0;
 
     const tryFocus = () => {
       const targetElement = withinRef.current && withinRef.current.firstElementChild || withinRef.current;
@@ -46,17 +46,21 @@ export const useFirstFocusable = ({
       }
 
       if (firstFocusable) {
-        firstFocusable.focus({ preventScroll: true });
-        withinRef.current!.scrollTop = 0;
-        focusedElement.current = firstFocusable;
+        if (autoFocus) {
+          firstFocusable.focus({ preventScroll: true });
+          withinRef.current!.scrollTop = 0;
+        }
+        focusableElement.current = firstFocusable;
       } else {
         attemptsRef.current++;
         if (attemptsRef.current < 3) {
           setTimeout(tryFocus, 50);
         } else {
           if (fallbackRef?.current) {
-            fallbackRef.current.focus({ preventScroll: true });
-            focusedElement.current = fallbackRef.current;
+            if (autoFocus) {
+              fallbackRef.current.focus({ preventScroll: true });
+            }
+            focusableElement.current = fallbackRef.current;
           }
         }
       }
@@ -67,7 +71,7 @@ export const useFirstFocusable = ({
     return () => {
       attemptsRef.current = 0;
     };
-  }, [trackedState, withinRef, fallbackRef, updateState]);
+  }, [withinRef, trackedState, fallbackRef, autoFocus, updateState]);
 
-  return focusedElement.current;
-}
+  return focusableElement.current;
+};

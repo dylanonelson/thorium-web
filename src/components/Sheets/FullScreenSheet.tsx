@@ -7,11 +7,10 @@ import { ISheet, SheetHeaderVariant } from "@/models/sheets";
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
-import { Dialog, Heading, Modal } from "react-aria-components";
+import { ThContainerBody, ThContainerHeader, ThModal } from "@/packages/Components";
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
 
-import { useFirstFocusable } from "@/packages/Hooks/useFirstFocusable";
 import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
@@ -19,7 +18,6 @@ import classNames from "classnames";
 export interface IFullScreenSheet extends ISheet {};
 
 export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
-    id, 
     heading,
     headerVariant,
     className, 
@@ -35,17 +33,22 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
   const fullScreenBodyRef = useRef<HTMLDivElement | null>(null);
   const fullScreenCloseRef = useRef<HTMLButtonElement | null>(null);
 
-  const firstFocusable = useFirstFocusable({
-    withinRef: fullScreenBodyRef, 
-    trackedState: isOpen, 
-    fallbackRef: fullScreenCloseRef,
-    updateState: resetFocus
-  });
-
-  return (
-  <>
-  { React.Children.toArray(children).length > 0 
-    ? <Modal 
+  if (React.Children.toArray(children).length > 0) {
+    return(
+      <>
+      <ThModal 
+        ref={ fullScreenBodyRef }
+        focusOptions={{
+          withinRef: fullScreenBodyRef,
+          trackedState: isOpen,
+          fallbackRef: fullScreenCloseRef,
+          updateState: resetFocus
+        }}
+        compounds={{
+          dialog: {
+            className: sheetStyles.sheetDialog
+          }
+        }}
         isOpen={ isOpen }
         onOpenChange={ onOpenChangeCallback }
         isDismissable={ true }
@@ -55,14 +58,17 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
           "--sheet-sticky-header": fullScreenHeaderRef.current ? `${ fullScreenHeaderRef.current.clientHeight }px` : undefined
         }}
       >
-        <Dialog className={ sheetStyles.sheetDialog }>
-          <div 
-            ref={ fullScreenHeaderRef }
-            className={ sheetStyles.sheetHeader }
-          >
-            <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
-
-            { headerVariant === SheetHeaderVariant.previous
+        <ThContainerHeader 
+          ref={ fullScreenHeaderRef }
+          className={ sheetStyles.sheetHeader }
+          label={ heading }
+          compounds={{
+            heading: {
+              className: sheetStyles.sheetHeading
+            }
+          }}
+        >
+          { headerVariant === SheetHeaderVariant.previous
               ? <ThNavigationButton
                 direction={ direction === "ltr" ? "left" : "right" }
                 label={ Locale.reader.app.back.trigger }
@@ -78,17 +84,15 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
                 onPress={ onClosePressCallback }
               />
             }
-          </div>
-              
-          <div 
-            ref={ fullScreenBodyRef } 
-            className={ sheetStyles.sheetBody }
-          >
-            { children }
-          </div>
-        </Dialog>
-      </Modal>
-  : <></> }
-  </>
-  )
+        </ThContainerHeader>
+        <ThContainerBody 
+          ref={ fullScreenBodyRef }
+          className={ sheetStyles.sheetBody }
+        >
+          { children }
+        </ThContainerBody>
+      </ThModal>
+      </>
+    )
+  }
 }
