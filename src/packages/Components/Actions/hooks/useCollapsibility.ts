@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useMemo } from "react";
 
 import { ThActionEntry } from "../ThCollapsibleActionsBar";
 
@@ -24,10 +24,7 @@ export interface CollapsiblePref {
 }
 
 export const useCollapsibility = (items: ThActionEntry<string>[], prefs: CollapsiblePref, breakpoint?: string) => {
-  const [ActionIcons, setActionIcons] = useState<ThActionEntry<string>[]>([]);
-  const [MenuItems, setMenuItems] = useState<ThActionEntry<string>[]>([]);
-
-  const triageActions = useCallback(() => {
+  const [actionIcons, menuItems] = useMemo(() => {
     const actionIcons: ThActionEntry<string>[] = [];
     const menuItems: ThActionEntry<string>[] = [];
 
@@ -78,16 +75,8 @@ export const useCollapsibility = (items: ThActionEntry<string>[], prefs: Collaps
       });
     }
 
-    setActionIcons(actionIcons);
-    setMenuItems(menuItems);
+    return [actionIcons, menuItems];
   }, [items, prefs, breakpoint]);
 
-  useEffect(() => {
-    triageActions();
-  }, [breakpoint, triageActions, items, prefs]);
-
-  return {
-    ActionIcons,
-    MenuItems
-  }
+  return { ActionIcons: actionIcons, MenuItems: menuItems };
 }

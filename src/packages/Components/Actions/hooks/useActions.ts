@@ -1,3 +1,5 @@
+"use client";
+
 export interface ThActionState {
   isOpen: boolean | null;
   docking: any;
