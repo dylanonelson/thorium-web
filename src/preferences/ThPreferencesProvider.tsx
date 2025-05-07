@@ -1,9 +1,9 @@
 "use client";
 
-import { createContext } from 'react';
-import { RSPrefs } from './preferences';
+import { createContext } from "react";
+import { RSPrefs } from "./preferences";
 
-import { IRSPrefs } from '@/models/preferences';
+import { IRSPrefs } from "@/models/preferences";
 
 const PreferencesContext = createContext(RSPrefs);
 

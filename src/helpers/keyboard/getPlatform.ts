@@ -21,7 +21,7 @@ export const getPlatform = () => {
 
     // Deprecated but userAgentData still experimental…
     if (typeof nav.platform !== "undefined") {
-      // android navigator.platform is often set as 'linux', so we have to check userAgent
+      // android navigator.platform is often set as "linux", so we have to check userAgent
       if (typeof nav.userAgent !== "undefined" && /android/.test(nav.userAgent.toLowerCase())) {
         return "android";
       }
