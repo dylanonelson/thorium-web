@@ -4,4 +4,5 @@ export * from "./ThNumberField";
 export * from "./ThRadioGroup";
 export * from "./ThSlider";
 export * from "./ThSwitch";
-export * from "./ThSettingsWrapper"
+export * from "./ThDropdown";
+export * from "./ThSettingsWrapper";
