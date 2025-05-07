@@ -36,7 +36,6 @@ export const ThCollapsibleActionsBar = ({
 }: ThCollapsibleActionsBarProps) => {
   const resolvedRef = useObjectRef(ref);
   const Actions = useCollapsibility(items, prefs, breakpoint);
-  console.log(overflowMenu);
 
   return (
     <>

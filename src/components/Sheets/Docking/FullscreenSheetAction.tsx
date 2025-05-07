@@ -23,7 +23,7 @@ export const FullscreenSheetAction: React.FC<IActionComponentTrigger> = ({ varia
   const RSPrefs = useContext(PreferencesContext);
   const actionsMap = useAppSelector(state => state.actions.keys);
   const actions = useActions(actionsMap);
-  const isDisabled = !actions.isDocked(associatedKey);
+  const isDisabled = actions.whichDocked(associatedKey) === DockingKeys.transient;
   
   const dispatch = useAppDispatch();
     
