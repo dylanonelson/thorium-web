@@ -1,12 +1,12 @@
 "use client";
 
-import { ThHTMLAttributes } from "./ThHTMLAttributes";
+import { HTMLAttributesWithRef } from "./HTMLAttributesWithRef";
 
 export const ThHeader = ({ 
   ref,
   children,
   ...props 
-}: ThHTMLAttributes<HTMLDivElement>) => {
+}: HTMLAttributesWithRef<HTMLDivElement>) => {
   return (
     <header 
       ref={ ref } 

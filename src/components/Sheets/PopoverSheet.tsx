@@ -7,14 +7,15 @@ import { ISheet, SheetHeaderVariant } from "@/models/sheets";
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
-import { Dialog, Heading, Popover, PopoverProps } from "react-aria-components";
+import { PopoverProps } from "react-aria-components";
+
+import { ThContainerBody, ThContainerHeader, ThPopover } from "@/packages/Components";
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 import { Docker } from "./Docking/Docker";
 
-import { useFirstFocusable } from "@/packages/Hooks/useFirstFocusable";
+import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
-import { useAppSelector } from "@/lib/hooks";
 
 export interface IPopoverSheet extends ISheet {
   placement?: PopoverProps["placement"];
@@ -41,43 +42,44 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
   const popoverBodyRef = useRef<HTMLDivElement | null>(null);
   const popoverCloseRef = useRef<HTMLButtonElement | null>(null);
 
-  const firstFocusable = useFirstFocusable({
-    withinRef: popoverBodyRef, 
-    trackedState: isOpen, 
-    fallbackRef: popoverCloseRef,
-    updateState: resetFocus
-  });
-
-  const computeMaxHeight = useCallback(() => {
-    if (!popoverRef.current) return;
-    return window.innerHeight - popoverRef.current.offsetTop;
-  }, []);
-
-  return (
-  <>
-  { React.Children.toArray(children).length > 0 
-    ? <Popover 
+  if (React.Children.toArray(children).length > 0) {
+    return(
+      <>
+      <ThPopover 
         ref={ popoverRef }
         triggerRef={ triggerRef }
+        focusOptions={{
+          withinRef: popoverRef,
+          trackedState: isOpen,
+          fallbackRef: popoverCloseRef,
+          updateState: resetFocus
+        }}
         placement={ placement || "bottom" }
         className={ classNames(sheetStyles.popOverSheet , className) }
         isOpen={ isOpen }
         onOpenChange={ onOpenChangeCallback } 
         isKeyboardDismissDisabled={ dismissEscapeKeyClose }
-        maxHeight={ computeMaxHeight() }
         style={{
           "--sheet-sticky-header": popoverHeaderRef.current ? `${ popoverHeaderRef.current.clientHeight }px` : undefined
         }}
+        compounds={{
+          dialog: {
+            className: sheetStyles.sheetDialog
+          }
+        }}
       >
-        <Dialog className={ sheetStyles.sheetDialog }>
-          <div 
-            ref={ popoverHeaderRef }
-            className={ sheetStyles.sheetHeader }
-          > 
-            <Heading slot="title" className={ sheetStyles.sheetHeading }>{ heading }</Heading>
-            
-            { headerVariant === SheetHeaderVariant.previous 
-              ? <ThNavigationButton 
+        <ThContainerHeader 
+          ref={ popoverHeaderRef }
+          className={ sheetStyles.sheetHeader }
+          label={ heading }
+          compounds={{
+            heading: {
+              className: sheetStyles.sheetHeading
+            }
+          }}
+        >
+          { headerVariant === SheetHeaderVariant.previous 
+            ? <ThNavigationButton 
                 direction={ direction === "ltr" ? "left" : "right" }
                 label={ Locale.reader.app.back.trigger }
                 ref={ popoverCloseRef }
@@ -91,18 +93,16 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
                 ref={ popoverCloseRef }
                 onCloseCallback={ onClosePressCallback }
               />
-            } 
-          </div>
-
-          <div 
-            ref={ popoverBodyRef } 
-            className={ sheetStyles.sheetBody }
-          >
-            { children }
-          </div>
-        </Dialog>
-      </Popover>
-  : <></> }
-  </>
-  )
+          }
+        </ThContainerHeader>
+        <ThContainerBody
+          ref={ popoverBodyRef }
+          className={ sheetStyles.sheetBody }
+        >
+          { children }
+        </ThContainerBody>
+      </ThPopover>
+      </>
+    ) 
+  }
 }

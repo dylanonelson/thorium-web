@@ -3,7 +3,7 @@
 import { ThSettingsWrapperButton } from "./ThSettingsWrapperButton";
 
 import { Heading, HeadingProps } from "react-aria-components";
-import { ThHTMLAttributes } from "../../Reader/ThHTMLAttributes";
+import { HTMLAttributesWithRef } from "../../Reader/HTMLAttributesWithRef";
 import { ThActionButtonProps } from "../../Buttons";
 
 export interface ThSettingsEntry {
@@ -15,7 +15,7 @@ export interface ThSettingsPrefs {
   subPanel?: string[] | null;
 }
 
-export interface ThSettingsWrapperProps extends ThHTMLAttributes<HTMLDivElement> {
+export interface ThSettingsWrapperProps extends HTMLAttributesWithRef<HTMLDivElement> {
   items: { [key: string]: ThSettingsEntry };
   prefs: ThSettingsPrefs;
   compounds?: {

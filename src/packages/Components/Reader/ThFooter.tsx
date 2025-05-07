@@ -1,12 +1,12 @@
 "use client";
 
-import { ThHTMLAttributes } from "./ThHTMLAttributes";
+import { HTMLAttributesWithRef } from "./HTMLAttributesWithRef";
 
 export const ThFooter = ({ 
   ref,
   children,
   ...props 
-}: ThHTMLAttributes<HTMLDivElement>) => {
+}: HTMLAttributesWithRef<HTMLDivElement>) => {
   return (
     <aside 
       ref={ ref } 

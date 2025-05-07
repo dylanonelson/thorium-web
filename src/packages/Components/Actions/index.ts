@@ -1,7 +1,6 @@
 "use client";
 
+export * from "./hooks";
 export * from "./ThActionsBar";
 export * from "./ThActionsTriggerVariant";
 export * from "./ThCollapsibleActionsBar";
-export * from "./hooks/useActions";
-export * from "./hooks/useCollapsibility";
