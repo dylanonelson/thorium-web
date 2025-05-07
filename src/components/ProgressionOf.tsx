@@ -5,6 +5,8 @@ import { IProgression } from "@/models/progression";
 import Locale from "../resources/locales/en.json";
 import progressionStyles from "./assets/styles/progression.module.css";
 
+import { ThProgression } from "@/packages/Components";
+
 import { useAppSelector } from "@/lib/hooks";
 
 import parseTemplate from "json-templates";
@@ -34,9 +36,13 @@ export const ProgressionOf = () => {
 
   return (
     <>
-    {( current && reference ) && <div id={ progressionStyles.current } aria-label={ Locale.reader.app.progression.wrapper }>
+    {( current && reference ) 
+    && <ThProgression 
+      id={ progressionStyles.current } 
+      aria-label={ Locale.reader.app.progression.wrapper }
+    >
       { jsonTemplate({ current: current, reference: reference }) }
-    </div>}
+    </ThProgression>}
     </>
   )
 }
