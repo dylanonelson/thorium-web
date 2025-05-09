@@ -2,5 +2,5 @@
 
 export * from "./ThActionButton";
 export * from "./ThCloseButton";
-export * from "./ThDragIndicatorButton";
+export * from "../Containers/ThBottomSheet/ThDragIndicatorButton";
 export * from "./ThNavigationButton";

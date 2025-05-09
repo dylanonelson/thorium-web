@@ -13,7 +13,7 @@ import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { Sheet, SheetRef } from "react-modal-sheet";
 import { Heading } from "react-aria-components";
-import { ThDragIndicatorButton } from "@/packages/Components/Buttons/ThDragIndicatorButton";
+import { ThDragIndicatorButton } from "@/packages/Components/Containers/ThBottomSheet/ThDragIndicatorButton";
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
 
@@ -21,7 +21,7 @@ import { FocusScope, OverlayProvider, useButton, useDialog, useModal, useOverlay
 
 import { useAppSelector } from "@/lib/hooks";
 
-import { useFirstFocusable } from "@/packages/Components";
+import { ThBottomSheet, ThContainerBody, ThContainerHeader, useFirstFocusable } from "@/packages/Components";
 
 import classNames from "classnames";
 
@@ -33,6 +33,7 @@ const DEFAULT_SNAPPOINTS = {
   max: 1
 }
 
+/*
 const BottomSheetContainer = ({
   sheetState,
   className,
@@ -70,7 +71,6 @@ const BottomSheetContainer = ({
   bottomSheetCloseRef: RefObject<HTMLButtonElement | null>;
   children: ReactNode;
 }) => {
-  const direction = useAppSelector((state) => state.reader.direction);
   const dialog = useDialog({}, sheetContainerRef);
   const overlay = useOverlay({ 
     onClose: sheetState.close, 
@@ -196,6 +196,8 @@ const BottomSheetContainer = ({
   )
 }
 
+*/
+
 export const BottomSheet: React.FC<IBottomSheet> = ({
   id,
   heading,
@@ -209,7 +211,8 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   dismissEscapeKeyClose
 }) => {
   const RSPrefs = useContext(PreferencesContext);
-  const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
+  const direction = useAppSelector((state) => state.reader.direction);
+  const prefersReducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
 
   const sheetRef = useRef<SheetRef | null>(null);
   const sheetContainerRef = useRef<HTMLDivElement | null>(null);
@@ -389,28 +392,36 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
 
     return scrimPref;
   }, [id, RSPrefs.actions.keys]);
- 
-  const firstFocusable = useFirstFocusable({
-    withinRef: bottomSheetBodyRef, 
-    trackedState: isOpen, 
-    fallbackRef: bottomSheetCloseRef,
-    updateState: resetFocus
-  });
 
-  let sheetState = useOverlayTriggerState({
-    isOpen: isOpen,
-    onOpenChange: onOpenChangeCallback
-  });
+  const detentClassName = useMemo(() => {
+    let className = "";
+    if (detent.current === "content-height") {
+      className = sheetStyles.bottomSheetModalContentHeightDetent;
+    } else {
+      className = sheetStyles.bottomSheetModalFullHeightDetent;
+    }
+    return className;
+  }, [detent]);
 
-  return (
-    <>
-    { React.Children.toArray(children).length > 0 
-    ? <>
-      <Sheet
+  const scrimClassName = useMemo(() => {
+    return scrimPref.active ? sheetStyles.bottomSheetScrim : "";
+  }, [scrimPref]);
+
+  if (React.Children.toArray(children).length > 0) {
+    return(
+      <>
+      <ThBottomSheet
+        id={ id }
         ref={ sheetRef }
-        isOpen={ sheetState.isOpen }
-        onClose={ sheetState.close }
-        onOpenEnd={ () => firstFocusable && firstFocusable.focus() }
+        isOpen={ isOpen }
+        focusOptions={{
+          withinRef: bottomSheetBodyRef,
+          trackedState: isOpen,
+          fallbackRef: bottomSheetCloseRef,
+          updateState: resetFocus
+        }}
+        onOpenChange={ onOpenChangeCallback }
+        isKeyboardDismissDisabled={ dismissEscapeKeyClose }
         { ...(snapArray.length > 1 
           ? { 
             snapPoints: snapArray, 
@@ -422,45 +433,67 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
           }) 
         }
         onSnap={ (index) => { snapIdx.current = index }}
-        prefersReducedMotion={ reducedMotion }
-        // Otherwise buggy with prefersReducedMotion
-        // as the bottom sheet won’t be displayed on mount
-        style={{
-          zIndex: isOpen ? "999999" : "-1",
-          visibility: isOpen ? "visible" : "hidden"
-        }}
+        prefersReducedMotion={ prefersReducedMotion }
+        compounds={ {
+          container: {
+            className: classNames(sheetStyles.bottomSheetModal, detentClassName),
+            ref: sheetContainerRef,
+            style: {
+              maxWidth: maxWidthPref
+            }
+          },
+          dragIndicator: {
+            className: sheetStyles.dragIndicator,
+            onPress: onDragPressCallback,
+            onKeyDown: onDragKeyCallback
+          },
+          content: {
+            className: classNames(sheetStyles.bottomSheet, className),
+            disableDrag: true
+          },
+          scroller: {
+            className: classNames(sheetStyles.bottomSheetScroller, sheetStyles.sheetBody),
+            draggable: false
+          },
+          backdrop: {
+            className: classNames(sheetStyles.bottomSheetBackdrop, scrimClassName),
+            style: { "--defaults-scrim": scrimPref.override }
+          }
+        } }
       >
-        <OverlayProvider>
-          <FocusScope 
-            contain={ true } 
-            autoFocus={ true } 
-            restoreFocus={ true }
-          >
-            <BottomSheetContainer 
-              sheetState={ sheetState } 
-              className={ className }
-              heading={ heading }
-              headerVariant={ headerVariant }
-              onClosePressCallback={ onClosePressCallback }
-              onDragPressCallback={ onDragPressCallback }
-              onDragKeyCallback={ onDragKeyCallback }
-              isDraggable= { isDraggable.current }
-              hasDetent={ detent.current }
-              dismissEscapeKeyClose={ dismissEscapeKeyClose }
-              maxWidth={ maxWidthPref }
-              scrimPref={ scrimPref }
-              sheetRef={ sheetRef } 
-              sheetContainerRef={ sheetContainerRef }
-              bottomSheetBodyRef={ bottomSheetBodyRef }
-              bottomSheetCloseRef={ bottomSheetCloseRef }
-            >
-              { children }
-            </BottomSheetContainer>
-        </FocusScope>
-      </OverlayProvider>
-    </Sheet> 
-    </>
-    : <></> }
-  </>
-  )
+        <ThContainerHeader
+          label={ heading }
+          className={ sheetStyles.bottomSheetHeader }
+          compounds={ {
+            heading: {
+              className: sheetStyles.sheetHeading
+            }
+          }}
+        >
+        { headerVariant === SheetHeaderVariant.previous 
+            ? <ThNavigationButton 
+              direction={ direction === "ltr" ? "left" : "right" }
+              label={ Locale.reader.app.back.trigger }
+              ref={ bottomSheetCloseRef }
+              className={ classNames(className, readerSharedUI.backButton) } 
+              aria-label={ Locale.reader.app.back.trigger }
+              onPress={ onClosePressCallback }
+            /> 
+            : <ThCloseButton
+              ref={ bottomSheetCloseRef }
+              className={ readerSharedUI.closeButton } 
+              aria-label={ Locale.reader.app.docker.close.trigger } 
+              onPress={ onClosePressCallback }
+            />
+          }
+        </ThContainerHeader>
+        <ThContainerBody 
+          ref={ bottomSheetBodyRef }
+        >
+          { children }
+        </ThContainerBody>
+      </ThBottomSheet>
+      </>
+    )
+  }
 }

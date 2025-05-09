@@ -76,7 +76,7 @@
   max-height: calc(100% - env(safe-area-inset-top)) !important;
 }
 
-.bottomSheetModalFullHeightReached {
+.bottomSheetModal[data-full-height] {
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
   transition: border-radius 0.5s;
@@ -176,7 +176,7 @@
   transition: border-radius 0.5s;
 }
 
-.bottomSheetModalFullHeightReached .bottomSheetHeader {
+.bottomSheetModal[data-full-height] .bottomSheetHeader {
   /* Otherwise covers the modal’s */
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
