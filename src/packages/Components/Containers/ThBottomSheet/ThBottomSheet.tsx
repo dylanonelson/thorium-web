@@ -70,10 +70,8 @@ const ThBottomSheetContainer = ({
   sheetState: OverlayTriggerState;
   onFullHeight?: Omit<React.ComponentProps<typeof Sheet.Container>, "children">;
   isDraggable?: boolean;
-  onDragIndicatorPress?: () => void;
-  onDragIndicatorKeyUp?: (event: KeyboardEvent) => void;
-  compounds?: ThBottomSheetCompounds;
   isKeyboardDismissDisabled?: boolean;
+  compounds?: ThBottomSheetCompounds;
   children: ThContainerProps["children"];
 }) => {
   const containerRef = useObjectRef(compounds?.container?.ref);
