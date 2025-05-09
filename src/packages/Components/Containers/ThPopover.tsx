@@ -25,7 +25,7 @@ export const ThPopover = ({
   children, 
   ...props 
 }: ThPopoverProps) => {
-  const resolvedRef = useObjectRef(ref);
+  const resolvedRef = useObjectRef(ref as React.RefObject<HTMLDivElement | null>);
 
   useFirstFocusable(focusOptions);
 

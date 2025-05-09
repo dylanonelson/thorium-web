@@ -23,7 +23,7 @@ export const ThDockedPanel = ({
   children, 
   ...props 
 }: ThDockedPanelProps) => {
-  const resolvedRef = useObjectRef(ref);
+  const resolvedRef = useObjectRef(ref as React.RefObject<HTMLDivElement | null>);
 
   useFirstFocusable(focusOptions);
 

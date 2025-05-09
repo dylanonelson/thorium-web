@@ -22,7 +22,7 @@ export const ThModal = ({
   children, 
   ...props 
 }: ThModalProps) => {
-  const resolvedRef = useObjectRef(ref);
+  const resolvedRef = useObjectRef(ref as React.RefObject<HTMLDivElement | null>);
 
   useFirstFocusable(focusOptions);
 
