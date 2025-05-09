@@ -1,6 +1,7 @@
 "use client";
 
 import React, { 
+  CSSProperties,
   KeyboardEvent, 
   RefObject, 
   useCallback, 
@@ -199,7 +200,8 @@ const ThBottomSheetContainer = ({
       </Sheet.Header>
       <Sheet.Content 
         { ...compounds?.content }
-        { ...(isDraggable ? { style: { paddingBottom: (sheetRef.current as SheetRef)?.y }} : {} )}
+        // Motion being picky with style on bundling so we have to cast like this… 
+        { ...(isDraggable ? { style: { paddingBottom: (sheetRef.current as SheetRef)?.y }} as { [key: string]: any } : {} )}
       >
         <Sheet.Scroller 
           ref={ bodyRef }
@@ -260,7 +262,7 @@ export const ThBottomSheet = ({
       style={{
         zIndex: isOpen ? "999999" : "-1",
         visibility: isOpen ? "visible" : "hidden"
-      }}
+      } as CSSProperties }
       detent={ detent }
       snapPoints={ snapPoints }
       { ...props }

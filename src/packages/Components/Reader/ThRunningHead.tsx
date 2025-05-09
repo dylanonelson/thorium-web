@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { HTMLAttributesWithRef } from "./HTMLAttributesWithRef";
 
 export interface ThRunningHeadProps extends HTMLAttributesWithRef<HTMLHeadingElement> {
-  ref?: React.Ref<HTMLHeadingElement>
+  ref?: React.RefObject<HTMLHeadingElement>
   label: string;
   syncDocTitle?: boolean;  
 }

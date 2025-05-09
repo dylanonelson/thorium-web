@@ -3,7 +3,7 @@
 import React from "react";
 
 export interface ThProgressionProps extends React.HTMLAttributes<HTMLDivElement> {
-  ref?: React.Ref<HTMLDivElement>
+  ref?: React.RefObject<HTMLDivElement>
 }
 
 export const ThProgression = ({ 
