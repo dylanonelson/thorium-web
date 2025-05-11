@@ -3,10 +3,10 @@
 import { useEffect, useRef } from "react";
 
 export interface UseFirstFocusableProps {
-  withinRef: React.RefObject<HTMLElement | null>;
+  withinRef?: React.RefObject<HTMLElement | null>;
   fallbackRef?: React.RefObject<HTMLElement | null>;
   scrollerRef?: React.RefObject<HTMLElement | null>;
-  trackedState: boolean;
+  trackedState?: boolean;
   autoFocus?: boolean;
   updateState?: unknown;
 }
