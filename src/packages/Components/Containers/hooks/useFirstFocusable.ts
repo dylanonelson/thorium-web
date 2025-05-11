@@ -26,8 +26,6 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
       const targetElement = withinRef.current && withinRef.current.firstElementChild || withinRef.current;
       const selectedEl = targetElement && targetElement.querySelector("[data-selected]");
 
-      console.log(targetElement);
-
       let firstFocusable: HTMLElement | null = null;
 
       if (selectedEl === null) {
