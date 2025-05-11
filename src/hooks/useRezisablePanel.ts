@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useContext, useEffect, useState } from "react";
 
 import { PreferencesContext } from "../preferences";
@@ -6,14 +8,14 @@ import { Docked, IDockedPref } from "../models/docking";
 
 import { useActions } from "@/packages/Components";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
-import { useIsClient } from "@/packages/Hooks/useIsClient";
 import { useAppSelector } from "@/lib";
 
 export const useRezisablePanel = (panel: Docked) => {
   const RSPrefs = useContext(PreferencesContext);
-  const isClient = useIsClient();
   const defaultWidth = RSPrefs.theming.layout.defaults.dockingWidth;
-  const [pref, setPref] = useState<IDockedPref | null>(null);
+  const [pref, setPref] = useState<IDockedPref | null>(
+    panel.actionKey ? RSPrefs.actions.keys[panel.actionKey].docked || null : null
+  );
 
   const actionsMap = useAppSelector(state => state.actions.keys);
   const actions = useActions(actionsMap);
@@ -57,24 +59,20 @@ export const useRezisablePanel = (panel: Docked) => {
   };
 
   const getWidth = useCallback(() => {
-    return isClient ? 
-      previousWidth 
+    return previousWidth 
         ? Math.round((previousWidth / window.innerWidth) * 100) 
-        : Math.round((width / window.innerWidth) * 100)
-      : 0;
-  }, [isClient, previousWidth, width]);
+        : Math.round((width / window.innerWidth) * 100);
+  }, [previousWidth, width]);
 
   const getMinWidth = useCallback(() => {
-    return isClient ? Math.round((minWidth / window.innerWidth) * 100) : 0;
-  }, [isClient, minWidth]);
+    return Math.round((minWidth / window.innerWidth) * 100);
+  }, [minWidth]);
 
   const getMaxWidth = useCallback(() => {
-    return isClient ? Math.round((maxWidth / window.innerWidth) * 100) : 0;
-  }, [isClient, maxWidth]);
+    return Math.round((maxWidth / window.innerWidth) * 100);
+  }, [maxWidth]);
 
   const getCurrentPxWidth = useCallback((percentage: number) => {
-    if (!isClient) return 0;
-
     let current = Math.round((percentage * window.innerWidth) / 100);
     
     if (current < minWidth) {
@@ -86,7 +84,7 @@ export const useRezisablePanel = (panel: Docked) => {
     }
     
     return current;
-  }, [isClient, minWidth, maxWidth]);
+  }, [minWidth, maxWidth]);
 
   // When the docked action changes, we need to update its preferences 
   useEffect(() => {
