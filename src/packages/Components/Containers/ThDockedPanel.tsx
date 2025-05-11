@@ -4,8 +4,6 @@ import React from "react";
 
 import { ThContainerProps } from "./ThContainer";
 
-import { Dialog, DialogProps, Popover, PopoverProps } from "react-aria-components";
-
 import { FocusScope, useObjectRef } from "react-aria";
 import { useFirstFocusable } from "./hooks";
 import { createPortal } from "react-dom";
