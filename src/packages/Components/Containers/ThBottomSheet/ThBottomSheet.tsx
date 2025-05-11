@@ -2,26 +2,21 @@
 
 import React, { 
   CSSProperties,
-  KeyboardEvent, 
   RefObject, 
   useCallback, 
   useEffect, 
   useMemo, 
-  useRef, 
   useState 
 } from "react";
 
 import { OverlayTriggerState, useOverlayTriggerState } from "react-stately";
 
-import { ThActionButton, ThActionButtonProps } from "../../Buttons/ThActionButton";
-import { ThContainerBody, ThContainerBodyProps } from "../ThContainerBody";
+import { ThContainerBody } from "../ThContainerBody";
 import { ThContainerHeader, ThContainerHeaderProps } from "../ThContainerHeader";
 import { ThContainerProps } from "../ThContainer";
-import { useFirstFocusable } from "../hooks";
+import { useFirstFocusable, UseFirstFocusableProps } from "../hooks";
 
 import { ThDragIndicatorButton, ThDragIndicatorButtonProps } from "./ThDragIndicatorButton";
-import { ThNavigationButton } from "../../Buttons/ThNavigationButton";
-import { ThCloseButton } from "../../Buttons/ThCloseButton";
 
 import { Sheet, SheetRef } from "react-modal-sheet";
 import { HeadingProps } from "react-aria-components";
@@ -29,7 +24,6 @@ import {
   AriaOverlayProps, 
   FocusScope, 
   OverlayProvider, 
-  useButton, 
   useDialog, 
   useModal, 
   useObjectRef, 
@@ -63,6 +57,7 @@ const ThBottomSheetContainer = ({
   sheetState,
   isDraggable, 
   isKeyboardDismissDisabled,
+  focusOptions,
   compounds,
   children
 }: {
@@ -71,10 +66,12 @@ const ThBottomSheetContainer = ({
   onFullHeight?: Omit<React.ComponentProps<typeof Sheet.Container>, "children">;
   isDraggable?: boolean;
   isKeyboardDismissDisabled?: boolean;
+  focusOptions?: UseFirstFocusableProps;
   compounds?: ThBottomSheetCompounds;
   children: ThContainerProps["children"];
 }) => {
   const containerRef = useObjectRef(compounds?.container?.ref);
+  const scrollerRef = useObjectRef(compounds?.scroller?.ref);
   const dialog = useDialog({}, containerRef);
   const overlay = useOverlay({ 
     onClose: sheetState.close, 
@@ -86,7 +83,7 @@ const ThBottomSheetContainer = ({
 
   useModal();
 
-  const fullScreenIntersectionCallback = useCallback((entries: IntersectionObserverEntry[]) => {
+  const fullHeightIntersectionCallback = useCallback((entries: IntersectionObserverEntry[]) => {
     entries.forEach( (entry) => {
       if (
           entry.isIntersecting && 
@@ -102,7 +99,7 @@ const ThBottomSheetContainer = ({
   }, [setFullHeight]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(fullScreenIntersectionCallback, {
+    const observer = new IntersectionObserver(fullHeightIntersectionCallback, {
       threshold: 1.0
     });
     containerRef.current && observer.observe(containerRef.current);
@@ -111,14 +108,10 @@ const ThBottomSheetContainer = ({
       observer.disconnect();
     }
   });
-  const closeRef = useRef<HTMLButtonElement | null>(null);
-  const bodyRef = useRef<HTMLDivElement | null>(null);
-
-  const closeButton = useButton({}, closeRef);
 
   const [Header, Body] = useMemo(() => {
     const header = children.find((child) => child.type === ThContainerHeader);
-    const body = children.filter((child) => child.type !== ThContainerHeader);
+    const body = children.find((child) => child.type === ThContainerBody);
     
     const modifiedHeader = header ? React.cloneElement(header as React.ReactElement<ThContainerHeaderProps>, {
       ...header.props,
@@ -126,56 +119,20 @@ const ThBottomSheetContainer = ({
         ...(header.props as ThContainerHeaderProps).compounds,
         heading: {
           ...(header.props as ThContainerHeaderProps).compounds?.heading,
-          slot: "title",
           ...dialog.titleProps
         }
-      },
-      children: React.Children.map(header.props.children, (child) => {
-        if (React.isValidElement(child) 
-          && (
-              child.type === ThActionButton || 
-              child.type === ThCloseButton || 
-              child.type === ThNavigationButton
-            )
-          ) {
-          const existingRef = (child as React.ReactElement<ThActionButtonProps>).props.ref;
-          if (existingRef) {
-            if (typeof existingRef === "function") {
-              existingRef(closeRef.current);
-            } else {
-              closeRef.current = existingRef.current;
-            }
-          }
-          return React.cloneElement(child as React.ReactElement, {
-            ...child.props as ThActionButtonProps,
-            ref: closeRef,
-            ...closeButton
-          } as React.ComponentProps<typeof child.type>);
-        }
-        return child;
-      })
+      }
     }) : null;
 
-    const modifiedBody = React.Children.map(body, (child) => {
-      if (React.isValidElement(child) && child.type === ThContainerBody) {
-        const existingRef = (child as React.ReactElement<ThContainerBodyProps>).props.ref;
-        if (existingRef) {
-          if (typeof existingRef === "function") {
-            existingRef(bodyRef.current);
-          } else {
-            bodyRef.current = existingRef.current;
-          }
-        }
-        return React.cloneElement(child, {
-          ...child.props,
-          ref: null,
-        });
-      }
-      return child;
-    });
+    return [modifiedHeader, body];
+  }, [children, dialog.titleProps]);
 
-    return [modifiedHeader, modifiedBody];
-  }, [children, dialog.titleProps, closeButton]);
+  const updatedFocusOptions = focusOptions ? {
+    ...focusOptions,
+    scrollerRef: scrollerRef
+  } : undefined;
+
+  useFirstFocusable(updatedFocusOptions);
 
   return (
     <>
@@ -202,7 +159,7 @@ const ThBottomSheetContainer = ({
         { ...(isDraggable ? { style: { paddingBottom: (sheetRef.current as SheetRef)?.y }} as { [key: string]: any } : {} )}
       >
         <Sheet.Scroller 
-          ref={ bodyRef }
+          ref={ scrollerRef }
           { ...compounds?.scroller }
         >
           { Body }
@@ -226,7 +183,6 @@ export const ThBottomSheet = ({
   detent,
   snapPoints,
   compounds,
-  onOpenEnd,
   children, 
   ...props
 }: ThBottomSheetProps) => {
@@ -239,22 +195,12 @@ export const ThBottomSheet = ({
 
   const isDraggable = useMemo(() => snapPoints && snapPoints.length > 1, [snapPoints]);
 
-  const originalAutoFocus = focusOptions?.autoFocus;
-  if (focusOptions !== undefined) {
-    focusOptions.autoFocus = false;
-  }
-  const firstFocusable = useFirstFocusable(focusOptions);
-
   return(
     <>
     <Sheet
       ref={ resolvedRef }
       isOpen={ sheetState.isOpen }
       onClose={ sheetState.close }
-      onOpenEnd={ () => { 
-        onOpenEnd && onOpenEnd(); 
-        originalAutoFocus && firstFocusable && firstFocusable.focus();
-      } }
       // Otherwise buggy with prefersReducedMotion
       // as the bottom sheet won’t be displayed on mount
       style={{
@@ -276,6 +222,7 @@ export const ThBottomSheet = ({
             sheetState={ sheetState } 
             isDraggable= { isDraggable }
             isKeyboardDismissDisabled={ isKeyboardDismissDisabled }
+            focusOptions={ focusOptions }
             compounds={ compounds }
           >
             { children }
