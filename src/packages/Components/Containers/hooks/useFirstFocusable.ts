@@ -4,14 +4,15 @@ import { useEffect, useRef } from "react";
 
 export interface UseFirstFocusableProps {
   withinRef: React.RefObject<HTMLElement | null>;
+  fallbackRef?: React.RefObject<HTMLElement | null>;
+  scrollerRef?: React.RefObject<HTMLElement | null>;
   trackedState: boolean;
   autoFocus?: boolean;
-  fallbackRef?: React.RefObject<HTMLElement | null>;
   updateState?: unknown;
 }
 
 export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
-  const { withinRef, trackedState, autoFocus = true, fallbackRef, updateState } = props ?? {};
+  const { withinRef, fallbackRef, scrollerRef, trackedState, autoFocus = true, updateState } = props ?? {};
 
   const focusableElement = useRef<HTMLElement | null>(null);
   const attemptsRef = useRef(0);
@@ -24,6 +25,8 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
     const tryFocus = () => {
       const targetElement = withinRef.current && withinRef.current.firstElementChild || withinRef.current;
       const selectedEl = targetElement && targetElement.querySelector("[data-selected]");
+
+      console.log(targetElement);
 
       let firstFocusable: HTMLElement | null = null;
 
@@ -48,7 +51,11 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
       if (firstFocusable) {
         if (autoFocus) {
           firstFocusable.focus({ preventScroll: true });
-          withinRef.current!.scrollTop = 0;
+          if (scrollerRef?.current) {
+            scrollerRef.current.scrollTop = 0;
+          } else {
+            withinRef.current!.scrollTop = 0;
+          }
         }
         focusableElement.current = firstFocusable;
       } else {
@@ -71,7 +78,7 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
     return () => {
       attemptsRef.current = 0;
     };
-  }, [withinRef, trackedState, fallbackRef, autoFocus, updateState]);
+  }, [withinRef, fallbackRef, scrollerRef, trackedState, autoFocus, updateState]);
 
   return focusableElement.current;
 };

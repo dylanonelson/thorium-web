@@ -49,7 +49,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
         ref={ popoverRef }
         triggerRef={ triggerRef }
         focusOptions={{
-          withinRef: popoverRef,
+          withinRef: popoverBodyRef,
           trackedState: isOpen,
           fallbackRef: popoverCloseRef,
           updateState: resetFocus
