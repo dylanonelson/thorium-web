@@ -2,7 +2,7 @@
 
 import { useCallback, useContext, useEffect, useState } from "react";
 
-import { PreferencesContext } from "../preferences";
+import { PreferencesContext } from "@/preferences";
 
 import { Docked, IDockedPref } from "../models/docking";
 
