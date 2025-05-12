@@ -23,7 +23,7 @@ import {
   setBreakpoint
 } from "@/lib";
 
-import { propsToCSSVars } from "@/helpers/propsToCSSVars";
+import { propsToCSSVars } from "@/packages/Helpers/propsToCSSVars";
 
 // Takes care of the init of theming and side effects on :root/html
 // Reader still has to handle the side effects on Navigator
