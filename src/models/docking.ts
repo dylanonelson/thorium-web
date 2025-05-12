@@ -1,7 +1,7 @@
 import { IActionTokens } from "./actions";
 import { Collapsibility } from "@/packages/Components";
 import { ActionsStateKeys } from "./state/actionsState";
-import { StaticBreakpoints } from "./staticBreakpoints";
+import { BreakpointsMap } from "@/packages/Hooks";
 
 export interface IDocker {
   id: ActionsStateKeys;
@@ -30,10 +30,6 @@ export type Docked = {
   width?: number;
 }
 
-export type BreakpointsDockingMap = {
-  [key in StaticBreakpoints]?: DockTypes;
-}
-
 export interface IDockPanelSizes {
   width: number;
   minWidth: number;
@@ -52,7 +48,7 @@ export interface IDockedPref {
 export interface IDockingPref {
   displayOrder: DockingKeys[];
   collapse: Collapsibility;
-  dock: BreakpointsDockingMap | boolean; 
+  dock: BreakpointsMap<DockTypes> | boolean; 
   keys: {
     [key in  DockingKeys]: IActionTokens;
   }

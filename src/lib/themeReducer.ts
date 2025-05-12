@@ -13,7 +13,7 @@ const initialState: IThemeState = {
   prefersReducedTransparency: false, 
   prefersContrast: Contrast.none,
   forcedColors: false, 
-  staticBreakpoint: undefined
+  breakpoint: undefined
 }
 
 export const themeSlice = createSlice({
@@ -41,8 +41,8 @@ export const themeSlice = createSlice({
     setForcedColors: (state, action) => {
       state.forcedColors = action.payload
     },
-    setStaticBreakpoint: (state, action) => {
-      state.staticBreakpoint = action.payload
+    setBreakpoint: (state, action) => {
+      state.breakpoint = action.payload
     }
   }
 })
@@ -56,7 +56,7 @@ export const {
   setReducedTransparency, 
   setContrast, 
   setForcedColors, 
-  setStaticBreakpoint,
+  setBreakpoint,
 } = themeSlice.actions;
 
 export default themeSlice.reducer;

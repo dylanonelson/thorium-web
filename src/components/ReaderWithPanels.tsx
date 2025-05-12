@@ -8,7 +8,7 @@ import dockStyles from "./assets/styles/docking.module.css";
 
 import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
-import { BreakpointsDockingMap, DockTypes, DockingKeys, IDockPanelSizes } from "@/models/docking";
+import { DockTypes, DockingKeys, IDockPanelSizes } from "@/models/docking";
 import { LayoutDirection } from "@/preferences";
 import { ActionsStateKeys } from "@/models/state/actionsState";
 
@@ -16,7 +16,7 @@ import { useRezisablePanel } from "@/hooks/useRezisablePanel";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { activateDockPanel, collapseDockPanel, deactivateDockPanel, expandDockPanel, setDockPanelWidth } from "@/lib/actionsReducer";
 
-import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
+import { makeBreakpointsMap } from "@/packages/Helpers/breakpointsMap";
 import classNames from "classnames";
 import parseTemplate from "json-templates";
 
@@ -191,7 +191,7 @@ export const ReaderWithDock = ({
   const startPanel = useRezisablePanel(dockingStart);
   const endPanel = useRezisablePanel(dockingEnd);
 
-  const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
+  const breakpoint = useAppSelector(state => state.theming.breakpoint);
 
   if (!RSPrefs.docking.dock) {
     return(
@@ -200,14 +200,14 @@ export const ReaderWithDock = ({
       </>
     )
   } else {
-    const dockingMap = makeBreakpointsMap<BreakpointsDockingMap>({
+    const dockingMap = makeBreakpointsMap<DockTypes>({
       defaultValue: DockTypes.both, 
       fromEnum: DockTypes, 
       pref: RSPrefs.docking.dock, 
       disabledValue: DockTypes.none
     });
 
-    const dockConfig = staticBreakpoint && dockingMap[staticBreakpoint] || DockTypes.both;
+    const dockConfig = breakpoint && dockingMap[breakpoint] || DockTypes.both;
 
     return (
       <>

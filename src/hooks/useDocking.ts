@@ -2,23 +2,24 @@ import { useCallback, useContext, useEffect, useState } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
-import { DockTypes, BreakpointsDockingMap, DockingKeys } from "@/models/docking";
-import { BreakpointsSheetMap, SheetTypes } from "@/models/sheets";
+import { BreakpointsMap } from "@/packages/Hooks";
+import { DockTypes, DockingKeys } from "@/models/docking";
+import { SheetTypes } from "@/models/sheets";
 import { ActionsStateKeys } from "@/models/state/actionsState";
 import { ActionKeys } from "@/models/actions";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { makeBreakpointsMap } from "@/helpers/breakpointsMap";
+import { makeBreakpointsMap } from "@/packages/Helpers/breakpointsMap";
 import { dockAction, setActionOpen } from "@/lib/actionsReducer";
 
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 import { useActions } from "@/packages/Components";
 
-let dockingMap: Required<BreakpointsDockingMap> | null = null;
+let dockingMap: Required<BreakpointsMap<DockTypes>> | null = null;
 
 export const useDocking = (key: ActionsStateKeys) => {
   const RSPrefs = useContext(PreferencesContext);
-  const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
+  const breakpoint = useAppSelector(state => state.theming.breakpoint);
   const actionsMap = useAppSelector(state => state.actions.keys);
   const actionState = actionsMap[key];
   const dispatch = useAppDispatch();
@@ -26,24 +27,24 @@ export const useDocking = (key: ActionsStateKeys) => {
   const actions = useActions(actionsMap);
 
   if (!dockingMap) {
-    dockingMap = makeBreakpointsMap<BreakpointsDockingMap>({
+    dockingMap = makeBreakpointsMap<DockTypes>({
       defaultValue: DockTypes.both, 
       fromEnum: DockTypes, 
       pref: RSPrefs.docking.dock, 
       disabledValue: DockTypes.none 
     });
   }
-  const currentDockConfig = staticBreakpoint && dockingMap[staticBreakpoint];
+  const currentDockConfig = breakpoint && dockingMap[breakpoint];
   const dockablePref = RSPrefs.actions.keys[key].docked?.dockable || DockTypes.none;
 
   const defaultSheet = RSPrefs.actions.keys[key].sheet?.defaultSheet || SheetTypes.popover;
 
-  const sheetMap = makeBreakpointsMap<BreakpointsSheetMap>({
+  const sheetMap = makeBreakpointsMap<SheetTypes>({
     defaultValue: RSPrefs.actions.keys[key].sheet?.defaultSheet || SheetTypes.popover, 
     fromEnum: SheetTypes, 
     pref: RSPrefs.actions.keys[key].sheet?.breakpoints
   });
-  const sheetPref = staticBreakpoint && sheetMap[staticBreakpoint] || defaultSheet;
+  const sheetPref = breakpoint && sheetMap[breakpoint] || defaultSheet;
 
   const [sheetType, setSheetType] = useState<SheetTypes>(defaultSheet);
   const previousSheetType = usePrevious(sheetType);

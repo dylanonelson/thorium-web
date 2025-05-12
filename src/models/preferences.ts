@@ -4,8 +4,8 @@ import { Constraints, ILayoutDefaults, RSLayoutStrategy } from "./layout";
 import { LayoutDirection } from "@/preferences";
 import { ISettingsSpacingPref, ISettingsTextPref, SettingsKeys, SettingsRangeVariant } from "./settings";
 import { ShortcutRepresentation } from "./shortcut";
-import { StaticBreakpoints } from "./staticBreakpoints";
 import { IThemeTokens, ThemeKeys } from "./theme";
+import { BreakpointsMap } from "@/packages/Hooks";
 
 export enum ScrollAffordancePref {
   none = "none",
@@ -54,9 +54,7 @@ export interface IRSPrefs {
         [key in Constraints]?: number
       }
     };
-    breakpoints: {
-      [key in StaticBreakpoints]: number | null;
-    };
+    breakpoints: BreakpointsMap<number | null>;
     themes: {
       reflowOrder: ThemeKeys[];
       fxlOrder: ThemeKeys[];

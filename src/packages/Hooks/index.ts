@@ -1,5 +1,6 @@
 "use client";
 
+export * from "./useBreakpoints";
 export * from "./useColorScheme";
 export * from "./useContrast";
 export * from "./useForcedColors";
