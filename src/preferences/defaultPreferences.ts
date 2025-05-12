@@ -16,7 +16,7 @@ import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";
 import nightMode from "@readium/css/css/vars/night.json";
 
-export const RSPrefs: IRSPrefs = {
+export const defaultPreferences: IRSPrefs = {
   direction: LayoutDirection.ltr,
   locale: "en",
   typography: {

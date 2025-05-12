@@ -1,5 +1,5 @@
 // Peripherals based on XBReader
-import { RSPrefs } from "@/preferences";
+import { defaultPreferences } from "@/preferences";
 
 import { ActionKeys } from "@/models/actions";
 import { PShortcuts } from "@/models/shortcut";
@@ -38,8 +38,8 @@ export default class Peripherals {
   private retrieveShortcuts() {
     const shortcutsObj: PShortcuts = {};
 
-    RSPrefs.actions.displayOrder.forEach((actionKey) => {
-      const shortcutString = RSPrefs.actions.keys[actionKey as keyof typeof ActionKeys].shortcut;
+    defaultPreferences.actions.displayOrder.forEach((actionKey) => {
+      const shortcutString = defaultPreferences.actions.keys[actionKey as keyof typeof ActionKeys].shortcut;
       
       if (shortcutString) {
         const shortcutObj = buildShortcut(shortcutString);
