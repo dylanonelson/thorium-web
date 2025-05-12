@@ -16,6 +16,7 @@
   ],
   "exports": {
     "./components": "./dist/components.js",
+    "./helpers": "./dist/helpers.js",
     "./hooks": "./dist/hooks.js",
     "./preferences": "./dist/preferences.js",
     "./redux": "./dist/redux.js"

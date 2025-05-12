@@ -1,4 +1,4 @@
-import { StaticBreakpoints } from "../staticBreakpoints";
+import { Breakpoints } from "@/packages/Hooks";
 import { ThemeKeys } from "../theme";
 import { ColorScheme } from "@/packages/Hooks/useColorScheme";
 import { Contrast } from "@/packages/Hooks/useContrast";
@@ -11,5 +11,5 @@ export interface IThemeState {
   prefersReducedTransparency: boolean;
   prefersContrast: Contrast;
   forcedColors: boolean;
-  staticBreakpoint?: StaticBreakpoints;
+  breakpoint?: Breakpoints;
 }

@@ -4,7 +4,7 @@ import { PreferencesContext } from "@/preferences";
 import { ThemeKeys } from "@/models/theme";
 
 import { useIsClient } from "@/packages/Hooks/useIsClient";
-import { useBreakpoints } from "./useBreakpoints";
+import { Breakpoints, useBreakpoints } from "@/packages/Hooks/useBreakpoints";
 import { useReducedMotion } from "@/packages/Hooks/useReducedMotion";
 import { useReducedTransparency } from "@/packages/Hooks/useReducedTransparency";
 import { ColorScheme, useColorScheme } from "@/packages/Hooks/useColorScheme";
@@ -19,7 +19,8 @@ import {
   setForcedColors, 
   setMonochrome, 
   setReducedMotion, 
-  setReducedTransparency 
+  setReducedTransparency, 
+  setBreakpoint
 } from "@/lib";
 
 import { propsToCSSVars } from "@/helpers/propsToCSSVars";
@@ -32,7 +33,7 @@ export const useTheming = () => {
 
   const dispatch = useAppDispatch();
 
-  const breakpoints = useBreakpoints();
+  const breakpoints = useBreakpoints(RSPrefs.theming.breakpoints, ((breakpoint: Breakpoints | null) => dispatch(setBreakpoint(breakpoint))));
   const reducedMotion = useReducedMotion((reducedMotion: boolean) => dispatch(setReducedMotion(reducedMotion)));
   const reducedTransparency = useReducedTransparency((reducedTransparency: boolean) => dispatch(setReducedTransparency(reducedTransparency)));
   const monochrome = useMonochrome((isMonochrome: boolean) => dispatch(setMonochrome(isMonochrome)));

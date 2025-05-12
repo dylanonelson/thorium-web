@@ -1,6 +1,6 @@
 import { ComponentType, ReactNode, RefObject, SVGProps } from "react";
 import { DockingKeys, IDockedPref } from "./docking";
-import { StaticBreakpoints } from "./staticBreakpoints";
+import { Breakpoints, BreakpointsMap } from "@/packages/Hooks";
 import { ISnappedPref, SheetTypes } from "./sheets";
 import { ActionsStateKeys } from "./state/actionsState";
 import { Collapsibility, CollapsiblePref, CollapsibilityVisibility, ThActionsTriggerVariant, ThActionEntry } from "@/packages/Components";
@@ -65,9 +65,7 @@ export interface IActionTokens {
   shortcut: string | null;
   sheet?: {
     defaultSheet: Exclude<SheetTypes, SheetTypes.dockedStart | SheetTypes.dockedEnd>;
-    breakpoints: {
-      [key in StaticBreakpoints]?: SheetTypes;
-    }
+    breakpoints: BreakpointsMap<SheetTypes>;
   };
   docked?: IDockedPref;
   snapped?: ISnappedPref;

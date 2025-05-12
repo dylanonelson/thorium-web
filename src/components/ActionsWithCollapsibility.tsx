@@ -1,8 +1,8 @@
-import { Fragment, useRef } from "react";
+import { useRef } from "react";
 
 import { IActionsWithCollapsibility } from "@/models/actions";
 
-import { ThActionsBar, ThActionsTriggerVariant, ThCollapsibleActionsBar } from "@/packages/Components";
+import { ThCollapsibleActionsBar } from "@/packages/Components";
 import { OverflowMenu } from "./OverflowMenu";
 
 import { useAppSelector } from "@/lib";
@@ -18,7 +18,7 @@ export const ActionsWithCollapsibility = ({
   label
 }: IActionsWithCollapsibility) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
+  const breakpoint = useAppSelector(state => state.theming.breakpoint);
 
   return (
     <>
@@ -29,7 +29,7 @@ export const ActionsWithCollapsibility = ({
       prefs={ prefs }
       className={ className }
       aria-label={ label }
-      breakpoint={ staticBreakpoint }
+      breakpoint={ breakpoint }
       overflowMenu={ (<OverflowMenu 
         id={ id }
         triggerRef={ ref }

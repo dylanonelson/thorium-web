@@ -1,7 +1,7 @@
 import { ReactNode, RefObject } from "react";
-import { StaticBreakpoints } from "./staticBreakpoints";
 import { ActionsStateKeys } from "./state/actionsState";
 import { DockingKeys } from "./docking";
+import { BreakpointsMap } from "@/packages/Hooks";
 
 export enum SheetTypes {
   popover = "popover",
@@ -9,10 +9,6 @@ export enum SheetTypes {
   dockedStart = "docked start",
   dockedEnd = "docked end",
   bottomSheet = "bottomSheet"
-}
-
-export type BreakpointsSheetMap = {
-  [key in StaticBreakpoints]?: SheetTypes;
 }
 
 export enum SheetHeaderVariant {
@@ -45,7 +41,7 @@ export interface ISnappedPref {
   minHeight?: number | BottomSheetDetent;
 }
 
-export type SheetPref = BreakpointsSheetMap;
+export type SheetPref = BreakpointsMap<SheetTypes> | boolean;
 
 export interface IScrimPref {
   active: boolean;

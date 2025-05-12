@@ -9,7 +9,7 @@ import Locale from "../resources/locales/en.json";
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
-import { StaticBreakpoints } from "@/models/staticBreakpoints";
+import { Breakpoints } from "@/packages/Hooks";
 import { ScrollBackTo } from "@/models/preferences";
 import { ActionKeys } from "@/models/actions";
 import { ThemeKeys } from "@/models/theme";
@@ -118,9 +118,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
   const colorScheme = useAppSelector(state => state.theming.colorScheme);
   const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
 
-  const staticBreakpoint = useAppSelector(state => state.theming.staticBreakpoint);
-  const arrowsOccupySpace = staticBreakpoint && 
-    (staticBreakpoint === StaticBreakpoints.large || staticBreakpoint === StaticBreakpoints.xLarge);
+  const breakpoint = useAppSelector(state => state.theming.breakpoint);
+  const arrowsOccupySpace = breakpoint && 
+    (breakpoint === Breakpoints.large || breakpoint === Breakpoints.xLarge);
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
 

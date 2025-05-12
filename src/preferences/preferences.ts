@@ -1,7 +1,7 @@
 "use client";
 
 import { IRSPrefs, ScrollAffordancePref, ScrollBackTo } from "../models/preferences";
-import { StaticBreakpoints } from "../models/staticBreakpoints";
+import { Breakpoints } from "@/packages/Hooks";
 import { ShortcutMetaKeywords, ShortcutRepresentation } from "../models/shortcut";
 import { CollapsibilityVisibility } from "@/packages/Components";
 import { ActionKeys } from "../models/actions";
@@ -54,11 +54,11 @@ export const RSPrefs: IRSPrefs = {
     },
     breakpoints: {
       // See https://m3.material.io/foundations/layout/applying-layout/window-size-classes
-      [StaticBreakpoints.compact]: 600, // Phone in portrait
-      [StaticBreakpoints.medium]: 840, // Tablet in portrait, Foldable in portrait (unfolded)
-      [StaticBreakpoints.expanded]: 1200, // Phone in landscape, Tablet in landscape, Foldable in landscape (unfolded), Desktop
-      [StaticBreakpoints.large]: 1600, // Desktop
-      [StaticBreakpoints.xLarge]: null // Desktop Ultra-wide
+      [Breakpoints.compact]: 600, // Phone in portrait
+      [Breakpoints.medium]: 840, // Tablet in portrait, Foldable in portrait (unfolded)
+      [Breakpoints.expanded]: 1200, // Phone in landscape, Tablet in landscape, Foldable in landscape (unfolded), Desktop
+      [Breakpoints.large]: 1600, // Desktop
+      [Breakpoints.xLarge]: null // Desktop Ultra-wide
     },
     themes: {
       reflowOrder: [
@@ -201,8 +201,8 @@ export const RSPrefs: IRSPrefs = {
       // Number of partially icons to display
       // value "all" a keyword for the length of displayOrder above
       // Icons with visibility always are excluded from collapsing
-      [StaticBreakpoints.compact]: 2,
-      [StaticBreakpoints.medium]: 3
+      [Breakpoints.compact]: 2,
+      [Breakpoints.medium]: 3
     }, 
     keys: {
       [ActionKeys.settings]: {
@@ -211,7 +211,7 @@ export const RSPrefs: IRSPrefs = {
         sheet: {
           defaultSheet: SheetTypes.popover,
           breakpoints: {
-            [StaticBreakpoints.compact]: SheetTypes.bottomSheet
+            [Breakpoints.compact]: SheetTypes.bottomSheet
           }
         },
         docked: {
@@ -235,8 +235,8 @@ export const RSPrefs: IRSPrefs = {
         sheet: {
           defaultSheet: SheetTypes.popover,
           breakpoints: {
-            [StaticBreakpoints.compact]: SheetTypes.fullscreen,
-            [StaticBreakpoints.medium]: SheetTypes.fullscreen
+            [Breakpoints.compact]: SheetTypes.fullscreen,
+            [Breakpoints.medium]: SheetTypes.fullscreen
           }
         },
         docked: {
@@ -253,7 +253,7 @@ export const RSPrefs: IRSPrefs = {
         sheet: {
           defaultSheet: SheetTypes.popover,
           breakpoints: {
-            [StaticBreakpoints.compact]: SheetTypes.bottomSheet
+            [Breakpoints.compact]: SheetTypes.bottomSheet
           }
         },
         docked: {
@@ -282,11 +282,11 @@ export const RSPrefs: IRSPrefs = {
       DockingKeys.end
     ],
     dock: {
-      [StaticBreakpoints.compact]: DockTypes.none,
-      [StaticBreakpoints.medium]: DockTypes.none,
-      [StaticBreakpoints.expanded]: DockTypes.start,
-      [StaticBreakpoints.large]: DockTypes.both,
-      [StaticBreakpoints.xLarge]: DockTypes.both
+      [Breakpoints.compact]: DockTypes.none,
+      [Breakpoints.medium]: DockTypes.none,
+      [Breakpoints.expanded]: DockTypes.start,
+      [Breakpoints.large]: DockTypes.both,
+      [Breakpoints.xLarge]: DockTypes.both
     },
     collapse: true,
     keys: {

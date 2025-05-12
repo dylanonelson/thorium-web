@@ -6,6 +6,7 @@ export default defineConfig({
   name: "Thorium Web",
   entry: {
     components: "src/packages/Components/index.ts",
+    helpers: "src/packages/Helpers/index.ts",
     hooks: "src/packages/Hooks/index.ts",
     redux: "src/lib/index.ts",
     preferences: "src/preferences/index.ts"
