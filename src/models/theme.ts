@@ -1,3 +1,5 @@
+import { CSSColor } from "@/preferences/Values";
+
 export enum ThemeKeys {
   auto = "auto",
   light = "light",
@@ -10,17 +12,17 @@ export enum ThemeKeys {
 }
 
 export interface IThemeTokens {
-  background: string;
-  text: string;
-  link: string;
-  visited: string;
-  subdue: string;
-  disable: string;
-  hover: string;
-  onHover: string;
-  select: string;
-  onSelect: string;
-  focus: string;
+  background: CSSColor;
+  text: CSSColor;
+  link: CSSColor;
+  visited: CSSColor;
+  subdue: CSSColor;
+  disable: CSSColor;
+  hover: CSSColor;
+  onHover: CSSColor;
+  select: CSSColor;
+  onSelect: CSSColor;
+  focus: CSSColor;
   elevate: string;
   immerse: string;
 };

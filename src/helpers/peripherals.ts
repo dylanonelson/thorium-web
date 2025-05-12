@@ -7,7 +7,7 @@ import { PShortcuts } from "@/models/shortcut";
 import { buildShortcut } from "./keyboard/buildShortcut";
 
 import { useAppStore } from "@/lib/hooks";
-import { isInteractiveElement } from "./isInteractiveElement";
+import { isInteractiveElement } from "@/packages/Helpers/isInteractiveElement";
 
 export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;

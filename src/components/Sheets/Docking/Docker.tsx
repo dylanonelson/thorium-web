@@ -11,7 +11,7 @@ import { IActionsMapObject } from "@/models/actions";
 
 import { Toolbar } from "react-aria-components";
 
-import { ThCloseButton } from "../../../packages/Components/Buttons/ThCloseButton";
+import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
 import { ActionsWithCollapsibility } from "@/components/ActionsWithCollapsibility";
 import { DockStartAction } from "./DockStartAction";
 import { DockEndAction } from "./DockEndAction";
