@@ -4,8 +4,9 @@ import { Constraints, ILayoutDefaults, RSLayoutStrategy } from "./layout";
 import { LayoutDirection } from "@/preferences";
 import { ISettingsSpacingPref, ISettingsTextPref, SettingsKeys, SettingsRangeVariant } from "./settings";
 import { ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
-import { IThemeTokens, ThemeKeys } from "./theme";
+import { ThemeKeys } from "./theme";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
+import { ThemeTokens } from "@/preferences/hooks/useTheming";
 
 export enum ScrollAffordancePref {
   none = "none",
@@ -59,7 +60,7 @@ export interface IRSPrefs {
       reflowOrder: ThemeKeys[];
       fxlOrder: ThemeKeys[];
       keys: {
-        [key in Exclude<ThemeKeys, ThemeKeys.auto>]: IThemeTokens;
+        [key in Exclude<ThemeKeys, ThemeKeys.auto>]: ThemeTokens;
       }
     };
   };

@@ -82,6 +82,7 @@ import {
 import { Dispatch } from "@reduxjs/toolkit";
 
 import debounce from "debounce";
+import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const RSPrefs = useContext(PreferencesContext);
@@ -170,7 +171,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     goBackward, 
     goForward, 
     scrollBackTo, 
-    listThemeProps, 
     navLayout,
     currentLocator,
     currentPositions,
@@ -233,6 +233,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     handleProgression(locator);
     localData.set(localDataKey.current, locator);
   }, [handleProgression]);
+
   onFXLPositionChange(handleFXLProgression);
 
 
@@ -527,14 +528,20 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     const applyCurrentTheme = async () => {
       const themeKeys = isFXL ? RSPrefs.theming.themes.fxlOrder : RSPrefs.theming.themes.reflowOrder;
       const themeKey = themeKeys.includes(theme) ? theme : ThemeKeys.auto;
-      const themeProps = listThemeProps(themeKey, colorScheme);
+      const themeProps = buildThemeObject<Exclude<ThemeKeys, ThemeKeys.auto>>({
+        theme: themeKey,
+        themeKeys: RSPrefs.theming.themes.keys,
+        lightTheme: ThemeKeys.light,
+        darkTheme: ThemeKeys.dark,
+        colorScheme
+      });
       await submitPreferences(themeProps);
       dispatch(setTheme(themeKey));
     };
 
     applyCurrentTheme()
       .catch(console.error);
-  }, [theme, previousTheme, RSPrefs.theming.themes, colorScheme, isFXL, listThemeProps, submitPreferences, dispatch]);
+  }, [theme, previousTheme, RSPrefs.theming.themes, colorScheme, isFXL, submitPreferences, dispatch]);
 
   useEffect(() => {
     RSPrefs.direction && dispatch(setDirection(RSPrefs.direction));
@@ -592,7 +599,13 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         
         const themeKeys = isFXL ? RSPrefs.theming.themes.fxlOrder : RSPrefs.theming.themes.reflowOrder;
         const theme = themeKeys.includes(cache.current.settings.theme) ? cache.current.settings.theme : ThemeKeys.auto;
-        const themeProps = listThemeProps(theme, cache.current.colorScheme);
+        const themeProps = buildThemeObject<Exclude<ThemeKeys, ThemeKeys.auto>>({
+          theme: theme,
+          themeKeys: RSPrefs.theming.themes.keys,
+          lightTheme: ThemeKeys.light,
+          darkTheme: ThemeKeys.dark,
+          colorScheme: cache.current.colorScheme
+        });
 
         const lineHeightOptions = {
           [ReadingDisplayLineHeightOptions.publisher]: null,
