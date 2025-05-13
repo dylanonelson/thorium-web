@@ -45,7 +45,7 @@
     "react-dom": ">=19.0.0",
     "react-modal-sheet": ">=4.4.0",
     "react-redux": ">=9.2.0",
-    "react-resizable-panels": ">=2.1.0",
+    "react-resizable-panels": ">=3.0.0",
     "react-stately": ">=3.36.0"
   },
   "dependencies": {
@@ -64,7 +64,7 @@
     "react-dom": "^19.1.0",
     "react-modal-sheet": "^4.4.0",
     "react-redux": "^9.2.0",
-    "react-resizable-panels": "^2.1.9",
+    "react-resizable-panels": "^3.0.2",
     "react-stately": "^3.37.0"
   },
   "devDependencies": {

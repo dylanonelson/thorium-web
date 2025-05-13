@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
@@ -30,6 +30,8 @@ import {
 
 import { useEpubNavigator } from "@/hooks/useEpubNavigator";
 import { useDocking } from "@/hooks/useDocking";
+import { usePrevious } from "@/packages/Hooks/usePrevious";
+
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
@@ -44,6 +46,9 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
   const tocTree = useAppSelector(state => state.publication.tocTree);
   const dispatch = useAppDispatch();
+
+  const previousTocEntry = usePrevious(tocEntry);
+  const [forceRerender, setForceRerender] = useState(0);
 
   const { goLink } = useEpubNavigator();
 
@@ -109,6 +114,20 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
     }
   }, [actionState, setOpen]);
 
+  // For docked sheets they are mounted before we could even retrieve tocEntry…
+  // So we need to force a rerender as we cannot rely on dependencies prop
+  // Once we handle fragments, etc. this can be removed, and we can add a condition
+  // tocEntry has to be defined to render Tree
+  useEffect(() => {
+    if (
+        (sheetType === SheetTypes.dockedStart || sheetType === SheetTypes.dockedEnd) && 
+        tocEntry !== undefined && 
+        previousTocEntry === undefined
+      ) {
+      setForceRerender(Math.random());
+    }
+  }, [sheetType, tocEntry, previousTocEntry]);
+
   const isItemInChildren = (item: TocItem, tocEntry?: string): boolean => {
     if (item.children && tocEntry) {
       return item.children.some(child => child.id === tocEntry || isItemInChildren(child, tocEntry));
@@ -134,6 +153,7 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
     >
       { tocTree && tocTree.length > 0 
       ? (<Tree
+          key={ forceRerender }
           aria-label={ Locale.reader.toc.entries }
           selectionMode="single"
           items={ tocTree }
