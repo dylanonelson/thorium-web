@@ -9,7 +9,9 @@ import { ActionKeys, IActionsMapObject } from "@/models/actions";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
-import { ThHeader, ThActionEntry, ThRunningHead } from "@/packages/Components";
+import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ThHeader  } from "@/packages/Components/Reader/ThHeader";
+import { ThRunningHead } from "@/packages/Components/Reader/ThRunningHead";
 import { FullscreenAction } from "./FullscreenAction";
 import { JumpToPositionAction } from "./JumpToPositionAction";
 import { LayoutStrategyAction, LayoutStrategiesActionContainer } from "./LayoutStrategyAction";

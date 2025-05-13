@@ -1,6 +1,4 @@
-import React, { KeyboardEvent, ReactNode, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-
-import { OverlayTriggerState, useOverlayTriggerState } from "react-stately";
+import React, { KeyboardEvent, useCallback, useContext, useMemo, useRef } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
@@ -11,17 +9,15 @@ import { BottomSheetDetent, IScrimPref, ISheet, SheetHeaderVariant } from "@/mod
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
-import { Sheet, SheetRef } from "react-modal-sheet";
-import { Heading } from "react-aria-components";
-import { ThDragIndicatorButton } from "@/packages/Components/Containers/ThBottomSheet/ThDragIndicatorButton";
+import { SheetRef } from "react-modal-sheet";
+
+import { ThBottomSheet } from "@/packages/Components/Containers/ThBottomSheet";
+import { ThContainerHeader } from "@/packages/Components/Containers/ThContainerHeader";
+import { ThContainerBody } from "@/packages/Components/Containers/ThContainerBody";
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
 
-import { FocusScope, OverlayProvider, useButton, useDialog, useModal, useOverlay } from "react-aria";
-
 import { useAppSelector } from "@/lib/hooks";
-
-import { ThBottomSheet, ThContainerBody, ThContainerHeader, useFirstFocusable } from "@/packages/Components";
 
 import classNames from "classnames";
 

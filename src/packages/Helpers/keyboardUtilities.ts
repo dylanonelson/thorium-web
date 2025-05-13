@@ -1,4 +1,4 @@
-import { isMacish } from "../../packages/Helpers/getPlatform";
+import { isMacish } from "./getPlatform";
 
 export interface IKey {
   [key: string]: string;

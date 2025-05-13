@@ -5,7 +5,7 @@ import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 import { Text } from "react-aria-components";
 import { Shortcut } from "../Shortcut";
 
-import { ThMenuItem, ThMenuItemProps } from "@/packages/Components";
+import { ThMenuItem, ThMenuItemProps } from "@/packages/Components/Menu/ThMenuItem";
 
 export interface OverflowMenuItemProps extends Omit<ThMenuItemProps, "shortcut"> {
   shortcut?: string | null

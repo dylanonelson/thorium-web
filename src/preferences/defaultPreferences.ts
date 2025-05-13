@@ -1,9 +1,9 @@
 "use client";
 
 import { IRSPrefs, ScrollAffordancePref, ScrollBackTo } from "../models/preferences";
-import { Breakpoints } from "@/packages/Hooks";
-import { ShortcutMetaKeywords, ShortcutRepresentation } from "@/packages/Helpers";
-import { CollapsibilityVisibility } from "@/packages/Components";
+import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
+import { ShortcutMetaKeywords, ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
+import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { ActionKeys } from "../models/actions";
 import { SheetHeaderVariant, SheetTypes } from "../models/sheets";
 import { DockTypes, DockingKeys } from "../models/docking";

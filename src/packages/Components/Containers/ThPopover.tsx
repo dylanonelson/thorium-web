@@ -7,7 +7,7 @@ import { ThContainerProps } from "./ThContainer";
 import { Dialog, DialogProps, Popover, PopoverProps } from "react-aria-components";
 
 import { useObjectRef } from "react-aria";
-import { useFirstFocusable } from "./hooks";
+import { useFirstFocusable } from "./hooks/useFirstFocusable";
 
 export interface ThPopoverProps extends Omit<PopoverProps, "children">, ThContainerProps {
   triggerRef: React.RefObject<HTMLElement | null>;

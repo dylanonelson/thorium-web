@@ -1,4 +1,4 @@
-import { Breakpoints } from "@/packages/Hooks";
+import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
 import { ThemeKeys } from "../theme";
 import { ColorScheme } from "@/packages/Hooks/useColorScheme";
 import { Contrast } from "@/packages/Hooks/useContrast";

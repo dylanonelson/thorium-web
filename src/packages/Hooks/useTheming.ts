@@ -2,9 +2,7 @@
 
 import { useCallback, useEffect, useRef } from "react";
 
-import { BreakpointsMap } from "@/packages/Hooks";
-
-import { Breakpoints, useBreakpoints } from "@/packages/Hooks/useBreakpoints";
+import { BreakpointsMap, Breakpoints, useBreakpoints } from "@/packages/Hooks/useBreakpoints";
 import { useReducedMotion } from "@/packages/Hooks/useReducedMotion";
 import { useReducedTransparency } from "@/packages/Hooks/useReducedTransparency";
 import { ColorScheme, useColorScheme } from "@/packages/Hooks/useColorScheme";

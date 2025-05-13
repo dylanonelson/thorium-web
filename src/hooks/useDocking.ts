@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
-import { BreakpointsMap } from "@/packages/Hooks";
+import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { DockTypes, DockingKeys } from "@/models/docking";
 import { SheetTypes } from "@/models/sheets";
 import { ActionsStateKeys } from "@/models/state/actionsState";
@@ -13,7 +13,7 @@ import { makeBreakpointsMap } from "@/packages/Helpers/breakpointsMap";
 import { dockAction, setActionOpen } from "@/lib/actionsReducer";
 
 import { usePrevious } from "@/packages/Hooks/usePrevious";
-import { useActions } from "@/packages/Components";
+import { useActions } from "@/packages/Components/Actions/hooks/useActions";
 
 let dockingMap: Required<BreakpointsMap<DockTypes>> | null = null;
 

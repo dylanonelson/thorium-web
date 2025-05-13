@@ -11,10 +11,10 @@ import React, {
 
 import { OverlayTriggerState, useOverlayTriggerState } from "react-stately";
 
-import { ThContainerBody } from "../ThContainerBody";
 import { ThContainerHeader, ThContainerHeaderProps } from "../ThContainerHeader";
+import { ThContainerBody } from "../ThContainerBody";
 import { ThContainerProps } from "../ThContainer";
-import { useFirstFocusable, UseFirstFocusableProps } from "../hooks";
+import { useFirstFocusable, UseFirstFocusableProps } from "../hooks/useFirstFocusable";
 
 import { ThDragIndicatorButton, ThDragIndicatorButtonProps } from "./ThDragIndicatorButton";
 

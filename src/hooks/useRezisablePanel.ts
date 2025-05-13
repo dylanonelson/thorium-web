@@ -6,9 +6,9 @@ import { PreferencesContext } from "@/preferences";
 
 import { Docked, IDockedPref } from "../models/docking";
 
-import { useActions } from "@/packages/Components";
+import { useActions } from "@/packages/Components/Actions/hooks/useActions";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
-import { useAppSelector } from "@/lib";
+import { useAppSelector } from "@/lib/hooks";
 
 export const useRezisablePanel = (panel: Docked) => {
   const RSPrefs = useContext(PreferencesContext);

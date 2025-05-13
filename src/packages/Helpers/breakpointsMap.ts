@@ -1,4 +1,4 @@
-import { Breakpoints, BreakpointsMap } from "@/packages/Hooks";
+import { Breakpoints, BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 
 export const makeBreakpointsMap = <T>({
   defaultValue,

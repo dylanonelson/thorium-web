@@ -1,4 +1,4 @@
-import { PShortcut } from "@/packages/Helpers";
+import { PShortcut } from "@/packages/Helpers/keyboardUtilities";
 import { ActionKeys } from "./actions";
 
 export interface PShortcuts {

@@ -7,7 +7,7 @@ import { ThContainerProps } from "./ThContainer";
 import { Dialog, DialogProps, Modal, ModalOverlayProps } from "react-aria-components";
 
 import { useObjectRef } from "react-aria";
-import { useFirstFocusable } from "./hooks";
+import { useFirstFocusable } from "./hooks/useFirstFocusable";
 
 export interface ThModalProps extends Omit<ModalOverlayProps, "children">, ThContainerProps {
   compounds?: {

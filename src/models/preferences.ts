@@ -5,7 +5,7 @@ import { LayoutDirection } from "@/preferences";
 import { ISettingsSpacingPref, ISettingsTextPref, SettingsKeys, SettingsRangeVariant } from "./settings";
 import { ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { IThemeTokens, ThemeKeys } from "./theme";
-import { BreakpointsMap } from "@/packages/Hooks";
+import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 
 export enum ScrollAffordancePref {
   none = "none",

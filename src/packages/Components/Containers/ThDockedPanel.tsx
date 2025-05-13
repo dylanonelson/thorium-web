@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
+import { createPortal } from "react-dom";
 
 import { ThContainerProps } from "./ThContainer";
 
 import { FocusScope, useObjectRef } from "react-aria";
-import { useFirstFocusable } from "./hooks";
-import { createPortal } from "react-dom";
+import { useFirstFocusable } from "./hooks/useFirstFocusable";
 
 export interface ThDockedPanelProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "children">, ThContainerProps {
   isOpen: boolean;

@@ -6,7 +6,7 @@ import Locale from "../../../resources/locales/en.json";
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { IActionComponentTrigger } from "@/models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsTriggerVariant";
 import { DockingKeys } from "@/models/docking";
 import { LayoutDirection } from "@/preferences";
 
@@ -18,7 +18,7 @@ import { OverflowMenuItem } from "@/components/ActionTriggers/OverflowMenuItem";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
-import { useActions } from "@/packages/Components";
+import { useActions } from "@/packages/Components/Actions/hooks/useActions";
 
 export const DockEndAction: React.FC<IActionComponentTrigger> = ({ variant, associatedKey }) => {
   const RSPrefs = useContext(PreferencesContext);

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-
 import { useMediaQuery } from "./useMediaQuery";
 
 export enum Breakpoints {

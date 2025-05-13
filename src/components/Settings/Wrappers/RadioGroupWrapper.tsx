@@ -1,6 +1,6 @@
 import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
-import { ThRadioGroup, ThRadioGroupProps } from "@/packages/Components/Settings"
+import { ThRadioGroup, ThRadioGroupProps } from "@/packages/Components/Settings/ThRadioGroup"
 
 export interface WrappedRadioGroupProps extends Omit<ThRadioGroupProps, "classNames"> {
   standalone?: boolean
