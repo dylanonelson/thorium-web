@@ -2,13 +2,11 @@ import React, { useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
-import { IShortcut, ShortcutRepresentation } from "@/models/shortcut";
+import { IShortcut, ShortcutRepresentation, buildShortcut, metaKeys } from "@/packages/Helpers/keyboardUtilities";
 
 import { Keyboard } from "react-aria-components";
 
 import { useAppSelector } from "@/lib/hooks";
-import { buildShortcut } from "@/helpers/keyboard/buildShortcut";
-import { metaKeys } from "@/helpers/keyboard/getMetaKeys";
 
 export const Shortcut: React.FC<IShortcut> = ({
   className,
@@ -33,7 +31,7 @@ export const Shortcut: React.FC<IShortcut> = ({
           shortcutRepresentation.push(platformModifier[representation]);
         } else {
           const metaKey = metaKeys[prop];
-          shortcutRepresentation.push(metaKey[representation]);
+          shortcutRepresentation.push(metaKey[representation as ShortcutRepresentation]);
         }
       }
     }

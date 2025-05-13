@@ -18,7 +18,7 @@ import { useFullscreen } from "@/packages/Hooks/useFullscreen";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setFullscreen, setHovering } from "@/lib/readerReducer";
-import { isIOSish } from "@/helpers/keyboard/getPlatform";
+import { isIOSish } from "@/packages/Helpers/getPlatform";
 
 export const FullscreenAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
   // Note: Not using React Aria ToggleButton here as fullscreen is quite

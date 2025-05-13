@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { IReaderState } from "@/models/state/readerState";
-import { defaultPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
+import { defaultPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
 import { LayoutDirection } from "@/preferences";
 import { SettingsContainerKeys } from "@/models/settings";
 

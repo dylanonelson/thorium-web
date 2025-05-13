@@ -55,8 +55,8 @@ import { usePrevious } from "@/packages/Hooks/usePrevious";
 
 import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
-import { localData } from "@/helpers/localData";
-import { getPlatformModifier } from "@/helpers/keyboard/getMetaKeys";
+import { localData } from "@/packages/Helpers/localData";
+import { getPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
 import { createTocTree } from "@/helpers/toc/createTocTree";
 
 import { toggleActionOpen } from "@/lib/actionsReducer";

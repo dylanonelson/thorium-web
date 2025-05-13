@@ -28,7 +28,7 @@ import {
 } from "@readium/navigator";
 
 import { ScrollAffordance } from "@/helpers/scrollAffordance";
-import { localData } from "@/helpers/localData";
+import { localData } from "@/packages/Helpers/localData";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setProgression } from "@/lib/publicationReducer";

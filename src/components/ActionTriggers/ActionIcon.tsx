@@ -13,7 +13,7 @@ import { ThActionButton, ThActionButtonProps } from "@/packages/Components/Butto
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setImmersive } from "@/lib/readerReducer";
 
-import { isActiveElement, isKeyboardTriggered } from "@/packages/Helpers/focus";
+import { isActiveElement, isKeyboardTriggered } from "@/packages/Helpers/focusUtilities";
 
 import classNames from "classnames";
 

@@ -1,4 +1,5 @@
 export * from "./breakpointsMap";
-export * from "./focus";
-export * from "./isInteractiveElement";
+export * from "./focusUtilities";
+export * from "./getPlatform";
+export * from "./keyboardUtilities";
 export * from "./propsToCSSVars";
