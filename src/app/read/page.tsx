@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { HttpFetcher } from "@readium/shared";
 import { Link } from "@readium/shared";
@@ -12,9 +12,22 @@ const Reader = dynamic<{ rawManifest: object; selfHref: string }>(() => import("
 
 import { Loader } from "@/components/Loader";
 
-import { useTheming } from "@/hooks/useTheming";
+import { useTheming } from "@/packages/Hooks";
 
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { ThemeKeys } from "@/models/theme";
+import { PreferencesContext } from "@/preferences";
+import { 
+  setBreakpoint, 
+  setColorScheme, 
+  setContrast, 
+  setForcedColors, 
+  setMonochrome, 
+  setReducedMotion, 
+  setReducedTransparency 
+} from "@/lib";
+
+import { propsToCSSVars } from "@/packages/Helpers";
 
 // TODO page metadata w/ generateMetadata
 
@@ -27,8 +40,31 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
 
   const readerIsLoading = useAppSelector(state => state.reader.isLoading);
 
+  const RSPrefs = useContext(PreferencesContext);
+  const theme = useAppSelector(state => state.theming.theme);
+
+  const dispatch = useAppDispatch();
+
   // Init theming (breakpoints, theme, media queries…)
-  const theming = useTheming();
+  useTheming<Exclude<ThemeKeys, ThemeKeys.auto>>({ 
+    theme: theme,
+    lightKey: ThemeKeys.light,
+    darkKey: ThemeKeys.dark,
+    themeKeys: RSPrefs.theming.themes.keys,
+    breakpointsMap: RSPrefs.theming.breakpoints,
+    initProps: {
+      ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
+      ...propsToCSSVars(RSPrefs.theming.icon, "icon"),
+      ...propsToCSSVars(RSPrefs.theming.layout, "layout")
+    },
+    onBreakpointChange: (breakpoint) => dispatch(setBreakpoint(breakpoint)),
+    onColorSchemeChange: (colorScheme) => dispatch(setColorScheme(colorScheme)),
+    onContrastChange: (contrast) => dispatch(setContrast(contrast)),
+    onForcedColorsChange: (forcedColors) => dispatch(setForcedColors(forcedColors)),
+    onMonochromeChange: (isMonochrome) => dispatch(setMonochrome(isMonochrome)),
+    onReducedMotionChange: (reducedMotion) => dispatch(setReducedMotion(reducedMotion)),
+    onReducedTransparencyChange: (reducedTransparency) => dispatch(setReducedTransparency(reducedTransparency))
+  });
 
   useEffect(() => {
     setIsClient(true);
