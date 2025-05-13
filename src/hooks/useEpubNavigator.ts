@@ -2,7 +2,6 @@
 
 import { useCallback, useContext, useMemo, useRef } from "react";
 
-import Locale from "../resources/locales/en.json";
 import { PreferencesContext } from "@/preferences";
 
 import { ScrollBackTo } from "@/models/preferences";
@@ -28,10 +27,6 @@ import {
 } from "@readium/navigator";
 
 import { ScrollAffordance } from "@/helpers/scrollAffordance";
-import { localData } from "@/packages/Helpers/localData";
-
-import { useAppDispatch } from "@/lib/hooks";
-import { setProgression } from "@/lib/publicationReducer";
 
 type cbb = (ok: boolean) => void;
 
@@ -58,8 +53,6 @@ export const useEpubNavigator = () => {
 
   const scrollAffordanceTop = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.topAffordance, placement: "top" }));
   const scrollAffordanceBottom = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.bottomAffordance, placement: "bottom" }));
-
-  const dispatch = useAppDispatch();
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/edrlab/thorium-web/issues/25
@@ -154,12 +147,6 @@ export const useEpubNavigator = () => {
     return navigatorInstance?.settings[settingKey] as EpubSettings[K];
   }, []);
 
-  const handleProgression = useCallback((locator: Locator) => {
-    const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
-      
-    dispatch(setProgression( { currentPositions: navigatorInstance?.currentPositionNumbers, relativeProgression: locator.locations.progression, currentChapter: relativeRef, totalProgression: locator.locations.totalProgression }));
-  }, [dispatch]);
-
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/edrlab/thorium-web/issues/25
   const scrollBackTo = useCallback((position: ScrollBackTo) => {
@@ -184,20 +171,22 @@ export const useEpubNavigator = () => {
   // observing iframes instead of the style attribute on the spine element
   // but there’s additional complexity to handle as a spread = 2 iframes
   // And keeping in sync while the FramePool is re-aligning on resize can be suboptimal
-  const FXLPositionChanged = useMemo(() => new MutationObserver((mutationsList: MutationRecord[]) => {
-    for (const mutation of mutationsList) {
-      const re = /translate3d\(([^)]+)\)/;
-      const newVal = (mutation.target as HTMLElement).getAttribute(mutation.attributeName as string);
-      const oldVal = mutation.oldValue;
-      if (newVal?.split(re)[1] !== oldVal?.split(re)[1]) {
-        const locator = navigatorInstance?.currentLocator;
-        if (locator) {
-          handleProgression(locator);
-          if (localDataKey.current) localData.set(localDataKey.current, locator)
+  let FXLPositionChangedCallback: ((locator: Locator) => void) | undefined;
+  const FXLPositionChanged = useMemo(() => {  
+    return new MutationObserver((mutationsList: MutationRecord[]) => {
+      for (const mutation of mutationsList) {
+        const re = /translate3d\(([^)]+)\)/;
+        const newVal = (mutation.target as HTMLElement).getAttribute(mutation.attributeName as string);
+        const oldVal = mutation.oldValue;
+        if (newVal?.split(re)[1] !== oldVal?.split(re)[1]) {
+          const locator = navigatorInstance?.currentLocator;
+          if (locator) {
+            FXLPositionChangedCallback?.(locator);
+          }
         }
       }
-    }
-  }), [handleProgression]);
+    });
+  }, [FXLPositionChangedCallback]);
 
   const EpubNavigatorLoad = useCallback((config: IEpubNavigatorConfig, cb: Function) => {
     if (config.container) {
@@ -271,6 +260,10 @@ export const useEpubNavigator = () => {
     return navigatorInstance?.currentLocator;
   }, []);
 
+  const currentPositions = useCallback(() => {
+    return navigatorInstance?.currentPositionNumbers;
+  }, []);
+
   // Warning: this is an internal member that will become private, do not rely on it
   // See https://github.com/edrlab/thorium-web/issues/25
   const getCframes = useCallback(() => {
@@ -289,12 +282,15 @@ export const useEpubNavigator = () => {
     handleScrollAffordances,
     scrollBackTo, 
     listThemeProps, 
-    handleProgression,
     navLayout, 
     currentLocator,
+    currentPositions,
     preferencesEditor: navigatorInstance?.preferencesEditor,
     getSetting,
     submitPreferences,
-    getCframes
+    getCframes,
+    onFXLPositionChange: (cb: (locator: Locator) => void) => {
+      FXLPositionChangedCallback = cb;
+    }
   }
 }
