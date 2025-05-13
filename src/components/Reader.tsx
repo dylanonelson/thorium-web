@@ -653,8 +653,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           positionsList: positionsList,
           initialPosition: initialPosition,
           preferences: preferences,
-          defaults: defaults,
-          localDataKey: localDataKey.current,
+          defaults: defaults
         }, () => p.observe(window));
       })
       .finally(() => {

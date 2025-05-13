@@ -38,7 +38,6 @@ export interface IEpubNavigatorConfig {
   initialPosition?: Locator;
   preferences?: IEpubPreferences;
   defaults?: IEpubDefaults;
-  localDataKey: string;
 }
 
 export const useEpubNavigator = () => {
@@ -46,7 +45,6 @@ export const useEpubNavigator = () => {
   const container = useRef<HTMLDivElement | null>(null);
   const containerParent = useRef<HTMLElement | null>(null);
   const publication = useRef<Publication | null>(null);
-  const localDataKey = useRef<string | null>(null);
 
   const scrollAffordanceTop = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.topAffordance, placement: "top" }));
   const scrollAffordanceBottom = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.bottomAffordance, placement: "bottom" }));
@@ -133,7 +131,6 @@ export const useEpubNavigator = () => {
       containerParent.current = container.current? container.current.parentElement : null;
       
       publication.current = config.publication;
-      localDataKey.current = config.localDataKey;
 
       navigatorInstance = new EpubNavigator(
         config.container, 
