@@ -1,4 +1,4 @@
-import { CSSColor } from "@/preferences/Values";
+import { CSSColor } from "@/preferences/CSSValues";
 
 export enum ThemeKeys {
   auto = "auto",
