@@ -161,6 +161,8 @@ const ThBottomSheetContainer = ({
         <Sheet.Scroller 
           ref={ scrollerRef }
           { ...compounds?.scroller }
+          // This is enabled by default since 4.4 but breaks scroll on focus…
+          autoPadding={ false }
         >
           { Body }
         </Sheet.Scroller>
