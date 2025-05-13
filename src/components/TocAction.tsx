@@ -11,7 +11,7 @@ import { ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsTriggerVariant";
 import { SheetTypes } from "@/models/sheets";
 import { LayoutDirection } from "@/preferences";
-import { TocItem } from "@/models/toc";
+import { TocItem } from "@/packages/Helpers/createTocTree";
 import { DockingKeys } from "@/models/docking";
 
 import tocStyles from "./assets/styles/toc.module.css";

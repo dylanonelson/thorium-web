@@ -16,7 +16,6 @@ import { ThemeKeys } from "@/models/theme";
 import { ICache } from "@/models/reader";
 import { ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions } from "@/models/layout";
 import { defaultLineHeights } from "@/models/settings";
-import { TocItem } from "@/models/toc";
 
 import { I18nProvider } from "react-aria";
 
@@ -57,7 +56,7 @@ import Peripherals from "@/helpers/peripherals";
 import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
 import { localData } from "@/packages/Helpers/localData";
 import { getPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
-import { createTocTree } from "@/helpers/toc/createTocTree";
+import { createTocTree, TocItem } from "@/packages/Helpers/createTocTree";
 
 import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
