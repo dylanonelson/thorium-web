@@ -171,10 +171,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     goForward, 
     scrollBackTo, 
     listThemeProps, 
-    handleProgression,
     navLayout,
     currentLocator,
+    currentPositions,
     getCframes,
+    onFXLPositionChange,
     handleScrollAffordances,
     submitPreferences
   } = useEpubNavigator();
@@ -213,6 +214,27 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       toggleIsImmersive();
     }
   };
+
+  const handleProgression = useCallback((locator: Locator) => {
+    const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
+      
+    dispatch(setProgression( { 
+      currentPositions: currentPositions(), 
+      relativeProgression: locator.locations.progression, 
+      currentChapter: relativeRef, 
+      totalProgression: locator.locations.totalProgression 
+    }));
+  }, [dispatch, currentPositions]);
+
+  // We need this as a workaround due to positionChanged being unreliable
+  // in FXL – if the frame is in the pool hidden and is shown again,
+  // positionChanged won’t fire.
+  const handleFXLProgression = useCallback((locator: Locator) => {
+    handleProgression(locator);
+    localData.set(localDataKey.current, locator);
+  }, [handleProgression]);
+  onFXLPositionChange(handleFXLProgression);
+
 
   const initReadingEnv = async () => {
     if (navLayout() === EPUBLayout.fixed) {
