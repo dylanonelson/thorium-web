@@ -58,7 +58,7 @@ export const ThNumberField = ({
         >
           { steppers.decrementIcon 
             ? <steppers.decrementIcon aria-hidden="true" focusable="false" /> 
-            : <AddIcon aria-hidden="true" focusable="false" /> }
+            : <RemoveIcon aria-hidden="true" focusable="false" /> }
           </Button> 
         }
 
@@ -74,7 +74,7 @@ export const ThNumberField = ({
           >
             { steppers.incrementIcon 
               ? <steppers.incrementIcon aria-hidden="true" focusable="false" /> 
-              : <RemoveIcon aria-hidden="true" focusable="false" /> }
+              : <AddIcon aria-hidden="true" focusable="false" /> }
           </Button>
         }
       </Group>
