@@ -25,7 +25,7 @@ export type BreakpointsMap<T> = {
 
 export type ThBreakpoints = { [key in Breakpoints]: boolean | null } & { current: string | null } & { ranges: ThBreakpointRanges }
 
-export const useBreakpoints = (preferences: BreakpointsMap<number | null>, onChange?: (breakpoint: Breakpoints | null) => void): ThBreakpoints => {
+export const useBreakpoints = (map: BreakpointsMap<number | null>, onChange?: (breakpoint: Breakpoints | null) => void): ThBreakpoints => {
   const [currentBreakpoint, setCurrentBreakpoint] = useState<Breakpoints | null>(null);
 
   const makeMediaString = (range: ThBreakpointRange | null) => {
@@ -76,7 +76,7 @@ export const useBreakpoints = (preferences: BreakpointsMap<number | null>, onCha
     return breakpointRanges;
   };
 
-  const ranges = useMemo(() => initRanges(preferences), [preferences]);
+  const ranges = useMemo(() => initRanges(map), [map]);
 
   const compactMedia = makeMediaString(ranges[Breakpoints.compact]);
   const mediumMedia = makeMediaString(ranges[Breakpoints.medium]);
