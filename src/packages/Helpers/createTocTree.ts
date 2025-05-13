@@ -27,11 +27,21 @@ export function createTocTree(
     const newId = idGenerator();
 
     // Create a plain object for compatibility with Tree components
+    let href = link.href;
+    const fragmentIndex = href.indexOf("#");
+    if (fragmentIndex !== -1) {
+      const baseHref = href.substring(0, fragmentIndex);
+      const duplicateLink = links.find((l) => l.href.startsWith(baseHref) && l.href !== href);
+      if (!duplicateLink) {
+        href = baseHref;
+      }
+    }
+
     const treeNode: TocItem = {
-      id: newId, 
-      href: link.href,
+      id: newId,
+      href: href,
       title: link.title,
-      position: positionsList?.find((position) => position.href === link.href)?.locations.position
+      position: positionsList?.find((position) => position.href === href)?.locations.position
     };
 
     // Recursively process children if they exist
