@@ -9,6 +9,14 @@ import { BottomSheet, IBottomSheet } from "./BottomSheet";
 import { FullScreenSheet, IFullScreenSheet } from "./FullScreenSheet";
 import { DockedSheet, IDockedSheet } from "./DockedSheet";
 
+const componentMap = {
+  [SheetTypes.popover]: PopoverSheet,
+  [SheetTypes.bottomSheet]: BottomSheet,
+  [SheetTypes.fullscreen]: FullScreenSheet,
+  [SheetTypes.dockedStart]: (props: IDockedSheet) => <DockedSheet { ...props } flow={ DockingKeys.start } />,
+  [SheetTypes.dockedEnd]: (props: IDockedSheet) => <DockedSheet { ...props } flow={ DockingKeys.end } />
+};
+
 export const SheetWithType = ({
   sheetType,
   sheetProps,
@@ -18,13 +26,6 @@ export const SheetWithType = ({
   sheetProps: IPopoverSheet | IFullScreenSheet | IDockedSheet | IBottomSheet,
   children: ReactNode
 }) => {
-  const componentMap = {
-    [SheetTypes.popover]: PopoverSheet,
-    [SheetTypes.bottomSheet]: BottomSheet,
-    [SheetTypes.fullscreen]: FullScreenSheet,
-    [SheetTypes.dockedStart]: (props: IDockedSheet) => <DockedSheet { ...props } flow={ DockingKeys.start } />,
-    [SheetTypes.dockedEnd]: (props: IDockedSheet) => <DockedSheet { ...props } flow={ DockingKeys.end } />
-  };
 
   return (
     <TypedComponentRenderer
