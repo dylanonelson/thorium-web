@@ -1,5 +1,5 @@
 import { IProgression } from "../progression";
-import { TocItem } from "../toc";
+import { TocItem } from "@/packages/Helpers/createTocTree";
 
 export interface IPublicationState {
   runningHead?: string;
