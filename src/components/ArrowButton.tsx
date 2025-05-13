@@ -17,7 +17,7 @@ import { usePrevious } from "@/packages/Hooks/usePrevious";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setArrows } from "@/lib/readerReducer";
 
-import { isActiveElement } from "@/packages/Helpers/focus";
+import { isActiveElement } from "@/packages/Helpers/focusUtilities";
 
 import classNames from "classnames";
 

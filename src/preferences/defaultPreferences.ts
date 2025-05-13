@@ -2,7 +2,7 @@
 
 import { IRSPrefs, ScrollAffordancePref, ScrollBackTo } from "../models/preferences";
 import { Breakpoints } from "@/packages/Hooks";
-import { ShortcutMetaKeywords, ShortcutRepresentation } from "../models/shortcut";
+import { ShortcutMetaKeywords, ShortcutRepresentation } from "@/packages/Helpers";
 import { CollapsibilityVisibility } from "@/packages/Components";
 import { ActionKeys } from "../models/actions";
 import { SheetHeaderVariant, SheetTypes } from "../models/sheets";

@@ -1,6 +1,6 @@
 import { LayoutDirection } from "@/preferences";
 import { SettingsContainerKeys } from "../settings";
-import { IPlatformModifier } from "../shortcut";
+import { IPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
 
 export interface IReaderState {
   direction: LayoutDirection;

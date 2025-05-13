@@ -4,10 +4,9 @@ import { defaultPreferences } from "@/preferences";
 import { ActionKeys } from "@/models/actions";
 import { PShortcuts } from "@/models/shortcut";
 
-import { buildShortcut } from "./keyboard/buildShortcut";
+import { buildShortcut, isInteractiveElement } from "@/packages/Helpers";
 
 import { useAppStore } from "@/lib/hooks";
-import { isInteractiveElement } from "@/packages/Helpers/isInteractiveElement";
 
 export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
@@ -31,7 +30,7 @@ export default class Peripherals {
     this.shortcuts = this.retrieveShortcuts();
   }
 
-  private getPlatformModifier() {
+  private getPlatformModifier(): "ctrlKey" | "metaKey" {
     return this.store.getState().reader.platformModifier.modifier;
   }
 

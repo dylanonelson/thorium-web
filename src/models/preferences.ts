@@ -3,7 +3,7 @@ import { IDockingPref } from "./docking";
 import { Constraints, ILayoutDefaults, RSLayoutStrategy } from "./layout";
 import { LayoutDirection } from "@/preferences";
 import { ISettingsSpacingPref, ISettingsTextPref, SettingsKeys, SettingsRangeVariant } from "./settings";
-import { ShortcutRepresentation } from "./shortcut";
+import { ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { IThemeTokens, ThemeKeys } from "./theme";
 import { BreakpointsMap } from "@/packages/Hooks";
 
