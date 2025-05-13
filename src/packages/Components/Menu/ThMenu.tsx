@@ -6,7 +6,8 @@ import { Menu, MenuProps, MenuTrigger, MenuTriggerProps, Popover, PopoverProps }
 
 import { ThMenuButton } from "./ThMenuButton";
 import { ThActionButtonProps } from "../Buttons";
-import { ThActionEntry, ThActionsTriggerVariant } from "../Actions";
+import { ThActionEntry } from "../Actions/ThCollapsibleActionsBar";
+import { ThActionsTriggerVariant } from "../Actions/ThActionsTriggerVariant";
 
 export interface THMenuProps<T> extends MenuProps<ThActionEntry<T>> {
   ref?: React.ForwardedRef<HTMLDivElement>;

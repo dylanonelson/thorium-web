@@ -3,7 +3,7 @@ import React, { useContext, useRef } from "react";
 import { PreferencesContext } from "@/preferences";
 
 import { TooltipProps } from "react-aria-components";
-import { CollapsibilityVisibility } from "@/packages/Components";
+import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "../assets/styles/readerStates.module.css";

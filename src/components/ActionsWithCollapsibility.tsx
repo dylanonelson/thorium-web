@@ -2,10 +2,10 @@ import { useRef } from "react";
 
 import { IActionsWithCollapsibility } from "@/models/actions";
 
-import { ThCollapsibleActionsBar } from "@/packages/Components";
+import { ThCollapsibleActionsBar } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { OverflowMenu } from "./OverflowMenu";
 
-import { useAppSelector } from "@/lib";
+import { useAppSelector } from "@/lib/hooks";
 
 export const ActionsWithCollapsibility = ({
   id, 

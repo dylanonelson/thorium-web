@@ -9,7 +9,9 @@ import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { PopoverProps } from "react-aria-components";
 
-import { ThContainerBody, ThContainerHeader, ThPopover } from "@/packages/Components";
+import { ThPopover } from "@/packages/Components/Containers/ThPopover";
+import { ThContainerHeader } from "@/packages/Components/Containers/ThContainerHeader";
+import { ThContainerBody } from "@/packages/Components/Containers/ThContainerBody";
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 import { Docker } from "./Docking/Docker";
 

@@ -5,7 +5,7 @@ import { IProgression } from "@/models/progression";
 import Locale from "../resources/locales/en.json";
 import progressionStyles from "./assets/styles/progression.module.css";
 
-import { ThProgression } from "@/packages/Components";
+import { ThProgression } from "@/packages/Components/Reader/ThProgression";
 
 import { useAppSelector } from "@/lib/hooks";
 

@@ -6,7 +6,7 @@ import readerStateStyles from "./assets/styles/readerStates.module.css";
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-import { ThFooter } from "@/packages/Components/Reader";
+import { ThFooter } from "@/packages/Components/Reader/ThFooter";
 import { ProgressionOf } from "./ProgressionOf";
 
 export const ReaderFooter = () => {

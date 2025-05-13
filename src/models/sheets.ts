@@ -1,7 +1,7 @@
 import { ReactNode, RefObject } from "react";
 import { ActionsStateKeys } from "./state/actionsState";
 import { DockingKeys } from "./docking";
-import { BreakpointsMap } from "@/packages/Hooks";
+import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 
 export enum SheetTypes {
   popover = "popover",

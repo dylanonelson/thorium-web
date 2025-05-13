@@ -7,7 +7,7 @@ import { IAdvancedDisplayProps } from "@/models/settings";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
-import { ThDropdown } from "@/packages/Components";
+import { ThDropdown } from "@/packages/Components/Settings/ThDropdown";
 
 import { ListBox, ListBoxItem } from "react-aria-components";
 

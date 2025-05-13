@@ -1,6 +1,6 @@
 import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
-import { ThSwitch, ThSwitchProps } from "@/packages/Components/Settings";
+import { ThSwitch, ThSwitchProps } from "@/packages/Components/Settings/ThSwitch";
 
 export interface WrappedSwitchProps extends Omit<ThSwitchProps, "classNames"> {
   standalone?: boolean;

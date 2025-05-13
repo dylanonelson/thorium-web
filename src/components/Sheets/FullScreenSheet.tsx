@@ -7,7 +7,9 @@ import { ISheet, SheetHeaderVariant } from "@/models/sheets";
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
-import { ThContainerBody, ThContainerHeader, ThModal } from "@/packages/Components";
+import { ThModal } from "@/packages/Components/Containers/ThModal";
+import { ThContainerHeader } from "@/packages/Components/Containers/ThContainerHeader";
+import { ThContainerBody } from "@/packages/Components/Containers/ThContainerBody";
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
 

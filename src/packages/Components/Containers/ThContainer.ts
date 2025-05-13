@@ -6,7 +6,7 @@ import { ThContainerHeaderProps } from "./ThContainerHeader";
 import { ThContainerBodyProps } from "./ThContainerBody";
 import { SheetRef } from "react-modal-sheet";
 
-import { UseFirstFocusableProps } from "./hooks";
+import { UseFirstFocusableProps } from "./hooks/useFirstFocusable";
 
 export enum ThContainerHeaderVariant {
   close = "close",

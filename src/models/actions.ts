@@ -1,9 +1,11 @@
 import { ComponentType, ReactNode, RefObject, SVGProps } from "react";
 import { DockingKeys, IDockedPref } from "./docking";
-import { Breakpoints, BreakpointsMap } from "@/packages/Hooks";
+import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ISnappedPref, SheetTypes } from "./sheets";
 import { ActionsStateKeys } from "./state/actionsState";
-import { Collapsibility, CollapsiblePref, CollapsibilityVisibility, ThActionsTriggerVariant, ThActionEntry } from "@/packages/Components";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsTriggerVariant";
+import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { Collapsibility, CollapsiblePref, CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 
 export enum ActionKeys {
   fullscreen = "fullscreen",

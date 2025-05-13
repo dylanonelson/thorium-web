@@ -12,7 +12,7 @@ const Reader = dynamic<{ rawManifest: object; selfHref: string }>(() => import("
 
 import { Loader } from "@/components/Loader";
 
-import { useTheming } from "@/packages/Hooks";
+import { useTheming } from "@/packages/Hooks/useTheming";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ThemeKeys } from "@/models/theme";
@@ -25,9 +25,9 @@ import {
   setMonochrome, 
   setReducedMotion, 
   setReducedTransparency 
-} from "@/lib";
+} from "@/lib/themeReducer";
 
-import { propsToCSSVars } from "@/packages/Helpers";
+import { propsToCSSVars } from "@/packages/Helpers/propsToCSSVars";
 
 // TODO page metadata w/ generateMetadata
 

@@ -9,7 +9,7 @@ import {
   IActionComponentContainer, 
   IActionComponentTrigger 
 } from "@/models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsTriggerVariant";
 import { 
   defaultSpacingSettingsMain, 
   defaultSpacingSettingsSubpanel, 

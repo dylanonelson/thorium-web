@@ -9,7 +9,7 @@ import Locale from "../resources/locales/en.json";
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
-import { Breakpoints } from "@/packages/Hooks";
+import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
 import { ScrollBackTo } from "@/models/preferences";
 import { ActionKeys } from "@/models/actions";
 import { ThemeKeys } from "@/models/theme";

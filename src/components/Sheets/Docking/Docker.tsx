@@ -16,7 +16,7 @@ import { ActionsWithCollapsibility } from "@/components/ActionsWithCollapsibilit
 import { DockStartAction } from "./DockStartAction";
 import { DockEndAction } from "./DockEndAction";
 import { PopoverSheetAction } from "./PopoverSheetAction";
-import { ThActionEntry } from "@/packages/Components";
+import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
 const DockingActionsMap: { [key in DockingKeys]: IActionsMapObject } = {
   [DockingKeys.start]: {

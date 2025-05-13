@@ -10,12 +10,13 @@ import { LayoutDirection } from "@/preferences";
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
+import { ThDockedPanel } from "@/packages/Components/Containers/ThDockedPanel";
+import { ThContainerHeader } from "@/packages/Components/Containers/ThContainerHeader";
+import { ThContainerBody } from "@/packages/Components/Containers/ThContainerBody";
 import { Docker } from "./Docking/Docker";
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 
 import { useAppSelector } from "@/lib/hooks";
-
-import { ThContainerBody, ThContainerHeader, ThDockedPanel } from "@/packages/Components";
 
 import classNames from "classnames";
 

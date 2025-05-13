@@ -4,7 +4,8 @@ import { defaultPreferences } from "@/preferences";
 import { ActionKeys } from "@/models/actions";
 import { PShortcuts } from "@/models/shortcut";
 
-import { buildShortcut, isInteractiveElement } from "@/packages/Helpers";
+import { buildShortcut } from "@/packages/Helpers/keyboardUtilities";
+import { isInteractiveElement } from "@/packages/Helpers/focusUtilities";
 
 import { useAppStore } from "@/lib/hooks";
 

@@ -8,7 +8,9 @@ import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
 import MenuIcon from "./assets/icons/more_vert.svg";
 
-import { CollapsibilityVisibility, ThMenu } from "@/packages/Components";
+import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
+import { ThMenu } from "@/packages/Components/Menu/ThMenu";
+
 import { ActionIcon } from "./ActionTriggers/ActionIcon";
 
 import { useAppDispatch } from "@/lib/hooks";

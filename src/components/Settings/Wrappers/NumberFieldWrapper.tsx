@@ -1,7 +1,7 @@
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
-import { ThNumberField, ThNumberFieldProps } from "@/packages/Components/Settings";
+import { ThNumberField, ThNumberFieldProps } from "@/packages/Components/Settings/ThNumberField";
 
 import classNames from "classnames";
 
