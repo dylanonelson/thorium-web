@@ -22,6 +22,7 @@ import { setActionOpen } from "@/lib/actionsReducer";
 import { setTheme } from "@/lib/themeReducer";
 
 import classNames from "classnames";
+import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
 
 export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
   const RSPrefs = useContext(PreferencesContext);
@@ -37,14 +38,20 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
 
   const dispatch = useAppDispatch();
 
-  const { listThemeProps, submitPreferences } = useEpubNavigator();
+  const { submitPreferences } = useEpubNavigator();
 
   const updatePreference = useCallback(async (value: ThemeKeys) => {
-    const themeProps = listThemeProps(value, colorScheme);
+    const themeProps = buildThemeObject<Exclude<ThemeKeys, ThemeKeys.auto>>({
+      theme: value,
+      themeKeys: RSPrefs.theming.themes.keys,
+      lightTheme: ThemeKeys.light,
+      darkTheme: ThemeKeys.dark,
+      colorScheme
+    })
     await submitPreferences(themeProps);
 
     dispatch(setTheme(value));
-  }, [listThemeProps, submitPreferences, dispatch, colorScheme]);
+  }, [RSPrefs.theming.themes.keys, submitPreferences, dispatch, colorScheme]);
 
   // It’s easier to inline styles from preferences for these
   // than spamming the entire app with all custom properties right now

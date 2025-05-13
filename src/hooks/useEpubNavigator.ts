@@ -5,8 +5,6 @@ import { useCallback, useContext, useMemo, useRef } from "react";
 import { PreferencesContext } from "@/preferences";
 
 import { ScrollBackTo } from "@/models/preferences";
-import { ThemeKeys } from "@/models/theme";
-import { ColorScheme } from "@/packages/Hooks/useColorScheme";
 
 import { 
   EPUBLayout, 
@@ -22,8 +20,7 @@ import {
   FrameManager, 
   FXLFrameManager, 
   IEpubDefaults, 
-  IEpubPreferences, 
-  Theme 
+  IEpubPreferences
 } from "@readium/navigator";
 
 import { ScrollAffordance } from "@/helpers/scrollAffordance";
@@ -80,64 +77,6 @@ export const useEpubNavigator = () => {
     if (navigatorInstance === null || navigatorInstance.layout === EPUBLayout.fixed) return;
     scroll ? mountScroll() : unmountScroll();
   }, [mountScroll, unmountScroll]);
-
-  const listThemeProps = useCallback((t: ThemeKeys, colorScheme?: ColorScheme) => {
-    if (t === ThemeKeys.auto && colorScheme) {
-      t = colorScheme === ColorScheme.dark ? ThemeKeys.dark : ThemeKeys.light;
-    }
-
-    let themeProps = {};
-
-    switch(t) {
-      case ThemeKeys.auto:
-        break;
-      case ThemeKeys.light:
-        themeProps = {
-          theme: Theme.day,
-          backgroundColor: null,
-          textColor: null,
-          linkColor: null,
-          selectionBackgroundColor: null,
-          selectionTextColor: null,
-          visitedColor: null
-        };
-        break;
-      case ThemeKeys.sepia:
-        themeProps = {
-          theme: Theme.sepia,
-          backgroundColor: null,
-          textColor: null,
-          linkColor: null,
-          selectionBackgroundColor: null,
-          selectionTextColor: null,
-          visitedColor: null
-        };
-        break;
-      case ThemeKeys.dark:
-        themeProps = {
-          theme: Theme.night,
-          backgroundColor: null,
-          textColor: null,
-          linkColor: null,
-          selectionBackgroundColor: null,
-          selectionTextColor: null,
-          visitedColor: null
-        };
-        break;
-      default:
-        themeProps = {
-          theme: Theme.custom,
-          backgroundColor: RSPrefs.theming.themes.keys[t].background,
-          textColor: RSPrefs.theming.themes.keys[t].text,
-          linkColor: RSPrefs.theming.themes.keys[t].link,
-          selectionBackgroundColor: RSPrefs.theming.themes.keys[t].select,
-          selectionTextColor: RSPrefs.theming.themes.keys[t].onSelect,
-          visitedColor: RSPrefs.theming.themes.keys[t].visited
-        };
-        break;
-    }
-    return themeProps;
-  }, [RSPrefs.theming.themes.keys]);
 
   const submitPreferences = useCallback(async (preferences: IEpubPreferences) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences(preferences));
@@ -281,7 +220,6 @@ export const useEpubNavigator = () => {
     go, 
     handleScrollAffordances,
     scrollBackTo, 
-    listThemeProps, 
     navLayout, 
     currentLocator,
     currentPositions,

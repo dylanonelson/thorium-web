@@ -12,7 +12,7 @@ const Reader = dynamic<{ rawManifest: object; selfHref: string }>(() => import("
 
 import { Loader } from "@/components/Loader";
 
-import { useTheming } from "@/packages/Hooks/useTheming";
+import { useTheming } from "@/preferences/hooks/useTheming";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ThemeKeys } from "@/models/theme";

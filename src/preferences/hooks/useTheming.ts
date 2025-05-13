@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef } from "react";
 
+import { CSSColor } from "../CSSValues";
+
 import { BreakpointsMap, Breakpoints, useBreakpoints } from "@/packages/Hooks/useBreakpoints";
 import { useReducedMotion } from "@/packages/Hooks/useReducedMotion";
 import { useReducedTransparency } from "@/packages/Hooks/useReducedTransparency";
@@ -12,11 +14,27 @@ import { useMonochrome } from "@/packages/Hooks/useMonochrome";
 
 import { propsToCSSVars } from "@/packages/Helpers/propsToCSSVars";
 
+export interface ThemeTokens {
+  background: CSSColor;
+  text: CSSColor;
+  link: CSSColor;
+  visited: CSSColor;
+  subdue: CSSColor;
+  disable: CSSColor;
+  hover: CSSColor;
+  onHover: CSSColor;
+  select: CSSColor;
+  onSelect: CSSColor;
+  focus: CSSColor;
+  elevate: string;
+  immerse: string;
+};
+
 export interface useThemingProps<T extends string> {
   theme: T | "auto";
   lightKey: T;
   darkKey: T;
-  themeKeys: Record<T, any>;
+  themeKeys: Record<T, ThemeTokens>;
   breakpointsMap: BreakpointsMap<number | null>;
   initProps?: Record<string, any>;
   onBreakpointChange?: (breakpoint: Breakpoints | null) => void;
