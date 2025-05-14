@@ -1,16 +1,15 @@
-import { IActionsState } from "@/models/state/actionsState";
 import { DockingKeys } from "@/models/docking";
 
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import readerReducer from "@/lib/readerReducer";
 import settingsReducer from "@/lib/settingsReducer";
 import themeReducer from "@/lib/themeReducer";
-import actionsReducer from "@/lib/actionsReducer";
+import actionsReducer, { ActionsReducerState } from "@/lib/actionsReducer";
 import publicationReducer from "./publicationReducer";
 
 import debounce from "debounce";
 
-const updateActionsState = (state: IActionsState) => {
+const updateActionsState = (state: ActionsReducerState) => {
   const updatedKeys = Object.fromEntries(
     Object.entries(state.keys).map(([key, value]) => [
       key,

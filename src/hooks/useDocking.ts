@@ -5,7 +5,7 @@ import { PreferencesContext } from "@/preferences";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { DockTypes, DockingKeys } from "@/models/docking";
 import { SheetTypes } from "@/models/sheets";
-import { ActionsStateKeys } from "@/models/state/actionsState";
+import { ActionsStateKeys } from "@/lib/actionsReducer";
 import { ActionKeys } from "@/models/actions";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

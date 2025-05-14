@@ -1,10 +1,89 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { ActionKeys } from "@/models/actions";
-import { ActionsStateKeys, IActionOverflowOpenPayload, IActionsState, IActionStateDockPayload, IActionStateOpenPayload, IActionStateSlotPayload, IActionStateSlotWidthPayload, IActionStateTogglePayload } from "@/models/state/actionsState";
-import { DockingKeys } from "@/models/docking";
+import { Docked, DockingKeys } from "@/models/docking";
 
-const initialState: IActionsState = {
+export type ActionsStateKeys = Exclude<ActionKeys, ActionKeys.fullscreen>;
+export type OverflowStateKeys = string;
+
+export interface ActionStateObject {
+  isOpen: boolean | null;
+  docking: DockingKeys | null;
+  dockedWidth?: number;
+}
+
+export interface OverflowStateObject {
+  isOpen: boolean;
+}
+
+export interface ActionStateDockPayload {
+  type: string;
+  payload: {
+    key: ActionsStateKeys;
+    dockingKey: DockingKeys;
+  }
+}
+
+export interface ActionStateOpenPayload {
+  type: string;
+  payload: {
+    key: ActionsStateKeys;
+    isOpen: boolean;
+  }
+}
+
+export interface ActionStateTogglePayload {
+  type: string;
+  payload: {
+    key: ActionsStateKeys
+  }
+}
+
+export interface ActionOverflowOpenPayload {
+  type: string;
+  payload: {
+    key: OverflowStateKeys;
+    isOpen: boolean;
+  }
+}
+
+export interface ActionStateDockedPayload {
+  type: string;
+  payload: { 
+    slot: DockingKeys.start | DockingKeys.end;
+    docked: Docked;
+  }
+}
+
+export interface ActionStateSlotPayload {
+  type: string;
+  payload: DockingKeys.start | DockingKeys.end;
+}
+
+export interface ActionStateSlotWidthPayload {
+  type: string;
+  payload: { 
+    key: DockingKeys.start | DockingKeys.end;
+    width: number;
+  }
+}
+
+export interface DockState {
+  [DockingKeys.start]: Docked;
+  [DockingKeys.end]: Docked;
+}
+
+export type ActionsReducerState = {
+  keys: {
+    [key in ActionsStateKeys]: ActionStateObject;
+  };
+  dock: DockState,
+  overflow: {
+    [key in OverflowStateKeys]: OverflowStateObject;
+  }
+}
+
+const initialState: ActionsReducerState = {
   dock: {
     [DockingKeys.start]: {
       actionKey: null,
@@ -42,7 +121,7 @@ export const actionsSlice = createSlice({
   name: "actions",
   initialState,
   reducers: {
-    dockAction: (state, action: IActionStateDockPayload) => {
+    dockAction: (state, action: ActionStateDockPayload) => {
       switch (action.payload.key) {
         case ActionKeys.jumpToPosition:
         case ActionKeys.toc:
@@ -136,7 +215,7 @@ export const actionsSlice = createSlice({
         docking: action.payload.dockingKey 
       };
     },
-    setActionOpen: (state, action: IActionStateOpenPayload) => {      
+    setActionOpen: (state, action: ActionStateOpenPayload) => {      
       switch (action.payload.key) {
         case ActionKeys.jumpToPosition:
         case ActionKeys.toc:
@@ -170,7 +249,7 @@ export const actionsSlice = createSlice({
           break;
       }
     },
-    toggleActionOpen: (state, action: IActionStateTogglePayload) => {
+    toggleActionOpen: (state, action: ActionStateTogglePayload) => {
       switch (action.payload.key) {
         case ActionKeys.jumpToPosition:
         case ActionKeys.toc:
@@ -188,41 +267,41 @@ export const actionsSlice = createSlice({
           break; 
       }
     },
-    setOverflow: (state, action: IActionOverflowOpenPayload) => {
+    setOverflow: (state, action: ActionOverflowOpenPayload) => {
       state.overflow[action.payload.key] = {
         ...state.overflow[action.payload.key],
         isOpen: action.payload.isOpen 
       }
     },
-    activateDockPanel: (state, action: IActionStateSlotPayload) => {
+    activateDockPanel: (state, action: ActionStateSlotPayload) => {
       state.dock[action.payload] = {
         ...state.dock[action.payload],
         active: true
       }
     },
-    deactivateDockPanel: (state, action: IActionStateSlotPayload) => {
+    deactivateDockPanel: (state, action: ActionStateSlotPayload) => {
       state.dock[action.payload] = {
         ...state.dock[action.payload],
         active: false
       }
     },
-    collapseDockPanel: (state, action: IActionStateSlotPayload) => {
+    collapseDockPanel: (state, action: ActionStateSlotPayload) => {
       state.dock[action.payload] = {
         ...state.dock[action.payload],
         collapsed: true
       }
     },
-    expandDockPanel: (state, action: IActionStateSlotPayload) => {
+    expandDockPanel: (state, action: ActionStateSlotPayload) => {
       state.dock[action.payload] = {
         ...state.dock[action.payload],
         collapsed: false
       }
     },
-    setDockPanelWidth: (state, action: IActionStateSlotWidthPayload) => {
+    setDockPanelWidth: (state, action: ActionStateSlotWidthPayload) => {
       // Copy the value in the action state 
       // in case we do something with it later.
 
-      const key = state.dock[action.payload.key].actionKey;
+      const key: ActionsStateKeys | null = state.dock[action.payload.key].actionKey;
       if (key) {
         state.keys[key] = {
           ...state.keys[key],

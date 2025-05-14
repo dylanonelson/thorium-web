@@ -10,7 +10,7 @@ import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from "rea
 
 import { DockTypes, DockingKeys, IDockPanelSizes } from "@/models/docking";
 import { LayoutDirection } from "@/preferences/preferences";
-import { ActionsStateKeys } from "@/models/state/actionsState";
+import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 import { useRezisablePanel } from "@/hooks/useRezisablePanel";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

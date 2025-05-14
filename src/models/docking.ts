@@ -1,6 +1,6 @@
 import { IActionTokens } from "./actions";
 import { Collapsibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
-import { ActionsStateKeys } from "./state/actionsState";
+import { ActionsStateKeys } from "@/lib/actionsReducer";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 
 export interface IDocker {

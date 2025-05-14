@@ -1,10 +1,11 @@
 import { ComponentType, ReactNode, RefObject, SVGProps } from "react";
 import { DockingKeys, IDockedPref } from "./docking";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
-import { ISnappedPref, SheetTypes } from "./sheets";
-import { ActionsStateKeys } from "./state/actionsState";
+import { SheetTypes } from "./sheets";
 import { ThActionEntry, ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { Collapsibility, CollapsiblePref, CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
+import { SnappedPref } from "@/components/Sheets/BottomSheet";
+import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 export enum ActionKeys {
   fullscreen = "fullscreen",
@@ -69,7 +70,7 @@ export interface IActionTokens {
     breakpoints: BreakpointsMap<SheetTypes>;
   };
   docked?: IDockedPref;
-  snapped?: ISnappedPref;
+  snapped?: SnappedPref;
 };
 
 export interface IActionPref {

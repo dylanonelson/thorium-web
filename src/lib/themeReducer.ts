@@ -1,11 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { IThemeState } from "@/models/state/themingState";
 import { ThemeKeys } from "@/models/theme";
 import { ColorScheme } from "@/packages/Hooks/useColorScheme";
 import { Contrast } from "@/packages/Hooks/useContrast";
+import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
 
-const initialState: IThemeState = {
+export interface ThemeReducerStates {
+  monochrome: boolean;
+  colorScheme: ColorScheme;
+  theme: ThemeKeys;
+  prefersReducedMotion: boolean;
+  prefersReducedTransparency: boolean;
+  prefersContrast: Contrast;
+  forcedColors: boolean;
+  breakpoint?: Breakpoints;
+}
+
+const initialState: ThemeReducerStates = {
   monochrome: false,
   colorScheme: ColorScheme.light,
   theme: ThemeKeys.auto,

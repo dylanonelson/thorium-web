@@ -1,7 +1,7 @@
 import { ReactNode, RefObject } from "react";
-import { ActionsStateKeys } from "./state/actionsState";
 import { DockingKeys } from "./docking";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
+import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 export enum SheetTypes {
   popover = "popover",
@@ -31,19 +31,4 @@ export interface ISheet {
   dismissEscapeKeyClose?: boolean;
 }
 
-export type BottomSheetDetent = "content-height" | "full-height";
-
-export interface ISnappedPref {
-  scrim?: boolean | string;
-  maxWidth?: number | null;
-  maxHeight?: number | BottomSheetDetent;
-  peekHeight?: number | BottomSheetDetent;
-  minHeight?: number | BottomSheetDetent;
-}
-
 export type SheetPref = BreakpointsMap<SheetTypes> | boolean;
-
-export interface IScrimPref {
-  active: boolean;
-  override?: string;
-}

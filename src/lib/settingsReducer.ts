@@ -1,9 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ReadingDisplayAlignOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
-import { ISettingsState } from "@/models/state/settingsState";
+import { 
+  ReadingDisplayAlignOptions, 
+  ReadingDisplayFontFamilyOptions, 
+  ReadingDisplayLineHeightOptions, 
+  RSLayoutStrategy 
+} from "@/models/layout";
 
-const initialState: ISettingsState = {
+export interface SettingsReducerState {
+  columnCount: string;
+  fontFamily: keyof typeof ReadingDisplayFontFamilyOptions;
+  fontSize: number;
+  fontWeight: number;
+  hyphens: boolean | null;
+  layoutStrategy: RSLayoutStrategy;
+  letterSpacing: number | null;
+  lineHeight: ReadingDisplayLineHeightOptions;
+  lineLength: number | null;
+  tmpLineLengths: number[];
+  tmpMaxChars: boolean;
+  tmpMinChars: boolean;
+  paragraphIndent: number | null;
+  paragraphSpacing: number | null;
+  publisherStyles: boolean;
+  scroll: boolean;
+  textAlign: ReadingDisplayAlignOptions;
+  textNormalization: boolean;
+  wordSpacing: number | null;
+}
+
+const initialState: SettingsReducerState = {
   columnCount: "auto",
   fontFamily: "publisher",
   fontSize: 1,
