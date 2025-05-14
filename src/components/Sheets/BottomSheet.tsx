@@ -4,7 +4,7 @@ import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { BottomSheetDetent, IScrimPref, ISheet, SheetHeaderVariant } from "@/models/sheets";
+import { ISheet, SheetHeaderVariant } from "@/models/sheets";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
@@ -23,176 +23,26 @@ import classNames from "classnames";
 
 export interface IBottomSheet extends ISheet {};
 
+export type BottomSheetDetent = "content-height" | "full-height";
+
+export interface SnappedPref {
+  scrim?: boolean | string;
+  maxWidth?: number | null;
+  maxHeight?: number | BottomSheetDetent;
+  peekHeight?: number | BottomSheetDetent;
+  minHeight?: number | BottomSheetDetent;
+}
+
+export interface ScrimPref {
+  active: boolean;
+  override?: string;
+}
+
 const DEFAULT_SNAPPOINTS = {
   min: 0.3,
   peek: 0.5,
   max: 1
 }
-
-/*
-const BottomSheetContainer = ({
-  sheetState,
-  className,
-  heading,
-  headerVariant, 
-  onClosePressCallback,
-  onDragPressCallback,
-  onDragKeyCallback,
-  isDraggable, 
-  hasDetent, 
-  dismissEscapeKeyClose,
-  maxWidth, 
-  scrimPref, 
-  sheetRef,
-  sheetContainerRef,
-  bottomSheetBodyRef,
-  bottomSheetCloseRef,
-  children
-}: {
-  sheetState: OverlayTriggerState;
-  className: string;
-  heading: string;
-  headerVariant?: SheetHeaderVariant;
-  onClosePressCallback: () => void;
-  onDragPressCallback: () => void;
-  onDragKeyCallback: (event: KeyboardEvent) => void;
-  isDraggable: boolean;
-  hasDetent: BottomSheetDetent;
-  dismissEscapeKeyClose?: boolean;
-  maxWidth?: string;
-  scrimPref: IScrimPref;
-  sheetRef: RefObject<SheetRef | null>;
-  sheetContainerRef: RefObject<HTMLDivElement | null>;
-  bottomSheetBodyRef: RefObject<HTMLDivElement | null>;
-  bottomSheetCloseRef: RefObject<HTMLButtonElement | null>;
-  children: ReactNode;
-}) => {
-  const dialog = useDialog({}, sheetContainerRef);
-  const overlay = useOverlay({ 
-    onClose: sheetState.close, 
-    isOpen: true, 
-    isDismissable: true,
-    isKeyboardDismissDisabled: dismissEscapeKeyClose
-  }, sheetContainerRef);
-
-  const closeButton = useButton({}, bottomSheetCloseRef);
-  const [isFullScreen, setFullScreen] = useState<boolean>(false);
-
-  useModal();
-
-  const detentClassName = useMemo(() => {
-    let className = "";
-    if (hasDetent === "content-height") {
-      className = sheetStyles.bottomSheetModalContentHeightDetent;
-    } else {
-      className = sheetStyles.bottomSheetModalFullHeightDetent;
-    }
-    return className;
-  }, [hasDetent]);
-
-  const scrimClassName = useMemo(() => {
-    return scrimPref.active ? sheetStyles.bottomSheetScrim : "";
-  }, [scrimPref]);
-
-  const fullscreenClassName = useMemo(() => {
-    return isFullScreen ? sheetStyles.bottomSheetModalFullHeightReached : "";
-  }, [isFullScreen]);
-
-  const fullScreenIntersectionCallback = useCallback((entries: IntersectionObserverEntry[]) => {
-    entries.forEach( (entry) => {
-      if (
-          entry.isIntersecting && 
-          entry.intersectionRatio === 1 && 
-          // For some reason width is larger on mobile (and border-right is almost invisible)…
-          entry.boundingClientRect.width >= window.innerWidth && 
-          hasDetent === "full-height"
-        ) {
-        setFullScreen(true);
-      } else {
-        setFullScreen(false);
-      }
-    });
-  }, [hasDetent, setFullScreen]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(fullScreenIntersectionCallback, {
-      threshold: 1.0
-    });
-    sheetContainerRef.current && observer.observe(sheetContainerRef.current);
-
-    return () => {
-      observer.disconnect();
-    }
-  });
-
-  return (
-    <>
-    <Sheet.Container 
-      className={ classNames(sheetStyles.bottomSheetModal, detentClassName, fullscreenClassName ) } 
-      ref={ sheetContainerRef }
-      { ...overlay.overlayProps as any}
-      { ...dialog.dialogProps }
-      { ...(maxWidth ? { style: { "--constraints-bottomSheet": maxWidth }}: {}) }
-    >
-      <Sheet.Header>
-        { isDraggable && 
-          <ThDragIndicatorButton 
-            className={ sheetStyles.dragIndicator }
-            onPress={ onDragPressCallback } 
-            onKeyUp={ onDragKeyCallback }
-          /> 
-        }
-        <div className={ sheetStyles.bottomSheetHeader }>
-          <Heading 
-            slot="title" 
-            className={ sheetStyles.sheetHeading }
-            { ...dialog.titleProps }
-          >
-            { heading }
-          </Heading>
-
-          { headerVariant === SheetHeaderVariant.previous 
-            ? <ThNavigationButton 
-              direction={ direction === "ltr" ? "left" : "right" }
-              label={ Locale.reader.app.back.trigger }
-              ref={ bottomSheetCloseRef }
-              className={ classNames(className, readerSharedUI.backButton) } 
-              aria-label={ Locale.reader.app.back.trigger }
-              onPress={ onClosePressCallback }
-            /> 
-            : <ThCloseButton
-              ref={ bottomSheetCloseRef }
-              className={ readerSharedUI.closeButton } 
-              aria-label={ Locale.reader.app.docker.close.trigger } 
-              onPress={ onClosePressCallback }
-              { ...closeButton }
-            />
-          }
-        </div>
-      </Sheet.Header>
-      <Sheet.Content 
-        className={ classNames(sheetStyles.bottomSheet, className) }
-        disableDrag={ true } 
-        { ...(isDraggable ? { style: { paddingBottom: sheetRef.current?.y }} : {} )}
-      >
-        <Sheet.Scroller 
-          ref={ bottomSheetBodyRef }
-          draggable={ false }
-          className={ classNames(sheetStyles.bottomSheetScroller, sheetStyles.sheetBody) }
-        >
-          { children }
-        </Sheet.Scroller>
-      </Sheet.Content>
-    </Sheet.Container>
-    <Sheet.Backdrop 
-      className={ classNames(sheetStyles.bottomSheetBackdrop, scrimClassName) } 
-      { ...(scrimPref.override ? { style: { "--defaults-scrim": scrimPref.override }} : {}) }
-    />
-    </>
-  )
-}
-
-*/
 
 export const BottomSheet: React.FC<IBottomSheet> = ({
   id,
@@ -373,7 +223,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   }, [id, RSPrefs.actions.keys]);
 
   const scrimPref = useMemo(() => {
-    let scrimPref: IScrimPref = {
+    let scrimPref: ScrimPref = {
       active: false,
       override: undefined
     }

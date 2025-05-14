@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { IProgression } from "@/models/progression";
-
 import Locale from "../resources/locales/en.json";
 import progressionStyles from "./assets/styles/progression.module.css";
 
@@ -11,9 +9,18 @@ import { useAppSelector } from "@/lib/hooks";
 
 import parseTemplate from "json-templates";
 
+export interface ProgressionObject {
+  totalPositions?: number;
+  currentPositions?: number[];
+  relativeProgression?: number;
+  currentChapter?: string;
+  totalProgression?: number;
+  currentPublication?: string;
+}
+
 export const ProgressionOf = () => {
   const jsonTemplate = parseTemplate(Locale.reader.app.progression.of);
-  const progression: IProgression = useAppSelector(state => state.publication.progression);
+  const progression: ProgressionObject = useAppSelector(state => state.publication.progression);
 
   const [current, setCurrent] = useState("");
   const [reference, setReference] = useState("");

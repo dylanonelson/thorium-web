@@ -1,11 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { IReaderState } from "@/models/state/readerState";
-import { defaultPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
+import { defaultPlatformModifier, IPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
 import { LayoutDirection } from "@/preferences/preferences";
 import { SettingsContainerKeys } from "@/models/settings";
 
-const initialState: IReaderState = {
+export interface ReaderReducerState {
+  direction: LayoutDirection;
+  isLoading: boolean;
+  isImmersive: boolean;
+  isHovering: boolean;
+  hasArrows: boolean;
+  isFullscreen: boolean;
+  settingsContainer: SettingsContainerKeys;
+  platformModifier: IPlatformModifier;
+}
+
+const initialState: ReaderReducerState = {
   direction: LayoutDirection.ltr,
   isLoading: true,
   isImmersive: false,

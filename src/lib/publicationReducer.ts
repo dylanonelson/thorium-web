@@ -1,7 +1,20 @@
-import { IPublicationState } from "@/models/state/publicationState";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: IPublicationState = {
+import { ProgressionObject } from "@/components/ProgressionOf";
+import { TocItem } from "@/packages/Helpers/createTocTree";
+
+export interface PublicationReducerState {
+  runningHead?: string;
+  isFXL: boolean;
+  isRTL: boolean;
+  progression: ProgressionObject;
+  atPublicationStart: boolean;
+  atPublicationEnd: boolean;
+  tocTree?: TocItem[];
+  tocEntry?: string;
+}
+
+const initialState: PublicationReducerState = {
   runningHead: undefined,
   isFXL: false,
   isRTL: false,
