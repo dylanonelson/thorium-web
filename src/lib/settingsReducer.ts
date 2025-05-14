@@ -5,7 +5,7 @@ import {
   ReadingDisplayFontFamilyOptions, 
   ReadingDisplayLineHeightOptions 
 } from "@/models/layout";
-import { ThLayoutStrategy } from "@/preferences/preferences";
+import { ThLayoutStrategy } from "@/preferences/models/enums";
 
 export interface SettingsReducerState {
   columnCount: string;

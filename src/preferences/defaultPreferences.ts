@@ -14,11 +14,11 @@ import {
   ScrollBackTo, 
   SettingsKeys, 
   SheetTypes, 
-  ThemeKeys, 
-  ThPreferences, 
+  ThemeKeys,  
   ThLayoutDirection,
   ThLayoutStrategy
-} from "./preferences";
+} from "./models/enums";
+import { ThPreferences } from "./preferences";
 
 import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";

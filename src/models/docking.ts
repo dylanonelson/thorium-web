@@ -2,7 +2,7 @@ import { IActionTokens } from "./actions";
 import { Collapsibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
-import { DockingKeys, DockingTypes } from "@/preferences/preferences";
+import { DockingKeys, DockingTypes } from "@/preferences/models/enums";
 
 export interface IDocker {
   id: ActionsStateKeys;

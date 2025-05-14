@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ThemeKeys } from "@/preferences/preferences";
+import { ThemeKeys } from "@/preferences/models/enums";
 import { ColorScheme } from "@/packages/Hooks/useColorScheme";
 import { Contrast } from "@/packages/Hooks/useContrast";
 import { Breakpoints } from "@/packages/Hooks/useBreakpoints";

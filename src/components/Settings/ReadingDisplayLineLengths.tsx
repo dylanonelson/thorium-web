@@ -2,7 +2,7 @@ import { useCallback, useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
-import { ThLayoutStrategy } from "@/preferences/preferences";
+import { ThLayoutStrategy } from "@/preferences/models/enums";
 
 import Locale from "../../resources/locales/en.json";
 

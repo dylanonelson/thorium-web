@@ -10,7 +10,7 @@ import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
 import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
-import { ActionKeys, ScrollBackTo, SettingsKeys, ThemeKeys, ThLayoutStrategy } from "@/preferences/preferences";
+import { ActionKeys, ScrollBackTo, SettingsKeys, ThemeKeys, ThLayoutStrategy } from "@/preferences/models/enums";
 import { ReadingDisplayAlignOptions, ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions } from "@/models/layout";
 import { defaultLineHeights } from "@/models/settings";
 import { ColorScheme } from "@/packages/Hooks/useColorScheme";
