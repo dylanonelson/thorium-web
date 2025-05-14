@@ -14,7 +14,7 @@ import ZoomIn from "../assets/icons/zoom_in.svg";
 import { SliderWrapper } from "./Wrappers/SliderWrapper";
 import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontSize } from "@/lib/settingsReducer";

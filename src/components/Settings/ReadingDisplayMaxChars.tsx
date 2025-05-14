@@ -10,7 +10,7 @@ import settingsStyles from "../assets/styles/readerSettings.module.css";
 
 import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTmpMaxChars } from "@/lib/settingsReducer";

@@ -8,7 +8,7 @@ import TwoColsIcon from "../assets/icons/menu_book.svg";
 
 import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setColumnCount } from "@/lib/settingsReducer";

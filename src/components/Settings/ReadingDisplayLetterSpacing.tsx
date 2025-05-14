@@ -13,7 +13,7 @@ import {
 import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 import { SliderWrapper } from "./Wrappers/SliderWrapper";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLetterSpacing, setPublisherStyles } from "@/lib/settingsReducer";
