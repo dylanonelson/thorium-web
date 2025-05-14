@@ -2,16 +2,16 @@ import { ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ThemeTokens } from "@/preferences/hooks/useTheming";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
-import { ILayoutDefaults, ReadingDisplayLineHeightOptions } from "@/models/layout";
+import { ILayoutDefaults } from "@/models/layout";
 import { IActionPref } from "@/models/actions";
 import { IDockingPref } from "@/models/docking";
 import { ISettingsRangePref, ISettingsGroupPref, SettingsRangeVariant } from "@/models/settings";
-import { ScrollBackTo, SettingsKeys, SheetTypes, ThemeKeys, ThLayoutDirection, ThLayoutStrategy } from "./models/enums";
+import { LineHeightOptions, ScrollBackTo, SettingsKeys, SheetTypes, ThemeKeys, ThLayoutDirection, ThLayoutStrategy } from "./models/enums";
 
 export type SettingsKeyTypes = {
   [SettingsKeys.letterSpacing]?: ISettingsRangePref;
   [SettingsKeys.lineHeight]?: {
-      [key in Exclude<ReadingDisplayLineHeightOptions, ReadingDisplayLineHeightOptions.publisher>]: number
+      [key in Exclude<LineHeightOptions, LineHeightOptions.publisher>]: number
     };
   [SettingsKeys.paraIndent]?: ISettingsRangePref;
   [SettingsKeys.paraSpacing]?: ISettingsRangePref;

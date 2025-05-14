@@ -1,21 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { 
-  ReadingDisplayAlignOptions, 
-  ReadingDisplayFontFamilyOptions, 
-  ReadingDisplayLineHeightOptions 
-} from "@/models/layout";
-import { ThLayoutStrategy } from "@/preferences/models/enums";
+import { LineHeightOptions, TextAlignOptions, ThLayoutStrategy } from "@/preferences/models/enums";
+import { defaultFontFamilyOptions } from "@/preferences/models/const";
 
 export interface SettingsReducerState {
   columnCount: string;
-  fontFamily: keyof typeof ReadingDisplayFontFamilyOptions;
+  fontFamily: keyof typeof defaultFontFamilyOptions;
   fontSize: number;
   fontWeight: number;
   hyphens: boolean | null;
   layoutStrategy: ThLayoutStrategy;
   letterSpacing: number | null;
-  lineHeight: ReadingDisplayLineHeightOptions;
+  lineHeight: LineHeightOptions;
   lineLength: number | null;
   tmpLineLengths: number[];
   tmpMaxChars: boolean;
@@ -24,7 +20,7 @@ export interface SettingsReducerState {
   paragraphSpacing: number | null;
   publisherStyles: boolean;
   scroll: boolean;
-  textAlign: ReadingDisplayAlignOptions;
+  textAlign: TextAlignOptions;
   textNormalization: boolean;
   wordSpacing: number | null;
 }
@@ -37,13 +33,13 @@ const initialState: SettingsReducerState = {
   hyphens: null,
   layoutStrategy: ThLayoutStrategy.lineLength,
   letterSpacing: null,
-  lineHeight: ReadingDisplayLineHeightOptions.publisher,
+  lineHeight: LineHeightOptions.publisher,
   lineLength: null,
   paragraphIndent: null,
   paragraphSpacing: null,
   publisherStyles: true,
   scroll: false,
-  textAlign: ReadingDisplayAlignOptions.publisher,
+  textAlign: TextAlignOptions.publisher,
   textNormalization: false,
   wordSpacing: null,
   tmpLineLengths: [],

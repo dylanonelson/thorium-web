@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import Locale from "../../resources/locales/en.json";
 
 import { IAdvancedDisplayProps } from "@/models/settings";
-import { ReadingDisplayAlignOptions } from "@/models/layout";
+import { TextAlignOptions } from "@/preferences/models/enums";
 
 import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
 
@@ -37,7 +37,7 @@ export const ReadingDisplayHyphens: React.FC<IAdvancedDisplayProps> = ({ standal
       label={ Locale.reader.settings.hyphens.label }
       onChange={ async (isSelected: boolean) => await updatePreference(isSelected) }
       isSelected={ hyphens ?? false }
-      isDisabled={ textAlign === ReadingDisplayAlignOptions.publisher }
+      isDisabled={ textAlign === TextAlignOptions.publisher }
     />
     </>
   )

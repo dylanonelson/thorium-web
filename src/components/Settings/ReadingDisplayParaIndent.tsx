@@ -1,14 +1,10 @@
 import { useCallback, useContext } from "react";
 
-import { PreferencesContext, SettingsKeys } from "@/preferences";
+import { defaultParagraphIndent, PreferencesContext, SettingsKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { 
-  defaultParagraphIndent, 
-  IAdvancedDisplayProps, 
-  SettingsRangeVariant 
-} from "@/models/settings";
+import { IAdvancedDisplayProps,  SettingsRangeVariant } from "@/models/settings";
 
 import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 import { SliderWrapper } from "./Wrappers/SliderWrapper";

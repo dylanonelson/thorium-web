@@ -2,8 +2,7 @@ import React, { useCallback } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ReadingDisplayAlignOptions } from "@/models/layout";
-import { ThLayoutDirection } from "@/preferences/models/enums";
+import { TextAlignOptions, ThLayoutDirection } from "@/preferences/models/enums";
 import { IAdvancedDisplayProps } from "@/models/settings";
 import { TextAlignment } from "@readium/navigator";
 
@@ -27,9 +26,9 @@ export const ReadingDisplayAlign: React.FC<IAdvancedDisplayProps> = ({ standalon
   const { getSetting, submitPreferences } = useEpubNavigator();
 
   const updatePreference = useCallback(async (value: string) => {
-    const textAlign: TextAlignment | null = value === ReadingDisplayAlignOptions.publisher 
+    const textAlign: TextAlignment | null = value === TextAlignOptions.publisher 
       ? null 
-      : value === ReadingDisplayAlignOptions.start 
+      : value === TextAlignOptions.start 
         ? TextAlignment.start 
         : TextAlignment.justify;
     
@@ -45,7 +44,7 @@ export const ReadingDisplayAlign: React.FC<IAdvancedDisplayProps> = ({ standalon
       });
       
       const textAlignSetting = getSetting("textAlign") as TextAlignment | null;
-      const textAlignValue = textAlignSetting === null ? ReadingDisplayAlignOptions.publisher : textAlignSetting as unknown as ReadingDisplayAlignOptions;
+      const textAlignValue = textAlignSetting === null ? TextAlignOptions.publisher : textAlignSetting as unknown as TextAlignOptions;
       
       dispatch(setTextAlign(textAlignValue));
       dispatch(setHyphens(getSetting("hyphens")));
@@ -63,17 +62,17 @@ export const ReadingDisplayAlign: React.FC<IAdvancedDisplayProps> = ({ standalon
         {
           icon: BookIcon,
           label: Locale.reader.settings.align.publisher, 
-          value: ReadingDisplayAlignOptions.publisher 
+          value: TextAlignOptions.publisher 
         },
         {
           icon: isRTL ? RightAlignIcon : LeftAlignIcon,
           label: isRTL ? Locale.reader.settings.align.right : Locale.reader.settings.align.left, 
-          value: ReadingDisplayAlignOptions.start 
+          value: TextAlignOptions.start 
         },
         {
           icon: JustifyIcon,
           label: Locale.reader.settings.align.justify, 
-          value: ReadingDisplayAlignOptions.justify 
+          value: TextAlignOptions.justify 
         }
       ]}
     />

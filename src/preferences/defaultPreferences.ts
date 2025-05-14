@@ -4,7 +4,6 @@ import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
 import { ShortcutMetaKeywords, ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { SheetHeaderVariant } from "../models/sheets";
-import { ReadingDisplayLineHeightOptions } from "../models/layout";
 import { TextSettingsKeys } from "../models/settings";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
 import { 
@@ -16,7 +15,8 @@ import {
   SheetTypes, 
   ThemeKeys,  
   ThLayoutDirection,
-  ThLayoutStrategy
+  ThLayoutStrategy,
+  LineHeightOptions
 } from "./models/enums";
 import { ThPreferences } from "./preferences";
 
@@ -327,9 +327,9 @@ export const defaultPreferences: ThPreferences = {
     ],
     keys: {
       [SettingsKeys.lineHeight]: {
-        [ReadingDisplayLineHeightOptions.small]: 1.3,
-        [ReadingDisplayLineHeightOptions.medium]: 1.5,
-        [ReadingDisplayLineHeightOptions.large]: 1.75
+        [LineHeightOptions.small]: 1.3,
+        [LineHeightOptions.medium]: 1.5,
+        [LineHeightOptions.large]: 1.75
       }
     },
     text: {

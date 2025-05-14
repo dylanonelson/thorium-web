@@ -2,7 +2,6 @@ import { Key, useCallback, useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ReadingDisplayFontFamilyOptions } from "@/models/layout";
 import { IAdvancedDisplayProps } from "@/models/settings";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
@@ -15,10 +14,11 @@ import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontFamily } from "@/lib/settingsReducer";
+import { defaultFontFamilyOptions } from "@/preferences/models/const";
 
 export const ReadingDisplayFontFamily: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
   const fontFamily = useAppSelector(state => state.settings.fontFamily);
-  const fontFamilyOptions = useRef(Object.entries(ReadingDisplayFontFamilyOptions).map(([property, stack]) => ({
+  const fontFamilyOptions = useRef(Object.entries(defaultFontFamilyOptions).map(([property, stack]) => ({
       id: property,
       label: Locale.reader.settings.fontFamily.labels[property as keyof typeof Locale.reader.settings.fontFamily.labels],
       value: stack
@@ -32,7 +32,7 @@ export const ReadingDisplayFontFamily: React.FC<IAdvancedDisplayProps> = ({ stan
     if (key === fontFamily) return;
 
     const selectedOption = fontFamilyOptions.current.find((option) => option.id === key) as {
-      id: keyof typeof ReadingDisplayFontFamilyOptions;
+      id: keyof typeof defaultFontFamilyOptions;
       label: string;
       value: string | null;
     };
@@ -41,8 +41,8 @@ export const ReadingDisplayFontFamily: React.FC<IAdvancedDisplayProps> = ({ stan
       await submitPreferences({ fontFamily: selectedOption.value });
       
       const currentSetting = getSetting("fontFamily");
-      const selectedOptionId = Object.keys(ReadingDisplayFontFamilyOptions).find(key => ReadingDisplayFontFamilyOptions[key as keyof typeof ReadingDisplayFontFamilyOptions] === currentSetting) as keyof typeof ReadingDisplayFontFamilyOptions;
-      dispatch(setFontFamily(selectedOptionId || ReadingDisplayFontFamilyOptions.publisher));
+      const selectedOptionId = Object.keys(defaultFontFamilyOptions).find(key => defaultFontFamilyOptions[key as keyof typeof defaultFontFamilyOptions] === currentSetting) as keyof typeof defaultFontFamilyOptions;
+      dispatch(setFontFamily(selectedOptionId || defaultFontFamilyOptions.publisher));
     }
   }, [fontFamily, submitPreferences, getSetting, dispatch]);
 
