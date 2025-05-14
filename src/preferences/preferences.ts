@@ -4,26 +4,40 @@ import { ThemeTokens } from "@/preferences/hooks/useTheming";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
 import { IActionPref } from "@/models/actions";
 import { IDockingPref } from "@/models/docking";
-import { ISettingsRangePref, ISettingsGroupPref } from "@/models/settings";
 import { 
   LineHeightOptions, 
   ScrollBackTo, 
   SettingsKeys, 
   SettingsRangeVariant, 
+  SheetHeaderVariant, 
   SheetTypes, 
+  SpacingSettingsKeys, 
+  TextSettingsKeys, 
   ThemeKeys, 
   ThLayoutDirection, 
   ThLayoutStrategy 
 } from "./models/enums";
 
+export interface SettingsGroupPref<T extends keyof typeof SettingsKeys> {
+  main?: T[];
+  subPanel?: T[] | null;
+  header?: SheetHeaderVariant;
+}
+
+export interface SettingsRangePref {
+  variant?: SettingsRangeVariant;
+  range?: [number, number];
+  step?: number;
+}
+
 export type SettingsKeyTypes = {
-  [SettingsKeys.letterSpacing]?: ISettingsRangePref;
+  [SettingsKeys.letterSpacing]?: SettingsRangePref;
   [SettingsKeys.lineHeight]?: {
       [key in Exclude<LineHeightOptions, LineHeightOptions.publisher>]: number
     };
-  [SettingsKeys.paraIndent]?: ISettingsRangePref;
-  [SettingsKeys.paraSpacing]?: ISettingsRangePref;
-  [SettingsKeys.wordSpacing]?: ISettingsRangePref;
+  [SettingsKeys.paraIndent]?: SettingsRangePref;
+  [SettingsKeys.paraSpacing]?: SettingsRangePref;
+  [SettingsKeys.wordSpacing]?: SettingsRangePref;
   [SettingsKeys.zoom]?: {
     variant?: SettingsRangeVariant;
   };
@@ -92,8 +106,9 @@ export interface ThPreferences<
     reflowOrder: CustomSettingsKeys[];
     fxlOrder: CustomSettingsKeys[];
     keys?: CustomSettingsKeyTypes;
-    text?: ISettingsGroupPref;
-    spacing?: ISettingsGroupPref;
+    // TODO: CUSTOMIZABLE
+    text?: SettingsGroupPref<TextSettingsKeys>;
+    spacing?: SettingsGroupPref<SpacingSettingsKeys>;
   };
 }
 

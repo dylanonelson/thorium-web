@@ -1,17 +1,31 @@
 import { useContext } from "react";
 
-import { IReadingDisplayGroupWrapperProps } from "@/models/settings";
-
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
-import { PreferencesContext } from "@/preferences";
+import { PreferencesContext, SettingsGroupPref, SpacingSettingsKeys, TextSettingsKeys } from "@/preferences";
 
 import { ThSettingsWrapper } from "@/packages/Components/Settings/ThSettingsWrapper";
 
 import classNames from "classnames";
+import { PressEvent } from "react-aria";
+import { ISettingsMapObject } from "@/models/settings";
+import { T } from "../../../../dist/useCollapsibility-NHr6CxDH";
 
-export const ReadingDisplayGroupWrapper: React.FC<IReadingDisplayGroupWrapperProps> = ({
+export interface ReadingDisplayGroupWrapperProps {
+  heading: string;
+  moreLabel: string;
+  moreTooltip: string;
+  onMorePressCallback: (e: PressEvent) => void;
+  settingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } | { [key in TextSettingsKeys]: ISettingsMapObject };
+  prefs?: SettingsGroupPref<TextSettingsKeys | SpacingSettingsKeys>;
+  defaultPrefs: {
+    main: TextSettingsKeys[] | SpacingSettingsKeys[];
+    subPanel: TextSettingsKeys[] | SpacingSettingsKeys[];
+  };
+}
+
+export const ReadingDisplayGroupWrapper = ({
   heading,
   moreLabel,
   moreTooltip,
@@ -19,7 +33,7 @@ export const ReadingDisplayGroupWrapper: React.FC<IReadingDisplayGroupWrapperPro
   settingsMap,
   prefs,
   defaultPrefs
-}) => {
+}: ReadingDisplayGroupWrapperProps) => {
   const RSPrefs = useContext(PreferencesContext);
   
   const main = prefs?.main || defaultPrefs.main;
