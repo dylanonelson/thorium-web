@@ -13,9 +13,9 @@ import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
 import { ScrollBackTo } from "@/preferences/preferences";
 import { ActionKeys } from "@/models/actions";
 import { ThemeKeys } from "@/models/theme";
-import { ICache } from "@/models/reader";
 import { ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions } from "@/models/layout";
-import { defaultLineHeights } from "@/models/settings";
+import { defaultLineHeights, IRCSSSettings } from "@/models/settings";
+import { ColorScheme } from "@/packages/Hooks/useColorScheme";
 
 import { I18nProvider } from "react-aria";
 
@@ -83,6 +83,15 @@ import { Dispatch } from "@reduxjs/toolkit";
 
 import debounce from "debounce";
 import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
+
+export interface ICache {
+  isImmersive: boolean;
+  arrowsOccupySpace: boolean;
+  settings: IRCSSSettings;
+  tocTree?: TocItem[];
+  colorScheme?: ColorScheme;
+  reducedMotion?: boolean;
+}
 
 export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const RSPrefs = useContext(PreferencesContext);
