@@ -1,11 +1,10 @@
 import React, { useCallback, useContext, useRef } from "react";
 
-import { PreferencesContext, SettingsKeys } from "@/preferences";
+import { defaultLineHeights, LineHeightOptions, PreferencesContext, SettingsKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ReadingDisplayLineHeightOptions } from "@/models/layout";
-import { defaultLineHeights, IAdvancedDisplayProps } from "@/models/settings";
+import { IAdvancedDisplayProps } from "@/models/settings";
 
 import BookIcon from "../assets/icons/book.svg";
 import SmallIcon from "../assets/icons/density_small.svg";
@@ -27,23 +26,23 @@ export const ReadingDisplayLineHeight: React.FC<IAdvancedDisplayProps> = ({ stan
   const { getSetting, submitPreferences } = useEpubNavigator();
 
   const lineHeightOptions = useRef({
-    [ReadingDisplayLineHeightOptions.publisher]: null,
-    [ReadingDisplayLineHeightOptions.small]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.small] || defaultLineHeights[ReadingDisplayLineHeightOptions.small],
-    [ReadingDisplayLineHeightOptions.medium]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.medium] || defaultLineHeights[ReadingDisplayLineHeightOptions.medium],
-    [ReadingDisplayLineHeightOptions.large]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.large] || defaultLineHeights[ReadingDisplayLineHeightOptions.large],
+    [LineHeightOptions.publisher]: null,
+    [LineHeightOptions.small]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.small] || defaultLineHeights[LineHeightOptions.small],
+    [LineHeightOptions.medium]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.medium] || defaultLineHeights[LineHeightOptions.medium],
+    [LineHeightOptions.large]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.large] || defaultLineHeights[LineHeightOptions.large],
   });
 
   const updatePreference = useCallback(async (value: string) => {
-    const computedValue = value === ReadingDisplayLineHeightOptions.publisher
+    const computedValue = value === LineHeightOptions.publisher
       ? null 
-      : lineHeightOptions.current[value as keyof typeof ReadingDisplayLineHeightOptions];
+      : lineHeightOptions.current[value as keyof typeof LineHeightOptions];
     
     await submitPreferences({
       lineHeight: computedValue
     });
 
     const currentLineHeight = getSetting("lineHeight");
-    const currentDisplayLineHeightOption = Object.entries(lineHeightOptions.current).find(([key, value]) => value === currentLineHeight)?.[0] as ReadingDisplayLineHeightOptions;
+    const currentDisplayLineHeightOption = Object.entries(lineHeightOptions.current).find(([key, value]) => value === currentLineHeight)?.[0] as LineHeightOptions;
 
     dispatch(setLineHeight(currentDisplayLineHeightOption));
     dispatch(setPublisherStyles(false));
@@ -55,28 +54,28 @@ export const ReadingDisplayLineHeight: React.FC<IAdvancedDisplayProps> = ({ stan
       standalone={ standalone }
       label={ Locale.reader.settings.lineHeight.title }
       orientation="horizontal"
-      value={ publisherStyles ? ReadingDisplayLineHeightOptions.publisher : lineHeight } 
+      value={ publisherStyles ? LineHeightOptions.publisher : lineHeight } 
       onChange={ async (val: string) => await updatePreference(val) }
       items={[
         {
           icon: BookIcon,
           label: Locale.reader.settings.lineHeight.publisher, 
-          value: ReadingDisplayLineHeightOptions.publisher 
+          value: LineHeightOptions.publisher 
         },
         {
           icon: SmallIcon,
           label: Locale.reader.settings.lineHeight.small, 
-          value: ReadingDisplayLineHeightOptions.small 
+          value: LineHeightOptions.small 
         },
         {
           icon: MediumIcon,
           label: Locale.reader.settings.lineHeight.medium, 
-          value: ReadingDisplayLineHeightOptions.medium 
+          value: LineHeightOptions.medium 
         },
         {
           icon: LargeIcon,
           label: Locale.reader.settings.lineHeight.large, 
-          value: ReadingDisplayLineHeightOptions.large 
+          value: LineHeightOptions.large 
         },
       ]}
     />

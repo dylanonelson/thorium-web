@@ -2,7 +2,7 @@
 
 import { useCallback, useContext, useEffect, useRef } from "react";
 
-import { PreferencesContext } from "@/preferences";
+import { defaultFontFamilyOptions, defaultLineHeights, PreferencesContext } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
@@ -10,9 +10,15 @@ import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
 import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
-import { ActionKeys, ScrollBackTo, SettingsKeys, ThemeKeys, ThLayoutStrategy } from "@/preferences/models/enums";
-import { ReadingDisplayAlignOptions, ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions } from "@/models/layout";
-import { defaultLineHeights } from "@/models/settings";
+import { 
+  ActionKeys, 
+  LineHeightOptions, 
+  ScrollBackTo, 
+  SettingsKeys, 
+  TextAlignOptions, 
+  ThemeKeys, 
+  ThLayoutStrategy 
+} from "@/preferences/models/enums";
 import { ColorScheme } from "@/packages/Hooks/useColorScheme";
 
 import { I18nProvider } from "react-aria";
@@ -84,19 +90,19 @@ import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
 
 export interface ReadiumCSSSettings {
   columnCount: string;
-  fontFamily: keyof typeof ReadingDisplayFontFamilyOptions | null;
+  fontFamily: keyof typeof defaultFontFamilyOptions | null;
   fontSize: number;
   fontWeight: number;
   hyphens: boolean | null;
   letterSpacing: number | null;
   lineLength: number | null;
-  lineHeight: ReadingDisplayLineHeightOptions | null;
+  lineHeight: LineHeightOptions | null;
   layoutStrategy: ThLayoutStrategy;
   paragraphIndent: number | null;
   paragraphSpacing: number | null;
   publisherStyles: boolean;
   scroll: boolean;
-  textAlign: ReadingDisplayAlignOptions | null;
+  textAlign: TextAlignOptions | null;
   textNormalization: boolean;
   theme: ThemeKeys;
   wordSpacing: number | null;
@@ -633,16 +639,16 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         });
 
         const lineHeightOptions = {
-          [ReadingDisplayLineHeightOptions.publisher]: null,
-          [ReadingDisplayLineHeightOptions.small]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.small] || defaultLineHeights[ReadingDisplayLineHeightOptions.small],
-          [ReadingDisplayLineHeightOptions.medium]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.medium] || defaultLineHeights[ReadingDisplayLineHeightOptions.medium],
-          [ReadingDisplayLineHeightOptions.large]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.large] || defaultLineHeights[ReadingDisplayLineHeightOptions.large],
+          [LineHeightOptions.publisher]: null,
+          [LineHeightOptions.small]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.small] || defaultLineHeights[LineHeightOptions.small],
+          [LineHeightOptions.medium]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.medium] || defaultLineHeights[LineHeightOptions.medium],
+          [LineHeightOptions.large]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.large] || defaultLineHeights[LineHeightOptions.large],
         };
 
         const preferences: IEpubPreferences = isFXL ? {} : {
           columnCount: cache.current.settings.columnCount === "auto" ? null : Number(cache.current.settings.columnCount),
           constraint: initialConstraint,
-          fontFamily: cache.current.settings.fontFamily && ReadingDisplayFontFamilyOptions[cache.current.settings.fontFamily],
+          fontFamily: cache.current.settings.fontFamily && defaultFontFamilyOptions[cache.current.settings.fontFamily],
           fontSize: cache.current.settings.fontSize,
           fontWeight: cache.current.settings.fontWeight,
           hyphens: cache.current.settings.hyphens,

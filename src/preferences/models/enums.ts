@@ -74,3 +74,21 @@ export enum ThLayoutStrategy {
   lineLength = "lineLength",
   columns = "columns"
 }
+
+export enum LayoutOptions { 
+  scroll = "scroll_option",
+  paginated = "page_option"
+}
+
+export enum TextAlignOptions {
+  publisher = "publisher",
+  start = "start",
+  justify = "justify"
+}
+
+export enum LineHeightOptions {
+  publisher = "publisher",
+  small = "small",
+  medium = "medium",
+  large = "large"
+}

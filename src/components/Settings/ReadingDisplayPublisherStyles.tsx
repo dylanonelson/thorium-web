@@ -1,11 +1,10 @@
 import { useCallback, useContext, useRef } from "react";
 
-import { PreferencesContext, SettingsKeys } from "@/preferences";
+import { defaultLineHeights, LineHeightOptions, PreferencesContext, SettingsKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { defaultLineHeights, IAdvancedDisplayProps } from "@/models/settings";
-import { ReadingDisplayLineHeightOptions } from "@/models/layout";
+import { IAdvancedDisplayProps } from "@/models/settings";
 
 import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
 
@@ -27,10 +26,10 @@ export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({
   const dispatch = useAppDispatch();
 
   const lineHeightOptions = useRef({
-    [ReadingDisplayLineHeightOptions.publisher]: null,
-    [ReadingDisplayLineHeightOptions.small]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.small] || defaultLineHeights[ReadingDisplayLineHeightOptions.small],
-    [ReadingDisplayLineHeightOptions.medium]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.medium] || defaultLineHeights[ReadingDisplayLineHeightOptions.medium],
-    [ReadingDisplayLineHeightOptions.large]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.large] || defaultLineHeights[ReadingDisplayLineHeightOptions.large],
+    [LineHeightOptions.publisher]: null,
+    [LineHeightOptions.small]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.small] || defaultLineHeights[LineHeightOptions.small],
+    [LineHeightOptions.medium]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.medium] || defaultLineHeights[LineHeightOptions.medium],
+    [LineHeightOptions.large]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.large] || defaultLineHeights[LineHeightOptions.large],
   });
 
   const { submitPreferences } = useEpubNavigator();
@@ -45,9 +44,9 @@ export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({
       wordSpacing: null
     } : 
     {
-      lineHeight: lineHeight === ReadingDisplayLineHeightOptions.publisher 
+      lineHeight: lineHeight === LineHeightOptions.publisher 
         ? null 
-        : lineHeightOptions.current[lineHeight as keyof typeof ReadingDisplayLineHeightOptions],
+        : lineHeightOptions.current[lineHeight as keyof typeof LineHeightOptions],
       paragraphIndent: paragraphIndent || 0,
       paragraphSpacing: paragraphSpacing || 0,
       letterSpacing: letterSpacing || 0,

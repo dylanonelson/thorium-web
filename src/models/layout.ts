@@ -1,35 +1,6 @@
-import fontStacks from "@readium/css/css/vars/fontStacks.json";
-
 export interface ILayoutDefaults {
   dockingWidth: number;
   scrim: string;
-}
-
-export enum ReadingDisplayLayoutOptions { 
-  scroll = "scroll_option",
-  paginated = "page_option"
-}
-
-export const ReadingDisplayFontFamilyOptions = {
-  publisher: null,
-  oldStyle: fontStacks.RS__oldStyleTf,
-  modern: fontStacks.RS__modernTf,
-  sans: fontStacks.RS__sansTf,
-  humanist: fontStacks.RS__humanistTf,
-  monospace: fontStacks.RS__monospaceTf
-}
-
-export enum ReadingDisplayAlignOptions {
-  publisher = "publisher",
-  start = "start",
-  justify = "justify"
-}
-
-export enum ReadingDisplayLineHeightOptions {
-  publisher = "publisher",
-  small = "small",
-  medium = "medium",
-  large = "large"
 }
 
 export interface IReaderArrow {

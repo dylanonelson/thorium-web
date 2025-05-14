@@ -1,10 +1,10 @@
 import React, { useCallback, useContext } from "react";
 
-import { PreferencesContext, SettingsKeys } from "@/preferences";
+import { defaultFontSize, PreferencesContext, SettingsKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { defaultFontSize, SettingsRangeVariant } from "@/models/settings";
+import { SettingsRangeVariant } from "@/models/settings";
 
 import Decrease from "../assets/icons/text_decrease.svg";
 import Increase from "../assets/icons/text_increase.svg";

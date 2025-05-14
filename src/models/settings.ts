@@ -1,4 +1,3 @@
-import { ReadingDisplayLineHeightOptions } from "./layout";
 import { PressEvent } from "react-aria-components";
 import { SheetHeaderVariant } from "./sheets";
 
@@ -63,42 +62,6 @@ export interface ISettingsRangePref {
   variant?: SettingsRangeVariant;
   range?: [number, number];
   step?: number;
-}
-
-export const defaultFontSize: Required<ISettingsRangePref> = {
-  variant: SettingsRangeVariant.numberField,
-  range: [0.7, 2.5],
-  step: 0.05
-}
-
-export const defaultParagraphSpacing: Required<ISettingsRangePref> = {
-  variant: SettingsRangeVariant.slider,
-  range: [0, 3],
-  step: 0.5
-}
-
-export const defaultParagraphIndent: Required<ISettingsRangePref> = {
-  variant: SettingsRangeVariant.slider,
-  range: [0, 2],
-  step: 0.25
-}
-
-export const defaultWordSpacing: Required<ISettingsRangePref> = {
-  variant: SettingsRangeVariant.numberField,
-  range: [0, 1],
-  step: 0.1
-}
-
-export const defaultLetterSpacing: Required<ISettingsRangePref> = {
-  variant: SettingsRangeVariant.numberField,
-  range: [0, 0.5],
-  step: 0.05
-}
-
-export const defaultLineHeights = {
-  [ReadingDisplayLineHeightOptions.small]: 1.25,
-  [ReadingDisplayLineHeightOptions.medium]: 1.5,
-  [ReadingDisplayLineHeightOptions.large]: 1.75
 }
 
 export interface ISettingsMapObject {
