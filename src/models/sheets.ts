@@ -1,5 +1,5 @@
 import { ReactNode, RefObject } from "react";
-import { DockingKeys, SheetTypes } from "@/preferences/preferences";
+import { DockingKeys, SheetTypes } from "@/preferences/models/enums";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 

@@ -7,7 +7,7 @@ import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { IActionComponentTrigger } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
-import { DockingKeys, ThLayoutDirection } from "@/preferences/preferences";
+import { DockingKeys, ThLayoutDirection } from "@/preferences/models/enums";
 
 import DockToLeft from "../../assets/icons/dock_to_right.svg";
 import DocktoRight from "../../assets/icons/dock_to_left.svg";

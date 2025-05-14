@@ -6,7 +6,7 @@ import Locale from "../resources/locales/en.json";
 
 import LayoutIcon from "./assets/icons/fit_page_width.svg";
 
-import { ActionKeys } from "@/preferences/preferences";
+import { ActionKeys } from "@/preferences/models/enums";
 import { IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 

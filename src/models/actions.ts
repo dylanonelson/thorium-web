@@ -5,7 +5,7 @@ import { ThActionEntry, ThActionsTriggerVariant } from "@/packages/Components/Ac
 import { Collapsibility, CollapsiblePref, CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { SnappedPref } from "@/components/Sheets/BottomSheet";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
-import { ActionKeys, DockingKeys, SheetTypes } from "@/preferences/preferences";
+import { ActionKeys, DockingKeys, SheetTypes } from "@/preferences/models/enums";
 
 export interface IActionsMapObject {
   trigger: React.FC<IActionComponentTrigger>;

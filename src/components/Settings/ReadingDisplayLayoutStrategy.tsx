@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ThLayoutStrategy } from "@/preferences/preferences";
+import { ThLayoutStrategy } from "@/preferences/models/enums";
 import { LayoutStrategy } from "@readium/navigator";
 
 import FitIcon from "../assets/icons/fit_width.svg";

@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useRef } from "react";
 
-import { ScrollBackTo } from "@/preferences/preferences";
+import { ScrollBackTo } from "@/preferences/models/enums";
 import { ScrollAffordance, ScrollAffordancePref } from "./scrollAffordance";
 
 import { 

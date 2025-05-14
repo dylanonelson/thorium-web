@@ -3,7 +3,7 @@ import React, { useCallback, useRef } from "react";
 import Locale from "../../resources/locales/en.json";
 
 import { ISheet, SheetHeaderVariant } from "@/models/sheets";
-import { DockingKeys, ThLayoutDirection } from "@/preferences/preferences";
+import { DockingKeys, ThLayoutDirection } from "@/preferences/models/enums";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";

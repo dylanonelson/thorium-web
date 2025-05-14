@@ -4,7 +4,7 @@ import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ThLayoutStrategy } from "@/preferences/preferences";
+import { ThLayoutStrategy } from "@/preferences/models/enums";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 

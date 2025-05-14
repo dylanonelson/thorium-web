@@ -6,7 +6,7 @@ import Locale from "../../../resources/locales/en.json";
 import dockerStyles from "../../assets/styles/docking.module.css";
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
-import { DockingKeys } from "@/preferences/preferences";
+import { DockingKeys } from "@/preferences/models/enums";
 import { IDocker } from "@/models/docking";
 import { IActionsMapObject } from "@/models/actions";
 

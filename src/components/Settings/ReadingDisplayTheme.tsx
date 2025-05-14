@@ -7,8 +7,7 @@ import settingsStyles from "../assets/styles/readerSettings.module.css";
 
 import CheckIcon from "../assets/icons/check.svg";
 
-import { ActionKeys } from "@/preferences/preferences";
-import { ThLayoutDirection, ThemeKeys } from "@/preferences/preferences";
+import { ActionKeys, ThLayoutDirection, ThemeKeys } from "@/preferences/models/enums";
 
 import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 import { Radio } from "react-aria-components";

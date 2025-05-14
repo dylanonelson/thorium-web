@@ -1,7 +1,7 @@
 // Peripherals based on XBReader
 import { defaultPreferences } from "@/preferences";
 
-import { ActionKeys } from "@/preferences/preferences";
+import { ActionKeys } from "@/preferences/models/enums";
 
 import { buildShortcut, PShortcut } from "@/packages/Helpers/keyboardUtilities";
 import { isInteractiveElement } from "@/packages/Helpers/focusUtilities";
