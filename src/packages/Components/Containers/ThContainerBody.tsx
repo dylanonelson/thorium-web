@@ -1,6 +1,6 @@
 "use client";
 
-import { HTMLAttributesWithRef } from "../Reader/HTMLAttributesWithRef";
+import { HTMLAttributesWithRef } from "../HTMLAttributesWithRef";
 
 export interface ThContainerBodyProps extends HTMLAttributesWithRef<HTMLDivElement> {}
 

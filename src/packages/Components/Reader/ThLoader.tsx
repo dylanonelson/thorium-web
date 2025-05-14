@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 
-import { HTMLAttributesWithRef } from "./HTMLAttributesWithRef";
+import { HTMLAttributesWithRef } from "../HTMLAttributesWithRef";
 
 export interface ThLoaderProps extends Omit<HTMLAttributesWithRef<HTMLDivElement>, "aria-busy" | "aria-live"> {
   ref?: React.ForwardedRef<HTMLDivElement>;
