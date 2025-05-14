@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 
-import { SheetTypes } from "@/models/sheets";
-import { DockingKeys } from "@/models/docking";
+import { DockingKeys, SheetTypes } from "@/preferences/preferences";
 
 import { TypedComponentRenderer } from "@/packages/Components/Containers/TypedComponentRenderer";
 import { PopoverSheet, IPopoverSheet } from "./PopoverSheet";

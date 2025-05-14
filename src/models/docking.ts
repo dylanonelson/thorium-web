@@ -2,25 +2,13 @@ import { IActionTokens } from "./actions";
 import { Collapsibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
+import { DockingKeys, DockingTypes } from "@/preferences/preferences";
 
 export interface IDocker {
   id: ActionsStateKeys;
   keys: DockingKeys[];
   ref: React.ForwardedRef<HTMLButtonElement>;
   onCloseCallback: () => void;
-}
-
-export enum DockingKeys {
-  start = "dockingStart",
-  end = "dockingEnd",
-  transient = "dockingTransient"
-}
-
-export enum DockTypes {
-  none = "none",
-  both = "both",
-  start = "start",
-  end = "end"
 }
 
 export type Docked = {
@@ -38,7 +26,7 @@ export interface IDockPanelSizes {
 }
 
 export interface IDockedPref {
-  dockable: DockTypes,
+  dockable: DockingTypes,
   dragIndicator?: boolean,
   width?: number,
   minWidth?: number,
@@ -48,7 +36,7 @@ export interface IDockedPref {
 export interface IDockingPref {
   displayOrder: DockingKeys[];
   collapse: Collapsibility;
-  dock: BreakpointsMap<DockTypes> | boolean; 
+  dock: BreakpointsMap<DockingTypes> | boolean; 
   keys: {
     [key in  DockingKeys]: IActionTokens;
   }

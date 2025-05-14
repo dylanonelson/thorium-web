@@ -1,4 +1,4 @@
-import { SheetTypes } from "./sheets";
+import { SheetTypes } from "@/preferences/preferences";
 
 import fontStacks from "@readium/css/css/vars/fontStacks.json";
 

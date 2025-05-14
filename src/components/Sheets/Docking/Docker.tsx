@@ -6,7 +6,8 @@ import Locale from "../../../resources/locales/en.json";
 import dockerStyles from "../../assets/styles/docking.module.css";
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
-import { DockingKeys, IDocker } from "@/models/docking";
+import { DockingKeys } from "@/preferences/preferences";
+import { IDocker } from "@/models/docking";
 import { IActionsMapObject } from "@/models/actions";
 
 import { Toolbar } from "react-aria-components";

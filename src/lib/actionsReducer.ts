@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ActionKeys } from "@/models/actions";
-import { Docked, DockingKeys } from "@/models/docking";
+import { ActionKeys, DockingKeys } from "@/preferences/preferences";
+import { Docked } from "@/models/docking";
 
 export type ActionsStateKeys = Exclude<ActionKeys, ActionKeys.fullscreen>;
 export type OverflowStateKeys = string;

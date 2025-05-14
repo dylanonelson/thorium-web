@@ -7,12 +7,11 @@ import Locale from "../resources/locales/en.json";
 import Chevron from "./assets/icons/chevron_right.svg";
 
 import { Link } from "@readium/shared";
-import { ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+import { ActionKeys, DockingKeys, SheetTypes } from "@/preferences/preferences";
+import { IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
-import { SheetTypes } from "@/models/sheets";
 import { LayoutDirection } from "@/preferences/preferences";
 import { TocItem } from "@/packages/Helpers/createTocTree";
-import { DockingKeys } from "@/models/docking";
 
 import tocStyles from "./assets/styles/toc.module.css";
 

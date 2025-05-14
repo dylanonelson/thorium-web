@@ -1,15 +1,7 @@
 import { ReactNode, RefObject } from "react";
-import { DockingKeys } from "./docking";
+import { DockingKeys, SheetTypes } from "@/preferences/preferences";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
-
-export enum SheetTypes {
-  popover = "popover",
-  fullscreen = "fullscreen",
-  dockedStart = "docked start",
-  dockedEnd = "docked end",
-  bottomSheet = "bottomSheet"
-}
 
 export enum SheetHeaderVariant {
   close = "close",

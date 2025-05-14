@@ -1,4 +1,4 @@
-import { DockingKeys } from "@/models/docking";
+import { DockingKeys } from "@/preferences/preferences";
 
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import readerReducer from "@/lib/readerReducer";

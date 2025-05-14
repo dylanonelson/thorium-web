@@ -4,7 +4,8 @@ import { PreferencesContext } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
-import { ActionKeys, IActionsMapObject } from "@/models/actions";
+import { ActionKeys } from "@/preferences/preferences";
+import { IActionsMapObject } from "@/models/actions";
 
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
