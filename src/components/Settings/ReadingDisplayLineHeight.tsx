@@ -12,7 +12,7 @@ import SmallIcon from "../assets/icons/density_small.svg";
 import MediumIcon from "../assets/icons/density_medium.svg";
 import LargeIcon from "../assets/icons/density_large.svg";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLineHeight, setPublisherStyles } from "@/lib/settingsReducer";

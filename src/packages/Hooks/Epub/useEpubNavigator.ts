@@ -1,10 +1,8 @@
 "use client";
 
-import { useCallback, useContext, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 
-import { PreferencesContext } from "@/preferences";
-
-import { ScrollBackTo } from "@/models/preferences";
+import { ScrollAffordancePref, ScrollBackTo } from "@/models/preferences";
 
 import { 
   EPUBLayout, 
@@ -23,14 +21,21 @@ import {
   IEpubPreferences
 } from "@readium/navigator";
 
-import { ScrollAffordance } from "@/helpers/scrollAffordance";
+import { ScrollAffordance } from "./scrollAffordance";
 
 type cbb = (ok: boolean) => void;
 
 // Module scoped, singleton instance of navigator
 let navigatorInstance: EpubNavigator | null = null;
 
-export interface IEpubNavigatorConfig {
+// Scroll Affordances as mutable, otherwise the callbacks
+// will not work for components mounting before load
+// They should not be part of the hook anyway
+// And their existence is due to the lack of Injection API
+let scrollAffordanceTop: ScrollAffordance | null = null;
+let scrollAffordanceBottom: ScrollAffordance | null = null;
+
+export interface EpubNavigatorLoadProps {
   container: HTMLDivElement | null;
   publication: Publication;
   listeners: EpubNavigatorListeners;
@@ -38,24 +43,24 @@ export interface IEpubNavigatorConfig {
   initialPosition?: Locator;
   preferences?: IEpubPreferences;
   defaults?: IEpubDefaults;
+  scrollAffordances?: {
+    top?: ScrollAffordancePref;
+    bottom?: ScrollAffordancePref;
+  }
 }
 
 export const useEpubNavigator = () => {
-  const RSPrefs = useContext(PreferencesContext);
   const container = useRef<HTMLDivElement | null>(null);
   const containerParent = useRef<HTMLElement | null>(null);
   const publication = useRef<Publication | null>(null);
-
-  const scrollAffordanceTop = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.topAffordance, placement: "top" }));
-  const scrollAffordanceBottom = useRef(new ScrollAffordance({ pref: RSPrefs.scroll.bottomAffordance, placement: "bottom" }));
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/edrlab/thorium-web/issues/25
   const mountScroll = useCallback(() => {
     navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {        
-        scrollAffordanceTop.current.render(frameManager.window.document);
-        scrollAffordanceBottom.current.render(frameManager.window.document)
+        scrollAffordanceTop?.render(frameManager.window.document);
+        scrollAffordanceBottom?.render(frameManager.window.document)
       }
     });
   }, []);
@@ -65,8 +70,8 @@ export const useEpubNavigator = () => {
   const unmountScroll = useCallback(() => {
     navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
       if (frameManager) {
-        scrollAffordanceTop.current.destroy(frameManager.window.document);
-        scrollAffordanceBottom.current.destroy(frameManager.window.document)
+        scrollAffordanceTop?.destroy(frameManager.window.document);
+        scrollAffordanceBottom?.destroy(frameManager.window.document)
       }
     });
   }, []);
@@ -125,12 +130,21 @@ export const useEpubNavigator = () => {
     });
   }, [FXLPositionChangedCallback]);
 
-  const EpubNavigatorLoad = useCallback((config: IEpubNavigatorConfig, cb: Function) => {
+  const EpubNavigatorLoad = useCallback((config: EpubNavigatorLoadProps, cb: Function) => {
     if (config.container) {
       container.current = config.container;
       containerParent.current = container.current? container.current.parentElement : null;
       
       publication.current = config.publication;
+
+      if (config.scrollAffordances) {
+        if (config.scrollAffordances.top) {
+          scrollAffordanceTop = new ScrollAffordance({ pref: config.scrollAffordances.top, placement: "top" })
+        }
+        if (config.scrollAffordances.bottom) {
+          scrollAffordanceBottom = new ScrollAffordance({ pref: config.scrollAffordances.bottom, placement: "bottom" })
+        }
+      }
 
       navigatorInstance = new EpubNavigator(
         config.container, 

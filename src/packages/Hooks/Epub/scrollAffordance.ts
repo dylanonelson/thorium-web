@@ -1,5 +1,5 @@
 import { ScrollAffordancePref } from "@/models/preferences";
-import Locale from "../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
 export interface IScrollAffordanceConfig {
   pref: ScrollAffordancePref;

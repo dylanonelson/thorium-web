@@ -11,7 +11,7 @@ import { ThDropdown } from "@/packages/Components/Settings/ThDropdown";
 
 import { ListBox, ListBoxItem } from "react-aria-components";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontFamily } from "@/lib/settingsReducer";

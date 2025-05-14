@@ -7,7 +7,7 @@ import { ReadingDisplayAlignOptions } from "@/models/layout";
 
 import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setHyphens } from "@/lib/settingsReducer";

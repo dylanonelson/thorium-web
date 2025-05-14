@@ -13,7 +13,7 @@ import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 import { ReadingDisplayMaxChars } from "./ReadingDisplayMaxChars";
 import { ReadingDisplayMinChars } from "./ReadingDisplayMinChars";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTmpLineLengths, setTmpMaxChars, setTmpMinChars } from "@/lib/settingsReducer";

@@ -9,7 +9,7 @@ import PaginatedIcon from "../assets/icons/docs.svg";
 
 import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setScroll } from "@/lib/settingsReducer";

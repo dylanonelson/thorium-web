@@ -28,7 +28,7 @@ import {
   TreeItemContent
 } from "react-aria-components";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 import { useDocking } from "@/hooks/useDocking";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 

@@ -12,7 +12,7 @@ import AddColumnIcon from "../assets/icons/add_column_right.svg";
 import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 import { ReadingDisplayLineLengths } from "./ReadingDisplayLineLengths";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLayoutStrategy } from "@/lib/settingsReducer";

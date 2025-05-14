@@ -48,12 +48,12 @@ import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 import { useFullscreen } from "@/packages/Hooks/useFullscreen";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 
 import Peripherals from "@/helpers/peripherals";
-import { CUSTOM_SCHEME, ScrollActions } from "@/helpers/scrollAffordance";
+import { CUSTOM_SCHEME, ScrollActions } from "@/packages/Hooks/Epub/scrollAffordance";
 import { localData } from "@/packages/Helpers/localData";
 import { getPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
 import { createTocTree, TocItem } from "@/packages/Helpers/createTocTree";
@@ -653,7 +653,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
           positionsList: positionsList,
           initialPosition: initialPosition,
           preferences: preferences,
-          defaults: defaults
+          defaults: defaults,
+          scrollAffordances: {
+            top: RSPrefs.scroll.topAffordance,
+            bottom: RSPrefs.scroll.bottomAffordance
+          }
         }, () => p.observe(window));
       })
       .finally(() => {

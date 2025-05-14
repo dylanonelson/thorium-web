@@ -15,7 +15,7 @@ import { LayoutDirection } from "@/preferences";
 import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 import { Radio } from "react-aria-components";
 
-import { useEpubNavigator } from "@/hooks/useEpubNavigator";
+import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
