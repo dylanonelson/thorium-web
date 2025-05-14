@@ -1,19 +1,11 @@
 import { ComponentType, ReactNode, RefObject, SVGProps } from "react";
-import { DockingKeys, IDockedPref } from "./docking";
+import { IDockedPref } from "./docking";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
-import { SheetTypes } from "./sheets";
 import { ThActionEntry, ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { Collapsibility, CollapsiblePref, CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { SnappedPref } from "@/components/Sheets/BottomSheet";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
-
-export enum ActionKeys {
-  fullscreen = "fullscreen",
-  jumpToPosition = "jumpToPosition",
-  layoutStrategy = "layoutStrategy",
-  settings = "settings",
-  toc = "toc"
-}
+import { ActionKeys, DockingKeys, SheetTypes } from "@/preferences/preferences";
 
 export interface IActionsMapObject {
   trigger: React.FC<IActionComponentTrigger>;

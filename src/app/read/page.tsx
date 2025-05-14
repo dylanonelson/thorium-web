@@ -15,7 +15,7 @@ import { Loader } from "@/components/Loader";
 import { useTheming } from "@/preferences/hooks/useTheming";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { ThemeKeys } from "@/models/theme";
+import { ThemeKeys } from "@/preferences/preferences";
 import { PreferencesContext } from "@/preferences";
 import { 
   setBreakpoint, 

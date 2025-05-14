@@ -4,14 +4,11 @@ import { IRSPrefs } from "../models/preferences";
 import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
 import { ShortcutMetaKeywords, ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
-import { ActionKeys } from "../models/actions";
-import { SheetHeaderVariant, SheetTypes } from "../models/sheets";
-import { DockTypes, DockingKeys } from "../models/docking";
-import { ThemeKeys } from "../models/theme";
+import { SheetHeaderVariant } from "../models/sheets";
 import { ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "../models/layout";
 import { SettingsKeys, TextSettingsKeys } from "../models/settings";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
-import { LayoutDirection, ScrollBackTo } from "./preferences";
+import { ActionKeys, DockingTypes, DockingKeys, LayoutDirection, ScrollBackTo, SheetTypes, ThemeKeys } from "./preferences";
 
 import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";
@@ -216,7 +213,7 @@ export const defaultPreferences: IRSPrefs = {
           }
         },
         docked: {
-          dockable: DockTypes.none,
+          dockable: DockingTypes.none,
           width: 340
         },
         snapped: {
@@ -241,7 +238,7 @@ export const defaultPreferences: IRSPrefs = {
           }
         },
         docked: {
-          dockable: DockTypes.both,
+          dockable: DockingTypes.both,
           dragIndicator: false,
           width: 360,
           minWidth: 320,
@@ -258,7 +255,7 @@ export const defaultPreferences: IRSPrefs = {
           }
         },
         docked: {
-          dockable: DockTypes.none
+          dockable: DockingTypes.none
         },
         snapped: {
           scrim: true,
@@ -271,7 +268,7 @@ export const defaultPreferences: IRSPrefs = {
         visibility: CollapsibilityVisibility.overflow,
         shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
         docked: {
-          dockable: DockTypes.none
+          dockable: DockingTypes.none
         }
       }
     }
@@ -283,11 +280,11 @@ export const defaultPreferences: IRSPrefs = {
       DockingKeys.end
     ],
     dock: {
-      [Breakpoints.compact]: DockTypes.none,
-      [Breakpoints.medium]: DockTypes.none,
-      [Breakpoints.expanded]: DockTypes.start,
-      [Breakpoints.large]: DockTypes.both,
-      [Breakpoints.xLarge]: DockTypes.both
+      [Breakpoints.compact]: DockingTypes.none,
+      [Breakpoints.medium]: DockingTypes.none,
+      [Breakpoints.expanded]: DockingTypes.start,
+      [Breakpoints.large]: DockingTypes.both,
+      [Breakpoints.xLarge]: DockingTypes.both
     },
     collapse: true,
     keys: {

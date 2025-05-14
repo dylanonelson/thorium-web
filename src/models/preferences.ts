@@ -3,11 +3,10 @@ import { IDockingPref } from "./docking";
 import { Constraints, ILayoutDefaults, RSLayoutStrategy } from "./layout";
 import { ISettingsSpacingPref, ISettingsTextPref, SettingsKeys, SettingsRangeVariant } from "./settings";
 import { ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
-import { ThemeKeys } from "./theme";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ThemeTokens } from "@/preferences/hooks/useTheming";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
-import { LayoutDirection, ScrollBackTo } from "@/preferences/preferences";
+import { LayoutDirection, ScrollBackTo, ThemeKeys } from "@/preferences/preferences";
 
 export interface IRSPrefs {
   direction?: LayoutDirection,

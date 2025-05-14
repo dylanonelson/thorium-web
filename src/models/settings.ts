@@ -1,5 +1,4 @@
-import { ReadingDisplayAlignOptions, ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "./layout";
-import { ThemeKeys } from "./theme";
+import { ReadingDisplayLineHeightOptions } from "./layout";
 import { PressEvent } from "react-aria-components";
 import { SheetHeaderVariant } from "./sheets";
 
@@ -155,24 +154,4 @@ export interface IReadingDisplayGroupWrapperProps {
 
 export interface IAdvancedDisplayProps {
   standalone?: boolean;
-}
-
-export interface IRCSSSettings {
-  columnCount: string;
-  fontFamily: keyof typeof ReadingDisplayFontFamilyOptions | null;
-  fontSize: number;
-  fontWeight: number;
-  hyphens: boolean | null;
-  letterSpacing: number | null;
-  lineLength: number | null;
-  lineHeight: ReadingDisplayLineHeightOptions | null;
-  layoutStrategy: RSLayoutStrategy;
-  paragraphIndent: number | null;
-  paragraphSpacing: number | null;
-  publisherStyles: boolean;
-  scroll: boolean;
-  textAlign: ReadingDisplayAlignOptions | null;
-  textNormalization: boolean;
-  theme: ThemeKeys;
-  wordSpacing: number | null;
 }

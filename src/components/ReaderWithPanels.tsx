@@ -8,8 +8,8 @@ import dockStyles from "./assets/styles/docking.module.css";
 
 import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
-import { DockTypes, DockingKeys, IDockPanelSizes } from "@/models/docking";
-import { LayoutDirection } from "@/preferences/preferences";
+import { IDockPanelSizes } from "@/models/docking";
+import { DockingTypes, DockingKeys, LayoutDirection } from "@/preferences/preferences";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 import { useRezisablePanel } from "@/hooks/useRezisablePanel";
@@ -200,20 +200,20 @@ export const ReaderWithDock = ({
       </>
     )
   } else {
-    const dockingMap = makeBreakpointsMap<DockTypes>({
-      defaultValue: DockTypes.both, 
-      fromEnum: DockTypes, 
+    const dockingMap = makeBreakpointsMap<DockingTypes>({
+      defaultValue: DockingTypes.both, 
+      fromEnum: DockingTypes, 
       pref: RSPrefs.docking.dock, 
-      disabledValue: DockTypes.none
+      disabledValue: DockingTypes.none
     });
 
-    const dockConfig = breakpoint && dockingMap[breakpoint] || DockTypes.both;
+    const dockConfig = breakpoint && dockingMap[breakpoint] || DockingTypes.both;
 
     return (
       <>
       <PanelGroup direction="horizontal">
         { 
-          (dockConfig === DockTypes.both || dockConfig === DockTypes.start) 
+          (dockConfig === DockingTypes.both || dockConfig === DockingTypes.start) 
           && <DockPanel 
             actionKey={ startPanel.currentKey() }
             flow={ DockingKeys.start } 
@@ -236,7 +236,7 @@ export const ReaderWithDock = ({
         </Panel>
     
         { 
-          (dockConfig === DockTypes.both || dockConfig === DockTypes.end)
+          (dockConfig === DockingTypes.both || dockConfig === DockingTypes.end)
           && <DockPanel 
             actionKey={ endPanel.currentKey() }
             flow={ DockingKeys.end } 

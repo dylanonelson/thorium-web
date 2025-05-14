@@ -10,11 +10,9 @@ import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
 import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
-import { ScrollBackTo } from "@/preferences/preferences";
-import { ActionKeys } from "@/models/actions";
-import { ThemeKeys } from "@/models/theme";
-import { ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions } from "@/models/layout";
-import { defaultLineHeights, IRCSSSettings } from "@/models/settings";
+import { ActionKeys, ScrollBackTo, ThemeKeys } from "@/preferences/preferences";
+import { ReadingDisplayAlignOptions, ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
+import { defaultLineHeights } from "@/models/settings";
 import { ColorScheme } from "@/packages/Hooks/useColorScheme";
 
 import { I18nProvider } from "react-aria";
@@ -84,10 +82,30 @@ import { Dispatch } from "@reduxjs/toolkit";
 import debounce from "debounce";
 import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
 
+export interface ReadiumCSSSettings {
+  columnCount: string;
+  fontFamily: keyof typeof ReadingDisplayFontFamilyOptions | null;
+  fontSize: number;
+  fontWeight: number;
+  hyphens: boolean | null;
+  letterSpacing: number | null;
+  lineLength: number | null;
+  lineHeight: ReadingDisplayLineHeightOptions | null;
+  layoutStrategy: RSLayoutStrategy;
+  paragraphIndent: number | null;
+  paragraphSpacing: number | null;
+  publisherStyles: boolean;
+  scroll: boolean;
+  textAlign: ReadingDisplayAlignOptions | null;
+  textNormalization: boolean;
+  theme: ThemeKeys;
+  wordSpacing: number | null;
+}
+
 export interface ICache {
   isImmersive: boolean;
   arrowsOccupySpace: boolean;
-  settings: IRCSSSettings;
+  settings: ReadiumCSSSettings;
   tocTree?: TocItem[];
   colorScheme?: ColorScheme;
   reducedMotion?: boolean;

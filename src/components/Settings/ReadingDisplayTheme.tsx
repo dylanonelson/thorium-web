@@ -2,15 +2,13 @@ import React, { CSSProperties, useCallback, useContext, useRef } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
-import { ThemeKeys } from "@/models/theme";
-
 import Locale from "../../resources/locales/en.json";
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
 import CheckIcon from "../assets/icons/check.svg";
 
-import { ActionKeys } from "@/models/actions";
-import { LayoutDirection } from "@/preferences/preferences";
+import { ActionKeys } from "@/preferences/preferences";
+import { LayoutDirection, ThemeKeys } from "@/preferences/preferences";
 
 import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 import { Radio } from "react-aria-components";

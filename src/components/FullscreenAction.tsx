@@ -3,7 +3,8 @@ import React, { useCallback, useContext } from "react";
 import { PreferencesContext } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
-import { ActionKeys, IActionComponentTrigger } from "@/models/actions";
+import { ActionKeys } from "@/preferences/preferences";
+import { IActionComponentTrigger } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
