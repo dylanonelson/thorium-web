@@ -3,7 +3,7 @@
 import { ThSettingsWrapperButton } from "./ThSettingsWrapperButton";
 
 import { Heading, HeadingProps } from "react-aria-components";
-import { HTMLAttributesWithRef } from "../../Reader/HTMLAttributesWithRef";
+import { HTMLAttributesWithRef } from "../../HTMLAttributesWithRef";
 import { ThActionButtonProps } from "../../Buttons";
 
 export interface ThSettingsEntry {

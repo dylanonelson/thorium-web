@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 
-import { HTMLAttributesWithRef } from "./HTMLAttributesWithRef";
+import { HTMLAttributesWithRef } from "../HTMLAttributesWithRef";
 
 export interface ThRunningHeadProps extends HTMLAttributesWithRef<HTMLHeadingElement> {
   ref?: React.RefObject<HTMLHeadingElement>

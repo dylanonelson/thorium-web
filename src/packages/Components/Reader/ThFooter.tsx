@@ -1,6 +1,6 @@
 "use client";
 
-import { HTMLAttributesWithRef } from "./HTMLAttributesWithRef";
+import { HTMLAttributesWithRef } from "../HTMLAttributesWithRef";
 
 export const ThFooter = ({ 
   ref,
