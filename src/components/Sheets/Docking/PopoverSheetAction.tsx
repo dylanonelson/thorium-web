@@ -6,7 +6,7 @@ import Locale from "../../../resources/locales/en.json";
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { IActionComponentTrigger } from "@/models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsTriggerVariant";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { DockingKeys } from "@/models/docking";
 
 import Stack from "../../assets/icons/stack.svg";

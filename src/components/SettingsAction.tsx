@@ -9,7 +9,7 @@ import {
   IActionComponentContainer, 
   IActionComponentTrigger 
 } from "@/models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsTriggerVariant";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { 
   defaultSpacingSettingsMain, 
   defaultSpacingSettingsSubpanel, 

@@ -3,8 +3,7 @@ import { DockingKeys, IDockedPref } from "./docking";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ISnappedPref, SheetTypes } from "./sheets";
 import { ActionsStateKeys } from "./state/actionsState";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsTriggerVariant";
-import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ThActionEntry, ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { Collapsibility, CollapsiblePref, CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 
 export enum ActionKeys {
