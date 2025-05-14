@@ -1,7 +1,7 @@
 "use client";
 
-export * from "./LayoutDirection";
 export * from "./defaultPreferences";
+export * from "./preferences";
 export * from "./ThPreferencesProvider";
 export * from "./ThDirectionSetter";
 export * from "./hooks/useTheming";

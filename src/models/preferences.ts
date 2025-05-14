@@ -1,25 +1,13 @@
 import { IActionPref } from "./actions";
 import { IDockingPref } from "./docking";
 import { Constraints, ILayoutDefaults, RSLayoutStrategy } from "./layout";
-import { LayoutDirection } from "@/preferences";
 import { ISettingsSpacingPref, ISettingsTextPref, SettingsKeys, SettingsRangeVariant } from "./settings";
 import { ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { ThemeKeys } from "./theme";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ThemeTokens } from "@/preferences/hooks/useTheming";
-
-export enum ScrollAffordancePref {
-  none = "none",
-  prev = "previous",
-  next = "next",
-  both = "both"
-}
-
-export enum ScrollBackTo {
-  top = "top",
-  bottom = "bottom",
-  untouched = "untouched"
-}
+import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
+import { LayoutDirection, ScrollBackTo } from "@/preferences/preferences";
 
 export interface IRSPrefs {
   direction?: LayoutDirection,

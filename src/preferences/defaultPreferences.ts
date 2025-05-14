@@ -1,6 +1,6 @@
 "use client";
 
-import { IRSPrefs, ScrollAffordancePref, ScrollBackTo } from "../models/preferences";
+import { IRSPrefs } from "../models/preferences";
 import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
 import { ShortcutMetaKeywords, ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
@@ -9,8 +9,9 @@ import { SheetHeaderVariant, SheetTypes } from "../models/sheets";
 import { DockTypes, DockingKeys } from "../models/docking";
 import { ThemeKeys } from "../models/theme";
 import { ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "../models/layout";
-import { LayoutDirection } from "./LayoutDirection";
 import { SettingsKeys, TextSettingsKeys } from "../models/settings";
+import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
+import { LayoutDirection, ScrollBackTo } from "./preferences";
 
 import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";

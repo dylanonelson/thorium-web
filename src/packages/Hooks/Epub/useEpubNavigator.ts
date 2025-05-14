@@ -2,7 +2,8 @@
 
 import { useCallback, useMemo, useRef } from "react";
 
-import { ScrollAffordancePref, ScrollBackTo } from "@/models/preferences";
+import { ScrollBackTo } from "@/preferences/preferences";
+import { ScrollAffordance, ScrollAffordancePref } from "./scrollAffordance";
 
 import { 
   EPUBLayout, 
@@ -20,8 +21,6 @@ import {
   IEpubDefaults, 
   IEpubPreferences
 } from "@readium/navigator";
-
-import { ScrollAffordance } from "./scrollAffordance";
 
 type cbb = (ok: boolean) => void;
 

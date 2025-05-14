@@ -1,5 +1,11 @@
-import { ScrollAffordancePref } from "@/models/preferences";
 import Locale from "../../../resources/locales/en.json";
+
+export enum ScrollAffordancePref {
+  none = "none",
+  prev = "previous",
+  next = "next",
+  both = "both"
+}
 
 export interface IScrollAffordanceConfig {
   pref: ScrollAffordancePref;

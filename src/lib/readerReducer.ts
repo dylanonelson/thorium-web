@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { IReaderState } from "@/models/state/readerState";
 import { defaultPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
-import { LayoutDirection } from "@/preferences";
+import { LayoutDirection } from "@/preferences/preferences";
 import { SettingsContainerKeys } from "@/models/settings";
 
 const initialState: IReaderState = {
