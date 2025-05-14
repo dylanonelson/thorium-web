@@ -1,12 +1,7 @@
 import { ReactNode, RefObject } from "react";
-import { DockingKeys, SheetTypes } from "@/preferences/models/enums";
+import { DockingKeys, SheetHeaderVariant, SheetTypes } from "@/preferences/models/enums";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
-
-export enum SheetHeaderVariant {
-  close = "close",
-  previous = "previous"
-}
 
 export interface ISheet {
   id: ActionsStateKeys;

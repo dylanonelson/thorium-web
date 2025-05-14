@@ -1,10 +1,10 @@
 import { useCallback, useContext } from "react";
 
-import { defaultParagraphSpacing, PreferencesContext, SettingsKeys } from "@/preferences";
+import { defaultParagraphSpacing, PreferencesContext, SettingsKeys, SettingsRangeVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { IAdvancedDisplayProps, SettingsRangeVariant } from "@/models/settings";
+import { IAdvancedDisplayProps } from "@/models/settings";
 
 import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 import { SliderWrapper } from "./Wrappers/SliderWrapper";

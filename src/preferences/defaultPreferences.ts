@@ -3,8 +3,6 @@
 import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
 import { ShortcutMetaKeywords, ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
-import { SheetHeaderVariant } from "../models/sheets";
-import { TextSettingsKeys } from "../models/settings";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
 import { 
   ActionKeys, 
@@ -16,7 +14,9 @@ import {
   ThemeKeys,  
   ThLayoutDirection,
   ThLayoutStrategy,
-  LineHeightOptions
+  LineHeightOptions,
+  TextSettingsKeys,
+  SheetHeaderVariant
 } from "./models/enums";
 import { ThPreferences } from "./preferences";
 

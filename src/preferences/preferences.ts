@@ -2,11 +2,19 @@ import { ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ThemeTokens } from "@/preferences/hooks/useTheming";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
-import { ILayoutDefaults } from "@/models/layout";
 import { IActionPref } from "@/models/actions";
 import { IDockingPref } from "@/models/docking";
-import { ISettingsRangePref, ISettingsGroupPref, SettingsRangeVariant } from "@/models/settings";
-import { LineHeightOptions, ScrollBackTo, SettingsKeys, SheetTypes, ThemeKeys, ThLayoutDirection, ThLayoutStrategy } from "./models/enums";
+import { ISettingsRangePref, ISettingsGroupPref } from "@/models/settings";
+import { 
+  LineHeightOptions, 
+  ScrollBackTo, 
+  SettingsKeys, 
+  SettingsRangeVariant, 
+  SheetTypes, 
+  ThemeKeys, 
+  ThLayoutDirection, 
+  ThLayoutStrategy 
+} from "./models/enums";
 
 export type SettingsKeyTypes = {
   [SettingsKeys.letterSpacing]?: ISettingsRangePref;
@@ -57,7 +65,10 @@ export interface ThPreferences<
     layout: {
       radius: number;
       spacing: number;
-      defaults: ILayoutDefaults;
+      defaults: {
+        dockingWidth: number;
+        scrim: string;
+      };
       constraints?: {
         [key in CustomConstraintsKeys]?: number
       }
