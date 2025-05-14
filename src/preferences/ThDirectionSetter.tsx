@@ -2,7 +2,7 @@
 
 import { useContext, useEffect } from "react";
 import { PreferencesContext } from "./ThPreferencesProvider";
-import { LayoutDirection } from "./LayoutDirection";
+import { LayoutDirection } from "./preferences";
 
 export const ThDirectionSetter = ({ children }: { children: React.ReactNode }) => {
   const RSPrefs = useContext(PreferencesContext);

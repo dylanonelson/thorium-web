@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import Locale from "../../resources/locales/en.json";
 
 import { ReadingDisplayAlignOptions } from "@/models/layout";
-import { LayoutDirection } from "@/preferences";
+import { LayoutDirection } from "@/preferences/preferences";
 import { IAdvancedDisplayProps } from "@/models/settings";
 import { TextAlignment } from "@readium/navigator";
 

@@ -9,7 +9,7 @@ import dockStyles from "./assets/styles/docking.module.css";
 import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 import { DockTypes, DockingKeys, IDockPanelSizes } from "@/models/docking";
-import { LayoutDirection } from "@/preferences";
+import { LayoutDirection } from "@/preferences/preferences";
 import { ActionsStateKeys } from "@/models/state/actionsState";
 
 import { useRezisablePanel } from "@/hooks/useRezisablePanel";

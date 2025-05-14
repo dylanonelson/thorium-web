@@ -1,4 +1,4 @@
-import { LayoutDirection } from "@/preferences";
+import { LayoutDirection } from "@/preferences/preferences";
 import { SettingsContainerKeys } from "../settings";
 import { IPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
 
