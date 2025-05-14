@@ -1,6 +1,5 @@
 import { ReactNode, RefObject } from "react";
 import { DockingKeys, SheetHeaderVariant, SheetTypes } from "@/preferences/models/enums";
-import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 export interface ISheet {
@@ -17,5 +16,3 @@ export interface ISheet {
   resetFocus?: unknown;
   dismissEscapeKeyClose?: boolean;
 }
-
-export type SheetPref = BreakpointsMap<SheetTypes> | boolean;
