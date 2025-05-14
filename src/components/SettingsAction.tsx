@@ -1,23 +1,26 @@
 import React, { useCallback, useContext, useEffect, useRef } from "react";
 
-import { PreferencesContext } from "@/preferences";
-
-import Locale from "../resources/locales/en.json";
-
-import { ActionKeys, SettingsKeys } from "@/preferences/models/enums";
-import { IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { 
   defaultSpacingSettingsMain, 
   defaultSpacingSettingsSubpanel, 
   defaultTextSettingsMain, 
   defaultTextSettingsSubpanel, 
-  ISettingsMapObject, 
-  SettingsContainerKeys,  
+  PreferencesContext 
+} from "@/preferences";
+
+import Locale from "../resources/locales/en.json";
+
+import { 
+  ActionKeys, 
+  SettingsContainerKeys, 
+  SettingsKeys, 
+  SheetHeaderVariant, 
   SpacingSettingsKeys, 
   TextSettingsKeys 
-} from "@/models/settings";
-import { SheetHeaderVariant } from "@/models/sheets";
+} from "@/preferences/models/enums";
+import { IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ISettingsMapObject } from "@/models/settings";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 

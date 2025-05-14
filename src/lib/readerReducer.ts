@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { defaultPlatformModifier, IPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
-import { ThLayoutDirection } from "@/preferences/models/enums";
-import { SettingsContainerKeys } from "@/models/settings";
+import { SettingsContainerKeys, ThLayoutDirection } from "@/preferences/models/enums";
 
 export interface ReaderReducerState {
   direction: ThLayoutDirection;

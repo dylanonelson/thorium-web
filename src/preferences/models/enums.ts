@@ -45,12 +45,45 @@ export enum SettingsKeys {
   zoom = "zoom"
 }
 
+export enum SettingsContainerKeys {
+  initial = "initial",
+  text = "text",
+  spacing = "spacing"
+}
+
+export enum SettingsRangeVariant {
+  slider = "slider",
+  numberField = "numberField"
+}
+
+export enum TextSettingsKeys {
+  align = "align",
+  fontFamily = "fontFamily",
+  fontWeight = "fontWeight",
+  hyphens = "hyphens",
+  normalizeText = "normalizeText"
+}
+
+export enum SpacingSettingsKeys {
+  letterSpacing = "letterSpacing",
+  lineHeight = "lineHeight",
+  paraIndent = "paraIndent",
+  paraSpacing = "paraSpacing",
+  publisherStyles = "publisherStyles",
+  wordSpacing = "wordSpacing"
+}
+
 export enum SheetTypes {
   popover = "popover",
   fullscreen = "fullscreen",
   dockedStart = "docked start",
   dockedEnd = "docked end",
   bottomSheet = "bottomSheet"
+}
+
+export enum SheetHeaderVariant {
+  close = "close",
+  previous = "previous"
 }
 
 export enum ThemeKeys {

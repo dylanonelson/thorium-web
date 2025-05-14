@@ -1,10 +1,10 @@
 import React, { KeyboardEvent, useCallback, useContext, useMemo, useRef } from "react";
 
-import { PreferencesContext } from "@/preferences";
+import { PreferencesContext, SheetHeaderVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ISheet, SheetHeaderVariant } from "@/models/sheets";
+import { ISheet } from "@/models/sheets";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";

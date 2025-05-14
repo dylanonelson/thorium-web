@@ -1,7 +1,30 @@
 import fontStacks from "@readium/css/css/vars/fontStacks.json";
 
-import { ISettingsRangePref, SettingsRangeVariant } from "@/models/settings";
-import { LineHeightOptions } from "./enums";
+import { ISettingsRangePref } from "@/models/settings";
+import { LineHeightOptions, SettingsRangeVariant, SpacingSettingsKeys, TextSettingsKeys } from "./enums";
+
+export const defaultTextSettingsMain = [TextSettingsKeys.fontFamily];
+
+export const defaultTextSettingsSubpanel = [
+  TextSettingsKeys.fontFamily,
+  TextSettingsKeys.fontWeight,
+  TextSettingsKeys.align,
+  TextSettingsKeys.hyphens,
+  TextSettingsKeys.normalizeText
+]
+
+export const defaultSpacingSettingsMain = [
+  SpacingSettingsKeys.lineHeight
+];
+
+export const defaultSpacingSettingsSubpanel = [
+  SpacingSettingsKeys.publisherStyles,
+  SpacingSettingsKeys.lineHeight,
+  SpacingSettingsKeys.wordSpacing,
+  SpacingSettingsKeys.letterSpacing,
+  SpacingSettingsKeys.paraSpacing,
+  SpacingSettingsKeys.paraIndent
+]
 
 export const defaultFontFamilyOptions = {
   publisher: null,

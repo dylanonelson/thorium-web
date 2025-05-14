@@ -1,16 +1,16 @@
 import { useCallback, useContext } from "react";
 
-import { PreferencesContext } from "@/preferences";
-
-import Locale from "../../resources/locales/en.json";
-
 import { 
   defaultSpacingSettingsMain, 
   defaultSpacingSettingsSubpanel, 
-  ISettingsMapObject, 
+  PreferencesContext, 
   SettingsContainerKeys, 
   SpacingSettingsKeys 
-} from "@/models/settings";
+} from "@/preferences";
+
+import Locale from "../../resources/locales/en.json";
+
+import { ISettingsMapObject } from "@/models/settings";
 
 import { ReadingDisplayGroupWrapper } from "./Wrappers/ReadingDisplayGroupWrapper";
 

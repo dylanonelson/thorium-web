@@ -1,8 +1,9 @@
-import React, { useCallback, useRef } from "react";
+import React, { useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ISheet, SheetHeaderVariant } from "@/models/sheets";
+import { ISheet } from "@/models/sheets";
+import { SheetHeaderVariant } from "@/preferences/models/enums";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
