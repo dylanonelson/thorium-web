@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useRef } from "react";
 
-import { PreferencesContext } from "@/preferences";
+import { PreferencesContext, SettingsKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -28,9 +28,9 @@ export const ReadingDisplayLineHeight: React.FC<IAdvancedDisplayProps> = ({ stan
 
   const lineHeightOptions = useRef({
     [ReadingDisplayLineHeightOptions.publisher]: null,
-    [ReadingDisplayLineHeightOptions.small]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.small] || defaultLineHeights[ReadingDisplayLineHeightOptions.small],
-    [ReadingDisplayLineHeightOptions.medium]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.medium] || defaultLineHeights[ReadingDisplayLineHeightOptions.medium],
-    [ReadingDisplayLineHeightOptions.large]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.large] || defaultLineHeights[ReadingDisplayLineHeightOptions.large],
+    [ReadingDisplayLineHeightOptions.small]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.small] || defaultLineHeights[ReadingDisplayLineHeightOptions.small],
+    [ReadingDisplayLineHeightOptions.medium]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.medium] || defaultLineHeights[ReadingDisplayLineHeightOptions.medium],
+    [ReadingDisplayLineHeightOptions.large]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.large] || defaultLineHeights[ReadingDisplayLineHeightOptions.large],
   });
 
   const updatePreference = useCallback(async (value: string) => {

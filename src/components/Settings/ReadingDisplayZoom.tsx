@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from "react";
 
-import { PreferencesContext } from "@/preferences";
+import { PreferencesContext, SettingsKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -37,7 +37,7 @@ export const ReadingDisplayZoom = () => {
   }, [submitPreferences, getSetting, dispatch]);
 
   const zoomRangeConfig = {
-    variant: RSPrefs.settings.zoom?.variant || defaultFontSize.variant,
+    variant: RSPrefs.settings.keys?.[SettingsKeys.zoom]?.variant || defaultFontSize.variant,
     range: preferencesEditor?.fontSize.supportedRange || defaultFontSize.range,
     step: preferencesEditor?.fontSize.step || defaultFontSize.step
   }

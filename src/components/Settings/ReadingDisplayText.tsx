@@ -69,7 +69,7 @@ export const ReadingDisplayText = () => {
 
 export const ReadingDisplayTextContainer = () => {
   const RSPrefs = useContext(PreferencesContext);
-  const displayOrder = RSPrefs.settings.text?.subPanel || defaultTextSettingsSubpanel;
+  const displayOrder = RSPrefs.settings.text?.subPanel as TextSettingsKeys[] | null | undefined || defaultTextSettingsSubpanel;
 
   return(
     <>
