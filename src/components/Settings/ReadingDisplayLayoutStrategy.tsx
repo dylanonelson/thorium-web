@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { RSLayoutStrategy } from "@/models/layout";
+import { ThLayoutStrategy } from "@/preferences/preferences";
 import { LayoutStrategy } from "@readium/navigator";
 
 import FitIcon from "../assets/icons/fit_width.svg";
@@ -33,8 +33,8 @@ export const ReadingDisplayLayoutStrategy = () => {
 
   useEffect(() => {
     const updateIfNeeded = async () => {
-      if (columnCount !== "auto" && layoutStrategy === RSLayoutStrategy.columns) {
-        await updatePreference(RSLayoutStrategy.lineLength);
+      if (columnCount !== "auto" && layoutStrategy === ThLayoutStrategy.columns) {
+        await updatePreference(ThLayoutStrategy.lineLength);
       }
     };
     updateIfNeeded();
@@ -52,17 +52,17 @@ export const ReadingDisplayLayoutStrategy = () => {
         {
           icon: FitIcon,
           label: Locale.reader.layoutStrategy.margin,
-          value: RSLayoutStrategy.margin,
+          value: ThLayoutStrategy.margin,
         },
         {
           icon: RangeIcon,
           label: Locale.reader.layoutStrategy.lineLength,
-          value: RSLayoutStrategy.lineLength,
+          value: ThLayoutStrategy.lineLength,
         },
         {
           icon: AddColumnIcon,
           label: Locale.reader.layoutStrategy.columns,
-          value: RSLayoutStrategy.columns,
+          value: ThLayoutStrategy.columns,
           isDisabled: isScroll || columnCount !== "auto",
         }   
       ]}

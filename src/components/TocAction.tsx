@@ -10,7 +10,7 @@ import { Link } from "@readium/shared";
 import { ActionKeys, DockingKeys, SheetTypes } from "@/preferences/preferences";
 import { IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
-import { LayoutDirection } from "@/preferences/preferences";
+import { ThLayoutDirection } from "@/preferences/preferences";
 import { TocItem } from "@/packages/Helpers/createTocTree";
 
 import tocStyles from "./assets/styles/toc.module.css";
@@ -40,7 +40,7 @@ import { setHovering, setImmersive } from "@/lib/readerReducer";
 export const TocActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
   const tocEntry = useAppSelector(state => state.publication.tocEntry);
   const direction = useAppSelector(state => state.reader.direction);
-  const isRTL = direction === LayoutDirection.rtl;
+  const isRTL = direction === ThLayoutDirection.rtl;
 
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
   const tocTree = useAppSelector(state => state.publication.tocTree);

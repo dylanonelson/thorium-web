@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { 
   ReadingDisplayAlignOptions, 
   ReadingDisplayFontFamilyOptions, 
-  ReadingDisplayLineHeightOptions, 
-  RSLayoutStrategy 
+  ReadingDisplayLineHeightOptions 
 } from "@/models/layout";
+import { ThLayoutStrategy } from "@/preferences/preferences";
 
 export interface SettingsReducerState {
   columnCount: string;
@@ -13,7 +13,7 @@ export interface SettingsReducerState {
   fontSize: number;
   fontWeight: number;
   hyphens: boolean | null;
-  layoutStrategy: RSLayoutStrategy;
+  layoutStrategy: ThLayoutStrategy;
   letterSpacing: number | null;
   lineHeight: ReadingDisplayLineHeightOptions;
   lineLength: number | null;
@@ -35,7 +35,7 @@ const initialState: SettingsReducerState = {
   fontSize: 1,
   fontWeight: 400,
   hyphens: null,
-  layoutStrategy: RSLayoutStrategy.lineLength,
+  layoutStrategy: ThLayoutStrategy.lineLength,
   letterSpacing: null,
   lineHeight: ReadingDisplayLineHeightOptions.publisher,
   lineLength: null,

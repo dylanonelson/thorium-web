@@ -9,7 +9,7 @@ import dockStyles from "./assets/styles/docking.module.css";
 import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 import { IDockPanelSizes } from "@/models/docking";
-import { DockingTypes, DockingKeys, LayoutDirection } from "@/preferences/preferences";
+import { DockingTypes, DockingKeys, ThLayoutDirection } from "@/preferences/preferences";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 import { useRezisablePanel } from "@/hooks/useRezisablePanel";
@@ -37,9 +37,9 @@ const DockHandle = ({
 
   const classFromFlow = useCallback(() => {
     if (flow === DockingKeys.start) {
-      return direction === LayoutDirection.ltr ? dockStyles.dockResizeHandleGrabLeft : dockStyles.dockResizeHandleGrabRight;
+      return direction === ThLayoutDirection.ltr ? dockStyles.dockResizeHandleGrabLeft : dockStyles.dockResizeHandleGrabRight;
     } else if (flow === DockingKeys.end) {
-      return direction === LayoutDirection.ltr ? dockStyles.dockResizeHandleGrabRight : dockStyles.dockResizeHandleGrabLeft;
+      return direction === ThLayoutDirection.ltr ? dockStyles.dockResizeHandleGrabRight : dockStyles.dockResizeHandleGrabLeft;
     }
   }, [flow, direction]);
 
@@ -82,11 +82,11 @@ const DockPanel = ({
   const direction = useAppSelector(state => state.reader.direction);
   const dispatch = useAppDispatch();
 
-  const dockClassName = flow === DockingKeys.end && direction === LayoutDirection.ltr ? "right-dock" : "left-dock";
+  const dockClassName = flow === DockingKeys.end && direction === ThLayoutDirection.ltr ? "right-dock" : "left-dock";
 
   const makeDockLabel = useCallback(() => {    
     let label = "";
-    if (flow === DockingKeys.end && direction === LayoutDirection.ltr) {
+    if (flow === DockingKeys.end && direction === ThLayoutDirection.ltr) {
       label += Locale.reader.app.docking.dockingRight;
     } else {
       label += Locale.reader.app.docking.dockingLeft

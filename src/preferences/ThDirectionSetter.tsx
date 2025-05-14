@@ -2,13 +2,13 @@
 
 import { useContext, useEffect } from "react";
 import { PreferencesContext } from "./ThPreferencesProvider";
-import { LayoutDirection } from "./preferences";
+import { ThLayoutDirection } from "./preferences";
 
 export const ThDirectionSetter = ({ children }: { children: React.ReactNode }) => {
   const RSPrefs = useContext(PreferencesContext);
   
   useEffect(() => {
-    if (RSPrefs.direction === LayoutDirection.rtl) {
+    if (RSPrefs.direction === ThLayoutDirection.rtl) {
       document.documentElement.dir = "rtl";
     } else {
       document.documentElement.dir = "ltr";

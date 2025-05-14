@@ -8,26 +8,6 @@ export enum SettingsContainerKeys {
   spacing = "spacing"
 }
 
-export enum SettingsKeys {
-  align = "align",
-  columns = "columns",
-  fontFamily = "fontFamily",
-  fontWeight = "fontWeight",
-  hyphens = "hyphens",
-  layout = "layout",
-  letterSpacing = "letterSpacing",
-  lineHeight = "lineHeight",
-  normalizeText = "normalizeText",
-  paraIndent = "paraIndent",
-  paraSpacing = "paraSpacing",
-  publisherStyles = "publisherStyles",
-  spacing = "spacing",
-  text = "text",
-  theme = "theme",
-  wordSpacing = "wordSpacing",
-  zoom = "zoom"
-}
-
 export enum TextSettingsKeys {
   align = "align",
   fontFamily = "fontFamily",

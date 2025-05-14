@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import Locale from "../../resources/locales/en.json";
 
 import { ReadingDisplayAlignOptions } from "@/models/layout";
-import { LayoutDirection } from "@/preferences/preferences";
+import { ThLayoutDirection } from "@/preferences/preferences";
 import { IAdvancedDisplayProps } from "@/models/settings";
 import { TextAlignment } from "@readium/navigator";
 
@@ -20,7 +20,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTextAlign, setHyphens } from "@/lib/settingsReducer";
 
 export const ReadingDisplayAlign: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
-  const isRTL = useAppSelector(state => state.reader.direction) === LayoutDirection.rtl;
+  const isRTL = useAppSelector(state => state.reader.direction) === ThLayoutDirection.rtl;
   const textAlign = useAppSelector(state => state.settings.textAlign);
   const dispatch = useAppDispatch();
 

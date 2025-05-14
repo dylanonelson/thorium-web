@@ -2,7 +2,7 @@ import { useCallback, useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
-import { RSLayoutStrategy } from "@/models/layout";
+import { ThLayoutStrategy } from "@/preferences/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -91,7 +91,7 @@ export const ReadingDisplayLineLengths: React.FC<IAdvancedDisplayProps> = ({ sta
       }}
       range={ [lineLengthRangeConfig.range[0], optimal || RSPrefs.typography.optimalLineLength] }
       step={ lineLengthRangeConfig.step }
-      isDisabled={ layoutStrategy !== RSLayoutStrategy.columns && columnCount !== "2" }
+      isDisabled={ layoutStrategy !== ThLayoutStrategy.columns && columnCount !== "2" }
     /> 
     <ReadingDisplayMinChars />
 
@@ -121,7 +121,7 @@ export const ReadingDisplayLineLengths: React.FC<IAdvancedDisplayProps> = ({ sta
       }}
       range={ [optimal || RSPrefs.typography.optimalLineLength, lineLengthRangeConfig.range[1]] }
       step={ lineLengthRangeConfig.step }
-      isDisabled={ layoutStrategy !== RSLayoutStrategy.lineLength }
+      isDisabled={ layoutStrategy !== ThLayoutStrategy.lineLength }
     /> 
     <ReadingDisplayMaxChars />
     </>

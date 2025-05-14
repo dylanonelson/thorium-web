@@ -8,7 +8,7 @@ import settingsStyles from "../assets/styles/readerSettings.module.css";
 import CheckIcon from "../assets/icons/check.svg";
 
 import { ActionKeys } from "@/preferences/preferences";
-import { LayoutDirection, ThemeKeys } from "@/preferences/preferences";
+import { ThLayoutDirection, ThemeKeys } from "@/preferences/preferences";
 
 import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 import { Radio } from "react-aria-components";
@@ -30,7 +30,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
   const colorScheme = useAppSelector(state => state.theming.colorScheme)
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const direction = useAppSelector(state => state.reader.direction);
-  const isRTL = direction === LayoutDirection.rtl
+  const isRTL = direction === ThLayoutDirection.rtl
 
   const themeItems = useRef(isFXL ? RSPrefs.theming.themes.fxlOrder : RSPrefs.theming.themes.reflowOrder);
 

@@ -1,5 +1,3 @@
-import { SheetTypes } from "@/preferences/preferences";
-
 import fontStacks from "@readium/css/css/vars/fontStacks.json";
 
 export interface ILayoutDefaults {
@@ -7,17 +5,9 @@ export interface ILayoutDefaults {
   scrim: string;
 }
 
-export type Constraints = Extract<SheetTypes, SheetTypes.bottomSheet | SheetTypes.popover>;
-
 export enum ReadingDisplayLayoutOptions { 
   scroll = "scroll_option",
   paginated = "page_option"
-}
-
-export enum RSLayoutStrategy {
-  margin = "margin",
-  lineLength = "lineLength",
-  columns = "columns"
 }
 
 export const ReadingDisplayFontFamilyOptions = {

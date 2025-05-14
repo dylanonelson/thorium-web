@@ -4,11 +4,8 @@ import { PreferencesContext } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
-import { ActionKeys } from "@/preferences/preferences";
-import {  
-  IActionComponentContainer, 
-  IActionComponentTrigger 
-} from "@/models/actions";
+import { ActionKeys, SettingsKeys } from "@/preferences/preferences";
+import { IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { 
   defaultSpacingSettingsMain, 
@@ -16,8 +13,7 @@ import {
   defaultTextSettingsMain, 
   defaultTextSettingsSubpanel, 
   ISettingsMapObject, 
-  SettingsContainerKeys, 
-  SettingsKeys, 
+  SettingsContainerKeys,  
   SpacingSettingsKeys, 
   TextSettingsKeys 
 } from "@/models/settings";

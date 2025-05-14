@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { defaultPlatformModifier, IPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
-import { LayoutDirection } from "@/preferences/preferences";
+import { ThLayoutDirection } from "@/preferences/preferences";
 import { SettingsContainerKeys } from "@/models/settings";
 
 export interface ReaderReducerState {
-  direction: LayoutDirection;
+  direction: ThLayoutDirection;
   isLoading: boolean;
   isImmersive: boolean;
   isHovering: boolean;
@@ -16,7 +16,7 @@ export interface ReaderReducerState {
 }
 
 const initialState: ReaderReducerState = {
-  direction: LayoutDirection.ltr,
+  direction: ThLayoutDirection.ltr,
   isLoading: true,
   isImmersive: false,
   isHovering: false,

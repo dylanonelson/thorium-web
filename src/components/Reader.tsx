@@ -10,8 +10,8 @@ import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
 import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
-import { ActionKeys, ScrollBackTo, ThemeKeys } from "@/preferences/preferences";
-import { ReadingDisplayAlignOptions, ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
+import { ActionKeys, ScrollBackTo, ThemeKeys, ThLayoutStrategy } from "@/preferences/preferences";
+import { ReadingDisplayAlignOptions, ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions } from "@/models/layout";
 import { defaultLineHeights } from "@/models/settings";
 import { ColorScheme } from "@/packages/Hooks/useColorScheme";
 
@@ -26,8 +26,8 @@ import {
   FrameManager, 
   FXLFrameManager, 
   IEpubDefaults, 
-  IEpubPreferences, 
-  LayoutStrategy, 
+  IEpubPreferences,  
+  LayoutStrategy,  
   TextAlignment
 } from "@readium/navigator";
 import { 
@@ -91,7 +91,7 @@ export interface ReadiumCSSSettings {
   letterSpacing: number | null;
   lineLength: number | null;
   lineHeight: ReadingDisplayLineHeightOptions | null;
-  layoutStrategy: RSLayoutStrategy;
+  layoutStrategy: ThLayoutStrategy;
   paragraphIndent: number | null;
   paragraphSpacing: number | null;
   publisherStyles: boolean;

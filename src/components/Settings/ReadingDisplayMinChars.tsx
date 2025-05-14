@@ -4,7 +4,7 @@ import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { RSLayoutStrategy } from "@/models/layout";
+import { ThLayoutStrategy } from "@/preferences/preferences";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
@@ -42,7 +42,7 @@ export const ReadingDisplayMinChars = () => {
           label={ Locale.reader.layoutStrategy.minChars }
           onChange={ async (isSelected: boolean) => await updatePreference(isSelected ? null : lineLength || RSPrefs.typography.minimalLineLength) }
           isSelected={ minChars }
-          isDisabled={ layoutStrategy !== RSLayoutStrategy.columns && columnCount !== "2" }
+          isDisabled={ layoutStrategy !== ThLayoutStrategy.columns && columnCount !== "2" }
         />
       </div>
     }

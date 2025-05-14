@@ -1,28 +1,38 @@
 "use client";
 
-import { IRSPrefs } from "../models/preferences";
 import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
 import { ShortcutMetaKeywords, ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { SheetHeaderVariant } from "../models/sheets";
-import { ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "../models/layout";
-import { SettingsKeys, TextSettingsKeys } from "../models/settings";
+import { ReadingDisplayLineHeightOptions } from "../models/layout";
+import { TextSettingsKeys } from "../models/settings";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
-import { ActionKeys, DockingTypes, DockingKeys, LayoutDirection, ScrollBackTo, SheetTypes, ThemeKeys } from "./preferences";
+import { 
+  ActionKeys, 
+  DockingTypes, 
+  DockingKeys, 
+  ScrollBackTo, 
+  SettingsKeys, 
+  SheetTypes, 
+  ThemeKeys, 
+  ThPreferences, 
+  ThLayoutDirection,
+  ThLayoutStrategy
+} from "./preferences";
 
 import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";
 import nightMode from "@readium/css/css/vars/night.json";
 
-export const defaultPreferences: IRSPrefs = {
-  direction: LayoutDirection.ltr,
+export const defaultPreferences: ThPreferences = {
+  direction: ThLayoutDirection.ltr,
   locale: "en",
   typography: {
     minimalLineLength: 45, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
     maximalLineLength: 75, // undefined | null | number of characters.
     pageGutter: 20, // body padding in px
-    layoutStrategy: RSLayoutStrategy.lineLength
+    layoutStrategy: ThLayoutStrategy.lineLength
   },
   scroll: {
     topAffordance: ScrollAffordancePref.none,
