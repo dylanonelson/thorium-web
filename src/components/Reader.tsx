@@ -338,8 +338,6 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
       p.observe(window);
     },
     positionChanged: async function (locator: Locator): Promise<void> {
-      window.focus();
-
       const currentLocator = localData.get(localDataKey.current);
       if (currentLocator?.href !== locator.href) {
         handleTocEntryOnNav(new Link(locator));
