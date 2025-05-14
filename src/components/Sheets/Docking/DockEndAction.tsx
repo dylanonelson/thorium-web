@@ -7,7 +7,7 @@ import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { IActionComponentTrigger } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
-import { DockingKeys, LayoutDirection } from "@/preferences/preferences";
+import { DockingKeys, ThLayoutDirection } from "@/preferences/preferences";
 
 import DockToLeft from "../../assets/icons/dock_to_right.svg";
 import DocktoRight from "../../assets/icons/dock_to_left.svg";
@@ -23,7 +23,7 @@ export const DockEndAction: React.FC<IActionComponentTrigger> = ({ variant, asso
   const RSPrefs = useContext(PreferencesContext);
   const direction = useAppSelector(state => state.reader.direction);
   const actionsMap = useAppSelector(state => state.actions.keys);
-  const isRTL = direction === LayoutDirection.rtl;
+  const isRTL = direction === ThLayoutDirection.rtl;
   const localeKey = isRTL ? Locale.reader.app.docker.dockToLeft : Locale.reader.app.docker.dockToRight;
 
   const actions = useActions(actionsMap);

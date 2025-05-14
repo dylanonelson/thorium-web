@@ -44,7 +44,7 @@ export default class Peripherals {
   private retrieveShortcuts() {
     const shortcutsObj: PShortcuts = {};
 
-    defaultPreferences.actions.displayOrder.forEach((actionKey) => {
+    for (const actionKey of defaultPreferences.actions.displayOrder) {
       const shortcutString = defaultPreferences.actions.keys[actionKey as keyof typeof ActionKeys].shortcut;
       
       if (shortcutString) {
@@ -61,7 +61,7 @@ export default class Peripherals {
           });
         }
       }
-    });
+    };
     
     return shortcutsObj;
   }

@@ -4,7 +4,7 @@ import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { RSLayoutStrategy } from "@/models/layout";
+import { ThLayoutStrategy } from "@/preferences/preferences";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
@@ -41,7 +41,7 @@ export const ReadingDisplayMaxChars = () => {
           label={ Locale.reader.layoutStrategy.maxChars }
           onChange={ async (isSelected: boolean) => await updatePreference(isSelected ? null : lineLength || RSPrefs.typography.maximalLineLength) }
           isSelected={ maxChars }
-          isDisabled={ layoutStrategy !== RSLayoutStrategy.lineLength }
+          isDisabled={ layoutStrategy !== ThLayoutStrategy.lineLength }
         />
       </div>
     }

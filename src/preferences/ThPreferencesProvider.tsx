@@ -3,12 +3,12 @@
 import { createContext } from "react";
 import { defaultPreferences } from "./defaultPreferences";
 
-import { IRSPrefs } from "@/models/preferences";
+import { ThPreferences } from "./preferences";
 
 const PreferencesContext = createContext(defaultPreferences);
 
 export default function ThPreferencesProvider({ value, children }: {
-  value?: IRSPrefs,
+  value?: ThPreferences,
   children: React.ReactNode
 }) {
   return (

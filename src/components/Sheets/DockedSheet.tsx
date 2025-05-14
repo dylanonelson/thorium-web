@@ -3,7 +3,7 @@ import React, { useCallback, useRef } from "react";
 import Locale from "../../resources/locales/en.json";
 
 import { ISheet, SheetHeaderVariant } from "@/models/sheets";
-import { DockingKeys, LayoutDirection } from "@/preferences/preferences";
+import { DockingKeys, ThLayoutDirection } from "@/preferences/preferences";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
@@ -43,9 +43,9 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
 
   const classFromFlow = useCallback(() => {
     if (flow === DockingKeys.start) {
-      return direction === LayoutDirection.ltr ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
+      return direction === ThLayoutDirection.ltr ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
     } else if (flow === DockingKeys.end) {
-      return direction === LayoutDirection.ltr ? sheetStyles.dockedSheetRightBorder : sheetStyles.dockedSheetLeftBorder;
+      return direction === ThLayoutDirection.ltr ? sheetStyles.dockedSheetRightBorder : sheetStyles.dockedSheetLeftBorder;
     }
   }, [flow, direction]);
 
