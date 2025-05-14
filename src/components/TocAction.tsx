@@ -8,7 +8,7 @@ import Chevron from "./assets/icons/chevron_right.svg";
 
 import { Link } from "@readium/shared";
 import { ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsTriggerVariant";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { SheetTypes } from "@/models/sheets";
 import { LayoutDirection } from "@/preferences";
 import { TocItem } from "@/packages/Helpers/createTocTree";

@@ -3,11 +3,15 @@
 import React, { Fragment } from "react";
 
 import { ThActionsBar, ThActionsBarProps } from "./ThActionsBar";
-import { ThActionsTriggerVariant } from "./ThActionsTriggerVariant";
 import { ThMenu, THMenuProps } from "../Menu/ThMenu";
 
 import { useObjectRef } from "react-aria";
 import { CollapsiblePref, useCollapsibility } from "./hooks/useCollapsibility";
+
+export enum ThActionsTriggerVariant {
+  button = "iconButton",
+  menu = "menuItem"
+}
 
 export interface ThActionEntry<T> {
   key: T;

@@ -7,7 +7,7 @@ import Locale from "../resources/locales/en.json";
 import LayoutIcon from "./assets/icons/fit_page_width.svg";
 
 import { ActionKeys, IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsTriggerVariant";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
