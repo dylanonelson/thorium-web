@@ -135,17 +135,21 @@ export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ t
   }, [dispatch]);
 
   const isTextNested = useCallback((key: SettingsKeys) => {
-    return [
+    const textSettings = [
       RSPrefs.settings.text?.main || defaultTextSettingsMain,
       RSPrefs.settings.text?.subPanel || defaultTextSettingsSubpanel,
-    ].some(arr => arr.includes(key as unknown as TextSettingsKeys));
+    ].flat() as TextSettingsKeys[];
+  
+    return textSettings.includes(key as unknown as TextSettingsKeys);
   }, [RSPrefs.settings.text]);
-
+  
   const isSpacingNested = useCallback((key: SettingsKeys) => {
-    return [
+    const spacingSettings = [
       RSPrefs.settings.spacing?.main || defaultSpacingSettingsMain,
       RSPrefs.settings.spacing?.subPanel || defaultSpacingSettingsSubpanel,
-    ].some(arr => arr.includes(key as unknown as SpacingSettingsKeys));
+    ].flat() as SpacingSettingsKeys[];
+  
+    return spacingSettings.includes(key as unknown as SpacingSettingsKeys);
   }, [RSPrefs.settings.spacing]);
 
   const renderSettings = useCallback(() => {

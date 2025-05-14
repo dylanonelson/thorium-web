@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 
-import { PreferencesContext } from "@/preferences";
+import { PreferencesContext, SettingsKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -22,9 +22,9 @@ export const ReadingDisplayParaIndent: React.FC<IAdvancedDisplayProps> = ({ stan
   const RSPrefs = useContext(PreferencesContext);
   const paragraphIndent = useAppSelector(state => state.settings.paragraphIndent);
   const paragraphIndentRangeConfig = {
-      variant: RSPrefs.settings.spacing?.paragrapIndent?.variant ?? defaultParagraphIndent.variant,
-      range: RSPrefs.settings.spacing?.paragrapIndent?.range ?? defaultParagraphIndent.range,
-      step: RSPrefs.settings.spacing?.paragrapIndent?.step ?? defaultParagraphIndent.step
+      variant: RSPrefs.settings.keys?.[SettingsKeys.paraIndent]?.variant ?? defaultParagraphIndent.variant,
+      range: RSPrefs.settings.keys?.[SettingsKeys.paraIndent]?.range ?? defaultParagraphIndent.range,
+      step: RSPrefs.settings.keys?.[SettingsKeys.paraIndent]?.step ?? defaultParagraphIndent.step
     };
   const dispatch = useAppDispatch();
 

@@ -53,23 +53,10 @@ export enum SettingsRangeVariant {
   numberField = "numberField"
 }
 
-export interface ISettingsTextPref {
+export interface ISettingsGroupPref {
   main?: TextSettingsKeys[];
   subPanel?: TextSettingsKeys[] | null;
   header?: SheetHeaderVariant;
-}
-
-export interface ISettingsSpacingPref {
-  main?: SpacingSettingsKeys[];
-  subPanel?: SpacingSettingsKeys[] | null;
-  header?: SheetHeaderVariant;
-  letterSpacing?: ISettingsRangePref;
-  lineHeight?: {
-    [key in Exclude<ReadingDisplayLineHeightOptions, ReadingDisplayLineHeightOptions.publisher>]: number
-  };
-  paragrapIndent?: ISettingsRangePref;
-  paragraphSpacing?: ISettingsRangePref;
-  wordSpacing?: ISettingsRangePref;
 }
 
 export interface ISettingsRangePref {
@@ -125,7 +112,7 @@ export interface IReadingDisplayGroupWrapperProps {
   moreTooltip: string;
   onMorePressCallback: (e: PressEvent) => void;
   settingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } | { [key in TextSettingsKeys]: ISettingsMapObject };
-  prefs?: ISettingsTextPref | ISettingsSpacingPref;
+  prefs?: ISettingsGroupPref;
   defaultPrefs: {
     main: TextSettingsKeys[] | SpacingSettingsKeys[];
     subPanel: TextSettingsKeys[] | SpacingSettingsKeys[];

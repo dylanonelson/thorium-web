@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 
-import { PreferencesContext } from "@/preferences";
+import { PreferencesContext, SettingsKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -22,9 +22,9 @@ export const ReadingDisplayParaSpacing: React.FC<IAdvancedDisplayProps> = ({ sta
   const RSPrefs = useContext(PreferencesContext);
   const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
   const paragraphSpacingRangeConfig = {
-    variant: RSPrefs.settings.spacing?.paragraphSpacing?.variant ?? defaultParagraphSpacing.variant,
-    range: RSPrefs.settings.spacing?.paragraphSpacing?.range ?? defaultParagraphSpacing.range,
-    step: RSPrefs.settings.spacing?.paragraphSpacing?.step ?? defaultParagraphSpacing.step
+    variant: RSPrefs.settings.keys?.[SettingsKeys.paraSpacing]?.variant ?? defaultParagraphSpacing.variant,
+    range: RSPrefs.settings.keys?.[SettingsKeys.paraSpacing]?.range ?? defaultParagraphSpacing.range,
+    step: RSPrefs.settings.keys?.[SettingsKeys.paraSpacing]?.step ?? defaultParagraphSpacing.step
   };
   const dispatch = useAppDispatch();
 

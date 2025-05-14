@@ -73,7 +73,7 @@ export const ReadingDisplaySpacing = () => {
 
 export const ReadingDisplaySpacingContainer = () => {
   const RSPrefs = useContext(PreferencesContext);
-  const displayOrder = RSPrefs.settings.spacing?.subPanel || defaultSpacingSettingsSubpanel;
+  const displayOrder = RSPrefs.settings.spacing?.subPanel as SpacingSettingsKeys[] | null | undefined || defaultSpacingSettingsSubpanel;
 
   return(
     <>

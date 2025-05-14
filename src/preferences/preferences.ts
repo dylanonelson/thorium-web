@@ -2,10 +2,10 @@ import { ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ThemeTokens } from "@/preferences/hooks/useTheming";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
-import { ILayoutDefaults } from "@/models/layout";
+import { ILayoutDefaults, ReadingDisplayLineHeightOptions } from "@/models/layout";
 import { IActionPref } from "@/models/actions";
 import { IDockingPref } from "@/models/docking";
-import { ISettingsSpacingPref, ISettingsTextPref, SettingsRangeVariant } from "@/models/settings";
+import { ISettingsRangePref, ISettingsGroupPref, SettingsRangeVariant } from "@/models/settings";
 
 export enum ActionKeys {
   fullscreen = "fullscreen",
@@ -54,6 +54,19 @@ export enum SettingsKeys {
   zoom = "zoom"
 }
 
+export type SettingsKeyTypes = {
+  [SettingsKeys.letterSpacing]?: ISettingsRangePref;
+  [SettingsKeys.lineHeight]?: {
+      [key in Exclude<ReadingDisplayLineHeightOptions, ReadingDisplayLineHeightOptions.publisher>]: number
+    };
+  [SettingsKeys.paraIndent]?: ISettingsRangePref;
+  [SettingsKeys.paraSpacing]?: ISettingsRangePref;
+  [SettingsKeys.wordSpacing]?: ISettingsRangePref;
+  [SettingsKeys.zoom]?: {
+    variant?: SettingsRangeVariant;
+  };
+}
+
 export enum SheetTypes {
   popover = "popover",
   fullscreen = "fullscreen",
@@ -89,7 +102,8 @@ export type ConstraintKeys = Extract<SheetTypes, SheetTypes.bottomSheet | SheetT
 export interface ThPreferences<
   CustomThemeKeys extends string | number | symbol = ThemeKeys,
   CustomConstraintsKeys extends string | number | symbol = ConstraintKeys,
-  CustomSettingsKeys extends string | number | symbol = SettingsKeys
+  CustomSettingsKeys extends string | number | symbol = SettingsKeys,
+  CustomSettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>> = SettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>> ? SettingsKeyTypes : never
 > {
   direction?: ThLayoutDirection,
   locale?: string;
@@ -142,11 +156,9 @@ export interface ThPreferences<
   settings: {
     reflowOrder: CustomSettingsKeys[];
     fxlOrder: CustomSettingsKeys[];
-    zoom?: {
-      variant?: SettingsRangeVariant;
-    };
-    text?: ISettingsTextPref;
-    spacing?: ISettingsSpacingPref;
+    keys?: CustomSettingsKeyTypes;
+    text?: ISettingsGroupPref;
+    spacing?: ISettingsGroupPref;
   };
 }
 

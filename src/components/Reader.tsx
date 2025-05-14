@@ -10,7 +10,7 @@ import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/arrowButton.module.css";
 
 import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
-import { ActionKeys, ScrollBackTo, ThemeKeys, ThLayoutStrategy } from "@/preferences/preferences";
+import { ActionKeys, ScrollBackTo, SettingsKeys, ThemeKeys, ThLayoutStrategy } from "@/preferences/preferences";
 import { ReadingDisplayAlignOptions, ReadingDisplayFontFamilyOptions, ReadingDisplayLineHeightOptions } from "@/models/layout";
 import { defaultLineHeights } from "@/models/settings";
 import { ColorScheme } from "@/packages/Hooks/useColorScheme";
@@ -634,9 +634,9 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
         const lineHeightOptions = {
           [ReadingDisplayLineHeightOptions.publisher]: null,
-          [ReadingDisplayLineHeightOptions.small]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.small] || defaultLineHeights[ReadingDisplayLineHeightOptions.small],
-          [ReadingDisplayLineHeightOptions.medium]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.medium] || defaultLineHeights[ReadingDisplayLineHeightOptions.medium],
-          [ReadingDisplayLineHeightOptions.large]: RSPrefs.settings.spacing?.lineHeight?.[ReadingDisplayLineHeightOptions.large] || defaultLineHeights[ReadingDisplayLineHeightOptions.large],
+          [ReadingDisplayLineHeightOptions.small]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.small] || defaultLineHeights[ReadingDisplayLineHeightOptions.small],
+          [ReadingDisplayLineHeightOptions.medium]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.medium] || defaultLineHeights[ReadingDisplayLineHeightOptions.medium],
+          [ReadingDisplayLineHeightOptions.large]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[ReadingDisplayLineHeightOptions.large] || defaultLineHeights[ReadingDisplayLineHeightOptions.large],
         };
 
         const preferences: IEpubPreferences = isFXL ? {} : {

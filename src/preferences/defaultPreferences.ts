@@ -325,6 +325,13 @@ export const defaultPreferences: ThPreferences = {
       SettingsKeys.theme,
       SettingsKeys.columns
     ],
+    keys: {
+      [SettingsKeys.lineHeight]: {
+        [ReadingDisplayLineHeightOptions.small]: 1.3,
+        [ReadingDisplayLineHeightOptions.medium]: 1.5,
+        [ReadingDisplayLineHeightOptions.large]: 1.75
+      }
+    },
     text: {
       header: SheetHeaderVariant.previous,
       subPanel: [
@@ -337,11 +344,6 @@ export const defaultPreferences: ThPreferences = {
     },
     spacing: {
       header: SheetHeaderVariant.previous,
-      lineHeight: {
-        [ReadingDisplayLineHeightOptions.small]: 1.3,
-        [ReadingDisplayLineHeightOptions.medium]: 1.5,
-        [ReadingDisplayLineHeightOptions.large]: 1.75
-      }
     }
   }
 }
