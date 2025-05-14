@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { IReaderArrow } from "@/models/layout";
-
 import { PreferencesContext } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
@@ -10,7 +8,9 @@ import arrowStyles from "./assets/styles/arrowButton.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 
-import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
+import { PressEvent } from "react-aria";
+
+import { ThNavigationButton, ThNavigationButtonProps } from "@/packages/Components/Buttons/ThNavigationButton";
 
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 
@@ -21,7 +21,19 @@ import { isActiveElement } from "@/packages/Helpers/focusUtilities";
 
 import classNames from "classnames";
 
-export const ArrowButton = (props: IReaderArrow) => {
+export interface ReaderArrowProps extends ThNavigationButtonProps {
+  direction: "left" | "right";
+  occupySpace: boolean;
+}
+
+export const ArrowButton = ({
+  direction,
+  occupySpace,
+  className,
+  isDisabled,
+  onPress,
+  ...props
+}: ReaderArrowProps) => {
   const RSPrefs = useContext(PreferencesContext);
   
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -40,8 +52,8 @@ export const ArrowButton = (props: IReaderArrow) => {
   }
 
   const label = (
-    props.direction === "right" && !isRTL || 
-    props.direction === "left" && isRTL
+    direction === "right" && !isRTL || 
+    direction === "left" && isRTL
   ) 
     ? Locale.reader.navigation.goForward 
     : Locale.reader.navigation.goBackward;
@@ -56,14 +68,14 @@ export const ArrowButton = (props: IReaderArrow) => {
 
   const handleClassNameFromSpaceProp = () => {
     let className = "";
-    if (props.occupySpace) {
+    if (occupySpace) {
       className = arrowStyles.viewportLarge;
     }
     return className;
   };
 
   useEffect(() => {
-    if ((props.disabled || (!hasArrows && !isHovering)) && isActiveElement(buttonRef.current)) {
+    if ((isDisabled || (!hasArrows && !isHovering)) && isActiveElement(buttonRef.current)) {
       buttonRef.current!.blur();
     }
   });
@@ -74,30 +86,31 @@ export const ArrowButton = (props: IReaderArrow) => {
     }
   };
 
-  const handleOnPress = (cb: () => void) => {
+  const handleOnPress = (e: PressEvent, cb: (e: PressEvent) => void) => {
     dispatch(setArrows(false));
-    cb();
+    cb(e);
   }
 
   return (
     <>
     <ThNavigationButton 
-      direction={ props.direction }
+      direction={ direction }
       ref= { buttonRef }
       aria-label={ label }
-      onPress={ () => handleOnPress(props.onPressCallback) }
+      onPress={ (e) => onPress && handleOnPress(e, onPress) }
       onHoverChange={ (e) => setIsHovering(e) } 
       onKeyDown={ blurOnEsc }
-      className={ classNames(props.className, handleClassNameFromSpaceProp(), handleClassNameFromState()) }
-      isDisabled={ props.disabled }
+      className={ classNames(className, handleClassNameFromSpaceProp(), handleClassNameFromState()) }
+      isDisabled={ isDisabled }
       preventFocusOnPress={ true }
+      { ...props }
       tooltip={ {
         trigger: {
           delay: RSPrefs.theming.arrow.tooltipDelay,
           closeDelay: RSPrefs.theming.arrow.tooltipDelay
         },
         tooltip: {
-          placement: props.direction === "left" ? "right" : "left",
+          placement: direction === "left" ? "right" : "left",
           className: readerSharedUI.tooltip
         },
         label: label

@@ -716,8 +716,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
               <ArrowButton 
                 direction="left" 
                 occupySpace={ arrowsOccupySpace || false }
-                disabled={ atPublicationStart } 
-                onPressCallback={ () => goLeft(!reducedMotion, activateImmersiveOnAction) }
+                isDisabled={ atPublicationStart } 
+                onPress={ () => goLeft(!reducedMotion, activateImmersiveOnAction) }
               />
           </nav> 
           : <></> }
@@ -731,8 +731,8 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
               <ArrowButton 
                 direction="right" 
                 occupySpace={ arrowsOccupySpace || false }
-                disabled={ atPublicationEnd } 
-                onPressCallback={ () => goRight(!reducedMotion, activateImmersiveOnAction) }
+                isDisabled={ atPublicationEnd } 
+                onPress={ () => goRight(!reducedMotion, activateImmersiveOnAction) }
               />
             </nav> 
           : <></> }
