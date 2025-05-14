@@ -2,9 +2,8 @@
 import { defaultPreferences } from "@/preferences";
 
 import { ActionKeys } from "@/models/actions";
-import { PShortcuts } from "@/models/shortcut";
 
-import { buildShortcut } from "@/packages/Helpers/keyboardUtilities";
+import { buildShortcut, PShortcut } from "@/packages/Helpers/keyboardUtilities";
 import { isInteractiveElement } from "@/packages/Helpers/focusUtilities";
 
 import { useAppStore } from "@/lib/hooks";
@@ -13,6 +12,13 @@ export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
   goProgression: (shiftKey?: boolean) => void;
   toggleAction: (action: ActionKeys) => void;
+}
+
+export interface PShortcuts {
+  [key: string]: {
+    actionKey: ActionKeys;
+    modifiers: PShortcut["modifiers"];
+  }
 }
 
 export default class Peripherals {
