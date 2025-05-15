@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
@@ -8,12 +10,12 @@ import { Keyboard } from "react-aria-components";
 
 import { useAppSelector } from "@/lib/hooks";
 
-export const Shortcut: React.FC<IShortcut> = ({
+export const UnstableShortcut = ({
   className,
   rawForm,
   representation,
   joiner
-}) => {
+}: IShortcut) => {
   const RSPrefs = useContext(PreferencesContext);
   const platformModifier = useAppSelector(state => state.reader.platformModifier);
 

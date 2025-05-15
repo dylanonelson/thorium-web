@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ProgressionObject } from "@/components/ProgressionOf";
+import { ProgressionObject } from "@/components/StatefulReaderProgression";
 import { TocItem } from "@/packages/Helpers/createTocTree";
 
 export interface PublicationReducerState {

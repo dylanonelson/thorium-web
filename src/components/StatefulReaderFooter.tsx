@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 import Locale from "../resources/locales/en.json";
@@ -7,9 +9,9 @@ import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import { ThFooter } from "@/packages/Components/Reader/ThFooter";
-import { ProgressionOf } from "./ProgressionOf";
+import { StatefulReaderProgression } from "./StatefulReaderProgression";
 
-export const ReaderFooter = () => {
+export const StatefulReaderFooter = () => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const dispatch = useAppDispatch();
@@ -41,7 +43,7 @@ export const ReaderFooter = () => {
       onMouseEnter={ setHover } 
       onMouseLeave={ removeHover }
     >
-      <ProgressionOf />
+      <StatefulReaderProgression />
     </ThFooter>
     </>
   )
