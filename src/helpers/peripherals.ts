@@ -1,7 +1,7 @@
 // Peripherals based on XBReader
 import { defaultPreferences } from "@/preferences";
 
-import { ActionKeys } from "@/preferences/models/enums";
+import { ThActionsKeys } from "@/preferences/models/enums";
 
 import { buildShortcut, PShortcut } from "@/packages/Helpers/keyboardUtilities";
 import { isInteractiveElement } from "@/packages/Helpers/focusUtilities";
@@ -11,12 +11,12 @@ import { useAppStore } from "@/lib/hooks";
 export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
   goProgression: (shiftKey?: boolean) => void;
-  toggleAction: (action: ActionKeys) => void;
+  toggleAction: (action: ThActionsKeys) => void;
 }
 
 export interface PShortcuts {
   [key: string]: {
-    actionKey: ActionKeys;
+    actionKey: ThActionsKeys;
     modifiers: PShortcut["modifiers"];
   }
 }
@@ -45,7 +45,7 @@ export default class Peripherals {
     const shortcutsObj: PShortcuts = {};
 
     for (const actionKey of defaultPreferences.actions.displayOrder) {
-      const shortcutString = defaultPreferences.actions.keys[actionKey as keyof typeof ActionKeys].shortcut;
+      const shortcutString = defaultPreferences.actions.keys[actionKey as keyof typeof ThActionsKeys].shortcut;
       
       if (shortcutString) {
         const shortcutObj = buildShortcut(shortcutString);

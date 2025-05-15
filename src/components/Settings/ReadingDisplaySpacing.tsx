@@ -4,8 +4,8 @@ import {
   defaultSpacingSettingsMain, 
   defaultSpacingSettingsSubpanel, 
   PreferencesContext, 
-  SettingsContainerKeys, 
-  SpacingSettingsKeys 
+  ThSettingsContainerKeys, 
+  ThSpacingSettingsKeys 
 } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
@@ -24,23 +24,23 @@ import { ReadingDisplayWordSpacing } from "./ReadingDisplayWordSpacing";
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
-const StatefulSpacingSettingsMap: { [key in SpacingSettingsKeys]: StatefulSettingsMapObject } = {
-  [SpacingSettingsKeys.letterSpacing]: {
+const StatefulSpacingSettingsMap: { [key in ThSpacingSettingsKeys]: StatefulSettingsMapObject } = {
+  [ThSpacingSettingsKeys.letterSpacing]: {
     Comp: ReadingDisplayLetterSpacing
   },
-  [SpacingSettingsKeys.lineHeight]: {
+  [ThSpacingSettingsKeys.lineHeight]: {
     Comp: ReadingDisplayLineHeight
   },
-  [SpacingSettingsKeys.paraIndent]: {
+  [ThSpacingSettingsKeys.paraIndent]: {
     Comp: ReadingDisplayParaIndent
   },
-  [SpacingSettingsKeys.paraSpacing]: {
+  [ThSpacingSettingsKeys.paraSpacing]: {
     Comp: ReadingDisplayParaSpacing
   },
-  [SpacingSettingsKeys.publisherStyles]: {
+  [ThSpacingSettingsKeys.publisherStyles]: {
     Comp: ReadingDisplayPublisherStyles
   },
-  [SpacingSettingsKeys.wordSpacing]: {
+  [ThSpacingSettingsKeys.wordSpacing]: {
     Comp: ReadingDisplayWordSpacing
   }
 }
@@ -50,7 +50,7 @@ export const ReadingDisplaySpacing = () => {
   const dispatch = useAppDispatch();
   
   const setSpacingContainer = useCallback(() => {
-    dispatch(setSettingsContainer(SettingsContainerKeys.spacing));
+    dispatch(setSettingsContainer(ThSettingsContainerKeys.spacing));
   }, [dispatch]);
 
   return (
@@ -73,11 +73,11 @@ export const ReadingDisplaySpacing = () => {
 
 export const ReadingDisplaySpacingContainer = () => {
   const RSPrefs = useContext(PreferencesContext);
-  const displayOrder = RSPrefs.settings.spacing?.subPanel as SpacingSettingsKeys[] | null | undefined || defaultSpacingSettingsSubpanel;
+  const displayOrder = RSPrefs.settings.spacing?.subPanel as ThSpacingSettingsKeys[] | null | undefined || defaultSpacingSettingsSubpanel;
 
   return(
     <>
-    { displayOrder.map((key: SpacingSettingsKeys) => {
+    { displayOrder.map((key: ThSpacingSettingsKeys) => {
       const { Comp } = StatefulSpacingSettingsMap[key];
       return <Comp key={ key } standalone={ true } />;
     }) }

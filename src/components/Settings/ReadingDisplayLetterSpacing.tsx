@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 
-import { defaultLetterSpacing, PreferencesContext, SettingsKeys, SettingsRangeVariant } from "@/preferences";
+import { defaultLetterSpacing, PreferencesContext, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -18,9 +18,9 @@ export const ReadingDisplayLetterSpacing = ({ standalone = true }: StatefulSetti
   const RSPrefs = useContext(PreferencesContext);
   const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
   const letterSpacingRangeConfig = {
-    variant: RSPrefs.settings.keys?.[SettingsKeys.letterSpacing]?.variant ?? defaultLetterSpacing.variant,
-    range: RSPrefs.settings.keys?.[SettingsKeys.letterSpacing]?.range ?? defaultLetterSpacing.range,
-    step: RSPrefs.settings.keys?.[SettingsKeys.letterSpacing]?.step ?? defaultLetterSpacing.step
+    variant: RSPrefs.settings.keys?.[ThSettingsKeys.letterSpacing]?.variant ?? defaultLetterSpacing.variant,
+    range: RSPrefs.settings.keys?.[ThSettingsKeys.letterSpacing]?.range ?? defaultLetterSpacing.range,
+    step: RSPrefs.settings.keys?.[ThSettingsKeys.letterSpacing]?.step ?? defaultLetterSpacing.step
   };
   const dispatch = useAppDispatch();
 
@@ -37,7 +37,7 @@ export const ReadingDisplayLetterSpacing = ({ standalone = true }: StatefulSetti
 
   return (
     <>
-    { letterSpacingRangeConfig.variant === SettingsRangeVariant.numberField 
+    { letterSpacingRangeConfig.variant === ThSettingsRangeVariant.numberField 
       ? <NumberFieldWrapper 
         standalone={ standalone }
         label={ Locale.reader.settings.letterSpacing.title }

@@ -5,18 +5,18 @@ import { ShortcutMetaKeywords, ShortcutRepresentation } from "@/packages/Helpers
 import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
 import { 
-  ActionKeys, 
-  DockingTypes, 
-  DockingKeys, 
-  ScrollBackTo, 
-  SettingsKeys, 
-  SheetTypes, 
-  ThemeKeys,  
+  ThActionsKeys, 
+  ThDockingTypes, 
+  ThDockingKeys, 
+  ThScrollBackTo, 
+  ThSettingsKeys, 
+  ThSheetTypes, 
+  ThThemeKeys,  
   ThLayoutDirection,
   ThLayoutStrategy,
-  LineHeightOptions,
-  TextSettingsKeys,
-  SheetHeaderVariant
+  ThLineHeightOptions,
+  ThTextSettingsKeys,
+  ThSheetHeaderVariant
 } from "./models/enums";
 import { ThPreferences } from "./preferences";
 
@@ -37,7 +37,7 @@ export const defaultPreferences: ThPreferences = {
   scroll: {
     topAffordance: ScrollAffordancePref.none,
     bottomAffordance: ScrollAffordancePref.both,
-    backTo: ScrollBackTo.top
+    backTo: ThScrollBackTo.top
   },
   theming: {
     arrow: {
@@ -56,8 +56,8 @@ export const defaultPreferences: ThPreferences = {
         scrim: "rgba(0, 0, 0, 0.2)" // default scrim/underlay bg-color
       },
       constraints: {
-        [SheetTypes.bottomSheet]: 600, // Max-width of all bottom sheets
-        [SheetTypes.popover]: 600 // Max-width of all popover sheets
+        [ThSheetTypes.bottomSheet]: 600, // Max-width of all bottom sheets
+        [ThSheetTypes.popover]: 600 // Max-width of all popover sheets
       }
     },
     breakpoints: {
@@ -70,22 +70,22 @@ export const defaultPreferences: ThPreferences = {
     },
     themes: {
       reflowOrder: [
-        ThemeKeys.auto, 
-        ThemeKeys.light, 
-        ThemeKeys.sepia, 
-        ThemeKeys.paper, 
-        ThemeKeys.dark, 
-        ThemeKeys.contrast1, 
-        ThemeKeys.contrast2, 
-        ThemeKeys.contrast3
+        ThThemeKeys.auto, 
+        ThThemeKeys.light, 
+        ThThemeKeys.sepia, 
+        ThThemeKeys.paper, 
+        ThThemeKeys.dark, 
+        ThThemeKeys.contrast1, 
+        ThThemeKeys.contrast2, 
+        ThThemeKeys.contrast3
       ],
       fxlOrder: [
-        ThemeKeys.auto,
-        ThemeKeys.light,
-        ThemeKeys.dark
+        ThThemeKeys.auto,
+        ThThemeKeys.light,
+        ThThemeKeys.dark
       ],
       keys: {
-        [ThemeKeys.light]: {
+        [ThThemeKeys.light]: {
           background: dayMode.RS__backgroundColor, // Color of background
           text: dayMode.RS__textColor,    // Color of text
           link: "#0000ee",                // Color of links
@@ -100,7 +100,7 @@ export const defaultPreferences: ThPreferences = {
           elevate: "0px 0px 2px #808080", // drop shadow of containers
           immerse: "0.6"                  // opacity of immersive mode
         },
-        [ThemeKeys.sepia]: {
+        [ThThemeKeys.sepia]: {
           background: sepiaMode.RS__backgroundColor,
           text: sepiaMode.RS__textColor,
           link: sepiaMode.RS__linkColor,
@@ -115,7 +115,7 @@ export const defaultPreferences: ThPreferences = {
           elevate: "0px 0px 2px #8c8c8c",
           immerse: "0.5"
         },
-        [ThemeKeys.dark]: {
+        [ThThemeKeys.dark]: {
           background: nightMode.RS__backgroundColor,
           text: nightMode.RS__textColor,
           link: nightMode.RS__linkColor,
@@ -130,7 +130,7 @@ export const defaultPreferences: ThPreferences = {
           elevate: "0px 0px 2px #808080",
           immerse: "0.4"
         },
-        [ThemeKeys.paper]: {
+        [ThThemeKeys.paper]: {
           background: "#e9ddc8",
           text: "#000000",
           link: sepiaMode.RS__linkColor,
@@ -145,7 +145,7 @@ export const defaultPreferences: ThPreferences = {
           elevate: "0px 0px 2px #8c8c8c",
           immerse: "0.45"
         },
-        [ThemeKeys.contrast1]: {
+        [ThThemeKeys.contrast1]: {
           background: "#000000",
           text: "#ffff00",
           link: nightMode.RS__linkColor,
@@ -160,7 +160,7 @@ export const defaultPreferences: ThPreferences = {
           elevate: "0px 0px 2px #808000",
           immerse: "0.4"
         },
-        [ThemeKeys.contrast2]: {
+        [ThThemeKeys.contrast2]: {
           background: "#181842",
           text: "#ffffff",
           link: "#adcfff",
@@ -175,7 +175,7 @@ export const defaultPreferences: ThPreferences = {
           elevate: "0px 0px 2px #808080",
           immerse: "0.4"
         },
-        [ThemeKeys.contrast3]: {
+        [ThThemeKeys.contrast3]: {
           background: "#c5e7cd",
           text: "#000000",
           link: sepiaMode.RS__linkColor,
@@ -199,11 +199,11 @@ export const defaultPreferences: ThPreferences = {
   },
   actions: {
     displayOrder: [
-      ActionKeys.settings,
-      ActionKeys.toc,
-      ActionKeys.fullscreen,
-      ActionKeys.layoutStrategy
-    //  ActionKeys.jumpToPosition
+      ThActionsKeys.settings,
+      ThActionsKeys.toc,
+      ThActionsKeys.fullscreen,
+      ThActionsKeys.layoutStrategy
+    //  ThActionsKeys.jumpToPosition
     ],
     collapse: {
       // Number of partially icons to display
@@ -213,17 +213,17 @@ export const defaultPreferences: ThPreferences = {
       [Breakpoints.medium]: 3
     }, 
     keys: {
-      [ActionKeys.settings]: {
+      [ThActionsKeys.settings]: {
         visibility: CollapsibilityVisibility.partially,
         shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+P`,
         sheet: {
-          defaultSheet: SheetTypes.popover,
+          defaultSheet: ThSheetTypes.popover,
           breakpoints: {
-            [Breakpoints.compact]: SheetTypes.bottomSheet
+            [Breakpoints.compact]: ThSheetTypes.bottomSheet
           }
         },
         docked: {
-          dockable: DockingTypes.none,
+          dockable: ThDockingTypes.none,
           width: 340
         },
         snapped: {
@@ -233,39 +233,39 @@ export const defaultPreferences: ThPreferences = {
           maxHeight: 100
         }
       },
-      [ActionKeys.fullscreen]: {
+      [ThActionsKeys.fullscreen]: {
         visibility: CollapsibilityVisibility.partially,
         shortcut: null
       },
-      [ActionKeys.toc]: {
+      [ThActionsKeys.toc]: {
         visibility: CollapsibilityVisibility.partially,
         shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+T`,
         sheet: {
-          defaultSheet: SheetTypes.popover,
+          defaultSheet: ThSheetTypes.popover,
           breakpoints: {
-            [Breakpoints.compact]: SheetTypes.fullscreen,
-            [Breakpoints.medium]: SheetTypes.fullscreen
+            [Breakpoints.compact]: ThSheetTypes.fullscreen,
+            [Breakpoints.medium]: ThSheetTypes.fullscreen
           }
         },
         docked: {
-          dockable: DockingTypes.both,
+          dockable: ThDockingTypes.both,
           dragIndicator: false,
           width: 360,
           minWidth: 320,
           maxWidth: 450
         }
       },
-      [ActionKeys.layoutStrategy]: {
+      [ThActionsKeys.layoutStrategy]: {
         visibility: CollapsibilityVisibility.overflow,
         shortcut: null,
         sheet: {
-          defaultSheet: SheetTypes.popover,
+          defaultSheet: ThSheetTypes.popover,
           breakpoints: {
-            [Breakpoints.compact]: SheetTypes.bottomSheet
+            [Breakpoints.compact]: ThSheetTypes.bottomSheet
           }
         },
         docked: {
-          dockable: DockingTypes.none
+          dockable: ThDockingTypes.none
         },
         snapped: {
           scrim: true,
@@ -274,39 +274,39 @@ export const defaultPreferences: ThPreferences = {
           maxHeight: 100
         }
       },
-      [ActionKeys.jumpToPosition]: {
+      [ThActionsKeys.jumpToPosition]: {
         visibility: CollapsibilityVisibility.overflow,
         shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
         docked: {
-          dockable: DockingTypes.none
+          dockable: ThDockingTypes.none
         }
       }
     }
   },
   docking: {
     displayOrder: [
-      DockingKeys.transient,
-      DockingKeys.start,
-      DockingKeys.end
+      ThDockingKeys.transient,
+      ThDockingKeys.start,
+      ThDockingKeys.end
     ],
     dock: {
-      [Breakpoints.compact]: DockingTypes.none,
-      [Breakpoints.medium]: DockingTypes.none,
-      [Breakpoints.expanded]: DockingTypes.start,
-      [Breakpoints.large]: DockingTypes.both,
-      [Breakpoints.xLarge]: DockingTypes.both
+      [Breakpoints.compact]: ThDockingTypes.none,
+      [Breakpoints.medium]: ThDockingTypes.none,
+      [Breakpoints.expanded]: ThDockingTypes.start,
+      [Breakpoints.large]: ThDockingTypes.both,
+      [Breakpoints.xLarge]: ThDockingTypes.both
     },
     collapse: true,
     keys: {
-      [DockingKeys.start]: {
+      [ThDockingKeys.start]: {
         visibility: CollapsibilityVisibility.overflow,
         shortcut: null
       },
-      [DockingKeys.end]: {
+      [ThDockingKeys.end]: {
         visibility: CollapsibilityVisibility.overflow,
         shortcut: null
       },
-      [DockingKeys.transient]: {
+      [ThDockingKeys.transient]: {
         visibility: CollapsibilityVisibility.overflow,
         shortcut: null
       }
@@ -314,36 +314,36 @@ export const defaultPreferences: ThPreferences = {
   },
   settings: {
     reflowOrder: [
-      SettingsKeys.zoom,
-      SettingsKeys.text,
-      SettingsKeys.theme,
-      SettingsKeys.spacing,
-      SettingsKeys.layout,
-      SettingsKeys.columns
+      ThSettingsKeys.zoom,
+      ThSettingsKeys.text,
+      ThSettingsKeys.theme,
+      ThSettingsKeys.spacing,
+      ThSettingsKeys.layout,
+      ThSettingsKeys.columns
     ],
     fxlOrder: [
-      SettingsKeys.theme,
-      SettingsKeys.columns
+      ThSettingsKeys.theme,
+      ThSettingsKeys.columns
     ],
     keys: {
-      [SettingsKeys.lineHeight]: {
-        [LineHeightOptions.small]: 1.3,
-        [LineHeightOptions.medium]: 1.5,
-        [LineHeightOptions.large]: 1.75
+      [ThSettingsKeys.lineHeight]: {
+        [ThLineHeightOptions.small]: 1.3,
+        [ThLineHeightOptions.medium]: 1.5,
+        [ThLineHeightOptions.large]: 1.75
       }
     },
     text: {
-      header: SheetHeaderVariant.previous,
+      header: ThSheetHeaderVariant.previous,
       subPanel: [
-        TextSettingsKeys.fontFamily,
-        TextSettingsKeys.fontWeight,
-        TextSettingsKeys.align,
-        TextSettingsKeys.hyphens,
-        TextSettingsKeys.normalizeText
+        ThTextSettingsKeys.fontFamily,
+        ThTextSettingsKeys.fontWeight,
+        ThTextSettingsKeys.align,
+        ThTextSettingsKeys.hyphens,
+        ThTextSettingsKeys.normalizeText
       ]
     },
     spacing: {
-      header: SheetHeaderVariant.previous,
+      header: ThSheetHeaderVariant.previous,
     }
   }
 }

@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 
-import { defaultWordSpacing, PreferencesContext, SettingsKeys, SettingsRangeVariant } from "@/preferences";
+import { defaultWordSpacing, PreferencesContext, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -18,9 +18,9 @@ export const ReadingDisplayWordSpacing = ({ standalone = true }: StatefulSetting
   const RSPrefs = useContext(PreferencesContext);
   const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
   const wordSpacingRangeConfig = {
-    variant: RSPrefs.settings.keys?.[SettingsKeys.wordSpacing]?.variant ?? defaultWordSpacing.variant,
-    range: RSPrefs.settings.keys?.[SettingsKeys.wordSpacing]?.range ?? defaultWordSpacing.range,
-    step: RSPrefs.settings.keys?.[SettingsKeys.wordSpacing]?.step ?? defaultWordSpacing.step
+    variant: RSPrefs.settings.keys?.[ThSettingsKeys.wordSpacing]?.variant ?? defaultWordSpacing.variant,
+    range: RSPrefs.settings.keys?.[ThSettingsKeys.wordSpacing]?.range ?? defaultWordSpacing.range,
+    step: RSPrefs.settings.keys?.[ThSettingsKeys.wordSpacing]?.step ?? defaultWordSpacing.step
   };
   const dispatch = useAppDispatch();
 
@@ -37,7 +37,7 @@ export const ReadingDisplayWordSpacing = ({ standalone = true }: StatefulSetting
 
   return (
     <>
-    { wordSpacingRangeConfig.variant === SettingsRangeVariant.numberField 
+    { wordSpacingRangeConfig.variant === ThSettingsRangeVariant.numberField 
       ? <NumberFieldWrapper 
         standalone={ standalone }
         label={ Locale.reader.settings.wordSpacing.title }

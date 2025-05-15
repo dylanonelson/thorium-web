@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ActionKeys, DockingKeys } from "@/preferences/models/enums";
+import { ThActionsKeys, ThDockingKeys } from "@/preferences/models/enums";
 
-export type ActionsStateKeys = Exclude<ActionKeys, ActionKeys.fullscreen>;
+export type ActionsStateKeys = Exclude<ThActionsKeys, ThActionsKeys.fullscreen>;
 export type OverflowStateKeys = string;
 
 export interface ActionStateObject {
   isOpen: boolean | null;
-  docking: DockingKeys | null;
+  docking: ThDockingKeys | null;
   dockedWidth?: number;
 }
 
@@ -26,7 +26,7 @@ export interface ActionStateDockPayload {
   type: string;
   payload: {
     key: ActionsStateKeys;
-    dockingKey: DockingKeys;
+    dockingKey: ThDockingKeys;
   }
 }
 
@@ -56,27 +56,27 @@ export interface ActionOverflowOpenPayload {
 export interface ActionStateDockedPayload {
   type: string;
   payload: { 
-    slot: DockingKeys.start | DockingKeys.end;
+    slot: ThDockingKeys.start | ThDockingKeys.end;
     docked: DockStateObject;
   }
 }
 
 export interface ActionStateSlotPayload {
   type: string;
-  payload: DockingKeys.start | DockingKeys.end;
+  payload: ThDockingKeys.start | ThDockingKeys.end;
 }
 
 export interface ActionStateSlotWidthPayload {
   type: string;
   payload: { 
-    key: DockingKeys.start | DockingKeys.end;
+    key: ThDockingKeys.start | ThDockingKeys.end;
     width: number;
   }
 }
 
 export interface DockState {
-  [DockingKeys.start]: DockStateObject;
-  [DockingKeys.end]: DockStateObject;
+  [ThDockingKeys.start]: DockStateObject;
+  [ThDockingKeys.end]: DockStateObject;
 }
 
 export type ActionsReducerState = {
@@ -91,31 +91,31 @@ export type ActionsReducerState = {
 
 const initialState: ActionsReducerState = {
   dock: {
-    [DockingKeys.start]: {
+    [ThDockingKeys.start]: {
       actionKey: null,
       active: false,
       collapsed: false
     },
-    [DockingKeys.end]: {
+    [ThDockingKeys.end]: {
       actionKey: null,
       active: false,
       collapsed: false
     }
   },
   keys: {
-    [ActionKeys.toc]: {
+    [ThActionsKeys.toc]: {
       isOpen: null,
       docking: null
     },
-    [ActionKeys.settings]: {
+    [ThActionsKeys.settings]: {
       isOpen: null,
       docking: null
     },
-    [ActionKeys.jumpToPosition]: {
+    [ThActionsKeys.jumpToPosition]: {
       isOpen: null,
       docking: null
     },
-    [ActionKeys.layoutStrategy]: {
+    [ThActionsKeys.layoutStrategy]: {
       isOpen: null,
       docking: null
     }
@@ -129,16 +129,16 @@ export const actionsSlice = createSlice({
   reducers: {
     dockAction: (state, action: ActionStateDockPayload) => {
       switch (action.payload.key) {
-        case ActionKeys.jumpToPosition:
-        case ActionKeys.toc:
-        case ActionKeys.settings:
-        case ActionKeys.layoutStrategy:
+        case ThActionsKeys.jumpToPosition:
+        case ThActionsKeys.toc:
+        case ThActionsKeys.settings:
+        case ThActionsKeys.layoutStrategy:
           // The user should be able to override the dock slot
           // so we override the previous value, and sync 
           // any other action with the same docking key
 
           switch(action.payload.dockingKey) {
-            case DockingKeys.start:
+            case ThDockingKeys.start:
               // We need to find if any other action has the same docking key. 
               // If it does, we also have to close it so that its transient sheet 
               // doesn’t pop over on the screen when it’s replaced
@@ -146,27 +146,27 @@ export const actionsSlice = createSlice({
                 if (state.keys[key as ActionsStateKeys].docking === action.payload.dockingKey) {
                   state.keys[key as ActionsStateKeys] = { 
                     ...state.keys[key as ActionsStateKeys],
-                    docking: DockingKeys.transient,
+                    docking: ThDockingKeys.transient,
                     isOpen: false
                   };
                 }
               }
 
               // We need to populate the docking slot
-              state.dock[DockingKeys.start] = {
-                ...state.dock[DockingKeys.start],
+              state.dock[ThDockingKeys.start] = {
+                ...state.dock[ThDockingKeys.start],
                 actionKey: action.payload.key
               }
               // And remove it from the other one
-              if (state.dock[DockingKeys.end].actionKey === action.payload.key) {
-                state.dock[DockingKeys.end] = {
-                  ...state.dock[DockingKeys.end],
+              if (state.dock[ThDockingKeys.end].actionKey === action.payload.key) {
+                state.dock[ThDockingKeys.end] = {
+                  ...state.dock[ThDockingKeys.end],
                   actionKey: null
                 }
               }
               break;
 
-            case DockingKeys.end:
+            case ThDockingKeys.end:
               // We need to find if any other action has the same docking key. 
               // If it does, we also have to close it so that its transient sheet 
               // doesn’t pop over on the screen when it’s replaced
@@ -174,39 +174,39 @@ export const actionsSlice = createSlice({
                 if (state.keys[key as ActionsStateKeys].docking === action.payload.dockingKey) {
                   state.keys[key as ActionsStateKeys] = { 
                     ...state.keys[key as ActionsStateKeys],
-                    docking: DockingKeys.transient,
+                    docking: ThDockingKeys.transient,
                     isOpen: false
                   };
                 }
               }
 
               // We need to populate the docking slot
-              state.dock[DockingKeys.end] = {
-                ...state.dock[DockingKeys.end],
+              state.dock[ThDockingKeys.end] = {
+                ...state.dock[ThDockingKeys.end],
                 actionKey: action.payload.key
               }
               // And remove it from the other one
-              if (state.dock[DockingKeys.start].actionKey === action.payload.key) {
-                state.dock[DockingKeys.start] = {
-                  ...state.dock[DockingKeys.start],
+              if (state.dock[ThDockingKeys.start].actionKey === action.payload.key) {
+                state.dock[ThDockingKeys.start] = {
+                  ...state.dock[ThDockingKeys.start],
                   actionKey: null
                 }
               }
               break;
 
             // We don’t need to sync another action
-            case DockingKeys.transient:
+            case ThDockingKeys.transient:
             default: 
               // We need to empty the docking slot
-              if (state.dock[DockingKeys.start].actionKey === action.payload.key) {
-                state.dock[DockingKeys.start] = {
-                  ...state.dock[DockingKeys.start],
+              if (state.dock[ThDockingKeys.start].actionKey === action.payload.key) {
+                state.dock[ThDockingKeys.start] = {
+                  ...state.dock[ThDockingKeys.start],
                   actionKey: null
                 }
               }
-              if (state.dock[DockingKeys.end].actionKey === action.payload.key) {
-                state.dock[DockingKeys.end] = {
-                  ...state.dock[DockingKeys.end],
+              if (state.dock[ThDockingKeys.end].actionKey === action.payload.key) {
+                state.dock[ThDockingKeys.end] = {
+                  ...state.dock[ThDockingKeys.end],
                   actionKey: null
                 }
               }            
@@ -223,10 +223,10 @@ export const actionsSlice = createSlice({
     },
     setActionOpen: (state, action: ActionStateOpenPayload) => {      
       switch (action.payload.key) {
-        case ActionKeys.jumpToPosition:
-        case ActionKeys.toc:
-        case ActionKeys.settings:
-        case ActionKeys.layoutStrategy:
+        case ThActionsKeys.jumpToPosition:
+        case ThActionsKeys.toc:
+        case ThActionsKeys.settings:
+        case ThActionsKeys.layoutStrategy:
           // If the action is docked and set Open, we must take care of 
           // the dock panel’s collapsibility. Otherwise we end up with bugs 
           // i.e. user has to click/tap action icon twice to open, 
@@ -234,7 +234,7 @@ export const actionsSlice = createSlice({
           if (
               !action.payload.isOpen && 
               dockingKey !== null && 
-              dockingKey !== DockingKeys.transient &&
+              dockingKey !== ThDockingKeys.transient &&
               state.dock[dockingKey].actionKey === action.payload.key &&
               state.dock[dockingKey].active &&
               state.dock[dockingKey].collapsed
@@ -257,9 +257,9 @@ export const actionsSlice = createSlice({
     },
     toggleActionOpen: (state, action: ActionStateTogglePayload) => {
       switch (action.payload.key) {
-        case ActionKeys.jumpToPosition:
-        case ActionKeys.toc:
-        case ActionKeys.settings:
+        case ThActionsKeys.jumpToPosition:
+        case ThActionsKeys.toc:
+        case ThActionsKeys.settings:
           const payload = {
             key: action.payload.key,
             isOpen: state.keys[action.payload.key].isOpen ? !state.keys[action.payload.key].isOpen : true

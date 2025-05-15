@@ -15,7 +15,7 @@ import { Loader } from "@/components/Loader";
 import { useTheming } from "@/preferences/hooks/useTheming";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { ThemeKeys } from "@/preferences/models/enums";
+import { ThThemeKeys } from "@/preferences/models/enums";
 import { PreferencesContext } from "@/preferences";
 import { 
   setBreakpoint, 
@@ -46,10 +46,10 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
   const dispatch = useAppDispatch();
 
   // Init theming (breakpoints, theme, media queries…)
-  useTheming<Exclude<ThemeKeys, ThemeKeys.auto>>({ 
+  useTheming<Exclude<ThThemeKeys, ThThemeKeys.auto>>({ 
     theme: theme,
-    lightKey: ThemeKeys.light,
-    darkKey: ThemeKeys.dark,
+    lightKey: ThThemeKeys.light,
+    darkKey: ThThemeKeys.dark,
     themeKeys: RSPrefs.theming.themes.keys,
     breakpointsMap: RSPrefs.theming.breakpoints,
     initProps: {

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { DockingKeys, SheetTypes } from "@/preferences/models/enums";
+import { ThDockingKeys, ThSheetTypes } from "@/preferences/models/enums";
 
 import { TypedComponentRenderer } from "@/packages/Components/Containers/TypedComponentRenderer";
 import { PopoverSheet, StatefulPopoverSheet } from "./PopoverSheet";
@@ -9,11 +9,11 @@ import { FullScreenSheet, StatefulFullScreenSheet } from "./FullScreenSheet";
 import { DockedSheet, StatefulDockedSheet } from "./DockedSheet";
 
 const componentMap = {
-  [SheetTypes.popover]: PopoverSheet,
-  [SheetTypes.bottomSheet]: BottomSheet,
-  [SheetTypes.fullscreen]: FullScreenSheet,
-  [SheetTypes.dockedStart]: (props: StatefulDockedSheet) => <DockedSheet { ...props } flow={ DockingKeys.start } />,
-  [SheetTypes.dockedEnd]: (props: StatefulDockedSheet) => <DockedSheet { ...props } flow={ DockingKeys.end } />
+  [ThSheetTypes.popover]: PopoverSheet,
+  [ThSheetTypes.bottomSheet]: BottomSheet,
+  [ThSheetTypes.fullscreen]: FullScreenSheet,
+  [ThSheetTypes.dockedStart]: (props: StatefulDockedSheet) => <DockedSheet { ...props } flow={ ThDockingKeys.start } />,
+  [ThSheetTypes.dockedEnd]: (props: StatefulDockedSheet) => <DockedSheet { ...props } flow={ ThDockingKeys.end } />
 };
 
 export const SheetWithType = ({
@@ -21,7 +21,7 @@ export const SheetWithType = ({
   sheetProps,
   children
 }: {
-  sheetType: SheetTypes,
+  sheetType: ThSheetTypes,
   sheetProps: StatefulPopoverSheet | StatefulFullScreenSheet | StatefulDockedSheet | StatefulBottomSheet,
   children: ReactNode
 }) => {

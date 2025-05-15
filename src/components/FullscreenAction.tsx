@@ -3,7 +3,7 @@ import React, { useCallback, useContext } from "react";
 import { PreferencesContext } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
-import { ActionKeys } from "@/preferences/models/enums";
+import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
@@ -56,13 +56,13 @@ export const FullscreenAction = ({ variant }: StatefulActionTriggerProps) => {
       ? <OverflowMenuItem 
           label={ label }
           SVGIcon={ Icon } 
-          shortcut={ RSPrefs.actions.keys[ActionKeys.fullscreen].shortcut }
+          shortcut={ RSPrefs.actions.keys[ThActionsKeys.fullscreen].shortcut }
           onAction={ fs.handleFullscreen } 
-          id={ ActionKeys.fullscreen }
+          id={ ThActionsKeys.fullscreen }
         />
       : <ActionIcon 
           className={ readerSharedUI.iconCompSm }
-          visibility={ RSPrefs.actions.keys[ActionKeys.fullscreen].visibility }  
+          visibility={ RSPrefs.actions.keys[ThActionsKeys.fullscreen].visibility }  
           aria-label={ label }
           placement="bottom" 
           tooltipLabel={ Locale.reader.fullscreen.tooltip } 

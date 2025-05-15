@@ -11,12 +11,12 @@ import {
 import Locale from "../resources/locales/en.json";
 
 import { 
-  ActionKeys, 
-  SettingsContainerKeys, 
-  SettingsKeys, 
-  SheetHeaderVariant, 
-  SpacingSettingsKeys, 
-  TextSettingsKeys 
+  ThActionsKeys, 
+  ThSettingsContainerKeys, 
+  ThSettingsKeys, 
+  ThSheetHeaderVariant, 
+  ThSpacingSettingsKeys, 
+  ThTextSettingsKeys 
 } from "@/preferences/models/enums";
 import { StatefulActionContainerProps, StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
@@ -54,59 +54,59 @@ import { setHovering, setSettingsContainer } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
-const SettingsMap: { [key in SettingsKeys]: StatefulSettingsMapObject } = {
-  [SettingsKeys.align]: {
+const SettingsMap: { [key in ThSettingsKeys]: StatefulSettingsMapObject } = {
+  [ThSettingsKeys.align]: {
     Comp: ReadingDisplayAlign
   },
-  [SettingsKeys.columns]: {
+  [ThSettingsKeys.columns]: {
     Comp: ReadingDisplayCol
   },
-  [SettingsKeys.fontFamily]: {
+  [ThSettingsKeys.fontFamily]: {
     Comp: ReadingDisplayFontFamily
   },
-  [SettingsKeys.fontWeight]: {
+  [ThSettingsKeys.fontWeight]: {
     Comp: ReadingDisplayFontWeight
   },
-  [SettingsKeys.hyphens]: {
+  [ThSettingsKeys.hyphens]: {
     Comp: ReadingDisplayHyphens
   },
-  [SettingsKeys.layout]: {
+  [ThSettingsKeys.layout]: {
     Comp: ReadingDisplayLayout
   },
-  [SettingsKeys.letterSpacing]: {
+  [ThSettingsKeys.letterSpacing]: {
     Comp: ReadingDisplayLetterSpacing
   },
-  [SettingsKeys.lineHeight]: {
+  [ThSettingsKeys.lineHeight]: {
     Comp: ReadingDisplayLineHeight
   },
-  [SettingsKeys.paraIndent]: {
+  [ThSettingsKeys.paraIndent]: {
     Comp: ReadingDisplayParaIndent
   },
-  [SettingsKeys.paraSpacing]: {
+  [ThSettingsKeys.paraSpacing]: {
     Comp: ReadingDisplayParaSpacing
   },
-  [SettingsKeys.publisherStyles]: {
+  [ThSettingsKeys.publisherStyles]: {
     Comp: ReadingDisplayPublisherStyles
   },
-  [SettingsKeys.spacing]: {
+  [ThSettingsKeys.spacing]: {
     Comp: ReadingDisplaySpacing
   },
-  [SettingsKeys.text]: {
+  [ThSettingsKeys.text]: {
     Comp: ReadingDisplayText
   },
-  [SettingsKeys.normalizeText]: {
+  [ThSettingsKeys.normalizeText]: {
     Comp: ReadingDisplayNormalizeText
   },
-  [SettingsKeys.theme]: {
+  [ThSettingsKeys.theme]: {
     Comp: ReadingDisplayTheme,
     props: {
       mapArrowNav: 2
     }
   },
-  [SettingsKeys.wordSpacing]: {
+  [ThSettingsKeys.wordSpacing]: {
     Comp: ReadingDisplayWordSpacing
   },
-  [SettingsKeys.zoom]: {
+  [ThSettingsKeys.zoom]: {
     Comp: ReadingDisplayZoom
   }
 }
@@ -115,17 +115,17 @@ export const SettingsActionContainer = ({ triggerRef }: StatefulActionContainerP
   const RSPrefs = useContext(PreferencesContext);
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const contains = useAppSelector(state => state.reader.settingsContainer);
-  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
+  const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.settings]);
   const dispatch = useAppDispatch();
 
   const settingItems = useRef(isFXL ? RSPrefs.settings.fxlOrder : RSPrefs.settings.reflowOrder);
   
-  const docking = useDocking(ActionKeys.settings);
+  const docking = useDocking(ThActionsKeys.settings);
   const sheetType = docking.sheetType;
 
   const setOpen = (value: boolean) => {    
     dispatch(setActionOpen({
-      key: ActionKeys.settings,
+      key: ThActionsKeys.settings,
       isOpen: value
     }));
 
@@ -134,43 +134,43 @@ export const SettingsActionContainer = ({ triggerRef }: StatefulActionContainerP
   }
 
   const setInitial = useCallback(() => {
-    dispatch(setSettingsContainer(SettingsContainerKeys.initial));
+    dispatch(setSettingsContainer(ThSettingsContainerKeys.initial));
   }, [dispatch]);
 
-  const isTextNested = useCallback((key: SettingsKeys) => {
+  const isTextNested = useCallback((key: ThSettingsKeys) => {
     const textSettings = [
       RSPrefs.settings.text?.main || defaultTextSettingsMain,
       RSPrefs.settings.text?.subPanel || defaultTextSettingsSubpanel,
-    ].flat() as TextSettingsKeys[];
+    ].flat() as ThTextSettingsKeys[];
   
-    return textSettings.includes(key as unknown as TextSettingsKeys);
+    return textSettings.includes(key as unknown as ThTextSettingsKeys);
   }, [RSPrefs.settings.text]);
   
-  const isSpacingNested = useCallback((key: SettingsKeys) => {
+  const isSpacingNested = useCallback((key: ThSettingsKeys) => {
     const spacingSettings = [
       RSPrefs.settings.spacing?.main || defaultSpacingSettingsMain,
       RSPrefs.settings.spacing?.subPanel || defaultSpacingSettingsSubpanel,
-    ].flat() as SpacingSettingsKeys[];
+    ].flat() as ThSpacingSettingsKeys[];
   
-    return spacingSettings.includes(key as unknown as SpacingSettingsKeys);
+    return spacingSettings.includes(key as unknown as ThSpacingSettingsKeys);
   }, [RSPrefs.settings.spacing]);
 
   const renderSettings = useCallback(() => {
     switch (contains) {
-      case SettingsContainerKeys.text:
+      case ThSettingsContainerKeys.text:
         return <ReadingDisplayTextContainer />;
       
-      case SettingsContainerKeys.spacing:
+      case ThSettingsContainerKeys.spacing:
         return <ReadingDisplaySpacingContainer />;
 
-      case SettingsContainerKeys.initial:
+      case ThSettingsContainerKeys.initial:
       default:
         return (
           <>
             {
               settingItems.current
-                .filter((key: SettingsKeys) => !(isTextNested(key) || isSpacingNested(key)))
-                .map((key: SettingsKeys) => {
+                .filter((key: ThSettingsKeys) => !(isTextNested(key) || isSpacingNested(key)))
+                .map((key: ThSettingsKeys) => {
                   const setting = SettingsMap[key];
                   return <setting.Comp key={ key } { ...setting.props } />;
                 })
@@ -182,13 +182,13 @@ export const SettingsActionContainer = ({ triggerRef }: StatefulActionContainerP
 
   const getHeading = useCallback(() => {
     switch (contains) {
-      case SettingsContainerKeys.text:
+      case ThSettingsContainerKeys.text:
         return Locale.reader.settings.text.title;
 
-      case SettingsContainerKeys.spacing:
+      case ThSettingsContainerKeys.spacing:
         return Locale.reader.settings.spacing.title;
 
-      case SettingsContainerKeys.initial:
+      case ThSettingsContainerKeys.initial:
       default:
         return Locale.reader.settings.heading;
     }
@@ -196,22 +196,22 @@ export const SettingsActionContainer = ({ triggerRef }: StatefulActionContainerP
 
   const getHeaderVariant = useCallback(() => {
     switch (contains) {
-      case SettingsContainerKeys.text:
-        return RSPrefs.settings.text?.header || SheetHeaderVariant.close;
+      case ThSettingsContainerKeys.text:
+        return RSPrefs.settings.text?.header || ThSheetHeaderVariant.close;
 
-      case SettingsContainerKeys.spacing:
-        return RSPrefs.settings.spacing?.header || SheetHeaderVariant.close;
+      case ThSettingsContainerKeys.spacing:
+        return RSPrefs.settings.spacing?.header || ThSheetHeaderVariant.close;
 
-      case SettingsContainerKeys.initial:
+      case ThSettingsContainerKeys.initial:
       default:
-        return SheetHeaderVariant.close;
+        return ThSheetHeaderVariant.close;
     }
   }, [contains, RSPrefs.settings.spacing, RSPrefs.settings.text]);
 
 useEffect(() => {
   const handleEscape = (event: KeyboardEvent) => {
-    if (event.key === "Escape" && contains !== SettingsContainerKeys.initial) {
-      dispatch(setSettingsContainer(SettingsContainerKeys.initial));
+    if (event.key === "Escape" && contains !== ThSettingsContainerKeys.initial) {
+      dispatch(setSettingsContainer(ThSettingsContainerKeys.initial));
     }
   };
 
@@ -233,7 +233,7 @@ useEffect(() => {
     <SheetWithType 
       sheetType={ sheetType }
       sheetProps={ {
-        id: ActionKeys.settings,
+        id: ThActionsKeys.settings,
         triggerRef: triggerRef,
         heading: getHeading(),
         headerVariant: getHeaderVariant(),
@@ -241,10 +241,10 @@ useEffect(() => {
         placement: "bottom", 
         isOpen: actionState.isOpen || false,
         onOpenChange: setOpen, 
-        onPressClose: () => { contains === SettingsContainerKeys.initial ? setOpen(false) : setInitial() },
+        onPressClose: () => { contains === ThSettingsContainerKeys.initial ? setOpen(false) : setInitial() },
         docker: docking.getDocker(),
         resetFocus: contains,
-        dismissEscapeKeyClose: contains !== SettingsContainerKeys.initial
+        dismissEscapeKeyClose: contains !== ThSettingsContainerKeys.initial
       } }
     >
       { renderSettings() }
@@ -255,12 +255,12 @@ useEffect(() => {
 
 export const SettingsAction = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
-  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
+  const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.settings]);
   const dispatch = useAppDispatch();
 
   const setOpen = (value: boolean) => {    
     dispatch(setActionOpen({
-      key: ActionKeys.settings,
+      key: ThActionsKeys.settings,
       isOpen: value
     }));
 
@@ -274,12 +274,12 @@ export const SettingsAction = ({ variant }: StatefulActionTriggerProps) => {
       ? <OverflowMenuItem 
           label={ Locale.reader.settings.trigger }
           SVGIcon={ TuneIcon }
-          shortcut={ RSPrefs.actions.keys[ActionKeys.settings].shortcut } 
-          id={ ActionKeys.settings }
+          shortcut={ RSPrefs.actions.keys[ThActionsKeys.settings].shortcut } 
+          id={ ThActionsKeys.settings }
           onAction={ () => setOpen(!actionState.isOpen) }
         />
       : <ActionIcon 
-          visibility={ RSPrefs.actions.keys[ActionKeys.settings].visibility }
+          visibility={ RSPrefs.actions.keys[ThActionsKeys.settings].visibility }
           aria-label={ Locale.reader.settings.trigger }
           placement="bottom" 
           tooltipLabel={ Locale.reader.settings.tooltip } 

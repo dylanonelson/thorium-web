@@ -1,6 +1,6 @@
 import React, { KeyboardEvent, useCallback, useContext, useMemo, useRef } from "react";
 
-import { ThBottomSheetDetent, PreferencesContext, SheetHeaderVariant } from "@/preferences";
+import { ThBottomSheetDetent, PreferencesContext, ThSheetHeaderVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -306,7 +306,7 @@ export const BottomSheet = ({
             }
           }}
         >
-        { headerVariant === SheetHeaderVariant.previous 
+        { headerVariant === ThSheetHeaderVariant.previous 
             ? <ThNavigationButton 
               direction={ direction === "ltr" ? "left" : "right" }
               label={ Locale.reader.app.back.trigger }

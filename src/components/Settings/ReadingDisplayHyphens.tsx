@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import Locale from "../../resources/locales/en.json";
 
 import { StatefulSettingsItemProps } from "@/models/settings";
-import { TextAlignOptions } from "@/preferences/models/enums";
+import { ThTextAlignOptions } from "@/preferences/models/enums";
 
 import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
 
@@ -37,7 +37,7 @@ export const ReadingDisplayHyphens = ({ standalone = true }: StatefulSettingsIte
       label={ Locale.reader.settings.hyphens.label }
       onChange={ async (isSelected: boolean) => await updatePreference(isSelected) }
       isSelected={ hyphens ?? false }
-      isDisabled={ textAlign === TextAlignOptions.publisher }
+      isDisabled={ textAlign === ThTextAlignOptions.publisher }
     />
     </>
   )

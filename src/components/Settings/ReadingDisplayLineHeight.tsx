@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useRef } from "react";
 
-import { defaultLineHeights, LineHeightOptions, PreferencesContext, SettingsKeys } from "@/preferences";
+import { defaultLineHeights, ThLineHeightOptions, PreferencesContext, ThSettingsKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -26,23 +26,23 @@ export const ReadingDisplayLineHeight = ({ standalone = true }: StatefulSettings
   const { getSetting, submitPreferences } = useEpubNavigator();
 
   const lineHeightOptions = useRef({
-    [LineHeightOptions.publisher]: null,
-    [LineHeightOptions.small]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.small] || defaultLineHeights[LineHeightOptions.small],
-    [LineHeightOptions.medium]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.medium] || defaultLineHeights[LineHeightOptions.medium],
-    [LineHeightOptions.large]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.large] || defaultLineHeights[LineHeightOptions.large],
+    [ThLineHeightOptions.publisher]: null,
+    [ThLineHeightOptions.small]: RSPrefs.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.small] || defaultLineHeights[ThLineHeightOptions.small],
+    [ThLineHeightOptions.medium]: RSPrefs.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.medium] || defaultLineHeights[ThLineHeightOptions.medium],
+    [ThLineHeightOptions.large]: RSPrefs.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.large] || defaultLineHeights[ThLineHeightOptions.large],
   });
 
   const updatePreference = useCallback(async (value: string) => {
-    const computedValue = value === LineHeightOptions.publisher
+    const computedValue = value === ThLineHeightOptions.publisher
       ? null 
-      : lineHeightOptions.current[value as keyof typeof LineHeightOptions];
+      : lineHeightOptions.current[value as keyof typeof ThLineHeightOptions];
     
     await submitPreferences({
       lineHeight: computedValue
     });
 
     const currentLineHeight = getSetting("lineHeight");
-    const currentDisplayLineHeightOption = Object.entries(lineHeightOptions.current).find(([key, value]) => value === currentLineHeight)?.[0] as LineHeightOptions;
+    const currentDisplayLineHeightOption = Object.entries(lineHeightOptions.current).find(([key, value]) => value === currentLineHeight)?.[0] as ThLineHeightOptions;
 
     dispatch(setLineHeight(currentDisplayLineHeightOption));
     dispatch(setPublisherStyles(false));
@@ -54,28 +54,28 @@ export const ReadingDisplayLineHeight = ({ standalone = true }: StatefulSettings
       standalone={ standalone }
       label={ Locale.reader.settings.lineHeight.title }
       orientation="horizontal"
-      value={ publisherStyles ? LineHeightOptions.publisher : lineHeight } 
+      value={ publisherStyles ? ThLineHeightOptions.publisher : lineHeight } 
       onChange={ async (val: string) => await updatePreference(val) }
       items={[
         {
           icon: BookIcon,
           label: Locale.reader.settings.lineHeight.publisher, 
-          value: LineHeightOptions.publisher 
+          value: ThLineHeightOptions.publisher 
         },
         {
           icon: SmallIcon,
           label: Locale.reader.settings.lineHeight.small, 
-          value: LineHeightOptions.small 
+          value: ThLineHeightOptions.small 
         },
         {
           icon: MediumIcon,
           label: Locale.reader.settings.lineHeight.medium, 
-          value: LineHeightOptions.medium 
+          value: ThLineHeightOptions.medium 
         },
         {
           icon: LargeIcon,
           label: Locale.reader.settings.lineHeight.large, 
-          value: LineHeightOptions.large 
+          value: ThLineHeightOptions.large 
         },
       ]}
     />

@@ -6,7 +6,7 @@ import Locale from "../../../resources/locales/en.json";
 import dockerStyles from "../../assets/styles/docking.module.css";
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
-import { DockingKeys } from "@/preferences/models/enums";
+import { ThDockingKeys } from "@/preferences/models/enums";
 import { StatefulActionsMapObject } from "@/models/actions";
 
 import { Toolbar } from "react-aria-components";
@@ -19,21 +19,21 @@ import { PopoverSheetAction } from "./PopoverSheetAction";
 import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
-const DockingActionsMap: { [key in DockingKeys]: StatefulActionsMapObject } = {
-  [DockingKeys.start]: {
+const DockingActionsMap: { [key in ThDockingKeys]: StatefulActionsMapObject } = {
+  [ThDockingKeys.start]: {
     trigger: DockStartAction
   },
-  [DockingKeys.end]: {
+  [ThDockingKeys.end]: {
     trigger: DockEndAction
   },
-  [DockingKeys.transient]: {
+  [ThDockingKeys.transient]: {
     trigger: PopoverSheetAction
   }
 };
 
 export interface StatefulDockerProps {
   id: ActionsStateKeys;
-  keys: DockingKeys[];
+  keys: ThDockingKeys[];
   ref: React.ForwardedRef<HTMLButtonElement>;
   onClose: () => void;
 }
@@ -46,7 +46,7 @@ export const Docker = ({
 }: StatefulDockerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const listActionItems = useCallback(() => {
-    const actionsItems: ThActionEntry<DockingKeys>[] = [];
+    const actionsItems: ThActionEntry<ThDockingKeys>[] = [];
 
     keys.map((key) => {
       actionsItems.push({

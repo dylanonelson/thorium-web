@@ -8,7 +8,7 @@ import dockStyles from "./assets/styles/docking.module.css";
 
 import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
-import { DockingTypes, DockingKeys, ThLayoutDirection } from "@/preferences/models/enums";
+import { ThDockingTypes, ThDockingKeys, ThLayoutDirection } from "@/preferences/models/enums";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 import { useRezisablePanel } from "@/hooks/useRezisablePanel";
@@ -32,7 +32,7 @@ const DockHandle = ({
   isPopulated, 
   hasDragIndicator
 }: { 
-  flow: DockingKeys.start | DockingKeys.end;
+  flow: ThDockingKeys.start | ThDockingKeys.end;
   isResizable: boolean;
   isPopulated: boolean;
   hasDragIndicator?: boolean;
@@ -42,9 +42,9 @@ const DockHandle = ({
   const direction = useAppSelector(state => state.reader.direction);
 
   const classFromFlow = useCallback(() => {
-    if (flow === DockingKeys.start) {
+    if (flow === ThDockingKeys.start) {
       return direction === ThLayoutDirection.ltr ? dockStyles.dockResizeHandleGrabLeft : dockStyles.dockResizeHandleGrabRight;
-    } else if (flow === DockingKeys.end) {
+    } else if (flow === ThDockingKeys.end) {
       return direction === ThLayoutDirection.ltr ? dockStyles.dockResizeHandleGrabRight : dockStyles.dockResizeHandleGrabLeft;
     }
   }, [flow, direction]);
@@ -76,7 +76,7 @@ const DockPanel = ({
   hasDragIndicator 
 }: {
   actionKey: ActionsStateKeys | null;
-  flow: DockingKeys.start | DockingKeys.end;
+  flow: ThDockingKeys.start | ThDockingKeys.end;
   sizes: DockPanelSizes;
   isResizable: boolean;
   isPopulated: boolean;
@@ -88,11 +88,11 @@ const DockPanel = ({
   const direction = useAppSelector(state => state.reader.direction);
   const dispatch = useAppDispatch();
 
-  const dockClassName = flow === DockingKeys.end && direction === ThLayoutDirection.ltr ? "right-dock" : "left-dock";
+  const dockClassName = flow === ThDockingKeys.end && direction === ThLayoutDirection.ltr ? "right-dock" : "left-dock";
 
   const makeDockLabel = useCallback(() => {    
     let label = "";
-    if (flow === DockingKeys.end && direction === ThLayoutDirection.ltr) {
+    if (flow === ThDockingKeys.end && direction === ThLayoutDirection.ltr) {
       label += Locale.reader.app.docking.dockingRight;
     } else {
       label += Locale.reader.app.docking.dockingLeft
@@ -143,9 +143,9 @@ const DockPanel = ({
 
   return(
     <>
-    { flow === DockingKeys.end &&
+    { flow === ThDockingKeys.end &&
       <DockHandle 
-        flow={ DockingKeys.end } 
+        flow={ ThDockingKeys.end } 
         isResizable={ isResizable } 
         isPopulated={ isPopulated }
         hasDragIndicator={ hasDragIndicator } 
@@ -153,7 +153,7 @@ const DockPanel = ({
     } 
     <Panel 
       id={ `${ flow }-panel` } 
-      order={ flow === DockingKeys.end ? 3 : 1 } 
+      order={ flow === ThDockingKeys.end ? 3 : 1 } 
       collapsible={ true }
       collapsedSize={ 0 }
       ref={ panelRef }
@@ -174,9 +174,9 @@ const DockPanel = ({
         className={ classNames(dockStyles.dockPanelContainer, dockClassName) }
       ></div>
     </Panel>
-    { flow === DockingKeys.start && 
+    { flow === ThDockingKeys.start && 
       <DockHandle 
-        flow={ DockingKeys.start } 
+        flow={ ThDockingKeys.start } 
         isResizable={ isResizable } 
         isPopulated={ isPopulated } 
         hasDragIndicator={ hasDragIndicator } 
@@ -192,8 +192,8 @@ export const ReaderWithDock = ({
   children: ReactNode; 
 }) => {
   const RSPrefs = useContext(PreferencesContext);
-  const dockingStart = useAppSelector(state => state.actions.dock[DockingKeys.start]);
-  const dockingEnd = useAppSelector(state => state.actions.dock[DockingKeys.end])
+  const dockingStart = useAppSelector(state => state.actions.dock[ThDockingKeys.start]);
+  const dockingEnd = useAppSelector(state => state.actions.dock[ThDockingKeys.end])
   const startPanel = useRezisablePanel(dockingStart);
   const endPanel = useRezisablePanel(dockingEnd);
 
@@ -206,23 +206,23 @@ export const ReaderWithDock = ({
       </>
     )
   } else {
-    const dockingMap = makeBreakpointsMap<DockingTypes>({
-      defaultValue: DockingTypes.both, 
-      fromEnum: DockingTypes, 
+    const dockingMap = makeBreakpointsMap<ThDockingTypes>({
+      defaultValue: ThDockingTypes.both, 
+      fromEnum: ThDockingTypes, 
       pref: RSPrefs.docking.dock, 
-      disabledValue: DockingTypes.none
+      disabledValue: ThDockingTypes.none
     });
 
-    const dockConfig = breakpoint && dockingMap[breakpoint] || DockingTypes.both;
+    const dockConfig = breakpoint && dockingMap[breakpoint] || ThDockingTypes.both;
 
     return (
       <>
       <PanelGroup direction="horizontal">
         { 
-          (dockConfig === DockingTypes.both || dockConfig === DockingTypes.start) 
+          (dockConfig === ThDockingTypes.both || dockConfig === ThDockingTypes.start) 
           && <DockPanel 
             actionKey={ startPanel.currentKey() }
-            flow={ DockingKeys.start } 
+            flow={ ThDockingKeys.start } 
             sizes={{
               width: startPanel.getWidth(),
               minWidth: startPanel.getMinWidth(),
@@ -242,10 +242,10 @@ export const ReaderWithDock = ({
         </Panel>
     
         { 
-          (dockConfig === DockingTypes.both || dockConfig === DockingTypes.end)
+          (dockConfig === ThDockingTypes.both || dockConfig === ThDockingTypes.end)
           && <DockPanel 
             actionKey={ endPanel.currentKey() }
-            flow={ DockingKeys.end } 
+            flow={ ThDockingKeys.end } 
             sizes={{
               width: endPanel.getWidth(),
               minWidth: endPanel.getMinWidth(),

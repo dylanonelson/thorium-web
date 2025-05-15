@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 
-import { defaultParagraphIndent, PreferencesContext, SettingsKeys, SettingsRangeVariant } from "@/preferences";
+import { defaultParagraphIndent, PreferencesContext, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -18,9 +18,9 @@ export const ReadingDisplayParaIndent = ({ standalone = true }: StatefulSettings
   const RSPrefs = useContext(PreferencesContext);
   const paragraphIndent = useAppSelector(state => state.settings.paragraphIndent);
   const paragraphIndentRangeConfig = {
-      variant: RSPrefs.settings.keys?.[SettingsKeys.paraIndent]?.variant ?? defaultParagraphIndent.variant,
-      range: RSPrefs.settings.keys?.[SettingsKeys.paraIndent]?.range ?? defaultParagraphIndent.range,
-      step: RSPrefs.settings.keys?.[SettingsKeys.paraIndent]?.step ?? defaultParagraphIndent.step
+      variant: RSPrefs.settings.keys?.[ThSettingsKeys.paraIndent]?.variant ?? defaultParagraphIndent.variant,
+      range: RSPrefs.settings.keys?.[ThSettingsKeys.paraIndent]?.range ?? defaultParagraphIndent.range,
+      step: RSPrefs.settings.keys?.[ThSettingsKeys.paraIndent]?.step ?? defaultParagraphIndent.step
     };
   const dispatch = useAppDispatch();
 
@@ -37,7 +37,7 @@ export const ReadingDisplayParaIndent = ({ standalone = true }: StatefulSettings
 
   return (
     <>
-    { paragraphIndentRangeConfig.variant === SettingsRangeVariant.numberField 
+    { paragraphIndentRangeConfig.variant === ThSettingsRangeVariant.numberField 
       ? <NumberFieldWrapper 
         standalone={ standalone }
         label={ Locale.reader.settings.paraIndent.title }

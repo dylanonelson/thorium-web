@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import Locale from "../../resources/locales/en.json";
 
 import { StatefulSheet } from "@/models/sheets";
-import { SheetHeaderVariant } from "@/preferences/models/enums";
+import { ThSheetHeaderVariant } from "@/preferences/models/enums";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
@@ -71,7 +71,7 @@ export const FullScreenSheet = ({
             }
           }}
         >
-          { headerVariant === SheetHeaderVariant.previous
+          { headerVariant === ThSheetHeaderVariant.previous
               ? <ThNavigationButton
                 direction={ direction === "ltr" ? "left" : "right" }
                 label={ Locale.reader.app.back.trigger }

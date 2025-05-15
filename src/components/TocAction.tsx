@@ -7,7 +7,7 @@ import Locale from "../resources/locales/en.json";
 import Chevron from "./assets/icons/chevron_right.svg";
 
 import { Link } from "@readium/shared";
-import { ActionKeys, DockingKeys, SheetTypes, ThLayoutDirection } from "@/preferences/models/enums";
+import { ThActionsKeys, ThDockingKeys, ThSheetTypes, ThLayoutDirection } from "@/preferences/models/enums";
 import { StatefulActionContainerProps, StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { TocItem } from "@/packages/Helpers/createTocTree";
@@ -41,7 +41,7 @@ export const TocActionContainer = ({ triggerRef }: StatefulActionContainerProps)
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === ThLayoutDirection.rtl;
 
-  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
+  const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.toc]);
   const tocTree = useAppSelector(state => state.publication.tocTree);
   const dispatch = useAppDispatch();
 
@@ -50,12 +50,12 @@ export const TocActionContainer = ({ triggerRef }: StatefulActionContainerProps)
 
   const { goLink } = useEpubNavigator();
 
-  const docking = useDocking(ActionKeys.toc);
+  const docking = useDocking(ThActionsKeys.toc);
   const sheetType = docking.sheetType;
 
   const setOpen = useCallback((value: boolean) => {
     dispatch(setActionOpen({ 
-      key: ActionKeys.toc,
+      key: ThActionsKeys.toc,
       isOpen: value 
     }));
   }, [dispatch]);
@@ -73,7 +73,7 @@ export const TocActionContainer = ({ triggerRef }: StatefulActionContainerProps)
     const link: Link = new Link({ href: href });
 
     const cb = actionState.isOpen && 
-      (sheetType === SheetTypes.dockedStart || sheetType === SheetTypes.dockedEnd)
+      (sheetType === ThSheetTypes.dockedStart || sheetType === ThSheetTypes.dockedEnd)
         ? () => {
           dispatch(setTocEntry(key));
           dispatch(setImmersive(true));
@@ -84,7 +84,7 @@ export const TocActionContainer = ({ triggerRef }: StatefulActionContainerProps)
           dispatch(setImmersive(true));
           dispatch(setHovering(false));
           dispatch(setActionOpen({ 
-            key: ActionKeys.toc,
+            key: ThActionsKeys.toc,
             isOpen: false 
           }));
         }
@@ -95,7 +95,7 @@ export const TocActionContainer = ({ triggerRef }: StatefulActionContainerProps)
   // Since React Aria components intercept keys and do not continue propagation
   // we have to handle the escape key in capture phase
   useEffect(() => {
-    if (actionState.isOpen && (!actionState.docking || actionState.docking === DockingKeys.transient)) {
+    if (actionState.isOpen && (!actionState.docking || actionState.docking === ThDockingKeys.transient)) {
       const handleEscape = (event: KeyboardEvent) => {
         if (event.key === "Escape") {
           setOpen(false);
@@ -116,7 +116,7 @@ export const TocActionContainer = ({ triggerRef }: StatefulActionContainerProps)
   // tocEntry has to be defined to render Tree
   useEffect(() => {
     if (
-        (sheetType === SheetTypes.dockedStart || sheetType === SheetTypes.dockedEnd) && 
+        (sheetType === ThSheetTypes.dockedStart || sheetType === ThSheetTypes.dockedEnd) && 
         tocEntry !== undefined && 
         previousTocEntry === undefined
       ) {
@@ -136,7 +136,7 @@ export const TocActionContainer = ({ triggerRef }: StatefulActionContainerProps)
     <SheetWithType 
       sheetType={ sheetType }
       sheetProps={ {
-        id: ActionKeys.toc,
+        id: ThActionsKeys.toc,
         triggerRef: triggerRef, 
         heading: Locale.reader.toc.heading,
         className: tocStyles.toc,
@@ -201,12 +201,12 @@ export const TocActionContainer = ({ triggerRef }: StatefulActionContainerProps)
 
 export const TocAction = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
-  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
+  const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.toc]);
   const dispatch = useAppDispatch();
 
   const setOpen = (value: boolean) => {
     dispatch(setActionOpen({ 
-      key: ActionKeys.toc,
+      key: ThActionsKeys.toc,
       isOpen: value 
     }));
   }
@@ -217,12 +217,12 @@ export const TocAction = ({ variant }: StatefulActionTriggerProps) => {
       ? <OverflowMenuItem 
           label={ Locale.reader.toc.trigger }
           SVGIcon={ TocIcon } 
-          shortcut={ RSPrefs.actions.keys[ActionKeys.toc].shortcut }
-          id={ ActionKeys.toc }
+          shortcut={ RSPrefs.actions.keys[ThActionsKeys.toc].shortcut }
+          id={ ThActionsKeys.toc }
           onAction={ () => setOpen(!actionState.isOpen) }
         />
       : <ActionIcon 
-          visibility={ RSPrefs.actions.keys[ActionKeys.toc].visibility }
+          visibility={ RSPrefs.actions.keys[ThActionsKeys.toc].visibility }
           aria-label={ Locale.reader.toc.trigger } 
           placement="bottom"
           tooltipLabel={ Locale.reader.toc.tooltip } 
