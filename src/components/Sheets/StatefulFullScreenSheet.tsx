@@ -7,7 +7,7 @@ import Locale from "../../resources/locales/en.json";
 import { StatefulSheet } from "./models/sheets";
 import { ThSheetHeaderVariant } from "@/preferences/models/enums";
 
-import sheetStyles from "../assets/styles/sheet.module.css";
+import sheetStyles from "./assets/styles/sheets.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { ThModal } from "@/packages/Components/Containers/ThModal";

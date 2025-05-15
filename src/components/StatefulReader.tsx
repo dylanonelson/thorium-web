@@ -7,7 +7,7 @@ import { defaultFontFamilyOptions, defaultLineHeights, PreferencesContext } from
 import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
-import arrowStyles from "./assets/styles/arrowButton.module.css";
+import arrowStyles from "./assets/styles/readerArrowButton.module.css";
 
 import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
 import { 

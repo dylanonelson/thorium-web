@@ -6,7 +6,7 @@ import Locale from "../../resources/locales/en.json";
 
 import { ThLayoutStrategy } from "@/preferences/models/enums";
 
-import settingsStyles from "../assets/styles/readerSettings.module.css";
+import settingsStyles from "./assets/styles/settings.module.css";
 
 import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
 

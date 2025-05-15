@@ -24,7 +24,7 @@ import { StatefulActionContainerProps, StatefulActionTriggerProps } from "./mode
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { StatefulSettingsMapObject } from "../Settings/models/settings";
 
-import settingsStyles from "../assets/styles/readerSettings.module.css";
+import settingsStyles from "../Settings/assets/styles/settings.module.css";
 
 import TuneIcon from "./assets/icons/match_case.svg";
 

@@ -1,4 +1,4 @@
-import settingsStyles from "../../assets/styles/readerSettings.module.css";
+import settingsStyles from "../assets/styles/settings.module.css";
 
 import { ThSlider, ThSliderProps } from "@/packages/Components/Settings/ThSlider";
 

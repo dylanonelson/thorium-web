@@ -7,7 +7,7 @@ import Locale from "../../resources/locales/en.json";
 import { StatefulSheet } from "./models/sheets";
 import { ThDockingKeys, ThSheetHeaderVariant, ThLayoutDirection } from "@/preferences/models/enums";
 
-import sheetStyles from "../assets/styles/sheet.module.css";
+import sheetStyles from "./assets/styles/sheets.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { ThDockedPanel } from "@/packages/Components/Containers/ThDockedPanel";

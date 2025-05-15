@@ -4,7 +4,7 @@ import Locale from "../../resources/locales/en.json";
 
 import { StatefulSettingsItemProps } from "./models/settings";
 
-import settingsStyles from "../assets/styles/readerSettings.module.css";
+import settingsStyles from "./assets/styles/settings.module.css";
 
 import { ThDropdown } from "@/packages/Components/Settings/ThDropdown";
 
