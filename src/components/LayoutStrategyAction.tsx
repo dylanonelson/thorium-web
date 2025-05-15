@@ -51,8 +51,8 @@ export const LayoutStrategiesActionContainer = ({ triggerRef }: StatefulActionCo
         className: settingsStyles.readerSettings,
         placement: "bottom", 
         isOpen: actionState.isOpen || false,
-        onOpenChangeCallback: setOpen, 
-        onClosePressCallback: () => setOpen(false),
+        onOpenChange: setOpen, 
+        onPressClose: () => setOpen(false),
         docker: docking.getDocker()
       } }
     >

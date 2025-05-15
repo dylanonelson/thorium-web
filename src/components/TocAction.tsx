@@ -142,8 +142,8 @@ export const TocActionContainer = ({ triggerRef }: StatefulActionContainerProps)
         className: tocStyles.toc,
         placement: "bottom",
         isOpen: actionState.isOpen || false,
-        onOpenChangeCallback: setOpen,
-        onClosePressCallback: () => setOpen(false),
+        onOpenChange: setOpen,
+        onPressClose: () => setOpen(false),
         docker: docking.getDocker()
       } }
     >

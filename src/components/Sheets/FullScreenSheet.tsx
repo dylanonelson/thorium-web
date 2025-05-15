@@ -25,8 +25,8 @@ export const FullScreenSheet = ({
     headerVariant,
     className, 
     isOpen,
-    onOpenChangeCallback, 
-    onClosePressCallback,
+    onOpenChange, 
+    onPressClose,
     children,
     resetFocus,
     dismissEscapeKeyClose
@@ -53,7 +53,7 @@ export const FullScreenSheet = ({
           }
         }}
         isOpen={ isOpen }
-        onOpenChange={ onOpenChangeCallback }
+        onOpenChange={ onOpenChange }
         isDismissable={ true }
         className={ classNames(sheetStyles.fullScreenSheet, className) }
         isKeyboardDismissDisabled={ dismissEscapeKeyClose }
@@ -78,13 +78,13 @@ export const FullScreenSheet = ({
                 ref={ fullScreenCloseRef }
                 className={ classNames(className, readerSharedUI.backButton) } 
                 aria-label={ Locale.reader.app.back.trigger }
-                onPress={ onClosePressCallback }
+                onPress={ onPressClose }
               />
               : <ThCloseButton
                 ref={ fullScreenCloseRef }
                 className={ readerSharedUI.closeButton } 
                 aria-label={ Locale.reader.app.docker.close.trigger } 
-                onPress={ onClosePressCallback }
+                onPress={ onPressClose }
               />
             }
         </ThContainerHeader>

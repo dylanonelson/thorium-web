@@ -15,7 +15,7 @@ export interface ReadingDisplayGroupWrapperProps {
   heading: string;
   moreLabel: string;
   moreTooltip: string;
-  onMorePressCallback: (e: PressEvent) => void;
+  onPressMore: (e: PressEvent) => void;
   settingsMap: { [key in SpacingSettingsKeys]: StatefulSettingsMapObject } | { [key in TextSettingsKeys]: StatefulSettingsMapObject };
   prefs?: SettingsGroupPref<TextSettingsKeys | SpacingSettingsKeys>;
   defaultPrefs: {
@@ -28,7 +28,7 @@ export const ReadingDisplayGroupWrapper = ({
   heading,
   moreLabel,
   moreTooltip,
-  onMorePressCallback,
+  onPressMore,
   settingsMap,
   prefs,
   defaultPrefs
@@ -71,7 +71,7 @@ export const ReadingDisplayGroupWrapper = ({
             },
             label: moreTooltip
           },
-          onPress: onMorePressCallback
+          onPress: onPressMore
         }
       }}
     />

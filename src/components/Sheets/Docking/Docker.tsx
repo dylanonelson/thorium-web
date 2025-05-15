@@ -35,14 +35,14 @@ export interface StatefulDockerProps {
   id: ActionsStateKeys;
   keys: DockingKeys[];
   ref: React.ForwardedRef<HTMLButtonElement>;
-  onCloseCallback: () => void;
+  onClose: () => void;
 }
 
 export const Docker = ({
   id,
   keys,
   ref,
-  onCloseCallback
+  onClose
 }: StatefulDockerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const listActionItems = useCallback(() => {
@@ -75,7 +75,7 @@ export const Docker = ({
         ref={ ref }
         className={ readerSharedUI.dockerButton } 
         aria-label={ Locale.reader.app.docker.close.trigger } 
-        onPress={ onCloseCallback }
+        onPress={ onClose }
         tooltip={ {
           trigger: {
             delay: RSPrefs.theming.icon.tooltipDelay,

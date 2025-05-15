@@ -28,7 +28,7 @@ export const DockedSheet = ({
     headerVariant,
     className, 
     isOpen,
-    onClosePressCallback,
+    onPressClose,
     docker, 
     flow,
     children,
@@ -83,13 +83,13 @@ export const DockedSheet = ({
               ref={ dockedSheetCloseRef }
               className={ classNames(className, readerSharedUI.backButton) } 
               aria-label={ Locale.reader.app.back.trigger }
-              onPress={ onClosePressCallback }
+              onPress={ onPressClose }
             /> 
             : <Docker 
               id={ id }
               keys={ docker || [] }
               ref={ dockedSheetCloseRef }
-              onCloseCallback={ onClosePressCallback }
+              onClose={ onPressClose }
             />
           } 
         </ThContainerHeader>
