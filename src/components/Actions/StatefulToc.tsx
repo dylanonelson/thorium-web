@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import { PreferencesContext } from "@/preferences";
@@ -6,7 +8,7 @@ import Locale from "../../resources/locales/en.json";
 
 import { Link } from "@readium/shared";
 import { ThActionsKeys, ThDockingKeys, ThSheetTypes, ThLayoutDirection } from "@/preferences/models/enums";
-import { StatefulActionContainerProps, StatefulActionTriggerProps } from "@/models/actions";
+import { StatefulActionContainerProps, StatefulActionTriggerProps } from "./models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { TocItem } from "@/packages/Helpers/createTocTree";
 
@@ -16,7 +18,7 @@ import TocIcon from "./assets/icons/toc.svg";
 import Chevron from "./assets/icons/chevron_right.svg";
 
 import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
-import { SheetWithType } from "../Sheets/SheetWithType";
+import { StatefulSheetWrapper } from "../Sheets/StatefulSheetWrapper";
 import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
 import { Button, Collection, Selection } from "react-aria-components";
 import {
@@ -132,7 +134,7 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
 
   return(
     <>
-    <SheetWithType 
+    <StatefulSheetWrapper 
       sheetType={ sheetType }
       sheetProps={ {
         id: ThActionsKeys.toc,
@@ -193,7 +195,7 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
         </Tree>) 
       : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
     }
-    </SheetWithType>
+    </StatefulSheetWrapper>
     </>
   )
 }

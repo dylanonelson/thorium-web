@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useContext, useRef } from "react";
 
 import { PreferencesContext } from "@/preferences";

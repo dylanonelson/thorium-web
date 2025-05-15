@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ReactNode, RefObject } from "react";
 
 import Locale from "../../resources/locales/en.json";

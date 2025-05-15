@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useCallback, useContext, useEffect, useRef } from "react";
 
 import { 
@@ -18,15 +20,15 @@ import {
   ThSpacingSettingsKeys, 
   ThTextSettingsKeys 
 } from "@/preferences/models/enums";
-import { StatefulActionContainerProps, StatefulActionTriggerProps } from "@/models/actions";
+import { StatefulActionContainerProps, StatefulActionTriggerProps } from "./models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
-import { StatefulSettingsMapObject } from "@/models/settings";
+import { StatefulSettingsMapObject } from "../Settings/models/settings";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
 import TuneIcon from "./assets/icons/match_case.svg";
 
-import { SheetWithType } from "../Sheets/SheetWithType";
+import { StatefulSheetWrapper } from "../Sheets/StatefulSheetWrapper";
 import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
 
@@ -230,7 +232,7 @@ useEffect(() => {
 
   return(
     <>
-    <SheetWithType 
+    <StatefulSheetWrapper 
       sheetType={ sheetType }
       sheetProps={ {
         id: ThActionsKeys.settings,
@@ -248,7 +250,7 @@ useEffect(() => {
       } }
     >
       { renderSettings() }
-    </SheetWithType>
+    </StatefulSheetWrapper>
     </>
   )
 }

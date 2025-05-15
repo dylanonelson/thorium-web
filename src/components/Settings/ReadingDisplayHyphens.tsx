@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { StatefulSettingsItemProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "./models/settings";
 import { ThTextAlignOptions } from "@/preferences/models/enums";
 
 import { SwitchWrapper } from "./Wrappers/SwitchWrapper";

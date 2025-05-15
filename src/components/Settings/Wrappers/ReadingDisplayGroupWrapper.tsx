@@ -5,7 +5,7 @@ import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
 import { PreferencesContext, ThSettingsGroupPref, ThSpacingSettingsKeys, ThTextSettingsKeys } from "@/preferences";
 import { PressEvent } from "react-aria";
-import { StatefulSettingsMapObject } from "@/models/settings";
+import { StatefulSettingsMapObject } from "../models/settings";
 
 import { ThSettingsWrapper } from "@/packages/Components/Settings/ThSettingsWrapper";
 

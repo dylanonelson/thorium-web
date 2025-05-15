@@ -4,7 +4,7 @@ import { defaultLineHeights, ThLineHeightOptions, PreferencesContext, ThSettings
 
 import Locale from "../../resources/locales/en.json";
 
-import { StatefulSettingsItemProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "./models/settings";
 
 import BookIcon from "../assets/icons/book.svg";
 import SmallIcon from "../assets/icons/density_small.svg";

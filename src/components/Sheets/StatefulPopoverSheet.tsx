@@ -1,8 +1,10 @@
+"use client";
+
 import React, { useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { StatefulSheet } from "@/models/sheets";
+import { StatefulSheet } from "./models/sheets";
 import { ThSheetHeaderVariant } from "@/preferences/models/enums";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
@@ -20,11 +22,11 @@ import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-export interface StatefulPopoverSheet extends StatefulSheet {
+export interface StatefulPopoverSheetProps extends StatefulSheet {
   placement?: PopoverProps["placement"];
 }
 
-export const PopoverSheet = ({ 
+export const StatefulPopoverSheet = ({ 
     id,
     triggerRef,
     heading,
@@ -38,7 +40,7 @@ export const PopoverSheet = ({
     children,
     resetFocus,
     dismissEscapeKeyClose
-  }: StatefulPopoverSheet) => {
+  }: StatefulPopoverSheetProps) => {
   const direction = useAppSelector(state => state.reader.direction);
   const popoverRef = useRef<HTMLDivElement | null>(null);
   const popoverHeaderRef = useRef<HTMLDivElement | null>(null);

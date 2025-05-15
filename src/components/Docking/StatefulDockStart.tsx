@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
@@ -5,7 +7,7 @@ import Locale from "../../resources/locales/en.json";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
-import { StatefulActionTriggerProps } from "@/models/actions";
+import { StatefulActionTriggerProps } from "@/components/Actions/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { ThDockingKeys, ThLayoutDirection } from "@/preferences/models/enums";
 

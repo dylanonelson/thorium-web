@@ -10,7 +10,7 @@ import {
 
 import Locale from "../../resources/locales/en.json";
 
-import { StatefulSettingsMapObject } from "@/models/settings";
+import { StatefulSettingsMapObject } from "./models/settings";
 
 import { ReadingDisplayGroupWrapper } from "./Wrappers/ReadingDisplayGroupWrapper";
 

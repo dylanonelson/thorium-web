@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useCallback, useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
@@ -7,7 +9,7 @@ import dockingStyles from "./assets/styles/docking.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { ThDockingKeys } from "@/preferences/models/enums";
-import { StatefulActionsMapObject } from "@/models/actions";
+import { StatefulActionsMapObject } from "@/components/Actions/models/actions";
 
 import { Toolbar } from "react-aria-components";
 
