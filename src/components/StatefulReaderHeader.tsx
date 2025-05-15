@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useCallback, useContext, useRef } from "react";
 
 import { PreferencesContext } from "@/preferences";
@@ -46,7 +48,7 @@ const ActionsMap: { [key in ThActionsKeys]: StatefulActionsMapObject } = {
   }
 }
 
-export const ReaderHeader = () => {
+export const StatefulReaderHeader = () => {
   const RSPrefs = useContext(PreferencesContext);
   
   const isFXL = useAppSelector(state => state.publication.isFXL);

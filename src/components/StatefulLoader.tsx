@@ -6,7 +6,7 @@ import readerLoaderStyles from "./assets/styles/readerLoader.module.css";
 
 import { ThLoader } from "@/packages/Components/Reader/ThLoader";
 
-export const Loader = ({ isLoading, children }: { isLoading: boolean, children: ReactNode }) => {
+export const StatefulLoader = ({ isLoading, children }: { isLoading: boolean, children: ReactNode }) => {
   return (
     <>
     <ThLoader 

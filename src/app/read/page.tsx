@@ -8,9 +8,9 @@ import { Link } from "@readium/shared";
 import "../app.css";
 
 import dynamic from "next/dynamic";
-const Reader = dynamic<{ rawManifest: object; selfHref: string }>(() => import("../../components/Reader").then((mod) => mod.Reader), { ssr: false });
+const Reader = dynamic<{ rawManifest: object; selfHref: string }>(() => import("../../components/StatefulReader").then((mod) => mod.StatefulReader), { ssr: false });
 
-import { Loader } from "@/components/Loader";
+import { StatefulLoader } from "@/components/StatefulLoader";
 
 import { useTheming } from "@/preferences/hooks/useTheming";
 
@@ -108,9 +108,9 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
     <>
     { error 
       ? <span>{ error }</span> 
-      : <Loader isLoading={ readerIsLoading }>
+      : <StatefulLoader isLoading={ readerIsLoading }>
           { isClient && manifest && selfLink && <Reader rawManifest={ manifest } selfHref={ selfLink } /> }
-        </Loader>        
+        </StatefulLoader>        
     }
     </>
   );

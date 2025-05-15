@@ -5,7 +5,7 @@ import React from "react";
 import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 
 import { Text } from "react-aria-components";
-import { Shortcut } from "../../Shortcut";
+import { UnstableShortcut as Shortcut } from "./UnstableShortcut";
 
 import { ThMenuItem, ThMenuItemProps } from "@/packages/Components/Menu/ThMenuItem";
 

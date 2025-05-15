@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 
 import Locale from "../resources/locales/en.json";
@@ -18,7 +20,7 @@ export interface ProgressionObject {
   currentPublication?: string;
 }
 
-export const ProgressionOf = () => {
+export const StatefulReaderProgression = () => {
   const jsonTemplate = parseTemplate(Locale.reader.app.progression.of);
   const progression: ProgressionObject = useAppSelector(state => state.publication.progression);
 

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { PreferencesContext } from "@/preferences";
@@ -21,19 +23,19 @@ import { isActiveElement } from "@/packages/Helpers/focusUtilities";
 
 import classNames from "classnames";
 
-export interface ReaderArrowProps extends ThNavigationButtonProps {
+export interface StatefulReaderArrowButtonProps extends ThNavigationButtonProps {
   direction: "left" | "right";
   occupySpace: boolean;
 }
 
-export const ArrowButton = ({
+export const StatefulReaderArrowButton = ({
   direction,
   occupySpace,
   className,
   isDisabled,
   onPress,
   ...props
-}: ReaderArrowProps) => {
+}: StatefulReaderArrowButtonProps) => {
   const RSPrefs = useContext(PreferencesContext);
   
   const buttonRef = useRef<HTMLButtonElement>(null);

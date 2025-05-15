@@ -48,9 +48,9 @@ import {
 } from "@readium/shared";
 
 import { StatefulDockingWrapper } from "./Docking/StatefulDockingWrapper";
-import { ReaderHeader } from "./ReaderHeader";
-import { ArrowButton } from "./ArrowButton";
-import { ReaderFooter } from "./ReaderFooter";
+import { StatefulReaderHeader } from "./StatefulReaderHeader";
+import { StatefulReaderArrowButton } from "./StatefulReaderArrowButton";
+import { StatefulReaderFooter } from "./StatefulReaderFooter";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 import { useFullscreen } from "@/packages/Hooks/useFullscreen";
@@ -117,7 +117,7 @@ export interface ICache {
   reducedMotion?: boolean;
 }
 
-export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
+export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const RSPrefs = useContext(PreferencesContext);
   
   const container = useRef<HTMLDivElement>(null);
@@ -709,11 +709,11 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     <main>
       <StatefulDockingWrapper>
         <div id="reader-main">
-          <ReaderHeader />
+          <StatefulReaderHeader />
 
         { isPaged 
           ? <nav className={ arrowStyles.container } id={ arrowStyles.left }>
-              <ArrowButton 
+              <StatefulReaderArrowButton 
                 direction="left" 
                 occupySpace={ arrowsOccupySpace || false }
                 isDisabled={ atPublicationStart } 
@@ -728,7 +728,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
         { isPaged 
           ? <nav className={ arrowStyles.container } id={ arrowStyles.right }>
-              <ArrowButton 
+              <StatefulReaderArrowButton 
                 direction="right" 
                 occupySpace={ arrowsOccupySpace || false }
                 isDisabled={ atPublicationEnd } 
@@ -737,7 +737,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
             </nav> 
           : <></> }
 
-        { isPaged ? <ReaderFooter /> : <></> }
+        { isPaged ? <StatefulReaderFooter /> : <></> }
         </div>
     </StatefulDockingWrapper>
   </main>
