@@ -1,4 +1,4 @@
-import settingsStyles from "../../assets/styles/readerSettings.module.css";
+import settingsStyles from "../assets/styles/settings.module.css";
 
 import { ThRadioGroup, ThRadioGroupProps } from "@/packages/Components/Settings/ThRadioGroup"
 

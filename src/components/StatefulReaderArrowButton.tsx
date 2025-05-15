@@ -6,7 +6,7 @@ import { PreferencesContext } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
-import arrowStyles from "./assets/styles/arrowButton.module.css";
+import arrowStyles from "./assets/styles/readerArrowButton.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
-import settingsStyles from "../../assets/styles/readerSettings.module.css";
+import settingsStyles from "../assets/styles/settings.module.css";
 
 import { PreferencesContext, ThSettingsGroupPref, ThSpacingSettingsKeys, ThTextSettingsKeys } from "@/preferences";
 import { PressEvent } from "react-aria";

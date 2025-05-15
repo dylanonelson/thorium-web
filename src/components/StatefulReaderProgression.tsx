@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 import Locale from "../resources/locales/en.json";
-import progressionStyles from "./assets/styles/progression.module.css";
+import progressionStyles from "./assets/styles/readerProgression.module.css";
 
 import { ThProgression } from "@/packages/Components/Reader/ThProgression";
 

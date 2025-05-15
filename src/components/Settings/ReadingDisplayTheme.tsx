@@ -3,7 +3,7 @@ import React, { CSSProperties, useCallback, useContext, useRef } from "react";
 import { PreferencesContext } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
-import settingsStyles from "../assets/styles/readerSettings.module.css";
+import settingsStyles from "./assets/styles/settings.module.css";
 
 import CheckIcon from "../assets/icons/check.svg";
 

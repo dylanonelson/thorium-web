@@ -12,7 +12,7 @@ import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionContainerProps, StatefulActionTriggerProps } from "./models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
-import settingsStyles from "../assets/styles/readerSettings.module.css";
+import settingsStyles from "../Settings/assets/styles/settings.module.css";
 
 import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
