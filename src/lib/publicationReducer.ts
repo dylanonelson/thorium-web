@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ProgressionObject } from "@/components/StatefulReaderProgression";
+import { UnstableProgressionObject } from "@/components/StatefulReaderProgression";
 import { TocItem } from "@/packages/Helpers/createTocTree";
 
 export interface PublicationReducerState {
   runningHead?: string;
   isFXL: boolean;
   isRTL: boolean;
-  progression: ProgressionObject;
+  progression: UnstableProgressionObject;
   atPublicationStart: boolean;
   atPublicationEnd: boolean;
   tocTree?: TocItem[];
