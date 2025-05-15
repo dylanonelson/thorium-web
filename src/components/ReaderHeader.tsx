@@ -5,7 +5,7 @@ import { PreferencesContext } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
-import { StatefulActionsMapObject } from "@/models/actions";
+import { StatefulActionsMapObject } from "./Actions/models/actions";
 
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";

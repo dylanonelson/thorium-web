@@ -2,7 +2,7 @@ import { Key, useCallback, useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { StatefulSettingsItemProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "./models/settings";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 

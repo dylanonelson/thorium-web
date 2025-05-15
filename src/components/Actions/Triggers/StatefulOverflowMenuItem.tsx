@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";

@@ -1,10 +1,12 @@
+"use client";
+
 import React, { KeyboardEvent, useCallback, useContext, useMemo, useRef } from "react";
 
 import { ThBottomSheetDetent, PreferencesContext, ThSheetHeaderVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { StatefulSheet } from "@/models/sheets";
+import { StatefulSheet } from "./models/sheets";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
@@ -21,7 +23,7 @@ import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-export interface StatefulBottomSheet extends StatefulSheet {};
+export interface StatefulBottomSheetProps extends StatefulSheet {};
 
 export interface ScrimPref {
   active: boolean;
@@ -34,7 +36,7 @@ const DEFAULT_SNAPPOINTS = {
   max: 1
 }
 
-export const BottomSheet = ({
+export const StatefulBottomSheet = ({
   id,
   heading,
   headerVariant,
@@ -45,7 +47,7 @@ export const BottomSheet = ({
   children,
   resetFocus,
   dismissEscapeKeyClose
-}: StatefulBottomSheet) => {
+}: StatefulBottomSheetProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const direction = useAppSelector((state) => state.reader.direction);
   const prefersReducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);

@@ -1,10 +1,12 @@
+"use client";
+
 import React, { useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
 import Locale from "../../resources/locales/en.json";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
-import { StatefulActionTriggerProps } from "@/models/actions";
+import { StatefulActionTriggerProps } from "./models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
 import TargetIcon from "./assets/icons/point_scan.svg";

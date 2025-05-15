@@ -1,3 +1,5 @@
+"use client";
+
 import { useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
@@ -7,7 +9,7 @@ import Locale from "../../resources/locales/en.json";
 import LayoutIcon from "./assets/icons/fit_page_width.svg";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
-import { StatefulActionContainerProps, StatefulActionTriggerProps } from "@/models/actions";
+import { StatefulActionContainerProps, StatefulActionTriggerProps } from "./models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
@@ -20,7 +22,7 @@ import { setActionOpen } from "@/lib/actionsReducer";
 import { setHovering } from "@/lib/readerReducer";
 
 import { useDocking } from "../Docking/hooks/useDocking";
-import { SheetWithType } from "../Sheets/SheetWithType";
+import { StatefulSheetWrapper } from "../Sheets/StatefulSheetWrapper";
 import { ReadingDisplayLayoutStrategy } from "../Settings/ReadingDisplayLayoutStrategy";
 
 export const StatefulLayoutStrategyContainer = ({ triggerRef }: StatefulActionContainerProps) => {
@@ -42,7 +44,7 @@ export const StatefulLayoutStrategyContainer = ({ triggerRef }: StatefulActionCo
 
   return(
     <>
-    <SheetWithType 
+    <StatefulSheetWrapper 
       sheetType={ sheetType }
       sheetProps={ {
         id: ThActionsKeys.layoutStrategy,
@@ -57,7 +59,7 @@ export const StatefulLayoutStrategyContainer = ({ triggerRef }: StatefulActionCo
       } }
     >
       <ReadingDisplayLayoutStrategy />
-    </SheetWithType>
+    </StatefulSheetWrapper>
     </>
   )
 }

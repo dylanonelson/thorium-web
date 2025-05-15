@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import Locale from "../../resources/locales/en.json";
 
 import { ThTextAlignOptions, ThLayoutDirection } from "@/preferences/models/enums";
-import { StatefulSettingsItemProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "./models/settings";
 import { TextAlignment } from "@readium/navigator";
 
 import BookIcon from "../assets/icons/book.svg";

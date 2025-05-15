@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useContext, useEffect, useState } from "react";
 
 import { PreferencesContext } from "@/preferences";

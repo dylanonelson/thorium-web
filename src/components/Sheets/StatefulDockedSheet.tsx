@@ -1,8 +1,10 @@
+"use client";
+
 import React, { useCallback, useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { StatefulSheet } from "@/models/sheets";
+import { StatefulSheet } from "./models/sheets";
 import { ThDockingKeys, ThSheetHeaderVariant, ThLayoutDirection } from "@/preferences/models/enums";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
@@ -18,11 +20,11 @@ import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-export interface StatefulDockedSheet extends StatefulSheet {
+export interface StatefulDockedSheetProps extends StatefulSheet {
   flow: ThDockingKeys.start | ThDockingKeys.end | null;
 }
 
-export const DockedSheet = ({ 
+export const StatefulDockedSheet = ({ 
     id,
     heading,
     headerVariant,
@@ -33,7 +35,7 @@ export const DockedSheet = ({
     flow,
     children,
     resetFocus
-  }: StatefulDockedSheet) => {
+  }: StatefulDockedSheetProps) => {
   const dockPortal = flow && document.getElementById(flow);
   const dockedSheetHeaderRef = useRef<HTMLDivElement | null>(null);
   const dockedSheetBodyRef = useRef<HTMLDivElement | null>(null);

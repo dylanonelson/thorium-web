@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef } from "react";
 
 import { ThActionEntry, ThCollapsibleActionsBar, ThCollapsibleActionsBarProps } from "@/packages/Components/Actions/ThCollapsibleActionsBar";

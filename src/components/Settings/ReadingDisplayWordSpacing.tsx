@@ -4,7 +4,7 @@ import { defaultWordSpacing, PreferencesContext, ThSettingsKeys, ThSettingsRange
 
 import Locale from "../../resources/locales/en.json";
 
-import { StatefulSettingsItemProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "./models/settings";
 
 import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 import { SliderWrapper } from "./Wrappers/SliderWrapper";
