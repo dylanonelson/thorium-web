@@ -2,9 +2,10 @@ import { ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ThemeTokens } from "@/preferences/hooks/useTheming";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
-import { IDockedPref, IDockingPref } from "@/models/docking";
 import { 
   ActionKeys,
+  DockingKeys,
+  DockingTypes,
   LineHeightOptions, 
   ScrollBackTo, 
   SettingsKeys, 
@@ -29,6 +30,14 @@ export interface SnappedPref {
   minHeight?: number | BottomSheetDetent;
 }
 
+export interface ActionsDockedPref {
+  dockable: DockingTypes,
+  dragIndicator?: boolean,
+  width?: number,
+  minWidth?: number,
+  maxWidth?: number
+}
+
 export interface ActionTokens {
   visibility: CollapsibilityVisibility;
   shortcut: string | null;
@@ -36,7 +45,7 @@ export interface ActionTokens {
     defaultSheet: Exclude<SheetTypes, SheetTypes.dockedStart | SheetTypes.dockedEnd>;
     breakpoints: BreakpointsMap<SheetTypes>;
   };
-  docked?: IDockedPref;
+  docked?: ActionsDockedPref;
   snapped?: SnappedPref;
 };
 
@@ -45,6 +54,15 @@ export interface ActionsPref {
   collapse: Collapsibility;
   keys: {
     [key in ActionKeys]: ActionTokens;
+  }
+};
+
+export interface DockingPref {
+  displayOrder: DockingKeys[];
+  collapse: Collapsibility;
+  dock: BreakpointsMap<DockingTypes> | boolean; 
+  keys: {
+    [key in  DockingKeys]: ActionTokens;
   }
 };
 
@@ -131,7 +149,7 @@ export interface ThPreferences<
     joiner?: string;
   };
   actions: ActionsPref;
-  docking: IDockingPref;
+  docking: DockingPref;
   settings: {
     reflowOrder: CustomSettingsKeys[];
     fxlOrder: CustomSettingsKeys[];
