@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
-import Locale from "../resources/locales/en.json";
+import Locale from "../../resources/locales/en.json";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionTriggerProps } from "@/models/actions";
@@ -9,23 +9,23 @@ import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollaps
 
 import TargetIcon from "./assets/icons/point_scan.svg";
 
-import { ActionIcon } from "./ActionTriggers/ActionIcon";
-import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
+import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
+import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
 
-export const JumpToPositionAction = ({ variant }: StatefulActionTriggerProps) => {
+export const StatefulJumpToPosition = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   
   return(
     <>
     { (variant && variant === ThActionsTriggerVariant.menu) 
-      ? <OverflowMenuItem 
+      ? <StatefulOverflowMenuItem 
           label={ Locale.reader.jumpToPosition.trigger }
           SVGIcon={ TargetIcon }
           shortcut={ RSPrefs.actions.keys[ThActionsKeys.jumpToPosition].shortcut }
           id={ ThActionsKeys.jumpToPosition }
           onAction={ () => {} }
         />
-      : <ActionIcon
+      : <StatefulActionIcon
           visibility={ RSPrefs.actions.keys[ThActionsKeys.jumpToPosition].visibility } 
           aria-label={ Locale.reader.jumpToPosition.trigger }
           placement="bottom" 
@@ -33,7 +33,7 @@ export const JumpToPositionAction = ({ variant }: StatefulActionTriggerProps) =>
           onPress={ () => {} }
         >
           <TargetIcon aria-hidden="true" focusable="false" />
-        </ActionIcon>
+        </StatefulActionIcon>
     }
     </>
   )

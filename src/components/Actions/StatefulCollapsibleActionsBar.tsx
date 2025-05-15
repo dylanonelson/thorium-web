@@ -1,27 +1,26 @@
 import { useRef } from "react";
 
-import { ThActionEntry, ThCollapsibleActionsBar } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
-import { OverflowMenu } from "./OverflowMenu";
+import { ThActionEntry, ThCollapsibleActionsBar, ThCollapsibleActionsBarProps } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { StatefulOverflowMenu } from "./StatefulOverflowMenu";
 import { ThActionsKeys, ThDockingKeys } from "@/preferences/models/enums";
 
 import { useAppSelector } from "@/lib/hooks";
-import { ThCollapsibleActionsBarProps } from "../../dist/components";
 
-export interface StatefulCollapsibleActionsProps extends ThCollapsibleActionsBarProps {
+export interface StatefulCollapsibleActionsBarProps extends ThCollapsibleActionsBarProps {
   items: ThActionEntry<ThActionsKeys | ThDockingKeys>[];
   overflowActionCallback?: boolean;
   overflowMenuClassName?: string;
   overflowMenuDisplay?: boolean;
 }
 
-export const ActionsWithCollapsibility = ({
+export const StatefulCollapsibleActionsBar = ({
   id, 
   items,
   overflowActionCallback,
   overflowMenuClassName,
   overflowMenuDisplay,
   ...props
-}: StatefulCollapsibleActionsProps) => {
+}: StatefulCollapsibleActionsBarProps) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const breakpoint = useAppSelector(state => state.theming.breakpoint);
 
@@ -32,7 +31,7 @@ export const ActionsWithCollapsibility = ({
       id={ id }
       items={ items }
       breakpoint={ breakpoint }
-      overflowMenu={ (<OverflowMenu 
+      overflowMenu={ (<StatefulOverflowMenu 
         id={ id }
         triggerRef={ ref }
         display={ overflowMenuDisplay || true }

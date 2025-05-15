@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
-import Locale from "../resources/locales/en.json";
+import Locale from "../../resources/locales/en.json";
 
 import LayoutIcon from "./assets/icons/fit_page_width.svg";
 
@@ -10,20 +10,20 @@ import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionContainerProps, StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
-import settingsStyles from "./assets/styles/readerSettings.module.css";
+import settingsStyles from "../assets/styles/readerSettings.module.css";
 
-import { ActionIcon } from "./ActionTriggers/ActionIcon";
-import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
+import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
+import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 import { setHovering } from "@/lib/readerReducer";
 
-import { useDocking } from "@/hooks/useDocking";
-import { SheetWithType } from "./Sheets/SheetWithType";
-import { ReadingDisplayLayoutStrategy } from "./Settings/ReadingDisplayLayoutStrategy";
+import { useDocking } from "../Docking/hooks/useDocking";
+import { SheetWithType } from "../Sheets/SheetWithType";
+import { ReadingDisplayLayoutStrategy } from "../Settings/ReadingDisplayLayoutStrategy";
 
-export const LayoutStrategiesActionContainer = ({ triggerRef }: StatefulActionContainerProps) => {
+export const StatefulLayoutStrategyContainer = ({ triggerRef }: StatefulActionContainerProps) => {
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.layoutStrategy]);
   const dispatch = useAppDispatch();
   
@@ -62,7 +62,7 @@ export const LayoutStrategiesActionContainer = ({ triggerRef }: StatefulActionCo
   )
 }
 
-export const LayoutStrategyAction = ({ variant }: StatefulActionTriggerProps) => {
+export const StatefulLayoutStrategyTrigger = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.layoutStrategy]);
@@ -81,14 +81,14 @@ export const LayoutStrategyAction = ({ variant }: StatefulActionTriggerProps) =>
   return(
     <>
     { (variant && variant === ThActionsTriggerVariant.menu) 
-      ? <OverflowMenuItem 
+      ? <StatefulOverflowMenuItem 
           label={ Locale.reader.layoutStrategy.trigger }
           SVGIcon={ LayoutIcon }
           shortcut={ RSPrefs.actions.keys[ThActionsKeys.layoutStrategy].shortcut } 
           id={ ThActionsKeys.layoutStrategy }
           onAction={ () => setOpen(!actionState.isOpen) }
         />
-      : <ActionIcon 
+      : <StatefulActionIcon 
           visibility={ RSPrefs.actions.keys[ThActionsKeys.layoutStrategy].visibility }
           aria-label={ Locale.reader.layoutStrategy.trigger }
           placement="bottom" 
@@ -96,7 +96,7 @@ export const LayoutStrategyAction = ({ variant }: StatefulActionTriggerProps) =>
           onPress={ () => setOpen(!actionState.isOpen) }
         >
           <LayoutIcon aria-hidden="true" focusable="false" />
-        </ActionIcon>
+        </StatefulActionIcon>
     }
     </>
   )

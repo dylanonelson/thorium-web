@@ -1,6 +1,6 @@
 import React, { ReactNode, RefObject } from "react";
 
-import Locale from "../resources/locales/en.json";
+import Locale from "../../resources/locales/en.json";
 
 import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
@@ -9,7 +9,7 @@ import MenuIcon from "./assets/icons/more_vert.svg";
 import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { ThMenu } from "@/packages/Components/Menu/ThMenu";
 import { ThActionsKeys, ThDockingKeys } from "@/preferences/models/enums";
-import { ActionIcon } from "./ActionTriggers/ActionIcon";
+import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { toggleImmersive } from "@/lib/readerReducer";
@@ -26,7 +26,7 @@ export interface StatefulOverflowMenuProps {
   children?: ReactNode;
 }
 
-export const OverflowMenu = ({ 
+export const StatefulOverflowMenu = ({ 
   id,
   className, 
   actionFallback,
@@ -62,7 +62,7 @@ export const OverflowMenu = ({
             className: overflowMenuStyles.overflowPopover
           },
           button: (
-            <ActionIcon
+            <StatefulActionIcon
               className={ className ? className : overflowMenuStyles.activeButton }
               aria-label={ Locale.reader.overflowMenu.active.trigger }
               placement="bottom"
@@ -70,7 +70,7 @@ export const OverflowMenu = ({
               visibility={ CollapsibilityVisibility.always }
             >
               <MenuIcon aria-hidden="true" focusable="false" />
-            </ActionIcon>
+            </StatefulActionIcon>
           ),
         }}
       />
@@ -80,7 +80,7 @@ export const OverflowMenu = ({
     if (actionFallback) {
       return(
         <>
-        <ActionIcon 
+        <StatefulActionIcon 
           className={ className ? className : overflowMenuStyles.hintButton } 
           aria-label={ Locale.reader.overflowMenu.hint.trigger }
           placement="bottom"
@@ -90,7 +90,7 @@ export const OverflowMenu = ({
           preventFocusOnPress={ true }
         >
           <MenuIcon aria-hidden="true" focusable="false" />
-        </ActionIcon>
+        </StatefulActionIcon>
       </>
       )
     } else {

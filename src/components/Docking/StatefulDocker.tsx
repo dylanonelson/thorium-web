@@ -1,10 +1,10 @@
 import React, { useCallback, useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
-import Locale from "../../../resources/locales/en.json";
+import Locale from "../../resources/locales/en.json";
 
-import dockerStyles from "../../assets/styles/docking.module.css";
-import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
+import dockingStyles from "./assets/styles/docking.module.css";
+import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { ThDockingKeys } from "@/preferences/models/enums";
 import { StatefulActionsMapObject } from "@/models/actions";
@@ -12,22 +12,22 @@ import { StatefulActionsMapObject } from "@/models/actions";
 import { Toolbar } from "react-aria-components";
 
 import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
-import { ActionsWithCollapsibility } from "@/components/ActionsWithCollapsibility";
-import { DockStartAction } from "./DockStartAction";
-import { DockEndAction } from "./DockEndAction";
-import { PopoverSheetAction } from "./PopoverSheetAction";
+import { StatefulCollapsibleActionsBar } from "../Actions/StatefulCollapsibleActionsBar";
+import { StatefulDockStart } from "./StatefulDockStart";
+import { StatefulDockEnd } from "./StatefulDockEnd";
+import { StatefulDockTransientPopover } from "./StatefulDockTransientPopover";
 import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 const DockingActionsMap: { [key in ThDockingKeys]: StatefulActionsMapObject } = {
   [ThDockingKeys.start]: {
-    trigger: DockStartAction
+    trigger: StatefulDockStart
   },
   [ThDockingKeys.end]: {
-    trigger: DockEndAction
+    trigger: StatefulDockEnd
   },
   [ThDockingKeys.transient]: {
-    trigger: PopoverSheetAction
+    trigger: StatefulDockTransientPopover
   }
 };
 
@@ -38,7 +38,7 @@ export interface StatefulDockerProps {
   onClose: () => void;
 }
 
-export const Docker = ({
+export const StatefulDocker = ({
   id,
   keys,
   ref,
@@ -61,11 +61,11 @@ export const Docker = ({
 
   return(
     <>
-    <Toolbar className={ dockerStyles.dockerWrapper }>
-      <ActionsWithCollapsibility 
+    <Toolbar className={ dockingStyles.dockerWrapper }>
+      <StatefulCollapsibleActionsBar 
         id={ `${ id }-docker-overflowMenu` }
         items={ listActionItems() }
-        className={ dockerStyles.docker } 
+        className={ dockingStyles.docker } 
         overflowMenuClassName={ readerSharedUI.dockerButton }
         prefs={ RSPrefs.docking }
         aria-label={ Locale.reader.app.docker.wrapper }

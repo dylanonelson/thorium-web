@@ -8,7 +8,7 @@ import {
   PreferencesContext 
 } from "@/preferences";
 
-import Locale from "../resources/locales/en.json";
+import Locale from "../../resources/locales/en.json";
 
 import { 
   ThActionsKeys, 
@@ -22,33 +22,33 @@ import { StatefulActionContainerProps, StatefulActionTriggerProps } from "@/mode
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { StatefulSettingsMapObject } from "@/models/settings";
 
-import settingsStyles from "./assets/styles/readerSettings.module.css";
+import settingsStyles from "../assets/styles/readerSettings.module.css";
 
 import TuneIcon from "./assets/icons/match_case.svg";
 
-import { SheetWithType } from "./Sheets/SheetWithType";
-import { ActionIcon } from "./ActionTriggers/ActionIcon";
-import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
+import { SheetWithType } from "../Sheets/SheetWithType";
+import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
+import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
 
-import { ReadingDisplayAlign } from "./Settings/ReadingDisplayAlign";
-import { ReadingDisplayCol } from "./Settings/ReadingDisplayCol";
-import { ReadingDisplayFontFamily } from "./Settings/ReadingDisplayFontFamily";
-import { ReadingDisplayFontWeight } from "./Settings/ReadingDisplayFontWeight";
-import { ReadingDisplayHyphens } from "./Settings/ReadingDisplayHyphens";
-import { ReadingDisplayLayout } from "./Settings/ReadingDisplayLayout";
-import { ReadingDisplayLetterSpacing } from "./Settings/ReadingDisplayLetterSpacing";
-import { ReadingDisplayLineHeight } from "./Settings/ReadingDisplayLineHeight";
-import { ReadingDisplayParaIndent } from "./Settings/ReadingDisplayParaIndent";
-import { ReadingDisplayParaSpacing } from "./Settings/ReadingDisplayParaSpacing";
-import { ReadingDisplayPublisherStyles } from "./Settings/ReadingDisplayPublisherStyles";
-import { ReadingDisplaySpacing, ReadingDisplaySpacingContainer } from "./Settings/ReadingDisplaySpacing";
-import { ReadingDisplayText, ReadingDisplayTextContainer } from "./Settings/ReadingDisplayText";
-import { ReadingDisplayNormalizeText } from "./Settings/ReadingDisplayNormalizeText";
-import { ReadingDisplayTheme } from "./Settings/ReadingDisplayTheme";
-import { ReadingDisplayWordSpacing } from "./Settings/ReadingDisplayWordSpacing";
-import { ReadingDisplayZoom } from "./Settings/ReadingDisplayZoom";
+import { ReadingDisplayAlign } from "../Settings/ReadingDisplayAlign";
+import { ReadingDisplayCol } from "../Settings/ReadingDisplayCol";
+import { ReadingDisplayFontFamily } from "../Settings/ReadingDisplayFontFamily";
+import { ReadingDisplayFontWeight } from "../Settings/ReadingDisplayFontWeight";
+import { ReadingDisplayHyphens } from "../Settings/ReadingDisplayHyphens";
+import { ReadingDisplayLayout } from "../Settings/ReadingDisplayLayout";
+import { ReadingDisplayLetterSpacing } from "../Settings/ReadingDisplayLetterSpacing";
+import { ReadingDisplayLineHeight } from "../Settings/ReadingDisplayLineHeight";
+import { ReadingDisplayParaIndent } from "../Settings/ReadingDisplayParaIndent";
+import { ReadingDisplayParaSpacing } from "../Settings/ReadingDisplayParaSpacing";
+import { ReadingDisplayPublisherStyles } from "../Settings/ReadingDisplayPublisherStyles";
+import { ReadingDisplaySpacing, ReadingDisplaySpacingContainer } from "../Settings/ReadingDisplaySpacing";
+import { ReadingDisplayText, ReadingDisplayTextContainer } from "../Settings/ReadingDisplayText";
+import { ReadingDisplayNormalizeText } from "../Settings/ReadingDisplayNormalizeText";
+import { ReadingDisplayTheme } from "../Settings/ReadingDisplayTheme";
+import { ReadingDisplayWordSpacing } from "../Settings/ReadingDisplayWordSpacing";
+import { ReadingDisplayZoom } from "../Settings/ReadingDisplayZoom";
 
-import { useDocking } from "@/hooks/useDocking";
+import { useDocking } from "../Docking/hooks/useDocking";
 
 import { setHovering, setSettingsContainer } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -111,7 +111,7 @@ const SettingsMap: { [key in ThSettingsKeys]: StatefulSettingsMapObject } = {
   }
 }
 
-export const SettingsActionContainer = ({ triggerRef }: StatefulActionContainerProps) => {
+export const StatefulSettingsContainer = ({ triggerRef }: StatefulActionContainerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const contains = useAppSelector(state => state.reader.settingsContainer);
@@ -253,7 +253,7 @@ useEffect(() => {
   )
 }
 
-export const SettingsAction = ({ variant }: StatefulActionTriggerProps) => {
+export const StatefulSettingsTrigger = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.settings]);
   const dispatch = useAppDispatch();
@@ -271,14 +271,14 @@ export const SettingsAction = ({ variant }: StatefulActionTriggerProps) => {
   return(
     <>
     { (variant && variant === ThActionsTriggerVariant.menu) 
-      ? <OverflowMenuItem 
+      ? <StatefulOverflowMenuItem 
           label={ Locale.reader.settings.trigger }
           SVGIcon={ TuneIcon }
           shortcut={ RSPrefs.actions.keys[ThActionsKeys.settings].shortcut } 
           id={ ThActionsKeys.settings }
           onAction={ () => setOpen(!actionState.isOpen) }
         />
-      : <ActionIcon 
+      : <StatefulActionIcon 
           visibility={ RSPrefs.actions.keys[ThActionsKeys.settings].visibility }
           aria-label={ Locale.reader.settings.trigger }
           placement="bottom" 
@@ -286,7 +286,7 @@ export const SettingsAction = ({ variant }: StatefulActionTriggerProps) => {
           onPress={ () => setOpen(!actionState.isOpen) }
         >
           <TuneIcon aria-hidden="true" focusable="false" />
-        </ActionIcon>
+        </StatefulActionIcon>
     }
     </>
   )
