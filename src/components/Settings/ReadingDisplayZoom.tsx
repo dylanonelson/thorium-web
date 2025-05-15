@@ -34,10 +34,30 @@ export const ReadingDisplayZoom = () => {
     dispatch(setFontSize(getSetting("fontSize")));
   }, [submitPreferences, getSetting, dispatch]);
 
+  const getEffectiveRange = (preferred: [number, number] | undefined, fallback: [number, number], supportedRange: [number, number] | undefined): [number, number] => {
+    if (!supportedRange) {
+      return preferred || fallback
+    }
+    if (preferred && isRangeWithinSupportedRange(preferred, supportedRange)) {
+      return preferred;
+    }
+    if (fallback && isRangeWithinSupportedRange(fallback, supportedRange)) {
+      return fallback;
+    }
+    return supportedRange;
+  }
+  
+  const isRangeWithinSupportedRange = (range: [number, number], supportedRange: [number, number]): boolean => {
+    return Math.min(range[0], range[1]) >= Math.min(supportedRange[0], supportedRange[1]) &&
+           Math.max(range[0], range[1]) <= Math.max(supportedRange[0], supportedRange[1]);
+  }
+
   const zoomRangeConfig = {
     variant: RSPrefs.settings.keys?.[ThSettingsKeys.zoom]?.variant || defaultFontSize.variant,
-    range: preferencesEditor?.fontSize.supportedRange || defaultFontSize.range,
-    step: preferencesEditor?.fontSize.step || defaultFontSize.step
+    range: preferencesEditor?.fontSize.supportedRange
+      ? getEffectiveRange(RSPrefs.settings.keys?.[ThSettingsKeys.zoom]?.range, defaultFontSize.range, preferencesEditor?.fontSize.supportedRange)
+      : RSPrefs.settings.keys?.[ThSettingsKeys.zoom]?.range || defaultFontSize.range,
+    step: RSPrefs.settings.keys?.[ThSettingsKeys.zoom]?.step || preferencesEditor?.fontSize.step || defaultFontSize.step
   }
 
   return (
