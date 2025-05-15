@@ -13,12 +13,12 @@ import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { ThHeader  } from "@/packages/Components/Reader/ThHeader";
 import { ThRunningHead } from "@/packages/Components/Reader/ThRunningHead";
-import { FullscreenAction } from "./FullscreenAction";
-import { JumpToPositionAction } from "./JumpToPositionAction";
-import { LayoutStrategyAction, LayoutStrategiesActionContainer } from "./LayoutStrategyAction";
-import { SettingsAction, SettingsActionContainer } from "./SettingsAction";
-import { TocAction, TocActionContainer } from "./TocAction";
-import { ActionsWithCollapsibility } from "./ActionsWithCollapsibility";
+import { StatefulSwitchFullscreen } from "./Actions/StatefulSwitchFullscreen";
+import { StatefulJumpToPosition } from "./Actions/StatefulJumpToPosition";
+import { StatefulLayoutStrategyTrigger, StatefulLayoutStrategyContainer } from "./Actions/StatefulLayoutStrategy";
+import { StatefulSettingsTrigger, StatefulSettingsContainer } from "./Actions/StatefulSettings";
+import { StatefulTocTrigger, StatefulTocContainer } from "./Actions/StatefulToc";
+import { StatefulCollapsibleActionsBar } from "./Actions/StatefulCollapsibleActionsBar";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -27,22 +27,22 @@ import classNames from "classnames";
 
 const ActionsMap: { [key in ThActionsKeys]: StatefulActionsMapObject } = {
   [ThActionsKeys.fullscreen]: {
-    trigger: FullscreenAction
+    trigger: StatefulSwitchFullscreen
   },
   [ThActionsKeys.jumpToPosition]: {
-    trigger: JumpToPositionAction
+    trigger: StatefulJumpToPosition
   },
   [ThActionsKeys.layoutStrategy]: {
-    trigger: LayoutStrategyAction,
-    target: LayoutStrategiesActionContainer
+    trigger: StatefulLayoutStrategyTrigger,
+    target: StatefulLayoutStrategyContainer
   },
   [ThActionsKeys.settings]: {
-    trigger: SettingsAction,
-    target: SettingsActionContainer
+    trigger: StatefulSettingsTrigger,
+    target: StatefulSettingsContainer
   },
   [ThActionsKeys.toc]: {
-    trigger: TocAction,
-    target: TocActionContainer
+    trigger: StatefulTocTrigger,
+    target: StatefulTocContainer
   }
 }
 
@@ -106,7 +106,7 @@ export const ReaderHeader = () => {
         aria-label={ Locale.reader.app.header.runningHead }
       />
       
-      <ActionsWithCollapsibility 
+      <StatefulCollapsibleActionsBar 
         id="reader-header-overflowMenu" 
         items={ listActionItems() }
         prefs={ RSPrefs.actions }

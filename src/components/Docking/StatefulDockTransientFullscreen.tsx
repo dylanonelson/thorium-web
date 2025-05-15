@@ -1,25 +1,25 @@
 import { useCallback, useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
-import Locale from "../../../resources/locales/en.json";
+import Locale from "../../resources/locales/en.json";
 
-import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
+import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { ThDockingKeys } from "@/preferences/models/enums";
 
-import Dialog from "../../assets/icons/dialogs.svg";
+import Dialog from "./assets/icons/dialogs.svg";
 
-import { ActionIcon } from "@/components/ActionTriggers/ActionIcon";
-import { OverflowMenuItem } from "@/components/ActionTriggers/OverflowMenuItem";
+import { StatefulActionIcon } from "../Actions/Triggers/StatefulActionIcon";
+import { StatefulOverflowMenuItem } from "../Actions/Triggers/StatefulOverflowMenuItem";
 
 import { useActions } from "@/packages/Components/Actions/hooks/useActions";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
 
-export const FullscreenSheetAction = ({ variant, associatedKey }: StatefulActionTriggerProps) => {
+export const StatefulDockTransientFullscreen = ({ variant, associatedKey }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const actionsMap = useAppSelector(state => state.actions.keys);
   const actions = useActions(actionsMap);
@@ -39,7 +39,7 @@ export const FullscreenSheetAction = ({ variant, associatedKey }: StatefulAction
   return(
     <>
     { (variant && variant === ThActionsTriggerVariant.menu) 
-      ? <OverflowMenuItem 
+      ? <StatefulOverflowMenuItem 
           label={ Locale.reader.app.docker.fullscreen.trigger }
           SVGIcon={ Dialog } 
           shortcut={ RSPrefs.docking.keys[ThDockingKeys.transient].shortcut }
@@ -47,7 +47,7 @@ export const FullscreenSheetAction = ({ variant, associatedKey }: StatefulAction
           id={ `${ ThDockingKeys.transient }-${ associatedKey }` } 
           isDisabled={ isDisabled }
         />
-      : <ActionIcon 
+      : <StatefulActionIcon 
           className={ readerSharedUI.dockerButton }  
           aria-label={ Locale.reader.app.docker.fullscreen.trigger }
           placement="bottom" 
@@ -56,7 +56,7 @@ export const FullscreenSheetAction = ({ variant, associatedKey }: StatefulAction
           isDisabled={ isDisabled }
         >
           <Dialog aria-hidden="true" focusable="false" />
-        </ActionIcon>
+        </StatefulActionIcon>
     }
     </>
   )

@@ -14,7 +14,7 @@ import { ThPopover } from "@/packages/Components/Containers/ThPopover";
 import { ThContainerHeader } from "@/packages/Components/Containers/ThContainerHeader";
 import { ThContainerBody } from "@/packages/Components/Containers/ThContainerBody";
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
-import { Docker } from "./Docking/Docker";
+import { StatefulDocker } from "../Docking/StatefulDocker";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -90,7 +90,7 @@ export const PopoverSheet = ({
                 aria-label={ Locale.reader.app.back.trigger }
                 onPress={ onPressClose }
               />
-              : <Docker 
+              : <StatefulDocker 
                 id={ id }
                 keys={ docker || [] }
                 ref={ popoverCloseRef }

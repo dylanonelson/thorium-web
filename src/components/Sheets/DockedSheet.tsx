@@ -11,7 +11,7 @@ import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import { ThDockedPanel } from "@/packages/Components/Containers/ThDockedPanel";
 import { ThContainerHeader } from "@/packages/Components/Containers/ThContainerHeader";
 import { ThContainerBody } from "@/packages/Components/Containers/ThContainerBody";
-import { Docker } from "./Docking/Docker";
+import { StatefulDocker } from "../Docking/StatefulDocker";
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 
 import { useAppSelector } from "@/lib/hooks";
@@ -85,7 +85,7 @@ export const DockedSheet = ({
               aria-label={ Locale.reader.app.back.trigger }
               onPress={ onPressClose }
             /> 
-            : <Docker 
+            : <StatefulDocker 
               id={ id }
               keys={ docker || [] }
               ref={ dockedSheetCloseRef }

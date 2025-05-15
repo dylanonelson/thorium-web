@@ -5,8 +5,8 @@ import { PreferencesContext } from "@/preferences";
 import { TooltipProps } from "react-aria-components";
 import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 
-import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
-import readerStateStyles from "../assets/styles/readerStates.module.css";
+import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
+import readerStateStyles from "../../assets/styles/readerStates.module.css";
 
 import { ThActionButton, ThActionButtonProps } from "@/packages/Components/Buttons/ThActionButton";
 
@@ -17,18 +17,18 @@ import { isActiveElement, isKeyboardTriggered } from "@/packages/Helpers/focusUt
 
 import classNames from "classnames";
 
-export interface ActionIconProps extends ThActionButtonProps {
+export interface StatefulActionIconProps extends ThActionButtonProps {
   visibility?: CollapsibilityVisibility;
   placement?: TooltipProps["placement"];
   tooltipLabel?: string;
 }
 
-export const ActionIcon = ({
+export const StatefulActionIcon = ({
  visibility,
  placement,
  tooltipLabel,
   ...props
-}: ActionIconProps) => {
+}: StatefulActionIconProps) => {
   const children = props.children;
   const RSPrefs = useContext(PreferencesContext);
 

@@ -10,7 +10,7 @@ import { useActions } from "@/packages/Components/Actions/hooks/useActions";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 import { useAppSelector } from "@/lib/hooks";
 
-export const useRezisablePanel = (panel: DockStateObject) => {
+export const useResizablePanel = (panel: DockStateObject) => {
   const RSPrefs = useContext(PreferencesContext);
   const defaultWidth = RSPrefs.theming.layout.defaults.dockingWidth;
   const [pref, setPref] = useState<ThActionsDockedPref | null>(

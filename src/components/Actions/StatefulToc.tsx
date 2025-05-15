@@ -2,9 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
-import Locale from "../resources/locales/en.json";
-
-import Chevron from "./assets/icons/chevron_right.svg";
+import Locale from "../../resources/locales/en.json";
 
 import { Link } from "@readium/shared";
 import { ThActionsKeys, ThDockingKeys, ThSheetTypes, ThLayoutDirection } from "@/preferences/models/enums";
@@ -15,10 +13,11 @@ import { TocItem } from "@/packages/Helpers/createTocTree";
 import tocStyles from "./assets/styles/toc.module.css";
 
 import TocIcon from "./assets/icons/toc.svg";
+import Chevron from "./assets/icons/chevron_right.svg";
 
-import { ActionIcon } from "./ActionTriggers/ActionIcon";
-import { SheetWithType } from "./Sheets/SheetWithType";
-import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
+import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
+import { SheetWithType } from "../Sheets/SheetWithType";
+import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
 import { Button, Collection, Selection } from "react-aria-components";
 import {
   Tree,
@@ -27,7 +26,7 @@ import {
 } from "react-aria-components";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
-import { useDocking } from "@/hooks/useDocking";
+import { useDocking } from "../Docking/hooks/useDocking";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 
 
@@ -36,7 +35,7 @@ import { setActionOpen } from "@/lib/actionsReducer";
 import { setTocEntry } from "@/lib/publicationReducer";
 import { setHovering, setImmersive } from "@/lib/readerReducer";
 
-export const TocActionContainer = ({ triggerRef }: StatefulActionContainerProps) => {
+export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProps) => {
   const tocEntry = useAppSelector(state => state.publication.tocEntry);
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === ThLayoutDirection.rtl;
@@ -199,7 +198,7 @@ export const TocActionContainer = ({ triggerRef }: StatefulActionContainerProps)
   )
 }
 
-export const TocAction = ({ variant }: StatefulActionTriggerProps) => {
+export const StatefulTocTrigger = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.toc]);
   const dispatch = useAppDispatch();
@@ -214,14 +213,14 @@ export const TocAction = ({ variant }: StatefulActionTriggerProps) => {
   return(
     <>
     { (variant && variant === ThActionsTriggerVariant.menu) 
-      ? <OverflowMenuItem 
+      ? <StatefulOverflowMenuItem 
           label={ Locale.reader.toc.trigger }
           SVGIcon={ TocIcon } 
           shortcut={ RSPrefs.actions.keys[ThActionsKeys.toc].shortcut }
           id={ ThActionsKeys.toc }
           onAction={ () => setOpen(!actionState.isOpen) }
         />
-      : <ActionIcon 
+      : <StatefulActionIcon 
           visibility={ RSPrefs.actions.keys[ThActionsKeys.toc].visibility }
           aria-label={ Locale.reader.toc.trigger } 
           placement="bottom"
@@ -229,7 +228,7 @@ export const TocAction = ({ variant }: StatefulActionTriggerProps) => {
           onPress={ () => setOpen(!actionState.isOpen) }
         >
           <TocIcon aria-hidden="true" focusable="false" />
-        </ActionIcon>
+        </StatefulActionIcon>
     }
     </>
   )

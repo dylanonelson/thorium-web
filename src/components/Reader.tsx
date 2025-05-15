@@ -47,7 +47,7 @@ import {
   Link
 } from "@readium/shared";
 
-import { ReaderWithDock } from "./ReaderWithPanels";
+import { StatefulDockingWrapper } from "./Docking/StatefulDockingWrapper";
 import { ReaderHeader } from "./ReaderHeader";
 import { ArrowButton } from "./ArrowButton";
 import { ReaderFooter } from "./ReaderFooter";
@@ -707,7 +707,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     <>
     <I18nProvider locale={  RSPrefs.locale  }>
     <main>
-      <ReaderWithDock>
+      <StatefulDockingWrapper>
         <div id="reader-main">
           <ReaderHeader />
 
@@ -739,7 +739,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
 
         { isPaged ? <ReaderFooter /> : <></> }
         </div>
-    </ReaderWithDock>
+    </StatefulDockingWrapper>
   </main>
   </I18nProvider>
   </>

@@ -2,16 +2,16 @@ import { ReactNode, useCallback, useContext, useEffect, useRef } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
-import Locale from "../resources/locales/en.json";
+import Locale from "../../resources/locales/en.json";
 
-import dockStyles from "./assets/styles/docking.module.css";
+import dockingStyles from "./assets/styles/docking.module.css";
 
 import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 import { ThDockingTypes, ThDockingKeys, ThLayoutDirection } from "@/preferences/models/enums";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
-import { useRezisablePanel } from "@/hooks/useRezisablePanel";
+import { useResizablePanel } from "./hooks/useResizablePanel";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { activateDockPanel, collapseDockPanel, deactivateDockPanel, expandDockPanel, setDockPanelWidth } from "@/lib/actionsReducer";
 
@@ -43,9 +43,9 @@ const DockHandle = ({
 
   const classFromFlow = useCallback(() => {
     if (flow === ThDockingKeys.start) {
-      return direction === ThLayoutDirection.ltr ? dockStyles.dockResizeHandleGrabLeft : dockStyles.dockResizeHandleGrabRight;
+      return direction === ThLayoutDirection.ltr ? dockingStyles.dockResizeHandleGrabLeft : dockingStyles.dockResizeHandleGrabRight;
     } else if (flow === ThDockingKeys.end) {
-      return direction === ThLayoutDirection.ltr ? dockStyles.dockResizeHandleGrabRight : dockStyles.dockResizeHandleGrabLeft;
+      return direction === ThLayoutDirection.ltr ? dockingStyles.dockResizeHandleGrabRight : dockingStyles.dockResizeHandleGrabLeft;
     }
   }, [flow, direction]);
 
@@ -53,12 +53,12 @@ const DockHandle = ({
     <>
     <PanelResizeHandle 
       id={ handleID } 
-      className={ dockStyles.dockResizeHandle }
+      className={ dockingStyles.dockResizeHandle }
       disabled={ !isResizable }
       tabIndex={ isPopulated ? 0 : -1 }
     >
       { isResizable && hasDragIndicator && 
-        <div className={ classNames(dockStyles.dockResizeHandleGrab, classFromFlow()) }></div> 
+        <div className={ classNames(dockingStyles.dockResizeHandleGrab, classFromFlow()) }></div> 
       }
     </PanelResizeHandle>
     </>
@@ -171,7 +171,7 @@ const DockPanel = ({
       <div 
         id={ flow } 
         aria-label={ makeDockLabel() }
-        className={ classNames(dockStyles.dockPanelContainer, dockClassName) }
+        className={ classNames(dockingStyles.dockPanelContainer, dockClassName) }
       ></div>
     </Panel>
     { flow === ThDockingKeys.start && 
@@ -186,7 +186,7 @@ const DockPanel = ({
   );
 };
 
-export const ReaderWithDock = ({ 
+export const StatefulDockingWrapper = ({ 
   children
 }: { 
   children: ReactNode; 
@@ -194,8 +194,8 @@ export const ReaderWithDock = ({
   const RSPrefs = useContext(PreferencesContext);
   const dockingStart = useAppSelector(state => state.actions.dock[ThDockingKeys.start]);
   const dockingEnd = useAppSelector(state => state.actions.dock[ThDockingKeys.end])
-  const startPanel = useRezisablePanel(dockingStart);
-  const endPanel = useRezisablePanel(dockingEnd);
+  const startPanel = useResizablePanel(dockingStart);
+  const endPanel = useResizablePanel(dockingEnd);
 
   const breakpoint = useAppSelector(state => state.theming.breakpoint);
 

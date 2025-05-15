@@ -3,21 +3,21 @@ import React from "react";
 import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 
 import { Text } from "react-aria-components";
-import { Shortcut } from "../Shortcut";
+import { Shortcut } from "../../Shortcut";
 
 import { ThMenuItem, ThMenuItemProps } from "@/packages/Components/Menu/ThMenuItem";
 
-export interface OverflowMenuItemProps extends Omit<ThMenuItemProps, "shortcut"> {
+export interface StatefulOverflowMenuItemProps extends Omit<ThMenuItemProps, "shortcut"> {
   shortcut?: string | null
 }
 
-export const OverflowMenuItem = ({
+export const StatefulOverflowMenuItem = ({
   id,
   label,
   SVGIcon,
   shortcut = undefined,
   ...props
-}: OverflowMenuItemProps) => {
+}: StatefulOverflowMenuItemProps) => {
   const menuItemLabelId = `${id}-label`;
   
   return(
