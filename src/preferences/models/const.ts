@@ -1,7 +1,7 @@
 import fontStacks from "@readium/css/css/vars/fontStacks.json";
 
 import { LineHeightOptions, SettingsRangeVariant, SpacingSettingsKeys, TextSettingsKeys } from "./enums";
-import { SettingsRangePref } from "../preferences";
+import { ThSettingsRangePref } from "../preferences";
 
 export const defaultTextSettingsMain = [TextSettingsKeys.fontFamily];
 
@@ -35,31 +35,31 @@ export const defaultFontFamilyOptions = {
   monospace: fontStacks.RS__monospaceTf
 }
 
-export const defaultFontSize: Required<SettingsRangePref> = {
+export const defaultFontSize: Required<ThSettingsRangePref> = {
   variant: SettingsRangeVariant.numberField,
   range: [0.7, 2.5],
   step: 0.05
 }
 
-export const defaultParagraphSpacing: Required<SettingsRangePref> = {
+export const defaultParagraphSpacing: Required<ThSettingsRangePref> = {
   variant: SettingsRangeVariant.slider,
   range: [0, 3],
   step: 0.5
 }
 
-export const defaultParagraphIndent: Required<SettingsRangePref> = {
+export const defaultParagraphIndent: Required<ThSettingsRangePref> = {
   variant: SettingsRangeVariant.slider,
   range: [0, 2],
   step: 0.25
 }
 
-export const defaultWordSpacing: Required<SettingsRangePref> = {
+export const defaultWordSpacing: Required<ThSettingsRangePref> = {
   variant: SettingsRangeVariant.numberField,
   range: [0, 1],
   step: 0.1
 }
 
-export const defaultLetterSpacing: Required<SettingsRangePref> = {
+export const defaultLetterSpacing: Required<ThSettingsRangePref> = {
   variant: SettingsRangeVariant.numberField,
   range: [0, 0.5],
   step: 0.05

@@ -20,17 +20,17 @@ import {
 } from "./models/enums";
 import { Collapsibility, CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 
-export type BottomSheetDetent = "content-height" | "full-height";
+export type ThBottomSheetDetent = "content-height" | "full-height";
 
-export interface SnappedPref {
+export interface ThActionsSnappedPref {
   scrim?: boolean | string;
   maxWidth?: number | null;
-  maxHeight?: number | BottomSheetDetent;
-  peekHeight?: number | BottomSheetDetent;
-  minHeight?: number | BottomSheetDetent;
+  maxHeight?: number | ThBottomSheetDetent;
+  peekHeight?: number | ThBottomSheetDetent;
+  minHeight?: number | ThBottomSheetDetent;
 }
 
-export interface ActionsDockedPref {
+export interface ThActionsDockedPref {
   dockable: DockingTypes,
   dragIndicator?: boolean,
   width?: number,
@@ -38,66 +38,68 @@ export interface ActionsDockedPref {
   maxWidth?: number
 }
 
-export interface ActionTokens {
+export interface ThActionsTokens {
   visibility: CollapsibilityVisibility;
   shortcut: string | null;
   sheet?: {
     defaultSheet: Exclude<SheetTypes, SheetTypes.dockedStart | SheetTypes.dockedEnd>;
     breakpoints: BreakpointsMap<SheetTypes>;
   };
-  docked?: ActionsDockedPref;
-  snapped?: SnappedPref;
+  docked?: ThActionsDockedPref;
+  snapped?: ThActionsSnappedPref;
 };
 
-export interface ActionsPref {
-  displayOrder: ActionKeys[];
+export interface ThActionsPref<T extends string | number | symbol> {
+  displayOrder: T[];
   collapse: Collapsibility;
   keys: {
-    [key in ActionKeys]: ActionTokens;
+    [key in T]: ThActionsTokens;
   }
 };
 
-export interface DockingPref {
-  displayOrder: DockingKeys[];
+export interface ThDockingPref<T extends string | number | symbol> {
+  displayOrder: T[];
   collapse: Collapsibility;
   dock: BreakpointsMap<DockingTypes> | boolean; 
   keys: {
-    [key in  DockingKeys]: ActionTokens;
+    [key in T]: Pick<ThActionsTokens, "visibility" | "shortcut">;
   }
 };
 
-export interface SettingsGroupPref<T extends keyof typeof SettingsKeys> {
+export interface ThSettingsGroupPref<T extends keyof typeof SettingsKeys> {
   main?: T[];
   subPanel?: T[] | null;
   header?: SheetHeaderVariant;
 }
 
-export interface SettingsRangePref {
+export interface ThSettingsRangePref {
   variant?: SettingsRangeVariant;
   range?: [number, number];
   step?: number;
 }
 
-export type SettingsKeyTypes = {
-  [SettingsKeys.letterSpacing]?: SettingsRangePref;
+export type ThSettingsKeyTypes = {
+  [SettingsKeys.letterSpacing]?: ThSettingsRangePref;
   [SettingsKeys.lineHeight]?: {
       [key in Exclude<LineHeightOptions, LineHeightOptions.publisher>]: number
     };
-  [SettingsKeys.paraIndent]?: SettingsRangePref;
-  [SettingsKeys.paraSpacing]?: SettingsRangePref;
-  [SettingsKeys.wordSpacing]?: SettingsRangePref;
+  [SettingsKeys.paraIndent]?: ThSettingsRangePref;
+  [SettingsKeys.paraSpacing]?: ThSettingsRangePref;
+  [SettingsKeys.wordSpacing]?: ThSettingsRangePref;
   [SettingsKeys.zoom]?: {
     variant?: SettingsRangeVariant;
   };
 }
 
-export type ConstraintKeys = Extract<SheetTypes, SheetTypes.bottomSheet | SheetTypes.popover>;
+export type ThConstraintKeys = Extract<SheetTypes, SheetTypes.bottomSheet | SheetTypes.popover>;
 
 export interface ThPreferences<
+  CustomActionKeys extends string | number | symbol = ActionKeys,
+  CustomDockingKeys extends string | number | symbol = DockingKeys,
   CustomThemeKeys extends string | number | symbol = ThemeKeys,
-  CustomConstraintsKeys extends string | number | symbol = ConstraintKeys,
   CustomSettingsKeys extends string | number | symbol = SettingsKeys,
-  CustomSettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>> = SettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>> ? SettingsKeyTypes : never
+  CustomSettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>> = ThSettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>> ? ThSettingsKeyTypes : never,
+  CustomConstraintsKeys extends string | number | symbol = ThConstraintKeys
 > {
   direction?: ThLayoutDirection,
   locale?: string;
@@ -148,15 +150,15 @@ export interface ThPreferences<
     representation: ShortcutRepresentation;
     joiner?: string;
   };
-  actions: ActionsPref;
-  docking: DockingPref;
+  actions: ThActionsPref<CustomActionKeys>;
+  docking: ThDockingPref<CustomDockingKeys>;
   settings: {
     reflowOrder: CustomSettingsKeys[];
     fxlOrder: CustomSettingsKeys[];
     keys?: CustomSettingsKeyTypes;
     // TODO: CUSTOMIZABLE
-    text?: SettingsGroupPref<TextSettingsKeys>;
-    spacing?: SettingsGroupPref<SpacingSettingsKeys>;
+    text?: ThSettingsGroupPref<TextSettingsKeys>;
+    spacing?: ThSettingsGroupPref<SpacingSettingsKeys>;
   };
 }
 
