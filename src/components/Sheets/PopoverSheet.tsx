@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ISheet } from "@/models/sheets";
+import { StatefulSheet } from "@/models/sheets";
 import { SheetHeaderVariant } from "@/preferences/models/enums";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
@@ -20,11 +20,11 @@ import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-export interface IPopoverSheet extends ISheet {
+export interface StatefulPopoverSheet extends StatefulSheet {
   placement?: PopoverProps["placement"];
 }
 
-export const PopoverSheet: React.FC<IPopoverSheet> = ({ 
+export const PopoverSheet = ({ 
     id,
     triggerRef,
     heading,
@@ -38,7 +38,7 @@ export const PopoverSheet: React.FC<IPopoverSheet> = ({
     children,
     resetFocus,
     dismissEscapeKeyClose
-  }) => {
+  }: StatefulPopoverSheet) => {
   const direction = useAppSelector(state => state.reader.direction);
   const popoverRef = useRef<HTMLDivElement | null>(null);
   const popoverHeaderRef = useRef<HTMLDivElement | null>(null);

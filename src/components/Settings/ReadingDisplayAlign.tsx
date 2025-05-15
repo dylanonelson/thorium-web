@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import Locale from "../../resources/locales/en.json";
 
 import { TextAlignOptions, ThLayoutDirection } from "@/preferences/models/enums";
-import { IAdvancedDisplayProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "@/models/settings";
 import { TextAlignment } from "@readium/navigator";
 
 import BookIcon from "../assets/icons/book.svg";
@@ -18,7 +18,7 @@ import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTextAlign, setHyphens } from "@/lib/settingsReducer";
 
-export const ReadingDisplayAlign: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+export const ReadingDisplayAlign = ({ standalone = true }: StatefulSettingsItemProps) => {
   const isRTL = useAppSelector(state => state.reader.direction) === ThLayoutDirection.rtl;
   const textAlign = useAppSelector(state => state.settings.textAlign);
   const dispatch = useAppDispatch();

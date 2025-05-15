@@ -4,7 +4,7 @@ import { defaultWordSpacing, PreferencesContext, SettingsKeys, SettingsRangeVari
 
 import Locale from "../../resources/locales/en.json";
 
-import { IAdvancedDisplayProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "@/models/settings";
 
 import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 import { SliderWrapper } from "./Wrappers/SliderWrapper";
@@ -14,7 +14,7 @@ import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setPublisherStyles, setWordSpacing } from "@/lib/settingsReducer";
 
-export const ReadingDisplayWordSpacing: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+export const ReadingDisplayWordSpacing = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
   const wordSpacingRangeConfig = {

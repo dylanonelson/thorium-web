@@ -4,7 +4,7 @@ import { defaultLineHeights, LineHeightOptions, PreferencesContext, SettingsKeys
 
 import Locale from "../../resources/locales/en.json";
 
-import { IAdvancedDisplayProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "@/models/settings";
 
 import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
 
@@ -13,7 +13,7 @@ import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setPublisherStyles } from "@/lib/settingsReducer";
 
-export const ReadingDisplayPublisherStyles: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+export const ReadingDisplayPublisherStyles = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
 

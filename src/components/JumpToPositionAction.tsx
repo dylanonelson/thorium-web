@@ -4,7 +4,7 @@ import { PreferencesContext } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ActionKeys } from "@/preferences/models/enums";
-import { IActionComponentTrigger } from "@/models/actions";
+import { StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
 import TargetIcon from "./assets/icons/point_scan.svg";
@@ -12,7 +12,7 @@ import TargetIcon from "./assets/icons/point_scan.svg";
 import { ActionIcon } from "./ActionTriggers/ActionIcon";
 import { OverflowMenuItem } from "./ActionTriggers/OverflowMenuItem";
 
-export const JumpToPositionAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+export const JumpToPositionAction = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   
   return(

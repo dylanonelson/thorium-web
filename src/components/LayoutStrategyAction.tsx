@@ -7,7 +7,7 @@ import Locale from "../resources/locales/en.json";
 import LayoutIcon from "./assets/icons/fit_page_width.svg";
 
 import { ActionKeys } from "@/preferences/models/enums";
-import { IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+import { StatefulActionContainerProps, StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
@@ -23,7 +23,7 @@ import { useDocking } from "@/hooks/useDocking";
 import { SheetWithType } from "./Sheets/SheetWithType";
 import { ReadingDisplayLayoutStrategy } from "./Settings/ReadingDisplayLayoutStrategy";
 
-export const LayoutStrategiesActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
+export const LayoutStrategiesActionContainer = ({ triggerRef }: StatefulActionContainerProps) => {
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.layoutStrategy]);
   const dispatch = useAppDispatch();
   
@@ -62,7 +62,7 @@ export const LayoutStrategiesActionContainer: React.FC<IActionComponentContainer
   )
 }
 
-export const LayoutStrategyAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+export const LayoutStrategyAction = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.layoutStrategy]);

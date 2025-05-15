@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { IAdvancedDisplayProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "@/models/settings";
 
 import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
 
@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTextNormalization } from "@/lib/settingsReducer";
 
 // TMP Component that is not meant to be implemented AS-IS, for testing purposes
-export const ReadingDisplayNormalizeText: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+export const ReadingDisplayNormalizeText = ({ standalone = true }: StatefulSettingsItemProps) => {
   const textNormalization = useAppSelector(state => state.settings.textNormalization);
   const dispatch = useAppDispatch();
 

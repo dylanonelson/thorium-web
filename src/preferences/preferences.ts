@@ -2,9 +2,9 @@ import { ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ThemeTokens } from "@/preferences/hooks/useTheming";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
-import { IActionPref } from "@/models/actions";
-import { IDockingPref } from "@/models/docking";
+import { IDockedPref, IDockingPref } from "@/models/docking";
 import { 
+  ActionKeys,
   LineHeightOptions, 
   ScrollBackTo, 
   SettingsKeys, 
@@ -17,6 +17,36 @@ import {
   ThLayoutDirection, 
   ThLayoutStrategy 
 } from "./models/enums";
+import { Collapsibility, CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
+
+export type BottomSheetDetent = "content-height" | "full-height";
+
+export interface SnappedPref {
+  scrim?: boolean | string;
+  maxWidth?: number | null;
+  maxHeight?: number | BottomSheetDetent;
+  peekHeight?: number | BottomSheetDetent;
+  minHeight?: number | BottomSheetDetent;
+}
+
+export interface ActionTokens {
+  visibility: CollapsibilityVisibility;
+  shortcut: string | null;
+  sheet?: {
+    defaultSheet: Exclude<SheetTypes, SheetTypes.dockedStart | SheetTypes.dockedEnd>;
+    breakpoints: BreakpointsMap<SheetTypes>;
+  };
+  docked?: IDockedPref;
+  snapped?: SnappedPref;
+};
+
+export interface ActionsPref {
+  displayOrder: ActionKeys[];
+  collapse: Collapsibility;
+  keys: {
+    [key in ActionKeys]: ActionTokens;
+  }
+};
 
 export interface SettingsGroupPref<T extends keyof typeof SettingsKeys> {
   main?: T[];
@@ -100,7 +130,7 @@ export interface ThPreferences<
     representation: ShortcutRepresentation;
     joiner?: string;
   };
-  actions: IActionPref;
+  actions: ActionsPref;
   docking: IDockingPref;
   settings: {
     reflowOrder: CustomSettingsKeys[];

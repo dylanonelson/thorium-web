@@ -4,7 +4,7 @@ import { defaultParagraphIndent, PreferencesContext, SettingsKeys, SettingsRange
 
 import Locale from "../../resources/locales/en.json";
 
-import { IAdvancedDisplayProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "@/models/settings";
 
 import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 import { SliderWrapper } from "./Wrappers/SliderWrapper";
@@ -14,7 +14,7 @@ import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setParagraphIndent, setPublisherStyles } from "@/lib/settingsReducer";
 
-export const ReadingDisplayParaIndent: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+export const ReadingDisplayParaIndent = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const paragraphIndent = useAppSelector(state => state.settings.paragraphIndent);
   const paragraphIndentRangeConfig = {

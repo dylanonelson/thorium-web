@@ -10,7 +10,7 @@ import {
 
 import Locale from "../../resources/locales/en.json";
 
-import { ISettingsMapObject } from "@/models/settings";
+import { StatefulSettingsMapObject } from "@/models/settings";
 
 import { ReadingDisplayGroupWrapper } from "./Wrappers/ReadingDisplayGroupWrapper";
 
@@ -23,7 +23,7 @@ import { ReadingDisplayNormalizeText } from "./ReadingDisplayNormalizeText";
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
-const TextSettingsMap: { [key in TextSettingsKeys]: ISettingsMapObject } = {
+const TextSettingsMap: { [key in TextSettingsKeys]: StatefulSettingsMapObject } = {
   [TextSettingsKeys.align]: {
     Comp: ReadingDisplayAlign
   },

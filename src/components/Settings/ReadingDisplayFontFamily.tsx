@@ -2,7 +2,7 @@ import { Key, useCallback, useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { IAdvancedDisplayProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "@/models/settings";
 
 import settingsStyles from "../assets/styles/readerSettings.module.css";
 
@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontFamily } from "@/lib/settingsReducer";
 import { defaultFontFamilyOptions } from "@/preferences/models/const";
 
-export const ReadingDisplayFontFamily: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+export const ReadingDisplayFontFamily = ({ standalone = true }: StatefulSettingsItemProps) => {
   const fontFamily = useAppSelector(state => state.settings.fontFamily);
   const fontFamilyOptions = useRef(Object.entries(defaultFontFamilyOptions).map(([property, stack]) => ({
       id: property,

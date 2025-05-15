@@ -1,8 +1,8 @@
-export interface ISettingsMapObject {
-  Comp: React.FC<IAdvancedDisplayProps> | React.ComponentType<any>;
+export interface StatefulSettingsMapObject {
+  Comp: React.ComponentType<any>;
   props?: any;
 }
 
-export interface IAdvancedDisplayProps {
+export interface StatefulSettingsItemProps {
   standalone?: boolean;
 }

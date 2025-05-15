@@ -10,7 +10,7 @@ import {
 
 import Locale from "../../resources/locales/en.json";
 
-import { ISettingsMapObject } from "@/models/settings";
+import { StatefulSettingsMapObject } from "@/models/settings";
 
 import { ReadingDisplayGroupWrapper } from "./Wrappers/ReadingDisplayGroupWrapper";
 
@@ -24,7 +24,7 @@ import { ReadingDisplayWordSpacing } from "./ReadingDisplayWordSpacing";
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
-const SpacingSettingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } = {
+const StatefulSpacingSettingsMap: { [key in SpacingSettingsKeys]: StatefulSettingsMapObject } = {
   [SpacingSettingsKeys.letterSpacing]: {
     Comp: ReadingDisplayLetterSpacing
   },
@@ -60,7 +60,7 @@ export const ReadingDisplaySpacing = () => {
       moreLabel={ Locale.reader.settings.spacing.advanced.trigger }
       moreTooltip={ Locale.reader.settings.spacing.advanced.tooltip }
       onMorePressCallback={ setSpacingContainer }
-      settingsMap={ SpacingSettingsMap }
+      settingsMap={ StatefulSpacingSettingsMap }
       prefs={ RSPrefs.settings.spacing }
       defaultPrefs={ {
         main: defaultSpacingSettingsMain, 
@@ -78,7 +78,7 @@ export const ReadingDisplaySpacingContainer = () => {
   return(
     <>
     { displayOrder.map((key: SpacingSettingsKeys) => {
-      const { Comp } = SpacingSettingsMap[key];
+      const { Comp } = StatefulSpacingSettingsMap[key];
       return <Comp key={ key } standalone={ true } />;
     }) }
     </>

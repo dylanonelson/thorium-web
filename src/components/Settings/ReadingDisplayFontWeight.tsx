@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { IAdvancedDisplayProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "@/models/settings";
 import { fontWeightRangeConfig } from "@readium/navigator";
 
 import { SliderWrapper } from "./Wrappers/SliderWrapper";
@@ -12,7 +12,7 @@ import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontWeight } from "@/lib/settingsReducer";
 
-export const ReadingDisplayFontWeight: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+export const ReadingDisplayFontWeight = ({ standalone = true }: StatefulSettingsItemProps) => {
   const fontFamily = useAppSelector(state => state.settings.fontFamily);
   const fontWeight = useAppSelector(state => state.settings.fontWeight);
   const dispatch = useAppDispatch();

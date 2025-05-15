@@ -4,7 +4,7 @@ import { defaultParagraphSpacing, PreferencesContext, SettingsKeys, SettingsRang
 
 import Locale from "../../resources/locales/en.json";
 
-import { IAdvancedDisplayProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "@/models/settings";
 
 import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 import { SliderWrapper } from "./Wrappers/SliderWrapper";
@@ -14,7 +14,7 @@ import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setParagraphSpacing, setPublisherStyles } from "@/lib/settingsReducer";
 
-export const ReadingDisplayParaSpacing: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+export const ReadingDisplayParaSpacing = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
   const paragraphSpacingRangeConfig = {
