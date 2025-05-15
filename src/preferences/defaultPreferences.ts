@@ -330,6 +330,10 @@ export const defaultPreferences: ThPreferences = {
         [ThLineHeightOptions.small]: 1.3,
         [ThLineHeightOptions.medium]: 1.5,
         [ThLineHeightOptions.large]: 1.75
+      },
+      [ThSettingsKeys.zoom]: {
+        range: [0.7, 2.5],
+        step: 0.05
       }
     },
     text: {

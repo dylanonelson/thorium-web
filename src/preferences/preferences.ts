@@ -86,9 +86,7 @@ export type ThSettingsKeyTypes = {
   [ThSettingsKeys.paraIndent]?: ThSettingsRangePref;
   [ThSettingsKeys.paraSpacing]?: ThSettingsRangePref;
   [ThSettingsKeys.wordSpacing]?: ThSettingsRangePref;
-  [ThSettingsKeys.zoom]?: {
-    variant?: ThSettingsRangeVariant;
-  };
+  [ThSettingsKeys.zoom]?: ThSettingsRangePref;
 }
 
 export type ThConstraintKeys = Extract<ThSheetTypes, ThSheetTypes.bottomSheet | ThSheetTypes.popover>;
