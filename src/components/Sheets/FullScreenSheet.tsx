@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ISheet } from "@/models/sheets";
+import { StatefulSheet } from "@/models/sheets";
 import { SheetHeaderVariant } from "@/preferences/models/enums";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
@@ -18,9 +18,9 @@ import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-export interface IFullScreenSheet extends ISheet {};
+export interface StatefulFullScreenSheet extends StatefulSheet {};
 
-export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
+export const FullScreenSheet = ({
     heading,
     headerVariant,
     className, 
@@ -30,7 +30,7 @@ export const FullScreenSheet: React.FC<IFullScreenSheet> = ({
     children,
     resetFocus,
     dismissEscapeKeyClose
-  }) => {
+  }: StatefulFullScreenSheet) => {
   const direction = useAppSelector(state => state.reader.direction);
   const fullScreenHeaderRef = useRef<HTMLDivElement | null>(null);
   const fullScreenBodyRef = useRef<HTMLDivElement | null>(null);

@@ -1,8 +1,8 @@
-import { IActionTokens } from "./actions";
 import { Collapsibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { DockingKeys, DockingTypes } from "@/preferences/models/enums";
+import { ActionTokens } from "@/preferences/preferences";
 
 export interface IDocker {
   id: ActionsStateKeys;
@@ -38,6 +38,6 @@ export interface IDockingPref {
   collapse: Collapsibility;
   dock: BreakpointsMap<DockingTypes> | boolean; 
   keys: {
-    [key in  DockingKeys]: IActionTokens;
+    [key in  DockingKeys]: ActionTokens;
   }
 };

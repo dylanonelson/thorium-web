@@ -8,7 +8,7 @@ import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { DockingKeys } from "@/preferences/models/enums";
 import { IDocker } from "@/models/docking";
-import { IActionsMapObject } from "@/models/actions";
+import { StatefulActionsMapObject } from "@/models/actions";
 
 import { Toolbar } from "react-aria-components";
 
@@ -19,7 +19,7 @@ import { DockEndAction } from "./DockEndAction";
 import { PopoverSheetAction } from "./PopoverSheetAction";
 import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
-const DockingActionsMap: { [key in DockingKeys]: IActionsMapObject } = {
+const DockingActionsMap: { [key in DockingKeys]: StatefulActionsMapObject } = {
   [DockingKeys.start]: {
     trigger: DockStartAction
   },
@@ -61,7 +61,7 @@ export const Docker = ({
         className={ dockerStyles.docker } 
         overflowMenuClassName={ readerSharedUI.dockerButton }
         prefs={ RSPrefs.docking }
-        label={ Locale.reader.app.docker.wrapper }
+        aria-label={ Locale.reader.app.docker.wrapper }
       />
 
       <ThCloseButton 

@@ -4,7 +4,7 @@ import { PreferencesContext } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ActionKeys } from "@/preferences/models/enums";
-import { IActionComponentTrigger } from "@/models/actions";
+import { StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
@@ -21,7 +21,7 @@ import { useAppDispatch } from "@/lib/hooks";
 import { setFullscreen, setHovering } from "@/lib/readerReducer";
 import { isIOSish } from "@/packages/Helpers/getPlatform";
 
-export const FullscreenAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+export const FullscreenAction = ({ variant }: StatefulActionTriggerProps) => {
   // Note: Not using React Aria ToggleButton here as fullscreen is quite
   // difficult to control in isolation due to collapsibility + shortcuts
 

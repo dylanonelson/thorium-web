@@ -5,7 +5,7 @@ import { PreferencesContext } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ActionKeys } from "@/preferences/models/enums";
-import { IActionsMapObject } from "@/models/actions";
+import { StatefulActionsMapObject } from "@/models/actions";
 
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
@@ -25,7 +25,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-const ActionsMap: { [key in ActionKeys]: IActionsMapObject } = {
+const ActionsMap: { [key in ActionKeys]: StatefulActionsMapObject } = {
   [ActionKeys.fullscreen]: {
     trigger: FullscreenAction
   },
@@ -111,7 +111,7 @@ export const ReaderHeader = () => {
         items={ listActionItems() }
         prefs={ RSPrefs.actions }
         className={ readerHeaderStyles.actionsWrapper } 
-        label={ Locale.reader.app.header.actions } 
+        aria-label={ Locale.reader.app.header.actions } 
         overflowActionCallback={ (isImmersive && !isHovering) }
         overflowMenuDisplay={ (!isImmersive || isHovering) }
       />

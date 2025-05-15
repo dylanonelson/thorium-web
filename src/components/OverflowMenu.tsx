@@ -1,8 +1,6 @@
-import React from "react";
+import React, { ReactNode, RefObject } from "react";
 
 import Locale from "../resources/locales/en.json";
-
-import { IOverflowMenu } from "@/models/actions";
 
 import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
@@ -10,12 +8,23 @@ import MenuIcon from "./assets/icons/more_vert.svg";
 
 import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { ThMenu } from "@/packages/Components/Menu/ThMenu";
-
+import { ActionKeys, DockingKeys } from "@/preferences/models/enums";
 import { ActionIcon } from "./ActionTriggers/ActionIcon";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { toggleImmersive } from "@/lib/readerReducer";
 import { setOverflow } from "@/lib/actionsReducer";
+import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+
+export interface StatefulOverflowMenuProps {
+  id: string;
+  items: ThActionEntry<ActionKeys | DockingKeys>[];
+  triggerRef: RefObject<HTMLElement | null>;
+  className?: string;
+  actionFallback?: boolean;
+  display: boolean;
+  children?: ReactNode;
+}
 
 export const OverflowMenu = ({ 
   id,
@@ -24,7 +33,7 @@ export const OverflowMenu = ({
   display,
   items,
   triggerRef
-}: IOverflowMenu) => {
+}: StatefulOverflowMenuProps) => {
   const dispatch = useAppDispatch();
 
   const toggleMenuState = (value: boolean) => {

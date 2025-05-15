@@ -4,7 +4,7 @@ import { defaultLetterSpacing, PreferencesContext, SettingsKeys, SettingsRangeVa
 
 import Locale from "../../resources/locales/en.json";
 
-import { IAdvancedDisplayProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "@/models/settings";
 
 import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 import { SliderWrapper } from "./Wrappers/SliderWrapper";
@@ -14,7 +14,7 @@ import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLetterSpacing, setPublisherStyles } from "@/lib/settingsReducer";
 
-export const ReadingDisplayLetterSpacing: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+export const ReadingDisplayLetterSpacing = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
   const letterSpacingRangeConfig = {

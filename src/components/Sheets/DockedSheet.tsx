@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ISheet } from "@/models/sheets";
+import { StatefulSheet } from "@/models/sheets";
 import { DockingKeys, SheetHeaderVariant, ThLayoutDirection } from "@/preferences/models/enums";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
@@ -18,11 +18,11 @@ import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-export interface IDockedSheet extends ISheet {
+export interface StatefulDockedSheet extends StatefulSheet {
   flow: DockingKeys.start | DockingKeys.end | null;
 }
 
-export const DockedSheet: React.FC<IDockedSheet> = ({ 
+export const DockedSheet = ({ 
     id,
     heading,
     headerVariant,
@@ -33,7 +33,7 @@ export const DockedSheet: React.FC<IDockedSheet> = ({
     flow,
     children,
     resetFocus
-  }) => {
+  }: StatefulDockedSheet) => {
   const dockPortal = flow && document.getElementById(flow);
   const dockedSheetHeaderRef = useRef<HTMLDivElement | null>(null);
   const dockedSheetBodyRef = useRef<HTMLDivElement | null>(null);

@@ -1,8 +1,8 @@
 import { ReactNode, RefObject } from "react";
-import { DockingKeys, SheetHeaderVariant, SheetTypes } from "@/preferences/models/enums";
+import { DockingKeys, SheetHeaderVariant } from "@/preferences/models/enums";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
-export interface ISheet {
+export interface StatefulSheet {
   id: ActionsStateKeys;
   triggerRef: RefObject<HTMLElement | null>;
   heading: string;

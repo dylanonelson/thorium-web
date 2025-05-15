@@ -6,7 +6,7 @@ import { ThLayoutStrategy } from "@/preferences/models/enums";
 
 import Locale from "../../resources/locales/en.json";
 
-import { IAdvancedDisplayProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "@/models/settings";
 
 import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
 
@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTmpLineLengths, setTmpMaxChars, setTmpMinChars } from "@/lib/settingsReducer";
 
 // TMP Component that is not meant to be implemented AS-IS, for testing purposes
-export const ReadingDisplayLineLengths: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+export const ReadingDisplayLineLengths = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const columnCount = useAppSelector(state => state.settings.columnCount);
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);

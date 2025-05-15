@@ -1,10 +1,10 @@
 import React, { KeyboardEvent, useCallback, useContext, useMemo, useRef } from "react";
 
-import { PreferencesContext, SheetHeaderVariant } from "@/preferences";
+import { BottomSheetDetent, PreferencesContext, SheetHeaderVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ISheet } from "@/models/sheets";
+import { StatefulSheet } from "@/models/sheets";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
@@ -21,17 +21,7 @@ import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-export interface IBottomSheet extends ISheet {};
-
-export type BottomSheetDetent = "content-height" | "full-height";
-
-export interface SnappedPref {
-  scrim?: boolean | string;
-  maxWidth?: number | null;
-  maxHeight?: number | BottomSheetDetent;
-  peekHeight?: number | BottomSheetDetent;
-  minHeight?: number | BottomSheetDetent;
-}
+export interface StatefulBottomSheet extends StatefulSheet {};
 
 export interface ScrimPref {
   active: boolean;
@@ -44,7 +34,7 @@ const DEFAULT_SNAPPOINTS = {
   max: 1
 }
 
-export const BottomSheet: React.FC<IBottomSheet> = ({
+export const BottomSheet = ({
   id,
   heading,
   headerVariant,
@@ -55,7 +45,7 @@ export const BottomSheet: React.FC<IBottomSheet> = ({
   children,
   resetFocus,
   dismissEscapeKeyClose
-}) => {
+}: StatefulBottomSheet) => {
   const RSPrefs = useContext(PreferencesContext);
   const direction = useAppSelector((state) => state.reader.direction);
   const prefersReducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);

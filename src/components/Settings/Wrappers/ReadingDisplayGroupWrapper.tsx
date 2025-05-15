@@ -4,20 +4,19 @@ import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
 import { PreferencesContext, SettingsGroupPref, SpacingSettingsKeys, TextSettingsKeys } from "@/preferences";
+import { PressEvent } from "react-aria";
+import { StatefulSettingsMapObject } from "@/models/settings";
 
 import { ThSettingsWrapper } from "@/packages/Components/Settings/ThSettingsWrapper";
 
 import classNames from "classnames";
-import { PressEvent } from "react-aria";
-import { ISettingsMapObject } from "@/models/settings";
-import { T } from "../../../../dist/useCollapsibility-NHr6CxDH";
 
 export interface ReadingDisplayGroupWrapperProps {
   heading: string;
   moreLabel: string;
   moreTooltip: string;
   onMorePressCallback: (e: PressEvent) => void;
-  settingsMap: { [key in SpacingSettingsKeys]: ISettingsMapObject } | { [key in TextSettingsKeys]: ISettingsMapObject };
+  settingsMap: { [key in SpacingSettingsKeys]: StatefulSettingsMapObject } | { [key in TextSettingsKeys]: StatefulSettingsMapObject };
   prefs?: SettingsGroupPref<TextSettingsKeys | SpacingSettingsKeys>;
   defaultPrefs: {
     main: TextSettingsKeys[] | SpacingSettingsKeys[];

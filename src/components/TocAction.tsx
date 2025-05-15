@@ -8,7 +8,7 @@ import Chevron from "./assets/icons/chevron_right.svg";
 
 import { Link } from "@readium/shared";
 import { ActionKeys, DockingKeys, SheetTypes, ThLayoutDirection } from "@/preferences/models/enums";
-import { IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+import { StatefulActionContainerProps, StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { TocItem } from "@/packages/Helpers/createTocTree";
 
@@ -36,7 +36,7 @@ import { setActionOpen } from "@/lib/actionsReducer";
 import { setTocEntry } from "@/lib/publicationReducer";
 import { setHovering, setImmersive } from "@/lib/readerReducer";
 
-export const TocActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
+export const TocActionContainer = ({ triggerRef }: StatefulActionContainerProps) => {
   const tocEntry = useAppSelector(state => state.publication.tocEntry);
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === ThLayoutDirection.rtl;
@@ -199,7 +199,7 @@ export const TocActionContainer: React.FC<IActionComponentContainer> = ({ trigge
   )
 }
 
-export const TocAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+export const TocAction = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.toc]);
   const dispatch = useAppDispatch();

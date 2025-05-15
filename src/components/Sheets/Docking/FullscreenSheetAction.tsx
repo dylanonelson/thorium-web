@@ -5,7 +5,7 @@ import Locale from "../../../resources/locales/en.json";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
-import { IActionComponentTrigger } from "@/models/actions";
+import { StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { DockingKeys } from "@/preferences/models/enums";
 
@@ -19,7 +19,7 @@ import { useActions } from "@/packages/Components/Actions/hooks/useActions";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
 
-export const FullscreenSheetAction: React.FC<IActionComponentTrigger> = ({ variant, associatedKey }) => {
+export const FullscreenSheetAction = ({ variant, associatedKey }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const actionsMap = useAppSelector(state => state.actions.keys);
   const actions = useActions(actionsMap);

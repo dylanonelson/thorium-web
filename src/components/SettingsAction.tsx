@@ -18,9 +18,9 @@ import {
   SpacingSettingsKeys, 
   TextSettingsKeys 
 } from "@/preferences/models/enums";
-import { IActionComponentContainer, IActionComponentTrigger } from "@/models/actions";
+import { StatefulActionContainerProps, StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
-import { ISettingsMapObject } from "@/models/settings";
+import { StatefulSettingsMapObject } from "@/models/settings";
 
 import settingsStyles from "./assets/styles/readerSettings.module.css";
 
@@ -54,7 +54,7 @@ import { setHovering, setSettingsContainer } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
-const SettingsMap: { [key in SettingsKeys]: ISettingsMapObject } = {
+const SettingsMap: { [key in SettingsKeys]: StatefulSettingsMapObject } = {
   [SettingsKeys.align]: {
     Comp: ReadingDisplayAlign
   },
@@ -111,7 +111,7 @@ const SettingsMap: { [key in SettingsKeys]: ISettingsMapObject } = {
   }
 }
 
-export const SettingsActionContainer: React.FC<IActionComponentContainer> = ({ triggerRef }) => {
+export const SettingsActionContainer = ({ triggerRef }: StatefulActionContainerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const contains = useAppSelector(state => state.reader.settingsContainer);
@@ -253,7 +253,7 @@ useEffect(() => {
   )
 }
 
-export const SettingsAction: React.FC<IActionComponentTrigger> = ({ variant }) => {
+export const SettingsAction = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const actionState = useAppSelector(state => state.actions.keys[ActionKeys.settings]);
   const dispatch = useAppDispatch();

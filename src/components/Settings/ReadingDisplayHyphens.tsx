@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { IAdvancedDisplayProps } from "@/models/settings";
+import { StatefulSettingsItemProps } from "@/models/settings";
 import { TextAlignOptions } from "@/preferences/models/enums";
 
 import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setHyphens } from "@/lib/settingsReducer";
 
 // TMP Component that is not meant to be implemented AS-IS, for testing purposes
-export const ReadingDisplayHyphens: React.FC<IAdvancedDisplayProps> = ({ standalone = true }) => {
+export const ReadingDisplayHyphens = ({ standalone = true }: StatefulSettingsItemProps) => {
   const hyphens = useAppSelector(state => state.settings.hyphens);
   const textAlign = useAppSelector(state => state.settings.textAlign);
 
