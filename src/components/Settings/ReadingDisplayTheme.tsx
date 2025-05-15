@@ -7,7 +7,7 @@ import settingsStyles from "../assets/styles/readerSettings.module.css";
 
 import CheckIcon from "../assets/icons/check.svg";
 
-import { ActionKeys, ThLayoutDirection, ThemeKeys } from "@/preferences/models/enums";
+import { ThActionsKeys, ThLayoutDirection, ThThemeKeys } from "@/preferences/models/enums";
 
 import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 import { Radio } from "react-aria-components";
@@ -37,12 +37,12 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
 
   const { submitPreferences } = useEpubNavigator();
 
-  const updatePreference = useCallback(async (value: ThemeKeys) => {
-    const themeProps = buildThemeObject<Exclude<ThemeKeys, ThemeKeys.auto>>({
+  const updatePreference = useCallback(async (value: ThThemeKeys) => {
+    const themeProps = buildThemeObject<Exclude<ThThemeKeys, ThThemeKeys.auto>>({
       theme: value,
       themeKeys: RSPrefs.theming.themes.keys,
-      lightTheme: ThemeKeys.light,
-      darkTheme: ThemeKeys.dark,
+      lightTheme: ThThemeKeys.light,
+      darkTheme: ThThemeKeys.dark,
       colorScheme
     })
     await submitPreferences(themeProps);
@@ -52,18 +52,18 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
 
   // It’s easier to inline styles from preferences for these
   // than spamming the entire app with all custom properties right now
-  const doStyles = (t: ThemeKeys) => {
+  const doStyles = (t: ThThemeKeys) => {
     let cssProps: CSSProperties = {
       boxSizing: "border-box",
       color: "#999999"
     };
 
-    if (t === ThemeKeys.auto) {
+    if (t === ThThemeKeys.auto) {
       cssProps.background = isRTL 
-        ? `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThemeKeys.dark].background } 48%, ${ RSPrefs.theming.themes.keys[ThemeKeys.light].background } 100%)` 
-        : `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThemeKeys.light].background } 0%, ${ RSPrefs.theming.themes.keys[ThemeKeys.dark].background } 48%)`;
+        ? `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThThemeKeys.dark].background } 48%, ${ RSPrefs.theming.themes.keys[ThThemeKeys.light].background } 100%)` 
+        : `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThThemeKeys.light].background } 0%, ${ RSPrefs.theming.themes.keys[ThThemeKeys.dark].background } 48%)`;
       cssProps.color = "#ffffff";
-      cssProps.border = `1px solid ${ RSPrefs.theming.themes.keys[ThemeKeys.light].subdue }`;
+      cssProps.border = `1px solid ${ RSPrefs.theming.themes.keys[ThThemeKeys.light].subdue }`;
     } else {
       cssProps.background = RSPrefs.theming.themes.keys[t].background;
       cssProps.color = RSPrefs.theming.themes.keys[t].text;
@@ -97,7 +97,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
       switch(e.code) {
         case "Escape":
           dispatch(setActionOpen({ 
-            key: ActionKeys.settings,
+            key: ThActionsKeys.settings,
             isOpen: false 
           })); 
           break;
@@ -130,7 +130,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
       standalone={ true }
       label={ Locale.reader.settings.themes.title }
       value={ theme }
-      onChange={ async (val) => await updatePreference(val as ThemeKeys) }
+      onChange={ async (val) => await updatePreference(val as ThThemeKeys) }
     >
       <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
         { themeItems.current.map(( t ) => 
@@ -147,7 +147,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
               onKeyDown: (async (e: React.KeyboardEvent) => await handleKeyboardNav(e))
             } : {}) }
           >
-          <span>{ Locale.reader.settings.themes[t as keyof typeof ThemeKeys] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
+          <span>{ Locale.reader.settings.themes[t as keyof typeof ThThemeKeys] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
         </Radio>
         ) }
       </div>

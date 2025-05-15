@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useRef } from "react";
 
-import { ScrollBackTo } from "@/preferences/models/enums";
+import { ThScrollBackTo } from "@/preferences/models/enums";
 import { ScrollAffordance, ScrollAffordancePref } from "./scrollAffordance";
 
 import { 
@@ -90,12 +90,12 @@ export const useEpubNavigator = () => {
 
   // Warning: this is using an internal member that will become private, do not rely on it
   // See https://github.com/edrlab/thorium-web/issues/25
-  const scrollBackTo = useCallback((position: ScrollBackTo) => {
-    if (position !== ScrollBackTo.untouched) {
+  const scrollBackTo = useCallback((position: ThScrollBackTo) => {
+    if (position !== ThScrollBackTo.untouched) {
       navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
         if (frameManager) {
           const scrollingEl = frameManager.window.document.scrollingElement;
-          if (position === ScrollBackTo.top) {
+          if (position === ThScrollBackTo.top) {
             scrollingEl?.scrollTo(0, 0);
           } else {
             scrollingEl?.scrollTo(0, scrollingEl.scrollHeight);

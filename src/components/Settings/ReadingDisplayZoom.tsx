@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from "react";
 
-import { defaultFontSize, PreferencesContext, SettingsKeys, SettingsRangeVariant } from "@/preferences";
+import { defaultFontSize, PreferencesContext, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -35,14 +35,14 @@ export const ReadingDisplayZoom = () => {
   }, [submitPreferences, getSetting, dispatch]);
 
   const zoomRangeConfig = {
-    variant: RSPrefs.settings.keys?.[SettingsKeys.zoom]?.variant || defaultFontSize.variant,
+    variant: RSPrefs.settings.keys?.[ThSettingsKeys.zoom]?.variant || defaultFontSize.variant,
     range: preferencesEditor?.fontSize.supportedRange || defaultFontSize.range,
     step: preferencesEditor?.fontSize.step || defaultFontSize.step
   }
 
   return (
     <>
-    { zoomRangeConfig.variant === SettingsRangeVariant.numberField 
+    { zoomRangeConfig.variant === ThSettingsRangeVariant.numberField 
       ? <NumberFieldWrapper
         standalone={ true}
         defaultValue={ 1 } 

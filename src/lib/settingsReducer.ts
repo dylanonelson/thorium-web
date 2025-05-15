@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { LineHeightOptions, TextAlignOptions, ThLayoutStrategy } from "@/preferences/models/enums";
+import { ThLineHeightOptions, ThTextAlignOptions, ThLayoutStrategy } from "@/preferences/models/enums";
 import { defaultFontFamilyOptions } from "@/preferences/models/const";
 
 export interface SettingsReducerState {
@@ -11,7 +11,7 @@ export interface SettingsReducerState {
   hyphens: boolean | null;
   layoutStrategy: ThLayoutStrategy;
   letterSpacing: number | null;
-  lineHeight: LineHeightOptions;
+  lineHeight: ThLineHeightOptions;
   lineLength: number | null;
   tmpLineLengths: number[];
   tmpMaxChars: boolean;
@@ -20,7 +20,7 @@ export interface SettingsReducerState {
   paragraphSpacing: number | null;
   publisherStyles: boolean;
   scroll: boolean;
-  textAlign: TextAlignOptions;
+  textAlign: ThTextAlignOptions;
   textNormalization: boolean;
   wordSpacing: number | null;
 }
@@ -33,13 +33,13 @@ const initialState: SettingsReducerState = {
   hyphens: null,
   layoutStrategy: ThLayoutStrategy.lineLength,
   letterSpacing: null,
-  lineHeight: LineHeightOptions.publisher,
+  lineHeight: ThLineHeightOptions.publisher,
   lineLength: null,
   paragraphIndent: null,
   paragraphSpacing: null,
   publisherStyles: true,
   scroll: false,
-  textAlign: TextAlignOptions.publisher,
+  textAlign: ThTextAlignOptions.publisher,
   textNormalization: false,
   wordSpacing: null,
   tmpLineLengths: [],

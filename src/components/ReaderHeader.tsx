@@ -4,7 +4,7 @@ import { PreferencesContext } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
-import { ActionKeys } from "@/preferences/models/enums";
+import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionsMapObject } from "@/models/actions";
 
 import readerStateStyles from "./assets/styles/readerStates.module.css";
@@ -25,22 +25,22 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-const ActionsMap: { [key in ActionKeys]: StatefulActionsMapObject } = {
-  [ActionKeys.fullscreen]: {
+const ActionsMap: { [key in ThActionsKeys]: StatefulActionsMapObject } = {
+  [ThActionsKeys.fullscreen]: {
     trigger: FullscreenAction
   },
-  [ActionKeys.jumpToPosition]: {
+  [ThActionsKeys.jumpToPosition]: {
     trigger: JumpToPositionAction
   },
-  [ActionKeys.layoutStrategy]: {
+  [ThActionsKeys.layoutStrategy]: {
     trigger: LayoutStrategyAction,
     target: LayoutStrategiesActionContainer
   },
-  [ActionKeys.settings]: {
+  [ThActionsKeys.settings]: {
     trigger: SettingsAction,
     target: SettingsActionContainer
   },
-  [ActionKeys.toc]: {
+  [ThActionsKeys.toc]: {
     trigger: TocAction,
     target: TocActionContainer
   }
@@ -76,10 +76,10 @@ export const ReaderHeader = () => {
   };
 
   const listActionItems = useCallback(() => {
-    const actionsItems: ThActionEntry<ActionKeys>[] = [];
+    const actionsItems: ThActionEntry<ThActionsKeys>[] = [];
 
-    actionsOrder.current.map((key: ActionKeys) => {
-      if (key !== ActionKeys.layoutStrategy || !isFXL) {
+    actionsOrder.current.map((key: ThActionsKeys) => {
+      if (key !== ThActionsKeys.layoutStrategy || !isFXL) {
         actionsItems.push({
           Trigger: ActionsMap[key].trigger,
           Target: ActionsMap[key].target,

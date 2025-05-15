@@ -1,4 +1,4 @@
-import { DockingKeys } from "@/preferences/models/enums";
+import { ThDockingKeys } from "@/preferences/models/enums";
 
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import readerReducer from "@/lib/readerReducer";
@@ -15,7 +15,7 @@ const updateActionsState = (state: ActionsReducerState) => {
       key,
       {
         ...value,
-        isOpen: value.docking === DockingKeys.transient || value.docking === null && value.isOpen === true ? false : value.isOpen,
+        isOpen: value.docking === ThDockingKeys.transient || value.docking === null && value.isOpen === true ? false : value.isOpen,
       },
     ])
   );

@@ -7,7 +7,7 @@ import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
-import { DockingKeys } from "@/preferences/models/enums";
+import { ThDockingKeys } from "@/preferences/models/enums";
 
 import Dialog from "../../assets/icons/dialogs.svg";
 
@@ -23,7 +23,7 @@ export const FullscreenSheetAction = ({ variant, associatedKey }: StatefulAction
   const RSPrefs = useContext(PreferencesContext);
   const actionsMap = useAppSelector(state => state.actions.keys);
   const actions = useActions(actionsMap);
-  const isDisabled = !actions.isDocked(associatedKey) || actions.whichDocked(associatedKey) === DockingKeys.transient;
+  const isDisabled = !actions.isDocked(associatedKey) || actions.whichDocked(associatedKey) === ThDockingKeys.transient;
   
   const dispatch = useAppDispatch();
     
@@ -31,7 +31,7 @@ export const FullscreenSheetAction = ({ variant, associatedKey }: StatefulAction
     if (associatedKey) {
       dispatch(dockAction({
         key: associatedKey,
-        dockingKey: DockingKeys.transient
+        dockingKey: ThDockingKeys.transient
       }))
     }
   }, [dispatch, associatedKey]);
@@ -42,9 +42,9 @@ export const FullscreenSheetAction = ({ variant, associatedKey }: StatefulAction
       ? <OverflowMenuItem 
           label={ Locale.reader.app.docker.fullscreen.trigger }
           SVGIcon={ Dialog } 
-          shortcut={ RSPrefs.docking.keys[DockingKeys.transient].shortcut }
+          shortcut={ RSPrefs.docking.keys[ThDockingKeys.transient].shortcut }
           onAction={ handlePress } 
-          id={ `${ DockingKeys.transient }-${ associatedKey }` } 
+          id={ `${ ThDockingKeys.transient }-${ associatedKey }` } 
           isDisabled={ isDisabled }
         />
       : <ActionIcon 

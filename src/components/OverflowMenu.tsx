@@ -8,7 +8,7 @@ import MenuIcon from "./assets/icons/more_vert.svg";
 
 import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { ThMenu } from "@/packages/Components/Menu/ThMenu";
-import { ActionKeys, DockingKeys } from "@/preferences/models/enums";
+import { ThActionsKeys, ThDockingKeys } from "@/preferences/models/enums";
 import { ActionIcon } from "./ActionTriggers/ActionIcon";
 
 import { useAppDispatch } from "@/lib/hooks";
@@ -18,7 +18,7 @@ import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleAction
 
 export interface StatefulOverflowMenuProps {
   id: string;
-  items: ThActionEntry<ActionKeys | DockingKeys>[];
+  items: ThActionEntry<ThActionsKeys | ThDockingKeys>[];
   triggerRef: RefObject<HTMLElement | null>;
   className?: string;
   actionFallback?: boolean;

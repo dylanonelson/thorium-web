@@ -4,8 +4,8 @@ import {
   defaultTextSettingsMain, 
   defaultTextSettingsSubpanel, 
   PreferencesContext, 
-  SettingsContainerKeys, 
-  TextSettingsKeys 
+  ThSettingsContainerKeys, 
+  ThTextSettingsKeys 
 } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
@@ -23,20 +23,20 @@ import { ReadingDisplayNormalizeText } from "./ReadingDisplayNormalizeText";
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
-const TextSettingsMap: { [key in TextSettingsKeys]: StatefulSettingsMapObject } = {
-  [TextSettingsKeys.align]: {
+const TextSettingsMap: { [key in ThTextSettingsKeys]: StatefulSettingsMapObject } = {
+  [ThTextSettingsKeys.align]: {
     Comp: ReadingDisplayAlign
   },
-  [TextSettingsKeys.fontFamily]: {
+  [ThTextSettingsKeys.fontFamily]: {
     Comp: ReadingDisplayFontFamily
   },
-  [TextSettingsKeys.fontWeight]: {
+  [ThTextSettingsKeys.fontWeight]: {
     Comp: ReadingDisplayFontWeight
   },
-  [TextSettingsKeys.hyphens]: {
+  [ThTextSettingsKeys.hyphens]: {
     Comp: ReadingDisplayHyphens
   },
-  [TextSettingsKeys.normalizeText]: {
+  [ThTextSettingsKeys.normalizeText]: {
     Comp: ReadingDisplayNormalizeText
   }
 }
@@ -46,7 +46,7 @@ export const ReadingDisplayText = () => {
   const dispatch = useAppDispatch();
 
   const setTextContainer = useCallback(() => {
-    dispatch(setSettingsContainer(SettingsContainerKeys.text));
+    dispatch(setSettingsContainer(ThSettingsContainerKeys.text));
   }, [dispatch]);
 
   return(
@@ -69,11 +69,11 @@ export const ReadingDisplayText = () => {
 
 export const ReadingDisplayTextContainer = () => {
   const RSPrefs = useContext(PreferencesContext);
-  const displayOrder = RSPrefs.settings.text?.subPanel as TextSettingsKeys[] | null | undefined || defaultTextSettingsSubpanel;
+  const displayOrder = RSPrefs.settings.text?.subPanel as ThTextSettingsKeys[] | null | undefined || defaultTextSettingsSubpanel;
 
   return(
     <>
-    { displayOrder.map((key: TextSettingsKeys) => {
+    { displayOrder.map((key: ThTextSettingsKeys) => {
       const { Comp } = TextSettingsMap[key];
       return <Comp key={ key } standalone={ true } />;
     }) }

@@ -11,12 +11,12 @@ import arrowStyles from "./assets/styles/arrowButton.module.css";
 
 import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
 import { 
-  ActionKeys, 
-  LineHeightOptions, 
-  ScrollBackTo, 
-  SettingsKeys, 
-  TextAlignOptions, 
-  ThemeKeys, 
+  ThActionsKeys, 
+  ThLineHeightOptions, 
+  ThScrollBackTo, 
+  ThSettingsKeys, 
+  ThTextAlignOptions, 
+  ThThemeKeys, 
   ThLayoutStrategy 
 } from "@/preferences/models/enums";
 import { ColorScheme } from "@/packages/Hooks/useColorScheme";
@@ -96,15 +96,15 @@ export interface ReadiumCSSSettings {
   hyphens: boolean | null;
   letterSpacing: number | null;
   lineLength: number | null;
-  lineHeight: LineHeightOptions | null;
+  lineHeight: ThLineHeightOptions | null;
   layoutStrategy: ThLayoutStrategy;
   paragraphIndent: number | null;
   paragraphSpacing: number | null;
   publisherStyles: boolean;
   scroll: boolean;
-  textAlign: TextAlignOptions | null;
+  textAlign: ThTextAlignOptions | null;
   textNormalization: boolean;
-  theme: ThemeKeys;
+  theme: ThThemeKeys;
   wordSpacing: number | null;
 }
 
@@ -341,16 +341,16 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     },
     toggleAction: (actionKey) => {  
       switch (actionKey) {
-        case ActionKeys.fullscreen:
+        case ThActionsKeys.fullscreen:
           fs.handleFullscreen();
           break;
-        case ActionKeys.settings:
-        case ActionKeys.toc:
+        case ThActionsKeys.settings:
+        case ThActionsKeys.toc:
           dispatch(toggleActionOpen({
             key: actionKey
           }))
           break;
-        case ActionKeys.jumpToPosition:
+        case ThActionsKeys.jumpToPosition:
         default:
           break
       }
@@ -419,7 +419,7 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         if (href.includes(ScrollActions.prev)) {
           goLeft(false, () => { scrollBackTo(RSPrefs.scroll.backTo) }); 
         } else if (href.includes(ScrollActions.next)) {
-          goRight(false, () => { scrollBackTo(ScrollBackTo.top) });
+          goRight(false, () => { scrollBackTo(ThScrollBackTo.top) });
         }
       } else if (
         href.startsWith("http://") ||
@@ -554,16 +554,16 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
     }
 
     // Protecting against re-applying on theme change
-    if (theme !== ThemeKeys.auto && previousTheme !== theme) return;
+    if (theme !== ThThemeKeys.auto && previousTheme !== theme) return;
 
     const applyCurrentTheme = async () => {
       const themeKeys = isFXL ? RSPrefs.theming.themes.fxlOrder : RSPrefs.theming.themes.reflowOrder;
-      const themeKey = themeKeys.includes(theme) ? theme : ThemeKeys.auto;
-      const themeProps = buildThemeObject<Exclude<ThemeKeys, ThemeKeys.auto>>({
+      const themeKey = themeKeys.includes(theme) ? theme : ThThemeKeys.auto;
+      const themeProps = buildThemeObject<Exclude<ThThemeKeys, ThThemeKeys.auto>>({
         theme: themeKey,
         themeKeys: RSPrefs.theming.themes.keys,
-        lightTheme: ThemeKeys.light,
-        darkTheme: ThemeKeys.dark,
+        lightTheme: ThThemeKeys.light,
+        darkTheme: ThThemeKeys.dark,
         colorScheme
       });
       await submitPreferences(themeProps);
@@ -629,20 +629,20 @@ export const Reader = ({ rawManifest, selfHref }: { rawManifest: object, selfHre
         const initialConstraint = cache.current.arrowsOccupySpace ? arrowsWidth.current : 0;
         
         const themeKeys = isFXL ? RSPrefs.theming.themes.fxlOrder : RSPrefs.theming.themes.reflowOrder;
-        const theme = themeKeys.includes(cache.current.settings.theme) ? cache.current.settings.theme : ThemeKeys.auto;
-        const themeProps = buildThemeObject<Exclude<ThemeKeys, ThemeKeys.auto>>({
+        const theme = themeKeys.includes(cache.current.settings.theme) ? cache.current.settings.theme : ThThemeKeys.auto;
+        const themeProps = buildThemeObject<Exclude<ThThemeKeys, ThThemeKeys.auto>>({
           theme: theme,
           themeKeys: RSPrefs.theming.themes.keys,
-          lightTheme: ThemeKeys.light,
-          darkTheme: ThemeKeys.dark,
+          lightTheme: ThThemeKeys.light,
+          darkTheme: ThThemeKeys.dark,
           colorScheme: cache.current.colorScheme
         });
 
         const lineHeightOptions = {
-          [LineHeightOptions.publisher]: null,
-          [LineHeightOptions.small]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.small] || defaultLineHeights[LineHeightOptions.small],
-          [LineHeightOptions.medium]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.medium] || defaultLineHeights[LineHeightOptions.medium],
-          [LineHeightOptions.large]: RSPrefs.settings.keys?.[SettingsKeys.lineHeight]?.[LineHeightOptions.large] || defaultLineHeights[LineHeightOptions.large],
+          [ThLineHeightOptions.publisher]: null,
+          [ThLineHeightOptions.small]: RSPrefs.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.small] || defaultLineHeights[ThLineHeightOptions.small],
+          [ThLineHeightOptions.medium]: RSPrefs.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.medium] || defaultLineHeights[ThLineHeightOptions.medium],
+          [ThLineHeightOptions.large]: RSPrefs.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.large] || defaultLineHeights[ThLineHeightOptions.large],
         };
 
         const preferences: IEpubPreferences = isFXL ? {} : {

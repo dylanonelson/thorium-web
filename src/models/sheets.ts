@@ -1,17 +1,17 @@
 import { ReactNode, RefObject } from "react";
-import { DockingKeys, SheetHeaderVariant } from "@/preferences/models/enums";
+import { ThDockingKeys, ThSheetHeaderVariant } from "@/preferences/models/enums";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 export interface StatefulSheet {
   id: ActionsStateKeys;
   triggerRef: RefObject<HTMLElement | null>;
   heading: string;
-  headerVariant?: SheetHeaderVariant;
+  headerVariant?: ThSheetHeaderVariant;
   className: string;
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   onPressClose: () => void;
-  docker?: DockingKeys[];
+  docker?: ThDockingKeys[];
   children?: ReactNode;
   resetFocus?: unknown;
   dismissEscapeKeyClose?: boolean;

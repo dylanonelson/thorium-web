@@ -1,29 +1,29 @@
 import fontStacks from "@readium/css/css/vars/fontStacks.json";
 
-import { LineHeightOptions, SettingsRangeVariant, SpacingSettingsKeys, TextSettingsKeys } from "./enums";
+import { ThLineHeightOptions, ThSettingsRangeVariant, ThSpacingSettingsKeys, ThTextSettingsKeys } from "./enums";
 import { ThSettingsRangePref } from "../preferences";
 
-export const defaultTextSettingsMain = [TextSettingsKeys.fontFamily];
+export const defaultTextSettingsMain = [ThTextSettingsKeys.fontFamily];
 
 export const defaultTextSettingsSubpanel = [
-  TextSettingsKeys.fontFamily,
-  TextSettingsKeys.fontWeight,
-  TextSettingsKeys.align,
-  TextSettingsKeys.hyphens,
-  TextSettingsKeys.normalizeText
+  ThTextSettingsKeys.fontFamily,
+  ThTextSettingsKeys.fontWeight,
+  ThTextSettingsKeys.align,
+  ThTextSettingsKeys.hyphens,
+  ThTextSettingsKeys.normalizeText
 ]
 
 export const defaultSpacingSettingsMain = [
-  SpacingSettingsKeys.lineHeight
+  ThSpacingSettingsKeys.lineHeight
 ];
 
 export const defaultSpacingSettingsSubpanel = [
-  SpacingSettingsKeys.publisherStyles,
-  SpacingSettingsKeys.lineHeight,
-  SpacingSettingsKeys.wordSpacing,
-  SpacingSettingsKeys.letterSpacing,
-  SpacingSettingsKeys.paraSpacing,
-  SpacingSettingsKeys.paraIndent
+  ThSpacingSettingsKeys.publisherStyles,
+  ThSpacingSettingsKeys.lineHeight,
+  ThSpacingSettingsKeys.wordSpacing,
+  ThSpacingSettingsKeys.letterSpacing,
+  ThSpacingSettingsKeys.paraSpacing,
+  ThSpacingSettingsKeys.paraIndent
 ]
 
 export const defaultFontFamilyOptions = {
@@ -36,37 +36,37 @@ export const defaultFontFamilyOptions = {
 }
 
 export const defaultFontSize: Required<ThSettingsRangePref> = {
-  variant: SettingsRangeVariant.numberField,
+  variant: ThSettingsRangeVariant.numberField,
   range: [0.7, 2.5],
   step: 0.05
 }
 
 export const defaultParagraphSpacing: Required<ThSettingsRangePref> = {
-  variant: SettingsRangeVariant.slider,
+  variant: ThSettingsRangeVariant.slider,
   range: [0, 3],
   step: 0.5
 }
 
 export const defaultParagraphIndent: Required<ThSettingsRangePref> = {
-  variant: SettingsRangeVariant.slider,
+  variant: ThSettingsRangeVariant.slider,
   range: [0, 2],
   step: 0.25
 }
 
 export const defaultWordSpacing: Required<ThSettingsRangePref> = {
-  variant: SettingsRangeVariant.numberField,
+  variant: ThSettingsRangeVariant.numberField,
   range: [0, 1],
   step: 0.1
 }
 
 export const defaultLetterSpacing: Required<ThSettingsRangePref> = {
-  variant: SettingsRangeVariant.numberField,
+  variant: ThSettingsRangeVariant.numberField,
   range: [0, 0.5],
   step: 0.05
 }
 
 export const defaultLineHeights = {
-  [LineHeightOptions.small]: 1.25,
-  [LineHeightOptions.medium]: 1.5,
-  [LineHeightOptions.large]: 1.75
+  [ThLineHeightOptions.small]: 1.25,
+  [ThLineHeightOptions.medium]: 1.5,
+  [ThLineHeightOptions.large]: 1.75
 }

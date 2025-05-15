@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 
-import { defaultParagraphSpacing, PreferencesContext, SettingsKeys, SettingsRangeVariant } from "@/preferences";
+import { defaultParagraphSpacing, PreferencesContext, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -18,9 +18,9 @@ export const ReadingDisplayParaSpacing = ({ standalone = true }: StatefulSetting
   const RSPrefs = useContext(PreferencesContext);
   const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
   const paragraphSpacingRangeConfig = {
-    variant: RSPrefs.settings.keys?.[SettingsKeys.paraSpacing]?.variant ?? defaultParagraphSpacing.variant,
-    range: RSPrefs.settings.keys?.[SettingsKeys.paraSpacing]?.range ?? defaultParagraphSpacing.range,
-    step: RSPrefs.settings.keys?.[SettingsKeys.paraSpacing]?.step ?? defaultParagraphSpacing.step
+    variant: RSPrefs.settings.keys?.[ThSettingsKeys.paraSpacing]?.variant ?? defaultParagraphSpacing.variant,
+    range: RSPrefs.settings.keys?.[ThSettingsKeys.paraSpacing]?.range ?? defaultParagraphSpacing.range,
+    step: RSPrefs.settings.keys?.[ThSettingsKeys.paraSpacing]?.step ?? defaultParagraphSpacing.step
   };
   const dispatch = useAppDispatch();
 
@@ -37,7 +37,7 @@ export const ReadingDisplayParaSpacing = ({ standalone = true }: StatefulSetting
 
   return (
     <>
-    { paragraphSpacingRangeConfig.variant === SettingsRangeVariant.numberField 
+    { paragraphSpacingRangeConfig.variant === ThSettingsRangeVariant.numberField 
       ? <NumberFieldWrapper 
         standalone={ standalone }
         label={ Locale.reader.settings.paraSpacing.title }

@@ -3,18 +3,18 @@ import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ThemeTokens } from "@/preferences/hooks/useTheming";
 import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
 import { 
-  ActionKeys,
-  DockingKeys,
-  DockingTypes,
-  LineHeightOptions, 
-  ScrollBackTo, 
-  SettingsKeys, 
-  SettingsRangeVariant, 
-  SheetHeaderVariant, 
-  SheetTypes, 
-  SpacingSettingsKeys, 
-  TextSettingsKeys, 
-  ThemeKeys, 
+  ThActionsKeys,
+  ThDockingKeys,
+  ThDockingTypes,
+  ThLineHeightOptions, 
+  ThScrollBackTo, 
+  ThSettingsKeys, 
+  ThSettingsRangeVariant, 
+  ThSheetHeaderVariant, 
+  ThSheetTypes, 
+  ThSpacingSettingsKeys, 
+  ThTextSettingsKeys, 
+  ThThemeKeys, 
   ThLayoutDirection, 
   ThLayoutStrategy 
 } from "./models/enums";
@@ -31,7 +31,7 @@ export interface ThActionsSnappedPref {
 }
 
 export interface ThActionsDockedPref {
-  dockable: DockingTypes,
+  dockable: ThDockingTypes,
   dragIndicator?: boolean,
   width?: number,
   minWidth?: number,
@@ -42,8 +42,8 @@ export interface ThActionsTokens {
   visibility: CollapsibilityVisibility;
   shortcut: string | null;
   sheet?: {
-    defaultSheet: Exclude<SheetTypes, SheetTypes.dockedStart | SheetTypes.dockedEnd>;
-    breakpoints: BreakpointsMap<SheetTypes>;
+    defaultSheet: Exclude<ThSheetTypes, ThSheetTypes.dockedStart | ThSheetTypes.dockedEnd>;
+    breakpoints: BreakpointsMap<ThSheetTypes>;
   };
   docked?: ThActionsDockedPref;
   snapped?: ThActionsSnappedPref;
@@ -60,44 +60,44 @@ export interface ThActionsPref<T extends string | number | symbol> {
 export interface ThDockingPref<T extends string | number | symbol> {
   displayOrder: T[];
   collapse: Collapsibility;
-  dock: BreakpointsMap<DockingTypes> | boolean; 
+  dock: BreakpointsMap<ThDockingTypes> | boolean; 
   keys: {
     [key in T]: Pick<ThActionsTokens, "visibility" | "shortcut">;
   }
 };
 
-export interface ThSettingsGroupPref<T extends keyof typeof SettingsKeys> {
+export interface ThSettingsGroupPref<T extends keyof typeof ThSettingsKeys> {
   main?: T[];
   subPanel?: T[] | null;
-  header?: SheetHeaderVariant;
+  header?: ThSheetHeaderVariant;
 }
 
 export interface ThSettingsRangePref {
-  variant?: SettingsRangeVariant;
+  variant?: ThSettingsRangeVariant;
   range?: [number, number];
   step?: number;
 }
 
 export type ThSettingsKeyTypes = {
-  [SettingsKeys.letterSpacing]?: ThSettingsRangePref;
-  [SettingsKeys.lineHeight]?: {
-      [key in Exclude<LineHeightOptions, LineHeightOptions.publisher>]: number
+  [ThSettingsKeys.letterSpacing]?: ThSettingsRangePref;
+  [ThSettingsKeys.lineHeight]?: {
+      [key in Exclude<ThLineHeightOptions, ThLineHeightOptions.publisher>]: number
     };
-  [SettingsKeys.paraIndent]?: ThSettingsRangePref;
-  [SettingsKeys.paraSpacing]?: ThSettingsRangePref;
-  [SettingsKeys.wordSpacing]?: ThSettingsRangePref;
-  [SettingsKeys.zoom]?: {
-    variant?: SettingsRangeVariant;
+  [ThSettingsKeys.paraIndent]?: ThSettingsRangePref;
+  [ThSettingsKeys.paraSpacing]?: ThSettingsRangePref;
+  [ThSettingsKeys.wordSpacing]?: ThSettingsRangePref;
+  [ThSettingsKeys.zoom]?: {
+    variant?: ThSettingsRangeVariant;
   };
 }
 
-export type ThConstraintKeys = Extract<SheetTypes, SheetTypes.bottomSheet | SheetTypes.popover>;
+export type ThConstraintKeys = Extract<ThSheetTypes, ThSheetTypes.bottomSheet | ThSheetTypes.popover>;
 
 export interface ThPreferences<
-  CustomActionKeys extends string | number | symbol = ActionKeys,
-  CustomDockingKeys extends string | number | symbol = DockingKeys,
-  CustomThemeKeys extends string | number | symbol = ThemeKeys,
-  CustomSettingsKeys extends string | number | symbol = SettingsKeys,
+  CustomActionKeys extends string | number | symbol = ThActionsKeys,
+  CustomDockingKeys extends string | number | symbol = ThDockingKeys,
+  CustomThemeKeys extends string | number | symbol = ThThemeKeys,
+  CustomSettingsKeys extends string | number | symbol = ThSettingsKeys,
   CustomSettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>> = ThSettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>> ? ThSettingsKeyTypes : never,
   CustomConstraintsKeys extends string | number | symbol = ThConstraintKeys
 > {
@@ -113,7 +113,7 @@ export interface ThPreferences<
   scroll: {
     topAffordance: ScrollAffordancePref;
     bottomAffordance: ScrollAffordancePref;
-    backTo: ScrollBackTo;
+    backTo: ThScrollBackTo;
   };
   theming: {
     arrow: {
@@ -157,8 +157,8 @@ export interface ThPreferences<
     fxlOrder: CustomSettingsKeys[];
     keys?: CustomSettingsKeyTypes;
     // TODO: CUSTOMIZABLE
-    text?: ThSettingsGroupPref<TextSettingsKeys>;
-    spacing?: ThSettingsGroupPref<SpacingSettingsKeys>;
+    text?: ThSettingsGroupPref<ThTextSettingsKeys>;
+    spacing?: ThSettingsGroupPref<ThSpacingSettingsKeys>;
   };
 }
 

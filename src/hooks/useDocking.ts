@@ -4,7 +4,7 @@ import { PreferencesContext } from "@/preferences";
 
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
-import { ActionKeys, DockingTypes, DockingKeys, SheetTypes } from "@/preferences/models/enums";
+import { ThActionsKeys, ThDockingTypes, ThDockingKeys, ThSheetTypes } from "@/preferences/models/enums";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { makeBreakpointsMap } from "@/packages/Helpers/breakpointsMap";
@@ -13,7 +13,7 @@ import { dockAction, setActionOpen } from "@/lib/actionsReducer";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 import { useActions } from "@/packages/Components/Actions/hooks/useActions";
 
-let dockingMap: Required<BreakpointsMap<DockingTypes>> | null = null;
+let dockingMap: Required<BreakpointsMap<ThDockingTypes>> | null = null;
 
 export const useDocking = (key: ActionsStateKeys) => {
   const RSPrefs = useContext(PreferencesContext);
@@ -25,70 +25,70 @@ export const useDocking = (key: ActionsStateKeys) => {
   const actions = useActions(actionsMap);
 
   if (!dockingMap) {
-    dockingMap = makeBreakpointsMap<DockingTypes>({
-      defaultValue: DockingTypes.both, 
-      fromEnum: DockingTypes, 
+    dockingMap = makeBreakpointsMap<ThDockingTypes>({
+      defaultValue: ThDockingTypes.both, 
+      fromEnum: ThDockingTypes, 
       pref: RSPrefs.docking.dock, 
-      disabledValue: DockingTypes.none 
+      disabledValue: ThDockingTypes.none 
     });
   }
   const currentDockConfig = breakpoint && dockingMap[breakpoint];
-  const dockablePref = RSPrefs.actions.keys[key].docked?.dockable || DockingTypes.none;
+  const dockablePref = RSPrefs.actions.keys[key].docked?.dockable || ThDockingTypes.none;
 
-  const defaultSheet = RSPrefs.actions.keys[key].sheet?.defaultSheet || SheetTypes.popover;
+  const defaultSheet = RSPrefs.actions.keys[key].sheet?.defaultSheet || ThSheetTypes.popover;
 
-  const sheetMap = makeBreakpointsMap<SheetTypes>({
-    defaultValue: RSPrefs.actions.keys[key].sheet?.defaultSheet || SheetTypes.popover, 
-    fromEnum: SheetTypes, 
+  const sheetMap = makeBreakpointsMap<ThSheetTypes>({
+    defaultValue: RSPrefs.actions.keys[key].sheet?.defaultSheet || ThSheetTypes.popover, 
+    fromEnum: ThSheetTypes, 
     pref: RSPrefs.actions.keys[key].sheet?.breakpoints
   });
   const sheetPref = breakpoint && sheetMap[breakpoint] || defaultSheet;
 
-  const [sheetType, setSheetType] = useState<SheetTypes>(defaultSheet);
+  const [sheetType, setSheetType] = useState<ThSheetTypes>(defaultSheet);
   const previousSheetType = usePrevious(sheetType);
 
   // Checks whether the action can be docked: its pref should match the docking pref
-  const canBeDocked = useCallback((slot: DockingTypes.start | DockingTypes.end) => {
-      return (currentDockConfig === slot || currentDockConfig === DockingTypes.both) 
-          && (dockablePref === slot || dockablePref === DockingTypes.both);
+  const canBeDocked = useCallback((slot: ThDockingTypes.start | ThDockingTypes.end) => {
+      return (currentDockConfig === slot || currentDockConfig === ThDockingTypes.both) 
+          && (dockablePref === slot || dockablePref === ThDockingTypes.both);
   }, [currentDockConfig, dockablePref]);
 
   // Checks whether the sheet pref is of Dock type 
-  const isDockedSheetPref = useCallback((type?: SheetTypes.dockedStart | SheetTypes.dockedEnd) => {
+  const isDockedSheetPref = useCallback((type?: ThSheetTypes.dockedStart | ThSheetTypes.dockedEnd) => {
     if (type) {
       return sheetPref === type;
     } else {
-      return sheetPref === SheetTypes.dockedStart || sheetPref === SheetTypes.dockedEnd
+      return sheetPref === ThSheetTypes.dockedStart || sheetPref === ThSheetTypes.dockedEnd
     }
   }, [sheetPref]);
   
   // Builds the docker for the action based on all preferences
-  const getDocker = useCallback((): DockingKeys[] => {
+  const getDocker = useCallback((): ThDockingKeys[] => {
     // First let’s handle the cases where docker shouldn’t be used
     // The sheet is not dockable, per key.docked.dockable pref
-    if (dockablePref === DockingTypes.none) return [];
+    if (dockablePref === ThDockingTypes.none) return [];
     // There’s no docking slot available, per docking.dock pref
-    if (currentDockConfig === DockingTypes.none) return [];
+    if (currentDockConfig === ThDockingTypes.none) return [];
     // The sheet type is not compatible with docking
-    if (sheetPref === SheetTypes.fullscreen || sheetPref === SheetTypes.bottomSheet) return [];
+    if (sheetPref === ThSheetTypes.fullscreen || sheetPref === ThSheetTypes.bottomSheet) return [];
 
     // We can now build the docker from the display order
-    let dockerKeys: DockingKeys[] = [];
+    let dockerKeys: ThDockingKeys[] = [];
     // In order for an action to be dockable, the dock slot has to exist
     // and the dockable preference of key.docked should match the values
-    RSPrefs.docking.displayOrder.forEach((dockingKey: DockingKeys) => {
+    RSPrefs.docking.displayOrder.forEach((dockingKey: ThDockingKeys) => {
       switch(dockingKey) {
-        case DockingKeys.transient:
+        case ThDockingKeys.transient:
           // We already handled both cases for none 
           dockerKeys.push(dockingKey);
           break;
-        case DockingKeys.start:
-          if (canBeDocked(DockingTypes.start)) {
+        case ThDockingKeys.start:
+          if (canBeDocked(ThDockingTypes.start)) {
             dockerKeys.push(dockingKey);
           }
           break;
-        case DockingKeys.end:
-          if (canBeDocked(DockingTypes.end)) {
+        case ThDockingKeys.end:
+          if (canBeDocked(ThDockingTypes.end)) {
             dockerKeys.push(dockingKey);
           }
           break;
@@ -98,14 +98,14 @@ export const useDocking = (key: ActionsStateKeys) => {
     });
 
     // If the action can only be transient, then it can’t be docked
-    if (dockerKeys.length === 1 && dockerKeys[0] === DockingKeys.transient) return [];
+    if (dockerKeys.length === 1 && dockerKeys[0] === ThDockingKeys.transient) return [];
 
     return dockerKeys;
   }, [RSPrefs.docking.displayOrder, currentDockConfig, sheetPref, dockablePref, canBeDocked]);
 
   const getSheetType = useCallback(() => {
     // First check the dockable pref is none to return early
-    if (dockablePref === DockingTypes.none) {
+    if (dockablePref === ThDockingTypes.none) {
       // Sheet is of docked type, we return the default
       if (isDockedSheetPref()) {
         return defaultSheet;
@@ -122,7 +122,7 @@ export const useDocking = (key: ActionsStateKeys) => {
       
       // if action.docking is transient we need to check the pref, 
       // it can be docked and in that case we need to pick the default
-      case DockingKeys.transient:
+      case ThDockingKeys.transient:
         if (isDockedSheetPref()) {
           return defaultSheet;
         } else {
@@ -130,26 +130,26 @@ export const useDocking = (key: ActionsStateKeys) => {
         }
       
       // If action.docking is set to start/end then we check the docking slot is available
-      case DockingKeys.start:
-        if (canBeDocked(DockingTypes.start)) {
-          return SheetTypes.dockedStart;
+      case ThDockingKeys.start:
+        if (canBeDocked(ThDockingTypes.start)) {
+          return ThSheetTypes.dockedStart;
         } else {
           // if the pref is not docked start, return the pref 
           // else return the default
-          if (!isDockedSheetPref(SheetTypes.dockedStart)) {
+          if (!isDockedSheetPref(ThSheetTypes.dockedStart)) {
             return sheetPref;
           } else {
             return defaultSheet;
           }
         }
 
-      case DockingKeys.end:
-        if (canBeDocked(DockingTypes.end)) {
-          return SheetTypes.dockedEnd;
+      case ThDockingKeys.end:
+        if (canBeDocked(ThDockingTypes.end)) {
+          return ThSheetTypes.dockedEnd;
         } else {
           // if the pref is not docked end, return the pref 
           // else return the default
-          if (!isDockedSheetPref(SheetTypes.dockedEnd)) {
+          if (!isDockedSheetPref(ThSheetTypes.dockedEnd)) {
             return sheetPref;
           } else {
             return defaultSheet;
@@ -160,15 +160,15 @@ export const useDocking = (key: ActionsStateKeys) => {
       // as it means the user did not pick another option
       case null:
         // We have to check sheetPref is compatible with docking prefs
-        if (isDockedSheetPref(SheetTypes.dockedStart)) {
-          if (canBeDocked(DockingTypes.start)) {
-            return SheetTypes.dockedStart;
+        if (isDockedSheetPref(ThSheetTypes.dockedStart)) {
+          if (canBeDocked(ThDockingTypes.start)) {
+            return ThSheetTypes.dockedStart;
           } else {
             return defaultSheet;
           }
-        } else if (isDockedSheetPref(SheetTypes.dockedEnd)) {
-          if (canBeDocked(DockingTypes.end)) {
-            return SheetTypes.dockedEnd;
+        } else if (isDockedSheetPref(ThSheetTypes.dockedEnd)) {
+          if (canBeDocked(ThDockingTypes.end)) {
+            return ThSheetTypes.dockedEnd;
           } else {
             return defaultSheet;
           }
@@ -188,12 +188,12 @@ export const useDocking = (key: ActionsStateKeys) => {
   // Dismiss/Close when sheetType has changed from docked to transient
   useEffect(() => {
     // This was not dismissed on breakpoint change, but by the user
-    if (actionState.docking === DockingKeys.transient) return;
+    if (actionState.docking === ThDockingKeys.transient) return;
 
-    if (sheetType !== SheetTypes.dockedStart && sheetType !== SheetTypes.dockedEnd) {
-      if (previousSheetType === SheetTypes.dockedStart || previousSheetType === SheetTypes.dockedEnd) {
+    if (sheetType !== ThSheetTypes.dockedStart && sheetType !== ThSheetTypes.dockedEnd) {
+      if (previousSheetType === ThSheetTypes.dockedStart || previousSheetType === ThSheetTypes.dockedEnd) {
         dispatch(setActionOpen({
-          key: ActionKeys[key],
+          key: ThActionsKeys[key],
           isOpen: false
         }));
       }
@@ -203,22 +203,22 @@ export const useDocking = (key: ActionsStateKeys) => {
   // on mount, check whether we should update states for docked sheets from pref
   useEffect(() => {
     if (actionState.isOpen === null) {
-      if (sheetType === SheetTypes.dockedStart) {
+      if (sheetType === ThSheetTypes.dockedStart) {
         dispatch(dockAction({
-          key: ActionKeys[key],
-          dockingKey: DockingKeys.start
+          key: ThActionsKeys[key],
+          dockingKey: ThDockingKeys.start
         }));
         dispatch(setActionOpen({
-          key: ActionKeys[key],
+          key: ThActionsKeys[key],
           isOpen: true
         }));
-      } else if (sheetType === SheetTypes.dockedEnd) {
+      } else if (sheetType === ThSheetTypes.dockedEnd) {
         dispatch(dockAction({
-          key: ActionKeys[key],
-          dockingKey: DockingKeys.end
+          key: ThActionsKeys[key],
+          dockingKey: ThDockingKeys.end
         }));
         dispatch(setActionOpen({
-          key: ActionKeys[key],
+          key: ThActionsKeys[key],
           isOpen: true
         }));
       }
@@ -239,24 +239,24 @@ export const useDocking = (key: ActionsStateKeys) => {
     // couldn’t be on first mount because
     // a different type was used in prefs
     if (actionState.isOpen !== null && actionState.docking === null) {
-      if (sheetType === SheetTypes.dockedStart) {
+      if (sheetType === ThSheetTypes.dockedStart) {
         // Check if the action is docked in practice
         // if it isn’t dispatch docking of the action
         const dockingKey = actions.whichDocked(key);
-        if (dockingKey !== DockingKeys.start) {
+        if (dockingKey !== ThDockingKeys.start) {
           dispatch(dockAction({
-            key: ActionKeys[key],
-            dockingKey: DockingKeys.start
+            key: ThActionsKeys[key],
+            dockingKey: ThDockingKeys.start
           }));
         }
-      } else if (sheetType === SheetTypes.dockedEnd) {
+      } else if (sheetType === ThSheetTypes.dockedEnd) {
         // Check if the action is docked in practice
         // if it isn’t dispatch docking of the action
         const dockingKey = actions.whichDocked(key);
-        if (dockingKey !== DockingKeys.end) {
+        if (dockingKey !== ThDockingKeys.end) {
           dispatch(dockAction({
-            key: ActionKeys[key],
-            dockingKey: DockingKeys.end
+            key: ThActionsKeys[key],
+            dockingKey: ThDockingKeys.end
           }));
         }
       }

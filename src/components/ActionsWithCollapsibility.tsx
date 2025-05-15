@@ -2,13 +2,13 @@ import { useRef } from "react";
 
 import { ThActionEntry, ThCollapsibleActionsBar } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { OverflowMenu } from "./OverflowMenu";
-import { ActionKeys, DockingKeys } from "@/preferences/models/enums";
+import { ThActionsKeys, ThDockingKeys } from "@/preferences/models/enums";
 
 import { useAppSelector } from "@/lib/hooks";
 import { ThCollapsibleActionsBarProps } from "../../dist/components";
 
 export interface StatefulCollapsibleActionsProps extends ThCollapsibleActionsBarProps {
-  items: ThActionEntry<ActionKeys | DockingKeys>[];
+  items: ThActionEntry<ThActionsKeys | ThDockingKeys>[];
   overflowActionCallback?: boolean;
   overflowMenuClassName?: string;
   overflowMenuDisplay?: boolean;

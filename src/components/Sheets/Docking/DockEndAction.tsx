@@ -7,7 +7,7 @@ import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
-import { DockingKeys, ThLayoutDirection } from "@/preferences/models/enums";
+import { ThDockingKeys, ThLayoutDirection } from "@/preferences/models/enums";
 
 import DockToLeft from "../../assets/icons/dock_to_right.svg";
 import DocktoRight from "../../assets/icons/dock_to_left.svg";
@@ -27,7 +27,7 @@ export const DockEndAction = ({ variant, associatedKey }: StatefulActionTriggerP
   const localeKey = isRTL ? Locale.reader.app.docker.dockToLeft : Locale.reader.app.docker.dockToRight;
 
   const actions = useActions(actionsMap);
-  const isDisabled = actions.whichDocked(associatedKey) === DockingKeys.end;
+  const isDisabled = actions.whichDocked(associatedKey) === ThDockingKeys.end;
 
   const dispatch = useAppDispatch();
   
@@ -35,7 +35,7 @@ export const DockEndAction = ({ variant, associatedKey }: StatefulActionTriggerP
     if (associatedKey) {
       dispatch(dockAction({
         key: associatedKey,
-        dockingKey: DockingKeys.end
+        dockingKey: ThDockingKeys.end
       }))
     }
   }, [dispatch, associatedKey]);
@@ -46,9 +46,9 @@ export const DockEndAction = ({ variant, associatedKey }: StatefulActionTriggerP
       ? <OverflowMenuItem 
           label={ localeKey.trigger }
           SVGIcon={ isRTL ? DockToLeft : DocktoRight } 
-          shortcut={ RSPrefs.docking.keys[DockingKeys.end].shortcut }
+          shortcut={ RSPrefs.docking.keys[ThDockingKeys.end].shortcut }
           onAction={ handlePress } 
-          id={ `${ DockingKeys.end }-${ associatedKey }` }
+          id={ `${ ThDockingKeys.end }-${ associatedKey }` }
           isDisabled={ isDisabled }
         />
       : <ActionIcon 

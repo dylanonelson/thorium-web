@@ -6,7 +6,7 @@ import Locale from "../resources/locales/en.json";
 
 import LayoutIcon from "./assets/icons/fit_page_width.svg";
 
-import { ActionKeys } from "@/preferences/models/enums";
+import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionContainerProps, StatefulActionTriggerProps } from "@/models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
@@ -24,15 +24,15 @@ import { SheetWithType } from "./Sheets/SheetWithType";
 import { ReadingDisplayLayoutStrategy } from "./Settings/ReadingDisplayLayoutStrategy";
 
 export const LayoutStrategiesActionContainer = ({ triggerRef }: StatefulActionContainerProps) => {
-  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.layoutStrategy]);
+  const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.layoutStrategy]);
   const dispatch = useAppDispatch();
   
-  const docking = useDocking(ActionKeys.layoutStrategy);
+  const docking = useDocking(ThActionsKeys.layoutStrategy);
   const sheetType = docking.sheetType;
 
   const setOpen = (value: boolean) => {    
     dispatch(setActionOpen({
-      key: ActionKeys.layoutStrategy,
+      key: ThActionsKeys.layoutStrategy,
       isOpen: value
     }));
 
@@ -45,7 +45,7 @@ export const LayoutStrategiesActionContainer = ({ triggerRef }: StatefulActionCo
     <SheetWithType 
       sheetType={ sheetType }
       sheetProps={ {
-        id: ActionKeys.layoutStrategy,
+        id: ThActionsKeys.layoutStrategy,
         triggerRef: triggerRef,
         heading: Locale.reader.layoutStrategy.heading,
         className: settingsStyles.readerSettings,
@@ -65,12 +65,12 @@ export const LayoutStrategiesActionContainer = ({ triggerRef }: StatefulActionCo
 export const LayoutStrategyAction = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   
-  const actionState = useAppSelector(state => state.actions.keys[ActionKeys.layoutStrategy]);
+  const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.layoutStrategy]);
   const dispatch = useAppDispatch();
 
   const setOpen = (value: boolean) => {    
     dispatch(setActionOpen({
-      key: ActionKeys.layoutStrategy,
+      key: ThActionsKeys.layoutStrategy,
       isOpen: value
     }));
 
@@ -84,12 +84,12 @@ export const LayoutStrategyAction = ({ variant }: StatefulActionTriggerProps) =>
       ? <OverflowMenuItem 
           label={ Locale.reader.layoutStrategy.trigger }
           SVGIcon={ LayoutIcon }
-          shortcut={ RSPrefs.actions.keys[ActionKeys.layoutStrategy].shortcut } 
-          id={ ActionKeys.layoutStrategy }
+          shortcut={ RSPrefs.actions.keys[ThActionsKeys.layoutStrategy].shortcut } 
+          id={ ThActionsKeys.layoutStrategy }
           onAction={ () => setOpen(!actionState.isOpen) }
         />
       : <ActionIcon 
-          visibility={ RSPrefs.actions.keys[ActionKeys.layoutStrategy].visibility }
+          visibility={ RSPrefs.actions.keys[ThActionsKeys.layoutStrategy].visibility }
           aria-label={ Locale.reader.layoutStrategy.trigger }
           placement="bottom" 
           tooltipLabel={ Locale.reader.layoutStrategy.tooltip } 

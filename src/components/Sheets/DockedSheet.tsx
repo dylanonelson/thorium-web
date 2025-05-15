@@ -3,7 +3,7 @@ import React, { useCallback, useRef } from "react";
 import Locale from "../../resources/locales/en.json";
 
 import { StatefulSheet } from "@/models/sheets";
-import { DockingKeys, SheetHeaderVariant, ThLayoutDirection } from "@/preferences/models/enums";
+import { ThDockingKeys, ThSheetHeaderVariant, ThLayoutDirection } from "@/preferences/models/enums";
 
 import sheetStyles from "../assets/styles/sheet.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
@@ -19,7 +19,7 @@ import { useAppSelector } from "@/lib/hooks";
 import classNames from "classnames";
 
 export interface StatefulDockedSheet extends StatefulSheet {
-  flow: DockingKeys.start | DockingKeys.end | null;
+  flow: ThDockingKeys.start | ThDockingKeys.end | null;
 }
 
 export const DockedSheet = ({ 
@@ -42,9 +42,9 @@ export const DockedSheet = ({
   const direction = useAppSelector(state => state.reader.direction);
 
   const classFromFlow = useCallback(() => {
-    if (flow === DockingKeys.start) {
+    if (flow === ThDockingKeys.start) {
       return direction === ThLayoutDirection.ltr ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
-    } else if (flow === DockingKeys.end) {
+    } else if (flow === ThDockingKeys.end) {
       return direction === ThLayoutDirection.ltr ? sheetStyles.dockedSheetRightBorder : sheetStyles.dockedSheetLeftBorder;
     }
   }, [flow, direction]);
@@ -76,7 +76,7 @@ export const DockedSheet = ({
             }
           }}
         >
-          { headerVariant === SheetHeaderVariant.previous 
+          { headerVariant === ThSheetHeaderVariant.previous 
             ? <ThNavigationButton
               direction={ direction === "ltr" ? "left" : "right" } 
               label={ Locale.reader.app.back.trigger }

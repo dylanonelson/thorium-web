@@ -3,7 +3,7 @@ import { useContext } from "react";
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 import settingsStyles from "../../assets/styles/readerSettings.module.css";
 
-import { PreferencesContext, ThSettingsGroupPref, SpacingSettingsKeys, TextSettingsKeys } from "@/preferences";
+import { PreferencesContext, ThSettingsGroupPref, ThSpacingSettingsKeys, ThTextSettingsKeys } from "@/preferences";
 import { PressEvent } from "react-aria";
 import { StatefulSettingsMapObject } from "@/models/settings";
 
@@ -16,11 +16,11 @@ export interface ReadingDisplayGroupWrapperProps {
   moreLabel: string;
   moreTooltip: string;
   onPressMore: (e: PressEvent) => void;
-  settingsMap: { [key in SpacingSettingsKeys]: StatefulSettingsMapObject } | { [key in TextSettingsKeys]: StatefulSettingsMapObject };
-  prefs?: ThSettingsGroupPref<TextSettingsKeys | SpacingSettingsKeys>;
+  settingsMap: { [key in ThSpacingSettingsKeys]: StatefulSettingsMapObject } | { [key in ThTextSettingsKeys]: StatefulSettingsMapObject };
+  prefs?: ThSettingsGroupPref<ThTextSettingsKeys | ThSpacingSettingsKeys>;
   defaultPrefs: {
-    main: TextSettingsKeys[] | SpacingSettingsKeys[];
-    subPanel: TextSettingsKeys[] | SpacingSettingsKeys[];
+    main: ThTextSettingsKeys[] | ThSpacingSettingsKeys[];
+    subPanel: ThTextSettingsKeys[] | ThSpacingSettingsKeys[];
   };
 }
 

@@ -1,4 +1,4 @@
-export enum ActionKeys {
+export enum ThActionsKeys {
   fullscreen = "fullscreen",
   jumpToPosition = "jumpToPosition",
   layoutStrategy = "layoutStrategy",
@@ -6,26 +6,26 @@ export enum ActionKeys {
   toc = "toc"
 }
 
-export enum DockingKeys {
+export enum ThDockingKeys {
   start = "dockingStart",
   end = "dockingEnd",
   transient = "dockingTransient"
 }
 
-export enum DockingTypes {
+export enum ThDockingTypes {
   none = "none",
   both = "both",
   start = "start",
   end = "end"
 }
 
-export enum ScrollBackTo {
+export enum ThScrollBackTo {
   top = "top",
   bottom = "bottom",
   untouched = "untouched"
 }
 
-export enum SettingsKeys {
+export enum ThSettingsKeys {
   align = "align",
   columns = "columns",
   fontFamily = "fontFamily",
@@ -45,18 +45,7 @@ export enum SettingsKeys {
   zoom = "zoom"
 }
 
-export enum SettingsContainerKeys {
-  initial = "initial",
-  text = "text",
-  spacing = "spacing"
-}
-
-export enum SettingsRangeVariant {
-  slider = "slider",
-  numberField = "numberField"
-}
-
-export enum TextSettingsKeys {
+export enum ThTextSettingsKeys {
   align = "align",
   fontFamily = "fontFamily",
   fontWeight = "fontWeight",
@@ -64,7 +53,7 @@ export enum TextSettingsKeys {
   normalizeText = "normalizeText"
 }
 
-export enum SpacingSettingsKeys {
+export enum ThSpacingSettingsKeys {
   letterSpacing = "letterSpacing",
   lineHeight = "lineHeight",
   paraIndent = "paraIndent",
@@ -73,7 +62,18 @@ export enum SpacingSettingsKeys {
   wordSpacing = "wordSpacing"
 }
 
-export enum SheetTypes {
+export enum ThSettingsContainerKeys {
+  initial = "initial",
+  text = "text",
+  spacing = "spacing"
+}
+
+export enum ThSettingsRangeVariant {
+  slider = "slider",
+  numberField = "numberField"
+}
+
+export enum ThSheetTypes {
   popover = "popover",
   fullscreen = "fullscreen",
   dockedStart = "docked start",
@@ -81,12 +81,12 @@ export enum SheetTypes {
   bottomSheet = "bottomSheet"
 }
 
-export enum SheetHeaderVariant {
+export enum ThSheetHeaderVariant {
   close = "close",
   previous = "previous"
 }
 
-export enum ThemeKeys {
+export enum ThThemeKeys {
   auto = "auto",
   light = "light",
   sepia = "sepia",
@@ -108,18 +108,18 @@ export enum ThLayoutStrategy {
   columns = "columns"
 }
 
-export enum LayoutOptions { 
+export enum ThLayoutOptions { 
   scroll = "scroll_option",
   paginated = "page_option"
 }
 
-export enum TextAlignOptions {
+export enum ThTextAlignOptions {
   publisher = "publisher",
   start = "start",
   justify = "justify"
 }
 
-export enum LineHeightOptions {
+export enum ThLineHeightOptions {
   publisher = "publisher",
   small = "small",
   medium = "medium",
