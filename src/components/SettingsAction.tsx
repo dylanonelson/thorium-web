@@ -240,8 +240,8 @@ useEffect(() => {
         className: settingsStyles.readerSettings,
         placement: "bottom", 
         isOpen: actionState.isOpen || false,
-        onOpenChangeCallback: setOpen, 
-        onClosePressCallback: () => { contains === SettingsContainerKeys.initial ? setOpen(false) : setInitial() },
+        onOpenChange: setOpen, 
+        onPressClose: () => { contains === SettingsContainerKeys.initial ? setOpen(false) : setInitial() },
         docker: docking.getDocker(),
         resetFocus: contains,
         dismissEscapeKeyClose: contains !== SettingsContainerKeys.initial

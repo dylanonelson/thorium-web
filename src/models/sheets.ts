@@ -9,8 +9,8 @@ export interface StatefulSheet {
   headerVariant?: SheetHeaderVariant;
   className: string;
   isOpen: boolean;
-  onOpenChangeCallback: (isOpen: boolean) => void;
-  onClosePressCallback: () => void;
+  onOpenChange: (isOpen: boolean) => void;
+  onPressClose: () => void;
   docker?: DockingKeys[];
   children?: ReactNode;
   resetFocus?: unknown;

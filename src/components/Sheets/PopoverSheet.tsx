@@ -31,8 +31,8 @@ export const PopoverSheet = ({
     headerVariant,
     className, 
     isOpen,
-    onOpenChangeCallback, 
-    onClosePressCallback,
+    onOpenChange, 
+    onPressClose,
     placement,
     docker,
     children,
@@ -60,7 +60,7 @@ export const PopoverSheet = ({
         placement={ placement || "bottom" }
         className={ classNames(sheetStyles.popOverSheet , className) }
         isOpen={ isOpen }
-        onOpenChange={ onOpenChangeCallback } 
+        onOpenChange={ onOpenChange } 
         isKeyboardDismissDisabled={ dismissEscapeKeyClose }
         style={{
           "--sheet-sticky-header": popoverHeaderRef.current ? `${ popoverHeaderRef.current.clientHeight }px` : undefined
@@ -88,13 +88,13 @@ export const PopoverSheet = ({
                 ref={ popoverCloseRef }
                 className={ classNames(className, readerSharedUI.backButton) } 
                 aria-label={ Locale.reader.app.back.trigger }
-                onPress={ onClosePressCallback }
+                onPress={ onPressClose }
               />
               : <Docker 
                 id={ id }
                 keys={ docker || [] }
                 ref={ popoverCloseRef }
-                onCloseCallback={ onClosePressCallback }
+                onClose={ onPressClose }
               />
           }
         </ThContainerHeader>

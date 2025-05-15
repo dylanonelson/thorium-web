@@ -55,7 +55,7 @@ export const ReadingDisplayText = () => {
       heading={ Locale.reader.settings.text.title }
       moreLabel={ Locale.reader.settings.text.advanced.trigger }
       moreTooltip={ Locale.reader.settings.text.advanced.tooltip }
-      onMorePressCallback={ setTextContainer }
+      onPressMore={ setTextContainer }
       settingsMap={ TextSettingsMap }
       prefs={ RSPrefs.settings.text }
       defaultPrefs={ {

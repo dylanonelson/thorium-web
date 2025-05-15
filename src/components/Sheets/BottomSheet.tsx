@@ -40,8 +40,8 @@ export const BottomSheet = ({
   headerVariant,
   className, 
   isOpen,
-  onOpenChangeCallback, 
-  onClosePressCallback,
+  onOpenChange, 
+  onPressClose,
   children,
   resetFocus,
   dismissEscapeKeyClose
@@ -186,11 +186,11 @@ export const BottomSheet = ({
           sheetRef.current?.snapTo(snapIdx.current - 1);
           break;
         case "PageDown":
-          onClosePressCallback();
+          onPressClose();
           break;
         case "ArrowDown":
           if (snapIdx.current === snapArray.length - 1) {
-            onClosePressCallback();
+            onPressClose();
             break;
           }
           sheetRef.current?.snapTo(snapIdx.current + 1)
@@ -199,7 +199,7 @@ export const BottomSheet = ({
           break;
       }
     }
-  }, [snapArray, onClosePressCallback]);
+  }, [snapArray, onPressClose]);
 
   const maxWidthPref = useMemo(() => {
     const maxWidth = RSPrefs.actions.keys[id].snapped?.maxWidth;
@@ -256,7 +256,7 @@ export const BottomSheet = ({
           fallbackRef: bottomSheetCloseRef,
           updateState: resetFocus
         }}
-        onOpenChange={ onOpenChangeCallback }
+        onOpenChange={ onOpenChange }
         isKeyboardDismissDisabled={ dismissEscapeKeyClose }
         { ...(snapArray.length > 1 
           ? { 
@@ -313,13 +313,13 @@ export const BottomSheet = ({
               ref={ bottomSheetCloseRef }
               className={ classNames(className, readerSharedUI.backButton) } 
               aria-label={ Locale.reader.app.back.trigger }
-              onPress={ onClosePressCallback }
+              onPress={ onPressClose }
             /> 
             : <ThCloseButton
               ref={ bottomSheetCloseRef }
               className={ readerSharedUI.closeButton } 
               aria-label={ Locale.reader.app.docker.close.trigger } 
-              onPress={ onClosePressCallback }
+              onPress={ onPressClose }
             />
           }
         </ThContainerHeader>

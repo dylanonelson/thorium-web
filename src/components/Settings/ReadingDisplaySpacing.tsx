@@ -59,7 +59,7 @@ export const ReadingDisplaySpacing = () => {
       heading={ Locale.reader.settings.spacing.title }
       moreLabel={ Locale.reader.settings.spacing.advanced.trigger }
       moreTooltip={ Locale.reader.settings.spacing.advanced.tooltip }
-      onMorePressCallback={ setSpacingContainer }
+      onPressMore={ setSpacingContainer }
       settingsMap={ StatefulSpacingSettingsMap }
       prefs={ RSPrefs.settings.spacing }
       defaultPrefs={ {
