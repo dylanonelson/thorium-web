@@ -2,7 +2,7 @@
 
 import { useCallback, useContext, useEffect, useState } from "react";
 
-import { ActionsDockedPref, PreferencesContext } from "@/preferences";
+import { ThActionsDockedPref, PreferencesContext } from "@/preferences";
 
 import { DockStateObject } from "@/lib/actionsReducer";
 
@@ -13,7 +13,7 @@ import { useAppSelector } from "@/lib/hooks";
 export const useRezisablePanel = (panel: DockStateObject) => {
   const RSPrefs = useContext(PreferencesContext);
   const defaultWidth = RSPrefs.theming.layout.defaults.dockingWidth;
-  const [pref, setPref] = useState<ActionsDockedPref | null>(
+  const [pref, setPref] = useState<ThActionsDockedPref | null>(
     panel.actionKey ? RSPrefs.actions.keys[panel.actionKey].docked || null : null
   );
 

@@ -1,6 +1,6 @@
 import React, { KeyboardEvent, useCallback, useContext, useMemo, useRef } from "react";
 
-import { BottomSheetDetent, PreferencesContext, SheetHeaderVariant } from "@/preferences";
+import { ThBottomSheetDetent, PreferencesContext, SheetHeaderVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -55,7 +55,7 @@ export const BottomSheet = ({
   const bottomSheetBodyRef = useRef<HTMLDivElement | null>(null);
   const bottomSheetCloseRef = useRef<HTMLButtonElement | null>(null);
 
-  const detent = useRef<BottomSheetDetent>("full-height");
+  const detent = useRef<ThBottomSheetDetent>("full-height");
   const isDraggable = useRef<boolean>(true);
 
   const snapArray = useMemo(() => {
