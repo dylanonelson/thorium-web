@@ -7,7 +7,6 @@ import dockerStyles from "../../assets/styles/docking.module.css";
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import { DockingKeys } from "@/preferences/models/enums";
-import { IDocker } from "@/models/docking";
 import { StatefulActionsMapObject } from "@/models/actions";
 
 import { Toolbar } from "react-aria-components";
@@ -18,6 +17,7 @@ import { DockStartAction } from "./DockStartAction";
 import { DockEndAction } from "./DockEndAction";
 import { PopoverSheetAction } from "./PopoverSheetAction";
 import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 const DockingActionsMap: { [key in DockingKeys]: StatefulActionsMapObject } = {
   [DockingKeys.start]: {
@@ -31,12 +31,19 @@ const DockingActionsMap: { [key in DockingKeys]: StatefulActionsMapObject } = {
   }
 };
 
+export interface StatefulDockerProps {
+  id: ActionsStateKeys;
+  keys: DockingKeys[];
+  ref: React.ForwardedRef<HTMLButtonElement>;
+  onCloseCallback: () => void;
+}
+
 export const Docker = ({
   id,
   keys,
   ref,
   onCloseCallback
-}: IDocker) => {
+}: StatefulDockerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const listActionItems = useCallback(() => {
     const actionsItems: ThActionEntry<DockingKeys>[] = [];

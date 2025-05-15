@@ -8,7 +8,6 @@ import dockStyles from "./assets/styles/docking.module.css";
 
 import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
-import { IDockPanelSizes } from "@/models/docking";
 import { DockingTypes, DockingKeys, ThLayoutDirection } from "@/preferences/models/enums";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
@@ -19,6 +18,13 @@ import { activateDockPanel, collapseDockPanel, deactivateDockPanel, expandDockPa
 import { makeBreakpointsMap } from "@/packages/Helpers/breakpointsMap";
 import classNames from "classnames";
 import parseTemplate from "json-templates";
+
+export interface DockPanelSizes {
+  width: number;
+  minWidth: number;
+  maxWidth: number;
+  getCurrentPxWidth: (percentage: number) => number;
+}
 
 const DockHandle = ({
   flow,
@@ -71,7 +77,7 @@ const DockPanel = ({
 }: {
   actionKey: ActionsStateKeys | null;
   flow: DockingKeys.start | DockingKeys.end;
-  sizes: IDockPanelSizes;
+  sizes: DockPanelSizes;
   isResizable: boolean;
   isPopulated: boolean;
   isCollapsed: boolean;

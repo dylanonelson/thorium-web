@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { ActionKeys, DockingKeys } from "@/preferences/models/enums";
-import { Docked } from "@/models/docking";
 
 export type ActionsStateKeys = Exclude<ActionKeys, ActionKeys.fullscreen>;
 export type OverflowStateKeys = string;
@@ -14,6 +13,13 @@ export interface ActionStateObject {
 
 export interface OverflowStateObject {
   isOpen: boolean;
+}
+
+export interface DockStateObject {
+  actionKey: ActionsStateKeys | null;
+  active: boolean;
+  collapsed: boolean;
+  width?: number;
 }
 
 export interface ActionStateDockPayload {
@@ -51,7 +57,7 @@ export interface ActionStateDockedPayload {
   type: string;
   payload: { 
     slot: DockingKeys.start | DockingKeys.end;
-    docked: Docked;
+    docked: DockStateObject;
   }
 }
 
@@ -69,8 +75,8 @@ export interface ActionStateSlotWidthPayload {
 }
 
 export interface DockState {
-  [DockingKeys.start]: Docked;
-  [DockingKeys.end]: Docked;
+  [DockingKeys.start]: DockStateObject;
+  [DockingKeys.end]: DockStateObject;
 }
 
 export type ActionsReducerState = {
