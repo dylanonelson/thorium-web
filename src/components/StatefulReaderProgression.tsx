@@ -11,7 +11,7 @@ import { useAppSelector } from "@/lib/hooks";
 
 import parseTemplate from "json-templates";
 
-export interface ProgressionObject {
+export interface UnstableProgressionObject {
   totalPositions?: number;
   currentPositions?: number[];
   relativeProgression?: number;
@@ -22,7 +22,7 @@ export interface ProgressionObject {
 
 export const StatefulReaderProgression = () => {
   const jsonTemplate = parseTemplate(Locale.reader.app.progression.of);
-  const progression: ProgressionObject = useAppSelector(state => state.publication.progression);
+  const progression: UnstableProgressionObject = useAppSelector(state => state.publication.progression);
 
   const [current, setCurrent] = useState("");
   const [reference, setReference] = useState("");
