@@ -35,6 +35,7 @@ export interface ThDropdownProps extends SelectProps {
     label?: LabelProps;
     /**
      * Props for the button component. See `ThDropdownButtonProps` for more information.
+     * Alternatively you can provide your own Button component
      */
     button?: ButtonProps | React.ReactElement<HTMLButtonElement>;
     /**
@@ -43,8 +44,9 @@ export interface ThDropdownProps extends SelectProps {
     popover?: PopoverProps;
     /**
      * Props for the listbox component. See `LisboxProps` for more information.
+     * Alternatively you can provide your own Listbox component
      */
-    listbox?: ListBoxProps<ThDropdownEntry> | React.ReactElement<HTMLDivElement>;
+    listbox?: ListBoxProps<ThDropdownEntry> | React.ReactElement<typeof ListBox | HTMLDivElement>;
     /**
      * Props for the listboxItem component. See `ListBoxItemProps` for more information.
      */

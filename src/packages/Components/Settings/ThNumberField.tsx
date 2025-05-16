@@ -5,7 +5,18 @@ import { ComponentType, SVGProps } from "react";
 import AddIcon from "./assets/icons/add.svg";
 import RemoveIcon from "./assets/icons/remove.svg";
 
-import { Button, Group, Input, Label, NumberField, NumberFieldProps } from "react-aria-components";
+import { 
+  Button, 
+  ButtonProps, 
+  Group, 
+  GroupProps, 
+  Input, 
+  InputProps, 
+  Label, 
+  LabelProps, 
+  NumberField, 
+  NumberFieldProps 
+} from "react-aria-components";
 
 export interface ThNumberFieldProps extends Omit<NumberFieldProps, "minValue" | "maxValue" | "decrementAriaLabel" | "incrementAriaLabel"> {
   ref?: React.ForwardedRef<HTMLInputElement>;
@@ -18,11 +29,23 @@ export interface ThNumberFieldProps extends Omit<NumberFieldProps, "minValue" | 
     incrementIcon?: ComponentType<SVGProps<SVGElement>> | null;
     incrementLabel: string;
   };
-  classNames?: {
-    group?: string;
-    input?: string;
-    label?: string;
-    stepper?: string;
+  compounds?: {
+    /**
+     * Props for the Group component. See `GroupProps` for more information.
+     */
+    group?: GroupProps;
+    /**
+     * Props for the Input component. See `InputProps` for more information.
+     */
+    input?: InputProps;
+    /**
+     * Props for the Label component. See `LabelProps` for more information.
+     */
+    label?: LabelProps;
+    /**
+     * Props for the Button component used for decrement/increment. See `ButtonProps` for more information.
+     */
+    stepper?: ButtonProps;
   };
 }
 
@@ -32,7 +55,7 @@ export const ThNumberField = ({
   range,
   isVirtualKeyboardDisabled,
   steppers,
-  classNames,
+  compounds,
   ...props
 }: ThNumberFieldProps) => {
 
@@ -45,16 +68,16 @@ export const ThNumberField = ({
       incrementAriaLabel={ steppers?.incrementLabel }
       { ...props }
     >
-      { label && <Label className={ classNames?.label }>
+      { label && <Label { ...compounds?.label }>
           { label }
         </Label>
       }
 
-      <Group className={ classNames?.group }>
+      <Group { ...compounds?.group }>
         { steppers && 
           <Button 
+          { ...compounds?.stepper }
           slot="decrement" 
-          className={ classNames?.stepper }
         >
           { steppers.decrementIcon 
             ? <steppers.decrementIcon aria-hidden="true" focusable="false" /> 
@@ -63,14 +86,14 @@ export const ThNumberField = ({
         }
 
         <Input 
-          className={ classNames?.input } 
+          { ...compounds?.input } 
           { ...(isVirtualKeyboardDisabled ? { inputMode: "none" } : {}) } 
         />
 
         { steppers && 
           <Button 
+            { ...compounds?.stepper }
             slot="increment" 
-            className={ classNames?.stepper }
           >
             { steppers.incrementIcon 
               ? <steppers.incrementIcon aria-hidden="true" focusable="false" /> 

@@ -17,10 +17,16 @@ export const StatefulRadioGroup = ({
     { ...props }
     { ...(standalone ? { label: label } : { "aria-label": label }) }
     className={ standalone ? settingsStyles.readerSettingsGroup : "" }
-    classNames={{
-      wrapper: settingsStyles.readerSettingsRadioWrapper,
-      label: settingsStyles.readerSettingsLabel,
-      radio: settingsStyles.readerSettingsRadio
+    compounds={{
+      wrapper: {
+        className: settingsStyles.readerSettingsRadioWrapper
+      },
+      label: {
+        className: settingsStyles.readerSettingsLabel
+      },
+      radio: {
+        className: settingsStyles.readerSettingsRadio
+      }
     }}
   >
     { props.children }

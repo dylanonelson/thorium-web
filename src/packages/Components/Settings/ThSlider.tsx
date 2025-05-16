@@ -1,16 +1,39 @@
 "use client";
 
-import { Label, Slider, SliderOutput, SliderProps, SliderThumb, SliderTrack } from "react-aria-components";
+import { 
+  Label, 
+  LabelProps, 
+  Slider, 
+  SliderOutput, 
+  SliderOutputProps, 
+  SliderProps, 
+  SliderThumb, 
+  SliderThumbProps, 
+  SliderTrack, 
+  SliderTrackProps 
+} from "react-aria-components";
 
 export interface ThSliderProps extends Omit<SliderProps, "minValue" | "maxValue"> {
   ref?: React.ForwardedRef<HTMLDivElement>;
   label?: string;
   range: number[];
-  classNames?: {
-    label?: string;
-    output?: string;
-    track?: string;
-    thumb?: string;
+  compounds?: {
+    /**
+     * Props for the label component. See `LabelProps` for more information.
+     */
+    label?: LabelProps;
+    /**
+     * Props for the slider output component. See `SliderOutputProps` for more information.
+     */
+    output?: SliderOutputProps;
+    /**
+     * Props for the slider track component. See `SliderTrackProps` for more information.
+     */
+    track?: SliderTrackProps;
+    /**
+     * Props for the slider thumb component. See `SliderThumbProps` for more information.
+     */
+    thumb?: SliderThumbProps;
   };
 }
 
@@ -18,7 +41,7 @@ export const ThSlider = ({
   ref,
   label,
   range,
-  classNames,
+  compounds,
   ...props
 }: ThSliderProps) => {
   return(
@@ -29,13 +52,13 @@ export const ThSlider = ({
       maxValue={ Math.max(...range) }
       { ...props }
     >
-      { label && <Label className={ classNames?.label }>
+      { label && <Label { ...compounds?.label }>
           { label }
         </Label> 
       }
-      <SliderOutput className={ classNames?.output } />
-      <SliderTrack className={ classNames?.track }>
-        <SliderThumb className={ classNames?.thumb } />
+      <SliderOutput { ...compounds?.output } />
+      <SliderTrack { ...compounds?.track }>
+        <SliderThumb { ...compounds?.thumb } />
       </SliderTrack>
     </Slider>
     </>
