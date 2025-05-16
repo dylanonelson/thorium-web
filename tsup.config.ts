@@ -8,8 +8,12 @@ export default defineConfig({
     components: "src/packages/Components/index.ts",
     helpers: "src/packages/Helpers/index.ts",
     hooks: "src/packages/Hooks/index.ts",
-    redux: "src/lib/index.ts",
-    preferences: "src/preferences/index.ts"
+    lib: "src/lib/index.ts",
+    preferences: "src/preferences/index.ts",
+    statefulComponents: "src/components/index.ts"
+  },
+  loader: {
+    ".css": "local-css"
   },
   esbuildPlugins: [svgrPlugin()],
   splitting: false,
@@ -18,6 +22,6 @@ export default defineConfig({
   dts: true,
   treeshake: false,
   bundle: true,
-  noExternal: ["debounce", "react-resizable-panels", "react-modal-sheet"]
+  noExternal: ["classNames", "debounce", "json-templates"]
   // noExternal: [/(.*)/] That’s to bundle everything, including dependencies
 });

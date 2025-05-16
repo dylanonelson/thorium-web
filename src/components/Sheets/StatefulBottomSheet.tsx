@@ -1,6 +1,6 @@
 "use client";
 
-import React, { KeyboardEvent, useCallback, useContext, useMemo, useRef } from "react";
+import React, { CSSProperties, KeyboardEvent, useCallback, useContext, useMemo, useRef } from "react";
 
 import { ThBottomSheetDetent, PreferencesContext, ThSheetHeaderVariant } from "@/preferences";
 
@@ -277,8 +277,8 @@ export const StatefulBottomSheet = ({
             className: classNames(sheetStyles.bottomSheetModal, detentClassName),
             ref: sheetContainerRef,
             style: {
-              maxWidth: maxWidthPref
-            }
+              maxWidth: maxWidthPref 
+            } as CSSProperties
           },
           dragIndicator: {
             className: sheetStyles.dragIndicator,

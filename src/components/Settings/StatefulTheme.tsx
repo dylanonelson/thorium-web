@@ -55,7 +55,9 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
   // It’s easier to inline styles from preferences for these
   // than spamming the entire app with all custom properties right now
   const doStyles = (t: ThThemeKeys) => {
-    let cssProps: CSSProperties = {
+    // For some reason Typescript will just refuse to create dts files
+    // for the packages if we set it to CSSProperties…
+    let cssProps: any = {
       boxSizing: "border-box",
       color: "#999999"
     };

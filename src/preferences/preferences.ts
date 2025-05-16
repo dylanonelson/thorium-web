@@ -91,6 +91,9 @@ export type ThSettingsKeyTypes = {
 
 export type ThConstraintKeys = Extract<ThSheetTypes, ThSheetTypes.bottomSheet | ThSheetTypes.popover>;
 
+// TODO: Improve generics when time allows… 
+// This is tricky to do in a rush since there are so many
+// things you can customize across the app
 export interface ThPreferences<
   CustomActionKeys extends string | number | symbol = ThActionsKeys,
   CustomDockingKeys extends string | number | symbol = ThDockingKeys,
