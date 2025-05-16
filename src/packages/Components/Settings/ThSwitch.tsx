@@ -1,29 +1,40 @@
 "use client";
 
-import { Heading, Switch, SwitchProps } from "react-aria-components";
+import { HTMLAttributesWithRef } from "../HTMLAttributesWithRef";
+
+import { Heading, HeadingProps, Switch, SwitchProps } from "react-aria-components";
 
 export interface ThSwitchProps extends SwitchProps {
   ref?: React.ForwardedRef<HTMLLabelElement>;
   label: string;
   heading?: string;
-  classNames?: {
-    wrapper?: string;
-    heading?: string;
-    indicator?: string;
+  compounds?: {
+    /**
+     * Props for the wrapper component. See `HTMLAttributesWithRef` for more information.
+     */
+    wrapper?: HTMLAttributesWithRef<HTMLDivElement>;
+    /**
+     * Props for the heading component. See `HeadingProps` for more information.
+     */
+    heading?: HeadingProps;
+    /**
+     * Props for the indicator component. See `HTMLAttributesWithRef` for more information.
+     */
+    indicator?: HTMLAttributesWithRef<HTMLDivElement>;
   }
 }
 
 export const ThSwitch = ({
   ref,
   label,
-  classNames,
+  compounds,
   heading, 
   ...props
 }: ThSwitchProps) => {
   return(
     <>
-    <div className={ classNames?.wrapper }>
-      { heading && <Heading className={ classNames?.heading }>
+    <div { ...compounds?.wrapper }>
+      { heading && <Heading { ...compounds?.heading }>
           { heading }
         </Heading> 
       }
@@ -31,7 +42,7 @@ export const ThSwitch = ({
         ref={ ref }
         { ...props }
       >
-        <div className={ classNames?.indicator } />
+        <div { ...compounds?.indicator } />
         { label }
       </Switch>
     </div>

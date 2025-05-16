@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
+import { KeyboardProps } from "react-aria";
 
-import { Keyboard, MenuItem, MenuItemProps, Text } from "react-aria-components";
+import { Keyboard, LabelProps, MenuItem, MenuItemProps, Text } from "react-aria-components";
 
 export interface ThMenuItemProps extends MenuItemProps {
   ref?: React.Ref<HTMLLIElement>;
@@ -10,9 +11,9 @@ export interface ThMenuItemProps extends MenuItemProps {
   SVGIcon?: React.ComponentType<React.SVGProps<SVGElement>>;
   label: string;
   shortcut?: string;
-  classNames?: {
-    label: string;
-    shortcut: string;
+  compounds?: {
+    label: LabelProps;
+    shortcut: KeyboardProps;
   }
 }
 
@@ -22,7 +23,7 @@ export const ThMenuItem = ({
   SVGIcon,
   label, 
   shortcut,
-  classNames,
+  compounds,
   children,
   ...props
 }: ThMenuItemProps) => {
@@ -40,13 +41,13 @@ export const ThMenuItem = ({
         : <>
           { SVGIcon && <SVGIcon aria-hidden="true" focusable="false" /> }
           <Text 
-            className={ classNames?.label } 
+            { ...compounds?.label } 
             slot="label"
             id={ menuItemLabelId }
           >
             { label }
           </Text>
-          { shortcut && <Keyboard className={ classNames?.shortcut }>{ shortcut }</Keyboard> }
+          { shortcut && <Keyboard { ...compounds?.shortcut }>{ shortcut }</Keyboard> }
         </>
       }
     </MenuItem>

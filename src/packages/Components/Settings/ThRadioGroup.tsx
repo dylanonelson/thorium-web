@@ -1,12 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { ComponentType, SVGProps } from "react";
 
-import { ComponentType, SVGProps } from "react";
+import { HTMLAttributesWithRef } from "../HTMLAttributesWithRef";
 
-import { Label, Radio, RadioGroup, RadioGroupProps } from "react-aria-components"
+import { 
+  Label, 
+  LabelProps, 
+  Radio, 
+  RadioGroup, 
+  RadioGroupProps, 
+  RadioProps 
+} from "react-aria-components"
 
-export interface RadioGroupItems {
+export interface ThRadioGroupItems {
   value: string;
   icon?: ComponentType<SVGProps<SVGElement>>;
   label: string;
@@ -16,12 +23,24 @@ export interface RadioGroupItems {
 export interface ThRadioGroupProps extends RadioGroupProps {
   ref?: React.ForwardedRef<HTMLDivElement>;
   label?: string;
-  items?: RadioGroupItems[];
-  classNames?: {
-    wrapper?: string;
-    label?: string;
-    radio?: string;
-    radioLabel?: string;
+  items?: ThRadioGroupItems[];
+  compounds?: {
+    /**
+     * Props for the wrapper component. See `HTMLAttributesWithRef` for more information.
+     */
+    wrapper?: HTMLAttributesWithRef<HTMLDivElement>;
+    /**
+     * Props for the label component. See `LabelProps` for more information.
+     */
+    label?: LabelProps;
+    /**
+     * Props for the radio component. See `RadioProps` for more information.
+     */
+    radio?: Omit<RadioProps, "value">;
+    /**
+     * Props for the radio label component. See `HTMLAttributesWithRef` for more information.
+     */
+    radioLabel?: HTMLAttributesWithRef<HTMLSpanElement>;
   }
 }
 
@@ -29,7 +48,7 @@ export const ThRadioGroup = ({
   ref,
   label,
   items,
-  classNames,
+  compounds,
   children,
   ...props
 }: ThRadioGroupProps) => {
@@ -39,7 +58,7 @@ export const ThRadioGroup = ({
         ref={ ref }
         { ...props }
       >
-        { label && <Label className={ classNames?.label }>
+        { label && <Label { ...compounds?.label }>
             { label }
           </Label> 
         }
@@ -51,21 +70,23 @@ export const ThRadioGroup = ({
       <RadioGroup 
         { ...props }
       >
-        { label && <Label className={ classNames?.label }>
+        { label && <Label { ...compounds?.label }>
             { label }
           </Label> 
         }
-        <div className={ classNames?.wrapper}>
+        <div { ...compounds?.wrapper }>
           { items.map((item, index) => (
             <Radio 
+              { ...compounds?.radio }
               key={ index }
               value={ item.value }
-              className={ classNames?.radio }
             >
-              { item.icon && <item.icon aria-hidden="true" focusable="false" /> }
-              <span className={ classNames?.radioLabel }>
-                { item.label }
-              </span> 
+              <React.Fragment>
+                { item.icon && <item.icon aria-hidden="true" focusable="false" /> }
+                <span { ...compounds?.radioLabel }>
+                  { item.label }
+                </span> 
+              </React.Fragment>
             </Radio>
           )) }
         </div>
