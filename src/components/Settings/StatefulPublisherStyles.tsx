@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useContext, useRef } from "react";
 
 import { defaultLineHeights, ThLineHeightOptions, PreferencesContext, ThSettingsKeys } from "@/preferences";

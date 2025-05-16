@@ -1,3 +1,5 @@
+"use client";
+
 import settingsStyles from "../assets/styles/settings.module.css";
 
 import { ThRadioGroup, ThRadioGroupProps } from "@/packages/Components/Settings/ThRadioGroup"

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useCallback, useContext } from "react";
 
 import { defaultFontSize, PreferencesContext, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
