@@ -66,7 +66,7 @@ export interface ThDockingPref<T extends string | number | symbol> {
   }
 };
 
-export interface ThSettingsGroupPref<T extends keyof typeof ThSettingsKeys> {
+export interface ThSettingsGroupPref<T> {
   main?: T[];
   subPanel?: T[] | null;
   header?: ThSheetHeaderVariant;
@@ -97,6 +97,8 @@ export interface ThPreferences<
   CustomThemeKeys extends string | number | symbol = ThThemeKeys,
   CustomSettingsKeys extends string | number | symbol = ThSettingsKeys,
   CustomSettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>> = ThSettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>> ? ThSettingsKeyTypes : never,
+  CustomTextSettingsKeys extends string | number | symbol = ThTextSettingsKeys,
+  CustomSpacingSettingsKeys extends string | number | symbol = ThSpacingSettingsKeys,
   CustomConstraintsKeys extends string | number | symbol = ThConstraintKeys
 > {
   direction?: ThLayoutDirection,
@@ -154,9 +156,8 @@ export interface ThPreferences<
     reflowOrder: CustomSettingsKeys[];
     fxlOrder: CustomSettingsKeys[];
     keys?: CustomSettingsKeyTypes;
-    // TODO: CUSTOMIZABLE
-    text?: ThSettingsGroupPref<ThTextSettingsKeys>;
-    spacing?: ThSettingsGroupPref<ThSpacingSettingsKeys>;
+    text?: ThSettingsGroupPref<CustomTextSettingsKeys>;
+    spacing?: ThSettingsGroupPref<CustomSpacingSettingsKeys>;
   };
 }
 
