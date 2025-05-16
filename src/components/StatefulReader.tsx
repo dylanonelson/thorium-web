@@ -62,6 +62,8 @@ import { localData } from "@/packages/Helpers/localData";
 import { getPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
 import { createTocTree, TocItem } from "@/packages/Helpers/createTocTree";
 
+import { actionsComponentsMap } from "./Actions/ActionsComponentsMap";
+
 import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
 import { setTheme } from "@/lib/themeReducer";
@@ -709,7 +711,7 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
     <main>
       <StatefulDockingWrapper>
         <div id="reader-main">
-          <StatefulReaderHeader />
+          <StatefulReaderHeader componentsMap={ actionsComponentsMap} />
 
         { isPaged 
           ? <nav className={ arrowStyles.container } id={ arrowStyles.left }>

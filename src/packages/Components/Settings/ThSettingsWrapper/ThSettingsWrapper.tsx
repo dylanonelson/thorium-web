@@ -16,7 +16,7 @@ export interface ThSettingsPrefs {
 }
 
 export interface ThSettingsWrapperProps extends HTMLAttributesWithRef<HTMLDivElement> {
-  items: { [key: string]: ThSettingsEntry };
+  items?: { [key: string]: ThSettingsEntry } | null;
   prefs: ThSettingsPrefs;
   compounds?: {
     /**
@@ -45,31 +45,33 @@ export const ThSettingsWrapper = ({
   const main = prefs.main;
   const displayOrder = prefs.subPanel;
   
-  const isAdvanced = (
+  const isAdvanced = items &&(
     main.length < Object.keys(items).length && 
     displayOrder && displayOrder.length > 0
   );
 
-  return(
-    <>
-    <div 
-      ref={ ref }
-      { ...props }
-    >
-      { isAdvanced && compounds?.label &&
-        <Heading { ...compounds?.heading }>
-          { compounds.label }
-        </Heading> }
-      { main.map((key, index) => {
-        const { Comp } = items[key];
-        return <Comp key={ key } standalone={ !isAdvanced || index !== 0 } { ...props } />;
-      }) }
-      { isAdvanced && (
-        <ThSettingsWrapperButton
-          { ...compounds?.button }
-        />
-      ) }
-    </div>
-    </>
-  )
+  if (items) {
+    return(
+      <>
+      <div 
+        ref={ ref }
+        { ...props }
+      >
+        { isAdvanced && compounds?.label &&
+          <Heading { ...compounds?.heading }>
+            { compounds.label }
+          </Heading> }
+        { main.map((key, index) => {
+          const { Comp } = items[key];
+          return <Comp key={ key } standalone={ !isAdvanced || index !== 0 } { ...props } />;
+        }) }
+        { isAdvanced && (
+          <ThSettingsWrapperButton
+            { ...compounds?.button }
+          />
+        ) }
+      </div>
+      </>
+    )
+  }
 }

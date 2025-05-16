@@ -28,27 +28,14 @@ import settingsStyles from "../Settings/assets/styles/settings.module.css";
 
 import TuneIcon from "./assets/icons/match_case.svg";
 
+import { spacingComponentsMap, textComponentsMap } from "../Settings/SettingsComponentsMap";
+
 import { StatefulSheetWrapper } from "../Sheets/StatefulSheetWrapper";
 import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
 
-import { StatefulTextAlign } from "../Settings/StatefulTextAlign";
-import { StatefulColumns } from "../Settings/StatefulColumns";
-import { StatefulFontFamily } from "../Settings/StatefulFontFamily";
-import { StatefulFontWeight } from "../Settings/StatefulFontWeight";
-import { StatefulHyphens } from "../Settings/StatefulHyphens";
-import { StatefulLayout } from "../Settings/StatefulLayout";
-import { StatefulLetterSpacing } from "../Settings/StatefulLetterSpacing";
-import { StatefulLineHeight } from "../Settings/StatefulLineHeight";
-import { StatefulParagraphIndent } from "../Settings/StatefulParagraphIndent";
-import { StatefulParagraphSpacing } from "../Settings/StatefulParagraphSpacing";
-import { StatefulPublisherStyles } from "../Settings/StatefulPublisherStyles";
-import { StatefulSpacingGroup, StatefulSpacingGroupContainer } from "../Settings/StatefulSpacingGroup";
-import { StatefulTextGroup, StatefulTextGroupContainer } from "../Settings/StatefulTextGroup";
-import { StatefulTextNormalize } from "../Settings/StatefulTextNormalize";
-import { StatefulTheme } from "../Settings/StatefulTheme";
-import { StatefulWordSpacing } from "../Settings/StatefulWordSpacing";
-import { StatefulZoom } from "../Settings/StatefulZoom";
+import { StatefulSpacingGroupContainer } from "../Settings/StatefulSpacingGroup";
+import { StatefulTextGroupContainer } from "../Settings/StatefulTextGroup";
 
 import { useDocking } from "../Docking/hooks/useDocking";
 
@@ -56,64 +43,14 @@ import { setHovering, setSettingsContainer } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
-const SettingsMap: { [key in ThSettingsKeys]: StatefulSettingsMapObject } = {
-  [ThSettingsKeys.columns]: {
-    Comp: StatefulColumns
-  },
-  [ThSettingsKeys.fontFamily]: {
-    Comp: StatefulFontFamily
-  },
-  [ThSettingsKeys.fontWeight]: {
-    Comp: StatefulFontWeight
-  },
-  [ThSettingsKeys.hyphens]: {
-    Comp: StatefulHyphens
-  },
-  [ThSettingsKeys.layout]: {
-    Comp: StatefulLayout
-  },
-  [ThSettingsKeys.letterSpacing]: {
-    Comp: StatefulLetterSpacing
-  },
-  [ThSettingsKeys.lineHeight]: {
-    Comp: StatefulLineHeight
-  },
-  [ThSettingsKeys.paragraphIndent]: {
-    Comp: StatefulParagraphIndent
-  },
-  [ThSettingsKeys.paragraphSpacing]: {
-    Comp: StatefulParagraphSpacing
-  },
-  [ThSettingsKeys.publisherStyles]: {
-    Comp: StatefulPublisherStyles
-  },
-  [ThSettingsKeys.spacingGroup]: {
-    Comp: StatefulSpacingGroup
-  },
-  [ThSettingsKeys.textAlign]: {
-    Comp: StatefulTextAlign
-  },
-  [ThSettingsKeys.textGroup]: {
-    Comp: StatefulTextGroup
-  },
-  [ThSettingsKeys.textNormalize]: {
-    Comp: StatefulTextNormalize
-  },
-  [ThSettingsKeys.theme]: {
-    Comp: StatefulTheme,
-    props: {
-      mapArrowNav: 2
-    }
-  },
-  [ThSettingsKeys.wordSpacing]: {
-    Comp: StatefulWordSpacing
-  },
-  [ThSettingsKeys.zoom]: {
-    Comp: StatefulZoom
-  }
+export interface StatefulSettingsContainerProps extends StatefulActionContainerProps {
+  componentsMap: { [key: string | number | symbol]: StatefulSettingsMapObject }
 }
 
-export const StatefulSettingsContainer = ({ triggerRef }: StatefulActionContainerProps) => {
+export const StatefulSettingsContainer = ({ 
+  triggerRef,
+  componentsMap
+}: StatefulSettingsContainerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const contains = useAppSelector(state => state.reader.settingsContainer);
@@ -160,10 +97,10 @@ export const StatefulSettingsContainer = ({ triggerRef }: StatefulActionContaine
   const renderSettings = useCallback(() => {
     switch (contains) {
       case ThSettingsContainerKeys.text:
-        return <StatefulTextGroupContainer />;
+        return <StatefulTextGroupContainer componentsMap={ textComponentsMap }/>;
       
       case ThSettingsContainerKeys.spacing:
-        return <StatefulSpacingGroupContainer />;
+        return <StatefulSpacingGroupContainer componentsMap={ spacingComponentsMap} />;
 
       case ThSettingsContainerKeys.initial:
       default:
@@ -171,9 +108,9 @@ export const StatefulSettingsContainer = ({ triggerRef }: StatefulActionContaine
           <>
             {
               settingItems.current
-                .filter((key: ThSettingsKeys) => !(isTextNested(key) || isSpacingNested(key)))
+                .filter((key) => !(isTextNested(key) || isSpacingNested(key)))
                 .map((key: ThSettingsKeys) => {
-                  const setting = SettingsMap[key];
+                  const setting = componentsMap[key];
                   return <setting.Comp key={ key } { ...setting.props } />;
                 })
             }
