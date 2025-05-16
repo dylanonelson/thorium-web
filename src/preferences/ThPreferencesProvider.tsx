@@ -15,7 +15,7 @@ export default function ThPreferencesProvider<T extends ThPreferences>({
   children: React.ReactNode;
 }) {
   return (
-    <PreferencesContext.Provider value={value || (defaultPreferences)}>
+    <PreferencesContext.Provider value={ value || (defaultPreferences) }>
       {children}
     </PreferencesContext.Provider>
   );

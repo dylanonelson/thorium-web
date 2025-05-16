@@ -1,5 +1,5 @@
 // Peripherals based on XBReader
-import { defaultPreferences } from "@/preferences";
+import { ThActionsPref } from "@/preferences";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
 
@@ -26,13 +26,15 @@ export default class Peripherals {
   private targets: EventTarget[] = [];
   private readonly callbacks: PCallbacks;
   private readonly store: ReturnType<typeof useAppStore>;
+  private readonly actionsPref: ThActionsPref<ThActionsKeys> | undefined;
   private readonly shortcuts: PShortcuts;
 
-  constructor(store: ReturnType<typeof useAppStore>, callbacks: PCallbacks) {
+  constructor(store: ReturnType<typeof useAppStore>, actionsPref: ThActionsPref<ThActionsKeys> | undefined, callbacks: PCallbacks) {
     this.observers.forEach((method) => {
       (this as any)["on" + method] = (this as any)["on" + method].bind(this);
     });
     this.store = store;
+    this.actionsPref = actionsPref;
     this.callbacks = callbacks;
     this.shortcuts = this.retrieveShortcuts();
   }
@@ -42,10 +44,12 @@ export default class Peripherals {
   }
 
   private retrieveShortcuts() {
+    if (!this.actionsPref) return {};
+
     const shortcutsObj: PShortcuts = {};
 
-    for (const actionKey of defaultPreferences.actions.displayOrder) {
-      const shortcutString = defaultPreferences.actions.keys[actionKey as keyof typeof ThActionsKeys].shortcut;
+    for (const actionKey of this.actionsPref.displayOrder) {
+      const shortcutString = this.actionsPref.keys[actionKey as keyof typeof ThActionsKeys].shortcut;
       
       if (shortcutString) {
         const shortcutObj = buildShortcut(shortcutString);

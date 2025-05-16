@@ -111,10 +111,12 @@ const initialState: ActionsReducerState = {
       isOpen: null,
       docking: null
     },
+    /*
     [ThActionsKeys.jumpToPosition]: {
       isOpen: null,
       docking: null
     },
+    */
     [ThActionsKeys.layoutStrategy]: {
       isOpen: null,
       docking: null
@@ -129,7 +131,7 @@ export const actionsSlice = createSlice({
   reducers: {
     dockAction: (state, action: ActionStateDockPayload) => {
       switch (action.payload.key) {
-        case ThActionsKeys.jumpToPosition:
+      //  case ThActionsKeys.jumpToPosition:
         case ThActionsKeys.toc:
         case ThActionsKeys.settings:
         case ThActionsKeys.layoutStrategy:
@@ -223,7 +225,7 @@ export const actionsSlice = createSlice({
     },
     setActionOpen: (state, action: ActionStateOpenPayload) => {      
       switch (action.payload.key) {
-        case ThActionsKeys.jumpToPosition:
+      //  case ThActionsKeys.jumpToPosition:
         case ThActionsKeys.toc:
         case ThActionsKeys.settings:
         case ThActionsKeys.layoutStrategy:
@@ -257,7 +259,7 @@ export const actionsSlice = createSlice({
     },
     toggleActionOpen: (state, action: ActionStateTogglePayload) => {
       switch (action.payload.key) {
-        case ThActionsKeys.jumpToPosition:
+      //  case ThActionsKeys.jumpToPosition:
         case ThActionsKeys.toc:
         case ThActionsKeys.settings:
           const payload = {

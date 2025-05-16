@@ -18,13 +18,21 @@ import {
   ThTextSettingsKeys,
   ThSheetHeaderVariant
 } from "./models/enums";
-import { ThPreferences } from "./preferences";
+import { createPreferences, ThPreferences } from "./preferences";
 
 import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";
 import nightMode from "@readium/css/css/vars/night.json";
 
-export const defaultPreferences: ThPreferences = {
+const enum CustomActionKeys {
+  fullscreen = "fullscreen",
+  // jumpToPosition = "jumpToPosition",
+  layoutStrategy = "layoutStrategy",
+  settings = "settings",
+  toc = "toc"
+}
+
+export const defaultPreferences: ThPreferences = createPreferences({
   direction: ThLayoutDirection.ltr,
   locale: "en",
   typography: {
@@ -202,7 +210,7 @@ export const defaultPreferences: ThPreferences = {
       ThActionsKeys.settings,
       ThActionsKeys.toc,
       ThActionsKeys.fullscreen,
-      ThActionsKeys.layoutStrategy
+      ThActionsKeys.layoutStrategy,
     //  ThActionsKeys.jumpToPosition
     ],
     collapse: {
@@ -274,13 +282,13 @@ export const defaultPreferences: ThPreferences = {
           maxHeight: 100
         }
       },
-      [ThActionsKeys.jumpToPosition]: {
-        visibility: CollapsibilityVisibility.overflow,
-        shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
-        docked: {
-          dockable: ThDockingTypes.none
-        }
-      }
+      // [ThActionsKeys.jumpToPosition]: {
+      //  visibility: CollapsibilityVisibility.overflow,
+      //  shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
+      //  docked: {
+      //    dockable: ThDockingTypes.none
+      //  }
+      //}
     }
   },
   docking: {
@@ -350,4 +358,4 @@ export const defaultPreferences: ThPreferences = {
       header: ThSheetHeaderVariant.previous,
     }
   }
-}
+})
