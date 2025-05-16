@@ -6,14 +6,14 @@ import Locale from "../../resources/locales/en.json";
 
 import { StatefulSettingsItemProps } from "./models/settings";
 
-import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
+import { StatefulSwitch } from "./Wrappers/StatefulSwitch";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setPublisherStyles } from "@/lib/settingsReducer";
 
-export const ReadingDisplayPublisherStyles = ({ standalone = true }: StatefulSettingsItemProps) => {
+export const StatefulPublisherStyles = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
 
@@ -59,7 +59,7 @@ export const ReadingDisplayPublisherStyles = ({ standalone = true }: StatefulSet
 
   return(
     <>
-    <SwitchWrapper 
+    <StatefulSwitch 
       standalone={ standalone }
       label={ Locale.reader.settings.publisherStyles.label }
       onChange={ async (isSelected: boolean) => await updatePreference(isSelected) }

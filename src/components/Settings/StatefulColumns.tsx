@@ -6,14 +6,14 @@ import AutoLayoutIcon from "./assets/icons/document_scanner.svg";
 import OneColIcon from "./assets/icons/article.svg";
 import TwoColsIcon from "./assets/icons/menu_book.svg";
 
-import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
+import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setColumnCount } from "@/lib/settingsReducer";
 
-export const ReadingDisplayCol = () => {
+export const StatefulColumns = () => {
   const isScroll = useAppSelector(state => state.settings.scroll);
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const columnCount = useAppSelector(state => state.settings.columnCount) || "auto";
@@ -32,7 +32,7 @@ export const ReadingDisplayCol = () => {
 
   return (
     <>
-    <RadioGroupWrapper 
+    <StatefulRadioGroup 
       standalone={ true }
       label={ Locale.reader.settings.column.title }
       orientation="horizontal"

@@ -5,15 +5,15 @@ import { ThNumberField, ThNumberFieldProps } from "@/packages/Components/Setting
 
 import classNames from "classnames";
 
-export interface WrappedNumberFieldProps extends Omit<ThNumberFieldProps, "classNames"> {
+export interface StatefulNumberFieldProps extends Omit<ThNumberFieldProps, "classNames"> {
   standalone?: boolean;
 }
 
-export const NumberFieldWrapper = ({
+export const StatefulNumberField = ({
   standalone,
   label,
   ...props
-}: WrappedNumberFieldProps) => {
+}: StatefulNumberFieldProps) => {
 
   return (
     <ThNumberField 

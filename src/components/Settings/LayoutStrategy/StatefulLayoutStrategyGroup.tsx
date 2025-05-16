@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
 import { ThLayoutStrategy } from "@/preferences/models/enums";
 import { LayoutStrategy } from "@readium/navigator";
@@ -9,15 +9,15 @@ import FitIcon from "./assets/icons/fit_width.svg";
 import RangeIcon from "./assets/icons/arrow_range.svg";
 import AddColumnIcon from "./assets/icons/add_column_right.svg";
 
-import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
-import { ReadingDisplayLineLengths } from "./ReadingDisplayLineLengths";
+import { StatefulRadioGroup } from "../Wrappers/StatefulRadioGroup";
+import { StatefulLineLengths } from "./StatefulLineLengths";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLayoutStrategy } from "@/lib/settingsReducer";
 
-export const ReadingDisplayLayoutStrategy = () => {
+export const StatefulLayoutStrategyGroup = () => {
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const isScroll = useAppSelector(state => state.settings.scroll);
   const columnCount = useAppSelector(state => state.settings.columnCount);
@@ -42,7 +42,7 @@ export const ReadingDisplayLayoutStrategy = () => {
 
   return(
     <>
-    <RadioGroupWrapper 
+    <StatefulRadioGroup 
       standalone={ true }
       label={ Locale.reader.layoutStrategy.title }
       orientation="horizontal"
@@ -67,7 +67,7 @@ export const ReadingDisplayLayoutStrategy = () => {
         }   
       ]}
     />
-    <ReadingDisplayLineLengths />
+    <StatefulLineLengths />
     </>
   )
 }

@@ -83,8 +83,8 @@ export type ThSettingsKeyTypes = {
   [ThSettingsKeys.lineHeight]?: {
       [key in Exclude<ThLineHeightOptions, ThLineHeightOptions.publisher>]: number
     };
-  [ThSettingsKeys.paraIndent]?: ThSettingsRangePref;
-  [ThSettingsKeys.paraSpacing]?: ThSettingsRangePref;
+  [ThSettingsKeys.paragraphIndent]?: ThSettingsRangePref;
+  [ThSettingsKeys.paragraphSpacing]?: ThSettingsRangePref;
   [ThSettingsKeys.wordSpacing]?: ThSettingsRangePref;
   [ThSettingsKeys.zoom]?: ThSettingsRangePref;
 }

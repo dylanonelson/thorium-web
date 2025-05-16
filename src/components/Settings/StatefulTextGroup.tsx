@@ -12,36 +12,36 @@ import Locale from "../../resources/locales/en.json";
 
 import { StatefulSettingsMapObject } from "./models/settings";
 
-import { ReadingDisplayGroupWrapper } from "./Wrappers/ReadingDisplayGroupWrapper";
+import { StatefulGroupWrapper } from "./Wrappers/StatefulGroupWrapper";
 
-import { ReadingDisplayAlign } from "./ReadingDisplayAlign";
-import { ReadingDisplayFontFamily } from "./ReadingDisplayFontFamily";
-import { ReadingDisplayFontWeight } from "./ReadingDisplayFontWeight";
-import { ReadingDisplayHyphens } from "./ReadingDisplayHyphens";
-import { ReadingDisplayNormalizeText } from "./ReadingDisplayNormalizeText";
+import { StatefulTextAlign } from "./StatefulTextAlign";
+import { StatefulFontFamily } from "./StatefulFontFamily";
+import { StatefulFontWeight } from "./StatefulFontWeight";
+import { StatefulHyphens } from "./StatefulHyphens";
+import { StatefulTextNormalize } from "./StatefulTextNormalize";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
 const TextSettingsMap: { [key in ThTextSettingsKeys]: StatefulSettingsMapObject } = {
-  [ThTextSettingsKeys.align]: {
-    Comp: ReadingDisplayAlign
-  },
   [ThTextSettingsKeys.fontFamily]: {
-    Comp: ReadingDisplayFontFamily
+    Comp: StatefulFontFamily
   },
   [ThTextSettingsKeys.fontWeight]: {
-    Comp: ReadingDisplayFontWeight
+    Comp: StatefulFontWeight
   },
   [ThTextSettingsKeys.hyphens]: {
-    Comp: ReadingDisplayHyphens
+    Comp: StatefulHyphens
   },
-  [ThTextSettingsKeys.normalizeText]: {
-    Comp: ReadingDisplayNormalizeText
+  [ThTextSettingsKeys.textAlign]: {
+    Comp: StatefulTextAlign
+  },
+  [ThTextSettingsKeys.textNormalize]: {
+    Comp: StatefulTextNormalize
   }
 }
 
-export const ReadingDisplayText = () => {
+export const StatefulTextGroup = () => {
   const RSPrefs = useContext(PreferencesContext);
   const dispatch = useAppDispatch();
 
@@ -51,7 +51,7 @@ export const ReadingDisplayText = () => {
 
   return(
     <>
-    <ReadingDisplayGroupWrapper 
+    <StatefulGroupWrapper 
       heading={ Locale.reader.settings.text.title }
       moreLabel={ Locale.reader.settings.text.advanced.trigger }
       moreTooltip={ Locale.reader.settings.text.advanced.tooltip }
@@ -67,7 +67,7 @@ export const ReadingDisplayText = () => {
   )
 }
 
-export const ReadingDisplayTextContainer = () => {
+export const StatefulTextGroupContainer = () => {
   const RSPrefs = useContext(PreferencesContext);
   const displayOrder = RSPrefs.settings.text?.subPanel as ThTextSettingsKeys[] | null | undefined || defaultTextSettingsSubpanel;
 

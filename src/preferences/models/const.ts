@@ -8,9 +8,9 @@ export const defaultTextSettingsMain = [ThTextSettingsKeys.fontFamily];
 export const defaultTextSettingsSubpanel = [
   ThTextSettingsKeys.fontFamily,
   ThTextSettingsKeys.fontWeight,
-  ThTextSettingsKeys.align,
+  ThTextSettingsKeys.textAlign,
   ThTextSettingsKeys.hyphens,
-  ThTextSettingsKeys.normalizeText
+  ThTextSettingsKeys.textNormalize
 ]
 
 export const defaultSpacingSettingsMain = [
@@ -22,8 +22,8 @@ export const defaultSpacingSettingsSubpanel = [
   ThSpacingSettingsKeys.lineHeight,
   ThSpacingSettingsKeys.wordSpacing,
   ThSpacingSettingsKeys.letterSpacing,
-  ThSpacingSettingsKeys.paraSpacing,
-  ThSpacingSettingsKeys.paraIndent
+  ThSpacingSettingsKeys.paragraphSpacing,
+  ThSpacingSettingsKeys.paragraphIndent
 ]
 
 export const defaultFontFamilyOptions = {

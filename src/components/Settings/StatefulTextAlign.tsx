@@ -11,14 +11,14 @@ import LeftAlignIcon from "./assets/icons/format_align_left.svg";
 import RightAlignIcon from "./assets/icons/format_align_right.svg";
 import JustifyIcon from "./assets/icons/format_align_justify.svg";
 
-import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
+import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTextAlign, setHyphens } from "@/lib/settingsReducer";
 
-export const ReadingDisplayAlign = ({ standalone = true }: StatefulSettingsItemProps) => {
+export const StatefulTextAlign = ({ standalone = true }: StatefulSettingsItemProps) => {
   const isRTL = useAppSelector(state => state.reader.direction) === ThLayoutDirection.rtl;
   const textAlign = useAppSelector(state => state.settings.textAlign);
   const dispatch = useAppDispatch();
@@ -52,7 +52,7 @@ export const ReadingDisplayAlign = ({ standalone = true }: StatefulSettingsItemP
 
   return (
     <>
-    <RadioGroupWrapper 
+    <StatefulRadioGroup 
       standalone={ standalone } 
       label={ Locale.reader.settings.align.title }
       orientation="horizontal" 
