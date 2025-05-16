@@ -4,14 +4,14 @@ import Locale from "../../resources/locales/en.json";
 
 import { StatefulSettingsItemProps } from "./models/settings";
 
-import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
+import { StatefulSwitch } from "./Wrappers/StatefulSwitch";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTextNormalization } from "@/lib/settingsReducer";
 
 // TMP Component that is not meant to be implemented AS-IS, for testing purposes
-export const ReadingDisplayNormalizeText = ({ standalone = true }: StatefulSettingsItemProps) => {
+export const StatefulTextNormalize = ({ standalone = true }: StatefulSettingsItemProps) => {
   const textNormalization = useAppSelector(state => state.settings.textNormalization);
   const dispatch = useAppDispatch();
 
@@ -25,7 +25,7 @@ export const ReadingDisplayNormalizeText = ({ standalone = true }: StatefulSetti
 
   return(
     <>
-    <SwitchWrapper 
+    <StatefulSwitch 
       standalone={ standalone }
       heading={ Locale.reader.settings.normalizeText.title }
       label={ Locale.reader.settings.normalizeText.label }

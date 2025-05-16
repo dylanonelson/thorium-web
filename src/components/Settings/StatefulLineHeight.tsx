@@ -11,13 +11,14 @@ import SmallIcon from "./assets/icons/density_small.svg";
 import MediumIcon from "./assets/icons/density_medium.svg";
 import LargeIcon from "./assets/icons/density_large.svg";
 
+import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
+
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLineHeight, setPublisherStyles } from "@/lib/settingsReducer";
-import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 
-export const ReadingDisplayLineHeight = ({ standalone = true }: StatefulSettingsItemProps) => {
+export const StatefulLineHeight = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
   const lineHeight = useAppSelector(state => state.settings.lineHeight);
@@ -50,7 +51,7 @@ export const ReadingDisplayLineHeight = ({ standalone = true }: StatefulSettings
 
   return (
     <>
-    <RadioGroupWrapper 
+    <StatefulRadioGroup 
       standalone={ standalone }
       label={ Locale.reader.settings.lineHeight.title }
       orientation="horizontal"

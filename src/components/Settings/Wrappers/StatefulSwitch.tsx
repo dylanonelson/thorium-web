@@ -2,16 +2,16 @@ import settingsStyles from "../assets/styles/settings.module.css";
 
 import { ThSwitch, ThSwitchProps } from "@/packages/Components/Settings/ThSwitch";
 
-export interface WrappedSwitchProps extends Omit<ThSwitchProps, "classNames"> {
+export interface StatefulSwitchProps extends Omit<ThSwitchProps, "classNames"> {
   standalone?: boolean;
 }
 
-export const SwitchWrapper = ({
+export const StatefulSwitch = ({
   standalone,
   label,
   heading, 
   ...props
-}: WrappedSwitchProps) => {
+}: StatefulSwitchProps) => {
   return(
     <>
     <ThSwitch 

@@ -12,40 +12,40 @@ import Locale from "../../resources/locales/en.json";
 
 import { StatefulSettingsMapObject } from "./models/settings";
 
-import { ReadingDisplayGroupWrapper } from "./Wrappers/ReadingDisplayGroupWrapper";
+import { StatefulGroupWrapper } from "./Wrappers/StatefulGroupWrapper";
 
-import { ReadingDisplayLetterSpacing } from "./ReadingDisplayLetterSpacing";
-import { ReadingDisplayLineHeight } from "./ReadingDisplayLineHeight";
-import { ReadingDisplayParaIndent } from "./ReadingDisplayParaIndent";
-import { ReadingDisplayParaSpacing } from "./ReadingDisplayParaSpacing";
-import { ReadingDisplayPublisherStyles } from "./ReadingDisplayPublisherStyles";
-import { ReadingDisplayWordSpacing } from "./ReadingDisplayWordSpacing";
+import { StatefulLetterSpacing } from "./StatefulLetterSpacing";
+import { StatefulLineHeight } from "./StatefulLineHeight";
+import { StatefulParagraphIndent } from "./StatefulParagraphIndent";
+import { StatefulParagraphSpacing } from "./StatefulParagraphSpacing";
+import { StatefulPublisherStyles } from "./StatefulPublisherStyles";
+import { StatefulWordSpacing } from "./StatefulWordSpacing";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
 const StatefulSpacingSettingsMap: { [key in ThSpacingSettingsKeys]: StatefulSettingsMapObject } = {
   [ThSpacingSettingsKeys.letterSpacing]: {
-    Comp: ReadingDisplayLetterSpacing
+    Comp: StatefulLetterSpacing
   },
   [ThSpacingSettingsKeys.lineHeight]: {
-    Comp: ReadingDisplayLineHeight
+    Comp: StatefulLineHeight
   },
-  [ThSpacingSettingsKeys.paraIndent]: {
-    Comp: ReadingDisplayParaIndent
+  [ThSpacingSettingsKeys.paragraphIndent]: {
+    Comp: StatefulParagraphIndent
   },
-  [ThSpacingSettingsKeys.paraSpacing]: {
-    Comp: ReadingDisplayParaSpacing
+  [ThSpacingSettingsKeys.paragraphSpacing]: {
+    Comp: StatefulParagraphSpacing
   },
   [ThSpacingSettingsKeys.publisherStyles]: {
-    Comp: ReadingDisplayPublisherStyles
+    Comp: StatefulPublisherStyles
   },
   [ThSpacingSettingsKeys.wordSpacing]: {
-    Comp: ReadingDisplayWordSpacing
+    Comp: StatefulWordSpacing
   }
 }
 
-export const ReadingDisplaySpacing = () => {
+export const StatefulSpacingGroup = () => {
   const RSPrefs = useContext(PreferencesContext);
   const dispatch = useAppDispatch();
   
@@ -55,7 +55,7 @@ export const ReadingDisplaySpacing = () => {
 
   return (
     <>
-    <ReadingDisplayGroupWrapper 
+    <StatefulGroupWrapper 
       heading={ Locale.reader.settings.spacing.title }
       moreLabel={ Locale.reader.settings.spacing.advanced.trigger }
       moreTooltip={ Locale.reader.settings.spacing.advanced.tooltip }
@@ -71,7 +71,7 @@ export const ReadingDisplaySpacing = () => {
   );
 }
 
-export const ReadingDisplaySpacingContainer = () => {
+export const StatefulSpacingGroupContainer = () => {
   const RSPrefs = useContext(PreferencesContext);
   const displayOrder = RSPrefs.settings.spacing?.subPanel as ThSpacingSettingsKeys[] | null | undefined || defaultSpacingSettingsSubpanel;
 

@@ -7,14 +7,14 @@ import { ThLayoutOptions } from "@/preferences/models/enums";
 import ScrollableIcon from "./assets/icons/contract.svg";
 import PaginatedIcon from "./assets/icons/docs.svg";
 
-import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
+import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setScroll } from "@/lib/settingsReducer";
 
-export const ReadingDisplayLayout = () => {
+export const StatefulLayout = () => {
   const isScroll = useAppSelector(state => state.settings.scroll);
 
   const dispatch = useAppDispatch();
@@ -33,7 +33,7 @@ export const ReadingDisplayLayout = () => {
 
   return (
     <>
-    <RadioGroupWrapper
+    <StatefulRadioGroup
       standalone={ true }
       label={ Locale.reader.settings.layout.title }
       orientation="horizontal"

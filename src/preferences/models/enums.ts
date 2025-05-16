@@ -26,7 +26,6 @@ export enum ThScrollBackTo {
 }
 
 export enum ThSettingsKeys {
-  align = "align",
   columns = "columns",
   fontFamily = "fontFamily",
   fontWeight = "fontWeight",
@@ -34,30 +33,31 @@ export enum ThSettingsKeys {
   layout = "layout",
   letterSpacing = "letterSpacing",
   lineHeight = "lineHeight",
-  normalizeText = "normalizeText",
-  paraIndent = "paraIndent",
-  paraSpacing = "paraSpacing",
+  paragraphIndent = "paragraphIndent",
+  paragraphSpacing = "paragraphSpacing",
   publisherStyles = "publisherStyles",
-  spacing = "spacing",
-  text = "text",
+  spacingGroup = "spacingGroup",
+  textAlign = "textAlign",
+  textGroup = "textGroup",
+  textNormalize = "textNormalize",
   theme = "theme",
   wordSpacing = "wordSpacing",
   zoom = "zoom"
 }
 
 export enum ThTextSettingsKeys {
-  align = "align",
   fontFamily = "fontFamily",
   fontWeight = "fontWeight",
   hyphens = "hyphens",
-  normalizeText = "normalizeText"
+  textAlign = "textAlign",
+  textNormalize = "textNormalize"
 }
 
 export enum ThSpacingSettingsKeys {
   letterSpacing = "letterSpacing",
   lineHeight = "lineHeight",
-  paraIndent = "paraIndent",
-  paraSpacing = "paraSpacing",
+  paragraphIndent = "paragraphIndent",
+  paragraphSpacing = "paragraphSpacing",
   publisherStyles = "publisherStyles",
   wordSpacing = "wordSpacing"
 }

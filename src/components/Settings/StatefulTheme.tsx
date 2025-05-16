@@ -9,7 +9,7 @@ import CheckIcon from "./assets/icons/check.svg";
 
 import { ThActionsKeys, ThLayoutDirection, ThThemeKeys } from "@/preferences/models/enums";
 
-import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
+import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
 import { Radio } from "react-aria-components";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
@@ -21,7 +21,7 @@ import { setTheme } from "@/lib/themeReducer";
 import classNames from "classnames";
 import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
 
-export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
+export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
   const RSPrefs = useContext(PreferencesContext);
   const radioGroupRef = useRef<HTMLDivElement | null>(null);
 
@@ -125,7 +125,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
 
   return (
     <>
-    <RadioGroupWrapper
+    <StatefulRadioGroup
       ref={ radioGroupRef }
       standalone={ true }
       label={ Locale.reader.settings.themes.title }
@@ -151,7 +151,7 @@ export const ReadingDisplayTheme = ({ mapArrowNav }: { mapArrowNav?: number }) =
         </Radio>
         ) }
       </div>
-    </RadioGroupWrapper>
+    </StatefulRadioGroup>
     </>
   )
 }

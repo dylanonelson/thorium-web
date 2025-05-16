@@ -4,14 +4,14 @@ import { PreferencesContext } from "@/preferences";
 
 import { ThLayoutStrategy } from "@/preferences/models/enums";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
-import { StatefulSettingsItemProps } from "./models/settings";
+import { StatefulSettingsItemProps } from "../models/settings";
 
-import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
+import { StatefulNumberField } from "../Wrappers/StatefulNumberField";
 
-import { ReadingDisplayMaxChars } from "./ReadingDisplayMaxChars";
-import { ReadingDisplayMinChars } from "./ReadingDisplayMinChars";
+import { StatefulMaxChars } from "./StatefulMaxChars";
+import { StatefulMinChars } from "./StatefulMinChars";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTmpLineLengths, setTmpMaxChars, setTmpMinChars } from "@/lib/settingsReducer";
 
 // TMP Component that is not meant to be implemented AS-IS, for testing purposes
-export const ReadingDisplayLineLengths = ({ standalone = true }: StatefulSettingsItemProps) => {
+export const StatefulLineLengths = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const columnCount = useAppSelector(state => state.settings.columnCount);
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
@@ -79,7 +79,7 @@ export const ReadingDisplayLineLengths = ({ standalone = true }: StatefulSetting
 
   return(
     <>
-    <NumberFieldWrapper
+    <StatefulNumberField
       standalone={ standalone }
       label={ Locale.reader.layoutStrategy.minimalLineLength.title }
       defaultValue={ getSetting("minimalLineLength") ?? lineLengthRangeConfig.range[0] }
@@ -93,9 +93,9 @@ export const ReadingDisplayLineLengths = ({ standalone = true }: StatefulSetting
       step={ lineLengthRangeConfig.step }
       isDisabled={ layoutStrategy !== ThLayoutStrategy.columns && columnCount !== "2" }
     /> 
-    <ReadingDisplayMinChars />
+    <StatefulMinChars />
 
-    <NumberFieldWrapper
+    <StatefulNumberField
       standalone={ standalone }
       label={ Locale.reader.layoutStrategy.optimalLineLength.title }
       defaultValue={ getSetting("optimalLineLength") } 
@@ -109,7 +109,7 @@ export const ReadingDisplayLineLengths = ({ standalone = true }: StatefulSetting
       step={ lineLengthRangeConfig.step }
     /> 
     
-    <NumberFieldWrapper
+    <StatefulNumberField
       standalone={ standalone }
       label={ Locale.reader.layoutStrategy.maximalLineLength.title }
       defaultValue={ getSetting("maximalLineLength") || lineLengthRangeConfig.range[1] } 
@@ -123,7 +123,7 @@ export const ReadingDisplayLineLengths = ({ standalone = true }: StatefulSetting
       step={ lineLengthRangeConfig.step }
       isDisabled={ layoutStrategy !== ThLayoutStrategy.lineLength }
     /> 
-    <ReadingDisplayMaxChars />
+    <StatefulMaxChars />
     </>
   )
 }

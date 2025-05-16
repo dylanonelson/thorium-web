@@ -6,21 +6,21 @@ import Locale from "../../resources/locales/en.json";
 
 import { StatefulSettingsItemProps } from "./models/settings";
 
-import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
-import { SliderWrapper } from "./Wrappers/SliderWrapper";
+import { StatefulNumberField } from "./Wrappers/StatefulNumberField";
+import { StatefulSlider } from "./Wrappers/StatefulSlider";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setParagraphIndent, setPublisherStyles } from "@/lib/settingsReducer";
 
-export const ReadingDisplayParaIndent = ({ standalone = true }: StatefulSettingsItemProps) => {
+export const StatefulParagraphIndent = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const paragraphIndent = useAppSelector(state => state.settings.paragraphIndent);
   const paragraphIndentRangeConfig = {
-      variant: RSPrefs.settings.keys?.[ThSettingsKeys.paraIndent]?.variant ?? defaultParagraphIndent.variant,
-      range: RSPrefs.settings.keys?.[ThSettingsKeys.paraIndent]?.range ?? defaultParagraphIndent.range,
-      step: RSPrefs.settings.keys?.[ThSettingsKeys.paraIndent]?.step ?? defaultParagraphIndent.step
+      variant: RSPrefs.settings.keys?.[ThSettingsKeys.paragraphIndent]?.variant ?? defaultParagraphIndent.variant,
+      range: RSPrefs.settings.keys?.[ThSettingsKeys.paragraphIndent]?.range ?? defaultParagraphIndent.range,
+      step: RSPrefs.settings.keys?.[ThSettingsKeys.paragraphIndent]?.step ?? defaultParagraphIndent.step
     };
   const dispatch = useAppDispatch();
 
@@ -38,7 +38,7 @@ export const ReadingDisplayParaIndent = ({ standalone = true }: StatefulSettings
   return (
     <>
     { paragraphIndentRangeConfig.variant === ThSettingsRangeVariant.numberField 
-      ? <NumberFieldWrapper 
+      ? <StatefulNumberField 
         standalone={ standalone }
         label={ Locale.reader.settings.paraIndent.title }
         defaultValue={ 0 } 
@@ -58,7 +58,7 @@ export const ReadingDisplayParaIndent = ({ standalone = true }: StatefulSettings
         isWheelDisabled={ true }
         isVirtualKeyboardDisabled={ true }
       />
-      : <SliderWrapper
+      : <StatefulSlider
         standalone={ standalone }
         label={ Locale.reader.settings.paraIndent.title }
         defaultValue={ 0 } 

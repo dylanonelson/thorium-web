@@ -6,15 +6,15 @@ import Locale from "../../resources/locales/en.json";
 
 import { StatefulSettingsItemProps } from "./models/settings";
 
-import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
-import { SliderWrapper } from "./Wrappers/SliderWrapper";
+import { StatefulNumberField } from "./Wrappers/StatefulNumberField";
+import { StatefulSlider } from "./Wrappers/StatefulSlider";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLetterSpacing, setPublisherStyles } from "@/lib/settingsReducer";
 
-export const ReadingDisplayLetterSpacing = ({ standalone = true }: StatefulSettingsItemProps) => {
+export const StatefulLetterSpacing = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
   const letterSpacingRangeConfig = {
@@ -38,7 +38,7 @@ export const ReadingDisplayLetterSpacing = ({ standalone = true }: StatefulSetti
   return (
     <>
     { letterSpacingRangeConfig.variant === ThSettingsRangeVariant.numberField 
-      ? <NumberFieldWrapper 
+      ? <StatefulNumberField 
         standalone={ standalone }
         label={ Locale.reader.settings.letterSpacing.title }
         defaultValue={ 0 } 
@@ -54,7 +54,7 @@ export const ReadingDisplayLetterSpacing = ({ standalone = true }: StatefulSetti
         isWheelDisabled={ true }
         isVirtualKeyboardDisabled={ true }
       />
-      : <SliderWrapper
+      : <StatefulSlider
         standalone={ standalone }
         label={ Locale.reader.settings.letterSpacing.title }
         defaultValue={ 0 } 

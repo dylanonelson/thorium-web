@@ -23,7 +23,7 @@ import { setHovering } from "@/lib/readerReducer";
 
 import { useDocking } from "../Docking/hooks/useDocking";
 import { StatefulSheetWrapper } from "../Sheets/StatefulSheetWrapper";
-import { ReadingDisplayLayoutStrategy } from "../Settings/ReadingDisplayLayoutStrategy";
+import { StatefulLayoutStrategyGroup } from "../Settings/LayoutStrategy/StatefulLayoutStrategyGroup";
 
 export const StatefulLayoutStrategyContainer = ({ triggerRef }: StatefulActionContainerProps) => {
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.layoutStrategy]);
@@ -58,7 +58,7 @@ export const StatefulLayoutStrategyContainer = ({ triggerRef }: StatefulActionCo
         docker: docking.getDocker()
       } }
     >
-      <ReadingDisplayLayoutStrategy />
+      <StatefulLayoutStrategyGroup />
     </StatefulSheetWrapper>
     </>
   )

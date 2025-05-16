@@ -9,15 +9,15 @@ import Increase from "./assets/icons/text_increase.svg";
 import ZoomOut from "./assets/icons/zoom_out.svg";
 import ZoomIn from "./assets/icons/zoom_in.svg";
 
-import { SliderWrapper } from "./Wrappers/SliderWrapper";
-import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
+import { StatefulSlider } from "./Wrappers/StatefulSlider";
+import { StatefulNumberField } from "./Wrappers/StatefulNumberField";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontSize } from "@/lib/settingsReducer";
 
-export const ReadingDisplayZoom = () => {
+export const StatefulZoom = () => {
   const RSPrefs = useContext(PreferencesContext);
   const fontSize = useAppSelector((state) => state.settings.fontSize);
   const isFXL = useAppSelector((state) => state.publication.isFXL);
@@ -63,7 +63,7 @@ export const ReadingDisplayZoom = () => {
   return (
     <>
     { zoomRangeConfig.variant === ThSettingsRangeVariant.numberField 
-      ? <NumberFieldWrapper
+      ? <StatefulNumberField
         standalone={ true}
         defaultValue={ 1 } 
         value={ fontSize } 
@@ -81,7 +81,7 @@ export const ReadingDisplayZoom = () => {
         isWheelDisabled={ true }
         isVirtualKeyboardDisabled={ true }
       />
-      : <SliderWrapper
+      : <StatefulSlider
         standalone={ true }
         defaultValue={ 1 } 
         value={ fontSize } 

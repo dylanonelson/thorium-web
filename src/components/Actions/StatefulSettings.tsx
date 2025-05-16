@@ -32,23 +32,23 @@ import { StatefulSheetWrapper } from "../Sheets/StatefulSheetWrapper";
 import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
 
-import { ReadingDisplayAlign } from "../Settings/ReadingDisplayAlign";
-import { ReadingDisplayCol } from "../Settings/ReadingDisplayCol";
-import { ReadingDisplayFontFamily } from "../Settings/ReadingDisplayFontFamily";
-import { ReadingDisplayFontWeight } from "../Settings/ReadingDisplayFontWeight";
-import { ReadingDisplayHyphens } from "../Settings/ReadingDisplayHyphens";
-import { ReadingDisplayLayout } from "../Settings/ReadingDisplayLayout";
-import { ReadingDisplayLetterSpacing } from "../Settings/ReadingDisplayLetterSpacing";
-import { ReadingDisplayLineHeight } from "../Settings/ReadingDisplayLineHeight";
-import { ReadingDisplayParaIndent } from "../Settings/ReadingDisplayParaIndent";
-import { ReadingDisplayParaSpacing } from "../Settings/ReadingDisplayParaSpacing";
-import { ReadingDisplayPublisherStyles } from "../Settings/ReadingDisplayPublisherStyles";
-import { ReadingDisplaySpacing, ReadingDisplaySpacingContainer } from "../Settings/ReadingDisplaySpacing";
-import { ReadingDisplayText, ReadingDisplayTextContainer } from "../Settings/ReadingDisplayText";
-import { ReadingDisplayNormalizeText } from "../Settings/ReadingDisplayNormalizeText";
-import { ReadingDisplayTheme } from "../Settings/ReadingDisplayTheme";
-import { ReadingDisplayWordSpacing } from "../Settings/ReadingDisplayWordSpacing";
-import { ReadingDisplayZoom } from "../Settings/ReadingDisplayZoom";
+import { StatefulTextAlign } from "../Settings/StatefulTextAlign";
+import { StatefulColumns } from "../Settings/StatefulColumns";
+import { StatefulFontFamily } from "../Settings/StatefulFontFamily";
+import { StatefulFontWeight } from "../Settings/StatefulFontWeight";
+import { StatefulHyphens } from "../Settings/StatefulHyphens";
+import { StatefulLayout } from "../Settings/StatefulLayout";
+import { StatefulLetterSpacing } from "../Settings/StatefulLetterSpacing";
+import { StatefulLineHeight } from "../Settings/StatefulLineHeight";
+import { StatefulParagraphIndent } from "../Settings/StatefulParagraphIndent";
+import { StatefulParagraphSpacing } from "../Settings/StatefulParagraphSpacing";
+import { StatefulPublisherStyles } from "../Settings/StatefulPublisherStyles";
+import { StatefulSpacingGroup, StatefulSpacingGroupContainer } from "../Settings/StatefulSpacingGroup";
+import { StatefulTextGroup, StatefulTextGroupContainer } from "../Settings/StatefulTextGroup";
+import { StatefulTextNormalize } from "../Settings/StatefulTextNormalize";
+import { StatefulTheme } from "../Settings/StatefulTheme";
+import { StatefulWordSpacing } from "../Settings/StatefulWordSpacing";
+import { StatefulZoom } from "../Settings/StatefulZoom";
 
 import { useDocking } from "../Docking/hooks/useDocking";
 
@@ -57,59 +57,59 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
 const SettingsMap: { [key in ThSettingsKeys]: StatefulSettingsMapObject } = {
-  [ThSettingsKeys.align]: {
-    Comp: ReadingDisplayAlign
-  },
   [ThSettingsKeys.columns]: {
-    Comp: ReadingDisplayCol
+    Comp: StatefulColumns
   },
   [ThSettingsKeys.fontFamily]: {
-    Comp: ReadingDisplayFontFamily
+    Comp: StatefulFontFamily
   },
   [ThSettingsKeys.fontWeight]: {
-    Comp: ReadingDisplayFontWeight
+    Comp: StatefulFontWeight
   },
   [ThSettingsKeys.hyphens]: {
-    Comp: ReadingDisplayHyphens
+    Comp: StatefulHyphens
   },
   [ThSettingsKeys.layout]: {
-    Comp: ReadingDisplayLayout
+    Comp: StatefulLayout
   },
   [ThSettingsKeys.letterSpacing]: {
-    Comp: ReadingDisplayLetterSpacing
+    Comp: StatefulLetterSpacing
   },
   [ThSettingsKeys.lineHeight]: {
-    Comp: ReadingDisplayLineHeight
+    Comp: StatefulLineHeight
   },
-  [ThSettingsKeys.paraIndent]: {
-    Comp: ReadingDisplayParaIndent
+  [ThSettingsKeys.paragraphIndent]: {
+    Comp: StatefulParagraphIndent
   },
-  [ThSettingsKeys.paraSpacing]: {
-    Comp: ReadingDisplayParaSpacing
+  [ThSettingsKeys.paragraphSpacing]: {
+    Comp: StatefulParagraphSpacing
   },
   [ThSettingsKeys.publisherStyles]: {
-    Comp: ReadingDisplayPublisherStyles
+    Comp: StatefulPublisherStyles
   },
-  [ThSettingsKeys.spacing]: {
-    Comp: ReadingDisplaySpacing
+  [ThSettingsKeys.spacingGroup]: {
+    Comp: StatefulSpacingGroup
   },
-  [ThSettingsKeys.text]: {
-    Comp: ReadingDisplayText
+  [ThSettingsKeys.textAlign]: {
+    Comp: StatefulTextAlign
   },
-  [ThSettingsKeys.normalizeText]: {
-    Comp: ReadingDisplayNormalizeText
+  [ThSettingsKeys.textGroup]: {
+    Comp: StatefulTextGroup
+  },
+  [ThSettingsKeys.textNormalize]: {
+    Comp: StatefulTextNormalize
   },
   [ThSettingsKeys.theme]: {
-    Comp: ReadingDisplayTheme,
+    Comp: StatefulTheme,
     props: {
       mapArrowNav: 2
     }
   },
   [ThSettingsKeys.wordSpacing]: {
-    Comp: ReadingDisplayWordSpacing
+    Comp: StatefulWordSpacing
   },
   [ThSettingsKeys.zoom]: {
-    Comp: ReadingDisplayZoom
+    Comp: StatefulZoom
   }
 }
 
@@ -160,10 +160,10 @@ export const StatefulSettingsContainer = ({ triggerRef }: StatefulActionContaine
   const renderSettings = useCallback(() => {
     switch (contains) {
       case ThSettingsContainerKeys.text:
-        return <ReadingDisplayTextContainer />;
+        return <StatefulTextGroupContainer />;
       
       case ThSettingsContainerKeys.spacing:
-        return <ReadingDisplaySpacingContainer />;
+        return <StatefulSpacingGroupContainer />;
 
       case ThSettingsContainerKeys.initial:
       default:

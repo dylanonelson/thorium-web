@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontFamily } from "@/lib/settingsReducer";
 import { defaultFontFamilyOptions } from "@/preferences/models/const";
 
-export const ReadingDisplayFontFamily = ({ standalone = true }: StatefulSettingsItemProps) => {
+export const StatefulFontFamily = ({ standalone = true }: StatefulSettingsItemProps) => {
   const fontFamily = useAppSelector(state => state.settings.fontFamily);
   const fontFamilyOptions = useRef(Object.entries(defaultFontFamilyOptions).map(([property, stack]) => ({
       id: property,

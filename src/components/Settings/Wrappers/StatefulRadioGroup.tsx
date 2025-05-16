@@ -2,15 +2,15 @@ import settingsStyles from "../assets/styles/settings.module.css";
 
 import { ThRadioGroup, ThRadioGroupProps } from "@/packages/Components/Settings/ThRadioGroup"
 
-export interface WrappedRadioGroupProps extends Omit<ThRadioGroupProps, "classNames"> {
+export interface StatefulRadioGroupProps extends Omit<ThRadioGroupProps, "classNames"> {
   standalone?: boolean
 }
 
-export const RadioGroupWrapper = ({
+export const StatefulRadioGroup = ({
   standalone,
   label,
   ...props
-}: WrappedRadioGroupProps) => {
+}: StatefulRadioGroupProps) => {
   return (
   <>
   <ThRadioGroup 

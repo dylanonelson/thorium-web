@@ -6,21 +6,21 @@ import Locale from "../../resources/locales/en.json";
 
 import { StatefulSettingsItemProps } from "./models/settings";
 
-import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";
-import { SliderWrapper } from "./Wrappers/SliderWrapper";
+import { StatefulNumberField } from "./Wrappers/StatefulNumberField";
+import { StatefulSlider } from "./Wrappers/StatefulSlider";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setParagraphSpacing, setPublisherStyles } from "@/lib/settingsReducer";
 
-export const ReadingDisplayParaSpacing = ({ standalone = true }: StatefulSettingsItemProps) => {
+export const StatefulParagraphSpacing = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
   const paragraphSpacingRangeConfig = {
-    variant: RSPrefs.settings.keys?.[ThSettingsKeys.paraSpacing]?.variant ?? defaultParagraphSpacing.variant,
-    range: RSPrefs.settings.keys?.[ThSettingsKeys.paraSpacing]?.range ?? defaultParagraphSpacing.range,
-    step: RSPrefs.settings.keys?.[ThSettingsKeys.paraSpacing]?.step ?? defaultParagraphSpacing.step
+    variant: RSPrefs.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.variant ?? defaultParagraphSpacing.variant,
+    range: RSPrefs.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.range ?? defaultParagraphSpacing.range,
+    step: RSPrefs.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.step ?? defaultParagraphSpacing.step
   };
   const dispatch = useAppDispatch();
 
@@ -38,7 +38,7 @@ export const ReadingDisplayParaSpacing = ({ standalone = true }: StatefulSetting
   return (
     <>
     { paragraphSpacingRangeConfig.variant === ThSettingsRangeVariant.numberField 
-      ? <NumberFieldWrapper 
+      ? <StatefulNumberField 
         standalone={ standalone }
         label={ Locale.reader.settings.paraSpacing.title }
         defaultValue={ 0 } 
@@ -58,7 +58,7 @@ export const ReadingDisplayParaSpacing = ({ standalone = true }: StatefulSetting
         isWheelDisabled={ true }
         isVirtualKeyboardDisabled={ true }
       />
-      : <SliderWrapper
+      : <StatefulSlider
         standalone={ standalone }
         label={ Locale.reader.settings.paraSpacing.title }
         defaultValue={ 0 } 

@@ -5,7 +5,7 @@ import Locale from "../../resources/locales/en.json";
 import { StatefulSettingsItemProps } from "./models/settings";
 import { ThTextAlignOptions } from "@/preferences/models/enums";
 
-import { SwitchWrapper } from "./Wrappers/SwitchWrapper";
+import { StatefulSwitch } from "./Wrappers/StatefulSwitch";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setHyphens } from "@/lib/settingsReducer";
 
 // TMP Component that is not meant to be implemented AS-IS, for testing purposes
-export const ReadingDisplayHyphens = ({ standalone = true }: StatefulSettingsItemProps) => {
+export const StatefulHyphens = ({ standalone = true }: StatefulSettingsItemProps) => {
   const hyphens = useAppSelector(state => state.settings.hyphens);
   const textAlign = useAppSelector(state => state.settings.textAlign);
 
@@ -31,7 +31,7 @@ export const ReadingDisplayHyphens = ({ standalone = true }: StatefulSettingsIte
 
   return(
     <>
-    <SwitchWrapper 
+    <StatefulSwitch 
       standalone={ standalone }
       heading={ Locale.reader.settings.hyphens.title }
       label={ Locale.reader.settings.hyphens.label }

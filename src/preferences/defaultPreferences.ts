@@ -315,9 +315,9 @@ export const defaultPreferences: ThPreferences = {
   settings: {
     reflowOrder: [
       ThSettingsKeys.zoom,
-      ThSettingsKeys.text,
+      ThSettingsKeys.textGroup,
       ThSettingsKeys.theme,
-      ThSettingsKeys.spacing,
+      ThSettingsKeys.spacingGroup,
       ThSettingsKeys.layout,
       ThSettingsKeys.columns
     ],
@@ -341,9 +341,9 @@ export const defaultPreferences: ThPreferences = {
       subPanel: [
         ThTextSettingsKeys.fontFamily,
         ThTextSettingsKeys.fontWeight,
-        ThTextSettingsKeys.align,
+        ThTextSettingsKeys.textAlign,
         ThTextSettingsKeys.hyphens,
-        ThTextSettingsKeys.normalizeText
+        ThTextSettingsKeys.textNormalize
       ]
     },
     spacing: {

@@ -11,7 +11,7 @@ import { ThSettingsWrapper } from "@/packages/Components/Settings/ThSettingsWrap
 
 import classNames from "classnames";
 
-export interface ReadingDisplayGroupWrapperProps {
+export interface StatefulGroupWrapperProps {
   heading: string;
   moreLabel: string;
   moreTooltip: string;
@@ -24,7 +24,7 @@ export interface ReadingDisplayGroupWrapperProps {
   };
 }
 
-export const ReadingDisplayGroupWrapper = ({
+export const StatefulGroupWrapper = ({
   heading,
   moreLabel,
   moreTooltip,
@@ -32,7 +32,7 @@ export const ReadingDisplayGroupWrapper = ({
   settingsMap,
   prefs,
   defaultPrefs
-}: ReadingDisplayGroupWrapperProps) => {
+}: StatefulGroupWrapperProps) => {
   const RSPrefs = useContext(PreferencesContext);
   
   const main = prefs?.main || defaultPrefs.main;

@@ -4,15 +4,15 @@ import { ThSlider, ThSliderProps } from "@/packages/Components/Settings/ThSlider
 
 import classNames from "classnames";
 
-export interface WrappedSliderProps extends Omit<ThSliderProps, "classNames"> {
+export interface StatefulSliderProps extends Omit<ThSliderProps, "classNames"> {
   standalone?: boolean;
 }
 
-export const SliderWrapper = ({
+export const StatefulSlider = ({
   standalone,
   label,
   ...props
-}: WrappedSliderProps) => {
+}: StatefulSliderProps) => {
   return(
     <>
     <ThSlider
