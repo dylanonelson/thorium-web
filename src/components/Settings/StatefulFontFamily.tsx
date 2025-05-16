@@ -1,6 +1,6 @@
 "use client";
 
-import { Key, useCallback, useRef } from "react";
+import { CSSProperties, Key, useCallback, useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -83,7 +83,7 @@ export const StatefulFontFamily = ({ standalone = true }: StatefulSettingsItemPr
                 id={ item.id }
                 key={ item.id }
                 textValue={ item.value || undefined }
-                style={{ fontFamily: item.value || undefined }}
+                style={{ fontFamily: item.value || undefined } as CSSProperties}
               >
                 { item.label }
               </ListBoxItem>
