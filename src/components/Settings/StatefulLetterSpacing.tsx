@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useContext } from "react";
 
 import { defaultLetterSpacing, PreferencesContext, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";

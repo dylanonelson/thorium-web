@@ -1,3 +1,5 @@
+"use client";
+
 import { Key, useCallback, useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";

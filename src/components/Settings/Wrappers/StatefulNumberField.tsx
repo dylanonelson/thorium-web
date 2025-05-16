@@ -1,3 +1,5 @@
+"use client";
+
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 import settingsStyles from "../assets/styles/settings.module.css";
 
