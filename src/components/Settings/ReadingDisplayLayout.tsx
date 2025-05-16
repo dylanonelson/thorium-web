@@ -4,8 +4,8 @@ import Locale from "../../resources/locales/en.json";
 
 import { ThLayoutOptions } from "@/preferences/models/enums";
 
-import ScrollableIcon from "../assets/icons/contract.svg";
-import PaginatedIcon from "../assets/icons/docs.svg";
+import ScrollableIcon from "./assets/icons/contract.svg";
+import PaginatedIcon from "./assets/icons/docs.svg";
 
 import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 

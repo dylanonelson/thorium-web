@@ -5,9 +5,9 @@ import Locale from "../../resources/locales/en.json";
 import { ThLayoutStrategy } from "@/preferences/models/enums";
 import { LayoutStrategy } from "@readium/navigator";
 
-import FitIcon from "../assets/icons/fit_width.svg";
-import RangeIcon from "../assets/icons/arrow_range.svg";
-import AddColumnIcon from "../assets/icons/add_column_right.svg";
+import FitIcon from "./assets/icons/fit_width.svg";
+import RangeIcon from "./assets/icons/arrow_range.svg";
+import AddColumnIcon from "./assets/icons/add_column_right.svg";
 
 import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 import { ReadingDisplayLineLengths } from "./ReadingDisplayLineLengths";

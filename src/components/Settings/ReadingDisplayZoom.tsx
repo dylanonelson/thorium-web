@@ -4,10 +4,10 @@ import { defaultFontSize, PreferencesContext, ThSettingsKeys, ThSettingsRangeVar
 
 import Locale from "../../resources/locales/en.json";
 
-import Decrease from "../assets/icons/text_decrease.svg";
-import Increase from "../assets/icons/text_increase.svg";
-import ZoomOut from "../assets/icons/zoom_out.svg";
-import ZoomIn from "../assets/icons/zoom_in.svg";
+import Decrease from "./assets/icons/text_decrease.svg";
+import Increase from "./assets/icons/text_increase.svg";
+import ZoomOut from "./assets/icons/zoom_out.svg";
+import ZoomIn from "./assets/icons/zoom_in.svg";
 
 import { SliderWrapper } from "./Wrappers/SliderWrapper";
 import { NumberFieldWrapper } from "./Wrappers/NumberFieldWrapper";

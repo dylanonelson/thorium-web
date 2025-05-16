@@ -6,10 +6,10 @@ import { ThTextAlignOptions, ThLayoutDirection } from "@/preferences/models/enum
 import { StatefulSettingsItemProps } from "./models/settings";
 import { TextAlignment } from "@readium/navigator";
 
-import BookIcon from "../assets/icons/book.svg";
-import LeftAlignIcon from "../assets/icons/format_align_left.svg";
-import RightAlignIcon from "../assets/icons/format_align_right.svg";
-import JustifyIcon from "../assets/icons/format_align_justify.svg";
+import BookIcon from "./assets/icons/book.svg";
+import LeftAlignIcon from "./assets/icons/format_align_left.svg";
+import RightAlignIcon from "./assets/icons/format_align_right.svg";
+import JustifyIcon from "./assets/icons/format_align_justify.svg";
 
 import { RadioGroupWrapper } from "./Wrappers/RadioGroupWrapper";
 

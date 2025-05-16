@@ -6,10 +6,10 @@ import Locale from "../../resources/locales/en.json";
 
 import { StatefulSettingsItemProps } from "./models/settings";
 
-import BookIcon from "../assets/icons/book.svg";
-import SmallIcon from "../assets/icons/density_small.svg";
-import MediumIcon from "../assets/icons/density_medium.svg";
-import LargeIcon from "../assets/icons/density_large.svg";
+import BookIcon from "./assets/icons/book.svg";
+import SmallIcon from "./assets/icons/density_small.svg";
+import MediumIcon from "./assets/icons/density_medium.svg";
+import LargeIcon from "./assets/icons/density_large.svg";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 

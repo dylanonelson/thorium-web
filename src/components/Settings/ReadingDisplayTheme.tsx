@@ -5,7 +5,7 @@ import { PreferencesContext } from "@/preferences";
 import Locale from "../../resources/locales/en.json";
 import settingsStyles from "./assets/styles/settings.module.css";
 
-import CheckIcon from "../assets/icons/check.svg";
+import CheckIcon from "./assets/icons/check.svg";
 
 import { ThActionsKeys, ThLayoutDirection, ThThemeKeys } from "@/preferences/models/enums";
 
