@@ -16,38 +16,16 @@ import { StatefulSettingsMapObject } from "./models/settings";
 
 import { StatefulGroupWrapper } from "./Wrappers/StatefulGroupWrapper";
 
-import { StatefulLetterSpacing } from "./StatefulLetterSpacing";
-import { StatefulLineHeight } from "./StatefulLineHeight";
-import { StatefulParagraphIndent } from "./StatefulParagraphIndent";
-import { StatefulParagraphSpacing } from "./StatefulParagraphSpacing";
-import { StatefulPublisherStyles } from "./StatefulPublisherStyles";
-import { StatefulWordSpacing } from "./StatefulWordSpacing";
-
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
-const StatefulSpacingSettingsMap: { [key in ThSpacingSettingsKeys]: StatefulSettingsMapObject } = {
-  [ThSpacingSettingsKeys.letterSpacing]: {
-    Comp: StatefulLetterSpacing
-  },
-  [ThSpacingSettingsKeys.lineHeight]: {
-    Comp: StatefulLineHeight
-  },
-  [ThSpacingSettingsKeys.paragraphIndent]: {
-    Comp: StatefulParagraphIndent
-  },
-  [ThSpacingSettingsKeys.paragraphSpacing]: {
-    Comp: StatefulParagraphSpacing
-  },
-  [ThSpacingSettingsKeys.publisherStyles]: {
-    Comp: StatefulPublisherStyles
-  },
-  [ThSpacingSettingsKeys.wordSpacing]: {
-    Comp: StatefulWordSpacing
-  }
+export interface StatefulSpacingGroupProps {
+  componentsMap: { [key: string | number | symbol]: StatefulSettingsMapObject }
 }
 
-export const StatefulSpacingGroup = () => {
+export const StatefulSpacingGroup = ({ 
+  componentsMap 
+}: StatefulSpacingGroupProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const dispatch = useAppDispatch();
   
@@ -62,7 +40,7 @@ export const StatefulSpacingGroup = () => {
       moreLabel={ Locale.reader.settings.spacing.advanced.trigger }
       moreTooltip={ Locale.reader.settings.spacing.advanced.tooltip }
       onPressMore={ setSpacingContainer }
-      settingsMap={ StatefulSpacingSettingsMap }
+      componentsMap={ componentsMap }
       prefs={ RSPrefs.settings.spacing }
       defaultPrefs={ {
         main: defaultSpacingSettingsMain, 
@@ -73,14 +51,16 @@ export const StatefulSpacingGroup = () => {
   );
 }
 
-export const StatefulSpacingGroupContainer = () => {
+export const StatefulSpacingGroupContainer = ({   
+  componentsMap 
+}: StatefulSpacingGroupProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const displayOrder = RSPrefs.settings.spacing?.subPanel as ThSpacingSettingsKeys[] | null | undefined || defaultSpacingSettingsSubpanel;
 
   return(
     <>
     { displayOrder.map((key: ThSpacingSettingsKeys) => {
-      const { Comp } = StatefulSpacingSettingsMap[key];
+      const { Comp } = componentsMap[key];
       return <Comp key={ key } standalone={ true } />;
     }) }
     </>

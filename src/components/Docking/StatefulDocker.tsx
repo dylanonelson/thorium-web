@@ -15,26 +15,12 @@ import { Toolbar } from "react-aria-components";
 
 import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
 import { StatefulCollapsibleActionsBar } from "../Actions/StatefulCollapsibleActionsBar";
-import { StatefulDockStart } from "./StatefulDockStart";
-import { StatefulDockEnd } from "./StatefulDockEnd";
-import { StatefulDockTransientPopover } from "./StatefulDockTransientPopover";
 import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
-const DockingActionsMap: { [key in ThDockingKeys]: StatefulActionsMapObject } = {
-  [ThDockingKeys.start]: {
-    trigger: StatefulDockStart
-  },
-  [ThDockingKeys.end]: {
-    trigger: StatefulDockEnd
-  },
-  [ThDockingKeys.transient]: {
-    trigger: StatefulDockTransientPopover
-  }
-};
-
 export interface StatefulDockerProps {
   id: ActionsStateKeys;
+  componentsMap: { [key: string | number | symbol]: StatefulActionsMapObject };
   keys: ThDockingKeys[];
   ref: React.ForwardedRef<HTMLButtonElement>;
   onClose: () => void;
@@ -42,6 +28,7 @@ export interface StatefulDockerProps {
 
 export const StatefulDocker = ({
   id,
+  componentsMap,
   keys,
   ref,
   onClose
@@ -52,7 +39,7 @@ export const StatefulDocker = ({
 
     keys.map((key) => {
       actionsItems.push({
-        Trigger: DockingActionsMap[key].trigger,
+        Trigger: componentsMap[key].trigger,
         key: key,
         associatedKey: id
       })

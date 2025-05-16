@@ -21,6 +21,7 @@ import { StatefulDocker } from "../Docking/StatefulDocker";
 import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
+import { dockingComponentsMap } from "../Docking/DockingComponentsMap";
 
 export interface StatefulPopoverSheetProps extends StatefulSheet {
   placement?: PopoverProps["placement"];
@@ -94,6 +95,7 @@ export const StatefulPopoverSheet = ({
               />
               : <StatefulDocker 
                 id={ id }
+                componentsMap={ dockingComponentsMap }
                 keys={ docker || [] }
                 ref={ popoverCloseRef }
                 onClose={ onPressClose }

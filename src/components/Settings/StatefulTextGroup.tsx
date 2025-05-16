@@ -16,34 +16,16 @@ import { StatefulSettingsMapObject } from "./models/settings";
 
 import { StatefulGroupWrapper } from "./Wrappers/StatefulGroupWrapper";
 
-import { StatefulTextAlign } from "./StatefulTextAlign";
-import { StatefulFontFamily } from "./StatefulFontFamily";
-import { StatefulFontWeight } from "./StatefulFontWeight";
-import { StatefulHyphens } from "./StatefulHyphens";
-import { StatefulTextNormalize } from "./StatefulTextNormalize";
-
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
-const TextSettingsMap: { [key in ThTextSettingsKeys]: StatefulSettingsMapObject } = {
-  [ThTextSettingsKeys.fontFamily]: {
-    Comp: StatefulFontFamily
-  },
-  [ThTextSettingsKeys.fontWeight]: {
-    Comp: StatefulFontWeight
-  },
-  [ThTextSettingsKeys.hyphens]: {
-    Comp: StatefulHyphens
-  },
-  [ThTextSettingsKeys.textAlign]: {
-    Comp: StatefulTextAlign
-  },
-  [ThTextSettingsKeys.textNormalize]: {
-    Comp: StatefulTextNormalize
-  }
+export interface StatefulTextGroupProps {
+  componentsMap: { [key: string | number | symbol]: StatefulSettingsMapObject }
 }
 
-export const StatefulTextGroup = () => {
+export const StatefulTextGroup = ({
+  componentsMap
+}: StatefulTextGroupProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const dispatch = useAppDispatch();
 
@@ -58,7 +40,7 @@ export const StatefulTextGroup = () => {
       moreLabel={ Locale.reader.settings.text.advanced.trigger }
       moreTooltip={ Locale.reader.settings.text.advanced.tooltip }
       onPressMore={ setTextContainer }
-      settingsMap={ TextSettingsMap }
+      componentsMap={ componentsMap }
       prefs={ RSPrefs.settings.text }
       defaultPrefs={ {
         main: defaultTextSettingsMain, 
@@ -69,14 +51,16 @@ export const StatefulTextGroup = () => {
   )
 }
 
-export const StatefulTextGroupContainer = () => {
+export const StatefulTextGroupContainer = ({
+  componentsMap
+}: StatefulTextGroupProps) => {
   const RSPrefs = useContext(PreferencesContext);
   const displayOrder = RSPrefs.settings.text?.subPanel as ThTextSettingsKeys[] | null | undefined || defaultTextSettingsSubpanel;
 
   return(
     <>
     { displayOrder.map((key: ThTextSettingsKeys) => {
-      const { Comp } = TextSettingsMap[key];
+      const { Comp } = componentsMap[key];
       return <Comp key={ key } standalone={ true } />;
     }) }
     </>

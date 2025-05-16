@@ -18,7 +18,7 @@ export interface StatefulGroupWrapperProps {
   moreLabel: string;
   moreTooltip: string;
   onPressMore: (e: PressEvent) => void;
-  settingsMap: { [key in ThSpacingSettingsKeys]: StatefulSettingsMapObject } | { [key in ThTextSettingsKeys]: StatefulSettingsMapObject };
+  componentsMap: { [key: string | number | symbol]: StatefulSettingsMapObject };
   prefs?: ThSettingsGroupPref<ThTextSettingsKeys | ThSpacingSettingsKeys>;
   defaultPrefs: {
     main: ThTextSettingsKeys[] | ThSpacingSettingsKeys[];
@@ -31,7 +31,7 @@ export const StatefulGroupWrapper = ({
   moreLabel,
   moreTooltip,
   onPressMore,
-  settingsMap,
+  componentsMap,
   prefs,
   defaultPrefs
 }: StatefulGroupWrapperProps) => {
@@ -46,12 +46,12 @@ export const StatefulGroupWrapper = ({
     main: main,
     subPanel: displayOrder
   };
-
+  
   return(
     <>
     <ThSettingsWrapper
       className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }
-      items={ settingsMap }
+      items={ componentsMap }
       prefs={ resolvedPrefs }
       compounds={{
         label: heading,

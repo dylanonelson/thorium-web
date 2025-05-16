@@ -15,11 +15,6 @@ import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { ThHeader  } from "@/packages/Components/Reader/ThHeader";
 import { ThRunningHead } from "@/packages/Components/Reader/ThRunningHead";
-import { StatefulSwitchFullscreen } from "./Actions/StatefulSwitchFullscreen";
-import { StatefulJumpToPosition } from "./Actions/StatefulJumpToPosition";
-import { StatefulLayoutStrategyTrigger, StatefulLayoutStrategyContainer } from "./Actions/StatefulLayoutStrategy";
-import { StatefulSettingsTrigger, StatefulSettingsContainer } from "./Actions/StatefulSettings";
-import { StatefulTocTrigger, StatefulTocContainer } from "./Actions/StatefulToc";
 import { StatefulCollapsibleActionsBar } from "./Actions/StatefulCollapsibleActionsBar";
 
 import { setHovering } from "@/lib/readerReducer";
@@ -27,28 +22,13 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-const ActionsMap: { [key in ThActionsKeys]: StatefulActionsMapObject } = {
-  [ThActionsKeys.fullscreen]: {
-    trigger: StatefulSwitchFullscreen
-  },
-  /* [ThActionsKeys.jumpToPosition]: {
-    trigger: StatefulJumpToPosition
-  }, */
-  [ThActionsKeys.layoutStrategy]: {
-    trigger: StatefulLayoutStrategyTrigger,
-    target: StatefulLayoutStrategyContainer
-  },
-  [ThActionsKeys.settings]: {
-    trigger: StatefulSettingsTrigger,
-    target: StatefulSettingsContainer
-  },
-  [ThActionsKeys.toc]: {
-    trigger: StatefulTocTrigger,
-    target: StatefulTocContainer
-  }
+export interface StatefulReaderHeaderProps {
+  componentsMap: { [key: string | number | symbol]: StatefulActionsMapObject }
 }
 
-export const StatefulReaderHeader = () => {
+export const StatefulReaderHeader = ({
+  componentsMap
+}: StatefulReaderHeaderProps) => {
   const RSPrefs = useContext(PreferencesContext);
   
   const isFXL = useAppSelector(state => state.publication.isFXL);
@@ -80,18 +60,18 @@ export const StatefulReaderHeader = () => {
   const listActionItems = useCallback(() => {
     const actionsItems: ThActionEntry<ThActionsKeys>[] = [];
 
-    actionsOrder.current.map((key: ThActionsKeys) => {
+    actionsOrder.current.map((key) => {
       if (key !== ThActionsKeys.layoutStrategy || !isFXL) {
         actionsItems.push({
-          Trigger: ActionsMap[key].trigger,
-          Target: ActionsMap[key].target,
+          Trigger: componentsMap[key].trigger,
+          Target: componentsMap[key].target,
           key: key
         });
       }
     });
     
     return actionsItems;
-  }, [isFXL]);
+  }, [isFXL, componentsMap]);
 
   return (
     <>
