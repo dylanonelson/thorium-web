@@ -307,7 +307,7 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
     }
   }, [dispatch]);
 
-  const p = new Peripherals(useAppStore(), {
+  const p = new Peripherals(useAppStore(), RSPrefs.actions, {
     moveTo: (direction) => {
       switch(direction) {
         case "right":
@@ -350,7 +350,7 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
             key: actionKey
           }))
           break;
-        case ThActionsKeys.jumpToPosition:
+      //  case ThActionsKeys.jumpToPosition:
         default:
           break
       }

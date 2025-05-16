@@ -16,7 +16,10 @@ import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
 
 export const StatefulJumpToPosition = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
+
+  return (<></>);
   
+  /*
   return(
     <>
     { (variant && variant === ThActionsTriggerVariant.menu) 
@@ -39,4 +42,5 @@ export const StatefulJumpToPosition = ({ variant }: StatefulActionTriggerProps) 
     }
     </>
   )
+    */
 }

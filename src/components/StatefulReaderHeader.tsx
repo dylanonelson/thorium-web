@@ -31,9 +31,9 @@ const ActionsMap: { [key in ThActionsKeys]: StatefulActionsMapObject } = {
   [ThActionsKeys.fullscreen]: {
     trigger: StatefulSwitchFullscreen
   },
-  [ThActionsKeys.jumpToPosition]: {
+  /* [ThActionsKeys.jumpToPosition]: {
     trigger: StatefulJumpToPosition
-  },
+  }, */
   [ThActionsKeys.layoutStrategy]: {
     trigger: StatefulLayoutStrategyTrigger,
     target: StatefulLayoutStrategyContainer

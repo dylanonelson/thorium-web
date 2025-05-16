@@ -161,4 +161,89 @@ export interface ThPreferences<
   };
 }
 
-// TODO: Helpers to createPreferences and mergePreferences
+export const createPreferences = <
+  CustomActionKeys extends string | number | symbol,
+  CustomDockingKeys extends string | number | symbol,
+  CustomThemeKeys extends string | number | symbol,
+  CustomSettingsKeys extends string | number | symbol,
+  CustomSettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>>,
+  CustomTextSettingsKeys extends string | number | symbol,
+  CustomSpacingSettingsKeys extends string | number | symbol,
+  CustomConstraintsKeys extends string | number | symbol
+>(
+  params: {
+    direction?: ThLayoutDirection;
+    locale?: string;
+    typography: {
+      minimalLineLength?: number | null;
+      maximalLineLength?: number | null;
+      optimalLineLength: number;
+      pageGutter: number;
+      layoutStrategy?: ThLayoutStrategy | null;
+    };
+    scroll: {
+      topAffordance: ScrollAffordancePref;
+      bottomAffordance: ScrollAffordancePref;
+      backTo: ThScrollBackTo;
+    };
+    theming: {
+      arrow: {
+        size: number;
+        offset: number;
+        tooltipDelay?: number;
+      };
+      icon: {
+        size: number;
+        tooltipOffset: number;
+        tooltipDelay?: number;
+      };
+      layout: {
+        radius: number;
+        spacing: number;
+        defaults: {
+          dockingWidth: number;
+          scrim: string;
+        };
+        constraints?: {
+          [key in CustomConstraintsKeys]?: number
+        }
+      };
+      breakpoints: BreakpointsMap<number | null>;
+      themes: {
+        reflowOrder: CustomThemeKeys[];
+        fxlOrder: CustomThemeKeys[];
+        keys: {
+          [key in Exclude<CustomThemeKeys, "auto">]: ThemeTokens;
+        }
+      };
+    };
+    shortcuts: {
+      representation: ShortcutRepresentation;
+      joiner?: string;
+    };
+    actions: ThActionsPref<CustomActionKeys>;
+    docking: ThDockingPref<CustomDockingKeys>;
+    settings: {
+      reflowOrder: CustomSettingsKeys[];
+      fxlOrder: CustomSettingsKeys[];
+      keys?: CustomSettingsKeyTypes;
+      text?: ThSettingsGroupPref<CustomTextSettingsKeys>;
+      spacing?: ThSettingsGroupPref<CustomSpacingSettingsKeys>;
+    };
+  }
+): ThPreferences<
+  CustomActionKeys,
+  CustomDockingKeys,
+  CustomThemeKeys,
+  CustomSettingsKeys,
+  CustomSettingsKeyTypes,
+  CustomTextSettingsKeys,
+  CustomSpacingSettingsKeys,
+  CustomConstraintsKeys
+> => {
+  return {
+    ...params,
+  }
+}
+
+// TODO: Helpers for mergePreferences
