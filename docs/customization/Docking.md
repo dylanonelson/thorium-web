@@ -14,31 +14,31 @@ You can configure the dock panels using `dock`. The value can be:
 
 - `false`: disables docking entirely;
 - `true`: enables docking and exposes two panels;
-- an object whose properties are in enum `StaticBreakpoints` and value is in enum `DockTypes` (`none`, `start`, `end`, `both`).
+- an object whose properties are in enum `ThBreakpoints` and value is in enum `ThDockingTypes` (`none`, `start`, `end`, `both`).
 
-Note this object don’t require all `StaticBreakpoints` to be configured, only the ones requiring a specific setting.
+Note this object don’t require all `ThBreakpoints` to be configured, only the ones requiring a specific setting.
 
 This means you can disable docking on smaller screens for instance, or only expose a single panel on larger screens:
 
 ```
 dock: {
-  [StaticBreakpoints.compact]: DockTypes.none,
-  [StaticBreakpoints.medium]: DockTypes.none,
-  [StaticBreakpoints.expanded]: DockTypes.none,
-  [StaticBreakpoints.large]: DockTypes.start,
-  [StaticBreakpoints.xLarge]: DockTypes.start
+  [ThBreakpoints.compact]: ThDockingTypes.none,
+  [ThBreakpoints.medium]: ThDockingTypes.none,
+  [ThBreakpoints.expanded]: ThDockingTypes.none,
+  [ThBreakpoints.large]: ThDockingTypes.start,
+  [ThBreakpoints.xLarge]: ThDockingTypes.start
 }
 ```
 
 ### Display Order
 
-Property `displayOrder` accepts an array of `DockingKeys` (`transient`, `start`, `end`).
+Property `displayOrder` accepts an array of `ThDockingKeys` (`transient`, `start`, `end`).
 
 ```
 displayOrder: [
-  DockingKeys.transient,
-  DockingKeys.start,
-  DockingKeys.end
+  ThDockingKeys.transient,
+  ThDockingKeys.start,
+  ThDockingKeys.end
 ]
 ```
 
@@ -50,7 +50,7 @@ See [dedicated doc](./Collapsibility.md).
 
 Each action with a sheet/container can have an optional `docked` configuration with the following properties:
 
-- `dockable`: the docking options (in `DockingKeys` enum) to display to the user for this specific action (required);
+- `dockable`: the docking options (in `ThDockingTypes` enum) to display to the user for this specific action (required);
 - `dragIndicator`: enable/disable the drag indicator if the actions’ container is resizable (default is `false`);
 - `width`: the initial/default width of the container when docked in `px`;
 - `minWidth`: the minimum width of the container when docked in `px`;
@@ -59,10 +59,10 @@ Each action with a sheet/container can have an optional `docked` configuration w
 For instance, if you want to Table of Contents to be dockable in both panels, with a drag handle, and make it resizable, you would configure:
 
 ```
-[ActionKeys.toc]: {
+[ThActionKeys.toc]: {
   ...
   docked: {
-    dockable: DockTypes.both,
+    dockable: ThDockingTypes.both,
     dragIndicator: true,
     width: 360,
     minWidth: 320,
@@ -79,18 +79,18 @@ Note the panels are also collapsible, and will try to keep the width the user ha
 
 ## Docked Sheets
 
-You can set the action’s container as docked using `SheetTypes.dockedStart` and `SheetTypes.dockedEnd` in the action’s `sheet` object, but it can’t be a `defaultSheet`, it can only be used in `breakpoints`. 
+You can set the action’s container as docked using `ThSheetTypes.dockedStart` and `ThSheetTypes.dockedEnd` in the action’s `sheet` object, but it can’t be a `defaultSheet`, it can only be used in `breakpoints`. 
 
 For instance, if you want to have the Table of Contents docked by default on larger screens but as a popover otherwise:
 
 ```
-[ActionKeys.toc]: {
+[ThActionKeys.toc]: {
   ...
   sheet: {
-    defaultSheet: SheetTypes.popover,
+    defaultSheet: ThSheetTypes.popover,
     breakpoints: {
-      [StaticBreakpoints.large]: SheetTypes.dockedStart,
-      [StaticBreakpoints.xLarge]: SheetTypes.dockedStart
+      [ThBreakpoints.large]: ThSheetTypes.dockedStart,
+      [ThBreakpoints.xLarge]: ThSheetTypes.dockedStart
     }
 }
 ```
