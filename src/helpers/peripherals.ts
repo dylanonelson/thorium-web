@@ -3,7 +3,7 @@ import { ThActionsPref } from "@/preferences";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
 
-import { buildShortcut, PShortcut } from "@/packages/Helpers/keyboardUtilities";
+import { buildShortcut, UnstablePShortcut } from "@/packages/Helpers/keyboardUtilities";
 import { isInteractiveElement } from "@/packages/Helpers/focusUtilities";
 
 import { useAppStore } from "@/lib/hooks";
@@ -17,7 +17,7 @@ export interface PCallbacks {
 export interface PShortcuts {
   [key: string]: {
     actionKey: ThActionsKeys;
-    modifiers: PShortcut["modifiers"];
+    modifiers: UnstablePShortcut["modifiers"];
   }
 }
 

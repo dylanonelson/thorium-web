@@ -1,4 +1,4 @@
-import { Breakpoints, BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
+import { ThBreakpoints, BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 
 export const makeBreakpointsMap = <T>({
   defaultValue,
@@ -17,27 +17,27 @@ export const makeBreakpointsMap = <T>({
   };
 
   const breakpointsMap: Required<BreakpointsMap<T>> = {
-    [Breakpoints.compact]: defaultValue,
-    [Breakpoints.medium]: defaultValue,
-    [Breakpoints.expanded]: defaultValue,
-    [Breakpoints.large]: defaultValue,
-    [Breakpoints.xLarge]: defaultValue
+    [ThBreakpoints.compact]: defaultValue,
+    [ThBreakpoints.medium]: defaultValue,
+    [ThBreakpoints.expanded]: defaultValue,
+    [ThBreakpoints.large]: defaultValue,
+    [ThBreakpoints.xLarge]: defaultValue
   };
 
   if (typeof pref === "boolean" || pref instanceof Boolean) {
     if (!pref && disabledValue) {
-      Object.values(Breakpoints).forEach((key) => {
+      Object.values(ThBreakpoints).forEach((key) => {
         breakpointsMap[key] = disabledValue;
       });
     }
   } else if (typeof pref === "string" && isValidType(pref)) {
-    Object.values(Breakpoints).forEach((key) => {
+    Object.values(ThBreakpoints).forEach((key) => {
       breakpointsMap[key] = pref;
     });
   } else if (typeof pref === "object") {
     Object.entries(pref).forEach(([key, value]) => {
       if (value && isValidType(value.toString())) {
-        breakpointsMap[key as Breakpoints] = value;
+        breakpointsMap[key as ThBreakpoints] = value;
       }
     });
   }

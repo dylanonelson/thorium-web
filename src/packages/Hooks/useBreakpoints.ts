@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useMediaQuery } from "./useMediaQuery";
 
-export enum Breakpoints {
+export enum ThBreakpoints {
   compact = "compact",
   medium = "medium",
   expanded = "expanded",
@@ -16,16 +16,16 @@ type ThBreakpointRange = {
   max: number | null
 }
 
-type ThBreakpointRanges = { [key in Breakpoints]: ThBreakpointRange | null; }
+type ThBreakpointRanges = { [key in ThBreakpoints]: ThBreakpointRange | null; }
 
 export type BreakpointsMap<T> = {
-  [key in Breakpoints]?: T
+  [key in ThBreakpoints]?: T
 };
 
-export type ThBreakpoints = { [key in Breakpoints]: boolean | null } & { current: string | null } & { ranges: ThBreakpointRanges }
+export type ThBreakpointsObject = { [key in ThBreakpoints]: boolean | null } & { current: string | null } & { ranges: ThBreakpointRanges }
 
-export const useBreakpoints = (map: BreakpointsMap<number | null>, onChange?: (breakpoint: Breakpoints | null) => void): ThBreakpoints => {
-  const [currentBreakpoint, setCurrentBreakpoint] = useState<Breakpoints | null>(null);
+export const useBreakpoints = (map: BreakpointsMap<number | null>, onChange?: (breakpoint: ThBreakpoints | null) => void): ThBreakpointsObject => {
+  const [currentBreakpoint, setCurrentBreakpoint] = useState<ThBreakpoints | null>(null);
 
   const makeMediaString = (range: ThBreakpointRange | null) => {
     if (!range || (!range.min && !range.max)) return null;
@@ -42,11 +42,11 @@ export const useBreakpoints = (map: BreakpointsMap<number | null>, onChange?: (b
 
   const initRanges = (prefs: BreakpointsMap<number | null>) => {
     const breakpointRanges: ThBreakpointRanges = {
-      [Breakpoints.compact]: null,
-      [Breakpoints.medium]: null,
-      [Breakpoints.expanded]: null,
-      [Breakpoints.large]: null,
-      [Breakpoints.xLarge]: null
+      [ThBreakpoints.compact]: null,
+      [ThBreakpoints.medium]: null,
+      [ThBreakpoints.expanded]: null,
+      [ThBreakpoints.large]: null,
+      [ThBreakpoints.xLarge]: null
     };
   
     let prev: null | number = null;
@@ -62,7 +62,7 @@ export const useBreakpoints = (map: BreakpointsMap<number | null>, onChange?: (b
           }
         });
         prev = value;
-      } else if (!value && key === Breakpoints.xLarge && prev) {
+      } else if (!value && key === ThBreakpoints.xLarge && prev) {
         Object.defineProperty(breakpointRanges, key, {
           value: {
             min: prev + 1,
@@ -77,11 +77,11 @@ export const useBreakpoints = (map: BreakpointsMap<number | null>, onChange?: (b
 
   const ranges = useMemo(() => initRanges(map), [map]);
 
-  const compactMedia = makeMediaString(ranges[Breakpoints.compact]);
-  const mediumMedia = makeMediaString(ranges[Breakpoints.medium]);
-  const expandedMedia = makeMediaString(ranges[Breakpoints.expanded]);
-  const largeMedia = makeMediaString(ranges[Breakpoints.large]);
-  const xLargeMedia = makeMediaString(ranges[Breakpoints.xLarge]);
+  const compactMedia = makeMediaString(ranges[ThBreakpoints.compact]);
+  const mediumMedia = makeMediaString(ranges[ThBreakpoints.medium]);
+  const expandedMedia = makeMediaString(ranges[ThBreakpoints.expanded]);
+  const largeMedia = makeMediaString(ranges[ThBreakpoints.large]);
+  const xLargeMedia = makeMediaString(ranges[ThBreakpoints.xLarge]);
 
   const compactMatches = useMediaQuery(compactMedia);
   const mediumMatches = useMediaQuery(mediumMedia);
@@ -93,15 +93,15 @@ export const useBreakpoints = (map: BreakpointsMap<number | null>, onChange?: (b
     let newBreakpoint = null;
 
     if (compactMatches) {
-      newBreakpoint = Breakpoints.compact;
+      newBreakpoint = ThBreakpoints.compact;
     } else if (mediumMatches) {
-      newBreakpoint = Breakpoints.medium;
+      newBreakpoint = ThBreakpoints.medium;
     } else if (expandedMatches) {
-      newBreakpoint = Breakpoints.expanded;
+      newBreakpoint = ThBreakpoints.expanded;
     } else if (largeMatches) {
-      newBreakpoint = Breakpoints.large;
+      newBreakpoint = ThBreakpoints.large;
     } else if (xLargeMatches) {
-      newBreakpoint = Breakpoints.xLarge;
+      newBreakpoint = ThBreakpoints.xLarge;
     }
 
     setCurrentBreakpoint(newBreakpoint);
@@ -109,11 +109,11 @@ export const useBreakpoints = (map: BreakpointsMap<number | null>, onChange?: (b
   }, [compactMatches, mediumMatches, expandedMatches, largeMatches, xLargeMatches, onChange]);
 
   return {
-    [Breakpoints.compact]: compactMatches,
-    [Breakpoints.medium]: mediumMatches,
-    [Breakpoints.expanded]: expandedMatches,
-    [Breakpoints.large]: largeMatches,
-    [Breakpoints.xLarge]: xLargeMatches,
+    [ThBreakpoints.compact]: compactMatches,
+    [ThBreakpoints.medium]: mediumMatches,
+    [ThBreakpoints.expanded]: expandedMatches,
+    [ThBreakpoints.large]: largeMatches,
+    [ThBreakpoints.xLarge]: xLargeMatches,
     current: currentBreakpoint,
     ranges: ranges
   };

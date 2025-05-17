@@ -8,7 +8,7 @@ import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
 import MenuIcon from "./assets/icons/more_vert.svg";
 
-import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
+import { ThCollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 import { ThMenu } from "@/packages/Components/Menu/ThMenu";
 import { ThActionsKeys, ThDockingKeys } from "@/preferences/models/enums";
 import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
@@ -69,7 +69,7 @@ export const StatefulOverflowMenu = ({
               aria-label={ Locale.reader.overflowMenu.active.trigger }
               placement="bottom"
               tooltipLabel={ Locale.reader.overflowMenu.active.tooltip }
-              visibility={ CollapsibilityVisibility.always }
+              visibility={ ThCollapsibilityVisibility.always }
             >
               <MenuIcon aria-hidden="true" focusable="false" />
             </StatefulActionIcon>
@@ -87,7 +87,7 @@ export const StatefulOverflowMenu = ({
           aria-label={ Locale.reader.overflowMenu.hint.trigger }
           placement="bottom"
           tooltipLabel={ Locale.reader.overflowMenu.hint.tooltip } 
-          visibility={ CollapsibilityVisibility.always }
+          visibility={ ThCollapsibilityVisibility.always }
           onPress={ () => { dispatch(toggleImmersive()) } }
           preventFocusOnPress={ true }
         >

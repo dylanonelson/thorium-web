@@ -1,9 +1,9 @@
 "use client";
 
-import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
-import { ShortcutMetaKeywords, ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
-import { CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
-import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
+import { ThBreakpoints } from "@/packages/Hooks/useBreakpoints";
+import { UnstableShortcutMetaKeywords, UnstableShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
+import { ThCollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
+import { ThScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
 import { 
   ThActionsKeys, 
   ThDockingTypes, 
@@ -24,14 +24,6 @@ import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";
 import nightMode from "@readium/css/css/vars/night.json";
 
-const enum CustomActionKeys {
-  fullscreen = "fullscreen",
-  // jumpToPosition = "jumpToPosition",
-  layoutStrategy = "layoutStrategy",
-  settings = "settings",
-  toc = "toc"
-}
-
 export const defaultPreferences = createPreferences({
   direction: ThLayoutDirection.ltr,
   locale: "en",
@@ -43,8 +35,8 @@ export const defaultPreferences = createPreferences({
     layoutStrategy: ThLayoutStrategy.lineLength
   },
   scroll: {
-    topAffordance: ScrollAffordancePref.none,
-    bottomAffordance: ScrollAffordancePref.both,
+    topAffordance: ThScrollAffordancePref.none,
+    bottomAffordance: ThScrollAffordancePref.both,
     backTo: ThScrollBackTo.top
   },
   theming: {
@@ -70,11 +62,11 @@ export const defaultPreferences = createPreferences({
     },
     breakpoints: {
       // See https://m3.material.io/foundations/layout/applying-layout/window-size-classes
-      [Breakpoints.compact]: 600, // Phone in portrait
-      [Breakpoints.medium]: 840, // Tablet in portrait, Foldable in portrait (unfolded)
-      [Breakpoints.expanded]: 1200, // Phone in landscape, Tablet in landscape, Foldable in landscape (unfolded), Desktop
-      [Breakpoints.large]: 1600, // Desktop
-      [Breakpoints.xLarge]: null // Desktop Ultra-wide
+      [ThBreakpoints.compact]: 600, // Phone in portrait
+      [ThBreakpoints.medium]: 840, // Tablet in portrait, Foldable in portrait (unfolded)
+      [ThBreakpoints.expanded]: 1200, // Phone in landscape, Tablet in landscape, Foldable in landscape (unfolded), Desktop
+      [ThBreakpoints.large]: 1600, // Desktop
+      [ThBreakpoints.xLarge]: null // Desktop Ultra-wide
     },
     themes: {
       reflowOrder: [
@@ -202,7 +194,7 @@ export const defaultPreferences = createPreferences({
     }
   },
   shortcuts: {
-    representation: ShortcutRepresentation.symbol,
+    representation: UnstableShortcutRepresentation.symbol,
     joiner: "+"
   },
   actions: {
@@ -217,17 +209,17 @@ export const defaultPreferences = createPreferences({
       // Number of partially icons to display
       // value "all" a keyword for the length of displayOrder above
       // Icons with visibility always are excluded from collapsing
-      [Breakpoints.compact]: 2,
-      [Breakpoints.medium]: 3
+      [ThBreakpoints.compact]: 2,
+      [ThBreakpoints.medium]: 3
     }, 
     keys: {
       [ThActionsKeys.settings]: {
-        visibility: CollapsibilityVisibility.partially,
-        shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+P`,
+        visibility: ThCollapsibilityVisibility.partially,
+        shortcut: null, // `${ UnstableShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+P`,
         sheet: {
           defaultSheet: ThSheetTypes.popover,
           breakpoints: {
-            [Breakpoints.compact]: ThSheetTypes.bottomSheet
+            [ThBreakpoints.compact]: ThSheetTypes.bottomSheet
           }
         },
         docked: {
@@ -242,17 +234,17 @@ export const defaultPreferences = createPreferences({
         }
       },
       [ThActionsKeys.fullscreen]: {
-        visibility: CollapsibilityVisibility.partially,
+        visibility: ThCollapsibilityVisibility.partially,
         shortcut: null
       },
       [ThActionsKeys.toc]: {
-        visibility: CollapsibilityVisibility.partially,
-        shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+T`,
+        visibility: ThCollapsibilityVisibility.partially,
+        shortcut: null, // `${ UnstableShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+T`,
         sheet: {
           defaultSheet: ThSheetTypes.popover,
           breakpoints: {
-            [Breakpoints.compact]: ThSheetTypes.fullscreen,
-            [Breakpoints.medium]: ThSheetTypes.fullscreen
+            [ThBreakpoints.compact]: ThSheetTypes.fullscreen,
+            [ThBreakpoints.medium]: ThSheetTypes.fullscreen
           }
         },
         docked: {
@@ -264,12 +256,12 @@ export const defaultPreferences = createPreferences({
         }
       },
       [ThActionsKeys.layoutStrategy]: {
-        visibility: CollapsibilityVisibility.overflow,
+        visibility: ThCollapsibilityVisibility.overflow,
         shortcut: null,
         sheet: {
           defaultSheet: ThSheetTypes.popover,
           breakpoints: {
-            [Breakpoints.compact]: ThSheetTypes.bottomSheet
+            [ThBreakpoints.compact]: ThSheetTypes.bottomSheet
           }
         },
         docked: {
@@ -283,8 +275,8 @@ export const defaultPreferences = createPreferences({
         }
       },
       // [ThActionsKeys.jumpToPosition]: {
-      //  visibility: CollapsibilityVisibility.overflow,
-      //  shortcut: null, // `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
+      //  visibility: ThCollapsibilityVisibility.overflow,
+      //  shortcut: null, // `${ UnstableShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
       //  docked: {
       //    dockable: ThDockingTypes.none
       //  }
@@ -298,24 +290,24 @@ export const defaultPreferences = createPreferences({
       ThDockingKeys.end
     ],
     dock: {
-      [Breakpoints.compact]: ThDockingTypes.none,
-      [Breakpoints.medium]: ThDockingTypes.none,
-      [Breakpoints.expanded]: ThDockingTypes.start,
-      [Breakpoints.large]: ThDockingTypes.both,
-      [Breakpoints.xLarge]: ThDockingTypes.both
+      [ThBreakpoints.compact]: ThDockingTypes.none,
+      [ThBreakpoints.medium]: ThDockingTypes.none,
+      [ThBreakpoints.expanded]: ThDockingTypes.start,
+      [ThBreakpoints.large]: ThDockingTypes.both,
+      [ThBreakpoints.xLarge]: ThDockingTypes.both
     },
     collapse: true,
     keys: {
       [ThDockingKeys.start]: {
-        visibility: CollapsibilityVisibility.overflow,
+        visibility: ThCollapsibilityVisibility.overflow,
         shortcut: null
       },
       [ThDockingKeys.end]: {
-        visibility: CollapsibilityVisibility.overflow,
+        visibility: ThCollapsibilityVisibility.overflow,
         shortcut: null
       },
       [ThDockingKeys.transient]: {
-        visibility: CollapsibilityVisibility.overflow,
+        visibility: ThCollapsibilityVisibility.overflow,
         shortcut: null
       }
     }

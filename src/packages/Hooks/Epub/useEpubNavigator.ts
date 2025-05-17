@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useRef } from "react";
 
 import { ThScrollBackTo } from "@/preferences/models/enums";
-import { ScrollAffordance, ScrollAffordancePref } from "./scrollAffordance";
+import { ScrollAffordance, ThScrollAffordancePref } from "./scrollAffordance";
 
 import { 
   EPUBLayout, 
@@ -43,8 +43,8 @@ export interface EpubNavigatorLoadProps {
   preferences?: IEpubPreferences;
   defaults?: IEpubDefaults;
   scrollAffordances?: {
-    top?: ScrollAffordancePref;
-    bottom?: ScrollAffordancePref;
+    top?: ThScrollAffordancePref;
+    bottom?: ThScrollAffordancePref;
   }
 }
 

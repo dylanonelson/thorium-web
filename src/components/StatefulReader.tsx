@@ -9,7 +9,7 @@ import Locale from "../resources/locales/en.json";
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/readerArrowButton.module.css";
 
-import { Breakpoints } from "@/packages/Hooks/useBreakpoints";
+import { ThBreakpoints } from "@/packages/Hooks/useBreakpoints";
 import { 
   ThActionsKeys, 
   ThLineHeightOptions, 
@@ -19,7 +19,7 @@ import {
   ThThemeKeys, 
   ThLayoutStrategy 
 } from "@/preferences/models/enums";
-import { ColorScheme } from "@/packages/Hooks/useColorScheme";
+import { ThColorScheme } from "@/packages/Hooks/useColorScheme";
 
 import { I18nProvider } from "react-aria";
 import { ComponentsMapContextValue, ComponentsMapProvider } from "./ComponentsMapContext";
@@ -58,7 +58,7 @@ import { useFullscreen } from "@/packages/Hooks/useFullscreen";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 
 import Peripherals from "@/helpers/peripherals";
-import { CUSTOM_SCHEME, ScrollActions } from "@/packages/Hooks/Epub/scrollAffordance";
+import { TH_CUSTOM_SCHEME, ThScrollActions } from "@/packages/Hooks/Epub/scrollAffordance";
 import { localData } from "@/packages/Helpers/localData";
 import { getPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
 import { createTocTree, TocItem } from "@/packages/Helpers/createTocTree";
@@ -109,12 +109,12 @@ export interface ReadiumCSSSettings {
   wordSpacing: number | null;
 }
 
-export interface ICache {
+export interface StatelessCache {
   isImmersive: boolean;
   arrowsOccupySpace: boolean;
   settings: ReadiumCSSSettings;
   tocTree?: TocItem[];
-  colorScheme?: ColorScheme;
+  colorScheme?: ThColorScheme;
   reducedMotion?: boolean;
 }
 
@@ -154,13 +154,13 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
 
   const breakpoint = useAppSelector(state => state.theming.breakpoint);
   const arrowsOccupySpace = breakpoint && 
-    (breakpoint === Breakpoints.large || breakpoint === Breakpoints.xLarge);
+    (breakpoint === ThBreakpoints.large || breakpoint === ThBreakpoints.xLarge);
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
 
   // We need to use a cache so that we can use updated values
   // without re-rendering the component, and reloading EpubNavigator
-  const cache = useRef<ICache>({
+  const cache = useRef<StatelessCache>({
     isImmersive: isImmersive,
     arrowsOccupySpace: arrowsOccupySpace || false,
     settings: {
@@ -416,10 +416,10 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
 
       // Scroll Affordances
       // That’s not great though
-      if (href.includes(CUSTOM_SCHEME)) {
-        if (href.includes(ScrollActions.prev)) {
+      if (href.includes(TH_CUSTOM_SCHEME)) {
+        if (href.includes(ThScrollActions.prev)) {
           goLeft(false, () => { scrollBackTo(RSPrefs.scroll.backTo) }); 
-        } else if (href.includes(ScrollActions.next)) {
+        } else if (href.includes(ThScrollActions.next)) {
           goRight(false, () => { scrollBackTo(ThScrollBackTo.top) });
         }
       } else if (

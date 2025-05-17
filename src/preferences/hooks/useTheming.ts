@@ -4,11 +4,11 @@ import { useCallback, useEffect, useRef } from "react";
 
 import { CSSColor } from "../CSSValues";
 
-import { BreakpointsMap, Breakpoints, useBreakpoints } from "@/packages/Hooks/useBreakpoints";
+import { BreakpointsMap, ThBreakpoints, useBreakpoints } from "@/packages/Hooks/useBreakpoints";
 import { useReducedMotion } from "@/packages/Hooks/useReducedMotion";
 import { useReducedTransparency } from "@/packages/Hooks/useReducedTransparency";
-import { ColorScheme, useColorScheme } from "@/packages/Hooks/useColorScheme";
-import { Contrast, useContrast } from "@/packages/Hooks/useContrast";
+import { ThColorScheme, useColorScheme } from "@/packages/Hooks/useColorScheme";
+import { ThContrast, useContrast } from "@/packages/Hooks/useContrast";
 import { useForcedColors } from "@/packages/Hooks/useForcedColors";
 import { useMonochrome } from "@/packages/Hooks/useMonochrome";
 
@@ -37,9 +37,9 @@ export interface useThemingProps<T extends string> {
   themeKeys: Record<T, ThemeTokens>;
   breakpointsMap: BreakpointsMap<number | null>;
   initProps?: Record<string, any>;
-  onBreakpointChange?: (breakpoint: Breakpoints | null) => void;
-  onColorSchemeChange?: (colorScheme: ColorScheme) => void;
-  onContrastChange?: (contrast: Contrast) => void;
+  onBreakpointChange?: (breakpoint: ThBreakpoints | null) => void;
+  onColorSchemeChange?: (colorScheme: ThColorScheme) => void;
+  onContrastChange?: (contrast: ThContrast) => void;
   onForcedColorsChange?: (forcedColors: boolean) => void;
   onMonochromeChange?: (isMonochrome: boolean) => void;
   onReducedMotionChange?: (reducedMotion: boolean) => void;
@@ -73,7 +73,7 @@ export const useTheming = <T extends string>({
   const reducedTransparency = useReducedTransparency(onReducedTransparencyChange);
 
   const inferThemeAuto = useCallback(() => {
-    return colorSchemeRef.current === ColorScheme.dark ? darkKey : lightKey;
+    return colorSchemeRef.current === ThColorScheme.dark ? darkKey : lightKey;
   }, [darkKey, lightKey]);
 
   const initThemingCustomProps = useCallback(() => {

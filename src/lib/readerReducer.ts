@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { defaultPlatformModifier, IPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
+import { defaultPlatformModifier, UnstablePlatformModifier } from "@/packages/Helpers/keyboardUtilities";
 import { ThSettingsContainerKeys, ThLayoutDirection } from "@/preferences/models/enums";
 
 export interface ReaderReducerState {
@@ -11,7 +11,7 @@ export interface ReaderReducerState {
   hasArrows: boolean;
   isFullscreen: boolean;
   settingsContainer: ThSettingsContainerKeys;
-  platformModifier: IPlatformModifier;
+  platformModifier: UnstablePlatformModifier;
 }
 
 const initialState: ReaderReducerState = {
