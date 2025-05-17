@@ -9,9 +9,10 @@ import dockingStyles from "./assets/styles/docking.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { ThDockingKeys } from "@/preferences/models/enums";
-import { StatefulActionsMapObject } from "@/components/Actions/models/actions";
 
 import { Toolbar } from "react-aria-components";
+
+import { useComponentsMap } from "../ComponentsMapContext";
 
 import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
 import { StatefulCollapsibleActionsBar } from "../Actions/StatefulCollapsibleActionsBar";
@@ -20,7 +21,6 @@ import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 export interface StatefulDockerProps {
   id: ActionsStateKeys;
-  componentsMap: { [key: string | number | symbol]: StatefulActionsMapObject };
   keys: ThDockingKeys[];
   ref: React.ForwardedRef<HTMLButtonElement>;
   onClose: () => void;
@@ -28,25 +28,26 @@ export interface StatefulDockerProps {
 
 export const StatefulDocker = ({
   id,
-  componentsMap,
   keys,
   ref,
   onClose
 }: StatefulDockerProps) => {
   const RSPrefs = useContext(PreferencesContext);
+  const { dockingComponentsMap } = useComponentsMap();
+  
   const listActionItems = useCallback(() => {
     const actionsItems: ThActionEntry<ThDockingKeys>[] = [];
 
     keys.map((key) => {
       actionsItems.push({
-        Trigger: componentsMap[key].trigger,
+        Trigger: dockingComponentsMap[key].trigger,
         key: key,
         associatedKey: id
       })
     });
 
     return actionsItems;
-  }, [componentsMap, keys, id]);
+  }, [dockingComponentsMap, keys, id]);
 
   return(
     <>

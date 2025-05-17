@@ -95,7 +95,6 @@ export const StatefulPopoverSheet = ({
               />
               : <StatefulDocker 
                 id={ id }
-                componentsMap={ dockingComponentsMap }
                 keys={ docker || [] }
                 ref={ popoverCloseRef }
                 onClose={ onPressClose }

@@ -8,7 +8,7 @@ import { Link } from "@readium/shared";
 import "../app.css";
 
 import dynamic from "next/dynamic";
-const Reader = dynamic<{ rawManifest: object; selfHref: string }>(() => import("../../components/StatefulReader").then((mod) => mod.StatefulReader), { ssr: false });
+const Reader = dynamic<{ rawManifest: object; selfHref: string, componentsMapContextValue?: ComponentsMapContextValue }>(() => import("../../components/StatefulReader").then((mod) => mod.StatefulReader), { ssr: false });
 
 import { StatefulLoader } from "@/components/StatefulLoader";
 
@@ -28,6 +28,7 @@ import {
 } from "@/lib/themeReducer";
 
 import { propsToCSSVars } from "@/packages/Helpers/propsToCSSVars";
+import { ComponentsMapContextValue } from "@/components/ComponentsMapContext";
 
 // TODO page metadata w/ generateMetadata
 

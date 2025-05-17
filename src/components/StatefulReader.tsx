@@ -22,6 +22,7 @@ import {
 import { ColorScheme } from "@/packages/Hooks/useColorScheme";
 
 import { I18nProvider } from "react-aria";
+import { ComponentsMapContextValue, ComponentsMapProvider } from "./ComponentsMapContext";
 
 import {
   BasicTextSelection,
@@ -61,8 +62,6 @@ import { CUSTOM_SCHEME, ScrollActions } from "@/packages/Hooks/Epub/scrollAfford
 import { localData } from "@/packages/Helpers/localData";
 import { getPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
 import { createTocTree, TocItem } from "@/packages/Helpers/createTocTree";
-
-import { actionsComponentsMap } from "./Actions/ActionsComponentsMap";
 
 import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
@@ -119,7 +118,7 @@ export interface ICache {
   reducedMotion?: boolean;
 }
 
-export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
+export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string, componentsMapContextValue?: ComponentsMapContextValue }) => {
   const RSPrefs = useContext(PreferencesContext);
   
   const container = useRef<HTMLDivElement>(null);
@@ -708,41 +707,43 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
   return (
     <>
     <I18nProvider locale={  RSPrefs.locale  }>
-    <main>
-      <StatefulDockingWrapper>
-        <div id="reader-main">
-          <StatefulReaderHeader componentsMap={ actionsComponentsMap} />
+    <ComponentsMapProvider>
+      <main>
+        <StatefulDockingWrapper>
+          <div id="reader-main">
+            <StatefulReaderHeader />
 
-        { isPaged 
-          ? <nav className={ arrowStyles.container } id={ arrowStyles.left }>
-              <StatefulReaderArrowButton 
-                direction="left" 
-                occupySpace={ arrowsOccupySpace || false }
-                isDisabled={ atPublicationStart } 
-                onPress={ () => goLeft(!reducedMotion, activateImmersiveOnAction) }
-              />
-          </nav> 
-          : <></> }
-
-          <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
-            <div id="container" ref={ container }></div>
-          </article>
-
-        { isPaged 
-          ? <nav className={ arrowStyles.container } id={ arrowStyles.right }>
-              <StatefulReaderArrowButton 
-                direction="right" 
-                occupySpace={ arrowsOccupySpace || false }
-                isDisabled={ atPublicationEnd } 
-                onPress={ () => goRight(!reducedMotion, activateImmersiveOnAction) }
-              />
+          { isPaged 
+            ? <nav className={ arrowStyles.container } id={ arrowStyles.left }>
+                <StatefulReaderArrowButton 
+                  direction="left" 
+                  occupySpace={ arrowsOccupySpace || false }
+                  isDisabled={ atPublicationStart } 
+                  onPress={ () => goLeft(!reducedMotion, activateImmersiveOnAction) }
+                />
             </nav> 
-          : <></> }
+            : <></> }
 
-        { isPaged ? <StatefulReaderFooter /> : <></> }
-        </div>
-    </StatefulDockingWrapper>
-  </main>
+            <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
+              <div id="container" ref={ container }></div>
+            </article>
+
+          { isPaged 
+            ? <nav className={ arrowStyles.container } id={ arrowStyles.right }>
+                <StatefulReaderArrowButton 
+                  direction="right" 
+                  occupySpace={ arrowsOccupySpace || false }
+                  isDisabled={ atPublicationEnd } 
+                  onPress={ () => goRight(!reducedMotion, activateImmersiveOnAction) }
+                />
+              </nav> 
+            : <></> }
+
+          { isPaged ? <StatefulReaderFooter /> : <></> }
+          </div>
+      </StatefulDockingWrapper>
+    </main>
+  </ComponentsMapProvider>
   </I18nProvider>
   </>
 )};

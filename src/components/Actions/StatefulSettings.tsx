@@ -37,21 +37,18 @@ import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
 import { StatefulSpacingGroupContainer } from "../Settings/StatefulSpacingGroup";
 import { StatefulTextGroupContainer } from "../Settings/StatefulTextGroup";
 
+import { useComponentsMap } from "../ComponentsMapContext";
 import { useDocking } from "../Docking/hooks/useDocking";
 
 import { setHovering, setSettingsContainer } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
-export interface StatefulSettingsContainerProps extends StatefulActionContainerProps {
-  componentsMap: { [key: string | number | symbol]: StatefulSettingsMapObject }
-}
-
 export const StatefulSettingsContainer = ({ 
-  triggerRef,
-  componentsMap
-}: StatefulSettingsContainerProps) => {
+  triggerRef
+}: StatefulActionContainerProps) => {
   const RSPrefs = useContext(PreferencesContext);
+  const { settingsComponentsMap, spacingComponentsMap, textComponentsMap } = useComponentsMap();
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const contains = useAppSelector(state => state.reader.settingsContainer);
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.settings]);
@@ -110,14 +107,14 @@ export const StatefulSettingsContainer = ({
               settingItems.current
                 .filter((key) => !(isTextNested(key) || isSpacingNested(key)))
                 .map((key: ThSettingsKeys) => {
-                  const setting = componentsMap[key];
+                  const setting = settingsComponentsMap[key];
                   return <setting.Comp key={ key } { ...setting.props } />;
                 })
             }
           </>
         );
     }
-  }, [componentsMap, contains, isTextNested, isSpacingNested]);
+  }, [settingsComponentsMap, textComponentsMap, spacingComponentsMap, contains, isTextNested, isSpacingNested]);
 
   const getHeading = useCallback(() => {
     switch (contains) {
