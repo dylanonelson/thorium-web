@@ -7,7 +7,6 @@ import { PreferencesContext } from "@/preferences";
 import Locale from "../resources/locales/en.json";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
-import { StatefulActionsMapObject } from "./Actions/models/actions";
 
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
@@ -17,19 +16,16 @@ import { ThHeader  } from "@/packages/Components/Reader/ThHeader";
 import { ThRunningHead } from "@/packages/Components/Reader/ThRunningHead";
 import { StatefulCollapsibleActionsBar } from "./Actions/StatefulCollapsibleActionsBar";
 
+import { useComponentsMap } from "./ComponentsMapContext";
+
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-export interface StatefulReaderHeaderProps {
-  componentsMap: { [key: string | number | symbol]: StatefulActionsMapObject }
-}
-
-export const StatefulReaderHeader = ({
-  componentsMap
-}: StatefulReaderHeaderProps) => {
+export const StatefulReaderHeader = () => {
   const RSPrefs = useContext(PreferencesContext);
+  const { actionsComponentsMap } = useComponentsMap();
   
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const runningHead = useAppSelector(state => state.publication.runningHead);
@@ -63,15 +59,15 @@ export const StatefulReaderHeader = ({
     actionsOrder.current.map((key) => {
       if (key !== ThActionsKeys.layoutStrategy || !isFXL) {
         actionsItems.push({
-          Trigger: componentsMap[key].trigger,
-          Target: componentsMap[key].target,
+          Trigger: actionsComponentsMap[key].trigger,
+          Target: actionsComponentsMap[key].target,
           key: key
         });
       }
     });
     
     return actionsItems;
-  }, [isFXL, componentsMap]);
+  }, [isFXL, actionsComponentsMap]);
 
   return (
     <>

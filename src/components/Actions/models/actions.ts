@@ -1,11 +1,10 @@
 import { RefObject } from "react";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
-import { StatefulSettingsContainerProps } from "../StatefulSettings";
 
 export interface StatefulActionsMapObject {
   trigger: React.ComponentType<StatefulActionTriggerProps>;
-  target?: React.ComponentType<StatefulActionContainerProps & StatefulSettingsContainerProps>;
+  target?: React.ComponentType<StatefulActionContainerProps>;
 }
 
 export interface StatefulActionTriggerProps {

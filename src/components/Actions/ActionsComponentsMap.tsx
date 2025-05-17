@@ -1,12 +1,11 @@
 "use client";
 
 import { ThActionsKeys } from "@/preferences";
-import { StatefulActionContainerProps, StatefulActionsMapObject } from "./models/actions";
+import { StatefulActionsMapObject } from "./models/actions";
 import { StatefulSwitchFullscreen } from "./StatefulSwitchFullscreen";
 import { StatefulLayoutStrategyContainer, StatefulLayoutStrategyTrigger } from "./StatefulLayoutStrategy";
 import { StatefulSettingsContainer, StatefulSettingsTrigger } from "./StatefulSettings";
 import { StatefulTocContainer, StatefulTocTrigger } from "./StatefulToc";
-import { settingsComponentsMap } from "../Settings/SettingsComponentsMap";
 
 export const fullscreenMapping = {
   [ThActionsKeys.fullscreen]: {
@@ -24,7 +23,7 @@ export const layoutStrategyMapping = {
 export const settingsMapping = {
   [ThActionsKeys.settings]: {
     trigger: StatefulSettingsTrigger,
-    target: (props: StatefulActionContainerProps) => <StatefulSettingsContainer {...props} componentsMap={settingsComponentsMap} />
+    target: StatefulSettingsContainer
   }
 };
 

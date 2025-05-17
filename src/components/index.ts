@@ -1,6 +1,7 @@
 export * from "../helpers/createComponentMap";
 export * from "../helpers/peripherals";
 
+export * from "./ComponentsMapContext";
 export * from "./Actions";
 export * from "./Docking";
 export * from "./Settings";

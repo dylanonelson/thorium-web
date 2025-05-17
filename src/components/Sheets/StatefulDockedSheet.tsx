@@ -90,7 +90,6 @@ export const StatefulDockedSheet = ({
             /> 
             : <StatefulDocker 
               id={ id }
-              componentsMap={ dockingComponentsMap }
               keys={ docker || [] }
               ref={ dockedSheetCloseRef }
               onClose={ onPressClose }
