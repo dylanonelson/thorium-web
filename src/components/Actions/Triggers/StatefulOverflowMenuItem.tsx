@@ -5,7 +5,7 @@ import React from "react";
 import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 
 import { Text } from "react-aria-components";
-import { UnstableStatefulShortcut as Shortcut } from "./UnstableShortcut";
+import { UnstableStatefulShortcut as StatefulShortcut } from "./UnstableStatefulShortcut";
 
 import { ThMenuItem, ThMenuItemProps } from "@/packages/Components/Menu/ThMenuItem";
 
@@ -39,7 +39,7 @@ export const StatefulOverflowMenuItem = ({
       >
         { label }
       </Text>
-      { shortcut && <Shortcut
+      { shortcut && <StatefulShortcut
         className={ overflowMenuStyles.menuItemKbdShortcut } 
         rawForm={ shortcut } 
       /> }
