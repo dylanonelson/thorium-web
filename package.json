@@ -18,8 +18,9 @@
     "./components": "./dist/components.js",
     "./helpers": "./dist/helpers.js",
     "./hooks": "./dist/hooks.js",
+    "./lib": "./dist/lib.js",
     "./preferences": "./dist/preferences.js",
-    "./redux": "./dist/redux.js"
+    "./statefulComponents": "./dist/statefulComponents.js"
   },
   "scripts": {
     "dev": "next dev",
