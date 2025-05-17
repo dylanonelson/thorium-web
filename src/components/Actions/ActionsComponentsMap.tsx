@@ -8,23 +8,37 @@ import { StatefulSettingsContainer, StatefulSettingsTrigger } from "./StatefulSe
 import { StatefulTocContainer, StatefulTocTrigger } from "./StatefulToc";
 import { settingsComponentsMap } from "../Settings/SettingsComponentsMap";
 
-export const actionsComponentsMap: Record<ThActionsKeys, StatefulActionsMapObject> = {
+export const fullscreenMapping = {
   [ThActionsKeys.fullscreen]: {
     trigger: StatefulSwitchFullscreen
-  },
-  /* [ThActionsKeys.jumpToPosition]: {
-    trigger: StatefulJumpToPosition
-  }, */
+  }
+};
+
+export const layoutStrategyMapping = {
   [ThActionsKeys.layoutStrategy]: {
     trigger: StatefulLayoutStrategyTrigger,
     target: StatefulLayoutStrategyContainer
-  },
+  }
+};
+
+export const settingsMapping = {
   [ThActionsKeys.settings]: {
     trigger: StatefulSettingsTrigger,
-    target: (props: StatefulActionContainerProps) => <StatefulSettingsContainer { ...props } componentsMap={ settingsComponentsMap } />
-  },
+    target: (props: StatefulActionContainerProps) => <StatefulSettingsContainer {...props} componentsMap={settingsComponentsMap} />
+  }
+};
+
+export const tocMapping = {
   [ThActionsKeys.toc]: {
     trigger: StatefulTocTrigger,
     target: StatefulTocContainer
   }
-}
+};
+
+// Combine maps as needed
+export const actionsComponentsMap: Record<ThActionsKeys, StatefulActionsMapObject> = {
+  ...fullscreenMapping,
+  ...layoutStrategyMapping,
+  ...settingsMapping,
+  ...tocMapping
+};
