@@ -64,4 +64,6 @@
 .container button svg {
   fill: var(--theme-text);
   stroke: var(--theme-text);
+  width: 100%;
+  height: 100%;
 }
