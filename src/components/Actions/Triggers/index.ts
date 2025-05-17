@@ -2,4 +2,4 @@
 
 export * from "./StatefulActionIcon";
 export * from "./StatefulOverflowMenuItem";
-export * from "./UnstableShortcut";
+export * from "./UnstableStatefulShortcut";
