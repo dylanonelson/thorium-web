@@ -18,7 +18,7 @@ import {
   ThTextSettingsKeys,
   ThSheetHeaderVariant
 } from "./models/enums";
-import { createPreferences, ThPreferences } from "./preferences";
+import { createPreferences } from "./preferences";
 
 import dayMode from "@readium/css/css/vars/day.json";
 import sepiaMode from "@readium/css/css/vars/sepia.json";
@@ -32,7 +32,7 @@ const enum CustomActionKeys {
   toc = "toc"
 }
 
-export const defaultPreferences: ThPreferences = createPreferences({
+export const defaultPreferences = createPreferences({
   direction: ThLayoutDirection.ltr,
   locale: "en",
   typography: {

@@ -94,17 +94,40 @@ export type ThConstraintKeys = Extract<ThSheetTypes, ThSheetTypes.bottomSheet | 
 // TODO: Improve generics when time allows… 
 // This is tricky to do in a rush since there are so many
 // things you can customize across the app
-export interface ThPreferences<
-  CustomActionKeys extends string | number | symbol = ThActionsKeys,
-  CustomDockingKeys extends string | number | symbol = ThDockingKeys,
-  CustomThemeKeys extends string | number | symbol = ThThemeKeys,
-  CustomSettingsKeys extends string | number | symbol = ThSettingsKeys,
-  CustomSettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>> = ThSettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>> ? ThSettingsKeyTypes : never,
-  CustomTextSettingsKeys extends string | number | symbol = ThTextSettingsKeys,
-  CustomSpacingSettingsKeys extends string | number | symbol = ThSpacingSettingsKeys,
-  CustomConstraintsKeys extends string | number | symbol = ThConstraintKeys
-> {
-  direction?: ThLayoutDirection,
+// Base type for customizable keys
+export interface CustomizableKeys {
+  actionKeys?: string | number | symbol;
+  dockingKeys?: string | number | symbol;
+  themeKeys?: string | number | symbol;
+  settingsKeys?: string | number | symbol;
+  textSettingsKeys?: string | number | symbol;
+  spacingSettingsKeys?: string | number | symbol;
+  constraintsKeys?: string | number | symbol;
+  customSettingsKeyTypes?: Record<string, unknown>;
+}
+
+// Default type with all the standard keys
+export type DefaultKeys = {
+  actionKeys: ThActionsKeys;
+  dockingKeys: ThDockingKeys;
+  themeKeys: ThThemeKeys;
+  settingsKeys: ThSettingsKeys;
+  textSettingsKeys: ThTextSettingsKeys;
+  spacingSettingsKeys: ThSpacingSettingsKeys;
+  constraintsKeys: ThConstraintKeys;
+  customSettingsKeyTypes: ThSettingsKeyTypes;
+}
+
+// Helper type to merge custom keys with defaults
+export type MergedKeys<T extends Partial<CustomizableKeys>> = {
+  [K in keyof DefaultKeys]: K extends keyof T 
+    ? NonNullable<T[K]> 
+    : DefaultKeys[K];
+}
+
+// Main preferences interface with simplified generics
+export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
+  direction?: ThLayoutDirection;
   locale?: string;
   typography: {
     minimalLineLength?: number | null;
@@ -137,15 +160,15 @@ export interface ThPreferences<
         scrim: string;
       };
       constraints?: {
-        [key in CustomConstraintsKeys]?: number
+        [key in MergedKeys<T>['constraintsKeys']]?: number
       }
     };
     breakpoints: BreakpointsMap<number | null>;
     themes: {
-      reflowOrder: CustomThemeKeys[];
-      fxlOrder: CustomThemeKeys[];
+      reflowOrder: MergedKeys<T>['themeKeys'][];
+      fxlOrder: MergedKeys<T>['themeKeys'][];
       keys: {
-        [key in Exclude<CustomThemeKeys, "auto">]: ThemeTokens;
+        [key in Exclude<MergedKeys<T>['themeKeys'], 'auto'>]: ThemeTokens;
       }
     };
   };
@@ -153,100 +176,24 @@ export interface ThPreferences<
     representation: ShortcutRepresentation;
     joiner?: string;
   };
-  actions: ThActionsPref<CustomActionKeys>;
-  docking: ThDockingPref<CustomDockingKeys>;
+  actions: ThActionsPref<MergedKeys<T>['actionKeys']>;
+  docking: ThDockingPref<MergedKeys<T>['dockingKeys']>;
   settings: {
-    reflowOrder: CustomSettingsKeys[];
-    fxlOrder: CustomSettingsKeys[];
-    keys?: CustomSettingsKeyTypes;
-    text?: ThSettingsGroupPref<CustomTextSettingsKeys>;
-    spacing?: ThSettingsGroupPref<CustomSpacingSettingsKeys>;
+    reflowOrder: MergedKeys<T>['settingsKeys'][];
+    fxlOrder: MergedKeys<T>['settingsKeys'][];
+    keys?: MergedKeys<T>['customSettingsKeyTypes'];
+    text?: ThSettingsGroupPref<MergedKeys<T>['textSettingsKeys']>;
+    spacing?: ThSettingsGroupPref<MergedKeys<T>['spacingSettingsKeys']>;
   };
 }
 
-export const createPreferences = <
-  CustomActionKeys extends string | number | symbol,
-  CustomDockingKeys extends string | number | symbol,
-  CustomThemeKeys extends string | number | symbol,
-  CustomSettingsKeys extends string | number | symbol,
-  CustomSettingsKeyTypes extends Partial<Record<CustomSettingsKeys, unknown>>,
-  CustomTextSettingsKeys extends string | number | symbol,
-  CustomSpacingSettingsKeys extends string | number | symbol,
-  CustomConstraintsKeys extends string | number | symbol
->(
-  params: {
-    direction?: ThLayoutDirection;
-    locale?: string;
-    typography: {
-      minimalLineLength?: number | null;
-      maximalLineLength?: number | null;
-      optimalLineLength: number;
-      pageGutter: number;
-      layoutStrategy?: ThLayoutStrategy | null;
-    };
-    scroll: {
-      topAffordance: ScrollAffordancePref;
-      bottomAffordance: ScrollAffordancePref;
-      backTo: ThScrollBackTo;
-    };
-    theming: {
-      arrow: {
-        size: number;
-        offset: number;
-        tooltipDelay?: number;
-      };
-      icon: {
-        size: number;
-        tooltipOffset: number;
-        tooltipDelay?: number;
-      };
-      layout: {
-        radius: number;
-        spacing: number;
-        defaults: {
-          dockingWidth: number;
-          scrim: string;
-        };
-        constraints?: {
-          [key in CustomConstraintsKeys]?: number
-        }
-      };
-      breakpoints: BreakpointsMap<number | null>;
-      themes: {
-        reflowOrder: CustomThemeKeys[];
-        fxlOrder: CustomThemeKeys[];
-        keys: {
-          [key in Exclude<CustomThemeKeys, "auto">]: ThemeTokens;
-        }
-      };
-    };
-    shortcuts: {
-      representation: ShortcutRepresentation;
-      joiner?: string;
-    };
-    actions: ThActionsPref<CustomActionKeys>;
-    docking: ThDockingPref<CustomDockingKeys>;
-    settings: {
-      reflowOrder: CustomSettingsKeys[];
-      fxlOrder: CustomSettingsKeys[];
-      keys?: CustomSettingsKeyTypes;
-      text?: ThSettingsGroupPref<CustomTextSettingsKeys>;
-      spacing?: ThSettingsGroupPref<CustomSpacingSettingsKeys>;
-    };
-  }
-): ThPreferences<
-  CustomActionKeys,
-  CustomDockingKeys,
-  CustomThemeKeys,
-  CustomSettingsKeys,
-  CustomSettingsKeyTypes,
-  CustomTextSettingsKeys,
-  CustomSpacingSettingsKeys,
-  CustomConstraintsKeys
-> => {
+// Updated create preferences function
+export const createPreferences = <T extends Partial<CustomizableKeys>>(
+  params: ThPreferences<T>
+): ThPreferences<T> => {
   return {
     ...params,
-  }
+  };
 }
 
 // TODO: Helpers for mergePreferences
