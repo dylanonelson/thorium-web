@@ -6,7 +6,7 @@ import { StatefulDockEnd } from "./StatefulDockEnd";
 import { StatefulDockStart } from "./StatefulDockStart";
 import { StatefulDockTransientPopover } from "./StatefulDockTransientPopover";
 
-export const dockingComponentsMap: { [key in ThDockingKeys]: StatefulActionsMapObject } = {
+export const dockingComponentsMap: Record<ThDockingKeys, StatefulActionsMapObject> = {
   [ThDockingKeys.start]: {
     trigger: StatefulDockStart
   },

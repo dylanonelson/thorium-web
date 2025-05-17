@@ -8,7 +8,7 @@ import { StatefulSettingsContainer, StatefulSettingsTrigger } from "./StatefulSe
 import { StatefulTocContainer, StatefulTocTrigger } from "./StatefulToc";
 import { settingsComponentsMap } from "../Settings/SettingsComponentsMap";
 
-export const actionsComponentsMap: { [key in ThActionsKeys]: StatefulActionsMapObject } = {
+export const actionsComponentsMap: Record<ThActionsKeys, StatefulActionsMapObject> = {
   [ThActionsKeys.fullscreen]: {
     trigger: StatefulSwitchFullscreen
   },

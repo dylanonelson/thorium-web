@@ -12,15 +12,15 @@ import { StatefulLineHeight } from "./StatefulLineHeight";
 import { StatefulParagraphIndent } from "./StatefulParagraphIndent";
 import { StatefulParagraphSpacing } from "./StatefulParagraphSpacing";
 import { StatefulPublisherStyles } from "./StatefulPublisherStyles";
-import { StatefulSpacingGroup, StatefulSpacingGroupProps } from "./StatefulSpacingGroup";
+import { StatefulSpacingGroup } from "./StatefulSpacingGroup";
 import { StatefulTextAlign } from "./StatefulTextAlign";
-import { StatefulTextGroup, StatefulTextGroupProps } from "./StatefulTextGroup";
+import { StatefulTextGroup } from "./StatefulTextGroup";
 import { StatefulTextNormalize } from "./StatefulTextNormalize";
 import { StatefulTheme } from "./StatefulTheme";
 import { StatefulWordSpacing } from "./StatefulWordSpacing";
 import { StatefulZoom } from "./StatefulZoom";
 
-export const spacingComponentsMap: { [key in ThSpacingSettingsKeys]: StatefulSettingsMapObject } = {
+export const spacingComponentsMap: Record<ThSpacingSettingsKeys, StatefulSettingsMapObject> = {
   [ThSpacingSettingsKeys.letterSpacing]: {
     Comp: StatefulLetterSpacing
   },
@@ -41,7 +41,7 @@ export const spacingComponentsMap: { [key in ThSpacingSettingsKeys]: StatefulSet
   }
 }
 
-export const textComponentsMap: { [key in ThTextSettingsKeys]: StatefulSettingsMapObject } = {
+export const textComponentsMap: Record<ThTextSettingsKeys, StatefulSettingsMapObject> = {
   [ThTextSettingsKeys.fontFamily]: {
     Comp: StatefulFontFamily
   },
@@ -59,7 +59,7 @@ export const textComponentsMap: { [key in ThTextSettingsKeys]: StatefulSettingsM
   }
 }
 
-export const settingsComponentsMap: { [key in ThSettingsKeys]: StatefulSettingsMapObject } = {
+export const settingsComponentsMap: Record<ThSettingsKeys, StatefulSettingsMapObject> = {
   [ThSettingsKeys.columns]: {
     Comp: StatefulColumns
   },
