@@ -1,7 +1,7 @@
-import { ShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
+import { UnstableShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ThemeTokens } from "@/preferences/hooks/useTheming";
-import { ScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
+import { ThScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
 import { 
   ThActionsKeys,
   ThDockingKeys,
@@ -18,7 +18,7 @@ import {
   ThLayoutDirection, 
   ThLayoutStrategy 
 } from "./models/enums";
-import { Collapsibility, CollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
+import { ThCollapsibility, ThCollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
 
 export type ThBottomSheetDetent = "content-height" | "full-height";
 
@@ -39,7 +39,7 @@ export interface ThActionsDockedPref {
 }
 
 export interface ThActionsTokens {
-  visibility: CollapsibilityVisibility;
+  visibility: ThCollapsibilityVisibility;
   shortcut: string | null;
   sheet?: {
     defaultSheet: Exclude<ThSheetTypes, ThSheetTypes.dockedStart | ThSheetTypes.dockedEnd>;
@@ -51,7 +51,7 @@ export interface ThActionsTokens {
 
 export interface ThActionsPref<T extends string | number | symbol> {
   displayOrder: T[];
-  collapse: Collapsibility;
+  collapse: ThCollapsibility;
   keys: {
     [key in T]: ThActionsTokens;
   }
@@ -59,7 +59,7 @@ export interface ThActionsPref<T extends string | number | symbol> {
 
 export interface ThDockingPref<T extends string | number | symbol> {
   displayOrder: T[];
-  collapse: Collapsibility;
+  collapse: ThCollapsibility;
   dock: BreakpointsMap<ThDockingTypes> | boolean; 
   keys: {
     [key in T]: Pick<ThActionsTokens, "visibility" | "shortcut">;
@@ -137,8 +137,8 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
     layoutStrategy?: ThLayoutStrategy | null;
   };
   scroll: {
-    topAffordance: ScrollAffordancePref;
-    bottomAffordance: ScrollAffordancePref;
+    topAffordance: ThScrollAffordancePref;
+    bottomAffordance: ThScrollAffordancePref;
     backTo: ThScrollBackTo;
   };
   theming: {
@@ -173,7 +173,7 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
     };
   };
   shortcuts: {
-    representation: ShortcutRepresentation;
+    representation: UnstableShortcutRepresentation;
     joiner?: string;
   };
   actions: ThActionsPref<MergedKeys<T>["actionKeys"]>;

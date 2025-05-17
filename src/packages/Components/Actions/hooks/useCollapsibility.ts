@@ -4,9 +4,9 @@ import { useMemo } from "react";
 
 import { ThActionEntry } from "../ThCollapsibleActionsBar";
 
-export type Collapsibility = boolean | Record<string, number | "all">;
+export type ThCollapsibility = boolean | Record<string, number | "all">;
 
-export enum CollapsibilityVisibility {
+export enum ThCollapsibilityVisibility {
   always = "always",
   partially = "partially",
   overflow = "overflow"
@@ -14,11 +14,11 @@ export enum CollapsibilityVisibility {
 
 export interface CollapsiblePref {
   displayOrder: string[];
-  collapse: Collapsibility;
+  collapse: ThCollapsibility;
   keys: {
     [key: string]: {
       [key: string]: any;
-      visibility: CollapsibilityVisibility;
+      visibility: ThCollapsibilityVisibility;
     };
   }
 }
@@ -54,10 +54,10 @@ export const useCollapsibility = (items: ThActionEntry<string>[], prefs: Collaps
       // Creating a shallow copy so that actionsOrder doesn’t mutate between rerenders
       [...items].slice().reverse().map((item) => {
         const actionPref = prefs.keys[item.key];
-        if (actionPref.visibility === CollapsibilityVisibility.overflow) {
+        if (actionPref.visibility === ThCollapsibilityVisibility.overflow) {
           menuItems.unshift(item);
           --countdown;
-        } else if (actionPref.visibility === CollapsibilityVisibility.partially) {
+        } else if (actionPref.visibility === ThCollapsibilityVisibility.partially) {
           if (countdown > 0) {
             menuItems.unshift(item);
             --countdown;

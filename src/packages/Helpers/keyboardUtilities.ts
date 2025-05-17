@@ -1,30 +1,30 @@
 import { isMacish } from "./getPlatform";
 
-export interface IKey {
+export interface UnstableKey {
   [key: string]: string;
   longform: string;
   shortform: string;
 }
 
-export interface IMetaKey extends IKey {
+export interface UnstableMetaKey extends UnstableKey {
   modifier: "altKey" | "ctrlKey" | "metaKey" | "shiftKey";
   symbol: "⌥" | "^" | "⌘" | "⊞" | "⇧";
 }
 
-export interface IPlatformModifier extends IKey {
+export interface UnstablePlatformModifier extends UnstableKey {
   modifier: "ctrlKey" | "metaKey";
   symbol: "^" | "⌘";
 }
 
-export interface IMetaKeys {
-  [key: string]: IMetaKey;
-  altKey: IMetaKey;
-  ctrlKey: IMetaKey;
-  metaKey: IMetaKey;
-  shiftKey: IMetaKey;
+export interface UnstableMetaKeys {
+  [key: string]: UnstableMetaKey;
+  altKey: UnstableMetaKey;
+  ctrlKey: UnstableMetaKey;
+  metaKey: UnstableMetaKey;
+  shiftKey: UnstableMetaKey;
 }
 
-export enum ShortcutMetaKeywords {
+export enum UnstableShortcutMetaKeywords {
   alt = "altKey",
   ctrl = "ctrlKey",
   meta = "metaKey",
@@ -32,20 +32,20 @@ export enum ShortcutMetaKeywords {
   shift = "shiftKey"
 }
 
-export enum ShortcutRepresentation {
+export enum UnstableShortcutRepresentation {
   symbol = "symbol",
   short = "shortform",
   long = "longform"
 };
 
-export interface IShortcut {
+export interface UnstableShortcut {
   className?: string;
   rawForm: string;
-  representation?: ShortcutRepresentation; 
+  representation?: UnstableShortcutRepresentation; 
   joiner?: string;
 }
 
-export interface PShortcut {
+export interface UnstablePShortcut {
   key?: string;
   char?: string;
   modifiers: {
@@ -58,42 +58,42 @@ export interface PShortcut {
   }
 }
 
-const altModifier: IMetaKey = {
+const altModifier: UnstableMetaKey = {
   longform: "Option",
   shortform: "Alt",
   modifier: "altKey",
   symbol: "⌥"
 }
 
-const ctrlModifier: IMetaKey & IPlatformModifier = {
+const ctrlModifier: UnstableMetaKey & UnstablePlatformModifier = {
   longform: "Control",
   shortform: "Ctrl",
   modifier: "ctrlKey",
   symbol: "^"
 }
 
-const metaModifierMac: IMetaKey & IPlatformModifier = {
+const metaModifierMac: UnstableMetaKey & UnstablePlatformModifier = {
   longform: "Command",
   shortform: "Cmd",
   modifier: "metaKey",
   symbol: "⌘"   
 }
 
-const metaModifierWin: IMetaKey = {
+const metaModifierWin: UnstableMetaKey = {
   longform: "Windows",
   shortform: "Win",
   modifier: "metaKey",
   symbol: "⊞"
 }
 
-const shiftModifier: IMetaKey = {
+const shiftModifier: UnstableMetaKey = {
   longform: "Shift",
   shortform: "Shift",
   modifier: "shiftKey",
   symbol: "⇧"
 }
 
-export const metaKeys: IMetaKeys = {
+export const metaKeys: UnstableMetaKeys = {
   altKey: altModifier,
   ctrlKey: ctrlModifier,
   metaKey: isMacish() ? metaModifierMac : metaModifierWin,
@@ -104,7 +104,7 @@ export const metaKeys: IMetaKeys = {
 
 export const defaultPlatformModifier = ctrlModifier;
 
-export const getPlatformModifier = (): IPlatformModifier => {
+export const getPlatformModifier = (): UnstablePlatformModifier => {
   if (isMacish()) {
     return metaModifierMac;
   } else {
@@ -113,7 +113,7 @@ export const getPlatformModifier = (): IPlatformModifier => {
 }
 
 export const buildShortcut = (str: string) => {
-  let shortcutObj: PShortcut = {
+  let shortcutObj: UnstablePShortcut = {
     key: "",
     char: "",
     modifiers: {
@@ -128,7 +128,7 @@ export const buildShortcut = (str: string) => {
   const shortcutArray = str.split(/\s*?[+-]\s*?/);
 
   shortcutArray.filter((val) => {
-    if ((Object.values(ShortcutMetaKeywords) as string[]).includes(val)) {
+    if ((Object.values(UnstableShortcutMetaKeywords) as string[]).includes(val)) {
       const trimmedKey = val.trim();
       shortcutObj.modifiers[trimmedKey] = true;
     } else {

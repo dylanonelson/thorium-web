@@ -1,14 +1,14 @@
 import Locale from "../../../resources/locales/en.json";
 
-export enum ScrollAffordancePref {
+export enum ThScrollAffordancePref {
   none = "none",
   prev = "previous",
   next = "next",
   both = "both"
 }
 
-export interface IScrollAffordanceConfig {
-  pref: ScrollAffordancePref;
+export interface ScrollAffordanceConfig {
+  pref: ThScrollAffordancePref;
   placement: "top" | "bottom";
   className?: string;
   styleSheetContent?: string;
@@ -22,21 +22,21 @@ export interface IScrollAffordanceConfig {
 // but not particularly happy about that.
 // React Portal has a lots of caveats too but it may at least protect
 // the component from Navigator’s handling, although I’m not 100% sure yet.
-export const CUSTOM_SCHEME = "thorium-web:";
-export enum ScrollActions {
-  prev = CUSTOM_SCHEME + "go_prev",
-  next = CUSTOM_SCHEME + "go_next"
+export const TH_CUSTOM_SCHEME = "thorium-web:";
+export enum ThScrollActions {
+  prev = TH_CUSTOM_SCHEME + "go_prev",
+  next = TH_CUSTOM_SCHEME + "go_next"
 }
 const STYLESHEET_ID = "scroll-affordance-stylesheet"
 
 export class ScrollAffordance {
-  private pref: ScrollAffordancePref;
+  private pref: ThScrollAffordancePref;
   private placement: "top" | "bottom";
   public id: string;
   public className: string;
   private styleSheetContent?: string;
 
-  constructor(config: IScrollAffordanceConfig) {
+  constructor(config: ScrollAffordanceConfig) {
     this.pref = config.pref;
     this.placement = config.placement;
     this.id = `thorium-web-scroll-affordance-wrapper-${config.placement}`;
@@ -119,15 +119,15 @@ export class ScrollAffordance {
 
       let wrapper: HTMLElement | null = null;
 
-      if (this.pref !== ScrollAffordancePref.none) {
+      if (this.pref !== ThScrollAffordancePref.none) {
         let prevAnchor: HTMLAnchorElement | undefined;
         let nextAnchor: HTMLAnchorElement | undefined;
 
-        if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.prev)) {
+        if ((this.pref === ThScrollAffordancePref.both || this.pref === ThScrollAffordancePref.prev)) {
           prevAnchor = doc.createElement("a");
           prevAnchor.className = `thorium-web-scroll-affordance-button-prev`;
           prevAnchor.id = `thorium-web-scroll-affordance-button-prev-${this.placement}`;
-          prevAnchor.href = ScrollActions.prev;
+          prevAnchor.href = ThScrollActions.prev;
 
           // In practice browsers don’t do anything with this? And since the href
           // is a custom scheme, they wouldn’t be able to preload the document
@@ -138,11 +138,11 @@ export class ScrollAffordance {
           prevAnchor.innerHTML = `<span>${Locale.reader.navigation.scroll.prevLabel}</span>`;
         }
 
-        if ((this.pref === ScrollAffordancePref.both || this.pref === ScrollAffordancePref.next)) {
+        if ((this.pref === ThScrollAffordancePref.both || this.pref === ThScrollAffordancePref.next)) {
           nextAnchor = doc.createElement("a");
           nextAnchor.className = `thorium-web-scroll-affordance-button-next`;
           nextAnchor.id = `<a id="thorium-web-scroll-affordance-button-next-${this.placement}`;
-          nextAnchor.href = ScrollActions.next;
+          nextAnchor.href = ThScrollActions.next;
 
           // In practice browsers don’t do anything with this? And since the href
           // is a custom scheme, they wouldn’t be able to preload the document

@@ -1,11 +1,11 @@
-import { ColorScheme } from "@/packages/Hooks/useColorScheme";
+import { ThColorScheme } from "@/packages/Hooks/useColorScheme";
 import { ThemeTokens } from "../hooks/useTheming";
 
 // We cannot import from Readium Navigator cos' otherwise next build fails
 // with error: Error occurred prerendering page "/_not-found". 
 // Read more: https://nextjs.org/docs/messages/prerender-error 
 // ReferenceError: window is not defined
-enum Theme {
+enum TsToolkitTheme {
   day = "day",
   night = "night",
   sepia = "sepia",
@@ -17,7 +17,7 @@ export interface buildThemeProps<T extends string> {
   themeKeys: Record<T, ThemeTokens>
   lightTheme?: T;
   darkTheme?: T;
-  colorScheme?: ColorScheme;
+  colorScheme?: ThColorScheme;
 }
 
 export const buildThemeObject = <T extends string>({
@@ -28,7 +28,7 @@ export const buildThemeObject = <T extends string>({
   colorScheme
 }: buildThemeProps<T>) => {
     if (theme === "auto" && colorScheme && lightTheme && darkTheme) {
-      theme = colorScheme === ColorScheme.dark ? darkTheme : lightTheme;
+      theme = colorScheme === ThColorScheme.dark ? darkTheme : lightTheme;
     }
 
     let themeProps = {};
@@ -39,7 +39,7 @@ export const buildThemeObject = <T extends string>({
       case "light":
       case "day":
         themeProps = {
-          theme: Theme.day,
+          theme: TsToolkitTheme.day,
           backgroundColor: null,
           textColor: null,
           linkColor: null,
@@ -51,7 +51,7 @@ export const buildThemeObject = <T extends string>({
       case "dark":
       case "night":
         themeProps = {
-          theme: Theme.night,
+          theme: TsToolkitTheme.night,
           backgroundColor: null,
           textColor: null,
           linkColor: null,
@@ -62,7 +62,7 @@ export const buildThemeObject = <T extends string>({
         break;
       case "sepia":
         themeProps = {
-          theme: Theme.sepia,
+          theme: TsToolkitTheme.sepia,
           backgroundColor: null,
           textColor: null,
           linkColor: null,
@@ -73,7 +73,7 @@ export const buildThemeObject = <T extends string>({
         break;
       default:
         themeProps = {
-          theme: Theme.custom,
+          theme: TsToolkitTheme.custom,
           backgroundColor: themeKeys[theme].background,
           textColor: themeKeys[theme].text,
           linkColor: themeKeys[theme].link,

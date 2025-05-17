@@ -4,22 +4,22 @@ import React, { useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
 
-import { IShortcut, ShortcutRepresentation, buildShortcut, metaKeys } from "@/packages/Helpers/keyboardUtilities";
+import { UnstableShortcut, UnstableShortcutRepresentation, buildShortcut, metaKeys } from "@/packages/Helpers/keyboardUtilities";
 
 import { Keyboard } from "react-aria-components";
 
 import { useAppSelector } from "@/lib/hooks";
 
-export const UnstableShortcut = ({
+export const UnstableStatefulShortcut = ({
   className,
   rawForm,
   representation,
   joiner
-}: IShortcut) => {
+}: UnstableShortcut) => {
   const RSPrefs = useContext(PreferencesContext);
   const platformModifier = useAppSelector(state => state.reader.platformModifier);
 
-  representation = representation ? representation : RSPrefs.shortcuts.representation || ShortcutRepresentation.symbol;
+  representation = representation ? representation : RSPrefs.shortcuts.representation || UnstableShortcutRepresentation.symbol;
   joiner = joiner ? joiner : RSPrefs.shortcuts.joiner || " + ";
 
   const shortcutObj = buildShortcut(rawForm);
@@ -33,7 +33,7 @@ export const UnstableShortcut = ({
           shortcutRepresentation.push(platformModifier[representation]);
         } else {
           const metaKey = metaKeys[prop];
-          shortcutRepresentation.push(metaKey[representation as ShortcutRepresentation]);
+          shortcutRepresentation.push(metaKey[representation as UnstableShortcutRepresentation]);
         }
       }
     }
