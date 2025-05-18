@@ -87,7 +87,6 @@ export enum ThSheetHeaderVariant {
 }
 
 export enum ThThemeKeys {
-  auto = "auto",
   light = "light",
   sepia = "sepia",
   dark = "dark",

@@ -2,11 +2,10 @@
 
 import { useCallback, useContext, useEffect, useState } from "react";
 
-import { PreferencesContext } from "@/preferences";
+import { PreferencesContext, ThActionsPref } from "@/preferences";
 
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
-import { ActionsStateKeys } from "@/lib/actionsReducer";
-import { ThActionsKeys, ThDockingTypes, ThDockingKeys, ThSheetTypes } from "@/preferences/models/enums";
+import { ThDockingTypes, ThDockingKeys, ThSheetTypes } from "@/preferences/models/enums";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { makeBreakpointsMap } from "@/packages/Helpers/breakpointsMap";
@@ -17,7 +16,7 @@ import { useActions } from "@/packages/Components/Actions/hooks/useActions";
 
 let dockingMap: Required<BreakpointsMap<ThDockingTypes>> | null = null;
 
-export const useDocking = (key: ActionsStateKeys) => {
+export const useDocking = <T extends string>(key: T) => {
   const RSPrefs = useContext(PreferencesContext);
   const breakpoint = useAppSelector(state => state.theming.breakpoint);
   const actionsMap = useAppSelector(state => state.actions.keys);
@@ -35,14 +34,16 @@ export const useDocking = (key: ActionsStateKeys) => {
     });
   }
   const currentDockConfig = breakpoint && dockingMap[breakpoint];
-  const dockablePref = RSPrefs.actions.keys[key].docked?.dockable || ThDockingTypes.none;
-
-  const defaultSheet = RSPrefs.actions.keys[key].sheet?.defaultSheet || ThSheetTypes.popover;
-
+  
+  // Use type assertion to tell TypeScript that the key is valid
+  const dockablePref = (RSPrefs.actions.keys[key as keyof typeof RSPrefs.actions.keys])?.docked?.dockable || ThDockingTypes.none;
+  
+  const defaultSheet = (RSPrefs.actions.keys[key as keyof typeof RSPrefs.actions.keys])?.sheet?.defaultSheet || ThSheetTypes.popover;
+  
   const sheetMap = makeBreakpointsMap<ThSheetTypes>({
-    defaultValue: RSPrefs.actions.keys[key].sheet?.defaultSheet || ThSheetTypes.popover, 
-    fromEnum: ThSheetTypes, 
-    pref: RSPrefs.actions.keys[key].sheet?.breakpoints
+    defaultValue: (RSPrefs.actions.keys[key as keyof typeof RSPrefs.actions.keys])?.sheet?.defaultSheet || ThSheetTypes.popover,
+    fromEnum: ThSheetTypes,
+    pref: (RSPrefs.actions.keys[key as keyof typeof RSPrefs.actions.keys])?.sheet?.breakpoints
   });
   const sheetPref = breakpoint && sheetMap[breakpoint] || defaultSheet;
 
@@ -195,7 +196,7 @@ export const useDocking = (key: ActionsStateKeys) => {
     if (sheetType !== ThSheetTypes.dockedStart && sheetType !== ThSheetTypes.dockedEnd) {
       if (previousSheetType === ThSheetTypes.dockedStart || previousSheetType === ThSheetTypes.dockedEnd) {
         dispatch(setActionOpen({
-          key: ThActionsKeys[key],
+          key: key,
           isOpen: false
         }));
       }
@@ -207,20 +208,20 @@ export const useDocking = (key: ActionsStateKeys) => {
     if (actionState.isOpen === null) {
       if (sheetType === ThSheetTypes.dockedStart) {
         dispatch(dockAction({
-          key: ThActionsKeys[key],
+          key: key,
           dockingKey: ThDockingKeys.start
         }));
         dispatch(setActionOpen({
-          key: ThActionsKeys[key],
+          key: key,
           isOpen: true
         }));
       } else if (sheetType === ThSheetTypes.dockedEnd) {
         dispatch(dockAction({
-          key: ThActionsKeys[key],
+          key: key,
           dockingKey: ThDockingKeys.end
         }));
         dispatch(setActionOpen({
-          key: ThActionsKeys[key],
+          key: key,
           isOpen: true
         }));
       }
@@ -247,7 +248,7 @@ export const useDocking = (key: ActionsStateKeys) => {
         const dockingKey = actions.whichDocked(key);
         if (dockingKey !== ThDockingKeys.start) {
           dispatch(dockAction({
-            key: ThActionsKeys[key],
+            key: key,
             dockingKey: ThDockingKeys.start
           }));
         }
@@ -257,7 +258,7 @@ export const useDocking = (key: ActionsStateKeys) => {
         const dockingKey = actions.whichDocked(key);
         if (dockingKey !== ThDockingKeys.end) {
           dispatch(dockAction({
-            key: ThActionsKeys[key],
+            key: key,
             dockingKey: ThDockingKeys.end
           }));
         }

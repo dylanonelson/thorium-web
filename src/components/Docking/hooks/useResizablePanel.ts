@@ -14,7 +14,7 @@ export const useResizablePanel = (panel: DockStateObject) => {
   const RSPrefs = useContext(PreferencesContext);
   const defaultWidth = RSPrefs.theming.layout.defaults.dockingWidth;
   const [pref, setPref] = useState<ThActionsDockedPref | null>(
-    panel.actionKey ? RSPrefs.actions.keys[panel.actionKey].docked || null : null
+    panel.actionKey ? RSPrefs.actions.keys[panel.actionKey as keyof typeof RSPrefs.actions.keys].docked || null : null
   );
 
   const actionsMap = useAppSelector(state => state.actions.keys);
@@ -88,7 +88,7 @@ export const useResizablePanel = (panel: DockStateObject) => {
 
   // When the docked action changes, we need to update its preferences 
   useEffect(() => {
-    setPref(panel.actionKey ? RSPrefs.actions.keys[panel.actionKey].docked || null : null);
+    setPref(panel.actionKey ? RSPrefs.actions.keys[panel.actionKey as keyof typeof RSPrefs.actions.keys].docked || null : null);
   }, [panel.actionKey, RSPrefs.actions.keys]);
 
   return {

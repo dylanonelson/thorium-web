@@ -7,7 +7,8 @@ import {
   defaultSpacingSettingsSubpanel, 
   defaultTextSettingsMain, 
   defaultTextSettingsSubpanel, 
-  PreferencesContext 
+  PreferencesContext, 
+  usePreferenceKeys
 } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
@@ -15,20 +16,16 @@ import Locale from "../../resources/locales/en.json";
 import { 
   ThActionsKeys, 
   ThSettingsContainerKeys, 
-  ThSettingsKeys, 
   ThSheetHeaderVariant, 
   ThSpacingSettingsKeys, 
   ThTextSettingsKeys 
 } from "@/preferences/models/enums";
 import { StatefulActionContainerProps, StatefulActionTriggerProps } from "./models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
-import { StatefulSettingsMapObject } from "../Settings/models/settings";
 
 import settingsStyles from "../Settings/assets/styles/settings.module.css";
 
 import TuneIcon from "./assets/icons/match_case.svg";
-
-import { spacingComponentsMap, textComponentsMap } from "../Settings/SettingsComponentsMap";
 
 import { StatefulSheetWrapper } from "../Sheets/StatefulSheetWrapper";
 import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
@@ -47,6 +44,14 @@ import { setActionOpen } from "@/lib/actionsReducer";
 export const StatefulSettingsContainer = ({ 
   triggerRef
 }: StatefulActionContainerProps) => {
+  const { 
+    fxlSettingsKeys, 
+    mainSpacingSettingsKeys,
+    mainTextSettingsKeys,
+    reflowSettingsKeys,
+    subPanelSpacingSettingsKeys,
+    subPanelTextSettingsKeys,
+  } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
   const { settingsComponentsMap, spacingComponentsMap, textComponentsMap } = useComponentsMap();
   const isFXL = useAppSelector(state => state.publication.isFXL);
@@ -54,7 +59,7 @@ export const StatefulSettingsContainer = ({
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.settings]);
   const dispatch = useAppDispatch();
 
-  const settingItems = useRef(isFXL ? RSPrefs.settings.fxlOrder : RSPrefs.settings.reflowOrder);
+  const settingItems = useRef(isFXL ? fxlSettingsKeys : reflowSettingsKeys);
   
   const docking = useDocking(ThActionsKeys.settings);
   const sheetType = docking.sheetType;
@@ -73,23 +78,23 @@ export const StatefulSettingsContainer = ({
     dispatch(setSettingsContainer(ThSettingsContainerKeys.initial));
   }, [dispatch]);
 
-  const isTextNested = useCallback((key: ThSettingsKeys) => {
+  const isTextNested = useCallback((key: string) => {
     const textSettings = [
-      RSPrefs.settings.text?.main || defaultTextSettingsMain,
-      RSPrefs.settings.text?.subPanel || defaultTextSettingsSubpanel,
+      mainTextSettingsKeys || defaultTextSettingsMain,
+      subPanelTextSettingsKeys || defaultTextSettingsSubpanel,
     ].flat() as ThTextSettingsKeys[];
   
-    return textSettings.includes(key as unknown as ThTextSettingsKeys);
-  }, [RSPrefs.settings.text]);
+    return textSettings.includes(key as typeof mainTextSettingsKeys[number]);
+  }, [RSPrefs.settings.text, mainTextSettingsKeys, subPanelTextSettingsKeys]);
   
-  const isSpacingNested = useCallback((key: ThSettingsKeys) => {
+  const isSpacingNested = useCallback((key: string) => {
     const spacingSettings = [
-      RSPrefs.settings.spacing?.main || defaultSpacingSettingsMain,
-      RSPrefs.settings.spacing?.subPanel || defaultSpacingSettingsSubpanel,
+      mainSpacingSettingsKeys || defaultSpacingSettingsMain,
+      subPanelSpacingSettingsKeys || defaultSpacingSettingsSubpanel,
     ].flat() as ThSpacingSettingsKeys[];
   
-    return spacingSettings.includes(key as unknown as ThSpacingSettingsKeys);
-  }, [RSPrefs.settings.spacing]);
+    return spacingSettings.includes(key as typeof mainSpacingSettingsKeys[number]);
+  }, [RSPrefs.settings.spacing, mainSpacingSettingsKeys, subPanelSpacingSettingsKeys]);
 
   const renderSettings = useCallback(() => {
     switch (contains) {
@@ -106,7 +111,7 @@ export const StatefulSettingsContainer = ({
             {
               settingItems.current
                 .filter((key) => !(isTextNested(key) || isSpacingNested(key)))
-                .map((key: ThSettingsKeys) => {
+                .map((key) => {
                   const setting = settingsComponentsMap[key];
                   return <setting.Comp key={ key } { ...setting.props } />;
                 })

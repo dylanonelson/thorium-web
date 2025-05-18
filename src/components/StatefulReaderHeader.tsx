@@ -2,7 +2,7 @@
 
 import React, { useCallback, useContext, useRef } from "react";
 
-import { PreferencesContext } from "@/preferences";
+import { PreferencesContext, usePreferenceKeys } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
@@ -24,12 +24,12 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import classNames from "classnames";
 
 export const StatefulReaderHeader = () => {
+  const { actionKeys } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
   const { actionsComponentsMap } = useComponentsMap();
   
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const runningHead = useAppSelector(state => state.publication.runningHead);
-  const actionsOrder = useRef(RSPrefs.actions.displayOrder);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
 
@@ -54,10 +54,10 @@ export const StatefulReaderHeader = () => {
   };
 
   const listActionItems = useCallback(() => {
-    const actionsItems: ThActionEntry<ThActionsKeys>[] = [];
+    const actionsItems: ThActionEntry<typeof actionKeys[number]>[] = [];
 
-    actionsOrder.current.map((key) => {
-      if (key !== ThActionsKeys.layoutStrategy || !isFXL) {
+    actionKeys.forEach((key) => {      
+      if (actionsComponentsMap[key] && (key !== ThActionsKeys.layoutStrategy || !isFXL)) {
         actionsItems.push({
           Trigger: actionsComponentsMap[key].trigger,
           Target: actionsComponentsMap[key].target,
@@ -67,7 +67,7 @@ export const StatefulReaderHeader = () => {
     });
     
     return actionsItems;
-  }, [isFXL, actionsComponentsMap]);
+  }, [isFXL, actionKeys, actionsComponentsMap]);
 
   return (
     <>

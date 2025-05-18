@@ -31,10 +31,10 @@ export interface ThemeTokens {
 };
 
 export interface useThemingProps<T extends string> {
-  theme: T | "auto";
+  theme: string;
   lightKey: T;
   darkKey: T;
-  themeKeys: Record<T, ThemeTokens>;
+  themeKeys: { [key in T]?: ThemeTokens };
   breakpointsMap: BreakpointsMap<number | null>;
   initProps?: Record<string, any>;
   onBreakpointChange?: (breakpoint: ThBreakpoints | null) => void;
@@ -82,10 +82,13 @@ export const useTheming = <T extends string>({
     }
   }, [initProps]);
 
-  const setThemeCustomProps = useCallback((t: T | "auto") => {
+  const setThemeCustomProps = useCallback((t: string) => {    
     if (t === "auto") t = inferThemeAuto();
 
-    const props = propsToCSSVars(themeKeys[t], "theme");
+    const themeTokens = themeKeys[t as T];
+    if (!themeTokens) return;
+  
+    const props = propsToCSSVars(themeTokens, "theme");
       
     for (let p in props) {
       document.documentElement.style.setProperty(p, props[p])

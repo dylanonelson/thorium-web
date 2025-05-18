@@ -1,8 +1,8 @@
 "use client";
 
-import React, { CSSProperties, useCallback, useContext, useRef } from "react";
+import React, { useCallback, useContext, useRef } from "react";
 
-import { PreferencesContext } from "@/preferences";
+import { PreferencesContext, ThemeKeyType, usePreferenceKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 import settingsStyles from "./assets/styles/settings.module.css";
@@ -24,6 +24,7 @@ import classNames from "classnames";
 import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
 
 export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
+  const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
   const radioGroupRef = useRef<HTMLDivElement | null>(null);
 
@@ -33,14 +34,14 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === ThLayoutDirection.rtl
 
-  const themeItems = useRef(isFXL ? RSPrefs.theming.themes.fxlOrder : RSPrefs.theming.themes.reflowOrder);
+  const themeItems = useRef(isFXL ? fxlThemeKeys : reflowThemeKeys);
 
   const dispatch = useAppDispatch();
 
   const { submitPreferences } = useEpubNavigator();
 
-  const updatePreference = useCallback(async (value: ThThemeKeys) => {
-    const themeProps = buildThemeObject<Exclude<ThThemeKeys, ThThemeKeys.auto>>({
+  const updatePreference = useCallback(async (value: ThemeKeyType | "auto") => {
+    const themeProps = buildThemeObject<typeof value>({
       theme: value,
       themeKeys: RSPrefs.theming.themes.keys,
       lightTheme: ThThemeKeys.light,
@@ -54,7 +55,7 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
 
   // It’s easier to inline styles from preferences for these
   // than spamming the entire app with all custom properties right now
-  const doStyles = (t: ThThemeKeys) => {
+  const doStyles = (t: ThemeKeyType | "auto") => {
     // For some reason Typescript will just refuse to create dts files
     // for the packages if we set it to CSSProperties…
     let cssProps: any = {
@@ -62,7 +63,7 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
       color: "#999999"
     };
 
-    if (t === ThThemeKeys.auto) {
+    if (t === "auto") {
       cssProps.background = isRTL 
         ? `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThThemeKeys.dark].background } 48%, ${ RSPrefs.theming.themes.keys[ThThemeKeys.light].background } 100%)` 
         : `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThThemeKeys.light].background } 0%, ${ RSPrefs.theming.themes.keys[ThThemeKeys.dark].background } 48%)`;
@@ -134,7 +135,7 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
       standalone={ true }
       label={ Locale.reader.settings.themes.title }
       value={ theme }
-      onChange={ async (val) => await updatePreference(val as ThThemeKeys) }
+      onChange={ async (val) => await updatePreference(val as ThemeKeyType) }
     >
       <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
         { themeItems.current.map(( t ) => 
@@ -151,7 +152,7 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
               onKeyDown: (async (e: React.KeyboardEvent) => await handleKeyboardNav(e))
             } : {}) }
           >
-          <span>{ Locale.reader.settings.themes[t as keyof typeof ThThemeKeys] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
+          <span>{ Locale.reader.settings.themes[t as ThemeKeyType] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
         </Radio>
         ) }
       </div>
