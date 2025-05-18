@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ThActionsKeys, ThDockingKeys } from "@/preferences/models/enums";
+import { ThDockingKeys } from "@/preferences/models/enums";
 
-export type ActionsStateKeys = Exclude<ThActionsKeys, ThActionsKeys.fullscreen>;
-export type OverflowStateKeys = string;
+export type ActionsStateKeys = string;
+export type OverflowStateKeys = string; 
 
 export interface ActionStateObject {
   isOpen: boolean | null;
@@ -102,26 +102,7 @@ const initialState: ActionsReducerState = {
       collapsed: false
     }
   },
-  keys: {
-    [ThActionsKeys.toc]: {
-      isOpen: null,
-      docking: null
-    },
-    [ThActionsKeys.settings]: {
-      isOpen: null,
-      docking: null
-    },
-    /*
-    [ThActionsKeys.jumpToPosition]: {
-      isOpen: null,
-      docking: null
-    },
-    */
-    [ThActionsKeys.layoutStrategy]: {
-      isOpen: null,
-      docking: null
-    }
-  },
+  keys: {},
   overflow: {}
 }
 
@@ -130,150 +111,123 @@ export const actionsSlice = createSlice({
   initialState,
   reducers: {
     dockAction: (state, action: ActionStateDockPayload) => {
-      switch (action.payload.key) {
-      //  case ThActionsKeys.jumpToPosition:
-        case ThActionsKeys.toc:
-        case ThActionsKeys.settings:
-        case ThActionsKeys.layoutStrategy:
-          // The user should be able to override the dock slot
-          // so we override the previous value, and sync 
-          // any other action with the same docking key
-
-          switch(action.payload.dockingKey) {
-            case ThDockingKeys.start:
-              // We need to find if any other action has the same docking key. 
-              // If it does, we also have to close it so that its transient sheet 
-              // doesn’t pop over on the screen when it’s replaced
-              for (const key in state.keys) {
-                if (state.keys[key as ActionsStateKeys].docking === action.payload.dockingKey) {
-                  state.keys[key as ActionsStateKeys] = { 
-                    ...state.keys[key as ActionsStateKeys],
-                    docking: ThDockingKeys.transient,
-                    isOpen: false
-                  };
-                }
-              }
-
-              // We need to populate the docking slot
-              state.dock[ThDockingKeys.start] = {
-                ...state.dock[ThDockingKeys.start],
-                actionKey: action.payload.key
-              }
-              // And remove it from the other one
-              if (state.dock[ThDockingKeys.end].actionKey === action.payload.key) {
-                state.dock[ThDockingKeys.end] = {
-                  ...state.dock[ThDockingKeys.end],
-                  actionKey: null
-                }
-              }
-              break;
-
-            case ThDockingKeys.end:
-              // We need to find if any other action has the same docking key. 
-              // If it does, we also have to close it so that its transient sheet 
-              // doesn’t pop over on the screen when it’s replaced
-              for (const key in state.keys) {
-                if (state.keys[key as ActionsStateKeys].docking === action.payload.dockingKey) {
-                  state.keys[key as ActionsStateKeys] = { 
-                    ...state.keys[key as ActionsStateKeys],
-                    docking: ThDockingKeys.transient,
-                    isOpen: false
-                  };
-                }
-              }
-
-              // We need to populate the docking slot
-              state.dock[ThDockingKeys.end] = {
-                ...state.dock[ThDockingKeys.end],
-                actionKey: action.payload.key
-              }
-              // And remove it from the other one
-              if (state.dock[ThDockingKeys.start].actionKey === action.payload.key) {
-                state.dock[ThDockingKeys.start] = {
-                  ...state.dock[ThDockingKeys.start],
-                  actionKey: null
-                }
-              }
-              break;
-
-            // We don’t need to sync another action
-            case ThDockingKeys.transient:
-            default: 
-              // We need to empty the docking slot
-              if (state.dock[ThDockingKeys.start].actionKey === action.payload.key) {
-                state.dock[ThDockingKeys.start] = {
-                  ...state.dock[ThDockingKeys.start],
-                  actionKey: null
-                }
-              }
-              if (state.dock[ThDockingKeys.end].actionKey === action.payload.key) {
-                state.dock[ThDockingKeys.end] = {
-                  ...state.dock[ThDockingKeys.end],
-                  actionKey: null
-                }
-              }            
-              break;
+      // The user should be able to override the dock slot
+      // so we override the previous value, and sync 
+      // any other action with the same docking key
+      switch(action.payload.dockingKey) {
+        case ThDockingKeys.start:
+          // We need to find if any other action has the same docking key. 
+          // If it does, we also have to close it so that its transient sheet 
+          // doesn’t pop over on the screen when it’s replaced
+          for (const key in state.keys) {
+            if (state.keys[key as ActionsStateKeys].docking === action.payload.dockingKey) {
+              state.keys[key as ActionsStateKeys] = { 
+                ...state.keys[key as ActionsStateKeys],
+                docking: ThDockingKeys.transient,
+                isOpen: false
+              };
+            }
           }
-          break; 
-        default:
+
+          // We need to populate the docking slot
+          state.dock[ThDockingKeys.start] = {
+            ...state.dock[ThDockingKeys.start],
+            actionKey: action.payload.key
+          }
+          // And remove it from the other one
+          if (state.dock[ThDockingKeys.end].actionKey === action.payload.key) {
+            state.dock[ThDockingKeys.end] = {
+              ...state.dock[ThDockingKeys.end],
+              actionKey: null
+            }
+          }
+          break;
+
+        case ThDockingKeys.end:
+          // We need to find if any other action has the same docking key. 
+          // If it does, we also have to close it so that its transient sheet 
+          // doesn’t pop over on the screen when it’s replaced
+          for (const key in state.keys) {
+            if (state.keys[key as ActionsStateKeys].docking === action.payload.dockingKey) {
+              state.keys[key as ActionsStateKeys] = { 
+                ...state.keys[key as ActionsStateKeys],
+                docking: ThDockingKeys.transient,
+                isOpen: false
+              };
+            }
+          }
+
+          // We need to populate the docking slot
+          state.dock[ThDockingKeys.end] = {
+            ...state.dock[ThDockingKeys.end],
+            actionKey: action.payload.key
+          }
+          // And remove it from the other one
+          if (state.dock[ThDockingKeys.start].actionKey === action.payload.key) {
+            state.dock[ThDockingKeys.start] = {
+              ...state.dock[ThDockingKeys.start],
+              actionKey: null
+            }
+          }
+          break;
+
+        // We don’t need to sync another action
+        case ThDockingKeys.transient:
+        default: 
+          // We need to empty the docking slot
+          if (state.dock[ThDockingKeys.start].actionKey === action.payload.key) {
+            state.dock[ThDockingKeys.start] = {
+              ...state.dock[ThDockingKeys.start],
+              actionKey: null
+            }
+          }
+          if (state.dock[ThDockingKeys.end].actionKey === action.payload.key) {
+            state.dock[ThDockingKeys.end] = {
+              ...state.dock[ThDockingKeys.end],
+              actionKey: null
+            }
+          }            
           break;
       }
+
       state.keys[action.payload.key] = { 
         ...state.keys[action.payload.key],
         docking: action.payload.dockingKey 
       };
     },
     setActionOpen: (state, action: ActionStateOpenPayload) => {      
-      switch (action.payload.key) {
-      //  case ThActionsKeys.jumpToPosition:
-        case ThActionsKeys.toc:
-        case ThActionsKeys.settings:
-        case ThActionsKeys.layoutStrategy:
-          // If the action is docked and set Open, we must take care of 
-          // the dock panel’s collapsibility. Otherwise we end up with bugs 
-          // i.e. user has to click/tap action icon twice to open, 
-          const dockingKey = state.keys[action.payload.key].docking;
-          if (
-              !action.payload.isOpen && 
-              dockingKey !== null && 
-              dockingKey !== ThDockingKeys.transient &&
-              state.dock[dockingKey].actionKey === action.payload.key &&
-              state.dock[dockingKey].active &&
-              state.dock[dockingKey].collapsed
-            ) {
-              state.dock[dockingKey] = {
-                ...state.dock[dockingKey],
-                collapsed: false
-              }
-          } else {
-            state.keys[action.payload.key] = {
-              ...state.keys[action.payload.key],
-              isOpen: action.payload.isOpen 
-            };
-          }
-
-          break;
-        default:
-          break;
+      // If the action is docked and set Open, we must take care of 
+      // the dock panel’s collapsibility. Otherwise we end up with bugs 
+      // i.e. user has to click/tap action icon twice to open, 
+      const dockingKey = state.keys[action.payload.key].docking;
+      if (
+          !action.payload.isOpen && 
+          dockingKey !== null && 
+          dockingKey !== ThDockingKeys.transient &&
+          state.dock[dockingKey].actionKey === action.payload.key &&
+          state.dock[dockingKey].active &&
+          state.dock[dockingKey].collapsed
+      ) {
+        state.dock[dockingKey] = {
+          ...state.dock[dockingKey],
+          collapsed: false
+        }
+      } else {
+        state.keys[action.payload.key] = {
+          ...state.keys[action.payload.key],
+          isOpen: action.payload.isOpen 
+        };
       }
     },
     toggleActionOpen: (state, action: ActionStateTogglePayload) => {
-      switch (action.payload.key) {
-      //  case ThActionsKeys.jumpToPosition:
-        case ThActionsKeys.toc:
-        case ThActionsKeys.settings:
-          const payload = {
-            key: action.payload.key,
-            isOpen: state.keys[action.payload.key].isOpen ? !state.keys[action.payload.key].isOpen : true
-          };
-          actionsSlice.caseReducers.setActionOpen(state, {
-            type: "toggleActionOpen",
-            payload: payload
-          });
-          break;
-        default:
-          break; 
-      }
+      const payload = {
+        key: action.payload.key,
+        isOpen: state.keys[action.payload.key].isOpen ? !state.keys[action.payload.key].isOpen : true
+      };
+      actionsSlice.caseReducers.setActionOpen(state, {
+        type: "toggleActionOpen",
+        payload: payload
+      });
     },
     setOverflow: (state, action: ActionOverflowOpenPayload) => {
       state.overflow[action.payload.key] = {

@@ -75,7 +75,7 @@ export const StatefulBottomSheet = ({
     // the initialProp should always be one item from last
     let snapArray: number[] = [];
 
-    const snapPref = RSPrefs.actions.keys[id].snapped;
+    const snapPref = RSPrefs.actions.keys[id as keyof typeof RSPrefs.actions.keys].snapped;
     if (snapPref) {
       // We must start with minHeight to see if it’s 
       // constrained by a detent as it means
@@ -204,7 +204,7 @@ export const StatefulBottomSheet = ({
   }, [snapArray, onPressClose]);
 
   const maxWidthPref = useMemo(() => {
-    const maxWidth = RSPrefs.actions.keys[id].snapped?.maxWidth;
+    const maxWidth = RSPrefs.actions.keys[id as keyof typeof RSPrefs.actions.keys].snapped?.maxWidth;
     if (typeof maxWidth === "undefined") {
       return undefined;
     } else if (maxWidth === null) {
@@ -219,7 +219,7 @@ export const StatefulBottomSheet = ({
       active: false,
       override: undefined
     }
-    const scrim = RSPrefs.actions.keys[id].snapped?.scrim;
+    const scrim = RSPrefs.actions.keys[id as keyof typeof RSPrefs.actions.keys].snapped?.scrim;
     if (scrim) {
       scrimPref.active = true;
 

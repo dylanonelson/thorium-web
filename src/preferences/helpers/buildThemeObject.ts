@@ -13,8 +13,8 @@ enum TsToolkitTheme {
 }
 
 export interface buildThemeProps<T extends string> {
-  theme: T | "auto";
-  themeKeys: Record<T, ThemeTokens>
+  theme: string;
+  themeKeys: { [key in T]?: ThemeTokens },
   lightTheme?: T;
   darkTheme?: T;
   colorScheme?: ThColorScheme;
@@ -72,16 +72,31 @@ export const buildThemeObject = <T extends string>({
         };
         break;
       default:
-        themeProps = {
-          theme: TsToolkitTheme.custom,
-          backgroundColor: themeKeys[theme].background,
-          textColor: themeKeys[theme].text,
-          linkColor: themeKeys[theme].link,
-          selectionBackgroundColor: themeKeys[theme].select,
-          selectionTextColor: themeKeys[theme].onSelect,
-          visitedColor: themeKeys[theme].visited
-        };
-        break;
+        const themeToken = themeKeys[theme as T];
+        if (themeToken) {
+          themeProps = {
+            theme: TsToolkitTheme.custom,
+            backgroundColor: themeToken.background,
+            textColor: themeToken.text,
+            linkColor: themeToken.link,
+            selectionBackgroundColor: themeToken.select,
+            selectionTextColor: themeToken.onSelect,
+            visitedColor: themeToken.visited
+          };
+        } else {
+          // Fallback if theme doesn't exist
+          console.warn(`Theme key "${String(theme)}" not found in themeKeys.`);
+          themeProps = {
+            theme: TsToolkitTheme.custom,
+            backgroundColor: null,
+            textColor: null,
+            linkColor: null,
+            selectionBackgroundColor: null,
+            selectionTextColor: null,
+            visitedColor: null
+          };
+        }
+      break;
     }
     return themeProps;
   };

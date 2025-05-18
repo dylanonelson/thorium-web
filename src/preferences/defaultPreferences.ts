@@ -70,7 +70,7 @@ export const defaultPreferences = createPreferences({
     },
     themes: {
       reflowOrder: [
-        ThThemeKeys.auto, 
+        "auto", 
         ThThemeKeys.light, 
         ThThemeKeys.sepia, 
         ThThemeKeys.paper, 
@@ -80,7 +80,7 @@ export const defaultPreferences = createPreferences({
         ThThemeKeys.contrast3
       ],
       fxlOrder: [
-        ThThemeKeys.auto,
+        "auto",
         ThThemeKeys.light,
         ThThemeKeys.dark
       ],

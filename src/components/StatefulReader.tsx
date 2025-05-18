@@ -2,7 +2,7 @@
 
 import { useCallback, useContext, useEffect, useRef } from "react";
 
-import { defaultFontFamilyOptions, defaultLineHeights, PreferencesContext } from "@/preferences";
+import { defaultFontFamilyOptions, defaultLineHeights, PreferencesContext, usePreferenceKeys } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
@@ -105,7 +105,7 @@ export interface ReadiumCSSSettings {
   scroll: boolean;
   textAlign: ThTextAlignOptions | null;
   textNormalization: boolean;
-  theme: ThThemeKeys;
+  theme: string;
   wordSpacing: number | null;
 }
 
@@ -119,6 +119,7 @@ export interface StatelessCache {
 }
 
 export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string, componentsMapContextValue?: ComponentsMapContextValue }) => {
+  const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
   
   const container = useRef<HTMLDivElement>(null);
@@ -555,12 +556,12 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
     }
 
     // Protecting against re-applying on theme change
-    if (theme !== ThThemeKeys.auto && previousTheme !== theme) return;
+    if (theme !== "auto" && previousTheme !== theme) return;
 
     const applyCurrentTheme = async () => {
-      const themeKeys = isFXL ? RSPrefs.theming.themes.fxlOrder : RSPrefs.theming.themes.reflowOrder;
-      const themeKey = themeKeys.includes(theme) ? theme : ThThemeKeys.auto;
-      const themeProps = buildThemeObject<Exclude<ThThemeKeys, ThThemeKeys.auto>>({
+      const themeKeys = isFXL ? fxlThemeKeys : reflowThemeKeys;
+      const themeKey = themeKeys.includes(theme as any) ? theme : "auto";
+      const themeProps = buildThemeObject<typeof reflowThemeKeys[number]>({
         theme: themeKey,
         themeKeys: RSPrefs.theming.themes.keys,
         lightTheme: ThThemeKeys.light,
@@ -629,9 +630,9 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
 
         const initialConstraint = cache.current.arrowsOccupySpace ? arrowsWidth.current : 0;
         
-        const themeKeys = isFXL ? RSPrefs.theming.themes.fxlOrder : RSPrefs.theming.themes.reflowOrder;
-        const theme = themeKeys.includes(cache.current.settings.theme) ? cache.current.settings.theme : ThThemeKeys.auto;
-        const themeProps = buildThemeObject<Exclude<ThThemeKeys, ThThemeKeys.auto>>({
+        const themeKeys = isFXL ? fxlThemeKeys : reflowThemeKeys;
+        const theme = themeKeys.includes(cache.current.settings.theme as any) ? cache.current.settings.theme : "auto";
+        const themeProps = buildThemeObject<typeof reflowThemeKeys[number]>({
           theme: theme,
           themeKeys: RSPrefs.theming.themes.keys,
           lightTheme: ThThemeKeys.light,

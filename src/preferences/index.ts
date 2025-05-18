@@ -4,6 +4,7 @@ export { ThPreferencesProvider, PreferencesContext } from './ThPreferencesProvid
 export * from "./defaultPreferences";
 export * from "./preferences";
 export * from "./ThDirectionSetter";
+export * from "./hooks/usePreferenceKeys";
 export * from "./hooks/useTheming";
 export * from "./helpers/buildThemeObject";
 export * from "./models";

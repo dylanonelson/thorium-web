@@ -18,7 +18,7 @@ import { useTheming } from "@/preferences/hooks/useTheming";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ThThemeKeys } from "@/preferences/models/enums";
-import { PreferencesContext } from "@/preferences";
+import { PreferencesContext, ThemeKeyType } from "@/preferences";
 import { 
   setBreakpoint, 
   setColorScheme, 
@@ -48,7 +48,7 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
   const dispatch = useAppDispatch();
 
   // Init theming (breakpoints, theme, media queries…)
-  useTheming<Exclude<ThThemeKeys, ThThemeKeys.auto>>({ 
+  useTheming<ThemeKeyType>({ 
     theme: theme,
     lightKey: ThThemeKeys.light,
     darkKey: ThThemeKeys.dark,
