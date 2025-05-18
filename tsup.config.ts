@@ -4,14 +4,20 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   name: "Thorium Web",
-  entry: {
-    components: "src/packages/Components/index.ts",
-    helpers: "src/packages/Helpers/index.ts",
-    hooks: "src/packages/Hooks/index.ts",
-    lib: "src/lib/index.ts",
-    preferences: "src/preferences/index.ts",
-    statefulComponents: "src/components/index.ts"
-  },
+  entry: [
+    "src/packages/Components/index.ts",
+    "src/packages/Components/**/*.{ts,tsx}",
+    "src/packages/Helpers/index.ts",
+    "src/packages/Helpers/**/*.{ts,tsx}",
+    "src/packages/Hooks/index.ts", 
+    "src/packages/Hooks/**/*.{ts,tsx}",
+    "src/lib/index.ts",
+    "src/lib/**/*.{ts,tsx}",
+    "src/preferences/index.ts",
+    "src/preferences/**/*.{ts,tsx}",
+    "src/components/index.ts",
+    "src/components/**/*.{ts,tsx}"
+  ],
   loader: {
     ".css": "copy"
   },
