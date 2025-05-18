@@ -9,3 +9,4 @@ export * from "./StatefulSettings";
 export * from "./StatefulSwitchFullscreen";
 export * from "./StatefulToc";
 export * from "./Triggers";
+export * from "./models";

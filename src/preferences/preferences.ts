@@ -97,7 +97,6 @@ export type ThConstraintKeys = Extract<ThSheetTypes, ThSheetTypes.bottomSheet | 
 // Base type for customizable keys
 export interface CustomizableKeys {
   actionKeys?: string | number | symbol;
-  dockingKeys?: string | number | symbol;
   themeKeys?: string | number | symbol;
   settingsKeys?: string | number | symbol;
   textSettingsKeys?: string | number | symbol;
@@ -109,7 +108,6 @@ export interface CustomizableKeys {
 // Default type with all the standard keys
 export type DefaultKeys = {
   actionKeys: ThActionsKeys;
-  dockingKeys: ThDockingKeys;
   themeKeys: ThThemeKeys;
   settingsKeys: ThSettingsKeys;
   textSettingsKeys: ThTextSettingsKeys;
@@ -177,7 +175,7 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
     joiner?: string;
   };
   actions: ThActionsPref<MergedKeys<T>["actionKeys"]>;
-  docking: ThDockingPref<MergedKeys<T>["dockingKeys"]>;
+  docking: ThDockingPref<ThDockingKeys>;
   settings: {
     reflowOrder: MergedKeys<T>["settingsKeys"][];
     fxlOrder: MergedKeys<T>["settingsKeys"][];
