@@ -181,9 +181,3 @@ function App() {
 ```
 
 Please make sure `direction` and `locale` are set in the preferences object since React Aria Components require `locale` to be set to infer the direction of the layout properly. Otherwise, the layout will be inferred from the browser’s or system’s primary language.
-
-## Preferences with custom keys
-
-The `createPreferences` helper accepts a generic type parameter `T` that extends `Partial<CustomizableKeys>`. This allows you to customize the enum types used for various settings (actions, themes, etc.).
-
-TBD.

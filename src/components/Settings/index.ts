@@ -20,3 +20,4 @@ export * from "./StatefulWordSpacing";
 export * from "./StatefulZoom";
 export * from "./LayoutStrategy";
 export * from "./Wrappers";
+export * from "./models";
