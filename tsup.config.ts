@@ -13,7 +13,7 @@ export default defineConfig({
     statefulComponents: "src/components/index.ts"
   },
   loader: {
-    ".css": "local-css"
+    ".css": "copy"
   },
   esbuildPlugins: [svgrPlugin()],
   splitting: false,
@@ -22,6 +22,7 @@ export default defineConfig({
   dts: true,
   treeshake: false,
   bundle: true,
-  noExternal: ["classNames", "debounce", "json-templates"]
-  // noExternal: [/(.*)/] That’s to bundle everything, including dependencies
+  noExternal: ["classNames", "debounce", "json-templates"],
+  // noExternal: [/(.*)/] // That’s to bundle everything, including dependencies,
+  tsconfig: "./tsconfig.bundle.json"
 });
