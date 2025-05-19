@@ -8,6 +8,9 @@ import {
   defaultTextSettingsMain, 
   defaultTextSettingsSubpanel, 
   PreferencesContext, 
+  SettingsKeyType, 
+  SpacingSettingsKeyType, 
+  TextSettingsKeyType, 
   usePreferenceKeys
 } from "@/preferences";
 
@@ -78,22 +81,22 @@ export const StatefulSettingsContainer = ({
     dispatch(setSettingsContainer(ThSettingsContainerKeys.initial));
   }, [dispatch]);
 
-  const isTextNested = useCallback((key: string) => {
+  const isTextNested = useCallback((key: SettingsKeyType) => {
     const textSettings = [
       mainTextSettingsKeys || defaultTextSettingsMain,
       subPanelTextSettingsKeys || defaultTextSettingsSubpanel,
     ].flat() as ThTextSettingsKeys[];
   
-    return textSettings.includes(key as typeof mainTextSettingsKeys[number]);
+    return textSettings.includes(key as unknown as TextSettingsKeyType);
   }, [RSPrefs.settings.text, mainTextSettingsKeys, subPanelTextSettingsKeys]);
   
-  const isSpacingNested = useCallback((key: string) => {
+  const isSpacingNested = useCallback((key: SettingsKeyType) => {
     const spacingSettings = [
       mainSpacingSettingsKeys || defaultSpacingSettingsMain,
       subPanelSpacingSettingsKeys || defaultSpacingSettingsSubpanel,
     ].flat() as ThSpacingSettingsKeys[];
   
-    return spacingSettings.includes(key as typeof mainSpacingSettingsKeys[number]);
+    return spacingSettings.includes(key as unknown as SpacingSettingsKeyType);
   }, [RSPrefs.settings.spacing, mainSpacingSettingsKeys, subPanelSpacingSettingsKeys]);
 
   const renderSettings = useCallback(() => {

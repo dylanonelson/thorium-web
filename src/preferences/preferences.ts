@@ -195,3 +195,13 @@ export const createPreferences = <T extends Partial<CustomizableKeys>>(
     ...params,
   };
 }
+
+// Type helper to get the key type from preferences
+export type PreferenceKeyType<T extends keyof DefaultKeys> = MergedKeys<CustomizableKeys>[T];
+
+// Specific key type helpers
+export type ActionKeyType = PreferenceKeyType<"actionKeys">;
+export type ThemeKeyType = PreferenceKeyType<"themeKeys">;
+export type SettingsKeyType = PreferenceKeyType<"settingsKeys">;
+export type TextSettingsKeyType = PreferenceKeyType<"textSettingsKeys">;
+export type SpacingSettingsKeyType = PreferenceKeyType<"spacingSettingsKeys">;
