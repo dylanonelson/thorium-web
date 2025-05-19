@@ -22,7 +22,7 @@ export interface THMenuProps<T> extends MenuProps<ThActionEntry<T>> {
      * Props for the button component. See `ThActionButtonProps` for more information.
      * Alternatively you can provide your own component
      */
-    button?: ThActionButtonProps | React.ReactElement<HTMLButtonElement>;
+    button?: ThActionButtonProps | React.ReactElement<ThActionButtonProps>;
     /**
      * Props for the popover component. See `PopoverProps` for more information.
      */
