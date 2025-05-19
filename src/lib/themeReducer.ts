@@ -4,7 +4,7 @@ import { ThColorScheme } from "@/packages/Hooks/useColorScheme";
 import { ThContrast } from "@/packages/Hooks/useContrast";
 import { ThBreakpoints } from "@/packages/Hooks/useBreakpoints";
 
-export interface ThemeReducerStates {
+export interface ThemeReducerState {
   monochrome: boolean;
   colorScheme: ThColorScheme;
   theme: string;
@@ -15,7 +15,7 @@ export interface ThemeReducerStates {
   breakpoint?: ThBreakpoints;
 }
 
-const initialState: ThemeReducerStates = {
+const initialState: ThemeReducerState = {
   monochrome: false,
   colorScheme: ThColorScheme.light,
   theme: "auto",
