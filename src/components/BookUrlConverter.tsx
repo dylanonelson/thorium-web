@@ -16,7 +16,7 @@ export const BookUrlConverter = () => {
     // Convert the book URL to base64 without padding
     const base64Url = btoa(bookUrl).replace(/=/g, "");
     // Redirect to the /read page with the base64 URL as a query parameter
-    window.location.href = `${ window.location.href }/read?book=https://publication-server.readium.org/${ encodeURIComponent(base64Url) }/manifest.json`
+    window.location.href = new URL(`read?book=https://publication-server.readium.org/${ encodeURIComponent(base64Url) }/manifest.json`, window.location.href).href;
   };
 
   return (
