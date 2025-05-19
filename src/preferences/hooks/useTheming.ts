@@ -32,9 +32,11 @@ export interface ThemeTokens {
 
 export interface useThemingProps<T extends string> {
   theme: string;
-  lightKey: T;
-  darkKey: T;
   themeKeys: { [key in T]?: ThemeTokens };
+  systemKeys?: {
+    light: T;
+    dark: T;
+  };
   breakpointsMap: BreakpointsMap<number | null>;
   initProps?: Record<string, any>;
   onBreakpointChange?: (breakpoint: ThBreakpoints | null) => void;
@@ -50,8 +52,7 @@ export interface useThemingProps<T extends string> {
 // Reader still has to handle the side effects on Navigator
 export const useTheming = <T extends string>({
   theme,
-  lightKey,
-  darkKey,
+  systemKeys,
   themeKeys,
   breakpointsMap,
   initProps,
@@ -73,8 +74,8 @@ export const useTheming = <T extends string>({
   const reducedTransparency = useReducedTransparency(onReducedTransparencyChange);
 
   const inferThemeAuto = useCallback(() => {
-    return colorSchemeRef.current === ThColorScheme.dark ? darkKey : lightKey;
-  }, [darkKey, lightKey]);
+    return colorSchemeRef.current === ThColorScheme.dark ? systemKeys?.dark : systemKeys?.light;
+  }, [systemKeys]);
 
   const initThemingCustomProps = useCallback(() => {
     for (let p in initProps) {
@@ -82,11 +83,25 @@ export const useTheming = <T extends string>({
     }
   }, [initProps]);
 
-  const setThemeCustomProps = useCallback((t: string) => {    
-    if (t === "auto") t = inferThemeAuto();
-
+  const setThemeCustomProps = useCallback((t: string) => {
+    if (t === "auto") {
+      const autoTheme = inferThemeAuto();
+      if (!autoTheme) {
+        // We are not removing properties cos iframes won’t update
+        // Removing here would consequently create a theme inconsistency
+        // between the iframe and the main window
+        return;
+      }
+      t = autoTheme;
+    }
+  
     const themeTokens = themeKeys[t as T];
-    if (!themeTokens) return;
+    if (!themeTokens) {
+      // We are not removing properties cos iframes won’t update
+      // Removing here would consequently create a theme inconsistency
+      // between the iframe and the main window
+      return;
+    }
   
     const props = propsToCSSVars(themeTokens, "theme");
       
