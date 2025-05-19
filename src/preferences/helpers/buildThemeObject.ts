@@ -15,20 +15,21 @@ enum TsToolkitTheme {
 export interface buildThemeProps<T extends string> {
   theme: string;
   themeKeys: { [key in T]?: ThemeTokens },
-  lightTheme?: T;
-  darkTheme?: T;
+  systemThemes?: {
+    light: T,
+    dark: T
+  },
   colorScheme?: ThColorScheme;
 }
 
 export const buildThemeObject = <T extends string>({
   theme,
   themeKeys,
-  lightTheme,
-  darkTheme,
+  systemThemes,
   colorScheme
 }: buildThemeProps<T>) => {
-    if (theme === "auto" && colorScheme && lightTheme && darkTheme) {
-      theme = colorScheme === ThColorScheme.dark ? darkTheme : lightTheme;
+    if (theme === "auto" && colorScheme && systemThemes) {
+      theme = colorScheme === ThColorScheme.dark ? systemThemes.dark : systemThemes.light;
     }
 
     let themeProps = {};

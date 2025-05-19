@@ -570,8 +570,7 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
       const themeProps = buildThemeObject<ThemeKeyType>({
         theme: themeKey,
         themeKeys: RSPrefs.theming.themes.keys,
-        lightTheme: ThThemeKeys.light,
-        darkTheme: ThThemeKeys.dark,
+        systemThemes: RSPrefs.theming.themes.systemThemes,
         colorScheme
       });
       await submitPreferences(themeProps);
@@ -641,8 +640,7 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
         const themeProps = buildThemeObject<ThemeKeyType>({
           theme: theme,
           themeKeys: RSPrefs.theming.themes.keys,
-          lightTheme: ThThemeKeys.light,
-          darkTheme: ThThemeKeys.dark,
+          systemThemes: RSPrefs.theming.themes.systemThemes,
           colorScheme: cache.current.colorScheme
         });
 

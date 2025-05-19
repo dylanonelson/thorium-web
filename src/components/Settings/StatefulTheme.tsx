@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useContext, useRef } from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
 
 import { PreferencesContext, ThemeKeyType, usePreferenceKeys } from "@/preferences";
 
@@ -32,9 +32,20 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
   const colorScheme = useAppSelector(state => state.theming.colorScheme)
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const direction = useAppSelector(state => state.reader.direction);
-  const isRTL = direction === ThLayoutDirection.rtl
+  const isRTL = direction === ThLayoutDirection.rtl;
+  const themeArray = isFXL ? fxlThemeKeys : reflowThemeKeys;
 
-  const themeItems = useRef(isFXL ? fxlThemeKeys : reflowThemeKeys);
+  const themeItems = useRef<(ThemeKeyType | "auto")[]>(
+    themeArray.filter((theme: ThemeKeyType | "auto") => {
+      if (theme === "auto") {
+        return RSPrefs.theming.themes.systemThemes !== undefined && 
+          Object.values(RSPrefs.theming.themes.systemThemes).every(t => 
+            themeArray.includes(t as ThemeKeyType)
+          );
+      }
+      return true;
+    })
+  );
 
   const dispatch = useAppDispatch();
 
@@ -44,18 +55,17 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
     const themeProps = buildThemeObject<typeof value>({
       theme: value,
       themeKeys: RSPrefs.theming.themes.keys,
-      lightTheme: ThThemeKeys.light,
-      darkTheme: ThThemeKeys.dark,
+      systemThemes: RSPrefs.theming.themes.systemThemes,
       colorScheme
     })
     await submitPreferences(themeProps);
 
     dispatch(setTheme(value));
-  }, [RSPrefs.theming.themes.keys, submitPreferences, dispatch, colorScheme]);
+  }, [RSPrefs.theming.themes.keys, RSPrefs.theming.themes.systemThemes, submitPreferences, dispatch, colorScheme]);
 
   // It’s easier to inline styles from preferences for these
   // than spamming the entire app with all custom properties right now
-  const doStyles = (t: ThemeKeyType | "auto") => {
+  const doStyles = useCallback((t: ThemeKeyType | "auto") => {
     // For some reason Typescript will just refuse to create dts files
     // for the packages if we set it to CSSProperties…
     let cssProps: any = {
@@ -64,11 +74,15 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
     };
 
     if (t === "auto") {
-      cssProps.background = isRTL 
-        ? `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThThemeKeys.dark].background } 48%, ${ RSPrefs.theming.themes.keys[ThThemeKeys.light].background } 100%)` 
-        : `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[ThThemeKeys.light].background } 0%, ${ RSPrefs.theming.themes.keys[ThThemeKeys.dark].background } 48%)`;
-      cssProps.color = "#ffffff";
-      cssProps.border = `1px solid ${ RSPrefs.theming.themes.keys[ThThemeKeys.light].subdue }`;
+      if (RSPrefs.theming.themes.systemThemes !== undefined) {
+        cssProps.background = isRTL 
+        ? `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[RSPrefs.theming.themes.systemThemes.dark].background } 48%, ${ RSPrefs.theming.themes.keys[RSPrefs.theming.themes.systemThemes.light].background } 100%)` 
+        : `linear-gradient(148deg, ${ RSPrefs.theming.themes.keys[RSPrefs.theming.themes.systemThemes.light].background } 0%, ${ RSPrefs.theming.themes.keys[RSPrefs.theming.themes.systemThemes.dark].background } 48%)`;
+        cssProps.color = "#ffffff";
+        cssProps.border = `1px solid ${ RSPrefs.theming.themes.keys[RSPrefs.theming.themes.systemThemes.light].subdue }`;
+      } else {
+        cssProps.display = "none";
+      }
     } else {
       cssProps.background = RSPrefs.theming.themes.keys[t].background;
       cssProps.color = RSPrefs.theming.themes.keys[t].text;
@@ -76,7 +90,7 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
     };
     
     return cssProps;
-  };
+  }, [RSPrefs.theming.themes.keys, RSPrefs.theming.themes.systemThemes, isRTL]);
 
   // mapArrowNav is the number of columns. This assumption 
   // should be safe since even in vertical-writing, 
@@ -127,6 +141,13 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
       }
     }
   };
+
+  // Edge case where the value stored is auto, but the array doesn’t have it
+  useEffect(() => {
+    if (theme === "auto" && !themeItems.current.includes(theme)) {
+      updatePreference(themeItems.current[0]);
+    }
+  }, [theme, updatePreference]);
 
   return (
     <>

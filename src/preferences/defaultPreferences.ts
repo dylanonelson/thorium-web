@@ -84,6 +84,10 @@ export const defaultPreferences = createPreferences({
         ThThemeKeys.light,
         ThThemeKeys.dark
       ],
+      systemThemes: {
+        light: ThThemeKeys.light,
+        dark: ThThemeKeys.dark
+      },
       keys: {
         [ThThemeKeys.light]: {
           background: dayMode.RS__backgroundColor, // Color of background

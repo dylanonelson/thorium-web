@@ -163,9 +163,13 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
     themes: {
       reflowOrder: (MergedKeys<T>["themeKeys"] | "auto")[];
       fxlOrder: (MergedKeys<T>["themeKeys"] | "auto")[];
+      systemThemes?: {
+        light: MergedKeys<T>["themeKeys"];
+        dark: MergedKeys<T>["themeKeys"];
+      };
       keys: {
         [key in MergedKeys<T>["themeKeys"]]: ThemeTokens;
-      }
+      };
     };
   };
   shortcuts: {

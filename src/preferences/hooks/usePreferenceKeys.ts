@@ -14,8 +14,8 @@ export function usePreferenceKeys<T extends Partial<CustomizableKeys>>() {
   // Return an object with typed keys for each customizable section
   return {
     actionKeys: preferences.actions.displayOrder as Array<MergedKeys<T>["actionKeys"]>,
-    reflowThemeKeys: preferences.theming.themes.reflowOrder.filter(k => k !== "auto") as Array<MergedKeys<T>["themeKeys"]>,
-    fxlThemeKeys: preferences.theming.themes.fxlOrder.filter(k => k!== "auto") as Array<MergedKeys<T>["themeKeys"]>,
+    reflowThemeKeys: preferences.theming.themes.reflowOrder as Array<MergedKeys<T>["themeKeys"]>,
+    fxlThemeKeys: preferences.theming.themes.fxlOrder as Array<MergedKeys<T>["themeKeys"]>,
     reflowSettingsKeys: preferences.settings.reflowOrder as Array<MergedKeys<T>["settingsKeys"]>,
     fxlSettingsKeys: preferences.settings.fxlOrder as Array<MergedKeys<T>["settingsKeys"]>,
     mainTextSettingsKeys: preferences.settings.text?.main as Array<MergedKeys<T>["textSettingsKeys"]> || [],

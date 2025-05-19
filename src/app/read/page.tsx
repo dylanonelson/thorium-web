@@ -50,9 +50,8 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
   // Init theming (breakpoints, theme, media queries…)
   useTheming<ThemeKeyType>({ 
     theme: theme,
-    lightKey: ThThemeKeys.light,
-    darkKey: ThThemeKeys.dark,
     themeKeys: RSPrefs.theming.themes.keys,
+    systemKeys: RSPrefs.theming.themes.systemThemes,
     breakpointsMap: RSPrefs.theming.breakpoints,
     initProps: {
       ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
