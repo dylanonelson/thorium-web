@@ -2,7 +2,13 @@
 
 import { useCallback, useContext, useEffect, useRef } from "react";
 
-import { defaultFontFamilyOptions, defaultLineHeights, PreferencesContext, usePreferenceKeys } from "@/preferences";
+import { 
+  defaultFontFamilyOptions, 
+  defaultLineHeights, 
+  PreferencesContext, 
+  ThemeKeyType, 
+  usePreferenceKeys 
+} from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
@@ -561,7 +567,7 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
     const applyCurrentTheme = async () => {
       const themeKeys = isFXL ? fxlThemeKeys : reflowThemeKeys;
       const themeKey = themeKeys.includes(theme as any) ? theme : "auto";
-      const themeProps = buildThemeObject<typeof reflowThemeKeys[number]>({
+      const themeProps = buildThemeObject<ThemeKeyType>({
         theme: themeKey,
         themeKeys: RSPrefs.theming.themes.keys,
         lightTheme: ThThemeKeys.light,
@@ -632,7 +638,7 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
         
         const themeKeys = isFXL ? fxlThemeKeys : reflowThemeKeys;
         const theme = themeKeys.includes(cache.current.settings.theme as any) ? cache.current.settings.theme : "auto";
-        const themeProps = buildThemeObject<typeof reflowThemeKeys[number]>({
+        const themeProps = buildThemeObject<ThemeKeyType>({
           theme: theme,
           themeKeys: RSPrefs.theming.themes.keys,
           lightTheme: ThThemeKeys.light,

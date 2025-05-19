@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useCallback, useContext, useRef } from "react";
+import React, { useCallback, useContext } from "react";
 
-import { PreferencesContext, usePreferenceKeys } from "@/preferences";
+import { ActionKeyType, PreferencesContext, usePreferenceKeys } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
@@ -54,7 +54,7 @@ export const StatefulReaderHeader = () => {
   };
 
   const listActionItems = useCallback(() => {
-    const actionsItems: ThActionEntry<typeof actionKeys[number]>[] = [];
+    const actionsItems: ThActionEntry<ActionKeyType>[] = [];
 
     actionKeys.forEach((key) => {      
       if (actionsComponentsMap[key] && (key !== ThActionsKeys.layoutStrategy || !isFXL)) {
