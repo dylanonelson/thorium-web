@@ -6,14 +6,16 @@ import { makeStore, AppStore } from "./store";
 
 export function StoreProvider({
   storageKey,
+  store,
   children
 }: {
   storageKey?: string,
+  store?: AppStore,
   children: React.ReactNode
 }) {
   const storeRef = useRef<AppStore | null>(null);
   if (!storeRef.current) {
-    storeRef.current = makeStore(storageKey)
+    storeRef.current = store || makeStore(storageKey);
   }
 
   return <Provider store={ storeRef.current }>{ children }</Provider>
