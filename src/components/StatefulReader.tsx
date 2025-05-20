@@ -22,7 +22,6 @@ import {
   ThScrollBackTo, 
   ThSettingsKeys, 
   ThTextAlignOptions, 
-  ThThemeKeys, 
   ThLayoutStrategy 
 } from "@/preferences/models/enums";
 import { ThColorScheme } from "@/packages/Hooks/useColorScheme";
