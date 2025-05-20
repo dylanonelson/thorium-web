@@ -2,11 +2,11 @@
 
 export * from "./ActionsComponentsMap";
 export * from "./StatefulCollapsibleActionsBar";
-export * from "./StatefulJumpToPosition";
-export * from "./StatefulLayoutStrategy";
 export * from "./StatefulOverflowMenu";
-export * from "./StatefulSettings";
-export * from "./StatefulSwitchFullscreen";
-export * from "./StatefulToc";
+export * from "./Fullscreen";
+export * from "./JumpToPosition";
+export * from "./LayoutStrategy";
+export * from "./Settings";
+export * from "./Toc";
 export * from "./Triggers";
 export * from "./models";

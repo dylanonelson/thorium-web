@@ -3,19 +3,19 @@
 import React, { useCallback, useContext } from "react";
 
 import { PreferencesContext } from "@/preferences";
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
-import { StatefulActionTriggerProps } from "./models/actions";
+import { StatefulActionTriggerProps } from "../models/actions";
 import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 
-import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
+import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
 import FullscreenCorners from "./assets/icons/fullscreen.svg";
 import FullscreenExit from "./assets/icons/fullscreen_exit.svg";
 
-import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
-import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
+import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";
+import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 
 import { useFullscreen } from "@/packages/Hooks/useFullscreen";
 
@@ -23,7 +23,7 @@ import { useAppDispatch } from "@/lib/hooks";
 import { setFullscreen, setHovering } from "@/lib/readerReducer";
 import { isIOSish } from "@/packages/Helpers/getPlatform";
 
-export const StatefulSwitchFullscreen = ({ variant }: StatefulActionTriggerProps) => {
+export const StatefulFullscreenTrigger = ({ variant }: StatefulActionTriggerProps) => {
   // Note: Not using React Aria ToggleButton here as fullscreen is quite
   // difficult to control in isolation due to collapsibility + shortcuts
 

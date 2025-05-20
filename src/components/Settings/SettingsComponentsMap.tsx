@@ -1,5 +1,6 @@
 "use client";
 
+import { SettingsKeyType, SpacingSettingsKeyType, TextSettingsKeyType } from "@/preferences";
 import { ThSettingsKeys, ThSpacingSettingsKeys, ThTextSettingsKeys } from "@/preferences/models/enums";
 import { StatefulSettingsMapObject } from "./models/settings";
 
@@ -116,7 +117,7 @@ export const zoomMapping = {
 };
 
 // Combine maps as needed
-export const spacingComponentsMap: Record<ThSpacingSettingsKeys, StatefulSettingsMapObject> = {
+export const spacingComponentsMap: Record<SpacingSettingsKeyType, StatefulSettingsMapObject> = {
   ...letterSpacingMapping,
   ...lineHeightMapping,
   ...paragraphIndentMapping,
@@ -125,7 +126,7 @@ export const spacingComponentsMap: Record<ThSpacingSettingsKeys, StatefulSetting
   ...wordSpacingMapping
 };
 
-export const textComponentsMap: Record<ThTextSettingsKeys, StatefulSettingsMapObject> = {
+export const textComponentsMap: Record<TextSettingsKeyType, StatefulSettingsMapObject> = {
   ...fontFamilyMapping,
   ...fontWeightMapping,
   ...hyphensMapping,
@@ -151,7 +152,7 @@ export const textGroupMapping = {
   }
 };
 
-export const settingsComponentsMap: Record<ThSettingsKeys, StatefulSettingsMapObject> = {
+export const settingsComponentsMap: Record<SettingsKeyType, StatefulSettingsMapObject> = {
   ...columnsMapping,
   ...fontFamilyMapping,
   ...fontWeightMapping,

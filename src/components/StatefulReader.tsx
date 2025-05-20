@@ -123,7 +123,7 @@ export interface StatelessCache {
   reducedMotion?: boolean;
 }
 
-export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string, componentsMapContextValue?: ComponentsMapContextValue }) => {
+export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
   const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
   

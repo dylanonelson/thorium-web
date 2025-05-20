@@ -14,7 +14,7 @@ import {
   usePreferenceKeys
 } from "@/preferences";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
 import { 
   ThActionsKeys, 
@@ -23,22 +23,17 @@ import {
   ThSpacingSettingsKeys, 
   ThTextSettingsKeys 
 } from "@/preferences/models/enums";
-import { StatefulActionContainerProps, StatefulActionTriggerProps } from "./models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { StatefulActionContainerProps } from "../models/actions";
 
-import settingsStyles from "../Settings/assets/styles/settings.module.css";
+import settingsStyles from "../../Settings/assets/styles/settings.module.css";
 
-import TuneIcon from "./assets/icons/match_case.svg";
+import { StatefulSheetWrapper } from "../../Sheets/StatefulSheetWrapper";
 
-import { StatefulSheetWrapper } from "../Sheets/StatefulSheetWrapper";
-import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
-import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
+import { StatefulSpacingGroupContainer } from "../../Settings/StatefulSpacingGroup";
+import { StatefulTextGroupContainer } from "../../Settings/StatefulTextGroup";
 
-import { StatefulSpacingGroupContainer } from "../Settings/StatefulSpacingGroup";
-import { StatefulTextGroupContainer } from "../Settings/StatefulTextGroup";
-
-import { useComponentsMap } from "../ComponentsMapContext";
-import { useDocking } from "../Docking/hooks/useDocking";
+import { useComponentsMap } from "../../ComponentsMapContext";
+import { useDocking } from "../../Docking/hooks/useDocking";
 
 import { setHovering, setSettingsContainer } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -88,7 +83,7 @@ export const StatefulSettingsContainer = ({
     ].flat() as ThTextSettingsKeys[];
   
     return textSettings.includes(key as unknown as TextSettingsKeyType);
-  }, [RSPrefs.settings.text, mainTextSettingsKeys, subPanelTextSettingsKeys]);
+  }, [mainTextSettingsKeys, subPanelTextSettingsKeys]);
   
   const isSpacingNested = useCallback((key: SettingsKeyType) => {
     const spacingSettings = [
@@ -97,27 +92,28 @@ export const StatefulSettingsContainer = ({
     ].flat() as ThSpacingSettingsKeys[];
   
     return spacingSettings.includes(key as unknown as SpacingSettingsKeyType);
-  }, [RSPrefs.settings.spacing, mainSpacingSettingsKeys, subPanelSpacingSettingsKeys]);
+  }, [mainSpacingSettingsKeys, subPanelSpacingSettingsKeys]);
 
   const renderSettings = useCallback(() => {
     switch (contains) {
       case ThSettingsContainerKeys.text:
-        return <StatefulTextGroupContainer componentsMap={ textComponentsMap }/>;
+        return <StatefulTextGroupContainer componentsMap={ textComponentsMap || {} }/>;
       
       case ThSettingsContainerKeys.spacing:
-        return <StatefulSpacingGroupContainer componentsMap={ spacingComponentsMap} />;
+        return <StatefulSpacingGroupContainer componentsMap={ spacingComponentsMap || {} } />;
 
       case ThSettingsContainerKeys.initial:
       default:
         return (
           <>
-            {
-              settingItems.current
+            { settingItems.current.length > 0 && settingsComponentsMap 
+              ? settingItems.current
                 .filter((key) => !(isTextNested(key) || isSpacingNested(key)))
                 .map((key) => {
                   const setting = settingsComponentsMap[key];
                   return <setting.Comp key={ key } { ...setting.props } />;
                 })
+              : <></>
             }
           </>
         );
@@ -193,45 +189,6 @@ useEffect(() => {
     >
       { renderSettings() }
     </StatefulSheetWrapper>
-    </>
-  )
-}
-
-export const StatefulSettingsTrigger = ({ variant }: StatefulActionTriggerProps) => {
-  const RSPrefs = useContext(PreferencesContext);
-  const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.settings]);
-  const dispatch = useAppDispatch();
-
-  const setOpen = (value: boolean) => {    
-    dispatch(setActionOpen({
-      key: ThActionsKeys.settings,
-      isOpen: value
-    }));
-
-    // hover false otherwise it tends to stay on close button press…
-    if (!value) dispatch(setHovering(false));
-  }
-
-  return(
-    <>
-    { (variant && variant === ThActionsTriggerVariant.menu) 
-      ? <StatefulOverflowMenuItem 
-          label={ Locale.reader.settings.trigger }
-          SVGIcon={ TuneIcon }
-          shortcut={ RSPrefs.actions.keys[ThActionsKeys.settings].shortcut } 
-          id={ ThActionsKeys.settings }
-          onAction={ () => setOpen(!actionState.isOpen) }
-        />
-      : <StatefulActionIcon 
-          visibility={ RSPrefs.actions.keys[ThActionsKeys.settings].visibility }
-          aria-label={ Locale.reader.settings.trigger }
-          placement="bottom" 
-          tooltipLabel={ Locale.reader.settings.tooltip } 
-          onPress={ () => setOpen(!actionState.isOpen) }
-        >
-          <TuneIcon aria-hidden="true" focusable="false" />
-        </StatefulActionIcon>
-    }
     </>
   )
 }
