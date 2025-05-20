@@ -16,6 +16,7 @@
     "jsx": "react-jsx", 
     "outDir": "./dist", 
     "declaration": true,
+    "emitDeclarationOnly": true,
     "paths": {
       "@/*": ["./src/*"],
       "@readium/shared/*": ["./src/readium/ts-toolkit/shared/*"],
@@ -25,5 +26,16 @@
       "immer": ["./node_modules/immer"]
     }
   },
-  "include": ["svgr.d.ts", "react.d.ts", "./src/packages/**/*.ts", "src/packages/**/*.tsx"]
+  "include": [
+    "svgr.d.ts", 
+    "react.d.ts", 
+    "./src/packages/**/*.ts",
+    "./src/packages/**/*.tsx",
+    "./src/lib/**/*.ts",
+    "./src/lib/**/*.tsx",
+    "./src/preferences/**/*.ts",
+    "./src/preferences/**/*.tsx",
+    "./src/components/**/*.ts",
+    "./src/components/**/*.tsx"
+  ]
 }

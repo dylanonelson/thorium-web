@@ -25,16 +25,7 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   clean: true,
-  dts: {
-    "entry": [
-      "src/packages/Components/index.ts",
-      "src/packages/Helpers/index.ts",
-      "src/packages/Hooks/index.ts",
-      "src/lib/index.ts",
-      "src/preferences/index.ts",
-      "src/components/index.ts"
-    ]
-  },
+  dts: false,
   treeshake: false,
   bundle: true,
   noExternal: ["classNames", "debounce", "json-templates"],
