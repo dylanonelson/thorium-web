@@ -1,15 +1,18 @@
 "use client";
 
-import { ThActionsKeys } from "@/preferences";
+import { ActionKeyType, ThActionsKeys } from "@/preferences";
 import { StatefulActionsMapObject } from "./models/actions";
-import { StatefulSwitchFullscreen } from "./StatefulSwitchFullscreen";
-import { StatefulLayoutStrategyContainer, StatefulLayoutStrategyTrigger } from "./StatefulLayoutStrategy";
-import { StatefulSettingsContainer, StatefulSettingsTrigger } from "./StatefulSettings";
-import { StatefulTocContainer, StatefulTocTrigger } from "./StatefulToc";
+import { StatefulFullscreenTrigger } from "./Fullscreen/StatefulFullscreenTrigger";
+import { StatefulLayoutStrategyTrigger } from "./LayoutStrategy/StatefulLayoutStrategyTrigger";
+import { StatefulLayoutStrategyContainer } from "./LayoutStrategy/StatefulLayoutStrategyContainer";
+import { StatefulSettingsTrigger } from "./Settings/StatefulSettingsTrigger";
+import { StatefulSettingsContainer } from "./Settings/StatefulSettingsContainer";
+import { StatefulTocTrigger } from "./Toc/StatefulTocTrigger";
+import { StatefulTocContainer } from "./Toc/StatefulTocContainer";
 
 export const fullscreenMapping = {
   [ThActionsKeys.fullscreen]: {
-    trigger: StatefulSwitchFullscreen
+    trigger: StatefulFullscreenTrigger
   }
 };
 
@@ -35,7 +38,7 @@ export const tocMapping = {
 };
 
 // Combine maps as needed
-export const actionsComponentsMap: Record<ThActionsKeys, StatefulActionsMapObject> = {
+export const actionsComponentsMap: Record<ActionKeyType, StatefulActionsMapObject> = {
   ...fullscreenMapping,
   ...layoutStrategyMapping,
   ...settingsMapping,

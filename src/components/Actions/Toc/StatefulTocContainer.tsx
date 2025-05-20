@@ -1,25 +1,19 @@
 "use client";
 
-import React, { CSSProperties, useCallback, useContext, useEffect, useState } from "react";
+import React, { CSSProperties, useCallback, useEffect, useState } from "react";
 
-import { PreferencesContext } from "@/preferences";
-
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
 import { Link } from "@readium/shared";
 import { ThActionsKeys, ThDockingKeys, ThSheetTypes, ThLayoutDirection } from "@/preferences/models/enums";
-import { StatefulActionContainerProps, StatefulActionTriggerProps } from "./models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { StatefulActionContainerProps } from "../models/actions";
 import { TocItem } from "@/packages/Helpers/createTocTree";
 
 import tocStyles from "./assets/styles/toc.module.css";
 
-import TocIcon from "./assets/icons/toc.svg";
 import Chevron from "./assets/icons/chevron_right.svg";
 
-import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
-import { StatefulSheetWrapper } from "../Sheets/StatefulSheetWrapper";
-import { StatefulOverflowMenuItem } from "./Triggers/StatefulOverflowMenuItem";
+import { StatefulSheetWrapper } from "../../Sheets/StatefulSheetWrapper";
 import { Button, Collection, Selection } from "react-aria-components";
 import {
   Tree,
@@ -28,7 +22,7 @@ import {
 } from "react-aria-components";
 
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
-import { useDocking } from "../Docking/hooks/useDocking";
+import { useDocking } from "../../Docking/hooks/useDocking";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 
 
@@ -196,42 +190,6 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
       : <div className={ tocStyles.empty }>{ Locale.reader.toc.empty }</div>
     }
     </StatefulSheetWrapper>
-    </>
-  )
-}
-
-export const StatefulTocTrigger = ({ variant }: StatefulActionTriggerProps) => {
-  const RSPrefs = useContext(PreferencesContext);
-  const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.toc]);
-  const dispatch = useAppDispatch();
-
-  const setOpen = (value: boolean) => {
-    dispatch(setActionOpen({ 
-      key: ThActionsKeys.toc,
-      isOpen: value 
-    }));
-  }
-
-  return(
-    <>
-    { (variant && variant === ThActionsTriggerVariant.menu) 
-      ? <StatefulOverflowMenuItem 
-          label={ Locale.reader.toc.trigger }
-          SVGIcon={ TocIcon } 
-          shortcut={ RSPrefs.actions.keys[ThActionsKeys.toc].shortcut }
-          id={ ThActionsKeys.toc }
-          onAction={ () => setOpen(!actionState.isOpen) }
-        />
-      : <StatefulActionIcon 
-          visibility={ RSPrefs.actions.keys[ThActionsKeys.toc].visibility }
-          aria-label={ Locale.reader.toc.trigger } 
-          placement="bottom"
-          tooltipLabel={ Locale.reader.toc.tooltip } 
-          onPress={ () => setOpen(!actionState.isOpen) }
-        >
-          <TocIcon aria-hidden="true" focusable="false" />
-        </StatefulActionIcon>
-    }
     </>
   )
 }

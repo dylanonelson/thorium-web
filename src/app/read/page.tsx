@@ -7,10 +7,8 @@ import { Link } from "@readium/shared";
 
 import "../app.css";
 
-import { ComponentsMapContextValue } from "@/components/ComponentsMapContext";
-
 import dynamic from "next/dynamic";
-const Reader = dynamic<{ rawManifest: object; selfHref: string, componentsMapContextValue?: ComponentsMapContextValue }>(() => import("../../components/StatefulReader").then((mod) => mod.StatefulReader), { ssr: false });
+const Reader = dynamic<{ rawManifest: object; selfHref: string }>(() => import("../../components/StatefulReader").then((mod) => mod.StatefulReader), { ssr: false });
 
 import { StatefulLoader } from "@/components/StatefulLoader";
 

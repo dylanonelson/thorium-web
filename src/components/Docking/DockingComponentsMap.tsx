@@ -1,5 +1,6 @@
 "use client";
 
+import { DockingKeyType } from "@/preferences";
 import { ThDockingKeys } from "@/preferences/models/enums";
 import { StatefulActionsMapObject } from "../Actions/models/actions";
 import { StatefulDockEnd } from "./StatefulDockEnd";
@@ -25,7 +26,7 @@ export const dockTransientMapping = {
 };
 
 // Combine maps as needed
-export const dockingComponentsMap: Record<ThDockingKeys, StatefulActionsMapObject> = {
+export const dockingComponentsMap: Record<DockingKeyType, StatefulActionsMapObject> = {
   ...dockStartMapping,
   ...dockEndMapping,
   ...dockTransientMapping
