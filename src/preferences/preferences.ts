@@ -205,6 +205,7 @@ export type PreferenceKeyType<T extends keyof DefaultKeys> = MergedKeys<Customiz
 
 // Specific key type helpers
 export type ActionKeyType = PreferenceKeyType<"actionKeys">;
+export type DockingKeyType = ThDockingKeys;
 export type ThemeKeyType = PreferenceKeyType<"themeKeys">;
 export type SettingsKeyType = PreferenceKeyType<"settingsKeys">;
 export type TextSettingsKeyType = PreferenceKeyType<"textSettingsKeys">;
