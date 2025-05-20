@@ -8,14 +8,20 @@ import { dockingComponentsMap } from "./Docking/DockingComponentsMap";
 import { actionsComponentsMap } from "./Actions/ActionsComponentsMap";
 import { StatefulActionsMapObject } from "./Actions/models/actions";
 import { StatefulSettingsMapObject } from "./Settings/models/settings";
-import { ThActionsKeys, ThDockingKeys, ThSettingsKeys, ThSpacingSettingsKeys, ThTextSettingsKeys } from "@/preferences/models/enums";
+import { 
+  ActionKeyType, 
+  DockingKeyType, 
+  SettingsKeyType, 
+  SpacingSettingsKeyType, 
+  TextSettingsKeyType 
+} from "@/preferences";
 
 export interface ComponentsMapContextValue {
-  actionsComponentsMap: Record<ThActionsKeys, StatefulActionsMapObject>;
-  dockingComponentsMap: Record<ThDockingKeys, StatefulActionsMapObject>;
-  settingsComponentsMap: Record<ThSettingsKeys, StatefulSettingsMapObject>;
-  spacingComponentsMap: Record<ThSpacingSettingsKeys, StatefulSettingsMapObject>;
-  textComponentsMap: Record<ThTextSettingsKeys, StatefulSettingsMapObject>;
+  actionsComponentsMap: Record<ActionKeyType, StatefulActionsMapObject>;
+  dockingComponentsMap: Record<DockingKeyType, StatefulActionsMapObject>;
+  settingsComponentsMap: Record<SettingsKeyType, StatefulSettingsMapObject>;
+  spacingComponentsMap: Record<SpacingSettingsKeyType, StatefulSettingsMapObject>;
+  textComponentsMap: Record<TextSettingsKeyType, StatefulSettingsMapObject>;
 }
 
 export const ComponentsMapContext = createContext<ComponentsMapContextValue>({
