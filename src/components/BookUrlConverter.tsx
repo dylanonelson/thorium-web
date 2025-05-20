@@ -13,10 +13,25 @@ export const BookUrlConverter = () => {
     e.preventDefault();
     if (!bookUrl) return;
     
-    // Convert the book URL to base64 without padding
-    const base64Url = btoa(bookUrl).replace(/=/g, "");
-    // Redirect to the /read page with the base64 URL as a query parameter
-    window.location.href = new URL(`read?book=https://publication-server.readium.org/${ encodeURIComponent(base64Url) }/manifest.json`, window.location.href).href;
+    try {
+      // Convert the book URL to base64Url format using TextEncoder for proper Unicode handling
+      const bytes = new TextEncoder().encode(bookUrl);
+      const binString = Array.from(bytes, byte => String.fromCodePoint(byte)).join('');
+      const base64 = btoa(binString);
+      const base64Url = base64
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=+$/, "");
+      
+      // Redirect to the /read page with the base64 URL as a query parameter
+      window.location.href = new URL(
+        `read?book=https://publication-server.readium.org/${encodeURIComponent(base64Url)}/manifest.json`, 
+        window.location.href
+      ).href;
+    } catch (error) {
+      console.error("Error encoding URL:", error);
+      // You could add user-friendly error handling here
+    }
   };
 
   return (
