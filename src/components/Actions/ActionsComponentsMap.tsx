@@ -9,10 +9,17 @@ import { StatefulSettingsTrigger } from "./Settings/StatefulSettingsTrigger";
 import { StatefulSettingsContainer } from "./Settings/StatefulSettingsContainer";
 import { StatefulTocTrigger } from "./Toc/StatefulTocTrigger";
 import { StatefulTocContainer } from "./Toc/StatefulTocContainer";
+import { StatefulJumpToPosition } from "./JumpToPosition";
 
 export const fullscreenMapping = {
   [ThActionsKeys.fullscreen]: {
     trigger: StatefulFullscreenTrigger
+  }
+};
+
+export const jumpToPositionMapping = {
+  [ThActionsKeys.jumpToPosition]: {
+    trigger: StatefulJumpToPosition
   }
 };
 
@@ -40,6 +47,7 @@ export const tocMapping = {
 // Combine maps as needed
 export const actionsComponentsMap: Record<ActionKeyType, StatefulActionsMapObject> = {
   ...fullscreenMapping,
+  ...jumpToPositionMapping,
   ...layoutStrategyMapping,
   ...settingsMapping,
   ...tocMapping

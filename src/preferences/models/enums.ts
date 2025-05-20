@@ -1,6 +1,6 @@
 export enum ThActionsKeys {
   fullscreen = "fullscreen",
-  // jumpToPosition = "jumpToPosition",
+  jumpToPosition = "jumpToPosition",
   layoutStrategy = "layoutStrategy",
   settings = "settings",
   toc = "toc"
