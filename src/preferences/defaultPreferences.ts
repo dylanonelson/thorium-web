@@ -278,13 +278,13 @@ export const defaultPreferences = createPreferences({
           maxHeight: 100
         }
       },
-      // [ThActionsKeys.jumpToPosition]: {
-      //  visibility: ThCollapsibilityVisibility.overflow,
-      //  shortcut: null, // `${ UnstableShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
-      //  docked: {
-      //    dockable: ThDockingTypes.none
-      //  }
-      //}
+      [ThActionsKeys.jumpToPosition]: {
+        visibility: ThCollapsibilityVisibility.overflow,
+        shortcut: null, // `${ UnstableShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
+        docked: {
+          dockable: ThDockingTypes.none
+        }
+      }
     }
   },
   docking: {
