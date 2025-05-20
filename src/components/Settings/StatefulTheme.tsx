@@ -9,7 +9,7 @@ import settingsStyles from "./assets/styles/settings.module.css";
 
 import CheckIcon from "./assets/icons/check.svg";
 
-import { ThActionsKeys, ThLayoutDirection, ThThemeKeys } from "@/preferences/models/enums";
+import { ThActionsKeys, ThLayoutDirection } from "@/preferences/models/enums";
 
 import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
 import { Radio } from "react-aria-components";
