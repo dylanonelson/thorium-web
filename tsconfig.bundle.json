@@ -16,7 +16,6 @@
     "jsx": "react-jsx", 
     "outDir": "./dist", 
     "declaration": true,
-    "emitDeclarationOnly": true,
     "paths": {
       "@/*": ["./src/*"],
       "@readium/shared/*": ["./src/readium/ts-toolkit/shared/*"],

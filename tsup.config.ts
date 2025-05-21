@@ -25,7 +25,7 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   clean: true,
-  dts: false,
+  dts: true,
   treeshake: false,
   bundle: true,
   noExternal: ["classNames", "debounce", "json-templates"],
