@@ -1,25 +1,33 @@
 "use client";
 
-import { createContext } from "react";
+import { createContext, useMemo, useRef } from "react";
 import { defaultPreferences } from "./defaultPreferences";
 
 import { ThPreferences, CustomizableKeys } from "./preferences";
+import { ThDirectionSetter } from "./ThDirectionSetter";
 
-// Define the context with a generic type parameter
-const PreferencesContext = createContext<ThPreferences<any>>(defaultPreferences);
+// Define the context with a generic type parameter and ensure non-null value
+export const PreferencesContext = createContext<ThPreferences<any>>(defaultPreferences);
 
-export default function ThPreferencesProvider<T extends Partial<CustomizableKeys> = {}>({
+export function ThPreferencesProvider<T extends Partial<CustomizableKeys> = {}>({
   value,
   children,
 }: {
   value?: ThPreferences<T>;
   children: React.ReactNode;
 }) {
-  return (
-    <PreferencesContext.Provider value={value || (defaultPreferences as unknown as ThPreferences<T>)}>
-      {children}
+  const contextRef = useRef<ThPreferences<T> | undefined>(undefined);
+  if (!contextRef.current) {
+    contextRef.current = value || defaultPreferences as unknown as ThPreferences<T>;
+  }
+
+  console.log("contextValue", contextRef.current);
+
+  return (    
+    <PreferencesContext.Provider value={ contextRef.current }>
+      <ThDirectionSetter>
+        { children }
+      </ThDirectionSetter>
     </PreferencesContext.Provider>
   );
-};
-
-export { ThPreferencesProvider, PreferencesContext };
+}

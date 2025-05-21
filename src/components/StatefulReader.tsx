@@ -125,15 +125,17 @@ export interface StatelessCache {
   reducedMotion?: boolean;
 }
 
+export interface StatefulReaderProps {
+  rawManifest: object;
+  selfHref: string;
+  plugin?: ThPlugin;
+}
+
 export const StatefulReader = ({ 
   rawManifest, 
   selfHref, 
   plugin 
-}: { 
-  rawManifest: object, 
-  selfHref: string, 
-  plugin?: ThPlugin 
-}) => {
+}: StatefulReaderProps) => {
   ThPluginRegistry.register(createDefaultPlugin());
   if (plugin) {
     ThPluginRegistry.register(plugin);
@@ -141,6 +143,9 @@ export const StatefulReader = ({
   
   const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
+
+  console.log("reader", RSPrefs);
+
   
   const container = useRef<HTMLDivElement>(null);
   const publication = useRef<Publication | null>(null);
