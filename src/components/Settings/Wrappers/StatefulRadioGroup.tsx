@@ -11,6 +11,7 @@ export interface StatefulRadioGroupProps extends Omit<ThRadioGroupProps, "classN
 export const StatefulRadioGroup = ({
   standalone,
   label,
+  children,
   ...props
 }: StatefulRadioGroupProps) => {
   return (
@@ -31,7 +32,7 @@ export const StatefulRadioGroup = ({
       }
     }}
   >
-    { props.children }
+    { children }
   </ThRadioGroup>
   </>
   )

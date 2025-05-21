@@ -29,9 +29,9 @@ export const StatefulActionIcon = ({
  visibility,
  placement,
  tooltipLabel,
+ children,
   ...props
 }: StatefulActionIconProps) => {
-  const children = props.children;
   const RSPrefs = useContext(PreferencesContext);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
