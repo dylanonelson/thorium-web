@@ -19,9 +19,7 @@ import Locale from "../../../resources/locales/en.json";
 import { 
   ThActionsKeys, 
   ThSettingsContainerKeys, 
-  ThSheetHeaderVariant, 
-  ThSpacingSettingsKeys, 
-  ThTextSettingsKeys 
+  ThSheetHeaderVariant
 } from "@/preferences/models/enums";
 import { StatefulActionContainerProps } from "../models/actions";
 
@@ -32,7 +30,7 @@ import { StatefulSheetWrapper } from "../../Sheets/StatefulSheetWrapper";
 import { StatefulSpacingGroupContainer } from "../../Settings/StatefulSpacingGroup";
 import { StatefulTextGroupContainer } from "../../Settings/StatefulTextGroup";
 
-import { useComponentsMap } from "../../ComponentsMapContext";
+import { usePlugins } from "@/components/Plugins/PluginProvider";
 import { useDocking } from "../../Docking/hooks/useDocking";
 
 import { setHovering, setSettingsContainer } from "@/lib/readerReducer";
@@ -51,7 +49,7 @@ export const StatefulSettingsContainer = ({
     subPanelTextSettingsKeys,
   } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
-  const { settingsComponentsMap, spacingComponentsMap, textComponentsMap } = useComponentsMap();
+  const { settingsComponentsMap, textSettingsComponentsMap, spacingSettingsComponentsMap } = usePlugins();
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const contains = useAppSelector(state => state.reader.settingsContainer);
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.settings]);
@@ -76,31 +74,31 @@ export const StatefulSettingsContainer = ({
     dispatch(setSettingsContainer(ThSettingsContainerKeys.initial));
   }, [dispatch]);
 
-  const isTextNested = useCallback((key: SettingsKeyType) => {
+  const isTextNested = useCallback((key: string) => {
     const textSettings = [
       mainTextSettingsKeys || defaultTextSettingsMain,
       subPanelTextSettingsKeys || defaultTextSettingsSubpanel,
-    ].flat() as ThTextSettingsKeys[];
+    ].flat() as string[];
   
-    return textSettings.includes(key as unknown as TextSettingsKeyType);
+    return textSettings.includes(key);
   }, [mainTextSettingsKeys, subPanelTextSettingsKeys]);
   
-  const isSpacingNested = useCallback((key: SettingsKeyType) => {
+  const isSpacingNested = useCallback((key: string) => {
     const spacingSettings = [
       mainSpacingSettingsKeys || defaultSpacingSettingsMain,
       subPanelSpacingSettingsKeys || defaultSpacingSettingsSubpanel,
-    ].flat() as ThSpacingSettingsKeys[];
+    ].flat() as string[];
   
-    return spacingSettings.includes(key as unknown as SpacingSettingsKeyType);
+    return spacingSettings.includes(key);
   }, [mainSpacingSettingsKeys, subPanelSpacingSettingsKeys]);
 
   const renderSettings = useCallback(() => {
     switch (contains) {
       case ThSettingsContainerKeys.text:
-        return <StatefulTextGroupContainer componentsMap={ textComponentsMap || {} }/>;
+        return <StatefulTextGroupContainer />;
       
       case ThSettingsContainerKeys.spacing:
-        return <StatefulSpacingGroupContainer componentsMap={ spacingComponentsMap || {} } />;
+        return <StatefulSpacingGroupContainer />;
 
       case ThSettingsContainerKeys.initial:
       default:
@@ -110,15 +108,15 @@ export const StatefulSettingsContainer = ({
               ? settingItems.current
                 .filter((key) => !(isTextNested(key) || isSpacingNested(key)))
                 .map((key) => {
-                  const setting = settingsComponentsMap[key];
-                  return <setting.Comp key={ key } { ...setting.props } />;
+                  const match = settingsComponentsMap[key];
+                  return match && <match.Comp key={ key } { ...match.props } />;
                 })
               : <></>
             }
           </>
         );
     }
-  }, [settingsComponentsMap, textComponentsMap, spacingComponentsMap, contains, isTextNested, isSpacingNested]);
+  }, [settingsComponentsMap, textSettingsComponentsMap, spacingSettingsComponentsMap, contains, isTextNested, isSpacingNested]);
 
   const getHeading = useCallback(() => {
     switch (contains) {

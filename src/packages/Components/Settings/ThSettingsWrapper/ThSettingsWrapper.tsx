@@ -16,7 +16,7 @@ export interface ThSettingsPrefs {
 }
 
 export interface ThSettingsWrapperProps extends HTMLAttributesWithRef<HTMLDivElement> {
-  items?: { [key: string]: ThSettingsEntry } | null;
+  items?: Record<string, ThSettingsEntry> | null;
   prefs: ThSettingsPrefs;
   compounds?: {
     /**
@@ -62,8 +62,8 @@ export const ThSettingsWrapper = ({
             { compounds.label }
           </Heading> }
         { main.map((key, index) => {
-          const { Comp } = items[key];
-          return <Comp key={ key } standalone={ !isAdvanced || index !== 0 } { ...props } />;
+          const match = items[key];
+          return match && <match.Comp key={ key } standalone={ !isAdvanced || index !== 0 } { ...props } />;
         }) }
         { isAdvanced && (
           <ThSettingsWrapperButton

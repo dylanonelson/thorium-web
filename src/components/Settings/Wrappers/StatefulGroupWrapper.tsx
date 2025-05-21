@@ -7,7 +7,7 @@ import settingsStyles from "../assets/styles/settings.module.css";
 
 import { PreferencesContext, ThSettingsGroupPref, ThSpacingSettingsKeys, ThTextSettingsKeys } from "@/preferences";
 import { PressEvent } from "react-aria";
-import { StatefulSettingsMapObject } from "../models/settings";
+import { SettingComponent } from "@/components/Plugins/PluginRegistry";
 
 import { ThSettingsWrapper } from "@/packages/Components/Settings/ThSettingsWrapper";
 
@@ -18,7 +18,7 @@ export interface StatefulGroupWrapperProps {
   moreLabel: string;
   moreTooltip: string;
   onPressMore: (e: PressEvent) => void;
-  componentsMap: { [key: string | number | symbol]: StatefulSettingsMapObject };
+  componentsMap: Record<string, SettingComponent>;
   prefs?: ThSettingsGroupPref<ThTextSettingsKeys | ThSpacingSettingsKeys>;
   defaultPrefs: {
     main: ThTextSettingsKeys[] | ThSpacingSettingsKeys[];

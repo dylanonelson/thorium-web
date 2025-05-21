@@ -27,7 +27,6 @@ import {
 import { ThColorScheme } from "@/packages/Hooks/useColorScheme";
 
 import { I18nProvider } from "react-aria";
-import { ComponentsMapContextValue, ComponentsMapProvider } from "./ComponentsMapContext";
 
 import {
   BasicTextSelection,
@@ -93,6 +92,9 @@ import { Dispatch } from "@reduxjs/toolkit";
 
 import debounce from "debounce";
 import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
+import { ThPluginProvider } from "./Plugins/PluginProvider";
+import { ThPlugin, ThPluginRegistry } from "./Plugins/PluginRegistry";
+import { createDefaultPlugin } from "./Plugins/helpers/createDefaultPlugin";
 
 export interface ReadiumCSSSettings {
   columnCount: string;
@@ -123,7 +125,20 @@ export interface StatelessCache {
   reducedMotion?: boolean;
 }
 
-export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object, selfHref: string }) => {
+export const StatefulReader = ({ 
+  rawManifest, 
+  selfHref, 
+  plugin 
+}: { 
+  rawManifest: object, 
+  selfHref: string, 
+  plugin?: ThPlugin 
+}) => {
+  ThPluginRegistry.register(createDefaultPlugin());
+  if (plugin) {
+    ThPluginRegistry.register(plugin);
+  }
+  
   const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
   
@@ -711,7 +726,7 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
   return (
     <>
     <I18nProvider locale={  RSPrefs.locale  }>
-    <ComponentsMapProvider>
+    <ThPluginProvider>
       <main>
         <StatefulDockingWrapper>
           <div id="reader-main">
@@ -747,7 +762,7 @@ export const StatefulReader = ({ rawManifest, selfHref }: { rawManifest: object,
           </div>
       </StatefulDockingWrapper>
     </main>
-  </ComponentsMapProvider>
+  </ThPluginProvider>
   </I18nProvider>
   </>
 )};

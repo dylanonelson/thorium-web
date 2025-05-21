@@ -4,11 +4,12 @@ import { useContext, useEffect, useState } from "react";
 
 import { HttpFetcher } from "@readium/shared";
 import { Link } from "@readium/shared";
+import { ThPlugin } from "@/components";
 
 import "../app.css";
 
 import dynamic from "next/dynamic";
-const Reader = dynamic<{ rawManifest: object; selfHref: string }>(() => import("../../components/StatefulReader").then((mod) => mod.StatefulReader), { ssr: false });
+const Reader = dynamic<{ rawManifest: object; selfHref: string; plugin?: ThPlugin }>(() => import("../../components/StatefulReader").then((mod) => mod.StatefulReader), { ssr: false });
 
 import { StatefulLoader } from "@/components/StatefulLoader";
 
@@ -107,7 +108,9 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
     { error 
       ? <span>{ error }</span> 
       : <StatefulLoader isLoading={ readerIsLoading }>
-          { isClient && manifest && selfLink && <Reader rawManifest={ manifest } selfHref={ selfLink } /> }
+          { isClient && manifest && selfLink && 
+            <Reader rawManifest={ manifest } selfHref={ selfLink } />
+          }
         </StatefulLoader>        
     }
     </>

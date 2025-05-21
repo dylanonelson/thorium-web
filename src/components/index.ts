@@ -1,10 +1,9 @@
-export * from "../helpers/createComponentMap";
 export * from "../helpers/peripherals";
 
 export * from "./BookUrlConverter";
-export * from "./ComponentsMapContext";
 export * from "./Actions";
 export * from "./Docking";
+export * from "./Plugins";
 export * from "./Settings";
 export * from "./Sheets";
 export * from "./StatefulLoader";

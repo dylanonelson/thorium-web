@@ -3,8 +3,8 @@ import { Inter } from "next/font/google";
 
 import { ThDirectionSetter } from "@/preferences";
 
-import StoreProvider from "@/lib/StoreProvider";
-import ThPreferencesProvider from "@/preferences/ThPreferencesProvider";
+import { StoreProvider } from "@/lib/StoreProvider";
+import { ThPreferencesProvider } from "@/preferences";
 
 export const runtime = "edge";
 
@@ -17,19 +17,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={ inter.className }>
-        <StoreProvider>
-          <ThPreferencesProvider>
+        <ThPreferencesProvider>
+          <StoreProvider>
             <ThDirectionSetter>
-              { children  }
+              { children }
             </ThDirectionSetter>
-          </ThPreferencesProvider>
-        </StoreProvider>
+          </StoreProvider>
+        </ThPreferencesProvider>
       </body>
     </html>
   );

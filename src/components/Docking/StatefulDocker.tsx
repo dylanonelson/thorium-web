@@ -12,12 +12,27 @@ import { ThDockingKeys } from "@/preferences/models/enums";
 
 import { Toolbar } from "react-aria-components";
 
-import { useComponentsMap } from "../ComponentsMapContext";
-
 import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
 import { StatefulCollapsibleActionsBar } from "../Actions/StatefulCollapsibleActionsBar";
+
+import { StatefulDockStart } from "./StatefulDockStart";
+import { StatefulDockEnd } from "./StatefulDockEnd";
+import { StatefulDockTransientPopover } from "./StatefulDockTransientPopover";
+
 import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
+
+const dockingComponentsMap = {
+  [ThDockingKeys.start]: {
+    trigger: StatefulDockStart
+  },
+  [ThDockingKeys.end]: {
+    trigger: StatefulDockEnd
+  },
+  [ThDockingKeys.transient]: {
+    trigger: StatefulDockTransientPopover
+  }
+}
 
 export interface StatefulDockerProps {
   id: ActionsStateKeys;
@@ -33,7 +48,6 @@ export const StatefulDocker = ({
   onClose
 }: StatefulDockerProps) => {
   const RSPrefs = useContext(PreferencesContext);
-  const { dockingComponentsMap } = useComponentsMap();
   
   const listActionItems = useCallback(() => {
     const actionsItems: ThActionEntry<ThDockingKeys>[] = [];

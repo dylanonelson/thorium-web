@@ -14,7 +14,7 @@ import TargetIcon from "./assets/icons/point_scan.svg";
 import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";
 
-export const StatefulJumpToPosition = ({ variant }: StatefulActionTriggerProps) => {
+export const StatefulJumpToPositionTrigger = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
 
   return (<></>);

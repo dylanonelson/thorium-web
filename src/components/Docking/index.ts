@@ -1,6 +1,5 @@
 "use client";
 
-export * from "./DockingComponentsMap";
 export * from "./StatefulDockEnd";
 export * from "./StatefulDockStart";
 export * from "./StatefulDockTransientFullscreen";
