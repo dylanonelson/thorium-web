@@ -19,7 +19,7 @@
     "./components/*": "./dist/packages/Components/*.js",
     "./helpers": "./dist/packages/Helpers/index.js",
     "./helpers/*": "./dist/packages/Helpers/*.js",
-    "./hooks": "./dist//packages/Hooks/index.js",
+    "./hooks": "./dist/packages/Hooks/index.js",
     "./hooks/*": "./dist/packages/Hooks/*.js",
     "./lib": "./dist/lib/index.js",
     "./lib/*": "./dist/lib/*.js",
