@@ -116,7 +116,7 @@ export const StatefulSettingsContainer = ({
           </>
         );
     }
-  }, [settingsComponentsMap, textSettingsComponentsMap, spacingSettingsComponentsMap, contains, isTextNested, isSpacingNested]);
+  }, [settingsComponentsMap, contains, isTextNested, isSpacingNested]);
 
   const getHeading = useCallback(() => {
     switch (contains) {

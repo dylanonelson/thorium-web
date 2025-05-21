@@ -24,7 +24,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import classNames from "classnames";
 
 export const StatefulReaderHeader = () => {
-  const { actionKeys } = usePreferenceKeys();
+  const { reflowActionKeys, fxlActionKeys } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
   const { actionsComponentsMap } = usePlugins();
   
@@ -54,11 +54,12 @@ export const StatefulReaderHeader = () => {
   };
 
   const listActionItems = useCallback(() => {
+    const actionKeys = isFXL? fxlActionKeys : reflowActionKeys;
     const actionsItems: ThActionEntry<ActionKeyType>[] = [];
 
     if (actionsComponentsMap && Object.keys(actionsComponentsMap).length > 0) {
       actionKeys.forEach((key) => {      
-        if (actionsComponentsMap[key] && (key !== ThActionsKeys.layoutStrategy || !isFXL)) {
+        if (actionsComponentsMap[key]) {
           actionsItems.push({
             Trigger: actionsComponentsMap[key].Trigger,
             Target: actionsComponentsMap[key].Target,
@@ -69,7 +70,7 @@ export const StatefulReaderHeader = () => {
     }
     
     return actionsItems;
-  }, [isFXL, actionKeys, actionsComponentsMap]);
+  }, [isFXL, fxlActionKeys, reflowActionKeys, actionsComponentsMap]);
 
   return (
     <>
@@ -89,7 +90,7 @@ export const StatefulReaderHeader = () => {
       <StatefulCollapsibleActionsBar 
         id="reader-header-overflowMenu" 
         items={ listActionItems() }
-        prefs={ RSPrefs.actions }
+        prefs={{ ...RSPrefs.actions, displayOrder: isFXL ? RSPrefs.actions.fxlOrder : RSPrefs.actions.reflowOrder }}
         className={ readerHeaderStyles.actionsWrapper } 
         aria-label={ Locale.reader.app.header.actions } 
         overflowActionCallback={ (isImmersive && !isHovering) }

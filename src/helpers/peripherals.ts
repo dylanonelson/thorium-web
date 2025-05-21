@@ -1,5 +1,6 @@
 // Peripherals based on XBReader
 import { ThActionsPref } from "@/preferences";
+import { EPUBLayout } from "@/readium/ts-toolkit/shared/src";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
 
@@ -48,7 +49,11 @@ export default class Peripherals {
 
     const shortcutsObj: PShortcuts = {};
 
-    for (const actionKey of this.actionsPref.displayOrder) {
+    const displayOrder = this.store.getState().publication.isFXL
+      ? this.actionsPref.fxlOrder
+      : this.actionsPref.reflowOrder;
+
+    for (const actionKey of displayOrder) {
       const shortcutString = this.actionsPref.keys[actionKey as keyof typeof ThActionsKeys].shortcut;
       
       if (shortcutString) {

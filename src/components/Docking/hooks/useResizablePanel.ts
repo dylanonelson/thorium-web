@@ -89,7 +89,7 @@ export const useResizablePanel = (panel: DockStateObject) => {
   // When the docked action changes, we need to update its preferences 
   useEffect(() => {
     setPref(panel.actionKey ? RSPrefs.actions.keys[panel.actionKey as keyof typeof RSPrefs.actions.keys].docked || null : null);
-  }, [panel.actionKey, RSPrefs.actions.keys]);
+  }, [panel.actionKey, RSPrefs]);
 
   return {
     currentKey, 

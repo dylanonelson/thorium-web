@@ -61,7 +61,7 @@ export const StatefulDocker = ({
     });
 
     return actionsItems;
-  }, [dockingComponentsMap, keys, id]);
+  }, [keys, id]);
 
   return(
     <>

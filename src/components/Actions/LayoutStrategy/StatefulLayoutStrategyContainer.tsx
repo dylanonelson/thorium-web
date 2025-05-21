@@ -15,6 +15,7 @@ import { useDocking } from "../../Docking/hooks/useDocking";
 import { StatefulSheetWrapper } from "../../Sheets/StatefulSheetWrapper";
 import { StatefulLayoutStrategyGroup } from "../../Settings/LayoutStrategy/StatefulLayoutStrategyGroup";
 
+/*
 export const StatefulLayoutStrategyContainer = ({ triggerRef }: StatefulActionContainerProps) => {
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.layoutStrategy]);
   const dispatch = useAppDispatch();
@@ -53,3 +54,4 @@ export const StatefulLayoutStrategyContainer = ({ triggerRef }: StatefulActionCo
     </>
   )
 }
+  */

@@ -13,7 +13,8 @@ export function usePreferenceKeys<T extends Partial<CustomizableKeys>>() {
   
   // Return an object with typed keys for each customizable section
   return {
-    actionKeys: preferences.actions.displayOrder as Array<MergedKeys<T>["actionKeys"]>,
+    reflowActionKeys: preferences.actions.reflowOrder as Array<MergedKeys<T>["actionKeys"]>,
+    fxlActionKeys: preferences.actions.fxlOrder as Array<MergedKeys<T>["actionKeys"]>,
     reflowThemeKeys: preferences.theming.themes.reflowOrder as Array<MergedKeys<T>["themeKeys"]>,
     fxlThemeKeys: preferences.theming.themes.fxlOrder as Array<MergedKeys<T>["themeKeys"]>,
     reflowSettingsKeys: preferences.settings.reflowOrder as Array<MergedKeys<T>["settingsKeys"]>,
@@ -24,7 +25,8 @@ export function usePreferenceKeys<T extends Partial<CustomizableKeys>>() {
     subPanelSpacingSettingsKeys: preferences.settings.spacing?.subPanel as Array<MergedKeys<T>["spacingSettingsKeys"]> || [],
     
     // Helper functions that use type assertion with unknown as intermediate step
-    asActionKey: <K extends string>(key: K): MergedKeys<T>["actionKeys"] => key as unknown as MergedKeys<T>["actionKeys"],
+    asReflowActionKey: <K extends string>(key: K): MergedKeys<T>["actionKeys"] => key as unknown as MergedKeys<T>["actionKeys"],
+    asFxlActionKey: <K extends string>(key: K): MergedKeys<T>["actionKeys"] => key as unknown as MergedKeys<T>["actionKeys"],
     asReflowThemeKey: <K extends string>(key: K): MergedKeys<T>["themeKeys"] => key as unknown as MergedKeys<T>["themeKeys"],
     asFxlThemeKey: <K extends string>(key: K): MergedKeys<T>["themeKeys"] => key as unknown as MergedKeys<T>["themeKeys"],
     asReflowSettingsKey: <K extends string>(key: K): MergedKeys<T>["settingsKeys"] => key as unknown as MergedKeys<T>["settingsKeys"],

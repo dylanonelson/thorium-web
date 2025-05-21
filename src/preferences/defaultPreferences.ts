@@ -202,12 +202,15 @@ export const defaultPreferences = createPreferences({
     joiner: "+"
   },
   actions: {
-    displayOrder: [
+    reflowOrder: [
       ThActionsKeys.settings,
       ThActionsKeys.toc,
-      ThActionsKeys.fullscreen,
-      ThActionsKeys.layoutStrategy,
-    //  ThActionsKeys.jumpToPosition
+      ThActionsKeys.fullscreen
+    ],
+    fxlOrder: [
+      ThActionsKeys.settings,
+      ThActionsKeys.toc,
+      ThActionsKeys.fullscreen
     ],
     collapse: {
       // Number of partially icons to display
@@ -257,25 +260,6 @@ export const defaultPreferences = createPreferences({
           width: 360,
           minWidth: 320,
           maxWidth: 450
-        }
-      },
-      [ThActionsKeys.layoutStrategy]: {
-        visibility: ThCollapsibilityVisibility.overflow,
-        shortcut: null,
-        sheet: {
-          defaultSheet: ThSheetTypes.popover,
-          breakpoints: {
-            [ThBreakpoints.compact]: ThSheetTypes.bottomSheet
-          }
-        },
-        docked: {
-          dockable: ThDockingTypes.none
-        },
-        snapped: {
-          scrim: true,
-          peekHeight: 50,
-          minHeight: 30,
-          maxHeight: 100
         }
       },
       [ThActionsKeys.jumpToPosition]: {

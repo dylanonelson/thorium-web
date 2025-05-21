@@ -50,7 +50,8 @@ export interface ThActionsTokens {
 };
 
 export interface ThActionsPref<T extends string | number | symbol> {
-  displayOrder: T[];
+  reflowOrder: T[];
+  fxlOrder: T[];
   collapse: ThCollapsibility;
   keys: {
     [key in T]: ThActionsTokens;

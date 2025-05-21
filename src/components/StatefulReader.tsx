@@ -593,7 +593,7 @@ export const StatefulReader = ({
 
     applyCurrentTheme()
       .catch(console.error);
-  }, [theme, previousTheme, RSPrefs.theming.themes, colorScheme, isFXL, submitPreferences, dispatch]);
+  }, [theme, previousTheme, RSPrefs.theming.themes, fxlThemeKeys, reflowThemeKeys, colorScheme, isFXL, submitPreferences, dispatch]);
 
   useEffect(() => {
     RSPrefs.direction && dispatch(setDirection(RSPrefs.direction));
@@ -721,7 +721,7 @@ export const StatefulReader = ({
     return () => {
       EpubNavigatorDestroy(() => p.destroy());
     };
-  }, [rawManifest, selfHref]);
+  }, [rawManifest, selfHref, RSPrefs]);
 
   return (
     <>
