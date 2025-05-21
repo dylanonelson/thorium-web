@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 import { setHovering } from "@/lib/readerReducer";
 
+/*
 export const StatefulLayoutStrategyTrigger = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = useContext(PreferencesContext);
   
@@ -58,3 +59,4 @@ export const StatefulLayoutStrategyTrigger = ({ variant }: StatefulActionTrigger
     </>
   )
 }
+  */

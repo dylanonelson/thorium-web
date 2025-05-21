@@ -3,8 +3,6 @@ import { ThActionsKeys, ThSettingsKeys } from "@/preferences/models/enums";
 
 import { StatefulFullscreenTrigger } from "../../Actions/Fullscreen/StatefulFullscreenTrigger";
 import { StatefulJumpToPositionTrigger } from "../../Actions/JumpToPosition/StatefulJumpToPositionTrigger";
-import { StatefulLayoutStrategyTrigger } from "../../Actions/LayoutStrategy/StatefulLayoutStrategyTrigger";
-import { StatefulLayoutStrategyContainer } from "../../Actions/LayoutStrategy/StatefulLayoutStrategyContainer";
 import { StatefulSettingsTrigger } from "../../Actions/Settings/StatefulSettingsTrigger";
 import { StatefulSettingsContainer } from "../../Actions/Settings/StatefulSettingsContainer";
 import { StatefulTocTrigger } from "../../Actions/Toc/StatefulTocTrigger";
@@ -41,10 +39,6 @@ export const createDefaultPlugin = (): ThPlugin => {
         },
         [ThActionsKeys.jumpToPosition]: {
           Trigger: StatefulJumpToPositionTrigger
-        },
-        [ThActionsKeys.layoutStrategy]: {
-          Trigger: StatefulLayoutStrategyTrigger,
-          Target: StatefulLayoutStrategyContainer
         },
         [ThActionsKeys.settings]: {
           Trigger: StatefulSettingsTrigger,

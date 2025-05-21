@@ -161,7 +161,7 @@ export const StatefulBottomSheet = ({
     }
 
     return snapArray;
-  }, [id, RSPrefs.actions.keys]);
+  }, [id, RSPrefs]);
 
   const snapIdx = useRef<number | null>(null);
 
@@ -212,7 +212,7 @@ export const StatefulBottomSheet = ({
     } else {
       return `${ maxWidth }px`;
     }
-  }, [id, RSPrefs.actions.keys]);
+  }, [id, RSPrefs]);
 
   const scrimPref = useMemo(() => {
     let scrimPref: ScrimPref = {
@@ -229,7 +229,7 @@ export const StatefulBottomSheet = ({
     }
 
     return scrimPref;
-  }, [id, RSPrefs.actions.keys]);
+  }, [id, RSPrefs]);
 
   const detentClassName = useMemo(() => {
     let className = "";
