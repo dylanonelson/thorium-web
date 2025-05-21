@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext } from "react";
 
 import { ActionKeyType, PreferencesContext, usePreferenceKeys } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
-
-import { ThActionsKeys } from "@/preferences/models/enums";
 
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
@@ -27,6 +25,8 @@ export const StatefulReaderHeader = () => {
   const { reflowActionKeys, fxlActionKeys } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
   const { actionsComponentsMap } = usePlugins();
+
+  console.log("readerHeader", RSPrefs);
   
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const runningHead = useAppSelector(state => state.publication.runningHead);

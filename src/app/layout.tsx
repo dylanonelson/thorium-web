@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { ThDirectionSetter } from "@/preferences";
-
 import { StoreProvider } from "@/lib/StoreProvider";
 import { ThPreferencesProvider } from "@/preferences";
 
@@ -23,13 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={ inter.className }>
-        <ThPreferencesProvider>
-          <StoreProvider>
-            <ThDirectionSetter>
-              { children }
-            </ThDirectionSetter>
-          </StoreProvider>
-        </ThPreferencesProvider>
+        <StoreProvider>
+          <ThPreferencesProvider>
+              { children } 
+          </ThPreferencesProvider>
+        </StoreProvider>
       </body>
     </html>
   );
