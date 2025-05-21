@@ -12,21 +12,18 @@ import {
 
 import Locale from "../../resources/locales/en.json";
 
-import { StatefulSettingsMapObject } from "./models/settings";
+import { SettingComponent } from "../Plugins/PluginRegistry";
 
 import { StatefulGroupWrapper } from "./Wrappers/StatefulGroupWrapper";
+
+import { usePlugins } from "../Plugins/PluginProvider";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
-export interface StatefulSpacingGroupProps {
-  componentsMap: { [key: string | number | symbol]: StatefulSettingsMapObject }
-}
-
-export const StatefulSpacingGroup = ({ 
-  componentsMap 
-}: StatefulSpacingGroupProps) => {
+export const StatefulSpacingGroup = () => {
   const RSPrefs = useContext(PreferencesContext);
+  const { spacingSettingsComponentsMap } = usePlugins();
   const dispatch = useAppDispatch();
   
   const setSpacingContainer = useCallback(() => {
@@ -40,7 +37,7 @@ export const StatefulSpacingGroup = ({
       moreLabel={ Locale.reader.settings.spacing.advanced.trigger }
       moreTooltip={ Locale.reader.settings.spacing.advanced.tooltip }
       onPressMore={ setSpacingContainer }
-      componentsMap={ componentsMap }
+      componentsMap={ spacingSettingsComponentsMap }
       prefs={ RSPrefs.settings.spacing }
       defaultPrefs={ {
         main: defaultSpacingSettingsMain, 
@@ -51,17 +48,17 @@ export const StatefulSpacingGroup = ({
   );
 }
 
-export const StatefulSpacingGroupContainer = ({   
-  componentsMap 
-}: StatefulSpacingGroupProps) => {
+export const StatefulSpacingGroupContainer = () => {
   const RSPrefs = useContext(PreferencesContext);
   const displayOrder = RSPrefs.settings.spacing?.subPanel as ThSpacingSettingsKeys[] | null | undefined || defaultSpacingSettingsSubpanel;
+  const { spacingSettingsComponentsMap } = usePlugins();
 
   return(
     <>
     { displayOrder.map((key: ThSpacingSettingsKeys) => {
-      const { Comp } = componentsMap[key];
-      return <Comp key={ key } standalone={ true } />;
+      console.log(key);
+      const match = spacingSettingsComponentsMap[key];
+      return match && <match.Comp key={ key } standalone={ true } />;
     }) }
     </>
   )

@@ -1,6 +1,5 @@
 "use client";
 
-export * from "./SettingsComponentsMap";
 export * from "./StatefulColumns";
 export * from "./StatefulFontFamily";
 export * from "./StatefulFontWeight";

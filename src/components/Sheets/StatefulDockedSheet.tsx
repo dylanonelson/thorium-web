@@ -19,7 +19,6 @@ import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationBu
 import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
-import { dockingComponentsMap } from "../Docking/DockingComponentsMap";
 
 export interface StatefulDockedSheetProps extends StatefulSheet {
   flow: ThDockingKeys.start | ThDockingKeys.end | null;

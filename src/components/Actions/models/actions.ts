@@ -3,8 +3,8 @@ import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollaps
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 export interface StatefulActionsMapObject {
-  trigger: React.ComponentType<StatefulActionTriggerProps>;
-  target?: React.ComponentType<StatefulActionContainerProps>;
+  Trigger: React.ComponentType<StatefulActionTriggerProps>;
+  Target?: React.ComponentType<StatefulActionContainerProps>;
 }
 
 export interface StatefulActionTriggerProps {

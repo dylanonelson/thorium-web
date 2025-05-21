@@ -2,7 +2,6 @@
 
 export * from "./models";
 
-export * from "./ActionsComponentsMap";
 export * from "./StatefulCollapsibleActionsBar";
 export * from "./StatefulOverflowMenu";
 export * from "./Fullscreen";

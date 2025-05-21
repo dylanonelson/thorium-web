@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useContext } from "react";
+import React, { useCallback, useContext } from "react";
 
 import { 
   defaultTextSettingsMain, 
@@ -12,21 +12,18 @@ import {
 
 import Locale from "../../resources/locales/en.json";
 
-import { StatefulSettingsMapObject } from "./models/settings";
+import { SettingComponent } from "../Plugins/PluginRegistry";
 
 import { StatefulGroupWrapper } from "./Wrappers/StatefulGroupWrapper";
+
+import { usePlugins } from "../Plugins/PluginProvider";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
-export interface StatefulTextGroupProps {
-  componentsMap: { [key: string | number | symbol]: StatefulSettingsMapObject }
-}
-
-export const StatefulTextGroup = ({
-  componentsMap
-}: StatefulTextGroupProps) => {
+export const StatefulTextGroup = () => {
   const RSPrefs = useContext(PreferencesContext);
+  const { textSettingsComponentsMap } = usePlugins();
   const dispatch = useAppDispatch();
 
   const setTextContainer = useCallback(() => {
@@ -40,7 +37,7 @@ export const StatefulTextGroup = ({
       moreLabel={ Locale.reader.settings.text.advanced.trigger }
       moreTooltip={ Locale.reader.settings.text.advanced.tooltip }
       onPressMore={ setTextContainer }
-      componentsMap={ componentsMap }
+      componentsMap={ textSettingsComponentsMap }
       prefs={ RSPrefs.settings.text }
       defaultPrefs={ {
         main: defaultTextSettingsMain, 
@@ -51,17 +48,16 @@ export const StatefulTextGroup = ({
   )
 }
 
-export const StatefulTextGroupContainer = ({
-  componentsMap
-}: StatefulTextGroupProps) => {
+export const StatefulTextGroupContainer = () => {
   const RSPrefs = useContext(PreferencesContext);
   const displayOrder = RSPrefs.settings.text?.subPanel as ThTextSettingsKeys[] | null | undefined || defaultTextSettingsSubpanel;
+  const { textSettingsComponentsMap } = usePlugins();
 
   return(
     <>
     { displayOrder.map((key: ThTextSettingsKeys) => {
-      const { Comp } = componentsMap[key];
-      return <Comp key={ key } standalone={ true } />;
+      const match = textSettingsComponentsMap[key];
+      return match && <match.Comp key={ key } standalone={ true } />;
     }) }
     </>
   )

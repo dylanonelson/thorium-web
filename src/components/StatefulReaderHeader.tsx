@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 
 import { ActionKeyType, PreferencesContext, usePreferenceKeys } from "@/preferences";
 
@@ -16,7 +16,7 @@ import { ThHeader  } from "@/packages/Components/Reader/ThHeader";
 import { ThRunningHead } from "@/packages/Components/Reader/ThRunningHead";
 import { StatefulCollapsibleActionsBar } from "./Actions/StatefulCollapsibleActionsBar";
 
-import { useComponentsMap } from "./ComponentsMapContext";
+import { usePlugins } from "./Plugins/PluginProvider";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -26,7 +26,7 @@ import classNames from "classnames";
 export const StatefulReaderHeader = () => {
   const { actionKeys } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
-  const { actionsComponentsMap } = useComponentsMap();
+  const { actionsComponentsMap } = usePlugins();
   
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const runningHead = useAppSelector(state => state.publication.runningHead);
@@ -56,15 +56,17 @@ export const StatefulReaderHeader = () => {
   const listActionItems = useCallback(() => {
     const actionsItems: ThActionEntry<ActionKeyType>[] = [];
 
-    actionKeys.forEach((key) => {      
-      if (actionsComponentsMap[key] && (key !== ThActionsKeys.layoutStrategy || !isFXL)) {
-        actionsItems.push({
-          Trigger: actionsComponentsMap[key].trigger,
-          Target: actionsComponentsMap[key].target,
-          key: key
-        });
-      }
-    });
+    if (actionsComponentsMap && Object.keys(actionsComponentsMap).length > 0) {
+      actionKeys.forEach((key) => {      
+        if (actionsComponentsMap[key] && (key !== ThActionsKeys.layoutStrategy || !isFXL)) {
+          actionsItems.push({
+            Trigger: actionsComponentsMap[key].Trigger,
+            Target: actionsComponentsMap[key].Target,
+            key: key
+          });
+        }
+      });
+    }
     
     return actionsItems;
   }, [isFXL, actionKeys, actionsComponentsMap]);
