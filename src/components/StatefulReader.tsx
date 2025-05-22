@@ -143,9 +143,6 @@ export const StatefulReader = ({
   
   const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
-
-  console.log("reader", RSPrefs);
-
   
   const container = useRef<HTMLDivElement>(null);
   const publication = useRef<Publication | null>(null);

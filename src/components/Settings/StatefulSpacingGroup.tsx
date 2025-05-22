@@ -56,7 +56,6 @@ export const StatefulSpacingGroupContainer = () => {
   return(
     <>
     { displayOrder.map((key: ThSpacingSettingsKeys) => {
-      console.log(key);
       const match = spacingSettingsComponentsMap[key];
       return match && <match.Comp key={ key } standalone={ true } />;
     }) }

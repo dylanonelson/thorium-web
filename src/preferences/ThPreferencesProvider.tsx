@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useMemo, useRef } from "react";
+import { createContext, useMemo } from "react";
 import { defaultPreferences } from "./defaultPreferences";
 
 import { ThPreferences, CustomizableKeys } from "./preferences";
@@ -16,15 +16,12 @@ export function ThPreferencesProvider<T extends Partial<CustomizableKeys> = {}>(
   value?: ThPreferences<T>;
   children: React.ReactNode;
 }) {
-  const contextRef = useRef<ThPreferences<T> | undefined>(undefined);
-  if (!contextRef.current) {
-    contextRef.current = value || defaultPreferences as unknown as ThPreferences<T>;
-  }
-
-  console.log("contextValue", contextRef.current);
+  const contextValue = useMemo(() => {
+    return value || defaultPreferences as unknown as ThPreferences<T>;
+  }, [value]);
 
   return (    
-    <PreferencesContext.Provider value={ contextRef.current }>
+    <PreferencesContext.Provider value={ contextValue }>
       <ThDirectionSetter>
         { children }
       </ThDirectionSetter>
