@@ -1,7 +1,7 @@
 "use client";
 
 import { CustomizableKeys, MergedKeys } from "@/preferences/preferences";
-import { usePreferences } from "../ThPreferencesProvider";
+import { usePreferences } from "../ThPreferencesContext";
 
 /**
  * Hook to safely access and use preference keys with proper type inference

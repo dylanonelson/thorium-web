@@ -1,15 +1,11 @@
 "use client";
 
-import { createContext, useContext, useMemo } from "react";
+import { useMemo } from "react";
 import { defaultPreferences } from "./defaultPreferences";
 
 import { ThPreferences, CustomizableKeys } from "./preferences";
 import { ThDirectionSetter } from "./ThDirectionSetter";
-
-// Define the context with a generic type parameter and ensure non-null value
-export const PreferencesContext = createContext<ThPreferences<any>>(defaultPreferences);
-
-export const usePreferences = () => useContext(PreferencesContext);
+import { ThPreferencesContext } from "./ThPreferencesContext";
 
 export function ThPreferencesProvider<T extends Partial<CustomizableKeys> = {}>({
   value,
@@ -23,10 +19,10 @@ export function ThPreferencesProvider<T extends Partial<CustomizableKeys> = {}>(
   }, [value]);
 
   return (    
-    <PreferencesContext.Provider value={ contextValue }>
+    <ThPreferencesContext.Provider value={ contextValue }>
       <ThDirectionSetter direction={ contextValue.direction }>
         { children }
       </ThDirectionSetter>
-    </PreferencesContext.Provider>
+    </ThPreferencesContext.Provider>
   );
 }

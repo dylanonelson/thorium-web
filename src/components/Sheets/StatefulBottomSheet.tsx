@@ -19,7 +19,7 @@ import { ThContainerBody } from "@/packages/Components/Containers/ThContainerBod
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
 
-import { usePreferences } from "@/preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 
 import { useAppSelector } from "@/lib/hooks";
 

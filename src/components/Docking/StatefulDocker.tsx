@@ -18,7 +18,7 @@ import { StatefulDockStart } from "./StatefulDockStart";
 import { StatefulDockEnd } from "./StatefulDockEnd";
 import { StatefulDockTransientPopover } from "./StatefulDockTransientPopover";
 
-import { usePreferences } from "@/preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 
 import { ThActionEntry } from "@/packages/Components/Actions/ThActionsBar";
 import { ActionsStateKeys } from "@/lib/actionsReducer";

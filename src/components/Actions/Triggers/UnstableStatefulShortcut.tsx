@@ -6,7 +6,7 @@ import { UnstableShortcut, UnstableShortcutRepresentation, buildShortcut, metaKe
 
 import { Keyboard } from "react-aria-components";
 
-import { usePreferences } from "@/preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 
 import { useAppSelector } from "@/lib/hooks";
 

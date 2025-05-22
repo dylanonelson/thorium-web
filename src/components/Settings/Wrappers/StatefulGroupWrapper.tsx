@@ -9,7 +9,7 @@ import { SettingComponent } from "@/components/Plugins/PluginRegistry";
 
 import { ThSettingsWrapper } from "@/packages/Components/Settings/ThSettingsWrapper";
 
-import { usePreferences } from "@/preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 
 import classNames from "classnames";
 

@@ -14,7 +14,7 @@ const Reader = dynamic<{ rawManifest: object; selfHref: string; plugin?: ThPlugi
 import { StatefulLoader } from "@/components/StatefulLoader";
 
 import { useTheming } from "@/preferences/hooks/useTheming";
-import { usePreferences } from "@/preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ThemeKeyType } from "@/preferences";

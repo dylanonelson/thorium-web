@@ -16,7 +16,7 @@ import FullscreenExit from "./assets/icons/fullscreen_exit.svg";
 import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";
 import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 
-import { usePreferences } from "@/preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 import { useFullscreen } from "@/packages/Hooks/useFullscreen";
 
 import { useAppDispatch } from "@/lib/hooks";

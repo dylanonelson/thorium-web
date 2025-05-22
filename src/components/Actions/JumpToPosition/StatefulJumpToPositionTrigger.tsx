@@ -13,7 +13,7 @@ import TargetIcon from "./assets/icons/point_scan.svg";
 import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";
 
-import { usePreferences } from "@/preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 
 export const StatefulJumpToPositionTrigger = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = usePreferences();

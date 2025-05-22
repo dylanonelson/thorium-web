@@ -8,7 +8,7 @@ import { DockStateObject } from "@/lib/actionsReducer";
 
 import { useActions } from "@/packages/Components/Actions/hooks/useActions";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
-import { usePreferences } from "@/preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 
 import { useAppSelector } from "@/lib/hooks";
 
