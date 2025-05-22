@@ -57,7 +57,7 @@ export const StatefulOverflowMenu = ({
         items={ items }
         compounds={{
           trigger: {
-            onOpenChange: (val) => toggleMenuState(val)
+            onOpenChange: (val: boolean) => toggleMenuState(val)
           },
           popover: {
             placement: "bottom",
