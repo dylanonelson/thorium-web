@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext } from "react";
 import { defaultPreferences } from "./defaultPreferences";
 import { ThPreferences } from "./preferences";

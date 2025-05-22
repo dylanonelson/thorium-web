@@ -14,7 +14,7 @@ export interface ThActionButtonProps extends ButtonProps {
     /**
      * Props for the tooltip component. See `TooltipProps` for more information.
      */
-    tooltip?: Partial<TooltipProps>,
+    tooltip?: TooltipProps,
     /**
      * String for the tooltip
      */
