@@ -59,7 +59,7 @@ import { StatefulReaderHeader } from "./StatefulReaderHeader";
 import { StatefulReaderArrowButton } from "./StatefulReaderArrowButton";
 import { StatefulReaderFooter } from "./StatefulReaderFooter";
 
-import { usePreferences } from "../preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 import { useEpubNavigator } from "../packages/Hooks/Epub/useEpubNavigator";
 import { useFullscreen } from "../packages/Hooks/useFullscreen";
 import { usePrevious } from "../packages/Hooks/usePrevious";

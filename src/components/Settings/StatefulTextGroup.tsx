@@ -13,7 +13,7 @@ import Locale from "../../resources/locales/en.json";
 
 import { StatefulGroupWrapper } from "./Wrappers/StatefulGroupWrapper";
 
-import { usePreferences } from "@/preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 import { usePlugins } from "../Plugins/PluginProvider";
 
 import { useAppDispatch } from "@/lib/hooks";

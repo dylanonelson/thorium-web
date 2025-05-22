@@ -11,7 +11,7 @@ import { dockAction, setActionOpen } from "@/lib/actionsReducer";
 
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 import { useActions } from "@/packages/Components/Actions/hooks/useActions";
-import { usePreferences } from "@/preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 
 let dockingMap: Required<BreakpointsMap<ThDockingTypes>> | null = null;
 

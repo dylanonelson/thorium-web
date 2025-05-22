@@ -13,7 +13,7 @@ import { StatefulNumberField } from "../Wrappers/StatefulNumberField";
 import { StatefulMaxChars } from "./StatefulMaxChars";
 import { StatefulMinChars } from "./StatefulMinChars";
 
-import { usePreferences } from "@/preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

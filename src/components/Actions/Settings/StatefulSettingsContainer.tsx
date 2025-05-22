@@ -26,7 +26,7 @@ import { StatefulSheetWrapper } from "../../Sheets/StatefulSheetWrapper";
 import { StatefulSpacingGroupContainer } from "../../Settings/StatefulSpacingGroup";
 import { StatefulTextGroupContainer } from "../../Settings/StatefulTextGroup";
 
-import { usePreferences } from "@/preferences/ThPreferencesProvider";
+import { usePreferences } from "@/preferences/ThPreferencesContext";
 import { usePlugins } from "@/components/Plugins/PluginProvider";
 import { useDocking } from "../../Docking/hooks/useDocking";
 
