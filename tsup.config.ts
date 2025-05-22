@@ -14,12 +14,11 @@ export default defineConfig({
     ".css": "copy"
   },
   esbuildPlugins: [svgrPlugin()],
-  splitting: true, // Enable code splitting
-  // ... existing code ...
   sourcemap: true,
   clean: true,
   dts: true,
   treeshake: true,
+  splitting: true,
   bundle: true,
   noExternal: ["classNames", "debounce", "json-templates"],
   // noExternal: [/(.*)/] // That's to bundle everything, including dependencies,
