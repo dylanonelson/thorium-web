@@ -25,8 +25,6 @@ export const StatefulReaderHeader = () => {
   const { reflowActionKeys, fxlActionKeys } = usePreferenceKeys();
   const RSPrefs = useContext(PreferencesContext);
   const { actionsComponentsMap } = usePlugins();
-
-  console.log("readerHeader", RSPrefs);
   
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const runningHead = useAppSelector(state => state.publication.runningHead);
