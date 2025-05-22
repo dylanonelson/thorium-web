@@ -1,3 +1,5 @@
+"use client";
+
 import { Link, Locator } from "@readium/shared";
 
 export interface TocItem {

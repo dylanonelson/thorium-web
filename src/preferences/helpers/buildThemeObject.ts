@@ -1,3 +1,5 @@
+"use client";
+
 import { ThColorScheme } from "@/packages/Hooks/useColorScheme";
 import { ThemeTokens } from "../hooks/useTheming";
 

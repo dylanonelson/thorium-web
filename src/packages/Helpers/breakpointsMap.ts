@@ -1,3 +1,5 @@
+"use client";
+
 import { ThBreakpoints, BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 
 export const makeBreakpointsMap = <T>({

@@ -1,3 +1,5 @@
+"use client";
+
 /** Converts Object properties to CSSProperties, recursively. If recursive, the prefix will be ignored for objects */
 export const propsToCSSVars = (props: { [x: string]: any; }, prefix?: string) => {
   return Object.entries(props)

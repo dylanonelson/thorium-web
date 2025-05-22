@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ReactNode } from "react";
 
 export type ComponentMap<T extends string> = {

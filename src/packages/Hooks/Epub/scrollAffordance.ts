@@ -1,3 +1,5 @@
+"use client";
+
 import Locale from "../../../resources/locales/en.json";
 
 export enum ThScrollAffordancePref {
