@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useRef, useState } from "react";
-
-import { PreferencesContext } from "@/preferences";
+import React, { useEffect, useRef, useState } from "react";
 
 import Locale from "../resources/locales/en.json";
 
@@ -14,6 +12,7 @@ import { PressEvent } from "react-aria";
 
 import { ThNavigationButton, ThNavigationButtonProps } from "@/packages/Components/Buttons/ThNavigationButton";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -36,7 +35,7 @@ export const StatefulReaderArrowButton = ({
   onPress,
   ...props
 }: StatefulReaderArrowButtonProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   
   const buttonRef = useRef<HTMLButtonElement>(null);
   const isRTL = useAppSelector(state => state.publication.isRTL);
@@ -99,8 +98,8 @@ export const StatefulReaderArrowButton = ({
       direction={ direction }
       ref= { buttonRef }
       aria-label={ label }
-      onPress={ (e) => onPress && handleOnPress(e, onPress) }
-      onHoverChange={ (e) => setIsHovering(e) } 
+      onPress={ (e: PressEvent) => onPress && handleOnPress(e, onPress) }
+      onHoverChange={ (isHovering: boolean) => setIsHovering(isHovering) } 
       onKeyDown={ blurOnEsc }
       className={ classNames(className, handleClassNameFromSpaceProp(), handleClassNameFromState()) }
       isDisabled={ isDisabled }

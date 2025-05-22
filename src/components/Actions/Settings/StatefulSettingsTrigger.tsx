@@ -1,26 +1,24 @@
 "use client";
 
-import { useContext } from "react";
-
-import { PreferencesContext } from "@/preferences/ThPreferencesProvider";
-
 import Locale from "../../../resources/locales/en.json";
 
 import TuneIcon from "./assets/icons/match_case.svg";
 
 import { StatefulActionTriggerProps } from "../models/actions";
 import { ThActionsKeys } from "@/preferences/models/enums";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsBar";
 
 import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";
+
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
 export const StatefulSettingsTrigger = ({ variant }: StatefulActionTriggerProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.settings]);
   const dispatch = useAppDispatch();
 

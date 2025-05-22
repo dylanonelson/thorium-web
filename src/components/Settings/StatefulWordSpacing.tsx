@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useContext } from "react";
+import { useCallback } from "react";
 
-import { defaultWordSpacing, PreferencesContext, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
+import { defaultWordSpacing, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -11,13 +11,14 @@ import { StatefulSettingsItemProps } from "./models/settings";
 import { StatefulNumberField } from "./Wrappers/StatefulNumberField";
 import { StatefulSlider } from "./Wrappers/StatefulSlider";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setPublisherStyles, setWordSpacing } from "@/lib/settingsReducer";
 
 export const StatefulWordSpacing = ({ standalone = true }: StatefulSettingsItemProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
   const wordSpacingRangeConfig = {
     variant: RSPrefs.settings.keys?.[ThSettingsKeys.wordSpacing]?.variant ?? defaultWordSpacing.variant,

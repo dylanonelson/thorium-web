@@ -1,16 +1,12 @@
 "use client";
 
-import React, { useCallback, useContext, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 import { 
   defaultSpacingSettingsMain, 
   defaultSpacingSettingsSubpanel, 
   defaultTextSettingsMain, 
   defaultTextSettingsSubpanel, 
-  PreferencesContext, 
-  SettingsKeyType, 
-  SpacingSettingsKeyType, 
-  TextSettingsKeyType, 
   usePreferenceKeys
 } from "@/preferences";
 
@@ -30,6 +26,7 @@ import { StatefulSheetWrapper } from "../../Sheets/StatefulSheetWrapper";
 import { StatefulSpacingGroupContainer } from "../../Settings/StatefulSpacingGroup";
 import { StatefulTextGroupContainer } from "../../Settings/StatefulTextGroup";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { usePlugins } from "@/components/Plugins/PluginProvider";
 import { useDocking } from "../../Docking/hooks/useDocking";
 
@@ -48,8 +45,8 @@ export const StatefulSettingsContainer = ({
     subPanelSpacingSettingsKeys,
     subPanelTextSettingsKeys,
   } = usePreferenceKeys();
-  const RSPrefs = useContext(PreferencesContext);
-  const { settingsComponentsMap, textSettingsComponentsMap, spacingSettingsComponentsMap } = usePlugins();
+  const RSPrefs = usePreferences();
+  const { settingsComponentsMap } = usePlugins();
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const contains = useAppSelector(state => state.reader.settingsContainer);
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.settings]);

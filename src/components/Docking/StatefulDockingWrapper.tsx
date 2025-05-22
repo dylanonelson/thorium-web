@@ -1,8 +1,6 @@
 "use client";
 
-import { ReactNode, useCallback, useContext, useEffect, useRef } from "react";
-
-import { PreferencesContext } from "@/preferences";
+import { ReactNode, useCallback, useEffect, useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -13,6 +11,7 @@ import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from "rea
 import { ThDockingTypes, ThDockingKeys, ThLayoutDirection } from "@/preferences/models/enums";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { useResizablePanel } from "./hooks/useResizablePanel";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { activateDockPanel, collapseDockPanel, deactivateDockPanel, expandDockPanel, setDockPanelWidth } from "@/lib/actionsReducer";
@@ -193,7 +192,7 @@ export const StatefulDockingWrapper = ({
 }: { 
   children: ReactNode; 
 }) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const dockingStart = useAppSelector(state => state.actions.dock[ThDockingKeys.start]);
   const dockingEnd = useAppSelector(state => state.actions.dock[ThDockingKeys.end])
   const startPanel = useResizablePanel(dockingStart);

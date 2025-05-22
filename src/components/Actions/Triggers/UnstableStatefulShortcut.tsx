@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useContext } from "react";
-
-import { PreferencesContext } from "@/preferences";
+import React from "react";
 
 import { UnstableShortcut, UnstableShortcutRepresentation, buildShortcut, metaKeys } from "@/packages/Helpers/keyboardUtilities";
 
 import { Keyboard } from "react-aria-components";
+
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -16,7 +16,7 @@ export const UnstableStatefulShortcut = ({
   representation,
   joiner
 }: UnstableShortcut) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const platformModifier = useAppSelector(state => state.reader.platformModifier);
 
   representation = representation ? representation : RSPrefs.shortcuts.representation || UnstableShortcutRepresentation.symbol;

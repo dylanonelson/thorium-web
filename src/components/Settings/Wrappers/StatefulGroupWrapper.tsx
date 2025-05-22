@@ -1,15 +1,15 @@
 "use client";
 
-import { useContext } from "react";
-
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 import settingsStyles from "../assets/styles/settings.module.css";
 
-import { PreferencesContext, ThSettingsGroupPref, ThSpacingSettingsKeys, ThTextSettingsKeys } from "@/preferences";
+import { ThSettingsGroupPref, ThSpacingSettingsKeys, ThTextSettingsKeys } from "@/preferences";
 import { PressEvent } from "react-aria";
 import { SettingComponent } from "@/components/Plugins/PluginRegistry";
 
 import { ThSettingsWrapper } from "@/packages/Components/Settings/ThSettingsWrapper";
+
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 
 import classNames from "classnames";
 
@@ -35,7 +35,7 @@ export const StatefulGroupWrapper = ({
   prefs,
   defaultPrefs
 }: StatefulGroupWrapperProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   
   const main = prefs?.main || defaultPrefs.main;
   const displayOrder = prefs?.subPanel !== undefined 

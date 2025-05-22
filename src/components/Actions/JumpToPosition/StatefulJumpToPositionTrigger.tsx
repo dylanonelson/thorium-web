@@ -1,21 +1,22 @@
 "use client";
 
-import React, { useContext } from "react";
+import React from "react";
 
-import { PreferencesContext } from "@/preferences";
 import Locale from "../../../resources/locales/en.json";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionTriggerProps } from "../models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsBar";
 
 import TargetIcon from "./assets/icons/point_scan.svg";
 
 import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
+
 export const StatefulJumpToPositionTrigger = ({ variant }: StatefulActionTriggerProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
 
   return (<></>);
   

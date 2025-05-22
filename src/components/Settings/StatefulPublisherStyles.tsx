@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useContext, useRef } from "react";
+import { useCallback, useRef } from "react";
 
-import { defaultLineHeights, ThLineHeightOptions, PreferencesContext, ThSettingsKeys } from "@/preferences";
+import { defaultLineHeights, ThLineHeightOptions, ThSettingsKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -10,13 +10,14 @@ import { StatefulSettingsItemProps } from "./models/settings";
 
 import { StatefulSwitch } from "./Wrappers/StatefulSwitch";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setPublisherStyles } from "@/lib/settingsReducer";
 
 export const StatefulPublisherStyles = ({ standalone = true }: StatefulSettingsItemProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
 
   const lineHeight = useAppSelector(state => state.settings.lineHeight);

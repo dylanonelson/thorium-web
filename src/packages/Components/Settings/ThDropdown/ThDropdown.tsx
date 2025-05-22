@@ -87,7 +87,7 @@ export const ThDropdown = ({
         : <ListBox 
             items={ items } 
             { ...compounds?.listbox }>
-            { (item) => <ListBoxItem 
+            { (item: ThDropdownEntry) => <ListBoxItem 
                 { ...compounds?.listboxItem }
                 id={ item.id } 
                 key={ item.id } 

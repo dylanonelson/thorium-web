@@ -1,8 +1,8 @@
 "use client";
 
-import React, { CSSProperties, KeyboardEvent, useCallback, useContext, useMemo, useRef } from "react";
+import React, { CSSProperties, KeyboardEvent, useCallback, useMemo, useRef } from "react";
 
-import { ThBottomSheetDetent, PreferencesContext, ThSheetHeaderVariant } from "@/preferences";
+import { ThBottomSheetDetent, ThSheetHeaderVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -18,6 +18,8 @@ import { ThContainerHeader } from "@/packages/Components/Containers/ThContainerH
 import { ThContainerBody } from "@/packages/Components/Containers/ThContainerBody";
 import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
 import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
+
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -48,7 +50,7 @@ export const StatefulBottomSheet = ({
   resetFocus,
   dismissEscapeKeyClose
 }: StatefulBottomSheetProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const direction = useAppSelector((state) => state.reader.direction);
   const prefersReducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
 

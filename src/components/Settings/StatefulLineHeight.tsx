@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useCallback, useContext, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 
-import { defaultLineHeights, ThLineHeightOptions, PreferencesContext, ThSettingsKeys } from "@/preferences";
+import { defaultLineHeights, ThLineHeightOptions, ThSettingsKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -15,13 +15,14 @@ import LargeIcon from "./assets/icons/density_large.svg";
 
 import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLineHeight, setPublisherStyles } from "@/lib/settingsReducer";
 
 export const StatefulLineHeight = ({ standalone = true }: StatefulSettingsItemProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
   const lineHeight = useAppSelector(state => state.settings.lineHeight);
   const dispatch = useAppDispatch();

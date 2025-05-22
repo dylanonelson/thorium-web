@@ -1,17 +1,19 @@
 "use client";
 
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import { ThActionsDockedPref, PreferencesContext } from "@/preferences";
+import { ThActionsDockedPref } from "@/preferences";
 
 import { DockStateObject } from "@/lib/actionsReducer";
 
 import { useActions } from "@/packages/Components/Actions/hooks/useActions";
 import { usePrevious } from "@/packages/Hooks/usePrevious";
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
+
 import { useAppSelector } from "@/lib/hooks";
 
 export const useResizablePanel = (panel: DockStateObject) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const defaultWidth = RSPrefs.theming.layout.defaults.dockingWidth;
   const [pref, setPref] = useState<ThActionsDockedPref | null>(
     panel.actionKey ? RSPrefs.actions.keys[panel.actionKey as keyof typeof RSPrefs.actions.keys].docked || null : null

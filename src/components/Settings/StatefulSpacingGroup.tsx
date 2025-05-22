@@ -1,28 +1,26 @@
 "use client";
 
-import { useCallback, useContext } from "react";
+import { useCallback } from "react";
 
 import { 
   defaultSpacingSettingsMain, 
   defaultSpacingSettingsSubpanel, 
-  PreferencesContext, 
   ThSettingsContainerKeys, 
   ThSpacingSettingsKeys 
 } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { SettingComponent } from "../Plugins/PluginRegistry";
-
 import { StatefulGroupWrapper } from "./Wrappers/StatefulGroupWrapper";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { usePlugins } from "../Plugins/PluginProvider";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
 export const StatefulSpacingGroup = () => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const { spacingSettingsComponentsMap } = usePlugins();
   const dispatch = useAppDispatch();
   
@@ -49,7 +47,7 @@ export const StatefulSpacingGroup = () => {
 }
 
 export const StatefulSpacingGroupContainer = () => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const displayOrder = RSPrefs.settings.spacing?.subPanel as ThSpacingSettingsKeys[] | null | undefined || defaultSpacingSettingsSubpanel;
   const { spacingSettingsComponentsMap } = usePlugins();
 

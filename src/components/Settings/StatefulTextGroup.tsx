@@ -1,28 +1,26 @@
 "use client";
 
-import React, { useCallback, useContext } from "react";
+import React, { useCallback } from "react";
 
 import { 
   defaultTextSettingsMain, 
   defaultTextSettingsSubpanel, 
-  PreferencesContext, 
   ThSettingsContainerKeys, 
   ThTextSettingsKeys 
 } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
-import { SettingComponent } from "../Plugins/PluginRegistry";
-
 import { StatefulGroupWrapper } from "./Wrappers/StatefulGroupWrapper";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { usePlugins } from "../Plugins/PluginProvider";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
 export const StatefulTextGroup = () => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const { textSettingsComponentsMap } = usePlugins();
   const dispatch = useAppDispatch();
 
@@ -49,7 +47,7 @@ export const StatefulTextGroup = () => {
 }
 
 export const StatefulTextGroupContainer = () => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const displayOrder = RSPrefs.settings.text?.subPanel as ThTextSettingsKeys[] | null | undefined || defaultTextSettingsSubpanel;
   const { textSettingsComponentsMap } = usePlugins();
 

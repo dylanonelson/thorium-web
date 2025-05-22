@@ -1,6 +1,10 @@
 "use client";
 
-export { ThPreferencesProvider, PreferencesContext } from './ThPreferencesProvider';
+export { 
+  ThPreferencesProvider, 
+  PreferencesContext, 
+  usePreferences 
+} from "./ThPreferencesProvider";
 export * from "./defaultPreferences";
 export * from "./preferences";
 export * from "./hooks/usePreferenceKeys";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { HttpFetcher } from "@readium/shared";
 import { Link } from "@readium/shared";
@@ -14,9 +14,10 @@ const Reader = dynamic<{ rawManifest: object; selfHref: string; plugin?: ThPlugi
 import { StatefulLoader } from "@/components/StatefulLoader";
 
 import { useTheming } from "@/preferences/hooks/useTheming";
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { PreferencesContext, ThemeKeyType } from "@/preferences";
+import { ThemeKeyType } from "@/preferences";
 import { 
   setBreakpoint, 
   setColorScheme, 
@@ -40,7 +41,7 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
 
   const readerIsLoading = useAppSelector(state => state.reader.isLoading);
 
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const theme = useAppSelector(state => state.theming.theme);
 
   const dispatch = useAppDispatch();

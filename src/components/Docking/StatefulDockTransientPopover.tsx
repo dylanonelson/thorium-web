@@ -1,14 +1,13 @@
 "use client";
 
-import { useCallback, useContext } from "react";
+import { useCallback } from "react";
 
-import { PreferencesContext } from "@/preferences";
 import Locale from "../../resources/locales/en.json";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { StatefulActionTriggerProps } from "@/components/Actions/models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsBar";
 import { ThDockingKeys } from "@/preferences/models/enums";
 
 import Stack from "./assets/icons/stack.svg";
@@ -17,12 +16,13 @@ import { StatefulActionIcon } from "../Actions/Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "../Actions/Triggers/StatefulOverflowMenuItem";
 
 import { useActions } from "@/packages/Components/Actions/hooks/useActions";
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
 
 export const StatefulDockTransientPopover = ({ variant, associatedKey }: StatefulActionTriggerProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const actionsMap = useAppSelector(state => state.actions.keys);
   const actions = useActions(actionsMap);
   const isDisabled = !actions.isDocked(associatedKey) || actions.whichDocked(associatedKey) === ThDockingKeys.transient;

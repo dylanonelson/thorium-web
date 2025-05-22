@@ -16,7 +16,7 @@ import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
 import { useAppDispatch } from "@/lib/hooks";
 import { toggleImmersive } from "@/lib/readerReducer";
 import { setOverflow } from "@/lib/actionsReducer";
-import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ThActionEntry } from "@/packages/Components/Actions/ThActionsBar";
 
 export interface StatefulOverflowMenuProps {
   id: string;

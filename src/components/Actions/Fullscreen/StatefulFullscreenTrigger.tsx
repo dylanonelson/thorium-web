@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useCallback, useContext } from "react";
+import React, { useCallback } from "react";
 
-import { PreferencesContext } from "@/preferences";
 import Locale from "../../../resources/locales/en.json";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionTriggerProps } from "../models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsBar";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
@@ -17,6 +16,7 @@ import FullscreenExit from "./assets/icons/fullscreen_exit.svg";
 import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";
 import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { useFullscreen } from "@/packages/Hooks/useFullscreen";
 
 import { useAppDispatch } from "@/lib/hooks";
@@ -27,7 +27,7 @@ export const StatefulFullscreenTrigger = ({ variant }: StatefulActionTriggerProp
   // Note: Not using React Aria ToggleButton here as fullscreen is quite
   // difficult to control in isolation due to collapsibility + shortcuts
 
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
 
   const dispatch = useAppDispatch();
   const onChange = useCallback((isFullscreen: boolean) => {
