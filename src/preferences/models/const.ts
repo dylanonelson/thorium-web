@@ -1,3 +1,5 @@
+"use client";
+
 import fontStacks from "@readium/css/css/vars/fontStacks.json";
 
 import { ThLineHeightOptions, ThSettingsRangeVariant, ThSpacingSettingsKeys, ThTextSettingsKeys } from "./enums";

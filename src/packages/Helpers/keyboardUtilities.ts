@@ -1,3 +1,5 @@
+"use client";
+
 import { isMacish } from "./getPlatform";
 
 export interface UnstableKey {

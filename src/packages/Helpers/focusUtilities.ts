@@ -1,3 +1,5 @@
+"use client";
+
 export const isActiveElement = (el: Element | undefined | null) => {
   if (el) return document.activeElement === el;
   return false;

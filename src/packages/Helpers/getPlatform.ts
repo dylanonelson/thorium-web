@@ -1,3 +1,5 @@
+"use client";
+
 // Not caring about instance methods there, only properties
 // See https://developer.mozilla.org/en-US/docs/Web/API/NavigatorUAData
 interface ExtNavigatorUAData {

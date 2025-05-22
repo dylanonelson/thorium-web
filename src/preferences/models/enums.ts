@@ -1,3 +1,5 @@
+"use client";
+
 export enum ThActionsKeys {
   fullscreen = "fullscreen",
   jumpToPosition = "jumpToPosition",
