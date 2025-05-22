@@ -24,7 +24,7 @@ export function ThPreferencesProvider<T extends Partial<CustomizableKeys> = {}>(
 
   return (    
     <PreferencesContext.Provider value={ contextValue }>
-      <ThDirectionSetter>
+      <ThDirectionSetter direction={ contextValue.direction }>
         { children }
       </ThDirectionSetter>
     </PreferencesContext.Provider>
