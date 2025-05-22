@@ -1,19 +1,17 @@
 "use client";
 
-import { useContext } from "react";
-
-import { PreferencesContext } from "@/preferences";
-
 import Locale from "../../../resources/locales/en.json";
 
 import LayoutIcon from "./assets/icons/fit_page_width.svg";
 
 import { StatefulActionTriggerProps } from "../models/actions";
 import { ThActionsKeys } from "@/preferences/models/enums";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsBar";
 
 import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";
+
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
@@ -21,7 +19,7 @@ import { setHovering } from "@/lib/readerReducer";
 
 /*
 export const StatefulLayoutStrategyTrigger = ({ variant }: StatefulActionTriggerProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.layoutStrategy]);
   const dispatch = useAppDispatch();

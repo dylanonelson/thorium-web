@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useContext, useRef } from "react";
-
-import { PreferencesContext } from "@/preferences";
+import React, { useRef } from "react";
 
 import { TooltipProps } from "react-aria-components";
 import { ThCollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
@@ -11,6 +9,8 @@ import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "../../assets/styles/readerStates.module.css";
 
 import { ThActionButton, ThActionButtonProps } from "@/packages/Components/Buttons/ThActionButton";
+
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setImmersive } from "@/lib/readerReducer";
@@ -32,7 +32,7 @@ export const StatefulActionIcon = ({
  children,
   ...props
 }: StatefulActionIconProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);

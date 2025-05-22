@@ -1,8 +1,6 @@
 "use client";
 
-import { useCallback, useContext } from "react";
-
-import { PreferencesContext } from "@/preferences";
+import { useCallback } from "react";
 
 import { ThLayoutStrategy } from "@/preferences/models/enums";
 
@@ -15,6 +13,7 @@ import { StatefulNumberField } from "../Wrappers/StatefulNumberField";
 import { StatefulMaxChars } from "./StatefulMaxChars";
 import { StatefulMinChars } from "./StatefulMinChars";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -22,7 +21,7 @@ import { setTmpLineLengths, setTmpMaxChars, setTmpMinChars } from "@/lib/setting
 
 // TMP Component that is not meant to be implemented AS-IS, for testing purposes
 export const StatefulLineLengths = ({ standalone = true }: StatefulSettingsItemProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const columnCount = useAppSelector(state => state.settings.columnCount);
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const tmpLineLengths = useAppSelector(state => state.settings.tmpLineLengths);

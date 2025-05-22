@@ -14,7 +14,7 @@ export interface ThActionButtonProps extends ButtonProps {
     /**
      * Props for the tooltip component. See `TooltipProps` for more information.
      */
-    tooltip?: TooltipProps,
+    tooltip?: Partial<TooltipProps>,
     /**
      * String for the tooltip
      */
@@ -41,6 +41,7 @@ export const ThActionButton = ({
           { children } 
         </Button>
         <Tooltip
+          arrowBoundaryOffset={ 0 }
           { ...tooltip.tooltip }
         >
           { tooltip.label }

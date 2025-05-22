@@ -1,20 +1,21 @@
 "use client";
 
-import React, { useCallback, useContext } from "react";
+import React, { useCallback } from "react";
 
-import { ActionKeyType, PreferencesContext, usePreferenceKeys } from "@/preferences";
+import { ActionKeyType, usePreferenceKeys } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
-import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ThActionEntry } from "@/packages/Components/Actions/ThActionsBar";
 import { ThHeader  } from "@/packages/Components/Reader/ThHeader";
 import { ThRunningHead } from "@/packages/Components/Reader/ThRunningHead";
 import { StatefulCollapsibleActionsBar } from "./Actions/StatefulCollapsibleActionsBar";
 
 import { usePlugins } from "./Plugins/PluginProvider";
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -23,7 +24,7 @@ import classNames from "classnames";
 
 export const StatefulReaderHeader = () => {
   const { reflowActionKeys, fxlActionKeys } = usePreferenceKeys();
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const { actionsComponentsMap } = usePlugins();
   
   const isFXL = useAppSelector(state => state.publication.isFXL);

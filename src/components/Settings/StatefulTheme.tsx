@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useCallback, useContext, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
-import { PreferencesContext, ThemeKeyType, usePreferenceKeys } from "@/preferences";
+import { ThemeKeyType, usePreferenceKeys } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 import settingsStyles from "./assets/styles/settings.module.css";
@@ -14,6 +14,7 @@ import { ThActionsKeys, ThLayoutDirection } from "@/preferences/models/enums";
 import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
 import { Radio } from "react-aria-components";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -25,7 +26,7 @@ import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
 
 export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
   const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const radioGroupRef = useRef<HTMLDivElement | null>(null);
 
   const theme = useAppSelector(state => state.theming.theme);

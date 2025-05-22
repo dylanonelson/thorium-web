@@ -2,7 +2,8 @@
 
 import { useRef } from "react";
 
-import { ThActionEntry, ThCollapsibleActionsBar, ThCollapsibleActionsBarProps } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ThActionEntry } from "@/packages/Components/Actions/ThActionsBar";
+import { ThCollapsibleActionsBar, ThCollapsibleActionsBarProps } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
 import { StatefulOverflowMenu } from "./StatefulOverflowMenu";
 
 import { useAppSelector } from "@/lib/hooks";

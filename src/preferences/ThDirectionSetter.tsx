@@ -1,19 +1,20 @@
 "use client";
 
-import { useContext, useEffect } from "react";
-import { PreferencesContext } from "./ThPreferencesProvider";
+import { useEffect } from "react";
+
 import { ThLayoutDirection } from "./models/enums";
 
-export const ThDirectionSetter = ({ children }: { children: React.ReactNode }) => {
-  const RSPrefs = useContext(PreferencesContext);
+export const ThDirectionSetter = ({ 
+  direction, 
+  children 
+}: { 
+  direction?: ThLayoutDirection,
+  children: React.ReactNode 
+}) => {
   
   useEffect(() => {
-    if (RSPrefs.direction === ThLayoutDirection.rtl) {
-      document.documentElement.dir = "rtl";
-    } else {
-      document.documentElement.dir = "ltr";
-    }
-  }, [RSPrefs.direction]);
+    if (direction) document.documentElement.dir = direction;
+  }, [direction]);
 
   return children;
 };

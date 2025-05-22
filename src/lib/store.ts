@@ -1,6 +1,7 @@
 import { ThDockingKeys } from "@/preferences/models/enums";
 
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
+
 import readerReducer from "@/lib/readerReducer";
 import settingsReducer from "@/lib/settingsReducer";
 import themeReducer from "@/lib/themeReducer";
@@ -55,16 +56,14 @@ const saveState = (state: object, storageKey?: string) => {
 };
 
 export const makeStore = (storageKey?: string) => {
-  const rootReducer = combineReducers({
-    reader: readerReducer,
-    settings: settingsReducer,
-    theming: themeReducer,
-    actions: actionsReducer,
-    publication: publicationReducer
-  });
-
   const store = configureStore({
-    reducer: rootReducer,
+    reducer: {
+      reader: readerReducer,
+      settings: settingsReducer,
+      theming: themeReducer,
+      actions: actionsReducer,
+      publication: publicationReducer
+    },
     preloadedState: {
       actions: loadState(storageKey).actions,
       settings: loadState(storageKey).settings,

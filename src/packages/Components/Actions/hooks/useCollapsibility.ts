@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 
-import { ThActionEntry } from "../ThCollapsibleActionsBar";
+import { ThActionEntry } from "../ThActionsBar";
 
 export type ThCollapsibility = boolean | Record<string, number | "all">;
 

@@ -1,8 +1,6 @@
 "use client";
 
-import { useCallback, useContext } from "react";
-
-import { PreferencesContext } from "@/preferences";
+import { useCallback } from "react";
 
 import Locale from "../../../resources/locales/en.json";
 
@@ -12,6 +10,7 @@ import settingsStyles from "../assets/styles/settings.module.css";
 
 import { StatefulSwitch } from "../Wrappers/StatefulSwitch";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -19,7 +18,7 @@ import { setTmpMaxChars } from "@/lib/settingsReducer";
 
 // TMP Component that is not meant to be implemented AS-IS, for testing purposes
 export const StatefulMaxChars = () => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const lineLength = useAppSelector(state => state.settings.tmpLineLengths[2]);
   const maxChars = useAppSelector(state => state.settings.tmpMaxChars);

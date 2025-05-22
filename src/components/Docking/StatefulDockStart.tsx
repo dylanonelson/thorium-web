@@ -1,14 +1,13 @@
 "use client";
 
-import { useCallback, useContext } from "react";
+import { useCallback } from "react";
 
-import { PreferencesContext } from "@/preferences";
 import Locale from "../../resources/locales/en.json";
 
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { StatefulActionTriggerProps } from "@/components/Actions/models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsBar";
 import { ThDockingKeys, ThLayoutDirection } from "@/preferences/models/enums";
 
 import DockToLeft from "./assets/icons/dock_to_right.svg";
@@ -17,12 +16,14 @@ import DocktoRight from "./assets/icons/dock_to_left.svg";
 import { StatefulActionIcon } from "../Actions/Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "../Actions/Triggers/StatefulOverflowMenuItem";
 
+import { useActions } from "@/packages/Components/Actions/hooks/useActions";
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
+
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
-import { useActions } from "@/packages/Components/Actions/hooks/useActions";
 
 export const StatefulDockStart = ({ variant, associatedKey }: StatefulActionTriggerProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const direction = useAppSelector(state => state.reader.direction);
   const actionsMap = useAppSelector(state => state.actions.keys);
   const isRTL = direction === ThLayoutDirection.rtl;

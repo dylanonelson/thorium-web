@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useCallback, useContext } from "react";
+import React, { useCallback } from "react";
 
-import { PreferencesContext } from "@/preferences";
 import Locale from "../../resources/locales/en.json";
 
 import dockingStyles from "./assets/styles/docking.module.css";
@@ -19,7 +18,9 @@ import { StatefulDockStart } from "./StatefulDockStart";
 import { StatefulDockEnd } from "./StatefulDockEnd";
 import { StatefulDockTransientPopover } from "./StatefulDockTransientPopover";
 
-import { ThActionEntry } from "@/packages/Components/Actions/ThCollapsibleActionsBar";
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
+
+import { ThActionEntry } from "@/packages/Components/Actions/ThActionsBar";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 const dockingComponentsMap = {
@@ -47,7 +48,7 @@ export const StatefulDocker = ({
   ref,
   onClose
 }: StatefulDockerProps) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   
   const listActionItems = useCallback(() => {
     const actionsItems: ThActionEntry<ThDockingKeys>[] = [];

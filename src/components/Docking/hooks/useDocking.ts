@@ -1,8 +1,6 @@
 "use client";
 
-import { useCallback, useContext, useEffect, useState } from "react";
-
-import { PreferencesContext, ThActionsPref } from "@/preferences";
+import { useCallback, useEffect, useState } from "react";
 
 import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
 import { ThDockingTypes, ThDockingKeys, ThSheetTypes } from "@/preferences/models/enums";
@@ -13,11 +11,12 @@ import { dockAction, setActionOpen } from "@/lib/actionsReducer";
 
 import { usePrevious } from "@/packages/Hooks/usePrevious";
 import { useActions } from "@/packages/Components/Actions/hooks/useActions";
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 
 let dockingMap: Required<BreakpointsMap<ThDockingTypes>> | null = null;
 
 export const useDocking = <T extends string>(key: T) => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const breakpoint = useAppSelector(state => state.theming.breakpoint);
   const actionsMap = useAppSelector(state => state.actions.keys);
   const actionState = actionsMap[key];

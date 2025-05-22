@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useCallback, useContext } from "react";
+import React, { useCallback } from "react";
 
-import { defaultFontSize, PreferencesContext, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
+import { defaultFontSize, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -14,13 +14,14 @@ import ZoomIn from "./assets/icons/zoom_in.svg";
 import { StatefulSlider } from "./Wrappers/StatefulSlider";
 import { StatefulNumberField } from "./Wrappers/StatefulNumberField";
 
+import { usePreferences } from "@/preferences/ThPreferencesProvider";
 import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontSize } from "@/lib/settingsReducer";
 
 export const StatefulZoom = () => {
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   const fontSize = useAppSelector((state) => state.settings.fontSize);
   const isFXL = useAppSelector((state) => state.publication.isFXL);
   const dispatch = useAppDispatch();

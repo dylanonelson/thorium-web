@@ -1,21 +1,20 @@
 "use client";
 
-import { useCallback, useContext, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import { 
   defaultFontFamilyOptions, 
   defaultLineHeights, 
-  PreferencesContext, 
   ThemeKeyType, 
   usePreferenceKeys 
-} from "@/preferences";
+} from "../preferences";
 
 import Locale from "../resources/locales/en.json";
 
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/readerArrowButton.module.css";
 
-import { ThBreakpoints } from "@/packages/Hooks/useBreakpoints";
+import { ThBreakpoints } from "../packages/Hooks/useBreakpoints";
 import { 
   ThActionsKeys, 
   ThLineHeightOptions, 
@@ -23,10 +22,13 @@ import {
   ThSettingsKeys, 
   ThTextAlignOptions, 
   ThLayoutStrategy 
-} from "@/preferences/models/enums";
-import { ThColorScheme } from "@/packages/Hooks/useColorScheme";
+} from "../preferences/models/enums";
+import { ThColorScheme } from "../packages/Hooks/useColorScheme";
+
+import { ThPlugin, ThPluginRegistry } from "./Plugins/PluginRegistry";
 
 import { I18nProvider } from "react-aria";
+import { ThPluginProvider } from "./Plugins/PluginProvider";
 
 import {
   BasicTextSelection,
@@ -57,15 +59,16 @@ import { StatefulReaderHeader } from "./StatefulReaderHeader";
 import { StatefulReaderArrowButton } from "./StatefulReaderArrowButton";
 import { StatefulReaderFooter } from "./StatefulReaderFooter";
 
-import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
-import { useFullscreen } from "@/packages/Hooks/useFullscreen";
-import { usePrevious } from "@/packages/Hooks/usePrevious";
+import { usePreferences } from "../preferences/ThPreferencesProvider";
+import { useEpubNavigator } from "../packages/Hooks/Epub/useEpubNavigator";
+import { useFullscreen } from "../packages/Hooks/useFullscreen";
+import { usePrevious } from "../packages/Hooks/usePrevious";
 
-import Peripherals from "@/helpers/peripherals";
-import { TH_CUSTOM_SCHEME, ThScrollActions } from "@/packages/Hooks/Epub/scrollAffordance";
-import { localData } from "@/packages/Helpers/localData";
-import { getPlatformModifier } from "@/packages/Helpers/keyboardUtilities";
-import { createTocTree, TocItem } from "@/packages/Helpers/createTocTree";
+import Peripherals from "../helpers/peripherals";
+import { TH_CUSTOM_SCHEME, ThScrollActions } from "../packages/Hooks/Epub/scrollAffordance";
+import { localData } from "../packages/Helpers/localData";
+import { getPlatformModifier } from "../packages/Helpers/keyboardUtilities";
+import { createTocTree, TocItem } from "../packages/Helpers/createTocTree";
 
 import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
@@ -88,13 +91,11 @@ import {
   setTocTree, 
   setTocEntry
 } from "@/lib/publicationReducer";
-import { Dispatch } from "@reduxjs/toolkit";
 
 import debounce from "debounce";
 import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
-import { ThPluginProvider } from "./Plugins/PluginProvider";
-import { ThPlugin, ThPluginRegistry } from "./Plugins/PluginRegistry";
 import { createDefaultPlugin } from "./Plugins/helpers/createDefaultPlugin";
+import { AppDispatch } from "@/lib/store";
 
 export interface ReadiumCSSSettings {
   columnCount: string;
@@ -142,7 +143,7 @@ export const StatefulReader = ({
   }
   
   const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
-  const RSPrefs = useContext(PreferencesContext);
+  const RSPrefs = usePreferences();
   
   const container = useRef<HTMLDivElement>(null);
   const publication = useRef<Publication | null>(null);
@@ -714,7 +715,7 @@ export const StatefulReader = ({
         }, () => p.observe(window));
       })
       .finally(() => {
-        const setLoadingThunk = (dispatch: Dispatch) => {
+        const setLoadingThunk = (dispatch: AppDispatch) => {
           dispatch(setLoading(false));
         };
         dispatch(setLoadingThunk);
