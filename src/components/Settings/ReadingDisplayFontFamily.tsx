@@ -28,8 +28,8 @@ export const ReadingDisplayFontFamily: React.FC<IAdvancedDisplayProps> = ({ stan
 
   const { getSetting, submitPreferences } = useEpubNavigator();
 
-  const updatePreference = useCallback(async (key: Key) => {
-    if (key === fontFamily) return;
+  const updatePreference = useCallback(async (key: Key | null) => {
+    if (!key || key === fontFamily) return;
 
     const selectedOption = fontFamilyOptions.current.find((option) => option.id === key) as {
       id: keyof typeof ReadingDisplayFontFamilyOptions;
