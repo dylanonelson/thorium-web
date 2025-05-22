@@ -176,6 +176,8 @@ const BottomSheetContainer = ({
         <Sheet.Scroller 
           ref={ bottomSheetBodyRef }
           draggable={ false }
+          // This is enabled by default since 4.4 but breaks scroll on focus…
+          autoPadding={ false }
           className={ classNames(sheetStyles.bottomSheetScroller, sheetStyles.sheetBody) }
         >
           { children }
