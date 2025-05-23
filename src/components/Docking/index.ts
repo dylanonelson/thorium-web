@@ -1,1 +1,1 @@
-export * from "./hooks/useDocking";
+export * from "./hooks";

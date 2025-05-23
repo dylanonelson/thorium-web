@@ -9,8 +9,11 @@ export * from "./Sheets";
 export * from "./StatefulLoader";
 export * from "./StatefulReader";
 
-export * from "../core/Hooks";
+export {
+  useEpubNavigator
+} from "../core/Hooks";
 
+export * from "../core/Helpers";
 export * from "../lib";
 
 export {
