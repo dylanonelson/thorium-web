@@ -41,7 +41,7 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
       if (theme === "auto") {
         return RSPrefs.theming.themes.systemThemes !== undefined && 
           Object.values(RSPrefs.theming.themes.systemThemes).every(t => 
-            themeArray.includes(t as ThemeKeyType)
+            themeArray.includes(t)
           );
       }
       return true;
@@ -174,7 +174,7 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
               onKeyDown: (async (e: React.KeyboardEvent) => await handleKeyboardNav(e))
             } : {}) }
           >
-          <span>{ Locale.reader.settings.themes[t as ThemeKeyType] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
+          <span>{ Locale.reader.settings.themes[t as keyof typeof Locale.reader.settings.themes ] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
         </Radio>
         ) }
       </div>

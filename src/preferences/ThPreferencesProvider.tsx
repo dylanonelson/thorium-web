@@ -7,7 +7,7 @@ import { ThPreferences, CustomizableKeys } from "./preferences";
 import { ThDirectionSetter } from "./ThDirectionSetter";
 import { ThPreferencesContext } from "./ThPreferencesContext";
 
-export function ThPreferencesProvider<T extends Partial<CustomizableKeys> = {}>({
+export function ThPreferencesProvider<T extends Partial<CustomizableKeys>>({
   value,
   children,
 }: {
@@ -15,7 +15,7 @@ export function ThPreferencesProvider<T extends Partial<CustomizableKeys> = {}>(
   children: React.ReactNode;
 }) {
   const contextValue = useMemo(() => {
-    return value || defaultPreferences as unknown as ThPreferences<T>;
+    return value || defaultPreferences as ThPreferences<T>;
   }, [value]);
 
   return (    

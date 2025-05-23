@@ -1,6 +1,5 @@
 // Peripherals based on XBReader
 import { ThActionsPref } from "@/preferences";
-import { EPUBLayout } from "@/readium/ts-toolkit/shared/src";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
 
