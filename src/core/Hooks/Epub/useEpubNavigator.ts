@@ -2,8 +2,8 @@
 
 import { useCallback, useMemo, useRef } from "react";
 
-import { ThScrollBackTo } from "@/preferences/models/enums";
-import { ScrollAffordance, ThScrollAffordancePref } from "./scrollAffordance";
+import { ThScrollAffordancePref, ThScrollBackTo } from "@/preferences/models/enums";
+import { ScrollAffordance } from "./scrollAffordance";
 
 import { 
   EPUBLayout, 

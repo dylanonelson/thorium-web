@@ -7,6 +7,14 @@ export enum ThActionsKeys {
   toc = "toc"
 }
 
+export enum ThBreakpoints {
+  compact = "compact",
+  medium = "medium",
+  expanded = "expanded",
+  large = "large",
+  xLarge = "xLarge"
+}
+
 export enum ThDockingKeys {
   start = "dockingStart",
   end = "dockingEnd",
@@ -52,6 +60,20 @@ export enum ThTextSettingsKeys {
   hyphens = "hyphens",
   textAlign = "textAlign",
   textNormalize = "textNormalize"
+}
+
+export enum ThScrollAffordancePref {
+  none = "none",
+  prev = "previous",
+  next = "next",
+  both = "both"
+}
+
+export interface ScrollAffordanceConfig {
+  pref: ThScrollAffordancePref;
+  placement: "top" | "bottom";
+  className?: string;
+  styleSheetContent?: string;
 }
 
 export enum ThSpacingSettingsKeys {

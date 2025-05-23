@@ -1,12 +1,12 @@
 import { UnstableShortcutRepresentation } from "@/core/Helpers/keyboardUtilities";
 import { BreakpointsMap } from "@/core/Hooks/useBreakpoints";
 import { ThemeTokens } from "@/preferences/hooks/useTheming";
-import { ThScrollAffordancePref } from "@/core/Hooks/Epub/scrollAffordance";
 import { 
   ThActionsKeys,
   ThDockingKeys,
   ThDockingTypes,
   ThLineHeightOptions, 
+  ThScrollAffordancePref, 
   ThScrollBackTo, 
   ThSettingsKeys, 
   ThSettingsRangeVariant, 

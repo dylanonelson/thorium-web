@@ -2,19 +2,7 @@
 
 import Locale from "../../../resources/locales/en.json";
 
-export enum ThScrollAffordancePref {
-  none = "none",
-  prev = "previous",
-  next = "next",
-  both = "both"
-}
-
-export interface ScrollAffordanceConfig {
-  pref: ThScrollAffordancePref;
-  placement: "top" | "bottom";
-  className?: string;
-  styleSheetContent?: string;
-}
+import { ScrollAffordanceConfig, ThScrollAffordancePref } from "@/preferences/models/enums";
 
 // Button posting message from iFrame won’t work since Navigator handles click
 // so the message is never received.

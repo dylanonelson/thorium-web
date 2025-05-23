@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef } from "react";
 
 import { CSSColor } from "../CSSValues";
 
-import { BreakpointsMap, ThBreakpoints, useBreakpoints } from "@/core/Hooks/useBreakpoints";
+import { ThBreakpoints } from "../models/enums";
+import { BreakpointsMap, useBreakpoints } from "@/core/Hooks/useBreakpoints";
 import { useReducedMotion } from "@/core/Hooks/useReducedMotion";
 import { useReducedTransparency } from "@/core/Hooks/useReducedTransparency";
 import { ThColorScheme, useColorScheme } from "@/core/Hooks/useColorScheme";

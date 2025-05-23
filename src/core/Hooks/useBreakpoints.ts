@@ -1,15 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useMediaQuery } from "./useMediaQuery";
 
-export enum ThBreakpoints {
-  compact = "compact",
-  medium = "medium",
-  expanded = "expanded",
-  large = "large",
-  xLarge = "xLarge"
-}
+import { ThBreakpoints } from "@/preferences/models/enums";
+
+import { useMediaQuery } from "./useMediaQuery";
 
 type ThBreakpointRange = {
   min: number | null,
