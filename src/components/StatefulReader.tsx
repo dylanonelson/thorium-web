@@ -14,9 +14,9 @@ import Locale from "../resources/locales/en.json";
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/readerArrowButton.module.css";
 
-import { ThBreakpoints } from "@/core/Hooks/useBreakpoints";
 import { 
   ThActionsKeys, 
+  ThBreakpoints, 
   ThLineHeightOptions, 
   ThScrollBackTo, 
   ThSettingsKeys, 

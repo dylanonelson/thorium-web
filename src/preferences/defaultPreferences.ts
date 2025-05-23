@@ -1,13 +1,13 @@
 "use client";
 
-import { ThBreakpoints } from "@/core/Hooks/useBreakpoints";
 import { UnstableShortcutMetaKeywords, UnstableShortcutRepresentation } from "@/core/Helpers/keyboardUtilities";
 import { ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
-import { ThScrollAffordancePref } from "@/core/Hooks/Epub/scrollAffordance";
 import { 
   ThActionsKeys, 
+  ThBreakpoints, 
   ThDockingTypes, 
   ThDockingKeys, 
+  ThScrollAffordancePref, 
   ThScrollBackTo, 
   ThSettingsKeys, 
   ThSheetTypes, 
