@@ -4,7 +4,7 @@ import React, { useCallback } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
-import { ThTextAlignOptions, ThLayoutDirection } from "@/preferences/models/enums";
+import { ThTextAlignOptions } from "@/preferences/models/enums";
 import { StatefulSettingsItemProps } from "./models/settings";
 import { TextAlignment } from "@readium/navigator";
 
@@ -21,7 +21,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTextAlign, setHyphens } from "@/lib/settingsReducer";
 
 export const StatefulTextAlign = ({ standalone = true }: StatefulSettingsItemProps) => {
-  const isRTL = useAppSelector(state => state.reader.direction) === ThLayoutDirection.rtl;
+  const isRTL = useAppSelector(state => state.publication.isRTL);
   const textAlign = useAppSelector(state => state.settings.textAlign);
   const dispatch = useAppDispatch();
 
