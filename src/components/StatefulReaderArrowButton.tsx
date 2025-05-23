@@ -12,7 +12,7 @@ import { PressEvent } from "react-aria";
 
 import { ThNavigationButton, ThNavigationButtonProps } from "@/core/Components/Buttons/ThNavigationButton";
 
-import { usePreferences } from "@/preferences/ThPreferencesContext";
+import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { usePrevious } from "@/core/Hooks/usePrevious";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

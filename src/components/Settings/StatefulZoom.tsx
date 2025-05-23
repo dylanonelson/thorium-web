@@ -14,7 +14,7 @@ import ZoomIn from "./assets/icons/zoom_in.svg";
 import { StatefulSlider } from "./Wrappers/StatefulSlider";
 import { StatefulNumberField } from "./Wrappers/StatefulNumberField";
 
-import { usePreferences } from "@/preferences/ThPreferencesContext";
+import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

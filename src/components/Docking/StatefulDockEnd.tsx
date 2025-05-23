@@ -17,7 +17,7 @@ import { StatefulActionIcon } from "../Actions/Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "../Actions/Triggers/StatefulOverflowMenuItem";
 
 import { useActions } from "@/core/Components/Actions/hooks/useActions";
-import { usePreferences } from "@/preferences/ThPreferencesContext";
+import { usePreferences } from "@/preferences/hooks/usePreferences";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";

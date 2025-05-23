@@ -18,6 +18,8 @@
     "./core/components": "./dist/core/Components/index.js",
     "./core/helpers": "./dist/core/Helpers/index.js",
     "./core/hooks": "./dist/core/Hooks/index.js",
+    "./core/lib": "./dist/lib/index.js",
+    "./core/preferences": "./dist/preferences/index.js",
     "./components": "./dist/components/index.js"
   },
   "scripts": {
