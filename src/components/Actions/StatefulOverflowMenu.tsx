@@ -20,7 +20,7 @@ import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
 
 export interface StatefulOverflowMenuProps {
   id: string;
-  items: ThActionEntry<ThActionsKeys | ThDockingKeys>[];
+  items: ThActionEntry<string | ThActionsKeys | ThDockingKeys>[];
   triggerRef: RefObject<HTMLElement | null>;
   className?: string;
   actionFallback?: boolean;
