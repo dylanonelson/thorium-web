@@ -55,7 +55,11 @@ export const StatefulTextGroupContainer = () => {
     <>
     { displayOrder.map((key: ThTextSettingsKeys) => {
       const match = textSettingsComponentsMap[key];
-      return match && <match.Comp key={ key } standalone={ true } />;
+      if (!match) {
+        console.warn(`Action key "${ key }" not found in the plugin registry while present in preferences.`);
+        return null;
+      }
+      return <match.Comp key={ key } standalone={ true } />;
     }) }
     </>
   )

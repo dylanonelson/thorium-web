@@ -129,17 +129,20 @@ export interface StatelessCache {
 export interface StatefulReaderProps {
   rawManifest: object;
   selfHref: string;
-  plugin?: ThPlugin;
+  plugins?: ThPlugin[];
 }
 
 export const StatefulReader = ({ 
   rawManifest, 
   selfHref, 
-  plugin 
+  plugins 
 }: StatefulReaderProps) => {
-  ThPluginRegistry.register(createDefaultPlugin());
-  if (plugin) {
-    ThPluginRegistry.register(plugin);
+  if (plugins && plugins.length > 0) {
+    plugins.forEach(plugin => {
+      ThPluginRegistry.register(plugin);
+    });
+  } else {
+    ThPluginRegistry.register(createDefaultPlugin());
   }
   
   const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();

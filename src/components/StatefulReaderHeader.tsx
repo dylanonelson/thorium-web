@@ -64,6 +64,8 @@ export const StatefulReaderHeader = () => {
             Target: actionsComponentsMap[key].Target,
             key: key
           });
+        } else {
+          console.warn(`Action key "${ key }" not found in the plugin registry while present in preferences.`);
         }
       });
     }
