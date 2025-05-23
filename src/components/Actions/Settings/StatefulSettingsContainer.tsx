@@ -106,7 +106,11 @@ export const StatefulSettingsContainer = ({
                 .filter((key) => !(isTextNested(key) || isSpacingNested(key)))
                 .map((key) => {
                   const match = settingsComponentsMap[key];
-                  return match && <match.Comp key={ key } { ...match.props } />;
+                  if (!match) {
+                    console.warn(`Action key "${ key }" not found in the plugin registry while present in preferences.`);
+                    return null;
+                  }
+                  return <match.Comp key={ key } { ...match.props } />;
                 })
               : <></>
             }

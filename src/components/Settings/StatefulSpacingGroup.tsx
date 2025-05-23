@@ -55,7 +55,11 @@ export const StatefulSpacingGroupContainer = () => {
     <>
     { displayOrder.map((key: ThSpacingSettingsKeys) => {
       const match = spacingSettingsComponentsMap[key];
-      return match && <match.Comp key={ key } standalone={ true } />;
+      if (!match) {
+        console.warn(`Setting key "${ key }" not found in the plugin registry while present in preferences.`);
+        return null;
+      }
+      return <match.Comp key={ key } standalone={ true } />;
     }) }
     </>
   )
