@@ -15,7 +15,7 @@ import { ThRunningHead } from "@/core/Components/Reader/ThRunningHead";
 import { StatefulCollapsibleActionsBar } from "./Actions/StatefulCollapsibleActionsBar";
 
 import { usePlugins } from "./Plugins/PluginProvider";
-import { usePreferences } from "@/preferences/ThPreferencesContext";
+import { usePreferences } from "@/preferences/hooks";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

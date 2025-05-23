@@ -12,7 +12,7 @@ import { ThActionsTriggerVariant } from "@/core/Components/Actions/ThActionsBar"
 import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";
 
-import { usePreferences } from "@/preferences/ThPreferencesContext";
+import { usePreferences } from "@/preferences/hooks/usePreferences";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";

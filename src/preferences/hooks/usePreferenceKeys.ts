@@ -1,7 +1,7 @@
 "use client";
 
 import { CustomizableKeys, CustomKeyType } from "@/preferences/preferences";
-import { usePreferences } from "../ThPreferencesContext";
+import { usePreferences } from "./usePreferences";
 import { 
   ThActionsKeys, 
   ThThemeKeys, 

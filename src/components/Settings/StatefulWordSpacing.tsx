@@ -11,7 +11,7 @@ import { StatefulSettingsItemProps } from "./models/settings";
 import { StatefulNumberField } from "./Wrappers/StatefulNumberField";
 import { StatefulSlider } from "./Wrappers/StatefulSlider";
 
-import { usePreferences } from "@/preferences/ThPreferencesContext";
+import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

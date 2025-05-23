@@ -11,7 +11,7 @@ import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from "rea
 import { ThDockingTypes, ThDockingKeys, ThLayoutDirection } from "@/preferences/models/enums";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
-import { usePreferences } from "@/preferences/ThPreferencesContext";
+import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useResizablePanel } from "./hooks/useResizablePanel";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { activateDockPanel, collapseDockPanel, deactivateDockPanel, expandDockPanel, setDockPanelWidth } from "@/lib/actionsReducer";

@@ -14,7 +14,7 @@ import { ThActionsKeys, ThLayoutDirection } from "@/preferences/models/enums";
 import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
 import { Radio } from "react-aria-components";
 
-import { usePreferences } from "@/preferences/ThPreferencesContext";
+import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

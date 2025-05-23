@@ -9,6 +9,8 @@ export default defineConfig({
     "src/core/Helpers/index.ts",
     "src/core/Hooks/index.ts", 
     "src/components/index.ts",
+    "src/lib/index.ts",
+    "src/preferences/index.ts"
   ],
   loader: {
     ".css": "copy"

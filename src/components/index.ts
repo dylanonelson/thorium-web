@@ -10,5 +10,14 @@ export * from "./StatefulLoader";
 export * from "./StatefulReader";
 
 export * from "../core/Hooks";
+
 export * from "../lib";
-export * from "../preferences";
+
+export {
+  usePreferences,
+  ThPreferencesProvider
+} from "../preferences";
+
+export {
+  useTheming
+} from "../preferences/hooks";

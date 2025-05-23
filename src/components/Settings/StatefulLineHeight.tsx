@@ -15,7 +15,7 @@ import LargeIcon from "./assets/icons/density_large.svg";
 
 import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
 
-import { usePreferences } from "@/preferences/ThPreferencesContext";
+import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

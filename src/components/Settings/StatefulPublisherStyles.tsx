@@ -10,7 +10,7 @@ import { StatefulSettingsItemProps } from "./models/settings";
 
 import { StatefulSwitch } from "./Wrappers/StatefulSwitch";
 
-import { usePreferences } from "@/preferences/ThPreferencesContext";
+import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

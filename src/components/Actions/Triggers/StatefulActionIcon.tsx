@@ -10,7 +10,7 @@ import readerStateStyles from "../../assets/styles/readerStates.module.css";
 
 import { ThActionButton, ThActionButtonProps } from "@/core/Components/Buttons/ThActionButton";
 
-import { usePreferences } from "@/preferences/ThPreferencesContext";
+import { usePreferences } from "@/preferences/hooks/usePreferences";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setImmersive } from "@/lib/readerReducer";
