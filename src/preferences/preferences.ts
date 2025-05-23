@@ -49,7 +49,7 @@ export interface ThActionsTokens {
   snapped?: ThActionsSnappedPref;
 };
 
-export interface ThActionsPref<T extends string | number | symbol> {
+export interface ThActionsPref<T extends string> {
   reflowOrder: T[];
   fxlOrder: T[];
   collapse: ThCollapsibility;
@@ -58,7 +58,7 @@ export interface ThActionsPref<T extends string | number | symbol> {
   }
 };
 
-export interface ThDockingPref<T extends string | number | symbol> {
+export interface ThDockingPref<T extends string> {
   displayOrder: T[];
   collapse: ThCollapsibility;
   dock: BreakpointsMap<ThDockingTypes> | boolean; 
@@ -92,18 +92,21 @@ export type ThSettingsKeyTypes = {
 
 export type ThConstraintKeys = Extract<ThSheetTypes, ThSheetTypes.bottomSheet | ThSheetTypes.popover>;
 
+// Simplified type for customizable keys
+export type CustomKeyType = string;
+
 export interface CustomizableKeys {
-  actionKeys?: string;
-  themeKeys?: string;
-  settingsKeys?: string;
-  textSettingsKeys?: string;
-  spacingSettingsKeys?: string;
-  constraintsKeys?: string;
-  customSettingsKeyTypes?: Record<string, unknown>;
+  actionKeys: CustomKeyType;
+  themeKeys: CustomKeyType;
+  settingsKeys: CustomKeyType;
+  textSettingsKeys: CustomKeyType;
+  spacingSettingsKeys: CustomKeyType;
+  constraintsKeys: CustomKeyType;
+  customSettingsKeyTypes: Record<string, unknown>;
 }
 
-// Default type with all the standard keys
-export type DefaultKeys = {
+// Default keys with standard enum values
+export interface DefaultKeys {
   actionKeys: ThActionsKeys;
   themeKeys: ThThemeKeys;
   settingsKeys: ThSettingsKeys;
@@ -113,14 +116,8 @@ export type DefaultKeys = {
   customSettingsKeyTypes: ThSettingsKeyTypes;
 }
 
-// Helper type to merge custom keys with defaults
-export type MergedKeys<T extends Partial<CustomizableKeys>> = {
-  [K in keyof DefaultKeys]: K extends keyof T 
-    ? T[K] extends string
-      ? T[K] | DefaultKeys[K]
-      : DefaultKeys[K]
-    : DefaultKeys[K];
-}
+// Type helper for key arrays and objects
+export type KeysOf<T, D> = T extends CustomKeyType ? T : D;
 
 // Main preferences interface with simplified generics
 export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
@@ -157,34 +154,34 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
         scrim: string;
       };
       constraints?: {
-        [key in MergedKeys<T>["constraintsKeys"]]?: number
+        [key in KeysOf<T["constraintsKeys"], ThConstraintKeys>]?: number
       }
     };
     breakpoints: BreakpointsMap<number | null>;
     themes: {
-      reflowOrder: (MergedKeys<T>["themeKeys"] | "auto")[];
-      fxlOrder: (MergedKeys<T>["themeKeys"] | "auto")[];
+      reflowOrder: Array<KeysOf<T["themeKeys"], ThThemeKeys> | "auto">;
+      fxlOrder: Array<KeysOf<T["themeKeys"], ThThemeKeys> | "auto">;
       systemThemes?: {
-        light: MergedKeys<T>["themeKeys"];
-        dark: MergedKeys<T>["themeKeys"];
+        light: KeysOf<T["themeKeys"], ThThemeKeys>;
+        dark: KeysOf<T["themeKeys"], ThThemeKeys>;
       };
       keys: {
-        [key in MergedKeys<T>["themeKeys"]]: ThemeTokens;
+        [key in KeysOf<T["themeKeys"], ThThemeKeys>]: ThemeTokens;
       };
     };
   };
+  actions: ThActionsPref<KeysOf<T["actionKeys"], ThActionsKeys>>;
   shortcuts: {
     representation: UnstableShortcutRepresentation;
     joiner?: string;
   };
-  actions: ThActionsPref<MergedKeys<T>["actionKeys"]>;
   docking: ThDockingPref<ThDockingKeys>;
   settings: {
-    reflowOrder: MergedKeys<T>["settingsKeys"][];
-    fxlOrder: MergedKeys<T>["settingsKeys"][];
-    keys?: MergedKeys<T>["customSettingsKeyTypes"];
-    text?: ThSettingsGroupPref<MergedKeys<T>["textSettingsKeys"]>;
-    spacing?: ThSettingsGroupPref<MergedKeys<T>["spacingSettingsKeys"]>;
+    reflowOrder: Array<KeysOf<T["settingsKeys"], ThSettingsKeys>>;
+    fxlOrder: Array<KeysOf<T["settingsKeys"], ThSettingsKeys>>;
+    keys?: T["customSettingsKeyTypes"] | ThSettingsKeyTypes;
+    text?: ThSettingsGroupPref<KeysOf<T["textSettingsKeys"], ThTextSettingsKeys>>;
+    spacing?: ThSettingsGroupPref<KeysOf<T["spacingSettingsKeys"], ThSpacingSettingsKeys>>;
   };
 }
 
@@ -196,18 +193,12 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
 export const createPreferences = <T extends Partial<CustomizableKeys>>(
   params: ThPreferences<T>
 ): ThPreferences<T> => {
-  return {
-    ...params,
-  };
-}
+  return params;
+};
 
-// Type helper to get the key type from preferences
-export type PreferenceKeyType<T extends keyof DefaultKeys> = MergedKeys<CustomizableKeys>[T];
-
-// Specific key type helpers
-export type ActionKeyType = PreferenceKeyType<"actionKeys">;
-export type DockingKeyType = ThDockingKeys;
-export type ThemeKeyType = PreferenceKeyType<"themeKeys">;
-export type SettingsKeyType = PreferenceKeyType<"settingsKeys">;
-export type TextSettingsKeyType = PreferenceKeyType<"textSettingsKeys">;
-export type SpacingSettingsKeyType = PreferenceKeyType<"spacingSettingsKeys">;
+// Simplified type helpers
+export type ActionKeyType = ThActionsKeys | CustomKeyType;
+export type ThemeKeyType = ThThemeKeys | CustomKeyType;
+export type SettingsKeyType = ThSettingsKeys | CustomKeyType;
+export type TextSettingsKeyType = ThTextSettingsKeys | CustomKeyType;
+export type SpacingSettingsKeyType = ThSpacingSettingsKeys | CustomKeyType;
