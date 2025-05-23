@@ -45,8 +45,20 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
       
       if (book.startsWith("http://") || book.startsWith("https://")) {
         // TODO: use URL.canParse()
-        publicationURL = book;
-        if (!book.endsWith("manifest.json") && !book.endsWith("/"))
+        // Make sure streamer gets Base64Url
+        const bookUrl = new URL(book);
+        const bookPathnameArray = bookUrl.pathname.split("/");
+        const sanitizedBookPathnameArray = bookPathnameArray.map((entry) => {
+          if (entry && entry !== "manifest.json") {
+            return entry.replace(/\+|%2B/g, "-").replace(/\/|%2F/g, "_").replace(/=|%3D/g, "");
+          } else {
+            return entry;
+          }
+        });
+        const sanitizedBook = new URL(sanitizedBookPathnameArray.join("/"), bookUrl.origin);
+        publicationURL = sanitizedBook.href;
+          
+        if (!publicationURL.endsWith("manifest.json") && !publicationURL.endsWith("/"))
           publicationURL += "/";
       } else {
         throw new Error("book parameter is required");
