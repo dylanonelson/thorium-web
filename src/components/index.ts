@@ -9,6 +9,6 @@ export * from "./Sheets";
 export * from "./StatefulLoader";
 export * from "./StatefulReader";
 
-export * from "../packages/Hooks";
+export * from "../core/Hooks";
 export * from "../lib";
 export * from "../preferences";

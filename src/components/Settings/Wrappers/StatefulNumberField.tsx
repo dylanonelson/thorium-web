@@ -3,7 +3,7 @@
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 import settingsStyles from "../assets/styles/settings.module.css";
 
-import { ThNumberField, ThNumberFieldProps } from "@/packages/Components/Settings/ThNumberField";
+import { ThNumberField, ThNumberFieldProps } from "@/core/Components/Settings/ThNumberField";
 
 import classNames from "classnames";
 

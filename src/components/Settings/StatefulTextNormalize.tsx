@@ -8,7 +8,7 @@ import { StatefulSettingsItemProps } from "./models/settings";
 
 import { StatefulSwitch } from "./Wrappers/StatefulSwitch";
 
-import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
+import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTextNormalization } from "@/lib/settingsReducer";
 

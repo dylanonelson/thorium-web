@@ -5,9 +5,9 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   name: "Thorium Web",
   entry: [
-    "src/packages/Components/index.ts",
-    "src/packages/Helpers/index.ts",
-    "src/packages/Hooks/index.ts", 
+    "src/core/Components/index.ts",
+    "src/core/Helpers/index.ts",
+    "src/core/Hooks/index.ts", 
     "src/components/index.ts",
   ],
   loader: {

@@ -15,7 +15,7 @@ import { StatefulSlider } from "./Wrappers/StatefulSlider";
 import { StatefulNumberField } from "./Wrappers/StatefulNumberField";
 
 import { usePreferences } from "@/preferences/ThPreferencesContext";
-import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
+import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontSize } from "@/lib/settingsReducer";

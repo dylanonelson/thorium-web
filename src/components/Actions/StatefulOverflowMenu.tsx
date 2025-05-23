@@ -8,15 +8,15 @@ import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
 import MenuIcon from "./assets/icons/more_vert.svg";
 
-import { ThCollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
-import { ThMenu } from "@/packages/Components/Menu/ThMenu";
+import { ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
+import { ThMenu } from "@/core/Components/Menu/ThMenu";
 import { ThActionsKeys, ThDockingKeys } from "@/preferences/models/enums";
 import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { toggleImmersive } from "@/lib/readerReducer";
 import { setOverflow } from "@/lib/actionsReducer";
-import { ThActionEntry } from "@/packages/Components/Actions/ThActionsBar";
+import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
 
 export interface StatefulOverflowMenuProps {
   id: string;

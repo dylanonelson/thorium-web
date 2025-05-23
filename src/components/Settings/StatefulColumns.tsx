@@ -10,7 +10,7 @@ import TwoColsIcon from "./assets/icons/menu_book.svg";
 
 import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
 
-import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
+import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setColumnCount } from "@/lib/settingsReducer";

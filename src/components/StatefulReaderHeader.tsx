@@ -9,9 +9,9 @@ import Locale from "../resources/locales/en.json";
 import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
-import { ThActionEntry } from "@/packages/Components/Actions/ThActionsBar";
-import { ThHeader  } from "@/packages/Components/Reader/ThHeader";
-import { ThRunningHead } from "@/packages/Components/Reader/ThRunningHead";
+import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
+import { ThHeader  } from "@/core/Components/Reader/ThHeader";
+import { ThRunningHead } from "@/core/Components/Reader/ThRunningHead";
 import { StatefulCollapsibleActionsBar } from "./Actions/StatefulCollapsibleActionsBar";
 
 import { usePlugins } from "./Plugins/PluginProvider";

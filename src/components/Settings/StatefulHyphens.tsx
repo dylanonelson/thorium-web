@@ -9,7 +9,7 @@ import { ThTextAlignOptions } from "@/preferences/models/enums";
 
 import { StatefulSwitch } from "./Wrappers/StatefulSwitch";
 
-import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
+import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setHyphens } from "@/lib/settingsReducer";

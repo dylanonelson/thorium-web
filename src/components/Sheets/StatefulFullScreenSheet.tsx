@@ -10,11 +10,11 @@ import { ThSheetHeaderVariant } from "@/preferences/models/enums";
 import sheetStyles from "./assets/styles/sheets.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
-import { ThModal } from "@/packages/Components/Containers/ThModal";
-import { ThContainerHeader } from "@/packages/Components/Containers/ThContainerHeader";
-import { ThContainerBody } from "@/packages/Components/Containers/ThContainerBody";
-import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
-import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
+import { ThModal } from "@/core/Components/Containers/ThModal";
+import { ThContainerHeader } from "@/core/Components/Containers/ThContainerHeader";
+import { ThContainerBody } from "@/core/Components/Containers/ThContainerBody";
+import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton";
+import { ThCloseButton } from "@/core/Components/Buttons/ThCloseButton";
 
 import { useAppSelector } from "@/lib/hooks";
 

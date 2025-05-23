@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { UnstableShortcut, UnstableShortcutRepresentation, buildShortcut, metaKeys } from "@/packages/Helpers/keyboardUtilities";
+import { UnstableShortcut, UnstableShortcutRepresentation, buildShortcut, metaKeys } from "@/core/Helpers/keyboardUtilities";
 
 import { Keyboard } from "react-aria-components";
 

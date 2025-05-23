@@ -3,19 +3,19 @@
 import React, { useRef } from "react";
 
 import { TooltipProps } from "react-aria-components";
-import { ThCollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
+import { ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 import readerStateStyles from "../../assets/styles/readerStates.module.css";
 
-import { ThActionButton, ThActionButtonProps } from "@/packages/Components/Buttons/ThActionButton";
+import { ThActionButton, ThActionButtonProps } from "@/core/Components/Buttons/ThActionButton";
 
 import { usePreferences } from "@/preferences/ThPreferencesContext";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setImmersive } from "@/lib/readerReducer";
 
-import { isActiveElement, isKeyboardTriggered } from "@/packages/Helpers/focusUtilities";
+import { isActiveElement, isKeyboardTriggered } from "@/core/Helpers/focusUtilities";
 
 import classNames from "classnames";
 

@@ -9,7 +9,7 @@ import { fontWeightRangeConfig } from "@readium/navigator";
 
 import { StatefulSlider } from "./Wrappers/StatefulSlider";
 
-import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
+import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontWeight } from "@/lib/settingsReducer";

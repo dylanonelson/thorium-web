@@ -1,5 +1,5 @@
 import { RefObject } from "react";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsBar";
+import { ThActionsTriggerVariant } from "@/core/Components/Actions/ThActionsBar";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 export interface StatefulActionsMapObject {

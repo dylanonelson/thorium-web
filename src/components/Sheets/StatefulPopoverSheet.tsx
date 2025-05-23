@@ -12,10 +12,10 @@ import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { PopoverProps } from "react-aria-components";
 
-import { ThPopover } from "@/packages/Components/Containers/ThPopover";
-import { ThContainerHeader } from "@/packages/Components/Containers/ThContainerHeader";
-import { ThContainerBody } from "@/packages/Components/Containers/ThContainerBody";
-import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
+import { ThPopover } from "@/core/Components/Containers/ThPopover";
+import { ThContainerHeader } from "@/core/Components/Containers/ThContainerHeader";
+import { ThContainerBody } from "@/core/Components/Containers/ThContainerBody";
+import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton";
 import { StatefulDocker } from "../Docking/StatefulDocker";
 
 import { useAppSelector } from "@/lib/hooks";

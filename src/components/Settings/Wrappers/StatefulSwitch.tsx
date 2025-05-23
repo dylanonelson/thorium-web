@@ -2,7 +2,7 @@
 
 import settingsStyles from "../assets/styles/settings.module.css";
 
-import { ThSwitch, ThSwitchProps } from "@/packages/Components/Settings/ThSwitch";
+import { ThSwitch, ThSwitchProps } from "@/core/Components/Settings/ThSwitch";
 
 export interface StatefulSwitchProps extends Omit<ThSwitchProps, "classNames"> {
   standalone?: boolean;

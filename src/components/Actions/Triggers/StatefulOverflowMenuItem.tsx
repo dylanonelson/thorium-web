@@ -7,7 +7,7 @@ import overflowMenuStyles from "../assets/styles/overflowMenu.module.css";
 import { Text } from "react-aria-components";
 import { UnstableStatefulShortcut as StatefulShortcut } from "./UnstableStatefulShortcut";
 
-import { ThMenuItem, ThMenuItemProps } from "@/packages/Components/Menu/ThMenuItem";
+import { ThMenuItem, ThMenuItemProps } from "@/core/Components/Menu/ThMenuItem";
 
 export interface StatefulOverflowMenuItemProps extends Omit<ThMenuItemProps, "shortcut"> {
   shortcut?: string | null

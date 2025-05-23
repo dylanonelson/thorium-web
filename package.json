@@ -15,10 +15,10 @@
     "./dist"
   ],
   "exports": {
-    "./components": "./dist/packages/Components/index.js",
-    "./helpers": "./dist/packages/Helpers/index.js",
-    "./hooks": "./dist/packages/Hooks/index.js",
-    "./statefulComponents": "./dist/components/index.js"
+    "./core/components": "./dist/core/Components/index.js",
+    "./core/helpers": "./dist/core/Helpers/index.js",
+    "./core/hooks": "./dist/core/Hooks/index.js",
+    "./components": "./dist/components/index.js"
   },
   "scripts": {
     "dev": "next dev",

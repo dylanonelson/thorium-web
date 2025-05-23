@@ -7,7 +7,7 @@ import { ThSettingsGroupPref, ThSpacingSettingsKeys, ThTextSettingsKeys } from "
 import { PressEvent } from "react-aria";
 import { SettingComponent } from "@/components/Plugins/PluginRegistry";
 
-import { ThSettingsWrapper } from "@/packages/Components/Settings/ThSettingsWrapper";
+import { ThSettingsWrapper } from "@/core/Components/Settings/ThSettingsWrapper";
 
 import { usePreferences } from "@/preferences/ThPreferencesContext";
 

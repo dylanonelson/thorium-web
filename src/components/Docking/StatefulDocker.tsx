@@ -11,7 +11,7 @@ import { ThDockingKeys } from "@/preferences/models/enums";
 
 import { Toolbar } from "react-aria-components";
 
-import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
+import { ThCloseButton } from "@/core/Components/Buttons/ThCloseButton";
 import { StatefulCollapsibleActionsBar } from "../Actions/StatefulCollapsibleActionsBar";
 
 import { StatefulDockStart } from "./StatefulDockStart";
@@ -20,7 +20,7 @@ import { StatefulDockTransientPopover } from "./StatefulDockTransientPopover";
 
 import { usePreferences } from "@/preferences/ThPreferencesContext";
 
-import { ThActionEntry } from "@/packages/Components/Actions/ThActionsBar";
+import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 const dockingComponentsMap = {

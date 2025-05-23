@@ -4,15 +4,15 @@ import { useCallback, useEffect, useRef } from "react";
 
 import { CSSColor } from "../CSSValues";
 
-import { BreakpointsMap, ThBreakpoints, useBreakpoints } from "@/packages/Hooks/useBreakpoints";
-import { useReducedMotion } from "@/packages/Hooks/useReducedMotion";
-import { useReducedTransparency } from "@/packages/Hooks/useReducedTransparency";
-import { ThColorScheme, useColorScheme } from "@/packages/Hooks/useColorScheme";
-import { ThContrast, useContrast } from "@/packages/Hooks/useContrast";
-import { useForcedColors } from "@/packages/Hooks/useForcedColors";
-import { useMonochrome } from "@/packages/Hooks/useMonochrome";
+import { BreakpointsMap, ThBreakpoints, useBreakpoints } from "@/core/Hooks/useBreakpoints";
+import { useReducedMotion } from "@/core/Hooks/useReducedMotion";
+import { useReducedTransparency } from "@/core/Hooks/useReducedTransparency";
+import { ThColorScheme, useColorScheme } from "@/core/Hooks/useColorScheme";
+import { ThContrast, useContrast } from "@/core/Hooks/useContrast";
+import { useForcedColors } from "@/core/Hooks/useForcedColors";
+import { useMonochrome } from "@/core/Hooks/useMonochrome";
 
-import { propsToCSSVars } from "@/packages/Helpers/propsToCSSVars";
+import { propsToCSSVars } from "@/core/Helpers/propsToCSSVars";
 
 export interface ThemeTokens {
   background: CSSColor;

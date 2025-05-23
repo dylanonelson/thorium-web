@@ -1,6 +1,6 @@
 "use client";
 
-import { ThColorScheme } from "@/packages/Hooks/useColorScheme";
+import { ThColorScheme } from "@/core/Hooks/useColorScheme";
 import { ThemeTokens } from "../hooks/useTheming";
 
 // We cannot import from Readium Navigator cos' otherwise next build fails

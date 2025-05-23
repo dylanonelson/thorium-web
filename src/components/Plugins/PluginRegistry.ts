@@ -1,4 +1,4 @@
-import { ThSettingsEntry } from "@/packages/Components";
+import { ThSettingsEntry } from "@/core/Components";
 import { StatefulActionsMapObject } from "../Actions";
 
 export enum ThPluginType {
