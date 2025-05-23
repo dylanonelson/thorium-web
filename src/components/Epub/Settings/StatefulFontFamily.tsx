@@ -2,11 +2,11 @@
 
 import { CSSProperties, Key, useCallback, useRef } from "react";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
-import { StatefulSettingsItemProps } from "./models/settings";
+import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
-import settingsStyles from "./assets/styles/settings.module.css";
+import settingsStyles from "../../Settings/assets/styles/settings.module.css";
 
 import { ThDropdown } from "@/core/Components/Settings/ThDropdown";
 

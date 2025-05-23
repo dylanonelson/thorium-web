@@ -7,12 +7,12 @@ import {
   defaultLineHeights, 
   ThemeKeyType, 
   usePreferenceKeys 
-} from "../preferences";
+} from "../../preferences";
 
-import Locale from "../resources/locales/en.json";
+import Locale from "../../resources/locales/en.json";
 
-import "./assets/styles/reader.css";
-import arrowStyles from "./assets/styles/readerArrowButton.module.css";
+import "../assets/styles/reader.css";
+import arrowStyles from "../assets/styles/readerArrowButton.module.css";
 
 import { 
   ThActionsKeys, 
@@ -22,13 +22,13 @@ import {
   ThSettingsKeys, 
   ThTextAlignOptions, 
   ThLayoutStrategy 
-} from "../preferences/models/enums";
+} from "../../preferences/models/enums";
 import { ThColorScheme } from "@/core/Hooks/useColorScheme";
 
-import { ThPlugin, ThPluginRegistry } from "./Plugins/PluginRegistry";
+import { ThPlugin, ThPluginRegistry } from "../Plugins/PluginRegistry";
 
 import { I18nProvider } from "react-aria";
-import { ThPluginProvider } from "./Plugins/PluginProvider";
+import { ThPluginProvider } from "../Plugins/PluginProvider";
 
 import {
   BasicTextSelection,
@@ -54,17 +54,17 @@ import {
   Link
 } from "@readium/shared";
 
-import { StatefulDockingWrapper } from "./Docking/StatefulDockingWrapper";
-import { StatefulReaderHeader } from "./StatefulReaderHeader";
-import { StatefulReaderArrowButton } from "./StatefulReaderArrowButton";
-import { StatefulReaderFooter } from "./StatefulReaderFooter";
+import { StatefulDockingWrapper } from "../Docking/StatefulDockingWrapper";
+import { StatefulReaderHeader } from "../StatefulReaderHeader";
+import { StatefulReaderArrowButton } from "../StatefulReaderArrowButton";
+import { StatefulReaderFooter } from "../StatefulReaderFooter";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useFullscreen } from "@/core/Hooks/useFullscreen";
 import { usePrevious } from "@/core/Hooks/usePrevious";
 
-import Peripherals from "../helpers/peripherals";
+import Peripherals from "../../helpers/peripherals";
 import { TH_CUSTOM_SCHEME, ThScrollActions } from "@/core/Hooks/Epub/scrollAffordance";
 import { localData } from "@/core/Helpers/localData";
 import { getPlatformModifier } from "@/core/Helpers/keyboardUtilities";
@@ -94,7 +94,7 @@ import {
 
 import debounce from "debounce";
 import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
-import { createDefaultPlugin } from "./Plugins/helpers/createDefaultPlugin";
+import { createDefaultPlugin } from "../Plugins/helpers/createDefaultPlugin";
 import { AppDispatch } from "@/lib/store";
 
 export interface ReadiumCSSSettings {

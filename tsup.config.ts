@@ -8,7 +8,7 @@ export default defineConfig({
     "src/core/Components/index.ts",
     "src/core/Helpers/index.ts",
     "src/core/Hooks/index.ts", 
-    "src/components/index.ts",
+    "src/components/Epub/index.ts",
     "src/lib/index.ts",
     "src/preferences/index.ts"
   ],

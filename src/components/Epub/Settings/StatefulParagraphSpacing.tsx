@@ -4,12 +4,12 @@ import { useCallback } from "react";
 
 import { defaultParagraphSpacing, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
-import { StatefulSettingsItemProps } from "./models/settings";
+import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
-import { StatefulNumberField } from "./Wrappers/StatefulNumberField";
-import { StatefulSlider } from "./Wrappers/StatefulSlider";
+import { StatefulNumberField } from "../../Settings/StatefulNumberField";
+import { StatefulSlider } from "../../Settings/StatefulSlider";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";

@@ -2,12 +2,12 @@
 
 import { useCallback } from "react";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
-import { StatefulSettingsItemProps } from "./models/settings";
+import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 import { fontWeightRangeConfig } from "@readium/navigator";
 
-import { StatefulSlider } from "./Wrappers/StatefulSlider";
+import { StatefulSlider } from "../../Settings/StatefulSlider";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 

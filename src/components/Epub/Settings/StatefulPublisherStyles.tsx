@@ -4,11 +4,11 @@ import { useCallback, useRef } from "react";
 
 import { defaultLineHeights, ThLineHeightOptions, ThSettingsKeys } from "@/preferences";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
-import { StatefulSettingsItemProps } from "./models/settings";
+import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
-import { StatefulSwitch } from "./Wrappers/StatefulSwitch";
+import { StatefulSwitch } from "../../Settings/StatefulSwitch";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";

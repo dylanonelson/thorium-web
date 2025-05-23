@@ -2,10 +2,10 @@
 
 import React, { useCallback } from "react";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
 import { ThTextAlignOptions } from "@/preferences/models/enums";
-import { StatefulSettingsItemProps } from "./models/settings";
+import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 import { TextAlignment } from "@readium/navigator";
 
 import BookIcon from "./assets/icons/book.svg";
@@ -13,7 +13,7 @@ import LeftAlignIcon from "./assets/icons/format_align_left.svg";
 import RightAlignIcon from "./assets/icons/format_align_right.svg";
 import JustifyIcon from "./assets/icons/format_align_justify.svg";
 
-import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
+import { StatefulRadioGroup } from "../../Settings/StatefulRadioGroup";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 

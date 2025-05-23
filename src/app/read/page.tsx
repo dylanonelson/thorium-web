@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 
 import { HttpFetcher } from "@readium/shared";
 import { Link } from "@readium/shared";
-import { ThPlugin } from "@/components";
+import { ThPlugin } from "@/components/Plugins";
 
 import "../app.css";
 
 import dynamic from "next/dynamic";
-const Reader = dynamic<{ rawManifest: object; selfHref: string; plugin?: ThPlugin }>(() => import("../../components/StatefulReader").then((mod) => mod.StatefulReader), { ssr: false });
+const Reader = dynamic<{ rawManifest: object; selfHref: string; plugin?: ThPlugin }>(() => import("../../components/Epub/StatefulReader").then((mod) => mod.StatefulReader), { ssr: false });
 
 import { StatefulLoader } from "@/components/StatefulLoader";
 

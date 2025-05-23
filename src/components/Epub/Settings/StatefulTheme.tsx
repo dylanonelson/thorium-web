@@ -4,14 +4,14 @@ import React, { useCallback, useEffect, useRef } from "react";
 
 import { ThemeKeyType, usePreferenceKeys } from "@/preferences";
 
-import Locale from "../../resources/locales/en.json";
-import settingsStyles from "./assets/styles/settings.module.css";
+import Locale from "../../../resources/locales/en.json";
+import settingsStyles from "../../Settings/assets/styles/settings.module.css";
 
 import CheckIcon from "./assets/icons/check.svg";
 
 import { ThActionsKeys, ThLayoutDirection } from "@/preferences/models/enums";
 
-import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
+import { StatefulRadioGroup } from "../../Settings/StatefulRadioGroup";
 import { Radio } from "react-aria-components";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
