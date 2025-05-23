@@ -3,8 +3,8 @@ import { ThActionsPref } from "@/preferences";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
 
-import { buildShortcut, UnstablePShortcut } from "@/packages/Helpers/keyboardUtilities";
-import { isInteractiveElement } from "@/packages/Helpers/focusUtilities";
+import { buildShortcut, UnstablePShortcut } from "@/core/Helpers/keyboardUtilities";
+import { isInteractiveElement } from "@/core/Helpers/focusUtilities";
 
 import { useAppStore } from "@/lib/hooks";
 

@@ -2,15 +2,15 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
+import { BreakpointsMap } from "@/core/Hooks/useBreakpoints";
 import { ThDockingTypes, ThDockingKeys, ThSheetTypes } from "@/preferences/models/enums";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { makeBreakpointsMap } from "@/packages/Helpers/breakpointsMap";
+import { makeBreakpointsMap } from "@/core/Helpers/breakpointsMap";
 import { dockAction, setActionOpen } from "@/lib/actionsReducer";
 
-import { usePrevious } from "@/packages/Hooks/usePrevious";
-import { useActions } from "@/packages/Components/Actions/hooks/useActions";
+import { usePrevious } from "@/core/Hooks/usePrevious";
+import { useActions } from "@/core/Components/Actions/hooks/useActions";
 import { usePreferences } from "@/preferences/ThPreferencesContext";
 
 let dockingMap: Required<BreakpointsMap<ThDockingTypes>> | null = null;

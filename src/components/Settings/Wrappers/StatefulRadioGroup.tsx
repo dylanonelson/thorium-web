@@ -2,7 +2,7 @@
 
 import settingsStyles from "../assets/styles/settings.module.css";
 
-import { ThRadioGroup, ThRadioGroupProps } from "@/packages/Components/Settings/ThRadioGroup"
+import { ThRadioGroup, ThRadioGroupProps } from "@/core/Components/Settings/ThRadioGroup"
 
 export interface StatefulRadioGroupProps extends Omit<ThRadioGroupProps, "classNames"> {
   standalone?: boolean

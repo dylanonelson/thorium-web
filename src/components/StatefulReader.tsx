@@ -14,7 +14,7 @@ import Locale from "../resources/locales/en.json";
 import "./assets/styles/reader.css";
 import arrowStyles from "./assets/styles/readerArrowButton.module.css";
 
-import { ThBreakpoints } from "../packages/Hooks/useBreakpoints";
+import { ThBreakpoints } from "@/core/Hooks/useBreakpoints";
 import { 
   ThActionsKeys, 
   ThLineHeightOptions, 
@@ -23,7 +23,7 @@ import {
   ThTextAlignOptions, 
   ThLayoutStrategy 
 } from "../preferences/models/enums";
-import { ThColorScheme } from "../packages/Hooks/useColorScheme";
+import { ThColorScheme } from "@/core/Hooks/useColorScheme";
 
 import { ThPlugin, ThPluginRegistry } from "./Plugins/PluginRegistry";
 
@@ -60,15 +60,15 @@ import { StatefulReaderArrowButton } from "./StatefulReaderArrowButton";
 import { StatefulReaderFooter } from "./StatefulReaderFooter";
 
 import { usePreferences } from "@/preferences/ThPreferencesContext";
-import { useEpubNavigator } from "../packages/Hooks/Epub/useEpubNavigator";
-import { useFullscreen } from "../packages/Hooks/useFullscreen";
-import { usePrevious } from "../packages/Hooks/usePrevious";
+import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
+import { useFullscreen } from "@/core/Hooks/useFullscreen";
+import { usePrevious } from "@/core/Hooks/usePrevious";
 
 import Peripherals from "../helpers/peripherals";
-import { TH_CUSTOM_SCHEME, ThScrollActions } from "../packages/Hooks/Epub/scrollAffordance";
-import { localData } from "../packages/Helpers/localData";
-import { getPlatformModifier } from "../packages/Helpers/keyboardUtilities";
-import { createTocTree, TocItem } from "../packages/Helpers/createTocTree";
+import { TH_CUSTOM_SCHEME, ThScrollActions } from "@/core/Hooks/Epub/scrollAffordance";
+import { localData } from "@/core/Helpers/localData";
+import { getPlatformModifier } from "@/core/Helpers/keyboardUtilities";
+import { createTocTree, TocItem } from "@/core/Helpers/createTocTree";
 
 import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";

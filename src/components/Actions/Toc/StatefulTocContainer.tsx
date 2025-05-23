@@ -7,7 +7,7 @@ import Locale from "../../../resources/locales/en.json";
 import { Link } from "@readium/shared";
 import { ThActionsKeys, ThDockingKeys, ThSheetTypes, ThLayoutDirection } from "@/preferences/models/enums";
 import { StatefulActionContainerProps } from "../models/actions";
-import { TocItem } from "@/packages/Helpers/createTocTree";
+import { TocItem } from "@/core/Helpers/createTocTree";
 
 import tocStyles from "./assets/styles/toc.module.css";
 
@@ -21,9 +21,9 @@ import {
   TreeItemContent
 } from "react-aria-components";
 
-import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
+import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useDocking } from "../../Docking/hooks/useDocking";
-import { usePrevious } from "@/packages/Hooks/usePrevious";
+import { usePrevious } from "@/core/Hooks/usePrevious";
 
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

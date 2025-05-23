@@ -10,11 +10,11 @@ import { ThDockingKeys, ThSheetHeaderVariant, ThLayoutDirection } from "@/prefer
 import sheetStyles from "./assets/styles/sheets.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
-import { ThDockedPanel } from "@/packages/Components/Containers/ThDockedPanel";
-import { ThContainerHeader } from "@/packages/Components/Containers/ThContainerHeader";
-import { ThContainerBody } from "@/packages/Components/Containers/ThContainerBody";
+import { ThDockedPanel } from "@/core/Components/Containers/ThDockedPanel";
+import { ThContainerHeader } from "@/core/Components/Containers/ThContainerHeader";
+import { ThContainerBody } from "@/core/Components/Containers/ThContainerBody";
 import { StatefulDocker } from "../Docking/StatefulDocker";
-import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
+import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton";
 
 import { useAppSelector } from "@/lib/hooks";
 

@@ -4,7 +4,7 @@ import Locale from "../resources/locales/en.json";
 
 import readerLoaderStyles from "./assets/styles/readerLoader.module.css";
 
-import { ThLoader } from "@/packages/Components/Reader/ThLoader";
+import { ThLoader } from "@/core/Components/Reader/ThLoader";
 
 export const StatefulLoader = ({ isLoading, children }: { isLoading: boolean, children: ReactNode }) => {
   return (

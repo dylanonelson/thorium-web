@@ -7,7 +7,7 @@ import Locale from "../../../resources/locales/en.json";
 import TocIcon from "./assets/icons/toc.svg";
 
 import { StatefulActionTriggerProps } from "../models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsBar";
+import { ThActionsTriggerVariant } from "@/core/Components/Actions/ThActionsBar";
 
 import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";

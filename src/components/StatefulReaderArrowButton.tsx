@@ -10,15 +10,15 @@ import readerStateStyles from "./assets/styles/readerStates.module.css";
 
 import { PressEvent } from "react-aria";
 
-import { ThNavigationButton, ThNavigationButtonProps } from "@/packages/Components/Buttons/ThNavigationButton";
+import { ThNavigationButton, ThNavigationButtonProps } from "@/core/Components/Buttons/ThNavigationButton";
 
 import { usePreferences } from "@/preferences/ThPreferencesContext";
-import { usePrevious } from "@/packages/Hooks/usePrevious";
+import { usePrevious } from "@/core/Hooks/usePrevious";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setArrows } from "@/lib/readerReducer";
 
-import { isActiveElement } from "@/packages/Helpers/focusUtilities";
+import { isActiveElement } from "@/core/Helpers/focusUtilities";
 
 import classNames from "classnames";
 

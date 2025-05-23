@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import Locale from "../resources/locales/en.json";
 import progressionStyles from "./assets/styles/readerProgression.module.css";
 
-import { ThProgression } from "@/packages/Components/Reader/ThProgression";
+import { ThProgression } from "@/core/Components/Reader/ThProgression";
 
 import { useAppSelector } from "@/lib/hooks";
 

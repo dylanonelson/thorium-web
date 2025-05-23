@@ -15,7 +15,7 @@ import JustifyIcon from "./assets/icons/format_align_justify.svg";
 
 import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
 
-import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
+import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTextAlign, setHyphens } from "@/lib/settingsReducer";

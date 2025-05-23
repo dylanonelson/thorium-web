@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 import { ThDockingKeys, ThSheetTypes } from "@/preferences/models/enums";
 
-import { TypedComponentRenderer } from "@/packages/Components/Containers/TypedComponentRenderer";
+import { TypedComponentRenderer } from "@/core/Components/Containers/TypedComponentRenderer";
 import { StatefulPopoverSheet, StatefulPopoverSheetProps } from "./StatefulPopoverSheet";
 import { StatefulBottomSheet, StatefulBottomSheetProps } from "./StatefulBottomSheet";
 import { StatefulFullScreenSheet, StatefulFullScreenSheetProps } from "./StatefulFullScreenSheet";

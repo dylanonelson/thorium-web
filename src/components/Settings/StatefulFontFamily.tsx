@@ -8,11 +8,11 @@ import { StatefulSettingsItemProps } from "./models/settings";
 
 import settingsStyles from "./assets/styles/settings.module.css";
 
-import { ThDropdown } from "@/packages/Components/Settings/ThDropdown";
+import { ThDropdown } from "@/core/Components/Settings/ThDropdown";
 
 import { ListBox, ListBoxItem } from "react-aria-components";
 
-import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
+import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontFamily } from "@/lib/settingsReducer";

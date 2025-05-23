@@ -13,11 +13,11 @@ import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { SheetRef } from "react-modal-sheet";
 
-import { ThBottomSheet } from "@/packages/Components/Containers/ThBottomSheet";
-import { ThContainerHeader } from "@/packages/Components/Containers/ThContainerHeader";
-import { ThContainerBody } from "@/packages/Components/Containers/ThContainerBody";
-import { ThNavigationButton } from "@/packages/Components/Buttons/ThNavigationButton";
-import { ThCloseButton } from "@/packages/Components/Buttons/ThCloseButton";
+import { ThBottomSheet } from "@/core/Components/Containers/ThBottomSheet";
+import { ThContainerHeader } from "@/core/Components/Containers/ThContainerHeader";
+import { ThContainerBody } from "@/core/Components/Containers/ThContainerBody";
+import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton";
+import { ThCloseButton } from "@/core/Components/Buttons/ThCloseButton";
 
 import { usePreferences } from "@/preferences/ThPreferencesContext";
 

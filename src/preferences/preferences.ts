@@ -1,7 +1,7 @@
-import { UnstableShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
-import { BreakpointsMap } from "@/packages/Hooks/useBreakpoints";
+import { UnstableShortcutRepresentation } from "@/core/Helpers/keyboardUtilities";
+import { BreakpointsMap } from "@/core/Hooks/useBreakpoints";
 import { ThemeTokens } from "@/preferences/hooks/useTheming";
-import { ThScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
+import { ThScrollAffordancePref } from "@/core/Hooks/Epub/scrollAffordance";
 import { 
   ThActionsKeys,
   ThDockingKeys,
@@ -18,7 +18,7 @@ import {
   ThLayoutDirection, 
   ThLayoutStrategy 
 } from "./models/enums";
-import { ThCollapsibility, ThCollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
+import { ThCollapsibility, ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
 
 export type ThBottomSheetDetent = "content-height" | "full-height";
 

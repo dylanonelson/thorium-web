@@ -16,7 +16,7 @@ import { useResizablePanel } from "./hooks/useResizablePanel";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { activateDockPanel, collapseDockPanel, deactivateDockPanel, expandDockPanel, setDockPanelWidth } from "@/lib/actionsReducer";
 
-import { makeBreakpointsMap } from "@/packages/Helpers/breakpointsMap";
+import { makeBreakpointsMap } from "@/core/Helpers/breakpointsMap";
 import classNames from "classnames";
 import parseTemplate from "json-templates";
 

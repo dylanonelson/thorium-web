@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ThColorScheme } from "@/packages/Hooks/useColorScheme";
-import { ThContrast } from "@/packages/Hooks/useContrast";
-import { ThBreakpoints } from "@/packages/Hooks/useBreakpoints";
+import { ThColorScheme } from "@/core/Hooks/useColorScheme";
+import { ThContrast } from "@/core/Hooks/useContrast";
+import { ThBreakpoints } from "@/core/Hooks/useBreakpoints";
 
 export interface ThemeReducerState {
   monochrome: boolean;

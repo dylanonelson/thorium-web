@@ -28,7 +28,7 @@ import {
   setReducedTransparency 
 } from "@/lib/themeReducer";
 
-import { propsToCSSVars } from "@/packages/Helpers/propsToCSSVars";
+import { propsToCSSVars } from "@/core/Helpers/propsToCSSVars";
 
 // TODO page metadata w/ generateMetadata
 

@@ -2,7 +2,7 @@
 
 import settingsStyles from "../assets/styles/settings.module.css";
 
-import { ThSlider, ThSliderProps } from "@/packages/Components/Settings/ThSlider";
+import { ThSlider, ThSliderProps } from "@/core/Components/Settings/ThSlider";
 
 import classNames from "classnames";
 

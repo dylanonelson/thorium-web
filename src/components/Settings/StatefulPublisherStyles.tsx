@@ -11,7 +11,7 @@ import { StatefulSettingsItemProps } from "./models/settings";
 import { StatefulSwitch } from "./Wrappers/StatefulSwitch";
 
 import { usePreferences } from "@/preferences/ThPreferencesContext";
-import { useEpubNavigator } from "@/packages/Hooks/Epub/useEpubNavigator";
+import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setPublisherStyles } from "@/lib/settingsReducer";

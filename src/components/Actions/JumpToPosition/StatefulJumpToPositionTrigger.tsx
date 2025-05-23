@@ -6,7 +6,7 @@ import Locale from "../../../resources/locales/en.json";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionTriggerProps } from "../models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsBar";
+import { ThActionsTriggerVariant } from "@/core/Components/Actions/ThActionsBar";
 
 import TargetIcon from "./assets/icons/point_scan.svg";
 

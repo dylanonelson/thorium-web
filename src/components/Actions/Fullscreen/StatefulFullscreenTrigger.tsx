@@ -6,7 +6,7 @@ import Locale from "../../../resources/locales/en.json";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionTriggerProps } from "../models/actions";
-import { ThActionsTriggerVariant } from "@/packages/Components/Actions/ThActionsBar";
+import { ThActionsTriggerVariant } from "@/core/Components/Actions/ThActionsBar";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
@@ -17,11 +17,11 @@ import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";
 import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 
 import { usePreferences } from "@/preferences/ThPreferencesContext";
-import { useFullscreen } from "@/packages/Hooks/useFullscreen";
+import { useFullscreen } from "@/core/Hooks/useFullscreen";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setFullscreen, setHovering } from "@/lib/readerReducer";
-import { isIOSish } from "@/packages/Helpers/getPlatform";
+import { isIOSish } from "@/core/Helpers/getPlatform";
 
 export const StatefulFullscreenTrigger = ({ variant }: StatefulActionTriggerProps) => {
   // Note: Not using React Aria ToggleButton here as fullscreen is quite

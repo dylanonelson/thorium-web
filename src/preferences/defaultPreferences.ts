@@ -1,9 +1,9 @@
 "use client";
 
-import { ThBreakpoints } from "@/packages/Hooks/useBreakpoints";
-import { UnstableShortcutMetaKeywords, UnstableShortcutRepresentation } from "@/packages/Helpers/keyboardUtilities";
-import { ThCollapsibilityVisibility } from "@/packages/Components/Actions/hooks/useCollapsibility";
-import { ThScrollAffordancePref } from "@/packages/Hooks/Epub/scrollAffordance";
+import { ThBreakpoints } from "@/core/Hooks/useBreakpoints";
+import { UnstableShortcutMetaKeywords, UnstableShortcutRepresentation } from "@/core/Helpers/keyboardUtilities";
+import { ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
+import { ThScrollAffordancePref } from "@/core/Hooks/Epub/scrollAffordance";
 import { 
   ThActionsKeys, 
   ThDockingTypes, 
