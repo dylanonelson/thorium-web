@@ -9,12 +9,12 @@ import {
   ThSpacingSettingsKeys 
 } from "@/preferences";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
-import { StatefulGroupWrapper } from "./Wrappers/StatefulGroupWrapper";
+import { StatefulGroupWrapper } from "../../Settings/StatefulGroupWrapper";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
-import { usePlugins } from "../Plugins/PluginProvider";
+import { usePlugins } from "../../Plugins/PluginProvider";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";

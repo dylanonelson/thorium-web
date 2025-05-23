@@ -4,15 +4,15 @@ import React, { useCallback } from "react";
 
 import { defaultFontSize, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
 import Decrease from "./assets/icons/text_decrease.svg";
 import Increase from "./assets/icons/text_increase.svg";
 import ZoomOut from "./assets/icons/zoom_out.svg";
 import ZoomIn from "./assets/icons/zoom_in.svg";
 
-import { StatefulSlider } from "./Wrappers/StatefulSlider";
-import { StatefulNumberField } from "./Wrappers/StatefulNumberField";
+import { StatefulSlider } from "../../Settings/StatefulSlider";
+import { StatefulNumberField } from "../../Settings/StatefulNumberField";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";

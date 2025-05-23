@@ -2,14 +2,14 @@
 
 import React, { useCallback } from "react";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
 import { ThLayoutOptions } from "@/preferences/models/enums";
 
 import ScrollableIcon from "./assets/icons/contract.svg";
 import PaginatedIcon from "./assets/icons/docs.svg";
 
-import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
+import { StatefulRadioGroup } from "../../Settings/StatefulRadioGroup";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 

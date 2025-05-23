@@ -2,11 +2,11 @@
 
 import { useCallback } from "react";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
-import { StatefulSettingsItemProps } from "./models/settings";
+import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
-import { StatefulSwitch } from "./Wrappers/StatefulSwitch";
+import { StatefulSwitch } from "../../Settings/StatefulSwitch";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";

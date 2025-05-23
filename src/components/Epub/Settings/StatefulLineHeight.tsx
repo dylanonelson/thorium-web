@@ -4,16 +4,16 @@ import React, { useCallback, useRef } from "react";
 
 import { defaultLineHeights, ThLineHeightOptions, ThSettingsKeys } from "@/preferences";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
-import { StatefulSettingsItemProps } from "./models/settings";
+import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
 import BookIcon from "./assets/icons/book.svg";
 import SmallIcon from "./assets/icons/density_small.svg";
 import MediumIcon from "./assets/icons/density_medium.svg";
 import LargeIcon from "./assets/icons/density_large.svg";
 
-import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
+import { StatefulRadioGroup } from "../../Settings/StatefulRadioGroup";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";

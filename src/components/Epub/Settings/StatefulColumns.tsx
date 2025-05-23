@@ -2,13 +2,13 @@
 
 import React, { useCallback } from "react";
 
-import Locale from "../../resources/locales/en.json";
+import Locale from "../../../resources/locales/en.json";
 
 import AutoLayoutIcon from "./assets/icons/document_scanner.svg";
 import OneColIcon from "./assets/icons/article.svg";
 import TwoColsIcon from "./assets/icons/menu_book.svg";
 
-import { StatefulRadioGroup } from "./Wrappers/StatefulRadioGroup";
+import { StatefulRadioGroup } from "../../Settings/StatefulRadioGroup";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 
