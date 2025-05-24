@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { StoreProvider } from "@/lib/StoreProvider";
+import { ThStoreProvider } from "@/lib/ThStoreProvider";
 import { ThPreferencesProvider } from "@/preferences";
 
 export const runtime = "edge";
@@ -21,11 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={ inter.className }>
-        <StoreProvider>
+        <ThStoreProvider>
           <ThPreferencesProvider>
               { children } 
           </ThPreferencesProvider>
-        </StoreProvider>
+        </ThStoreProvider>
       </body>
     </html>
   );

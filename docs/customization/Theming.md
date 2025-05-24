@@ -123,7 +123,7 @@ You can set the display order of themes for formats/renditions the Reader suppor
 - `reflowOrder` for reflowable EPUB;
 - `fxlOrder` for Fixed-Layout EPUB.
 
-Note `ThThemeKeys.auto` is a special case that maps the theme to the OS’ preference (light or dark), it’s not a theme *per se.*
+Note value `"auto"` is a special case that maps the theme to the OS’ preference (light or dark), it’s not a theme *per se.* It is **required** `systemThemes` is defined for it to work properly.
 
 For instance, to provide light and dark mode (and the `auto` option mentioned above) for Fixed-Layout EPUB:
 
@@ -132,13 +132,40 @@ theming: {
   theme: {
     ...
     fxlOrder: [
-      ThThemeKeys.auto,
+      "auto",
       ThThemeKeys.light,
       ThThemeKeys.dark
-    ]
+    ],
+    systemThemes: {
+      light: ThThemeKeys.light,
+      dark: ThThemeKeys.dark
+    }
   }
 }
 ```
+
+### System Themes
+
+If you want to provide an `auto` theme that maps to the OS’ preference (light or dark), you need to define `systemThemes` in your preferences.
+
+For instance, to provide light and dark mode (and the `auto` option mentioned above) for Fixed-Layout EPUB:
+```
+theming: {
+  theme: {
+   ...
+    fxlOrder: [
+      "auto",
+      ThThemeKeys.light,
+      ThThemeKeys.dark
+    ],
+    systemThemes: {
+      light: ThThemeKeys.light,
+      dark: ThThemeKeys.dark
+    }
+  }
+}
+
+If you do not, the `auto` theme will not be rendered. In case it was previously selected, it will be set to the first theme in the `fxlOrder` array – excluding value `auto`.
 
 ### Keys and Tokens
 

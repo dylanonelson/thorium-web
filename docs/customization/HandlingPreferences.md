@@ -2,7 +2,7 @@
 
 In case you need to use the Preferences package, you can use the following helpers to create and merge preferences objects.
 
-It also provides a `PreferencesProvider` component that makes the preferences available to all components, as well as a context hook.
+It also provides a `PreferencesProvider` component that makes the preferences available to all components, as well as a context hook, `usePreferences()`.
 
 ## Create Preferences
 
@@ -23,7 +23,7 @@ const myPreferences = createPreferences({
 
 The function accepts a single parameter, `params`, which is a `ThPreferences<T>` object containing all your custom preferences.
 
-`T` is an optional type parameter that extends `Partial<CustomizableKeys>`. This allows you to customize the enum types used for various settings (actions, themes, etc.)
+`T` is an optional type parameter that extends `Partial<CustomizableKeys>`. This allows you to customize the enum types used for various settings (actions, themes, etc.), although type inference should work most of the time.
 
 It returns a new `ThPreferences<T>` object with all the properties you provided.
 
@@ -41,10 +41,11 @@ enum MyCustomActionKeys {
 }
 
 // Create preferences with custom keys
-const myPreferences = createPreferences<{ actionKeys: MyCustomActionKeys }>({
+const myPreferences = createPreferences({
   // ... other preferences
   actions: {
-    displayOrder: [
+    //... other action props
+    reflowOrder: [
       MyCustomActionKeys.settings,
       MyCustomActionKeys.toc,
       MyCustomActionKeys.myCustomAction,
@@ -99,11 +100,11 @@ The component accepts two props:
 
 `T` is an optional type parameter that extends `ThPreferences`. This allows you to use custom preference types with proper type safety.
 
-Components can then access the preferences using the `useContext` hook:
+Components can then access the preferences using the `usePreferences` hook:
 
 ```
 function MyComponent() {
-  const preferences = useContext(PreferencesContext);
+  const preferences = usePreferences();
   
   // Now you can use preferences
   const { direction, locale } = preferences;
@@ -118,20 +119,3 @@ Notes:
 
 - The provider should be placed high in your component tree to ensure all components have access to the preferences
 - You can nest multiple providers to override preferences for specific parts of your application
-- For dynamic preferences that change during runtime, consider using the provider with state management
-
-## Direction Setter
-
-The `ThDirectionSetter` component provides a React context for appending the direction of the layout throughout your application. It serves as the central point for distributing the `direction` property to all components.
-
-```
-function App() {
-  return (
-    <ThDirectionSetter>
-      {/* Your application components */}
-    </ThDirectionSetter>
-  );
-}
-```
-
-Please make sure `direction` and `locale` are set in the preferences object since React Aria Components require `locale` to be set to infer the direction of the layout properly. Otherwise, the layout will be inferred from the browser’s or system’s primary language.
