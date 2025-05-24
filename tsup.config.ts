@@ -4,6 +4,8 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   name: "Thorium Web",
+  tsconfig: "./tsconfig.bundle.json",
+  format: ["esm"],
   entry: [
     "src/core/Components/index.ts",
     "src/core/Helpers/index.ts",
@@ -22,7 +24,25 @@ export default defineConfig({
   treeshake: true,
   splitting: true,
   bundle: true,
-  noExternal: ["classNames", "debounce", "json-templates"],
-  // noExternal: [/(.*)/] // That's to bundle everything, including dependencies,
-  tsconfig: "./tsconfig.bundle.json"
+  noExternal: [
+    "classNames", 
+    "debounce", 
+    "json-templates"
+  ],
+  external: [
+    "react", 
+    "react-dom", 
+    "react-redux", 
+    "@reduxjs/toolkit", 
+    "react-aria", 
+    "react-aria-components", 
+    "react-stately", 
+    "react-resizable-panels", 
+    "react-modal-sheet",
+    "motion",
+    "@readium/css",
+    "@readium/navigator",
+    "@readium/navigator-html-injectables",
+    "@readium/shared"
+  ]
 });
