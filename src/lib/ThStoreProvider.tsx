@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { Provider } from "react-redux";
 import { makeStore, AppStore } from "./store";
 
-export function StoreProvider({
+export function ThStoreProvider({
   storageKey,
   store,
   children
@@ -21,4 +21,4 @@ export function StoreProvider({
   return <Provider store={ storeRef.current }>{ children }</Provider>
 }
 
-export default StoreProvider;
+export default ThStoreProvider;

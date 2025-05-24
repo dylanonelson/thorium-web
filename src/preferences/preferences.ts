@@ -193,6 +193,7 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
 export const createPreferences = <T extends Partial<CustomizableKeys>>(
   params: ThPreferences<T>
 ): ThPreferences<T> => {
+  // TODO: validate preferences e.g. make sure all keys from arrays are here
   return params;
 };
 

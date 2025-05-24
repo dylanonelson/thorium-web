@@ -1,6 +1,6 @@
 "use client";
 
-export { StoreProvider } from "./StoreProvider";
+export { ThStoreProvider } from "./ThStoreProvider";
 export * from "./store";
 export * from "./hooks";
 export * from "./actionsReducer";

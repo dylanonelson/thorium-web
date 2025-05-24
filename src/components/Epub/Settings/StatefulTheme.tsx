@@ -174,7 +174,13 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
               onKeyDown: (async (e: React.KeyboardEvent) => await handleKeyboardNav(e))
             } : {}) }
           >
-          <span>{ Locale.reader.settings.themes[t as keyof typeof Locale.reader.settings.themes ] } { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></>}</span>
+          <span>
+            { t in Locale.reader.settings.themes 
+              ? Locale.reader.settings.themes[t as keyof typeof Locale.reader.settings.themes]
+              : t
+            } 
+            { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></> }
+          </span>
         </Radio>
         ) }
       </div>
