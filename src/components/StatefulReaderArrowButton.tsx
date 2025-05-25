@@ -105,8 +105,8 @@ export const StatefulReaderArrowButton = ({
       isDisabled={ isDisabled }
       preventFocusOnPress={ true }
       { ...props }
-      tooltip={ {
-        trigger: {
+      compounds={ {
+        tooltipTrigger: {
           delay: RSPrefs.theming.arrow.tooltipDelay,
           closeDelay: RSPrefs.theming.arrow.tooltipDelay
         },

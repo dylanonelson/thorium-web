@@ -17,7 +17,7 @@ export interface THMenuProps<T> extends MenuProps<ThActionEntry<T>> {
     /**
      * Props for the trigger component. See `MenuTriggerProps` for more information.
      */
-    trigger?: Omit<MenuTriggerProps, "children">;
+    menuTrigger?: Omit<MenuTriggerProps, "children">;
     /**
      * Props for the button component. See `ThActionButtonProps` for more information.
      * Alternatively you can provide your own component
@@ -45,7 +45,7 @@ export const ThMenu = ({
     return (
       <>
       <MenuTrigger 
-        { ...compounds?.trigger }
+        { ...compounds?.menuTrigger }
       >
       { compounds?.button && React.isValidElement(compounds.button) 
         ? compounds.button 

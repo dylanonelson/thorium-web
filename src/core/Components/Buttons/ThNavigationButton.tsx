@@ -15,7 +15,7 @@ export const ThNavigationButton = ({
   direction,
   label,
   ref,
-  tooltip,
+  compounds,
   children,
   ...props
 }: ThNavigationButtonProps) => {
@@ -32,7 +32,7 @@ export const ThNavigationButton = ({
   return (
     <ThActionButton
       ref={ ref }
-      tooltip={ tooltip }
+      compounds={ compounds }
       { ...props }
     >
       { children || fallBackChildren }

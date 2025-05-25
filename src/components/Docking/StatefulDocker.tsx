@@ -81,8 +81,8 @@ export const StatefulDocker = ({
         className={ readerSharedUI.dockerButton } 
         aria-label={ Locale.reader.app.docker.close.trigger } 
         onPress={ onClose }
-        tooltip={ {
-          trigger: {
+        compounds={ {
+          tooltipTrigger: {
             delay: RSPrefs.theming.icon.tooltipDelay,
             closeDelay: RSPrefs.theming.icon.tooltipDelay
           },

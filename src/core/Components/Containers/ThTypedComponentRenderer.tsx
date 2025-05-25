@@ -13,7 +13,7 @@ export interface TypedComponentRendererProps<T extends string, K extends keyof C
   children?: ReactNode;
 }
 
-export const TypedComponentRenderer = <T extends string, K extends keyof ComponentMap<T>>({
+export const ThTypedComponentRenderer = <T extends string, K extends keyof ComponentMap<T>>({
   type,
   componentMap,
   props,
