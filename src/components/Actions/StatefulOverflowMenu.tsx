@@ -56,7 +56,7 @@ export const StatefulOverflowMenu = ({
         dependencies={ ["Trigger"] }
         items={ items }
         compounds={{
-          trigger: {
+          menuTrigger: {
             onOpenChange: (val: boolean) => toggleMenuState(val)
           },
           popover: {

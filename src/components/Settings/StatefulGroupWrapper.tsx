@@ -61,8 +61,8 @@ export const StatefulGroupWrapper = ({
         button: {
           className: classNames(readerSharedUI.icon, settingsStyles.readerSettingsAdvancedIcon),
           "aria-label": moreLabel,
-          tooltip: {
-            trigger: {
+          compounds: {
+            tooltipTrigger: {
               delay: RSPrefs.theming.icon.tooltipDelay,
               closeDelay: RSPrefs.theming.icon.tooltipDelay
             },

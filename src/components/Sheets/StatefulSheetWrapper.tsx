@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 import { ThDockingKeys, ThSheetTypes } from "@/preferences/models/enums";
 
-import { TypedComponentRenderer } from "@/core/Components/Containers/TypedComponentRenderer";
+import { ThTypedComponentRenderer } from "@/core/Components/Containers/ThTypedComponentRenderer";
 import { StatefulPopoverSheet, StatefulPopoverSheetProps } from "./StatefulPopoverSheet";
 import { StatefulBottomSheet, StatefulBottomSheetProps } from "./StatefulBottomSheet";
 import { StatefulFullScreenSheet, StatefulFullScreenSheetProps } from "./StatefulFullScreenSheet";
@@ -29,12 +29,12 @@ export const StatefulSheetWrapper = ({
 }) => {
 
   return (
-    <TypedComponentRenderer
+    <ThTypedComponentRenderer
       type={ sheetType }
       componentMap={ componentMap }
       props={ sheetProps }
     >
       { children }
-    </TypedComponentRenderer>
+    </ThTypedComponentRenderer>
   );
 }

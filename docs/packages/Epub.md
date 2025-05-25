@@ -115,9 +115,10 @@ const MyScrollSwitch = () => {
 }
 ```
 
-And this would create a switch that is already styled and ready to use.
+> [!IMPORTANT]
+> When building stateful components, you must import from `@edrlab/thorium-web/epub` so that it will use the same store, preferences, and hooks as the other components.
 
-But now that your switch exists, you need to register it in the Plugins Registry.
+You now have a switch that is already styled and ready to use. The next step is registering it through Plugins.
 
 ### The Plugins Registry
 
@@ -261,3 +262,7 @@ const myPreferences: ThPreferences = createDefaultPreferences({
 > A console warning will be triggered if you try to use a component that has not been registered by the `<StatefulReader>`.
 
 Once everything is set up, your scroll switch should be displayed in the settings menu.
+
+## Related Documentation
+
+- [Core Package](./Core/Guide.md)

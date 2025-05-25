@@ -7,14 +7,14 @@ import { ThActionButton, ThActionButtonProps } from "./ThActionButton";
 export const ThCloseButton = ({
   label,
   ref,
-  tooltip,
+  compounds,
   children,
   ...props
 }: ThActionButtonProps) => {
   return (
     <ThActionButton
       ref={ ref }
-      tooltip={ tooltip }
+      compounds={ compounds }
       { ...props }
     >
       { children 

@@ -6,11 +6,11 @@ import { TooltipTriggerProps } from "react-aria";
 export interface ThActionButtonProps extends ButtonProps {
   label?: string,
   ref?: React.ForwardedRef<HTMLButtonElement>,
-  tooltip?: {
+  compounds?: {
     /**
      * Props for the tooltipTrigger component. See `TooltipTriggerProps` for more information.
      */
-    trigger?: TooltipTriggerProps,
+    tooltipTrigger?: TooltipTriggerProps,
     /**
      * Props for the tooltip component. See `TooltipProps` for more information.
      */
@@ -24,15 +24,15 @@ export interface ThActionButtonProps extends ButtonProps {
 
 export const ThActionButton = ({
   ref,
-  tooltip,
+  compounds,
   children,
   ...props
 }: ThActionButtonProps) => {  
-  if (tooltip) {
+  if (compounds) {
     return (
       <>
       <TooltipTrigger
-        { ...tooltip.trigger }
+        { ...compounds.tooltipTrigger }
       >
         <Button 
           ref={ ref }
@@ -42,9 +42,9 @@ export const ThActionButton = ({
         </Button>
         <Tooltip
           arrowBoundaryOffset={ 0 }
-          { ...tooltip.tooltip }
+          { ...compounds.tooltip }
         >
-          { tooltip.label }
+          { compounds.label }
         </Tooltip>
       </TooltipTrigger>
       </>

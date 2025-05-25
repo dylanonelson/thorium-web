@@ -92,8 +92,8 @@ export const StatefulActionIcon = ({
       onPress={ props.onPress || defaultOnPressFunc }
       onKeyDown={ blurOnEsc } 
       onFocus={ handleImmersive }
-      tooltip={ tooltipLabel ? {
-        trigger: {
+      compounds={ tooltipLabel ? {
+        tooltipTrigger: {
           delay: RSPrefs.theming.icon.tooltipDelay,
           closeDelay: RSPrefs.theming.icon.tooltipDelay
         },
