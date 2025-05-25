@@ -101,8 +101,12 @@ Here's a high-level system diagram showing the relationships between the compone
 +----------------+
 ```
 
-> [!NOTE] 
-> In the foreseeable future, all components and custom hooks of Thorium Web will be exported as Library, following the model of [React Spectrum](https://github.com/adobe/react-spectrum). This way you will be able to build a Reader using your framework of choice.
+Alternatively, you can use the packages the project exports in your own. Please refer to [their specific documentation](./packages/) for further information. 
+
+Thorium Web exposes a `StatefulReader` component with EPUB Support that is working exactly as the one you can find here, with extensibility through custom preferences and plugins. But you could also build your own using the Stateful Components if your needs are greater than that.
+
+> [!NOTE]
+> Given the massive shift required to package the original Next.js app’s component, Stateful Components are initially shipping with dependencies and restrictions. These will eventually be removed but any help will be greatly appreciated.
 
 ## Prerequisites for implementation
 

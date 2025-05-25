@@ -44,7 +44,7 @@ The Reader expects two props:
 You can take a look how the NextJS app is currently doing in [the Read Page](../../src/app/read/page.tsx).
 
 > [!IMPORTANT]
-> Due to the complexity the reader has to handle, it does not currently accept `children`. We are hopeful this limitation may be removed in the future but it will require a complete rewrite. If you have any ideas, please let us know. In the meantime, you can build your own reader component if you want to use the other components exported from this package.
+> Due to the complexity the reader has to handle, it does not currently accept `children`. This also explains why it requires dependencies (Redux, Preferences) and is not directly stylable. We are hopeful these limitations may be removed in the future but it will require some additional effort. If you have any ideas, please let us know. In the meantime, you can build your own reader component if you want to use the other components exported from this package.
 
 It is critical you wrap this component in a `<ThStoreProvider>` and a `<ThPreferencesProvider>`, in this order, for it to work properly.
 
