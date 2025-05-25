@@ -14,7 +14,9 @@ export interface ThCollapsibleActionsBarProps extends ThActionsBarProps {
   prefs: CollapsiblePref;
   breakpoint?: string;
   children?: never;
-  overflowMenu?: THMenuProps<string> | React.ReactElement<typeof ThMenu>;
+  compounds?: {
+    menu: THMenuProps<string> | React.ReactElement<typeof ThMenu>;
+  }
 }
 
 export const ThCollapsibleActionsBar = ({
@@ -23,7 +25,7 @@ export const ThCollapsibleActionsBar = ({
   items,
   prefs,
   breakpoint,
-  overflowMenu,
+  compounds,
   ...props
 }: ThCollapsibleActionsBarProps) => {
   const resolvedRef = useObjectRef(ref);
@@ -48,9 +50,9 @@ export const ThCollapsibleActionsBar = ({
         ) 
       }
 
-      { React.isValidElement(overflowMenu) 
-        ? (React.cloneElement(overflowMenu, {
-          ...overflowMenu.props,
+      { React.isValidElement(compounds?.menu) 
+        ? (React.cloneElement(compounds.menu, {
+          ...compounds.menu.props,
           id: id,
           triggerRef: resolvedRef,
           items: Actions.MenuItems,
@@ -61,7 +63,7 @@ export const ThCollapsibleActionsBar = ({
           triggerRef={ resolvedRef }
           items={ Actions.MenuItems }
           dependencies={ ["Trigger"] }
-          { ...overflowMenu }
+          { ...compounds?.menu }
         />
       )}
     </ThActionsBar>

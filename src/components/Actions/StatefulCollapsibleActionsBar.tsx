@@ -35,14 +35,15 @@ export const StatefulCollapsibleActionsBar = ({
       id={ id }
       items={ items }
       breakpoint={ breakpoint }
-      overflowMenu={ (<StatefulOverflowMenu 
-        id={ id }
-        triggerRef={ ref }
-        display={ overflowMenuDisplay || true }
-        className={ overflowMenuClassName } 
-        actionFallback={ overflowActionCallback }
-        items={ [] }
-      />) }
+      compounds={{
+        menu: (<StatefulOverflowMenu 
+          id={ id }
+          triggerRef={ ref }
+          display={ overflowMenuDisplay || true }
+          className={ overflowMenuClassName } 
+          actionFallback={ overflowActionCallback }
+          items={ [] }
+      />) }}
       { ...props }
     />
     </>
