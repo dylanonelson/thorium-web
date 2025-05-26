@@ -58,7 +58,7 @@
     "classnames": "^2.5.1",
     "debounce": "^2.2.0",
     "json-templates": "^5.2.0",
-    "motion": "^12.12.1",
+    "motion": "^12.14.0",
     "next": "15.3.2",
     "react": "^19.1.0",
     "react-aria": "^3.40.0",
