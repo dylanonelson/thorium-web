@@ -41,14 +41,14 @@ export const StatefulJumpToPositionTrigger = ({ variant }: StatefulActionTrigger
           SVGIcon={ TargetIcon }
           shortcut={ RSPrefs.actions.keys[ThActionsKeys.jumpToPosition].shortcut }
           id={ ThActionsKeys.jumpToPosition }
-          onAction={ () => setOpen(!actionState.isOpen) }
+          onAction={ () => setOpen(!actionState?.isOpen) }
         />
       : <StatefulActionIcon
           visibility={ RSPrefs.actions.keys[ThActionsKeys.jumpToPosition].visibility } 
           aria-label={ Locale.reader.jumpToPosition.trigger }
           placement="bottom" 
           tooltipLabel={ Locale.reader.jumpToPosition.tooltip }
-          onPress={ () => setOpen(!actionState.isOpen) }
+          onPress={ () => setOpen(!actionState?.isOpen) }
         >
           <TargetIcon aria-hidden="true" focusable="false" />
         </StatefulActionIcon>

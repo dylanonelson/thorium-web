@@ -120,7 +120,7 @@ export const useDocking = <T extends string>(key: T) => {
     // We now need to check whether the user has docked the action themselves
     // ActionsReducer should has made sure there is no conflict to handle here 
     // by updating states of actions on docking
-    switch (actionState.docking) {
+    switch (actionState?.docking) {
       
       // if action.docking is transient we need to check the pref, 
       // it can be docked and in that case we need to pick the default
@@ -158,9 +158,10 @@ export const useDocking = <T extends string>(key: T) => {
           }
         }
       
-      // If action.docking is null then we rely on pref 
+      // If action.docking is null or undefined then we rely on pref 
       // as it means the user did not pick another option
       case null:
+      case undefined:
         // We have to check sheetPref is compatible with docking prefs
         if (isDockedSheetPref(ThSheetTypes.dockedStart)) {
           if (canBeDocked(ThDockingTypes.start)) {
@@ -180,17 +181,17 @@ export const useDocking = <T extends string>(key: T) => {
       default:
         return defaultSheet;
     }
-  }, [dockablePref, sheetPref, defaultSheet, actionState.docking, canBeDocked, isDockedSheetPref]);
+  }, [dockablePref, sheetPref, defaultSheet, actionState?.docking, canBeDocked, isDockedSheetPref]);
 
   // When docking or breakpoints-related prefs change, get the correct sheet type
   useEffect(() => {
     setSheetType(getSheetType());
-  }, [sheetPref, currentDockConfig, actionState.docking, getSheetType]);
+  }, [sheetPref, currentDockConfig, actionState?.docking, getSheetType]);
 
   // Dismiss/Close when sheetType has changed from docked to transient
   useEffect(() => {
     // This was not dismissed on breakpoint change, but by the user
-    if (actionState.docking === ThDockingKeys.transient) return;
+    if (actionState?.docking === ThDockingKeys.transient) return;
 
     if (sheetType !== ThSheetTypes.dockedStart && sheetType !== ThSheetTypes.dockedEnd) {
       if (previousSheetType === ThSheetTypes.dockedStart || previousSheetType === ThSheetTypes.dockedEnd) {
@@ -200,11 +201,11 @@ export const useDocking = <T extends string>(key: T) => {
         }));
       }
     }
-  }, [dispatch, key, sheetType, previousSheetType, actionState.docking]);
+  }, [dispatch, key, sheetType, previousSheetType, actionState?.docking]);
 
   // on mount, check whether we should update states for docked sheets from pref
   useEffect(() => {
-    if (actionState.isOpen === null) {
+    if (!actionState?.isOpen) {
       if (sheetType === ThSheetTypes.dockedStart) {
         dispatch(dockAction({
           key: key,
@@ -240,7 +241,7 @@ export const useDocking = <T extends string>(key: T) => {
     // has not be instantiated yet, and 
     // couldn’t be on first mount because
     // a different type was used in prefs
-    if (actionState.isOpen !== null && actionState.docking === null) {
+    if (actionState?.isOpen && !actionState?.docking) {
       if (sheetType === ThSheetTypes.dockedStart) {
         // Check if the action is docked in practice
         // if it isn’t dispatch docking of the action
@@ -263,7 +264,7 @@ export const useDocking = <T extends string>(key: T) => {
         }
       }
     }
-  }, [dispatch, key, sheetType, actionState.isOpen, actionState.docking, actions]);
+  }, [dispatch, key, sheetType, actionState?.isOpen, actionState?.docking, actions]);
 
   return {
     getDocker,

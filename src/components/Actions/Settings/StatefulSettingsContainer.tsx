@@ -164,8 +164,8 @@ useEffect(() => {
 
   // Reset when closed
   useEffect(() => {
-    if (!actionState.isOpen) setInitial();
-  }, [actionState.isOpen, setInitial]);
+    if (!actionState?.isOpen) setInitial();
+  }, [actionState?.isOpen, setInitial]);
 
   return(
     <>
@@ -178,7 +178,7 @@ useEffect(() => {
         headerVariant: getHeaderVariant(),
         className: settingsStyles.readerSettings,
         placement: "bottom", 
-        isOpen: actionState.isOpen || false,
+        isOpen: actionState?.isOpen || false,
         onOpenChange: setOpen, 
         onClosePress: () => { contains === ThSettingsContainerKeys.initial ? setOpen(false) : setInitial() },
         docker: docking.getDocker(),

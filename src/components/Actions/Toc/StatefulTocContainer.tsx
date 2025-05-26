@@ -98,7 +98,7 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
 
     const link: Link = new Link({ href: href });
 
-    const cb = actionState.isOpen && 
+    const cb = actionState?.isOpen && 
       (sheetType === ThSheetTypes.dockedStart || sheetType === ThSheetTypes.dockedEnd)
         ? () => {
           dispatch(setTocEntry(key));
@@ -118,7 +118,7 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
   // Since React Aria components intercept keys and do not continue propagation
   // we have to handle the escape key in capture phase
   useEffect(() => {
-    if (actionState.isOpen && (!actionState.docking || actionState.docking === ThDockingKeys.transient)) {      
+    if (actionState?.isOpen && (!actionState?.docking || actionState?.docking === ThDockingKeys.transient)) {      
       const handleEscape = (event: KeyboardEvent) => {
         if ((!isActiveElement(searchInputRef.current) && !filterValue) && event.key === "Escape" ) {
           setOpen(false);
@@ -164,7 +164,7 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
         heading: Locale.reader.toc.heading,
         className: tocStyles.toc,
         placement: "bottom",
-        isOpen: actionState.isOpen || false,
+        isOpen: actionState?.isOpen || false,
         onOpenChange: setOpen,
         onClosePress: () => setOpen(false),
         docker: docking.getDocker()

@@ -6,8 +6,8 @@ export type ActionsStateKeys = string;
 export type OverflowStateKeys = string; 
 
 export interface ActionStateObject {
-  isOpen: boolean | null;
-  docking: ThDockingKeys | null;
+  isOpen?: boolean | null;
+  docking?: ThDockingKeys | null;
   dockedWidth?: number;
 }
 
@@ -202,7 +202,7 @@ export const actionsSlice = createSlice({
       const dockingKey = state.keys[action.payload.key].docking;
       if (
           !action.payload.isOpen && 
-          dockingKey !== null && 
+          dockingKey && 
           dockingKey !== ThDockingKeys.transient &&
           state.dock[dockingKey].actionKey === action.payload.key &&
           state.dock[dockingKey].active &&

@@ -103,7 +103,7 @@ export const StatefulJumpToPositionContainer = ({
           heading: Locale.reader.jumpToPosition.heading,
           className: jumpToPositionStyles.jumpToPosition,
           placement: "bottom",
-          isOpen: actionState.isOpen || false,
+          isOpen: actionState?.isOpen || false,
           onOpenChange: setOpen,
           onClosePress: () => setOpen(false),
           docker: docking.getDocker()

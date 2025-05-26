@@ -1,13 +1,9 @@
 "use client";
 
-export interface ThActionState {
-  isOpen: boolean | null;
-  docking: any;
-  dockedWidth?: number;
-}
+import { ActionStateObject } from "@/lib/actionsReducer";
 
 export interface ThActionMap {
-  [key: string | number | symbol]: ThActionState;
+  [key: string | number | symbol]: ActionStateObject;
 }
 
 export const useActions = <K extends string | number | symbol>(actionMap: ThActionMap) => {
@@ -27,7 +23,7 @@ export const useActions = <K extends string | number | symbol>(actionMap: ThActi
 
   const isOpen = (key?: K | null) => {
     if (key) {
-      if (actionMap[key].isOpen === null) {
+      if (!actionMap[key].isOpen) {
         return false;
       } else {
         return actionMap[key].isOpen;
