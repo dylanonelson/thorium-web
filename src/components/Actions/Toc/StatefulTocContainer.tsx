@@ -219,7 +219,7 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
                     ? (<Button
                       slot="chevron"
                       className={ tocStyles.tocTreeItemButton }
-                      { ...(isRTL ? { style: { transform: "scaleX(-1)" } } : {}) }
+                      { ...(isRTL ? { style: { transform: "scaleX(-1)" } } as CSSProperties : {}) }
                     >
                       <Chevron aria-hidden="true" focusable="false" />
                     </Button>)
