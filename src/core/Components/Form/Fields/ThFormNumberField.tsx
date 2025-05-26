@@ -1,13 +1,23 @@
 "use client";
 
-import { Input, InputProps, Label, LabelProps, NumberField, NumberFieldProps, Text } from "react-aria-components";
+import { WithRef } from "../../customTypes";
+
+import { 
+  Input, 
+  InputProps, 
+  Label, 
+  LabelProps, 
+  NumberField, 
+  NumberFieldProps, 
+  Text 
+} from "react-aria-components";
 
 export interface ThFormNumberFieldProps extends NumberFieldProps {
   ref?: React.ForwardedRef<HTMLInputElement>;
   label: string;
   compounds?: {
-    label?: LabelProps;
-    input?: InputProps;
+    label?: WithRef<LabelProps, HTMLLabelElement>;
+    input?: WithRef<InputProps, HTMLInputElement>;
     description?: string;
   }
 }

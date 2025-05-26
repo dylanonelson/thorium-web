@@ -1,5 +1,7 @@
 "use client";
 
+import { WithRef } from "../../customTypes";
+
 import { HeadingProps } from "react-aria-components";
 import { ThNavigationButton, ThNavigationButtonProps } from "../../Buttons";
 import { ThContainerHeader, ThContainerHeaderProps } from "./ThContainerHeader"
@@ -8,7 +10,7 @@ export interface THContainerWithPreviousProps extends ThContainerHeaderProps {
   previousRef?: React.ForwardedRef<HTMLButtonElement>;
   children?: never;
   compounds?: {
-    heading: HeadingProps;
+    heading: WithRef<HeadingProps, HTMLHeadingElement>;
     button: ThNavigationButtonProps;
   }
 }

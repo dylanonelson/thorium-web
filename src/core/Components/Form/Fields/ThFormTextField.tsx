@@ -1,5 +1,7 @@
 "use client";
 
+import { WithRef } from "../../customTypes";
+
 import { 
   FieldError, 
   FieldErrorProps, 
@@ -17,10 +19,10 @@ export interface ThFormTextFieldProps extends TextFieldProps {
   ref?: React.ForwardedRef<HTMLInputElement>;
   label: string;
   compounds?: {
-    label?: LabelProps;
-    input?: InputProps;
+    label?: WithRef<LabelProps, HTMLLabelElement>;
+    input?: WithRef<InputProps, HTMLInputElement>;
     description?: string;
-    fieldError?: FieldErrorProps;
+    fieldError?: WithRef<FieldErrorProps, HTMLDivElement>;
   },
   errorMessage?: string | ((validation: ValidationResult) => string);
 }

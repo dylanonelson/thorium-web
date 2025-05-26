@@ -3,7 +3,7 @@
 import { ThSettingsWrapperButton } from "./ThSettingsWrapperButton";
 
 import { Heading, HeadingProps } from "react-aria-components";
-import { HTMLAttributesWithRef } from "../../HTMLAttributesWithRef";
+import { HTMLAttributesWithRef, WithRef } from "../../customTypes";
 import { ThActionButtonProps } from "../../Buttons";
 
 export interface ThSettingsEntry {
@@ -26,7 +26,7 @@ export interface ThSettingsWrapperProps extends HTMLAttributesWithRef<HTMLDivEle
     /**
      * Props for the heading. See `HeadingProps` for more information.
      */
-    heading?: HeadingProps;
+    heading?: WithRef<HeadingProps, HTMLHeadingElement>;
     /**
      * Props for the button that triggers the subpanel. See `ThActionButtonProps` for more information.
      */

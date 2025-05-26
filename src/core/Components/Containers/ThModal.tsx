@@ -2,6 +2,8 @@
 
 import React from "react";
 
+import { WithRef } from "../customTypes";
+
 import { ThContainerProps } from "./ThContainer";
 
 import { Dialog, DialogProps, Modal, ModalOverlayProps } from "react-aria-components";
@@ -11,7 +13,7 @@ import { useFirstFocusable } from "./hooks/useFirstFocusable";
 
 export interface ThModalProps extends Omit<ModalOverlayProps, "children">, ThContainerProps {
   compounds?: {
-    dialog: DialogProps
+    dialog: WithRef<DialogProps, HTMLDivElement>;
   }
 }
 

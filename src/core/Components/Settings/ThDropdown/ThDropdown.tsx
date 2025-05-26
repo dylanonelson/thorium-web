@@ -2,7 +2,10 @@
 
 import React from "react";
 
+import { WithRef } from "../../customTypes";
+
 import { 
+  Button,
   ButtonProps, 
   Label, 
   LabelProps, 
@@ -32,21 +35,21 @@ export interface ThDropdownProps extends SelectProps {
     /**
      * Props for the label component. See `LabelProps` for more information.
      */
-    label?: LabelProps;
+    label?: WithRef<LabelProps, HTMLLabelElement>;
     /**
      * Props for the button component. See `ThDropdownButtonProps` for more information.
      * Alternatively you can provide your own Button component
      */
-    button?: ButtonProps | React.ReactElement<HTMLButtonElement>;
+    button?: WithRef<ButtonProps, HTMLButtonElement> | React.ReactElement<typeof Button>;
     /**
      * Props for the popover component. See `PopoverProps` for more information.
      */
-    popover?: PopoverProps;
+    popover?: WithRef<PopoverProps, HTMLDivElement>;
     /**
      * Props for the listbox component. See `LisboxProps` for more information.
      * Alternatively you can provide your own Listbox component
      */
-    listbox?: ListBoxProps<ThDropdownEntry> | React.ReactElement<typeof ListBox | HTMLDivElement>;
+    listbox?: WithRef<ListBoxProps<ThDropdownEntry>, HTMLDivElement> | React.ReactElement<typeof ListBox | HTMLDivElement>;
     /**
      * Props for the listboxItem component. See `ListBoxItemProps` for more information.
      */

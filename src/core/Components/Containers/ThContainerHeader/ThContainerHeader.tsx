@@ -1,13 +1,13 @@
 "use client";
 
 import { Heading, HeadingProps } from "react-aria-components";
-import { HTMLAttributesWithRef } from "../../HTMLAttributesWithRef";
+import { HTMLAttributesWithRef, WithRef } from "../../customTypes";
 
 export interface ThContainerHeaderProps extends HTMLAttributesWithRef<HTMLDivElement> {
   ref?: React.ForwardedRef<HTMLDivElement>;
   label: string;
   compounds?: {
-    heading?: HeadingProps;
+    heading?: WithRef<HeadingProps, HTMLHeadingElement>;
   }
 }
 
