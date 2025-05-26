@@ -23,17 +23,17 @@ export const ThFormNumberField = ({
     <>
     <NumberField
       ref={ ref }
-      {...props}
+      {...props }
     >
       { children 
         ? children 
         : <>
           <Label 
-            {...compounds?.label}
+            {...compounds?.label }
           >
             { label }
           </Label>
-          <Input {...compounds?.input} />
+          <Input {...compounds?.input } />
           { compounds?.description && <Text slot="description"> { compounds?.description } </Text> }
           </> 
       }
