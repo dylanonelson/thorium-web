@@ -205,12 +205,14 @@ export const defaultPreferences = createPreferences({
     reflowOrder: [
       ThActionsKeys.settings,
       ThActionsKeys.toc,
-      ThActionsKeys.fullscreen
+      ThActionsKeys.fullscreen,
+      ThActionsKeys.jumpToPosition
     ],
     fxlOrder: [
       ThActionsKeys.settings,
       ThActionsKeys.toc,
-      ThActionsKeys.fullscreen
+      ThActionsKeys.fullscreen,
+      ThActionsKeys.jumpToPosition
     ],
     collapse: {
       // Number of partially icons to display
@@ -265,8 +267,18 @@ export const defaultPreferences = createPreferences({
       [ThActionsKeys.jumpToPosition]: {
         visibility: ThCollapsibilityVisibility.overflow,
         shortcut: null, // `${ UnstableShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
+        sheet: {
+          defaultSheet: ThSheetTypes.popover,
+          breakpoints: {
+            [ThBreakpoints.compact]: ThSheetTypes.bottomSheet
+          }
+        },
         docked: {
           dockable: ThDockingTypes.none
+        },
+        snapped: {
+          scrim: true,
+          minHeight: "content-height"
         }
       }
     }

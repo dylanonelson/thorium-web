@@ -30,7 +30,7 @@ export const StatefulDockedSheet = ({
     headerVariant,
     className, 
     isOpen,
-    onPressClose,
+    onClosePress,
     docker, 
     flow,
     children,
@@ -85,13 +85,13 @@ export const StatefulDockedSheet = ({
               ref={ dockedSheetCloseRef }
               className={ classNames(className, readerSharedUI.backButton) } 
               aria-label={ Locale.reader.app.back.trigger }
-              onPress={ onPressClose }
+              onPress={ onClosePress }
             /> 
             : <StatefulDocker 
               id={ id }
               keys={ docker || [] }
               ref={ dockedSheetCloseRef }
-              onClose={ onPressClose }
+              onClose={ onClosePress }
             />
           } 
         </ThContainerHeader>

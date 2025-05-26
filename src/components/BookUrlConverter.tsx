@@ -40,7 +40,7 @@ export const BookUrlConverter = () => {
       className={ bookUrlConverterStyles.bookConverterForm }
       onSubmit={ handleAction }
     >
-      <TextField>
+      <TextField name="book-url-converter">
         <Label
         className={ bookUrlConverterStyles.bookConverterFormLabel }
         >

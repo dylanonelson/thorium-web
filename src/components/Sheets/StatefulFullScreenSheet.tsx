@@ -28,7 +28,7 @@ export const StatefulFullScreenSheet = ({
     className, 
     isOpen,
     onOpenChange, 
-    onPressClose,
+    onClosePress,
     children,
     resetFocus,
     dismissEscapeKeyClose
@@ -80,13 +80,13 @@ export const StatefulFullScreenSheet = ({
                 ref={ fullScreenCloseRef }
                 className={ classNames(className, readerSharedUI.backButton) } 
                 aria-label={ Locale.reader.app.back.trigger }
-                onPress={ onPressClose }
+                onPress={ onClosePress }
               />
               : <ThCloseButton
                 ref={ fullScreenCloseRef }
                 className={ readerSharedUI.closeButton } 
                 aria-label={ Locale.reader.app.docker.close.trigger } 
-                onPress={ onPressClose }
+                onPress={ onClosePress }
               />
             }
         </ThContainerHeader>

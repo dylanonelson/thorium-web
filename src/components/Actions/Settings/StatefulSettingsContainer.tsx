@@ -180,7 +180,7 @@ useEffect(() => {
         placement: "bottom", 
         isOpen: actionState.isOpen || false,
         onOpenChange: setOpen, 
-        onPressClose: () => { contains === ThSettingsContainerKeys.initial ? setOpen(false) : setInitial() },
+        onClosePress: () => { contains === ThSettingsContainerKeys.initial ? setOpen(false) : setInitial() },
         docker: docking.getDocker(),
         resetFocus: contains,
         dismissEscapeKeyClose: contains !== ThSettingsContainerKeys.initial
