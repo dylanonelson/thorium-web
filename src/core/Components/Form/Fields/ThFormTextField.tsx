@@ -1,6 +1,17 @@
 "use client";
 
-import { Input, InputProps, Label, LabelProps, Text, TextField, TextFieldProps } from "react-aria-components";
+import { 
+  FieldError, 
+  FieldErrorProps, 
+  Input, 
+  InputProps, 
+  Label, 
+  LabelProps, 
+  Text, 
+  TextField, 
+  TextFieldProps, 
+  ValidationResult 
+} from "react-aria-components";
 
 export interface ThFormTextFieldProps extends TextFieldProps {
   ref?: React.ForwardedRef<HTMLInputElement>;
@@ -9,7 +20,9 @@ export interface ThFormTextFieldProps extends TextFieldProps {
     label?: LabelProps;
     input?: InputProps;
     description?: string;
-  }
+    fieldError?: FieldErrorProps;
+  },
+  errorMessage?: string | ((validation: ValidationResult) => string);
 }
 
 export const ThFormTextField = ({
@@ -17,6 +30,7 @@ export const ThFormTextField = ({
   label,
   children,
   compounds,
+  errorMessage,
   ...props
 }: ThFormTextFieldProps) => {
   return(
@@ -25,16 +39,19 @@ export const ThFormTextField = ({
       ref={ ref }
       {...props}
     >
+      <>
       { children 
         ? children 
         : <>
           <Label {...compounds?.label}>
             { label }
           </Label>
+          { errorMessage && <FieldError {...compounds?.fieldError }>{ errorMessage }</FieldError> }
           <Input {...compounds?.input} />
           { compounds?.description && <Text slot="description"> { compounds?.description } </Text> }
           </> 
       }
+      </>
     </TextField>
     </>
   )
