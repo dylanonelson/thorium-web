@@ -732,7 +732,7 @@ export const StatefulReader = ({
     return () => {
       EpubNavigatorDestroy(() => p.destroy());
     };
-  }, [rawManifest, selfHref, RSPrefs]);
+  }, [rawManifest, selfHref, RSPrefs, fxlThemeKeys, reflowThemeKeys]);
 
   return (
     <>
