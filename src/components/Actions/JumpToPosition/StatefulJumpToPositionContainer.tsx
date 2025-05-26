@@ -1,3 +1,5 @@
+"use client";
+
 import React, { FormEvent, useCallback, useEffect, useState } from "react";
 
 import Locale from "../../../resources/locales/en.json";
