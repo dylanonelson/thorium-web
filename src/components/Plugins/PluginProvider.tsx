@@ -54,7 +54,6 @@ export const ThPluginProvider = ({ children }: { children: React.ReactNode }) =>
   
   // Update component maps when plugins change
   useEffect(() => {
-    // Create a function to update component maps
     const updateComponentMaps = () => {
       const maps = ThPluginRegistry.getComponentMaps();
       setComponentMaps({
@@ -68,12 +67,12 @@ export const ThPluginProvider = ({ children }: { children: React.ReactNode }) =>
     updateComponentMaps();
   }, []);
   
-  // Create a wrapper for register that triggers an update
+  // Wrapper for register that triggers an update
   const registerPlugin = (plugin: Parameters<typeof ThPluginRegistry.register>[0]) => {
     ThPluginRegistry.register(plugin);
   };
   
-  // Create a wrapper for unregister that triggers an update
+  // Wrapper for unregister that triggers an update
   const unregisterPlugin = (pluginId: string) => {
     ThPluginRegistry.unregister(pluginId);
   };

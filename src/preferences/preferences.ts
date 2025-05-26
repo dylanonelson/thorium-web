@@ -19,6 +19,7 @@ import {
   ThLayoutStrategy 
 } from "./models/enums";
 import { ThCollapsibility, ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
+import { defaultActionKeysObject } from "./models";
 
 export type ThBottomSheetDetent = "content-height" | "full-height";
 
@@ -193,7 +194,55 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
 export const createPreferences = <T extends Partial<CustomizableKeys>>(
   params: ThPreferences<T>
 ): ThPreferences<T> => {
-  // TODO: validate preferences e.g. make sure all keys from arrays are here
+  // Helper function to validate keys against the provided order arrays
+  const validateObjectKeys = <K extends string, V>(
+    orderArrays: K[][],
+    keysObj: Record<string, V>,
+    context: string,
+    specialCase?: string,
+    fallback?: V
+  ): void => {
+    // Combine all arrays and filter out special cases if needed
+    const allOrders = new Set<K>(
+      orderArrays.flatMap(arr => specialCase ? arr.filter(k => k !== specialCase) : arr)
+    );
+    
+    // Get available keys
+    const availableKeys = Object.keys(keysObj);
+    
+    // Check that all keys exist and add from fallback if available
+    allOrders.forEach(key => {
+      if (!availableKeys.includes(key)) {
+        if (fallback) {
+          // Add the missing key from fallback to the params object
+          keysObj[key] = fallback;
+        }
+        console.warn(`Key "${ key }" in ${ context } order arrays not found in ${ context }.keys.${ fallback ? `\nUsing fallback: ${ JSON.stringify(fallback) }` : "" }`);
+      }
+    });
+  };
+  
+  // Validate actions
+  if (params.actions) {
+    validateObjectKeys<KeysOf<T["actionKeys"], ThActionsKeys>, ThActionsTokens>(
+      [params.actions.reflowOrder, params.actions.fxlOrder],
+      params.actions.keys as Record<string, ThActionsTokens>,
+      "actions",
+      undefined,
+      defaultActionKeysObject as ThActionsTokens
+    );
+  }
+  
+  // Validate themes
+  if (params.theming?.themes) {
+    validateObjectKeys<KeysOf<T["themeKeys"], ThThemeKeys> | "auto", ThemeTokens>(
+      [params.theming.themes.reflowOrder, params.theming.themes.fxlOrder],
+      params.theming.themes.keys as Record<string, ThemeTokens>,
+      "theming.themes",
+      "auto" // Special case for themes
+    );
+  }
+  
   return params;
 };
 

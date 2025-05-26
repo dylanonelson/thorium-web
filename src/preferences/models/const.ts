@@ -3,7 +3,13 @@
 import fontStacks from "@readium/css/css/vars/fontStacks.json";
 
 import { ThLineHeightOptions, ThSettingsRangeVariant, ThSpacingSettingsKeys, ThTextSettingsKeys } from "./enums";
-import { ThSettingsRangePref } from "../preferences";
+import { ThActionsTokens, ThSettingsRangePref } from "../preferences";
+import { ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
+
+export const defaultActionKeysObject: ThActionsTokens = {
+  visibility: ThCollapsibilityVisibility.partially,
+  shortcut: null
+};
 
 export const defaultTextSettingsMain = [ThTextSettingsKeys.fontFamily];
 
