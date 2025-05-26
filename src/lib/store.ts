@@ -18,7 +18,7 @@ const updateActionsState = (state: ActionsReducerState) => {
       key,
       {
         ...value,
-        isOpen: value.docking === ThDockingKeys.transient || value.docking === null && value.isOpen === true ? false : value.isOpen,
+        isOpen: value?.docking === ThDockingKeys.transient || value?.docking === null && value?.isOpen === true ? false : value?.isOpen,
       },
     ])
   );
