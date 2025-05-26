@@ -2,6 +2,8 @@
 
 import React, { useRef } from "react";
 
+import { WithRef } from "../customTypes";
+
 import { Menu, MenuProps, MenuTrigger, MenuTriggerProps, Popover, PopoverProps } from "react-aria-components";
 
 import { ThMenuButton } from "./ThMenuButton";
@@ -17,7 +19,7 @@ export interface THMenuProps<T> extends MenuProps<ThActionEntry<T>> {
     /**
      * Props for the trigger component. See `MenuTriggerProps` for more information.
      */
-    menuTrigger?: Omit<MenuTriggerProps, "children">;
+    menuTrigger?: Omit<WithRef<MenuTriggerProps, HTMLDivElement>, "children">;
     /**
      * Props for the button component. See `ThActionButtonProps` for more information.
      * Alternatively you can provide your own component
@@ -26,7 +28,7 @@ export interface THMenuProps<T> extends MenuProps<ThActionEntry<T>> {
     /**
      * Props for the popover component. See `PopoverProps` for more information.
      */
-    popover?: PopoverProps;
+    popover?: WithRef<PopoverProps, HTMLDivElement>;
   }
 }
 

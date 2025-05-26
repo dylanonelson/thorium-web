@@ -1,6 +1,6 @@
 "use client";
 
-import { HTMLAttributesWithRef } from "../HTMLAttributesWithRef";
+import { HTMLAttributesWithRef, WithRef } from "../customTypes";
 
 import { Heading, HeadingProps, Switch, SwitchProps } from "react-aria-components";
 
@@ -16,7 +16,7 @@ export interface ThSwitchProps extends SwitchProps {
     /**
      * Props for the heading component. See `HeadingProps` for more information.
      */
-    heading?: HeadingProps;
+    heading?: WithRef<HeadingProps, HTMLHeadingElement>;
     /**
      * Props for the indicator component. See `HTMLAttributesWithRef` for more information.
      */

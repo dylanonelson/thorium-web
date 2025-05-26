@@ -3,6 +3,8 @@
 import React from "react";
 import { KeyboardProps } from "react-aria";
 
+import { WithRef } from "../customTypes";
+
 import { Keyboard, LabelProps, MenuItem, MenuItemProps, Text } from "react-aria-components";
 
 export interface ThMenuItemProps extends MenuItemProps {
@@ -12,8 +14,8 @@ export interface ThMenuItemProps extends MenuItemProps {
   label: string;
   shortcut?: string;
   compounds?: {
-    label: LabelProps;
-    shortcut: KeyboardProps;
+    label: WithRef<LabelProps, HTMLSpanElement>;
+    shortcut: WithRef<KeyboardProps, HTMLSpanElement>;
   }
 }
 

@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
+
+import { WithRef } from "../../customTypes";
+
 import { 
-  Button,
-  ButtonProps,
   FieldError, 
   FieldErrorProps, 
   Input, 
@@ -21,11 +22,11 @@ export interface ThFormSearchFieldProps extends SearchFieldProps {
   ref?: React.ForwardedRef<HTMLInputElement>;
   label: string;
   compounds?: {
-    label?: LabelProps;
-    input?: InputProps;
+    label?: WithRef<LabelProps, HTMLLabelElement>;
+    input?: WithRef<InputProps, HTMLInputElement>;
     button?: ThActionButtonProps | React.ReactElement<ThActionButtonProps>;
     description?: string;
-    fieldError?: FieldErrorProps;
+    fieldError?: WithRef<FieldErrorProps, HTMLDivElement>;
   },
   errorMessage?: string | ((validation: ValidationResult) => string);
 }

@@ -2,7 +2,7 @@
 
 import React, { ComponentType, SVGProps } from "react";
 
-import { HTMLAttributesWithRef } from "../HTMLAttributesWithRef";
+import { HTMLAttributesWithRef, WithRef } from "../customTypes";
 
 import { 
   Label, 
@@ -32,7 +32,7 @@ export interface ThRadioGroupProps extends RadioGroupProps {
     /**
      * Props for the label component. See `LabelProps` for more information.
      */
-    label?: LabelProps;
+    label?: WithRef<LabelProps, HTMLLabelElement>;
     /**
      * Props for the radio component. See `RadioProps` for more information.
      */

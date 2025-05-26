@@ -1,5 +1,7 @@
 "use client";
 
+import { WithRef } from "../customTypes";
+
 import { 
   Label, 
   LabelProps, 
@@ -21,19 +23,19 @@ export interface ThSliderProps extends Omit<SliderProps, "minValue" | "maxValue"
     /**
      * Props for the label component. See `LabelProps` for more information.
      */
-    label?: LabelProps;
+    label?: WithRef<LabelProps, HTMLLabelElement>;
     /**
      * Props for the slider output component. See `SliderOutputProps` for more information.
      */
-    output?: SliderOutputProps;
+    output?: WithRef<SliderOutputProps, HTMLOutputElement>;
     /**
      * Props for the slider track component. See `SliderTrackProps` for more information.
      */
-    track?: SliderTrackProps;
+    track?: WithRef<SliderTrackProps, HTMLDivElement>;
     /**
      * Props for the slider thumb component. See `SliderThumbProps` for more information.
      */
-    thumb?: SliderThumbProps;
+    thumb?: WithRef<SliderThumbProps, HTMLDivElement>;
   };
 }
 

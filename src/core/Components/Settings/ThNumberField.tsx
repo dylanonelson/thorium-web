@@ -2,6 +2,8 @@
 
 import { ComponentType, SVGProps } from "react";
 
+import { WithRef } from "../customTypes";
+
 import AddIcon from "./assets/icons/add.svg";
 import RemoveIcon from "./assets/icons/remove.svg";
 
@@ -33,15 +35,15 @@ export interface ThNumberFieldProps extends Omit<NumberFieldProps, "minValue" | 
     /**
      * Props for the Group component. See `GroupProps` for more information.
      */
-    group?: GroupProps;
+    group?: WithRef<GroupProps, HTMLDivElement>;
     /**
      * Props for the Input component. See `InputProps` for more information.
      */
-    input?: InputProps;
+    input?: WithRef<InputProps, HTMLInputElement>;
     /**
      * Props for the Label component. See `LabelProps` for more information.
      */
-    label?: LabelProps;
+    label?: WithRef<LabelProps, HTMLLabelElement>;
     /**
      * Props for the Button component used for decrement/increment. See `ButtonProps` for more information.
      */
