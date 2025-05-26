@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@readium/navigator':
-        specifier: link:src/readium/ts-toolkit/navigator
-        version: link:src/readium/ts-toolkit/navigator
+        specifier: '>=2.0.0-beta.2'
+        version: 2.0.0-beta.2
       '@readium/navigator-html-injectables':
-        specifier: link:src/readium/ts-toolkit/navigator-html-injectables
-        version: link:src/readium/ts-toolkit/navigator-html-injectables
+        specifier: '>=2.0.0-beta.1'
+        version: 2.0.0-beta.1
       '@readium/shared':
-        specifier: link:src/readium/ts-toolkit/shared
-        version: link:src/readium/ts-toolkit/shared
+        specifier: ^1.2.1
+        version: 1.2.1
       '@reduxjs/toolkit':
         specifier: ^2.8.2
         version: 2.8.2(react-redux@9.2.0(@types/react@19.1.5)(react@19.1.0)(redux@5.0.1))(react@19.1.0)
@@ -1779,6 +1779,18 @@ packages:
 
   '@readium/css@2.0.0-beta.13':
     resolution: {integrity: sha512-45WweTkywrRmPiaKE0gCKOxyMJjCyNzv/FG4H31vxeOdmGpZXeoQSpK7jm5DGnrlCUHUPQzkLSwJtNJhXBY3AQ==}
+
+  '@readium/navigator-html-injectables@2.0.0-beta.1':
+    resolution: {integrity: sha512-tDOf7sT/5m+ld1iwEXm25EnyAFMz+PVIL0BbASlTIm0YG2ic+HwlEYIQC+4nRGtd5MUfFUEzmZUCspSth3R5Eg==}
+    engines: {node: '>=18'}
+
+  '@readium/navigator@2.0.0-beta.2':
+    resolution: {integrity: sha512-lWmYaQdVzwr+gtROMGdLCvco/68ngljufCUzm7gpXV7sfHnQApFbpOHhnbWxAp36dRBOfE1P8WwFRqddBAOfVQ==}
+    engines: {node: '>=18'}
+
+  '@readium/shared@1.2.1':
+    resolution: {integrity: sha512-fW2Xhw6RLvc9tr2KUKYy0X5VTX7irZyOywrvi7pf24Y1p+IlPe4XTAArVLn7l4vvAnbMS9MGfHVjrABwUmKWjg==}
+    engines: {node: '>=18'}
 
   '@reduxjs/toolkit@2.8.2':
     resolution: {integrity: sha512-MYlOhQ0sLdw4ud48FoC5w0dH9VfWQjtCjreKwYTT3l+r427qYC5Y8PihNutepr8XrNaBUDQo9khWUwQxZaqt5A==}
@@ -6028,6 +6040,12 @@ snapshots:
       react: 19.1.0
 
   '@readium/css@2.0.0-beta.13': {}
+
+  '@readium/navigator-html-injectables@2.0.0-beta.1': {}
+
+  '@readium/navigator@2.0.0-beta.2': {}
+
+  '@readium/shared@1.2.1': {}
 
   '@reduxjs/toolkit@2.8.2(react-redux@9.2.0(@types/react@19.1.5)(react@19.1.0)(redux@5.0.1))(react@19.1.0)':
     dependencies:
