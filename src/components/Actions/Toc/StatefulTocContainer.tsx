@@ -135,7 +135,7 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
 
   // For docked sheets they are mounted before we could even retrieve tocEntry…
   // So we need to force a rerender as we cannot rely on dependencies prop
-  // Once we handle fragments, etc. this can be removed, and we can add a condition
+  // TODO: Once we handle fragments, etc. this can be removed, and we can add a condition
   // tocEntry has to be defined to render Tree
   useEffect(() => {
     if (
@@ -194,6 +194,7 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
           }}
         />
         <Tree
+          key={ forceRerender }
           aria-label={ Locale.reader.toc.entries }
           selectionMode="single"
           items={ displayedTocTree }
