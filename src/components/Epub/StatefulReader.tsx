@@ -64,14 +64,9 @@ import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useFullscreen } from "@/core/Hooks/useFullscreen";
 import { usePrevious } from "@/core/Hooks/usePrevious";
 
-import Peripherals from "../../helpers/peripherals";
-import { TH_CUSTOM_SCHEME, ThScrollActions } from "@/core/Hooks/Epub/scrollAffordance";
-import { localData } from "@/core/Helpers/localData";
-import { getPlatformModifier } from "@/core/Helpers/keyboardUtilities";
-import { createTocTree, TocItem } from "@/core/Helpers/createTocTree";
-
 import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
+import { AppDispatch } from "@/lib/store";
 import { setTheme } from "@/lib/themeReducer";
 import { 
   setImmersive, 
@@ -89,13 +84,19 @@ import {
   setProgression, 
   setRunningHead, 
   setTocTree, 
-  setTocEntry
+  setTocEntry,
+  setPositionsList
 } from "@/lib/publicationReducer";
 
 import debounce from "debounce";
 import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
 import { createDefaultPlugin } from "../Plugins/helpers/createDefaultPlugin";
-import { AppDispatch } from "@/lib/store";
+import Peripherals from "../../helpers/peripherals";
+import { TH_CUSTOM_SCHEME, ThScrollActions } from "@/core/Hooks/Epub/scrollAffordance";
+import { localData } from "@/core/Helpers/localData";
+import { getPlatformModifier } from "@/core/Helpers/keyboardUtilities";
+import { createTocTree, TocItem } from "@/helpers/createTocTree";
+import { deserializePositions } from "@/helpers/deserializePositions";
 
 export interface ReadiumCSSSettings {
   columnCount: string;
@@ -636,7 +637,11 @@ export const StatefulReader = ({
 
     const fetchPositions = async () => {
       positionsList = await publication.current?.positionsFromManifest();
-      if (positionsList && positionsList.length > 0) dispatch(setProgression( { totalPositions: positionsList.length }));
+      if (positionsList && positionsList.length > 0) {
+        dispatch(setProgression( { totalPositions: positionsList.length }))
+      };
+      const deserializedPositionsList = deserializePositions(positionsList);
+      dispatch(setPositionsList(deserializedPositionsList));
     };
 
     fetchPositions()

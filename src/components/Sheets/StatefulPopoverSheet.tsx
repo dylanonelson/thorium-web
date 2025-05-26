@@ -34,7 +34,7 @@ export const StatefulPopoverSheet = ({
     className, 
     isOpen,
     onOpenChange, 
-    onPressClose,
+    onClosePress,
     placement,
     docker,
     children,
@@ -90,13 +90,13 @@ export const StatefulPopoverSheet = ({
                 ref={ popoverCloseRef }
                 className={ classNames(className, readerSharedUI.backButton) } 
                 aria-label={ Locale.reader.app.back.trigger }
-                onPress={ onPressClose }
+                onPress={ onClosePress }
               />
               : <StatefulDocker 
                 id={ id }
                 keys={ docker || [] }
                 ref={ popoverCloseRef }
-                onClose={ onPressClose }
+                onClose={ onClosePress }
               />
           }
         </ThContainerHeader>

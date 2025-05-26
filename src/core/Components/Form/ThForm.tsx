@@ -26,8 +26,8 @@ export const ThForm = ({
       {...props}
     >
       { children }
-    </Form>
-    { compounds?.button && React.isValidElement(compounds.button) 
+    
+      { compounds?.button && React.isValidElement(compounds.button) 
         ? compounds.button 
         : <Button
             { ...compounds?.button }
@@ -35,7 +35,8 @@ export const ThForm = ({
           >
             { label }
           </Button>
-    }
+      }
+    </Form>
     </>
   )
 }

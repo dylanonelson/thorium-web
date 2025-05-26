@@ -7,7 +7,7 @@ import Locale from "../../../resources/locales/en.json";
 import { Link } from "@readium/shared";
 import { ThActionsKeys, ThDockingKeys, ThSheetTypes, ThLayoutDirection } from "@/preferences/models/enums";
 import { StatefulActionContainerProps } from "../models/actions";
-import { TocItem } from "@/core/Helpers/createTocTree";
+import { TocItem } from "@/helpers/createTocTree";
 
 import tocStyles from "./assets/styles/toc.module.css";
 
@@ -138,7 +138,7 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
         placement: "bottom",
         isOpen: actionState.isOpen || false,
         onOpenChange: setOpen,
-        onPressClose: () => setOpen(false),
+        onClosePress: () => setOpen(false),
         docker: docking.getDocker()
       } }
     >

@@ -10,7 +10,7 @@ export interface StatefulSheet {
   className: string;
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
-  onPressClose: () => void;
+  onClosePress: () => void;
   docker?: ThDockingKeys[];
   children?: ReactNode;
   resetFocus?: unknown;
