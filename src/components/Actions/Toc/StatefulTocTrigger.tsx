@@ -37,14 +37,14 @@ export const StatefulTocTrigger = ({ variant }: StatefulActionTriggerProps) => {
           SVGIcon={ TocIcon } 
           shortcut={ RSPrefs.actions.keys[ThActionsKeys.toc].shortcut }
           id={ ThActionsKeys.toc }
-          onAction={ () => setOpen(!actionState.isOpen) }
+          onAction={ () => setOpen(!actionState?.isOpen) }
         />
       : <StatefulActionIcon 
           visibility={ RSPrefs.actions.keys[ThActionsKeys.toc].visibility }
           aria-label={ Locale.reader.toc.trigger } 
           placement="bottom"
           tooltipLabel={ Locale.reader.toc.tooltip } 
-          onPress={ () => setOpen(!actionState.isOpen) }
+          onPress={ () => setOpen(!actionState?.isOpen) }
         >
           <TocIcon aria-hidden="true" focusable="false" />
         </StatefulActionIcon>

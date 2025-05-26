@@ -40,14 +40,14 @@ export const StatefulSettingsTrigger = ({ variant }: StatefulActionTriggerProps)
           SVGIcon={ TuneIcon }
           shortcut={ RSPrefs.actions.keys[ThActionsKeys.settings].shortcut } 
           id={ ThActionsKeys.settings }
-          onAction={ () => setOpen(!actionState.isOpen) }
+          onAction={ () => setOpen(!actionState?.isOpen) }
         />
       : <StatefulActionIcon 
           visibility={ RSPrefs.actions.keys[ThActionsKeys.settings].visibility }
           aria-label={ Locale.reader.settings.trigger }
           placement="bottom" 
           tooltipLabel={ Locale.reader.settings.tooltip } 
-          onPress={ () => setOpen(!actionState.isOpen) }
+          onPress={ () => setOpen(!actionState?.isOpen) }
         >
           <TuneIcon aria-hidden="true" focusable="false" />
         </StatefulActionIcon>
