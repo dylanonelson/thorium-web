@@ -81,11 +81,11 @@ export interface DockState {
 
 export type ActionsReducerState = {
   keys: {
-    [key in ActionsStateKeys]: ActionStateObject;
+    [key in ActionsStateKeys]?: ActionStateObject;
   };
   dock: DockState,
   overflow: {
-    [key in OverflowStateKeys]: OverflowStateObject;
+    [key in OverflowStateKeys]?: OverflowStateObject;
   }
 }
 
@@ -120,7 +120,7 @@ export const actionsSlice = createSlice({
           // If it does, we also have to close it so that its transient sheet 
           // doesn’t pop over on the screen when it’s replaced
           for (const key in state.keys) {
-            if (state.keys[key as ActionsStateKeys].docking === action.payload.dockingKey) {
+            if (state.keys[key as ActionsStateKeys]?.docking === action.payload.dockingKey) {
               state.keys[key as ActionsStateKeys] = { 
                 ...state.keys[key as ActionsStateKeys],
                 docking: ThDockingKeys.transient,
@@ -148,7 +148,7 @@ export const actionsSlice = createSlice({
           // If it does, we also have to close it so that its transient sheet 
           // doesn’t pop over on the screen when it’s replaced
           for (const key in state.keys) {
-            if (state.keys[key as ActionsStateKeys].docking === action.payload.dockingKey) {
+            if (state.keys[key as ActionsStateKeys]?.docking === action.payload.dockingKey) {
               state.keys[key as ActionsStateKeys] = { 
                 ...state.keys[key as ActionsStateKeys],
                 docking: ThDockingKeys.transient,
@@ -199,7 +199,7 @@ export const actionsSlice = createSlice({
       // If the action is docked and set Open, we must take care of 
       // the dock panel’s collapsibility. Otherwise we end up with bugs 
       // i.e. user has to click/tap action icon twice to open, 
-      const dockingKey = state.keys[action.payload.key].docking;
+      const dockingKey = state.keys[action.payload.key]?.docking;
       if (
           !action.payload.isOpen && 
           dockingKey && 
@@ -222,7 +222,7 @@ export const actionsSlice = createSlice({
     toggleActionOpen: (state, action: ActionStateTogglePayload) => {
       const payload = {
         key: action.payload.key,
-        isOpen: state.keys[action.payload.key].isOpen ? !state.keys[action.payload.key].isOpen : true
+        isOpen: state.keys[action.payload.key]?.isOpen ? !state.keys[action.payload.key]?.isOpen : true
       };
       actionsSlice.caseReducers.setActionOpen(state, {
         type: "toggleActionOpen",

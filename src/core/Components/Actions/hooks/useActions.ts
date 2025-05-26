@@ -3,7 +3,7 @@
 import { ActionStateObject } from "@/lib/actionsReducer";
 
 export interface ThActionMap {
-  [key: string | number | symbol]: ActionStateObject;
+  [key: string | number | symbol]: ActionStateObject | undefined;
 }
 
 export const useActions = <K extends string | number | symbol>(actionMap: ThActionMap) => {
@@ -11,22 +11,22 @@ export const useActions = <K extends string | number | symbol>(actionMap: ThActi
     const open: K[] = [];
 
     Object.entries(actionMap).forEach(([key, value]) => {
-      if (value.isOpen) open.push(key as K);
+      if (value?.isOpen) open.push(key as K);
     });
 
     return open;
   };
 
   const anyOpen = () => {
-    return Object.values(actionMap).some((value) => value.isOpen);
+    return Object.values(actionMap).some((value) => value?.isOpen);
   };
 
   const isOpen = (key?: K | null) => {
     if (key) {
-      if (!actionMap[key].isOpen) {
+      if (!actionMap[key]?.isOpen) {
         return false;
       } else {
-        return actionMap[key].isOpen;
+        return actionMap[key]?.isOpen;
       }
     }
     return false;
@@ -36,26 +36,26 @@ export const useActions = <K extends string | number | symbol>(actionMap: ThActi
     const docked: K[] = [];
 
     Object.entries(actionMap).forEach(([key, value]) => {
-      if (value.docking) docked.push(key as K);
+      if (value?.docking) docked.push(key as K);
     });
 
     return docked;
   };
 
   const anyDocked = () => {
-    return Object.values(actionMap).some((value) => value.docking);
+    return Object.values(actionMap).some((value) => value?.docking);
   };
 
   const isDocked = (key?: K | null) => {
-    return key ? !!(actionMap[key].docking) : false;
+    return key ? !!(actionMap[key]?.docking) : false;
   };
 
   const whichDocked = (key?: K | null) => {
-    return key ? actionMap[key].docking : null;
+    return key ? actionMap[key]?.docking : null;
   };
 
   const getDockedWidth = (key?: K | null) => {
-    return key && actionMap[key].dockedWidth || undefined;
+    return key && actionMap[key]?.dockedWidth || undefined;
   };
 
   const everyOpenDocked = () => {
