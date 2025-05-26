@@ -205,7 +205,7 @@ export const useDocking = <T extends string>(key: T) => {
 
   // on mount, check whether we should update states for docked sheets from pref
   useEffect(() => {
-    if (!actionState?.isOpen) {
+    if (actionState?.isOpen == null) {
       if (sheetType === ThSheetTypes.dockedStart) {
         dispatch(dockAction({
           key: key,
@@ -241,7 +241,7 @@ export const useDocking = <T extends string>(key: T) => {
     // has not be instantiated yet, and 
     // couldn’t be on first mount because
     // a different type was used in prefs
-    if (actionState?.isOpen && !actionState?.docking) {
+    if (actionState?.isOpen != null && actionState?.docking == null) {
       if (sheetType === ThSheetTypes.dockedStart) {
         // Check if the action is docked in practice
         // if it isn’t dispatch docking of the action

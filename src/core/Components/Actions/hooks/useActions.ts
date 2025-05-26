@@ -23,7 +23,7 @@ export const useActions = <K extends string | number | symbol>(actionMap: ThActi
 
   const isOpen = (key?: K | null) => {
     if (key) {
-      if (!actionMap[key]?.isOpen) {
+      if (actionMap[key]?.isOpen == null) {
         return false;
       } else {
         return actionMap[key]?.isOpen;
