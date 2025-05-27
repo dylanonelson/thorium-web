@@ -83,7 +83,7 @@
       "empty": "The table of contents was not provided for this publication.",
        "search": {
          "label": "Search",
-         "placeholder": "Filter entries",
+         "placeholder": "Search",
          "clear": "Clear"
        }
     },
