@@ -1,22 +1,24 @@
-import { IActionsState } from "@/models/state/actionsState";
-import { DockingKeys } from "@/models/docking";
+import { ThDockingKeys } from "@/preferences/models/enums";
 
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
+
 import readerReducer from "@/lib/readerReducer";
 import settingsReducer from "@/lib/settingsReducer";
 import themeReducer from "@/lib/themeReducer";
-import actionsReducer from "@/lib/actionsReducer";
+import actionsReducer, { ActionsReducerState } from "@/lib/actionsReducer";
 import publicationReducer from "./publicationReducer";
 
 import debounce from "debounce";
 
-const updateActionsState = (state: IActionsState) => {
+const DEFAULT_STORAGE_KEY = "thorium-web-state";
+
+const updateActionsState = (state: ActionsReducerState) => {
   const updatedKeys = Object.fromEntries(
     Object.entries(state.keys).map(([key, value]) => [
       key,
       {
         ...value,
-        isOpen: value.docking === DockingKeys.transient || value.docking === null && value.isOpen === true ? false : value.isOpen,
+        isOpen: value?.docking === ThDockingKeys.transient || value?.docking === null && value?.isOpen === true ? false : value?.isOpen,
       },
     ])
   );
@@ -28,9 +30,10 @@ const updateActionsState = (state: IActionsState) => {
   };
 };
 
-const loadState = () => {
+const loadState = (storageKey?: string) => {
   try {
-    const serializedState = localStorage.getItem("thorium-web-state");
+    const resolvedKey = storageKey || DEFAULT_STORAGE_KEY;
+    const serializedState = localStorage.getItem(resolvedKey);
     if (serializedState === null) {
       return { actions: undefined, settings: undefined, theming: undefined };
     }
@@ -42,35 +45,34 @@ const loadState = () => {
   }
 };
 
-const saveState = (state: object) => {
+const saveState = (state: object, storageKey?: string) => {
   try {
+    const resolvedKey = storageKey || DEFAULT_STORAGE_KEY;
     const serializedState = JSON.stringify(state);
-    localStorage.setItem("thorium-web-state", serializedState);
+    localStorage.setItem(resolvedKey, serializedState);
   } catch (err) {
     console.error(err);
   }
 };
 
-export const makeStore = () => {
-  const rootReducer = combineReducers({
-    reader: readerReducer,
-    settings: settingsReducer,
-    theming: themeReducer,
-    actions: actionsReducer,
-    publication: publicationReducer
-  });
-
+export const makeStore = (storageKey?: string) => {
   const store = configureStore({
-    reducer: rootReducer,
+    reducer: {
+      reader: readerReducer,
+      settings: settingsReducer,
+      theming: themeReducer,
+      actions: actionsReducer,
+      publication: publicationReducer
+    },
     preloadedState: {
-      actions: loadState().actions,
-      settings: loadState().settings,
-      theming: loadState().theming
+      actions: loadState(storageKey).actions,
+      settings: loadState(storageKey).settings,
+      theming: loadState(storageKey).theming
     },
   });
 
   const saveStateDebounced = debounce(() => {
-    saveState(store.getState());
+    saveState(store.getState(), storageKey);
   }, 500);
 
   store.subscribe(saveStateDebounced);

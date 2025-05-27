@@ -1,4 +1,10 @@
 {
+  "bookUrlConverter": {
+    "label": "Load an EPUB publication from a remote server (it must support byte-range requests):",
+    "placeholder": "https://www.example.org/ebook.epub",
+    "button": "Load",
+    "error": "The URL is invalid. Please check the URL is correct and try again."
+  },
   "reader": {
     "app": {
       "loading": "Loading",
@@ -74,11 +80,20 @@
       "close": "Close table of contents",
       "heading": "Table of contents",
       "entries": "Entries in the table",
-      "empty": "The table of contents was not provided for this publication."
+      "empty": "The table of contents was not provided for this publication.",
+       "search": {
+         "label": "Search",
+         "placeholder": "Search",
+         "clear": "Clear"
+       }
     },
     "jumpToPosition": {
       "tooltip": "Jump to…",
-      "trigger": "Jump to position"
+      "trigger": "Jump to position",
+       "heading": "Jump to position",
+       "go": "Go",
+       "close": "Close jump to position",
+       "label": "Select a position from {{ positionStart }} to {{ positionEnd }}:"
     },
     "overflowMenu": {
       "active": {

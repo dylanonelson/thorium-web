@@ -50,3 +50,14 @@
 .jumpToPositionButton[data-disabled] {
   color: var(--theme-disable);
 } 
+
+.bookConverterFormFieldError {
+  display: block;
+  margin-bottom: calc(var(--layout-spacing) / 2);
+  color: red;
+  font-weight: bold;
+}
+
+.bookConverterFormTextField[data-invalid] .bookConverterFormInput {
+  outline: 2px solid red;
+}

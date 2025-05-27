@@ -11,7 +11,7 @@ The `theming` property is responsible for the look and feel of the app, as it al
 
 Object `breakpoints` can be used to customize the media queries that will be used to target different widths. It is taking inspiration from [Material Design’s Window-size classes](https://m3.material.io/foundations/layout/applying-layout/window-size-classes). 
 
-The property is in enum `StaticBreakpoints` and the value a `number` (in `px`). This value represents the `max-width` for each breakpoint. 
+The property is in enum `ThBreakpoints` and the value a `number` (in `px`). This value represents the `max-width` for each breakpoint. 
 
 If the value is set to `null` then the breakpoint is simply ignored and the next one (if any) will be used to construct a range.
 
@@ -21,11 +21,11 @@ For instance:
 theming: {
   ...
   breakpoints: {
-    [StaticBreakpoints.compact]: 600,
-    [StaticBreakpoints.medium]: 840, 
-    [StaticBreakpoints.expanded]: null,
-    [StaticBreakpoints.large]: 1600,
-    [StaticBreakpoints.xLarge]: null
+    [ThBreakpoints.compact]: 600,
+    [ThBreakpoints.medium]: 840, 
+    [ThBreakpoints.expanded]: null,
+    [ThBreakpoints.large]: 1600,
+    [ThBreakpoints.xLarge]: null
   }
 }
 ```
@@ -62,8 +62,8 @@ theming: {
       scrim: "rgba(0, 0, 0, 0.2)"
     },
     constraints: {
-      [SheetTypes.bottomSheet]: 600,
-      [SheetTypes.popover]: 400
+      [ThSheetTypes.bottomSheet]: 600,
+      [ThSheetTypes.popover]: 400
     }
   }
 }
@@ -71,11 +71,11 @@ theming: {
 This means:
 
 - your actions’ triggers and containers won’t have any border radius;
-- they’ll use 20px as a reference for padding and their sections’ margins;
-- the default for the docking width is 300 pixels;
-- the default scrim is color black with 20% alpha;
-- the bottom sheets are constrained to 600 pixels, unless overridden for an action;
-- the popover sheets are constrained to 400 pixels.
+- they’ll use `20px` as a reference for padding and their sections’ margins;
+- the default for the docking width is `300px`;
+- the default scrim is color black with `20%` alpha;
+- the bottom sheets are constrained to `600px`, unless overridden for an action;
+- the popover sheets are constrained to `400px`.
 
 ## Arrows and icons
 
@@ -102,14 +102,19 @@ Will make the icons 24-pixel wide and tall, their tooltip will be placed 10 pixe
 
 Object `themes` allows to customize the themes used and provided to users in Settings. 
 
-As a matter of fact, this user setting is created dynamically from these preferences, which means creating a theme takes 4 steps:
+As a matter of fact, this user setting is created dynamically from these preferences.
 
-- add it to the `ThemeKeys` enum in [models/theme](../src/models/theme.ts);
-- add their display string to `settings.themes` in [resources/locales](../src//resources/locales/en.json);
+> [!WARNING] 
+> **Although not recommended**, this means creating a theme took 4 steps if you were forking the project.
+
+- add it to the `ThThemeKeys` enum;
+- add its display string to `settings.themes` in [resources/locales](../../resources/locales/en.json);
 - add it to `reflowOrder` and/or `fxlOrder`;
 - add and configure them in `themes.keys`.
 
-Your custom theme is now available without having to create or modify a component. 
+Your custom theme was then available without having to create or modify any component.
+
+TBD: document new way of customizing theme keys.
 
 ### Display Order
 
@@ -118,7 +123,7 @@ You can set the display order of themes for formats/renditions the Reader suppor
 - `reflowOrder` for reflowable EPUB;
 - `fxlOrder` for Fixed-Layout EPUB.
 
-Note `ThemeKeys.auto` is a special case that maps the theme to the OS’ preference (light or dark), it’s not a theme *per se.*
+Note value `"auto"` is a special case that maps the theme to the OS’ preference (light or dark), it’s not a theme *per se.* It is **required** `systemThemes` is defined for it to work properly.
 
 For instance, to provide light and dark mode (and the `auto` option mentioned above) for Fixed-Layout EPUB:
 
@@ -127,17 +132,44 @@ theming: {
   theme: {
     ...
     fxlOrder: [
-      ThemeKeys.auto,
-      ThemeKeys.light,
-      ThemeKeys.dark
-    ]
+      "auto",
+      ThThemeKeys.light,
+      ThThemeKeys.dark
+    ],
+    systemThemes: {
+      light: ThThemeKeys.light,
+      dark: ThThemeKeys.dark
+    }
   }
 }
 ```
 
+### System Themes
+
+If you want to provide an `auto` theme that maps to the OS’ preference (light or dark), you need to define `systemThemes` in your preferences.
+
+For instance, to provide light and dark mode (and the `auto` option mentioned above) for Fixed-Layout EPUB:
+```
+theming: {
+  theme: {
+   ...
+    fxlOrder: [
+      "auto",
+      ThThemeKeys.light,
+      ThThemeKeys.dark
+    ],
+    systemThemes: {
+      light: ThThemeKeys.light,
+      dark: ThThemeKeys.dark
+    }
+  }
+}
+
+If you do not, the `auto` theme will not be rendered. In case it was previously selected, it will be set to the first theme in the `fxlOrder` array – excluding value `auto`.
+
 ### Keys and Tokens
 
-The `keys` object contains the themes (key of `ThemeKeys` enum as a property) and their tokens, whose value is a CSS-valid string:
+The `keys` object contains the themes (key of `ThThemeKeys` enum as a property) and their tokens, whose value is a CSS-valid string:
 
 - `background`: the color of the background
 - `text`: the color of the text

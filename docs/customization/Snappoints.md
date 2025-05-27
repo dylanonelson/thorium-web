@@ -52,12 +52,12 @@ For instance:
 This would be the configuration for settings as a bottom sheet on the smaller breakpoint (and popover otherwise)
 
 ```
-[ActionKeys.settings]: {
+[ThActionKeys.settings]: {
   ...
   sheet: {
-    defaultSheet: SheetTypes.popover,
+    defaultSheet: ThSheetTypes.popover,
     breakpoints: {
-      [StaticBreakpoints.compact]: SheetTypes.bottomSheet
+      [ThBreakpoints.compact]: ThSheetTypes.bottomSheet
     }
   },
   ...
@@ -75,12 +75,12 @@ In this case, we apply the default scrim, and percentages for each snap point. T
 If you’d like a bottom sheet with no snap point for the Jump to Position Action container with no scrim, then:
 
 ```
-[ActionKeys.jumpToPosition]: {
+[ThActionKeys.jumpToPosition]: {
   ...
   sheet: {
-    defaultSheet: SheetTypes.popover,
+    defaultSheet: ThSheetTypes.popover,
     breakpoints: {
-      [StaticBreakpoints.compact]: SheetTypes.bottomSheet
+      [ThBreakpoints.compact]: ThSheetTypes.bottomSheet
     }
   },
   ...

@@ -4,17 +4,31 @@ import { useEffect, useState } from "react";
 
 import { HttpFetcher } from "@readium/shared";
 import { Link } from "@readium/shared";
+import { ThPlugin } from "@/components/Plugins";
 
 import "../app.css";
 
 import dynamic from "next/dynamic";
-const Reader = dynamic<{ rawManifest: object; selfHref: string }>(() => import("../../components/Reader").then((mod) => mod.Reader), { ssr: false });
+const Reader = dynamic<{ rawManifest: object; selfHref: string; plugin?: ThPlugin }>(() => import("../../components/Epub/StatefulReader").then((mod) => mod.StatefulReader), { ssr: false });
 
-import { Loader } from "@/components/Loader";
+import { StatefulLoader } from "@/components/StatefulLoader";
 
-import { useTheming } from "@/hooks/useTheming";
+import { useTheming } from "@/preferences/hooks/useTheming";
+import { usePreferences } from "@/preferences/hooks/usePreferences";
 
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { ThemeKeyType } from "@/preferences";
+import { 
+  setBreakpoint, 
+  setColorScheme, 
+  setContrast, 
+  setForcedColors, 
+  setMonochrome, 
+  setReducedMotion, 
+  setReducedTransparency 
+} from "@/lib/themeReducer";
+
+import { propsToCSSVars } from "@/core/Helpers/propsToCSSVars";
 
 // TODO page metadata w/ generateMetadata
 
@@ -27,8 +41,30 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
 
   const readerIsLoading = useAppSelector(state => state.reader.isLoading);
 
+  const RSPrefs = usePreferences();
+  const theme = useAppSelector(state => state.theming.theme);
+
+  const dispatch = useAppDispatch();
+
   // Init theming (breakpoints, theme, media queries…)
-  const theming = useTheming();
+  useTheming<ThemeKeyType>({ 
+    theme: theme,
+    themeKeys: RSPrefs.theming.themes.keys,
+    systemKeys: RSPrefs.theming.themes.systemThemes,
+    breakpointsMap: RSPrefs.theming.breakpoints,
+    initProps: {
+      ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
+      ...propsToCSSVars(RSPrefs.theming.icon, "icon"),
+      ...propsToCSSVars(RSPrefs.theming.layout, "layout")
+    },
+    onBreakpointChange: (breakpoint) => dispatch(setBreakpoint(breakpoint)),
+    onColorSchemeChange: (colorScheme) => dispatch(setColorScheme(colorScheme)),
+    onContrastChange: (contrast) => dispatch(setContrast(contrast)),
+    onForcedColorsChange: (forcedColors) => dispatch(setForcedColors(forcedColors)),
+    onMonochromeChange: (isMonochrome) => dispatch(setMonochrome(isMonochrome)),
+    onReducedMotionChange: (reducedMotion) => dispatch(setReducedMotion(reducedMotion)),
+    onReducedTransparencyChange: (reducedTransparency) => dispatch(setReducedTransparency(reducedTransparency))
+  });
 
   useEffect(() => {
     setIsClient(true);
@@ -84,9 +120,11 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
     <>
     { error 
       ? <span>{ error }</span> 
-      : <Loader isLoading={ readerIsLoading }>
-          { isClient && manifest && selfLink && <Reader rawManifest={ manifest } selfHref={ selfLink } /> }
-        </Loader>        
+      : <StatefulLoader isLoading={ readerIsLoading }>
+          { isClient && manifest && selfLink && 
+            <Reader rawManifest={ manifest } selfHref={ selfLink } />
+          }
+        </StatefulLoader>        
     }
     </>
   );

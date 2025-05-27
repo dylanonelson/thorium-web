@@ -1,11 +1,27 @@
-import { IPublicationState } from "@/models/state/publicationState";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: IPublicationState = {
+import { UnstableProgressionObject } from "@/components/StatefulReaderProgression";
+import { TocItem } from "@/helpers/createTocTree";
+import { Locator } from "@readium/shared";
+
+export interface PublicationReducerState {
+  runningHead?: string;
+  isFXL: boolean;
+  isRTL: boolean;
+  progression: UnstableProgressionObject;
+  positionsList: Locator[],
+  atPublicationStart: boolean;
+  atPublicationEnd: boolean;
+  tocTree?: TocItem[];
+  tocEntry?: string;
+}
+
+const initialState: PublicationReducerState = {
   runningHead: undefined,
   isFXL: false,
   isRTL: false,
   progression: {},
+  positionsList: [],
   atPublicationStart: false,
   atPublicationEnd: false,
   tocTree: undefined, 
@@ -28,6 +44,9 @@ export const publicationSlice = createSlice({
     setProgression: (state, action) => {
       state.progression = {...state.progression, ...action.payload }
     },
+    setPositionsList: (state, action) => {
+      state.positionsList = action.payload
+    },
     setPublicationStart: (state, action) => {
       state.atPublicationStart = action.payload
     },
@@ -49,6 +68,7 @@ export const {
   setFXL,
   setRTL,
   setProgression,
+  setPositionsList,
   setPublicationStart,
   setPublicationEnd,
   setTocTree, 

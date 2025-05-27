@@ -1,18 +1,24 @@
 // Peripherals based on XBReader
-import { RSPrefs } from "@/preferences";
+import { ThActionsPref } from "@/preferences";
 
-import { ActionKeys } from "@/models/actions";
-import { PShortcuts } from "@/models/shortcut";
+import { ThActionsKeys } from "@/preferences/models/enums";
 
-import { buildShortcut } from "./keyboard/buildShortcut";
+import { buildShortcut, UnstablePShortcut } from "@/core/Helpers/keyboardUtilities";
+import { isInteractiveElement } from "@/core/Helpers/focusUtilities";
 
 import { useAppStore } from "@/lib/hooks";
-import { isInteractiveElement } from "./isInteractiveElement";
 
 export interface PCallbacks {
   moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
   goProgression: (shiftKey?: boolean) => void;
-  toggleAction: (action: ActionKeys) => void;
+  toggleAction: (action: ThActionsKeys) => void;
+}
+
+export interface PShortcuts {
+  [key: string]: {
+    actionKey: ThActionsKeys;
+    modifiers: UnstablePShortcut["modifiers"];
+  }
 }
 
 export default class Peripherals {
@@ -20,26 +26,34 @@ export default class Peripherals {
   private targets: EventTarget[] = [];
   private readonly callbacks: PCallbacks;
   private readonly store: ReturnType<typeof useAppStore>;
+  private readonly actionsPref: ThActionsPref<ThActionsKeys> | undefined;
   private readonly shortcuts: PShortcuts;
 
-  constructor(store: ReturnType<typeof useAppStore>, callbacks: PCallbacks) {
+  constructor(store: ReturnType<typeof useAppStore>, actionsPref: ThActionsPref<ThActionsKeys> | undefined, callbacks: PCallbacks) {
     this.observers.forEach((method) => {
       (this as any)["on" + method] = (this as any)["on" + method].bind(this);
     });
     this.store = store;
+    this.actionsPref = actionsPref;
     this.callbacks = callbacks;
     this.shortcuts = this.retrieveShortcuts();
   }
 
-  private getPlatformModifier() {
+  private getPlatformModifier(): "ctrlKey" | "metaKey" {
     return this.store.getState().reader.platformModifier.modifier;
   }
 
   private retrieveShortcuts() {
+    if (!this.actionsPref) return {};
+
     const shortcutsObj: PShortcuts = {};
 
-    RSPrefs.actions.displayOrder.forEach((actionKey) => {
-      const shortcutString = RSPrefs.actions.keys[actionKey as keyof typeof ActionKeys].shortcut;
+    const displayOrder = this.store.getState().publication.isFXL
+      ? this.actionsPref.fxlOrder
+      : this.actionsPref.reflowOrder;
+
+    for (const actionKey of displayOrder) {
+      const shortcutString = this.actionsPref.keys[actionKey as keyof typeof ThActionsKeys].shortcut;
       
       if (shortcutString) {
         const shortcutObj = buildShortcut(shortcutString);
@@ -55,7 +69,7 @@ export default class Peripherals {
           });
         }
       }
-    });
+    };
     
     return shortcutsObj;
   }

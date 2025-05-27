@@ -1,12 +1,16 @@
 # Customization
 
-This project has been designed to be highly customizable from the start, with [multiple options configurable in its Preferences](../src/preferences.ts). This should help change a significant amount of features without having to fork and modify components. 
+This project has been designed to be highly customizable from the start, with [multiple options configurable in its Preferences](../../src/preferences/preferences.ts). This should help change a significant amount of features without having to fork and modify components heavily since the app is built almost entirely from Preferences.
+
+If you are not forking this project but importing its packages, please refer to the [Handling Preferences doc](./HandlingPreferences.md) for more details. This explains how to use the `createPreferences` helper to create your own preferences object, and how to use the `PreferencesProvider` component to make them available to all components.
+
+Otherwise you should be able to modify the preferences object directly in [defaultPreferences](../../src/preferences/defaultPreferences.ts).
 
 ## Direction
 
 The App UI supports both Left-to-Right (LTR) and Right-to-Left (RTL) languages through optional property `direction`. It will switch the entire layout, including the docking panels, independently of the publication’s reading progression.
 
-Values can be `ltr` or `rtl` and a `LayoutDirection` enum is available as well. 
+Values can be `ltr` or `rtl` and a `ThLayoutDirection` enum is available as well. 
 
 ## Locale
 
@@ -64,7 +68,7 @@ If it’s `null` then this means it is disabled entirely, and there is no upper 
 
 The strategy that should be used to lay out reflowable contents. 
 
-It is using the `RSLayoutStrategy` enum (`margin`, `lineLength`, `columns`).
+It is using the `ThLayoutStrategy` enum (`margin`, `lineLength`, `columns`).
 
 - `margin` prioritizes optimal line length and whitespace; 
 - `lineLength` prioritizes maximal line length and uses optimal as a floor to add some fluidity;
@@ -83,14 +87,14 @@ You can set what top and bottom affordances should display with properties:
 - `topAffordance`;
 - `bottomAffordance`.
 
-They are using the `ScrollAffordancePref` enum (`none`, `prev`, `next`, `both`).
+They are using the `ThScrollAffordancePref` enum (`none`, `prev`, `next`, `both`).
 
 For instance if you want nothing in the top slot you can set: 
 
 ```
 scroll: {
-  topAffordance: ScrollAffordancePref.none,
-  bottomAffordance: ScrollAffordancePref.both,
+  topAffordance: ThScrollAffordancePref.none,
+  bottomAffordance: ThScrollAffordancePref.both,
   ...
 }
 ```
@@ -99,8 +103,8 @@ Or if you want a link to the previous resource at the top, and the next at the b
 
 ```
 scroll: {
-  topAffordance: ScrollAffordancePref.prev,
-  bottomAffordance: ScrollAffordancePref.next,
+  topAffordance: ThScrollAffordancePref.prev,
+  bottomAffordance: ThScrollAffordancePref.next,
   ...
 }
 ```
@@ -109,7 +113,7 @@ scroll: {
 
 TBD.
 
-For the previous affordance, you can set the position it should go back to using `backTo` and the `ScrollBackTo` enum (`top`, `bottom`, `untouched`).
+For the previous affordance, you can set the position it should go back to using `backTo` and the `ThScrollBackTo` enum (`top`, `bottom`, `untouched`).
 
 ## Theming
 
@@ -125,7 +129,7 @@ TBD.
 
 **Please note support for shortcuts is very basic at the moment, and is consequently limited.** Any contribution to improve it will be greatly appreciated.
 
-You can set the `representation` of the special keys displayed in the shortcut component with enum `ShortcutRepresentation` (`symbol`, `short`, `long`).
+You can set the `representation` of the special keys displayed in the shortcut component with enum `ThShortcutRepresentation` (`symbol`, `short`, `long`).
 
 For instance, for key `Option` on Mac, `symbol` is `⌥`, `short` is `alt`, and `long` is `Option`.
 
@@ -135,7 +139,7 @@ For instance:
 
 ```
 shortcuts: {
-  representation: ShortcutRepresentation.short,
+  representation: ThShortcutRepresentation.short,
   joiner: "+"
 }
 ```
@@ -150,7 +154,7 @@ Action Components can be a simple trigger (e.g. fullscreen), or a combination of
 
 You can customize the order of the actions in the `displayOrder` array, and remove them as well if you don’t want to expose some. 
 
-Enum `ActionKeys` is provided to keep things consistent across the entire codebase.
+Enum `ThActionKeys` is provided to keep things consistent across the entire codebase.
 
 For instance:
 
@@ -158,9 +162,9 @@ For instance:
 actions: {
   ...
   displayOrder: [
-    ActionKeys.settings,
-    ActionKeys.toc,
-    ActionKeys.fullscreen
+    ThActionKeys.settings,
+    ThActionKeys.toc,
+    ThActionKeys.fullscreen
   ]
 }
 ```
@@ -175,7 +179,7 @@ The `keys` object contains the configuration for each `action`, with optional pr
 
 - `sheet` to specify the type of sheet the action’s container should use:
   - as a `defaultSheet` (`fullscreen`, `popover`, or `bottomSheet`);
-  - as an override of this default for specific breakpoints in a `breakpoints` object (value is a key of `SheetTypes` enum).
+  - as an override of this default for specific breakpoints in a `breakpoints` object (value is a key of `ThSheetTypes` enum).
 - `docked`: the configuration for docking. See the [docking doc](./Docking.md) for further details.
 - `snapped`: the configuration for snap points. See the [snap points doc](Snappoints.md) for further details.
 
@@ -184,12 +188,12 @@ For instance, if you want a popover sheet for Settings, except in the smaller br
 ```
 keys: {
   ...
-  [ActionKeys.settings]: {
+  [ThActionKeys.settings]: {
     ...
     sheet: {
-      defaultSheet: SheetTypes.popover,
+      defaultSheet: ThSheetTypes.popover,
       breakpoints: {
-        [StaticBreakpoints.compact]: SheetTypes.bottomSheet
+        [ThBreakpoints.compact]: ThSheetTypes.bottomSheet
       }
     }
   }
@@ -213,22 +217,22 @@ Its value can be:
 
 These limitations are:
 
-- modifier keys must use a value in the `ShortcutMetaKeywords` enum to be recognized;
+- modifier keys must use a value in the `ThShortcutMetaKeywords` enum to be recognized;
 - keys must be separated by `+` or `-`;
 - only a single alpha character is allowed in addition to modifier keys.
 
 For instance:
 
 ```
-[ActionKeys.toc]: {
+[ThActionKeys.toc]: {
   ...
-  shortcut: `${ ShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+T`
+  shortcut: `${ ThShortcutMetaKeywords.shift }+${ ThShortcutMetaKeywords.alt }+T`
 }
 ```
 
 Will toggle the Table of contents’ container when combination `Shift, Option, T` is pressed.
 
-Note `ShortcutMetaKeywords.platform` is provided as an alias mapping to the Command/Meta Key on MacOS, and Control Key on other platforms.
+Note `ThShortcutMetaKeywords.platform` is provided as an alias mapping to the Command/Meta Key on MacOS, and Control Key on other platforms.
 
 ## Docking
 

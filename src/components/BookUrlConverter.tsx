@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 
+import Locale from "../resources/locales/en.json";
+
 import bookUrlConverterStyles from "./assets/styles/bookUrlConverter.module.css";
 
-import { Button, Form, Input, Label, TextField } from "react-aria-components";
+import { ThForm } from "@/core/Components/Form/ThForm";
+import { ThFormTextField } from "@/core/Components";
 
 export const BookUrlConverter = () => {
   const [bookUrl, setBookUrl] = useState("");
@@ -36,30 +39,39 @@ export const BookUrlConverter = () => {
 
   return (
     <>
-    <Form 
+    <ThForm
+      label={ Locale.bookUrlConverter.button }
       className={ bookUrlConverterStyles.bookConverterForm }
       onSubmit={ handleAction }
+      compounds={{
+        button: {
+          className: bookUrlConverterStyles.bookConverterFormButton,
+          isDisabled: !bookUrl
+        }
+      }}
     >
-      <TextField>
-        <Label
-        className={ bookUrlConverterStyles.bookConverterFormLabel }
-        >
-          Load an EPUB publication from a remote server (it must support byte-range requests):
-        </Label>
-        <Input 
-          className={ bookUrlConverterStyles.bookConverterFormInput }
-          value={ bookUrl }
-          onChange={ (e) => setBookUrl(e.target.value) }
-          placeholder="https://www.example.org/ebook.epub"
-        />
-      </TextField>
-      <Button 
-        className={ bookUrlConverterStyles.bookConverterFormButton } 
-        type="submit" 
-      >
-        Load
-      </Button>
-    </Form>
+      <ThFormTextField
+        label={ Locale.bookUrlConverter.label }
+        name="book-url-converter"
+        className={ bookUrlConverterStyles.bookConverterFormTextField }
+        type="url"
+        errorMessage={ Locale.bookUrlConverter.error }
+        compounds={{
+          label: {
+            className: bookUrlConverterStyles.bookConverterFormLabel
+          },
+          input: {
+            className: bookUrlConverterStyles.bookConverterFormInput,
+            value: bookUrl,
+            onChange: (e) => setBookUrl(e.target.value),
+            placeholder: Locale.bookUrlConverter.placeholder
+          },
+          fieldError: {
+            className: bookUrlConverterStyles.bookConverterFormFieldError
+          }
+        }}
+      />
+    </ThForm>
   </>
   )
 }

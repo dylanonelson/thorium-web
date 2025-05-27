@@ -11,16 +11,52 @@ Thorium Web is a web-based reader for EPUB and other digital publications, built
 
 ## Getting Started
 
+There are two ways to get started with Thorium Web:
+
+- Using the Next.JS App as is
+- Using the Thorium Web package in your own project
+
+You can take a look at the [Implementers’ Guide](./docs/ImplementersGuide.md) for more details.
+
+### Using the Next.JS App as is
+
 To get started with Thorium Web, follow these steps:
 
-- Fork or clone the repository: git clone [https://github.com/your-username/thorium-web.git](https://github.com/your-username/thorium-web.git`)
+- Fork or clone the repository: `git clone https://github.com/edrlab/thorium-web.git`
 - Install dependencies: `pnpm install`
 - Start the development server: `pnpm dev`
 - Open the reader in your web browser: [http://localhost:3000](http://localhost:3000)
 
 The development server will automatically reload the page when you make changes to the code.
 
-You can take a look at the [Implementers’ Guide](./docs/ImplementersGuide.md) for more details.
+### Using the Thorium Web package in your own project
+
+To use Thorium Web in your own project, install the package and its peer dependencies:
+
+```bash
+npm install @edrlab/thorium-web react-redux @reduxjs/toolkit motion react-aria react-aria-components react-stately react-modal-sheet react-resizable-panels 
+```
+
+Then you can import and use the components in your own code:
+
+```tsx
+import { StatefulReader } from "@edrlab/thorium-web/epub"
+
+const MyApp = () => {
+  // ... fetch the manifest and get its self link href
+  return (
+    <StatefulReader
+      rawManifest={ manifestObject }
+      selfHref={ manifestSelfHref }
+    />
+  )
+}
+```
+
+You can use the StatefulReader component to use the same exact Reader component as the one in the Next.JS App, but with your own [plugins, store and preferences](./docs/packages/Epub/Guide.md). Or you can use its components to build your own custom reader.
+
+> [!IMPORTANT]
+> At this point in time, when using components from `@edrlab/thorium-web/epub`, you have to import the store/lib, hooks and Preferences Provider from the same path, otherwise your custom app will use another instance.
 
 ## Customizing
 
