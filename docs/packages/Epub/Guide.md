@@ -12,7 +12,7 @@ It also provides with its components to build your owns in a consistent way, and
 Thorium Web relies on peer dependencies to work. You must install them manually.
 
 ```bash
-npm install @edrlab/thorium-web react-redux @reduxjs/toolkit motion react-aria react-aria-components react-stately react-modal-sheet react-resizable-panels 
+npm install @edrlab/thorium-web @readium/css @readium/navigator @readium/navigator-html-injectables @readium/shared react-redux @reduxjs/toolkit motion react-aria react-aria-components react-stately react-modal-sheet react-resizable-panels 
 ```
 
 ## Reader Component
