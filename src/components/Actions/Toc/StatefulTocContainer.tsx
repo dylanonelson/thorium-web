@@ -176,7 +176,6 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
       { tocTree && tocTree.length > 0 
       ? (<>
         <ThFormSearchField
-          label={ Locale.reader.toc.search.label }
           value={ filterValue }
           onChange={ setFilterValue }
           onClear={ () => setFilterValue("") }
@@ -188,10 +187,15 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
             input: {
               ref: searchInputRef,
               className: tocStyles.tocSearchInput,
+              "aria-label": Locale.reader.toc.search.label,
               placeholder: Locale.reader.toc.search.placeholder
             },
-            button: {
-              className: tocStyles.tocSearchButton,
+            searchIcon: {
+              className: tocStyles.tocSearchIcon,
+              hidden: !!filterValue
+            },
+            clearButton: {
+              className: tocStyles.tocClearButton,
               isDisabled: !filterValue
             }
           }}

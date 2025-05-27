@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { HTMLAttributes } from "react";
 
 import { WithRef } from "../../customTypes";
+
+import SearchIcon from "./assets/icons/search.svg";
 
 import { 
   FieldError, 
@@ -24,7 +26,8 @@ export interface ThFormSearchFieldProps extends SearchFieldProps {
   compounds?: {
     label?: WithRef<LabelProps, HTMLLabelElement>;
     input?: WithRef<InputProps, HTMLInputElement>;
-    button?: ThActionButtonProps | React.ReactElement<ThActionButtonProps>;
+    searchIcon?: HTMLAttributes<HTMLDivElement> | React.ReactElement<HTMLDivElement>;
+    clearButton?: ThActionButtonProps | React.ReactElement<ThActionButtonProps>;
     description?: string;
     fieldError?: WithRef<FieldErrorProps, HTMLDivElement>;
   },
@@ -60,10 +63,17 @@ export const ThFormSearchField = ({
           }
           
           <Input { ...compounds?.input } />
+
+          { compounds?.searchIcon && React.isValidElement(compounds.searchIcon)
+           ? compounds.searchIcon
+            : <div {...compounds?.searchIcon }>
+                <SearchIcon aria-hidden="true" focusable="false" />
+              </div>
+          }
           
-          { compounds?.button && React.isValidElement(compounds.button) 
-            ? compounds.button 
-            : <ThCloseButton { ...compounds?.button } type="button" />
+          { compounds?.clearButton && React.isValidElement(compounds.clearButton) 
+            ? compounds.clearButton 
+            : <ThCloseButton { ...compounds?.clearButton } type="button" />
           }
           
           { compounds?.description && <Text slot="description"> 

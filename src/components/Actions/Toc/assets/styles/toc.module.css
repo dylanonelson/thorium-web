@@ -35,7 +35,8 @@
   outline: 2px solid var(--theme-focus);
 }
 
-.tocSearchButton {
+.tocSearchIcon,
+.tocClearButton {
   grid-area: button;
   margin-inline-start: calc(var(--icon-size, 24px) * -1.25);
   height: 100%;
@@ -43,13 +44,20 @@
   align-items: center;
 }
 
-.tocSearchButton svg {
+.tocSearchIcon svg {
+  fill: var(--theme-subdue);
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
+}
+
+.tocClearButton svg {
   fill: var(--theme-text);
   width: var(--icon-size, 24px);
   height: var(--icon-size, 24px);
 }
 
-.tocSearchButton[data-disabled] {
+.tocSearchIcon[hidden],
+.tocClearButton[data-disabled]  {
   display: none;
 }
 
