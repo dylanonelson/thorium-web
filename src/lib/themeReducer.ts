@@ -1,17 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { IThemeState } from "@/models/state/themingState";
-import { ColorScheme, Contrast, ThemeKeys } from "@/models/theme";
+import { ThColorScheme } from "@/core/Hooks/useColorScheme";
+import { ThContrast } from "@/core/Hooks/useContrast";
+import { ThBreakpoints } from "@/preferences/models/enums";
 
-const initialState: IThemeState = {
+export interface ThemeReducerState {
+  monochrome: boolean;
+  colorScheme: ThColorScheme;
+  theme: string;
+  prefersReducedMotion: boolean;
+  prefersReducedTransparency: boolean;
+  prefersContrast: ThContrast;
+  forcedColors: boolean;
+  breakpoint?: ThBreakpoints;
+}
+
+const initialState: ThemeReducerState = {
   monochrome: false,
-  colorScheme: ColorScheme.light,
-  theme: ThemeKeys.auto,
+  colorScheme: ThColorScheme.light,
+  theme: "auto",
   prefersReducedMotion: false,
   prefersReducedTransparency: false, 
-  prefersContrast: Contrast.none,
+  prefersContrast: ThContrast.none,
   forcedColors: false, 
-  staticBreakpoint: undefined
+  breakpoint: undefined
 }
 
 export const themeSlice = createSlice({
@@ -39,8 +51,8 @@ export const themeSlice = createSlice({
     setForcedColors: (state, action) => {
       state.forcedColors = action.payload
     },
-    setStaticBreakpoint: (state, action) => {
-      state.staticBreakpoint = action.payload
+    setBreakpoint: (state, action) => {
+      state.breakpoint = action.payload
     }
   }
 })
@@ -54,7 +66,7 @@ export const {
   setReducedTransparency, 
   setContrast, 
   setForcedColors, 
-  setStaticBreakpoint,
+  setBreakpoint,
 } = themeSlice.actions;
 
 export default themeSlice.reducer;

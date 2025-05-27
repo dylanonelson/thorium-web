@@ -1,23 +1,45 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ReadingDisplayAlignOptions, ReadingDisplayLineHeightOptions, RSLayoutStrategy } from "@/models/layout";
-import { ISettingsState } from "@/models/state/settingsState";
+import { ThLineHeightOptions, ThTextAlignOptions, ThLayoutStrategy } from "@/preferences/models/enums";
+import { defaultFontFamilyOptions } from "@/preferences/models/const";
 
-const initialState: ISettingsState = {
+export interface SettingsReducerState {
+  columnCount: string;
+  fontFamily: keyof typeof defaultFontFamilyOptions;
+  fontSize: number;
+  fontWeight: number;
+  hyphens: boolean | null;
+  layoutStrategy: ThLayoutStrategy;
+  letterSpacing: number | null;
+  lineHeight: ThLineHeightOptions;
+  lineLength: number | null;
+  tmpLineLengths: number[];
+  tmpMaxChars: boolean;
+  tmpMinChars: boolean;
+  paragraphIndent: number | null;
+  paragraphSpacing: number | null;
+  publisherStyles: boolean;
+  scroll: boolean;
+  textAlign: ThTextAlignOptions;
+  textNormalization: boolean;
+  wordSpacing: number | null;
+}
+
+const initialState: SettingsReducerState = {
   columnCount: "auto",
   fontFamily: "publisher",
   fontSize: 1,
   fontWeight: 400,
   hyphens: null,
-  layoutStrategy: RSLayoutStrategy.lineLength,
+  layoutStrategy: ThLayoutStrategy.lineLength,
   letterSpacing: null,
-  lineHeight: ReadingDisplayLineHeightOptions.publisher,
+  lineHeight: ThLineHeightOptions.publisher,
   lineLength: null,
   paragraphIndent: null,
   paragraphSpacing: null,
   publisherStyles: true,
   scroll: false,
-  textAlign: ReadingDisplayAlignOptions.publisher,
+  textAlign: ThTextAlignOptions.publisher,
   textNormalization: false,
   wordSpacing: null,
   tmpLineLengths: [],
