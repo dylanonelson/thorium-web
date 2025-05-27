@@ -18,9 +18,6 @@
     "declaration": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@readium/shared/*": ["./src/readium/ts-toolkit/shared/*"],
-      "@readium/navigator/*": ["./src/readium/ts-toolkit/navigator/*"],
-      "@readium/navigator-html-injectables/*": ["./src/readium/ts-toolkit/navigator-html-injectables/*"],
       "react": [ "./node_modules/@types/react" ],
       "immer": ["./node_modules/immer"]
     }
