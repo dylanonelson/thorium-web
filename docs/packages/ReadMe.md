@@ -11,7 +11,7 @@ The Thorium Web package is a collection of components that can be used to build 
 To use the Thorium Web package, you will need to add it as a dependency in your project. You can do this by running the following command:
 
 ```bash
-npm install @edrlab/thorium-web react-redux @reduxjs/toolkit motion react-aria react-aria-components react-stately react-modal-sheet react-resizable-panels 
+npm install @edrlab/thorium-web @readium/css @readium/navigator @readium/navigator-html-injectables @readium/shared react-redux @reduxjs/toolkit motion react-aria react-aria-components react-stately react-modal-sheet react-resizable-panels 
 ```
 
 Components are relying on peer dependencies to work. You must install them manually.
