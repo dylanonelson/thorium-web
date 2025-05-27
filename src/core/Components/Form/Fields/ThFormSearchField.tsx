@@ -20,7 +20,7 @@ import { ThActionButtonProps, ThCloseButton } from "../../Buttons";
 
 export interface ThFormSearchFieldProps extends SearchFieldProps {
   ref?: React.ForwardedRef<HTMLInputElement>;
-  label: string;
+  label?: string;
   compounds?: {
     label?: WithRef<LabelProps, HTMLLabelElement>;
     input?: WithRef<InputProps, HTMLInputElement>;
@@ -49,16 +49,27 @@ export const ThFormSearchField = ({
       { children 
         ? children 
         : <>
-          <Label { ...compounds?.label }>
-            { label }
-          </Label>
-          { errorMessage && <FieldError { ...compounds?.fieldError }>{ errorMessage }</FieldError> }
+          { label && <Label { ...compounds?.label }>
+              { label }
+            </Label>
+          }
+
+          { errorMessage && <FieldError { ...compounds?.fieldError }>
+              { errorMessage }
+            </FieldError> 
+          }
+          
           <Input { ...compounds?.input } />
+          
           { compounds?.button && React.isValidElement(compounds.button) 
             ? compounds.button 
             : <ThCloseButton { ...compounds?.button } type="button" />
           }
-          { compounds?.description && <Text slot="description"> { compounds?.description } </Text> }
+          
+          { compounds?.description && <Text slot="description"> 
+              { compounds?.description } 
+            </Text> 
+          }
           </> 
       }
       </>
