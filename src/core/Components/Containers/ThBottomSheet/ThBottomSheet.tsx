@@ -216,7 +216,7 @@ export const ThBottomSheet = ({
       <OverlayProvider>
         <FocusScope 
           contain={ true } 
-          autoFocus={ true } 
+          autoFocus={ focusOptions?.autoFocus ?? true } 
           restoreFocus={ true }
         >
           <ThBottomSheetContainer 

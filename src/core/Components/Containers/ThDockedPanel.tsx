@@ -30,7 +30,7 @@ export const ThDockedPanel = ({
     { isOpen && portal && createPortal(
       <FocusScope 
         contain={ false }
-        autoFocus={ true } 
+        autoFocus={ focusOptions?.autoFocus ?? true } 
         restoreFocus={ true }
       >
         <div

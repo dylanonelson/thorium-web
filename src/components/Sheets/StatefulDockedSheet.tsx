@@ -61,6 +61,7 @@ export const StatefulDockedSheet = ({
           withinRef: dockedSheetBodyRef, 
           trackedState: isOpen, 
           fallbackRef: dockedSheetCloseRef,
+          autoFocus: false,
           updateState: resetFocus
         }}
         className={ classNames(sheetStyles.dockedSheet, className, classFromFlow()) }
