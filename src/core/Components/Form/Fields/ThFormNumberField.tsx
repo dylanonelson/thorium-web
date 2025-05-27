@@ -14,7 +14,7 @@ import {
 
 export interface ThFormNumberFieldProps extends NumberFieldProps {
   ref?: React.ForwardedRef<HTMLInputElement>;
-  label: string;
+  label?: string;
   compounds?: {
     label?: WithRef<LabelProps, HTMLLabelElement>;
     input?: WithRef<InputProps, HTMLInputElement>;
@@ -38,13 +38,17 @@ export const ThFormNumberField = ({
       { children 
         ? children 
         : <>
-          <Label 
-            {...compounds?.label }
-          >
-            { label }
-          </Label>
+          { label && <Label {...compounds?.label }>
+              { label }
+            </Label>
+          }
+
           <Input {...compounds?.input } />
-          { compounds?.description && <Text slot="description"> { compounds?.description } </Text> }
+          
+          { compounds?.description && <Text slot="description"> 
+              { compounds?.description } 
+            </Text> 
+          }
           </> 
       }
     </NumberField>
