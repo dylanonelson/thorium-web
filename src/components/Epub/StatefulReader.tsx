@@ -288,17 +288,6 @@ export const StatefulReader = ({
     }));
   }, [dispatch, currentPositions]);
 
-  // We need this as a workaround due to positionChanged being unreliable
-  // in FXL – if the frame is in the pool hidden and is shown again,
-  // positionChanged won’t fire.
-  const handleFXLProgression = useCallback((locator: Locator) => {
-    handleProgression(locator);
-    localData.set(localDataKey.current, locator);
-  }, [handleProgression]);
-
-  onFXLPositionChange(handleFXLProgression);
-
-
   const initReadingEnv = async () => {
     if (navLayout() === EPUBLayout.fixed) {
       // [TMP] Working around positionChanged not firing consistently for FXL
@@ -335,6 +324,17 @@ export const StatefulReader = ({
       if (match) dispatch(setTocEntry(match.id));
     }
   }, [dispatch]);
+
+  // We need this as a workaround due to positionChanged being unreliable
+  // in FXL – if the frame is in the pool hidden and is shown again,
+  // positionChanged won’t fire.
+  const handleFXLProgression = useCallback((locator: Locator) => {
+    handleProgression(locator);
+    handleTocEntryOnNav(new Link(locator));
+    localData.set(localDataKey.current, locator);
+  }, [handleProgression, handleTocEntryOnNav]);
+
+  onFXLPositionChange(handleFXLProgression);
 
   const p = new Peripherals(useAppStore(), RSPrefs.actions, {
     moveTo: (direction) => {
