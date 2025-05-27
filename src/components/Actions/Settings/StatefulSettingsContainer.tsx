@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 
 import { 
   defaultSpacingSettingsMain, 
@@ -52,7 +52,9 @@ export const StatefulSettingsContainer = ({
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.settings]);
   const dispatch = useAppDispatch();
 
-  const settingItems = useRef(isFXL ? fxlSettingsKeys : reflowSettingsKeys);
+  const settingItems = useMemo(() => {
+    return isFXL ? fxlSettingsKeys : reflowSettingsKeys
+  }, [isFXL, fxlSettingsKeys, reflowSettingsKeys]);
   
   const docking = useDocking(ThActionsKeys.settings);
   const sheetType = docking.sheetType;
@@ -101,8 +103,8 @@ export const StatefulSettingsContainer = ({
       default:
         return (
           <>
-            { settingItems.current.length > 0 && settingsComponentsMap 
-              ? settingItems.current
+            { settingItems.length > 0 && settingsComponentsMap 
+              ? settingItems
                 .filter((key) => !(isTextNested(key) || isSpacingNested(key)))
                 .map((key) => {
                   const match = settingsComponentsMap[key];
@@ -117,7 +119,7 @@ export const StatefulSettingsContainer = ({
           </>
         );
     }
-  }, [settingsComponentsMap, contains, isTextNested, isSpacingNested]);
+  }, [settingsComponentsMap, contains, settingItems, isTextNested, isSpacingNested]);
 
   const getHeading = useCallback(() => {
     switch (contains) {
