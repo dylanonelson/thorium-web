@@ -17,6 +17,7 @@ interface StatefulSheet {
   docker?: ThDockingKeys[];                // Optional docking positions
   children?: ReactNode;                     // Sheet content
   resetFocus?: unknown;                     // Focus reset handler
+  withinFocusRef?: RefObject<HTMLElement | null>; // Focus within handler
   dismissEscapeKeyClose?: boolean;          // Disable Escape key closing
 }
 ```
