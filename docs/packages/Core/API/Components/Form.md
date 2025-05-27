@@ -27,7 +27,7 @@ interface ThFormProps extends FormProps {
 ```typescript
 interface ThFormTextFieldProps extends TextFieldProps {
   ref?: React.ForwardedRef<HTMLInputElement>;
-  label: string;                      // Field label text
+  label?: string;                      // Field label text
   compounds?: {
     label?: LabelProps;               // Props for label component
     input?: InputProps;               // Props for input component
@@ -51,7 +51,7 @@ interface ThFormTextFieldProps extends TextFieldProps {
 ```typescript
 interface ThFormNumberFieldProps extends NumberFieldProps {
   ref?: React.ForwardedRef<HTMLInputElement>;
-  label: string;                      // Field label text
+  label?: string;                      // Field label text
   compounds?: {
     label?: LabelProps;               // Props for label component
     input?: InputProps;               // Props for input component
@@ -64,4 +64,29 @@ interface ThFormNumberFieldProps extends NumberFieldProps {
 - Numeric input with validation
 - Type-safe number handling
 - Customizable label and input styling
+- Help text support
+
+## ThFormSearchField
+
+### Props
+
+```typescript
+interface ThFormSearchFieldProps extends NumberFieldProps {
+  ref?: React.ForwardedRef<HTMLInputElement>;
+  label?: string;                      // Field label text
+  compounds?: {
+    label?: LabelProps;
+    input?: InputProps;
+    searchIcon?: HTMLAttributes<HTMLDivElement> | React.ReactElement<HTMLDivElement>;
+    clearButton?: ThActionButtonProps | React.ReactElement<ThActionButtonProps>;
+    description?: string;
+    fieldError?: FieldErrorProps;
+  },
+  errorMessage?: string | ((validation: ValidationResult) => string);
+}
+```
+
+### Features
+- Search input with validation
+- Customizable label, input, icon and button styling
 - Help text support
