@@ -9,6 +9,17 @@
     "web reader"
   ],
   "license": "BSD-3-Clause",
+  "author": {
+    "name": "EDRLab",
+    "url": "https://www.edrlab.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edrlab/thorium-web.git"
+  },
+  "bugs": {
+    "url": "https://github.com/edrlab/thorium-web/issues"
+  },
   "version": "0.10.0",
   "private": false,
   "files": [
