@@ -31,6 +31,7 @@ export const StatefulFullScreenSheet = ({
     onClosePress,
     children,
     resetFocus,
+    focusWithinRef,
     dismissEscapeKeyClose
   }: StatefulFullScreenSheetProps) => {
   const direction = useAppSelector(state => state.reader.direction);
@@ -44,7 +45,7 @@ export const StatefulFullScreenSheet = ({
       <ThModal 
         ref={ fullScreenBodyRef }
         focusOptions={{
-          withinRef: fullScreenBodyRef,
+          withinRef: focusWithinRef ?? fullScreenBodyRef,
           trackedState: isOpen,
           fallbackRef: fullScreenCloseRef,
           updateState: resetFocus

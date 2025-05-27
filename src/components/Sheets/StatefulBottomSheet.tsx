@@ -48,6 +48,7 @@ export const StatefulBottomSheet = ({
   onClosePress,
   children,
   resetFocus,
+  focusWithinRef,
   dismissEscapeKeyClose
 }: StatefulBottomSheetProps) => {
   const RSPrefs = usePreferences();
@@ -255,7 +256,7 @@ export const StatefulBottomSheet = ({
         ref={ sheetRef }
         isOpen={ isOpen }
         focusOptions={{
-          withinRef: bottomSheetBodyRef,
+          withinRef: focusWithinRef ?? bottomSheetBodyRef,
           trackedState: isOpen,
           fallbackRef: bottomSheetCloseRef,
           updateState: resetFocus

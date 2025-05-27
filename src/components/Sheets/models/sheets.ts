@@ -14,5 +14,6 @@ export interface StatefulSheet {
   docker?: ThDockingKeys[];
   children?: ReactNode;
   resetFocus?: unknown;
+  focusWithinRef?: RefObject<HTMLElement | null>;
   dismissEscapeKeyClose?: boolean;
 }

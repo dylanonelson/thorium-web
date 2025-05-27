@@ -34,7 +34,8 @@ export const StatefulDockedSheet = ({
     docker, 
     flow,
     children,
-    resetFocus
+    resetFocus,
+    focusWithinRef
   }: StatefulDockedSheetProps) => {
   const dockPortal = flow && document.getElementById(flow);
   const dockedSheetHeaderRef = useRef<HTMLDivElement | null>(null);
@@ -58,7 +59,7 @@ export const StatefulDockedSheet = ({
         isOpen={ isOpen }
         portal={ dockPortal }
         focusOptions={ {
-          withinRef: dockedSheetBodyRef, 
+          withinRef: focusWithinRef ?? dockedSheetBodyRef, 
           trackedState: isOpen, 
           fallbackRef: dockedSheetCloseRef,
           autoFocus: false,
