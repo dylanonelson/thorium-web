@@ -12,6 +12,14 @@ import { usePreferences } from "@/preferences/hooks/usePreferences";
 
 import { useAppSelector } from "@/lib/hooks";
 
+// TODO: Responsive.
+// When resizing the window, all widths should be recalculated.
+// There is no guarantee that the panel group is the same size as the window,
+// so we have to rewrite this hook to observe the panel group, and push the new
+// widths to the StatefulDockingWrapper so that it can update panels.
+// Note that the StatefulDockingWrapper cannot pass PanelGroup as a ref, 
+// it requires using a utility method: getPanelGroupElement(id)
+// See https://github.com/bvaughn/react-resizable-panels/tree/main/packages/react-resizable-panels#can-a-attach-a-ref-to-the-dom-elements
 export const useResizablePanel = (panel: DockStateObject) => {
   const RSPrefs = usePreferences();
   const defaultWidth = RSPrefs.theming.layout.defaults.dockingWidth;
