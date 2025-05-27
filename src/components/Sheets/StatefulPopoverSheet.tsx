@@ -39,6 +39,7 @@ export const StatefulPopoverSheet = ({
     docker,
     children,
     resetFocus,
+    focusWithinRef,
     dismissEscapeKeyClose
   }: StatefulPopoverSheetProps) => {
   const direction = useAppSelector(state => state.reader.direction);
@@ -54,7 +55,7 @@ export const StatefulPopoverSheet = ({
         ref={ popoverRef }
         triggerRef={ triggerRef }
         focusOptions={{
-          withinRef: popoverBodyRef,
+          withinRef: focusWithinRef ?? popoverBodyRef,
           trackedState: isOpen,
           fallbackRef: popoverCloseRef,
           updateState: resetFocus

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { CSSProperties, useCallback, useEffect, useState } from "react";
+import React, { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 
 import Locale from "../../../resources/locales/en.json";
 
@@ -34,6 +34,8 @@ import { setHovering, setImmersive } from "@/lib/readerReducer";
 import { isActiveElement } from "@/core/Helpers/focusUtilities";
 
 export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProps) => {
+  const treeRef = useRef<HTMLDivElement | null>(null);
+  
   const tocEntry = useAppSelector(state => state.publication.tocEntry);
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === ThLayoutDirection.rtl;
@@ -167,7 +169,8 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
         isOpen: actionState?.isOpen || false,
         onOpenChange: setOpen,
         onClosePress: () => setOpen(false),
-        docker: docking.getDocker()
+        docker: docking.getDocker(),
+        focusWithinRef: treeRef
       } }
     >
       { tocTree && tocTree.length > 0 
@@ -194,7 +197,9 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
           }}
         />
         <Tree
+          // TODO: Remove this when we handle fragments
           key={ forceRerender }
+          ref={ treeRef }
           aria-label={ Locale.reader.toc.entries }
           selectionMode="single"
           items={ displayedTocTree }
