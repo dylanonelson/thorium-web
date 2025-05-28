@@ -2,6 +2,10 @@
   display: none;
 }
 
+.noOpacity {
+  opacity: 0;
+}
+
 /* Relative to immersive opacity */
 .subduedAlways {
   opacity: 1;
