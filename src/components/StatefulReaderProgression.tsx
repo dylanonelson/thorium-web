@@ -20,7 +20,7 @@ export interface UnstableProgressionObject {
   currentPublication?: string;
 }
 
-export const StatefulReaderProgression = ({ className }: { className?: string }) => {
+export const StatefulReaderProgression = () => {
   const jsonTemplate = parseTemplate(Locale.reader.app.progression.of);
   const progression: UnstableProgressionObject = useAppSelector(state => state.publication.progression);
 
@@ -49,7 +49,6 @@ export const StatefulReaderProgression = ({ className }: { className?: string })
     && <ThProgression 
       id={ progressionStyles.current } 
       aria-label={ Locale.reader.app.progression.wrapper }
-      className={ className }
     >
       { jsonTemplate({ current: current, reference: reference }) }
     </ThProgression>}
