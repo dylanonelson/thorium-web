@@ -88,6 +88,7 @@ import {
   setPositionsList
 } from "@/lib/publicationReducer";
 
+import classNames from "classnames";
 import debounce from "debounce";
 import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
 import { createDefaultPlugin } from "../Plugins/helpers/createDefaultPlugin";
@@ -187,6 +188,7 @@ export const StatefulReader = ({
     (breakpoint === ThBreakpoints.large || breakpoint === ThBreakpoints.xLarge);
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
+  const isHovering = useAppSelector(state => state.reader.isHovering);
 
   // We need to use a cache so that we can use updated values
   // without re-rendering the component, and reloading EpubNavigator
@@ -462,6 +464,7 @@ export const StatefulReader = ({
       return true;
     },
     click: function (_e: FrameClickEvent): boolean {
+      (navLayout() === EPUBLayout.fixed) && handleTap(_e);
       return true;
     },
     zoom: function (_scale: number): void {},
@@ -772,7 +775,16 @@ export const StatefulReader = ({
     <ThPluginProvider>
       <main>
         <StatefulDockingWrapper>
-          <div id="reader-main">
+          <div 
+            id="reader-main" 
+            className={ 
+              classNames(
+                isFXL ? "isFXL" : "isReflow",
+                isImmersive ? "isImmersive" : "",
+                isHovering ? "isHovering" : ""
+              )
+            }
+          >
             <StatefulReaderHeader />
 
           { isPaged 
