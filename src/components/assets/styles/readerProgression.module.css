@@ -2,3 +2,7 @@
   color: var(--theme-text);
   font-variant-numeric: lining-nums tabular-nums;
 }
+
+:global(.isFXL.isImmersive:not(.isHovering)) #current {
+  display: none;
+}

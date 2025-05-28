@@ -6,7 +6,6 @@ import { ActionKeyType, usePreferenceKeys } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
-import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
 import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
@@ -74,7 +73,6 @@ export const StatefulReaderHeader = () => {
         label={ runningHead || Locale.reader.app.header.runningHeadFallback } 
         syncDocTitle={ true }
         aria-label={ Locale.reader.app.header.runningHead }
-        className={ isFXL && isImmersive && !isHovering ? readerStateStyles.noDisplay : "" }
       />
       
       <StatefulCollapsibleActionsBar 
