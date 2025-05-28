@@ -123,6 +123,7 @@ export interface StatelessCache {
   arrowsOccupySpace: boolean;
   settings: ReadiumCSSSettings;
   tocTree?: TocItem[];
+  positionsList: Locator[];
   colorScheme?: ThColorScheme;
   reducedMotion?: boolean;
 }
@@ -155,6 +156,7 @@ export const StatefulReader = ({
   const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
 
   const isFXL = useAppSelector(state => state.publication.isFXL);
+  const positionsList = useAppSelector(state => state.publication.positionsList);
   const tocTree = useAppSelector(state => state.publication.tocTree);
   const tocEntry = useAppSelector(state => state.publication.tocEntry);
 
@@ -211,6 +213,7 @@ export const StatefulReader = ({
       wordSpacing: wordSpacing
     },
     tocTree: tocTree,
+    positionsList: positionsList || [],
     colorScheme: colorScheme,
     reducedMotion: reducedMotion
   });
@@ -288,30 +291,17 @@ export const StatefulReader = ({
     }));
   }, [dispatch, currentPositions]);
 
-  const initReadingEnv = async () => {
-    if (navLayout() === EPUBLayout.fixed) {
-      // [TMP] Working around positionChanged not firing consistently for FXL
-      // Init’ing so that progression can be populated on first spread loaded
-      const cLoc = currentLocator();
-      if (cLoc) handleProgression(cLoc);
-    } else {
-      // [TMP] We need to handle this in multiple places due to the lack of Injection API.
-      // This mounts and unmounts scroll affordances on iframe loaded
-      handleScrollAffordances(cache.current.settings.scroll);
-    }
-  };
-
-  const handleTocEntryOnNav = useCallback((link?: Link) => {
-    if (!link) return;
+  const handleTocEntryOnNav = useCallback((locator?: Locator) => {
+    if (!locator) return;
 
     if (cache.current.tocTree) {
-      const findMatch = (items: TocItem[]): TocItem | undefined => {
+      const findMatch = (items: TocItem[], link?: Link): TocItem | undefined => {
         for (const item of items) {
-          if (item.href === link.href) {
+          if (item.href === link?.href) {
             return item;
           }
           if (item.children) {
-            const match = findMatch(item.children);
+            const match = findMatch(item.children, link);
             if (match) {
               return match;
             }
@@ -320,21 +310,59 @@ export const StatefulReader = ({
         return undefined;
       };
 
-      const match = findMatch(cache.current.tocTree);
-      if (match) dispatch(setTocEntry(match.id));
+      // First try to find a match for the current position
+      const currentMatch = findMatch(cache.current.tocTree, new Link(locator));
+      if (currentMatch) {
+        dispatch(setTocEntry(currentMatch.id));
+        return;
+      }
+
+      // If we're in FXL and didn't find a match, try to find a match for the other position in the spread
+      if (navLayout() === EPUBLayout.fixed) {
+        const positions = currentPositions();
+        if (positions && positions.length === 2) {
+          // We have a spread, get the other position
+          const otherPosition = positions[0] === locator.locations.position ? positions[1] : positions[0];
+          
+          // Find the other position in positionsList
+          const otherPositionInList = cache.current.positionsList.find((pos: Locator) => pos.locations.position === otherPosition);
+          if (otherPositionInList) {
+            const match = findMatch(cache.current.tocTree, new Link(otherPositionInList));
+            if (match) {
+              dispatch(setTocEntry(match.id));
+              return;
+            }
+          }
+        }
+      }
     }
-  }, [dispatch]);
+  }, [dispatch, currentPositions, navLayout]);
 
   // We need this as a workaround due to positionChanged being unreliable
   // in FXL – if the frame is in the pool hidden and is shown again,
   // positionChanged won’t fire.
   const handleFXLProgression = useCallback((locator: Locator) => {
     handleProgression(locator);
-    handleTocEntryOnNav(new Link(locator));
+    handleTocEntryOnNav(locator);
     localData.set(localDataKey.current, locator);
   }, [handleProgression, handleTocEntryOnNav]);
 
   onFXLPositionChange(handleFXLProgression);
+
+  const initReadingEnv = async () => {
+    if (navLayout() === EPUBLayout.fixed) {
+      // [TMP] Working around positionChanged not firing consistently for FXL
+      // Init’ing so that progression can be populated on first spread loaded
+      const cLoc = currentLocator();
+      if (cLoc) {
+        handleFXLProgression(cLoc);
+      };
+    } else {
+      // [TMP] We need to handle this in multiple places due to the lack of Injection API.
+      // This mounts and unmounts scroll affordances on iframe loaded
+      handleScrollAffordances(cache.current.settings.scroll);
+    }
+  };
 
   const p = new Peripherals(useAppStore(), RSPrefs.actions, {
     moveTo: (direction) => {
@@ -368,7 +396,7 @@ export const StatefulReader = ({
         activateImmersiveOnAction();
       }
     },
-    toggleAction: (actionKey) => {  
+    toggleAction: (actionKey) => {
       switch (actionKey) {
         case ThActionsKeys.fullscreen:
           fs.handleFullscreen();
@@ -402,7 +430,7 @@ export const StatefulReader = ({
     positionChanged: async function (locator: Locator): Promise<void> {
       const currentLocator = localData.get(localDataKey.current);
       if (currentLocator?.href !== locator.href) {
-        handleTocEntryOnNav(new Link(locator));
+        handleTocEntryOnNav(locator);
       }
 
       // This can’t be relied upon with FXL to handleProgression at the moment,
@@ -550,17 +578,21 @@ export const StatefulReader = ({
   }, [wordSpacing]);
 
   useEffect(() => {
+    cache.current.positionsList = positionsList || [];
+  }, [positionsList]);
+
+  useEffect(() => {
     cache.current.tocTree = tocTree;
 
     if (tocEntry) return;
 
     const knownPosition: Locator = localData.get(localDataKey.current);
     if (knownPosition) {
-      handleTocEntryOnNav(new Link(knownPosition));
+      handleTocEntryOnNav(knownPosition);
     } else {
       const initialTocEntry = tocTree?.[0];
       if (initialTocEntry) {
-        handleTocEntryOnNav(new Link({ href: initialTocEntry.href }));
+        handleTocEntryOnNav(new Locator({ href: initialTocEntry.href, type: "" }));
       }
     }
   }, [tocTree, tocEntry, handleTocEntryOnNav]);
