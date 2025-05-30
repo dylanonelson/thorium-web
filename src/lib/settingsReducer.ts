@@ -3,6 +3,27 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ThLineHeightOptions, ThTextAlignOptions, ThLayoutStrategy } from "@/preferences/models/enums";
 import { defaultFontFamilyOptions } from "@/preferences/models/const";
 
+export interface LineLengthStateObject {
+  optimal: number;
+  min?: {
+    chars?: number | null;
+    isDisabled?: boolean;
+  },
+  max?: {
+    chars?: number | null;
+    isDisabled?: boolean;
+  }
+}
+
+export interface SetLineLengthPayload {
+  type: string;
+  payload: {
+    key: "optimal" | "min" | "max";
+    value?: number | null;
+    isDisabled?: boolean;
+  }
+}
+
 export interface SettingsReducerState {
   columnCount: string;
   fontFamily: keyof typeof defaultFontFamilyOptions;
@@ -12,10 +33,7 @@ export interface SettingsReducerState {
   layoutStrategy: ThLayoutStrategy;
   letterSpacing: number | null;
   lineHeight: ThLineHeightOptions;
-  lineLength: number | null;
-  tmpLineLengths: number[];
-  tmpMaxChars: boolean;
-  tmpMinChars: boolean;
+  lineLength: LineLengthStateObject;
   paragraphIndent: number | null;
   paragraphSpacing: number | null;
   publisherStyles: boolean;
@@ -34,7 +52,9 @@ const initialState: SettingsReducerState = {
   layoutStrategy: ThLayoutStrategy.lineLength,
   letterSpacing: null,
   lineHeight: ThLineHeightOptions.publisher,
-  lineLength: null,
+  lineLength: {
+    optimal: 65,
+  },
   paragraphIndent: null,
   paragraphSpacing: null,
   publisherStyles: true,
@@ -42,9 +62,6 @@ const initialState: SettingsReducerState = {
   textAlign: ThTextAlignOptions.publisher,
   textNormalization: false,
   wordSpacing: null,
-  tmpLineLengths: [],
-  tmpMaxChars: false,
-  tmpMinChars: false
 }
 
 export const settingsSlice = createSlice({
@@ -75,8 +92,52 @@ export const settingsSlice = createSlice({
     setLineHeight: (state, action) => {
       state.lineHeight = action.payload
     },
-    setLineLength: (state, action) => {
-      state.lineLength = action.payload
+    setLineLength: (state, action: SetLineLengthPayload) => {
+      // For min and max, we need to spread and handle isDisabled
+      // when it is directly set, or depending on the payload value
+      const deriveIsDisabled = (value: number | null | undefined, isDisabled?: boolean): boolean => {
+        if (value === null) return true;
+        if (isDisabled !== undefined) return isDisabled;
+        return false;
+      };
+
+      switch (action.payload.key) {
+        case "optimal":
+          if (action.payload.value) {
+            state.lineLength = {
+              ...state.lineLength,
+              optimal: action.payload.value
+            };
+          }
+          break;
+        
+        case "min":
+          state.lineLength = {
+            ...state.lineLength,
+            min: {
+              ...state.lineLength.min,
+              chars: action.payload.value !== undefined 
+                ? action.payload.value 
+                : state.lineLength.min?.chars,
+              isDisabled: deriveIsDisabled(action.payload.value, action.payload.isDisabled)
+            }
+          };
+          break;
+        case "max":
+          state.lineLength = {
+            ...state.lineLength,
+            max: {
+              ...state.lineLength.max,
+              chars: action.payload.value !== undefined 
+                ? action.payload.value 
+                : state.lineLength.max?.chars,
+              isDisabled: deriveIsDisabled(action.payload.value, action.payload.isDisabled)
+            }
+          };
+          break;
+        default:
+          break;
+      }
     },
     setParagraphIndent: (state, action) => {
       state.paragraphIndent = action.payload
@@ -98,15 +159,6 @@ export const settingsSlice = createSlice({
     },
     setWordSpacing: (state, action) => {
       state.wordSpacing = action.payload
-    },
-    setTmpLineLengths: (state, action) => {
-      state.tmpLineLengths = action.payload
-    },
-    setTmpMaxChars: (state, action) => {
-      state.tmpMaxChars = action.payload
-    },
-    setTmpMinChars: (state, action) => {
-      state.tmpMinChars = action.payload
     }
   }
 })
@@ -128,10 +180,7 @@ export const {
   setScroll,
   setTextAlign,
   setTextNormalization, 
-  setWordSpacing,
-  setTmpLineLengths,
-  setTmpMaxChars,
-  setTmpMinChars
+  setWordSpacing
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

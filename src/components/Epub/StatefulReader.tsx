@@ -87,6 +87,7 @@ import {
   setTocEntry,
   setPositionsList
 } from "@/lib/publicationReducer";
+import { LineLengthStateObject } from "@/lib/settingsReducer";
 
 import classNames from "classnames";
 import debounce from "debounce";
@@ -106,7 +107,7 @@ export interface ReadiumCSSSettings {
   fontWeight: number;
   hyphens: boolean | null;
   letterSpacing: number | null;
-  lineLength: number | null;
+  lineLength: LineLengthStateObject;
   lineHeight: ThLineHeightOptions | null;
   layoutStrategy: ThLayoutStrategy;
   paragraphIndent: number | null;
@@ -725,7 +726,13 @@ export const StatefulReader = ({
             : cache.current.settings.lineHeight === null 
               ? null 
               : lineHeightOptions[cache.current.settings.lineHeight],
-          lineLength: cache.current.settings.lineLength,
+          optimalLineLength: cache.current.settings.lineLength?.optimal,
+          maximalLineLength: cache.current.settings.lineLength?.max?.isDisabled 
+            ? null 
+            : cache.current.settings.lineLength?.max?.chars,
+          minimalLineLength: cache.current.settings.lineLength?.min?.isDisabled 
+            ? null 
+            : cache.current.settings.lineLength?.min?.chars,
           paragraphIndent: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paragraphIndent,
           paragraphSpacing: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paragraphSpacing,
           scroll: cache.current.settings.scroll,

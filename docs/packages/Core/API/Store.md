@@ -136,10 +136,7 @@ interface SettingsReducerState {
   layoutStrategy: ThLayoutStrategy;
   letterSpacing: number | null;
   lineHeight: ThLineHeightOptions;
-  lineLength: number | null;
-  tmpLineLengths: number[];
-  tmpMaxChars: boolean;
-  tmpMinChars: boolean;
+  lineLength: LineLengthStateObject;
   paragraphIndent: number | null;
   paragraphSpacing: number | null;
   publisherStyles: boolean;
@@ -159,10 +156,7 @@ interface SettingsReducerState {
 - `setLayoutStrategy`: Set layout strategy
 - `setLetterSpacing`: Set letter spacing
 - `setLineHeight`: Set line height
-- `setLineLength`: Set line length
-- `setTmpLineLengths`: Set temporary line lengths
-- `setTmpMaxChars`: Set temporary max chars
-- `setTmpMinChars`: Set temporary min chars
+- `setLineLength`: Set one or several line lengths (optimal, min, max)
 - `setParagraphIndent`: Set paragraph indent
 - `setParagraphSpacing`: Set paragraph spacing
 - `setPublisherStyles`: Set publisher styles
