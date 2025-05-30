@@ -62,7 +62,7 @@ export const StatefulReaderArrowButton = ({
   const handleClassNameFromState = () => {
     let className = "";
     if (!hasArrows && !switchedFromScrollable()) {
-      className = readerStateStyles.immersiveHidden;
+      className = readerStateStyles.noOpacity;
     }
     return className;
   };

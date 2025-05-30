@@ -6,7 +6,6 @@ import { ActionKeyType, usePreferenceKeys } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
-import readerStateStyles from "./assets/styles/readerStates.module.css";
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
 import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
@@ -19,8 +18,6 @@ import { usePreferences } from "@/preferences/hooks";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-
-import classNames from "classnames";
 
 export const StatefulReaderHeader = () => {
   const { reflowActionKeys, fxlActionKeys } = usePreferenceKeys();
@@ -40,16 +37,6 @@ export const StatefulReaderHeader = () => {
 
   const removeHover = () => {
     dispatch(setHovering(false));
-  };
-
-  const handleClassNameFromState = () => {
-    let className = "";
-    if (isImmersive && isHovering) {
-      className = readerStateStyles.immersiveHovering;
-    } else if (isImmersive) {
-      className = readerStateStyles.immersive;
-    }
-    return className
   };
 
   const listActionItems = useCallback(() => {
@@ -76,7 +63,7 @@ export const StatefulReaderHeader = () => {
   return (
     <>
     <ThHeader 
-      className={ classNames(readerHeaderStyles.header, handleClassNameFromState()) } 
+      className={ readerHeaderStyles.header } 
       id="top-bar" 
       aria-label={ Locale.reader.app.header.label } 
       onMouseEnter={ setHover } 
