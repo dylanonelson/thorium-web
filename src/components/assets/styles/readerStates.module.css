@@ -1,12 +1,8 @@
-.immersive {
-  opacity: var(--theme-immerse);
+.noDisplay {
+  display: none;
 }
 
-.immersiveHovering {
-  opacity: 1;
-}
-
-.immersiveHidden {
+.noOpacity {
   opacity: 0;
 }
 

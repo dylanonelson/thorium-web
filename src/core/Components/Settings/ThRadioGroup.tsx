@@ -80,6 +80,7 @@ export const ThRadioGroup = ({
               { ...compounds?.radio }
               key={ index }
               value={ item.value }
+              isDisabled={ item.isDisabled }
             >
               <React.Fragment>
                 { item.icon && <item.icon aria-hidden="true" focusable="false" /> }

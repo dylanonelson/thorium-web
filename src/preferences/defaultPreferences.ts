@@ -28,7 +28,7 @@ export const defaultPreferences = createPreferences({
   direction: ThLayoutDirection.ltr,
   locale: "en",
   typography: {
-    minimalLineLength: 45, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
+    minimalLineLength: 40, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
     maximalLineLength: 75, // undefined | null | number of characters.
     pageGutter: 20, // body padding in px
