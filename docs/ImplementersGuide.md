@@ -101,12 +101,14 @@ Here's a high-level system diagram showing the relationships between the compone
 +----------------+
 ```
 
-Alternatively, you can use the packages the project exports in your own. Please refer to [their specific documentation](./packages/) for further information. 
+## Thorium Web Package
 
-Thorium Web exposes a `StatefulReader` component with EPUB Support that is working exactly as the one you can find here, with extensibility through custom preferences and plugins. But you could also build your own using the Stateful Components if your needs are greater than that.
+Alternatively, you can use the `@edrlab/thorium-web` package the project exports in your own. You can think of it as a library of React components that you can use to build your own web application. Please refer to [its specific documentation](./packages/) for further information. 
+
+Thorium Web exposes a `StatefulReader` component with EPUB Support that is working exactly as the one you can find here, with extensibility through custom preferences and plugins. But you could also build your own using the other Components if your needs are greater than that.
 
 > [!NOTE]
-> Given the massive shift required to package the original Next.js app’s component, Stateful Components are initially shipping with dependencies and restrictions. These will eventually be removed but any help will be greatly appreciated.
+> Given the massive shift required to package the original Next.js app’s components, packaged Components are initially shipping with dependencies and restrictions. These will eventually be removed but any help will be greatly appreciated.
 
 ## Prerequisites for implementation
 

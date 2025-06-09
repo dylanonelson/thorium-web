@@ -16,6 +16,8 @@ npm install @edrlab/thorium-web @readium/css @readium/navigator @readium/navigat
 
 Components are relying on peer dependencies to work. You must install them manually.
 
+Note that these components do not require Next.js, you should be able to use them in any React application or React framework of your choice.
+
 ## Contributing
 
 If you want to contribute to the Thorium Web package, here are the steps to bundle them and test locally.
