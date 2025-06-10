@@ -32,7 +32,7 @@ export const createDefaultPlugin = (): ThPlugin => {
     id: "core",
     name: "Core Components",
     description: "Default components for Thorium Web StatefulReader",
-    version: "0.10.0",
+    version: "1.0.0-beta.1",
     components: {
       actions: {
         [ThActionsKeys.fullscreen]: {
