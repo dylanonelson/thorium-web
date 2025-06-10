@@ -229,10 +229,10 @@ The `<StatefulReader>` Component will then register these components but will no
 To add your custom components to the Reader Component, you need to configure the preferences.
 
 ```tsx
-import { createDefaultPreferences, ThPreferences } from "@edrlab/thorium-web/core";
+import { createPreferences, ThPreferences } from "@edrlab/thorium-web/core";
 
 // Create your custom preferences
-const myPreferences: ThPreferences = createDefaultPreferences({
+const myPreferences: ThPreferences = createPreferences({
   //... other preferences
   actions: {
     //... other props
