@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@readium/navigator':
-        specifier: '>=2.0.0-beta.3'
-        version: 2.0.0-beta.3
+        specifier: '>=2.0.0-beta.4'
+        version: 2.0.0-beta.4
       '@readium/navigator-html-injectables':
-        specifier: '>=2.0.0-beta.1'
-        version: 2.0.0-beta.1
+        specifier: '>=2.0.0-beta.2'
+        version: 2.0.0-beta.2
       '@readium/shared':
         specifier: ^1.2.1
         version: 1.2.1
@@ -1780,12 +1780,12 @@ packages:
   '@readium/css@2.0.0-beta.13':
     resolution: {integrity: sha512-45WweTkywrRmPiaKE0gCKOxyMJjCyNzv/FG4H31vxeOdmGpZXeoQSpK7jm5DGnrlCUHUPQzkLSwJtNJhXBY3AQ==}
 
-  '@readium/navigator-html-injectables@2.0.0-beta.1':
-    resolution: {integrity: sha512-tDOf7sT/5m+ld1iwEXm25EnyAFMz+PVIL0BbASlTIm0YG2ic+HwlEYIQC+4nRGtd5MUfFUEzmZUCspSth3R5Eg==}
+  '@readium/navigator-html-injectables@2.0.0-beta.2':
+    resolution: {integrity: sha512-iQvkKjS6u6MYagAKppHxlXIyMP2PlQ+ijW90hMeFh+4qJxb/3BnPtWvL2NbXRlP8q7f+8+TRcRc0DVArCYXaYg==}
     engines: {node: '>=18'}
 
-  '@readium/navigator@2.0.0-beta.3':
-    resolution: {integrity: sha512-v6pHoLXybgwsr4VwQ+atk4mzkTtZm9SFkhaJWEOImh4FETnnzmgNUPry6puIhkiu0PEsDBidoL7k52qQNgcqJA==}
+  '@readium/navigator@2.0.0-beta.4':
+    resolution: {integrity: sha512-s6SI2R5QZ+w3S+hCt+U8BvBmoF9hQpjHKVP/P0HxLOOI0xhr2XBbJvqSdlI5PFo/uHYLEcMstY5A05FmrnZ2Vw==}
     engines: {node: '>=18'}
 
   '@readium/shared@1.2.1':
@@ -6041,9 +6041,9 @@ snapshots:
 
   '@readium/css@2.0.0-beta.13': {}
 
-  '@readium/navigator-html-injectables@2.0.0-beta.1': {}
+  '@readium/navigator-html-injectables@2.0.0-beta.2': {}
 
-  '@readium/navigator@2.0.0-beta.3': {}
+  '@readium/navigator@2.0.0-beta.4': {}
 
   '@readium/shared@1.2.1': {}
 
