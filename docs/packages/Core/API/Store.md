@@ -57,12 +57,15 @@ interface ActionsReducerState {
 ```
 
 **Actions:**
+- `dockAction`: Dock/undock an action
 - `setActionOpen`: Set action state open/closed
-- `setActionDock`: Set action docking state
-- `toggleAction`: Toggle action state
-- `setActionSlot`: Set action slot
-- `setActionDocked`: Set action docked state
-- `setOverflowOpen`: Set overflow state open/closed
+- `toggleActionOpen`: Toggle action state
+- `setOverflow`: Set overflow state open/closed
+- `activateDockPanel`: Activate a dock panel
+- `deactivateDockPanel`: Deactivate a dock panel
+- `collapseDockPanel`: Collapse a dock panel
+- `expandDockPanel`: Expand a dock panel
+- `setDockPanelWidth`: Set dock panel width
 
 ### Publication Reducer
 
@@ -75,6 +78,7 @@ interface PublicationReducerState {
   isFXL: boolean;
   isRTL: boolean;
   progression: UnstableProgressionObject;
+  positionsList: Locator[];
   atPublicationStart: boolean;
   atPublicationEnd: boolean;
   tocTree?: TocItem[];
@@ -84,9 +88,10 @@ interface PublicationReducerState {
 
 **Actions:**
 - `setRunningHead`: Set running head text
-- `setFXL`: Set fixed layout state
-- `setRTL`: Set right-to-left state
+- `setFXL`: Set publication as fixed layout
+- `setRTL`: Set publication as right-to-left
 - `setProgression`: Update progression state
+- `setPositionsList`: Update positions list
 - `setPublicationStart`: Set at publication start state
 - `setPublicationEnd`: Set at publication end state
 - `setTocTree`: Set table of contents tree
@@ -119,7 +124,7 @@ interface ReaderReducerState {
 - `setHovering`: Set hovering state
 - `setArrows`: Set arrows visibility
 - `setFullscreen`: Set fullscreen mode
-- `setSettingsContainer`: Set settings container
+- `setSettingsContainer`: Set type of settings container (main, or subpanel)
 
 ### Settings Reducer
 
@@ -187,8 +192,8 @@ interface ThemeReducerState {
 - `setMonochrome`: Set monochrome mode
 - `setColorScheme`: Set color scheme
 - `setTheme`: Set current theme
-- `setPrefersReducedMotion`: Set reduced motion preference
-- `setPrefersReducedTransparency`: Set reduced transparency preference
-- `setPrefersContrast`: Set contrast preference
+- `setReducedMotion`: Set reduced motion preference
+- `setReducedTransparency`: Set reduced transparency preference
+- `setContrast`: Set contrast preference
 - `setForcedColors`: Set forced colors mode
 - `setBreakpoint`: Set current breakpoint

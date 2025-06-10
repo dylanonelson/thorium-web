@@ -32,7 +32,7 @@ The Core package comes with a list of slices offering multiple reducers:
 
 - `actionsReducer`: manages the actions of the application (opening a menu, opening a modal, etc.);
 - `publicationReducer`: manages data related to the publication (direction, title, etc.);
-- `readerReducer`: manages state of the reader (current page, current location, etc.);
+- `readerReducer`: manages state of the reader (loading, immersive mode, etc.);
 - `settingsReducer`: manages settings of the application (typography, spacing, etc.);
 - `themeReducer`: manages the theme and accessibility of the application.
 
