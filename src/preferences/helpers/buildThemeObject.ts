@@ -4,7 +4,7 @@ import { ThColorScheme } from "@/core/Hooks/useColorScheme";
 import { ThemeTokens } from "../hooks/useTheming";
 
 export interface buildThemeProps<T extends string> {
-  theme: string;
+  theme?: string;
   themeKeys: { [key in T]?: ThemeTokens },
   systemThemes?: {
     light: T,
@@ -19,33 +19,38 @@ export const buildThemeObject = <T extends string>({
   systemThemes,
   colorScheme
 }: buildThemeProps<T>) => {
-    if (theme === "auto" && colorScheme && systemThemes) {
-      theme = colorScheme === ThColorScheme.dark ? systemThemes.dark : systemThemes.light;
-    }
+  if (!theme) {
+    return {};
+  }
 
-    let themeProps = {};
+  if (theme === "auto" && colorScheme && systemThemes) {
+    theme = colorScheme === ThColorScheme.dark ? systemThemes.dark : systemThemes.light;
+  }
 
-    const themeToken = themeKeys[theme as T];
-    if (themeToken) {
-      themeProps = {
-        backgroundColor: themeToken.background,
-        textColor: themeToken.text,
-        linkColor: themeToken.link,
-        selectionBackgroundColor: themeToken.select,
-        selectionTextColor: themeToken.onSelect,
-        visitedColor: themeToken.visited
-      };
-    } else {
-      // Fallback if theme doesn't exist
-      console.warn(`Theme key "${String(theme)}" not found in themeKeys.`);
-      themeProps = {
-        backgroundColor: null,
-        textColor: null,
-        linkColor: null,
-        selectionBackgroundColor: null,
-        selectionTextColor: null,
-        visitedColor: null
-      };
-    }
-    return themeProps;
-  };
+  let themeProps = {};
+
+  const themeToken = themeKeys[theme as T];
+  if (themeToken) {
+    themeProps = {
+      backgroundColor: themeToken.background,
+      textColor: themeToken.text,
+      linkColor: themeToken.link,
+      selectionBackgroundColor: themeToken.select,
+      selectionTextColor: themeToken.onSelect,
+      visitedColor: themeToken.visited
+    };
+  } else {
+    // Fallback if theme doesn't exist
+    console.warn(`Theme key "${String(theme)}" not found in themeKeys.`);
+    themeProps = {
+      backgroundColor: null,
+      textColor: null,
+      linkColor: null,
+      selectionBackgroundColor: null,
+      selectionTextColor: null,
+      visitedColor: null
+    };
+  }
+
+  return themeProps;
+};
