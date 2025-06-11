@@ -21,7 +21,8 @@ import {
   ThScrollBackTo, 
   ThSettingsKeys, 
   ThTextAlignOptions, 
-  ThLayoutStrategy 
+  ThLayoutStrategy, 
+  ThLayoutUI
 } from "../../preferences/models/enums";
 import { ThColorScheme } from "@/core/Hooks/useColorScheme";
 
@@ -121,6 +122,7 @@ export interface ReadiumCSSSettings {
 }
 
 export interface StatelessCache {
+  layoutUI: ThLayoutUI;
   isImmersive: boolean;
   arrowsOccupySpace: boolean;
   settings: ReadiumCSSSettings;
@@ -162,6 +164,10 @@ export const StatefulReader = ({
   const tocTree = useAppSelector(state => state.publication.tocTree);
   const tocEntry = useAppSelector(state => state.publication.tocEntry);
 
+  const layoutUI = isFXL 
+    ? RSPrefs.theming.layout.ui?.fxl || ThLayoutUI.layered 
+    : ThLayoutUI.stacked;
+
   const textAlign = useAppSelector(state => state.settings.textAlign);
   const columnCount = useAppSelector(state => state.settings.columnCount);
   const fontFamily = useAppSelector(state => state.settings.fontFamily);
@@ -194,6 +200,7 @@ export const StatefulReader = ({
   // We need to use a cache so that we can use updated values
   // without re-rendering the component, and reloading EpubNavigator
   const cache = useRef<StatelessCache>({
+    layoutUI: layoutUI,
     isImmersive: isImmersive,
     arrowsOccupySpace: arrowsOccupySpace || false,
     settings: {
@@ -465,7 +472,7 @@ export const StatefulReader = ({
       return true;
     },
     click: function (_e: FrameClickEvent): boolean {
-      (navLayout() === EPUBLayout.fixed) && handleTap(_e);
+      (cache.current.layoutUI === ThLayoutUI.layered) && handleTap(_e);
       return true;
     },
     zoom: function (_scale: number): void {},
@@ -504,6 +511,10 @@ export const StatefulReader = ({
   }, [submitPreferences]);
 
   // Handling side effects on Navigator
+
+  useEffect(() => {
+    cache.current.layoutUI = layoutUI;
+  }, [layoutUI]);
 
   useEffect(() => {
     cache.current.settings.scroll = scroll;
@@ -788,7 +799,8 @@ export const StatefulReader = ({
               classNames(
                 isFXL ? "isFXL" : "isReflow",
                 isImmersive ? "isImmersive" : "",
-                isHovering ? "isHovering" : ""
+                isHovering ? "isHovering" : "",
+                layoutUI
               )
             }
           >

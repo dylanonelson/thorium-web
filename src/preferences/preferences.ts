@@ -16,7 +16,8 @@ import {
   ThTextSettingsKeys, 
   ThThemeKeys, 
   ThLayoutDirection, 
-  ThLayoutStrategy 
+  ThLayoutStrategy, 
+  ThLayoutUI
 } from "./models/enums";
 import { ThCollapsibility, ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
 import { defaultActionKeysObject } from "./models";
@@ -148,6 +149,9 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
       tooltipDelay?: number;
     };
     layout: {
+      ui?: {
+        fxl: ThLayoutUI
+      };
       radius: number;
       spacing: number;
       defaults: {

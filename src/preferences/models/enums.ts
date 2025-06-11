@@ -1,5 +1,10 @@
 "use client";
 
+export enum ThLayoutUI {
+  stacked = "stacked-ui",
+  layered = "layered-ui"
+}
+
 export enum ThActionsKeys {
   fullscreen = "fullscreen",
   jumpToPosition = "jumpToPosition",

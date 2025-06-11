@@ -26,7 +26,7 @@
   text-overflow: ellipsis; 
 }
 
-:global(.isFXL.isImmersive:not(.isHovering)) .header h1 {
+:global(.layered-ui.isImmersive:not(.isHovering)) .header h1 {
   user-select: none;
   pointer-events: none;
   opacity: 0;
