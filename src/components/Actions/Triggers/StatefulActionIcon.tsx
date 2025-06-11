@@ -6,7 +6,6 @@ import { TooltipProps } from "react-aria-components";
 import { ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
-import readerStateStyles from "../../assets/styles/readerStates.module.css";
 
 import { ThActionButton, ThActionButtonProps } from "@/core/Components/Buttons/ThActionButton";
 
@@ -45,18 +44,10 @@ export const StatefulActionIcon = ({
     
     switch(visibility) {
       case ThCollapsibilityVisibility.always:
-        if (!isHovering && isImmersive) {
-          className = readerStateStyles.subduedAlways;
-        } else {
-          className = visibility;
-        }
+        className = readerSharedUI.alwaysVisible;
         break;
       case ThCollapsibilityVisibility.partially:
-        if (!isHovering && isImmersive) {
-          className = readerStateStyles.subduedPartially;
-        } else {
-          className = visibility;
-        }
+        className = readerSharedUI.partiallyVisible;
         break;
       case ThCollapsibilityVisibility.overflow:
       default:
