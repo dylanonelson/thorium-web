@@ -6,7 +6,8 @@ import {
   defaultFontFamilyOptions, 
   defaultLineHeights, 
   ThemeKeyType, 
-  usePreferenceKeys 
+  usePreferenceKeys, 
+  useTheming
 } from "../../preferences";
 
 import Locale from "../../resources/locales/en.json";
@@ -68,7 +69,17 @@ import { usePrevious } from "@/core/Hooks/usePrevious";
 import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
 import { AppDispatch } from "@/lib/store";
-import { setTheme } from "@/lib/themeReducer";
+import { 
+  setBreakpoint, 
+  setColorScheme, 
+  setContrast, 
+  setForcedColors, 
+  setMonochrome, 
+  setReducedMotion, 
+  setReducedTransparency, 
+  setTheme, 
+  ThemeStateObject 
+} from "@/lib/themeReducer";
 import { 
   setImmersive, 
   setLoading,
@@ -100,6 +111,7 @@ import { localData } from "@/core/Helpers/localData";
 import { getPlatformModifier } from "@/core/Helpers/keyboardUtilities";
 import { createTocTree, TocItem } from "@/helpers/createTocTree";
 import { deserializePositions } from "@/helpers/deserializePositions";
+import { propsToCSSVars } from "@/core/Helpers/propsToCSSVars";
 
 export interface ReadiumCSSSettings {
   columnCount: string;
@@ -117,7 +129,7 @@ export interface ReadiumCSSSettings {
   scroll: boolean;
   textAlign: ThTextAlignOptions | null;
   textNormalization: boolean;
-  theme: string;
+  theme?: string;
   wordSpacing: number | null;
 }
 
@@ -185,7 +197,8 @@ export const StatefulReader = ({
   const isPaged = !scroll;
   const textNormalization = useAppSelector(state => state.settings.textNormalization);
   const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
-  const theme = useAppSelector(state => state.theming.theme);
+  const themeObject = useAppSelector(state => state.theming.theme);
+  const theme = isFXL ? themeObject.fxl : themeObject.reflow;
   const previousTheme = usePrevious(theme);
   const colorScheme = useAppSelector(state => state.theming.colorScheme);
   const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
@@ -196,6 +209,26 @@ export const StatefulReader = ({
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
+
+  // Init theming (breakpoints, theme, media queries…)
+  useTheming<ThemeKeyType>({ 
+    theme: theme,
+    themeKeys: RSPrefs.theming.themes.keys,
+    systemKeys: RSPrefs.theming.themes.systemThemes,
+    breakpointsMap: RSPrefs.theming.breakpoints,
+    initProps: {
+      ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
+      ...propsToCSSVars(RSPrefs.theming.icon, "icon"),
+      ...propsToCSSVars(RSPrefs.theming.layout, "layout")
+    },
+    onBreakpointChange: (breakpoint) => dispatch(setBreakpoint(breakpoint)),
+    onColorSchemeChange: (colorScheme) => dispatch(setColorScheme(colorScheme)),
+    onContrastChange: (contrast) => dispatch(setContrast(contrast)),
+    onForcedColorsChange: (forcedColors) => dispatch(setForcedColors(forcedColors)),
+    onMonochromeChange: (isMonochrome) => dispatch(setMonochrome(isMonochrome)),
+    onReducedMotionChange: (reducedMotion) => dispatch(setReducedMotion(reducedMotion)),
+    onReducedTransparencyChange: (reducedTransparency) => dispatch(setReducedTransparency(reducedTransparency))
+  });
 
   // We need to use a cache so that we can use updated values
   // without re-rendering the component, and reloading EpubNavigator
@@ -629,6 +662,8 @@ export const StatefulReader = ({
       cache.current.colorScheme = colorScheme;
     }
 
+    const theme = isFXL ? themeObject.fxl : themeObject.reflow;
+
     // Protecting against re-applying on theme change
     if (theme !== "auto" && previousTheme !== theme) return;
 
@@ -642,12 +677,15 @@ export const StatefulReader = ({
         colorScheme
       });
       await submitPreferences(themeProps);
-      dispatch(setTheme(themeKey));
+      dispatch(setTheme({ 
+        key: isFXL ? "fxl" : "reflow", 
+        value: themeKey 
+      }));
     };
 
     applyCurrentTheme()
       .catch(console.error);
-  }, [theme, previousTheme, RSPrefs.theming.themes, fxlThemeKeys, reflowThemeKeys, colorScheme, isFXL, submitPreferences, dispatch]);
+  }, [themeObject, previousTheme, RSPrefs.theming.themes, fxlThemeKeys, reflowThemeKeys, colorScheme, isFXL, submitPreferences, dispatch]);
 
   useEffect(() => {
     RSPrefs.direction && dispatch(setDirection(RSPrefs.direction));
@@ -787,9 +825,14 @@ export const StatefulReader = ({
     };
   }, [rawManifest, selfHref, RSPrefs, fxlThemeKeys, reflowThemeKeys]);
 
+  // If breakpoint is not defined, we are not ready to render
+  // since useDocking needs it to derive the sheet type
+  // Same for arrows and collapsible actions.
+  if (!breakpoint) return null;
+
   return (
     <>
-    <I18nProvider locale={  RSPrefs.locale  }>
+    <I18nProvider locale={ RSPrefs.locale }>
     <ThPluginProvider>
       <main>
         <StatefulDockingWrapper>

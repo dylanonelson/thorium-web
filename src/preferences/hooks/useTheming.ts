@@ -32,7 +32,7 @@ export interface ThemeTokens {
 };
 
 export interface useThemingProps<T extends string> {
-  theme: string;
+  theme?: string;
   themeKeys: { [key in T]?: ThemeTokens };
   systemKeys?: {
     light: T;
@@ -84,7 +84,11 @@ export const useTheming = <T extends string>({
     }
   }, [initProps]);
 
-  const setThemeCustomProps = useCallback((t: string) => {
+  const setThemeCustomProps = useCallback((t?: string) => {
+    if (!t) {
+      return;
+    }
+
     if (t === "auto") {
       const autoTheme = inferThemeAuto();
       if (!autoTheme) {

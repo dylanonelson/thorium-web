@@ -29,12 +29,14 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
   const RSPrefs = usePreferences();
   const radioGroupRef = useRef<HTMLDivElement | null>(null);
 
-  const theme = useAppSelector(state => state.theming.theme);
-  const colorScheme = useAppSelector(state => state.theming.colorScheme)
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === ThLayoutDirection.rtl;
   const themeArray = isFXL ? fxlThemeKeys : reflowThemeKeys;
+
+  const themeObject = useAppSelector(state => state.theming.theme);
+  const theme = isFXL ? themeObject.fxl : themeObject.reflow;
+  const colorScheme = useAppSelector(state => state.theming.colorScheme);
 
   const themeItems = useRef<(ThemeKeyType | "auto")[]>(
     themeArray.filter((theme: ThemeKeyType | "auto") => {
@@ -61,8 +63,11 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
     })
     await submitPreferences(themeProps);
 
-    dispatch(setTheme(value));
-  }, [RSPrefs.theming.themes.keys, RSPrefs.theming.themes.systemThemes, submitPreferences, dispatch, colorScheme]);
+    dispatch(setTheme({ 
+      key: isFXL ? "fxl" : "reflow", 
+      value: value
+    }));
+  }, [isFXL, RSPrefs.theming.themes.keys, RSPrefs.theming.themes.systemThemes, submitPreferences, dispatch, colorScheme]);
 
   // It’s easier to inline styles from preferences for these
   // than spamming the entire app with all custom properties right now
