@@ -62,7 +62,22 @@
   border-radius: var(--layout-radius);
 }
 
+/* Visibility + Immersive */
+
+.alwaysVisible {
+  opacity: 1;
+}
+
+:global(.isImmersive:not(.isHovering)) .partiallyVisible {
+  opacity: 0;
+}
+
+:global(.layered-ui) .partiallyVisible {
+  transition: opacity 0.4s ease-in-out;
+}
+
 /* Utils to improve icons’ consistency */
+
 .iconCompSm {
   padding: calc(var(--icon-size, 24px) * (1/3));
 }
