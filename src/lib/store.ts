@@ -73,7 +73,7 @@ export const makeStore = (storageKey?: string) => {
 
   const saveStateDebounced = debounce(() => {
     saveState(store.getState(), storageKey);
-  }, 500);
+  }, 250);
 
   store.subscribe(saveStateDebounced);
 
