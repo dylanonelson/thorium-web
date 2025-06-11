@@ -16,7 +16,8 @@ import {
   ThLayoutStrategy,
   ThLineHeightOptions,
   ThTextSettingsKeys,
-  ThSheetHeaderVariant
+  ThSheetHeaderVariant,
+  ThLayoutUI
 } from "./models/enums";
 import { createPreferences } from "./preferences";
 
@@ -49,6 +50,9 @@ export const defaultPreferences = createPreferences({
       tooltipOffset: 10 // offset of tooltip in px
     },
     layout: {
+      ui: {
+        fxl: ThLayoutUI.layered
+      },
       radius: 5, // border-radius of containers
       spacing: 20, // padding of containers/sheets
       defaults: {
