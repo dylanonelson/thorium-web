@@ -85,7 +85,7 @@ export const useBreakpoints = (map: BreakpointsMap<number | null>, onChange?: (b
   const xLargeMatches = useMediaQuery(xLargeMedia);
 
   useEffect(() => {
-    let newBreakpoint = null;
+    let newBreakpoint = currentBreakpoint;
 
     if (compactMatches) {
       newBreakpoint = ThBreakpoints.compact;
@@ -101,7 +101,7 @@ export const useBreakpoints = (map: BreakpointsMap<number | null>, onChange?: (b
 
     setCurrentBreakpoint(newBreakpoint);
     onChange && onChange(newBreakpoint);
-  }, [compactMatches, mediumMatches, expandedMatches, largeMatches, xLargeMatches, onChange]);
+  }, [currentBreakpoint, compactMatches, mediumMatches, expandedMatches, largeMatches, xLargeMatches, onChange]);
 
   return {
     [ThBreakpoints.compact]: compactMatches,
