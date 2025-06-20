@@ -11,22 +11,7 @@ import { StatefulReader } from "@/components/Epub";
 
 import { StatefulLoader } from "@/components/StatefulLoader";
 
-import { useTheming } from "@/preferences/hooks/useTheming";
-import { usePreferences } from "@/preferences/hooks/usePreferences";
-
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { ThemeKeyType } from "@/preferences";
-import { 
-  setBreakpoint, 
-  setColorScheme, 
-  setContrast, 
-  setForcedColors, 
-  setMonochrome, 
-  setReducedMotion, 
-  setReducedTransparency 
-} from "@/lib/themeReducer";
-
-import { propsToCSSVars } from "@/core/Helpers/propsToCSSVars";
+import { useAppSelector } from "@/lib/hooks";
 
 // TODO page metadata w/ generateMetadata
 
@@ -38,31 +23,6 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
   const [selfLink, setSelfLink] = useState<string | undefined>(undefined);
 
   const readerIsLoading = useAppSelector(state => state.reader.isLoading);
-
-  const RSPrefs = usePreferences();
-  const theme = useAppSelector(state => state.theming.theme);
-
-  const dispatch = useAppDispatch();
-
-  // Init theming (breakpoints, theme, media queries…)
-  useTheming<ThemeKeyType>({ 
-    theme: theme,
-    themeKeys: RSPrefs.theming.themes.keys,
-    systemKeys: RSPrefs.theming.themes.systemThemes,
-    breakpointsMap: RSPrefs.theming.breakpoints,
-    initProps: {
-      ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
-      ...propsToCSSVars(RSPrefs.theming.icon, "icon"),
-      ...propsToCSSVars(RSPrefs.theming.layout, "layout")
-    },
-    onBreakpointChange: (breakpoint) => dispatch(setBreakpoint(breakpoint)),
-    onColorSchemeChange: (colorScheme) => dispatch(setColorScheme(colorScheme)),
-    onContrastChange: (contrast) => dispatch(setContrast(contrast)),
-    onForcedColorsChange: (forcedColors) => dispatch(setForcedColors(forcedColors)),
-    onMonochromeChange: (isMonochrome) => dispatch(setMonochrome(isMonochrome)),
-    onReducedMotionChange: (reducedMotion) => dispatch(setReducedMotion(reducedMotion)),
-    onReducedTransparencyChange: (reducedTransparency) => dispatch(setReducedTransparency(reducedTransparency))
-  });
 
   useEffect(() => {
     setIsClient(true);

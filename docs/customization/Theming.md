@@ -3,7 +3,7 @@
 The `theming` property is responsible for the look and feel of the app, as it allows to specify a large amount of properties:
 
 - breakpoints;
-- layout defaults and constraints;
+- layout UI, defaults and constraints;
 - arrows and icons; 
 - themes.
 
@@ -40,6 +40,7 @@ These static breakpoints will be reused for docking, collapsibility, sheets/cont
 
 Object `layout` allows to configure:
 
+- `ui` for the layout of Fixed-Layout EPUBs;
 - the border `radius` of button icons and sheets/containers (in `px`);
 - the `spacing` of components (in `px`) when applicable e.g. padding and spacing of sheets/containers;
 - `defaults` for:
@@ -55,6 +56,9 @@ For instance:
 theming: {
   ...
   layout: {
+    ui: {
+      fxl: ThLayoutUI.layered
+    },
     radius: 0,
     spacing: 20,
     defaults: {
@@ -70,6 +74,7 @@ theming: {
 ```
 This means:
 
+- Fixed-Layout EPUBs will use `layered` layout, with contents occupying the full size of the viewport – nav bars are layered on top of it;
 - your actions’ triggers and containers won’t have any border radius;
 - they’ll use `20px` as a reference for padding and their sections’ margins;
 - the default for the docking width is `300px`;

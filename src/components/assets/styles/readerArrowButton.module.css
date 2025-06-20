@@ -48,6 +48,10 @@
   pointer-events: none;
 }
 
+.container .visuallyHidden {
+  opacity: 0;
+}
+
 .container button[data-focused] {
   outline: 2px solid var(--theme-focus);
   opacity: 1;

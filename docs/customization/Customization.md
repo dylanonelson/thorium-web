@@ -34,7 +34,7 @@ typography: {
   optimalLineLength: 65,
   maximalLineLength: 75,
   pageGutter: 20,
-  layoutStrategy: RSLayoutStrategy.margin
+  layoutStrategy: ThLayoutStrategy.margin
 }
 ```
 
