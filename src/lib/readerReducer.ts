@@ -40,15 +40,9 @@ export const readerSlice = createSlice({
     },
     setImmersive: (state, action) => {
       state.isImmersive = action.payload
-      if (action.payload === true) {
-        state.isHovering = false;
-      }
     },
     toggleImmersive: (state) => {
       state.isImmersive = !state.isImmersive;
-      if (state.isImmersive === true) {
-        state.isHovering = false;
-      }
     },
     setHovering: (state, action) => {
       state.isHovering = action.payload

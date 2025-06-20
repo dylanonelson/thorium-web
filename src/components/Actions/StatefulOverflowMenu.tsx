@@ -18,8 +18,6 @@ import { toggleImmersive } from "@/lib/readerReducer";
 import { setOverflow } from "@/lib/actionsReducer";
 import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
 
-import classNames from "classnames";
-
 export interface StatefulOverflowMenuProps {
   id: string;
   items: ThActionEntry<string | ThActionsKeys | ThDockingKeys>[];
@@ -67,7 +65,7 @@ export const StatefulOverflowMenu = ({
           },
           button: (
             <StatefulActionIcon
-              className={ classNames(className, overflowMenuStyles.activeButton) }
+              className={ className ? className : overflowMenuStyles.activeButton }
               aria-label={ Locale.reader.overflowMenu.active.trigger }
               placement="bottom"
               tooltipLabel={ Locale.reader.overflowMenu.active.tooltip }
@@ -80,21 +78,25 @@ export const StatefulOverflowMenu = ({
       />
       </>
     )
-  } else if (actionFallback) {
-    return(
-      <>
-      <StatefulActionIcon 
-        className={ classNames(className, overflowMenuStyles.hintButton) } 
-        aria-label={ Locale.reader.overflowMenu.hint.trigger }
-        placement="bottom"
-        tooltipLabel={ Locale.reader.overflowMenu.hint.tooltip } 
-        visibility={ ThCollapsibilityVisibility.always }
-        onPress={ () => dispatch(toggleImmersive()) }
-        preventFocusOnPress={ true }
-      >
-        <MenuIcon aria-hidden="true" focusable="false" />
-      </StatefulActionIcon>
-    </>
-    )
+  } else {
+    if (actionFallback) {
+      return(
+        <>
+        <StatefulActionIcon 
+          className={ className ? className : overflowMenuStyles.hintButton } 
+          aria-label={ Locale.reader.overflowMenu.hint.trigger }
+          placement="bottom"
+          tooltipLabel={ Locale.reader.overflowMenu.hint.tooltip } 
+          visibility={ ThCollapsibilityVisibility.always }
+          onPress={ () => { dispatch(toggleImmersive()) } }
+          preventFocusOnPress={ true }
+        >
+          <MenuIcon aria-hidden="true" focusable="false" />
+        </StatefulActionIcon>
+      </>
+      )
+    } else {
+      return(<></>)
+    }
   }
 }

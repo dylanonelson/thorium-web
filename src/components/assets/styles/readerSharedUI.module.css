@@ -68,7 +68,7 @@
   opacity: 1;
 }
 
-:global(.isImmersive:not(.isScroll):not(.isHovering)) .partiallyVisible {
+:global(.isImmersive:not(.isHovering)) .partiallyVisible {
   opacity: 0;
 }
 
