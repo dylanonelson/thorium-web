@@ -4,12 +4,10 @@ import { useEffect, useState } from "react";
 
 import { HttpFetcher } from "@readium/shared";
 import { Link } from "@readium/shared";
-import { ThPlugin } from "@/components/Plugins";
 
 import "../app.css";
 
-import dynamic from "next/dynamic";
-const Reader = dynamic<{ rawManifest: object; selfHref: string; plugin?: ThPlugin }>(() => import("../../components/Epub/StatefulReader").then((mod) => mod.StatefulReader), { ssr: false });
+import { StatefulReader } from "@/components/Epub";
 
 import { StatefulLoader } from "@/components/StatefulLoader";
 
@@ -122,7 +120,7 @@ export default function ReaderPage({ searchParams }: { searchParams: Promise<{ [
       ? <span>{ error }</span> 
       : <StatefulLoader isLoading={ readerIsLoading }>
           { isClient && manifest && selfLink && 
-            <Reader rawManifest={ manifest } selfHref={ selfLink } />
+            <StatefulReader rawManifest={ manifest } selfHref={ selfLink } />
           }
         </StatefulLoader>        
     }
