@@ -29,7 +29,7 @@ import { usePrevious } from "@/core/Hooks/usePrevious";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 import { setTocEntry } from "@/lib/publicationReducer";
-import { setImmersive } from "@/lib/readerReducer";
+import { setHovering, setImmersive } from "@/lib/readerReducer";
 
 import { isActiveElement } from "@/core/Helpers/focusUtilities";
 
@@ -105,10 +105,12 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
         ? () => {
           dispatch(setTocEntry(key));
           dispatch(setImmersive(true));
+          dispatch(setHovering(false));
         } 
         : () => {
           dispatch(setTocEntry(key));
           dispatch(setImmersive(true));
+          dispatch(setHovering(false));
           setOpen(false);
         }
 

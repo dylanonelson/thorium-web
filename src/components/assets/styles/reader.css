@@ -199,25 +199,9 @@ div:has(> .readium-navigator-iframe.blank)::after {
 
 /* Immersive */
 
-.stacked-ui.isPaged.isImmersive:not(.isHovering) #top-bar,
-.stacked-ui.isPaged.isImmersive:not(.isHovering) #bottom-bar {
+.stacked-ui.isImmersive:not(.isHovering) #top-bar,
+.stacked-ui.isImmersive:not(.isHovering) #bottom-bar {
   opacity: var(--theme-immerse);
-}
-
-.stacked-ui.isScroll #top-bar {
-  position: relative;
-  z-index: 1000;
-  transition-property: transform, flex, height, padding-block;
-  transition-duration: 0.4s;
-  transition-timing-function: ease-in-out;
-  transform: translateY(0);
-}
-
-.stacked-ui.isScroll.isImmersive:not(.isHovering) #top-bar:not(:focus-within) {
-  transform: translateY(calc(var(--icon-size, 24px) * -2.5));
-  flex: 0 0 0;
-  height: 0;
-  padding-block: 0;
 }
 
 .layered-ui.isImmersive:not(.isHovering) #top-bar,
