@@ -4,7 +4,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import readerReducer from "@/lib/readerReducer";
 import settingsReducer from "@/lib/settingsReducer";
-import themeReducer from "@/lib/themeReducer";
+import themeReducer, { ThemeReducerState } from "@/lib/themeReducer";
 import actionsReducer, { ActionsReducerState } from "@/lib/actionsReducer";
 import publicationReducer from "./publicationReducer";
 
@@ -12,13 +12,29 @@ import debounce from "debounce";
 
 const DEFAULT_STORAGE_KEY = "thorium-web-state";
 
+// TMP Migration
+// TODO: Remove this in the next major version
+const migrateThemeState = (state: ThemeReducerState) => {
+  if (typeof state.theme === "string") {
+    return {
+      ...state,
+      theme: {
+        reflow: state.theme,
+        fxl: state.theme
+      }
+    };
+  }
+  return state;
+};
+
+
 const updateActionsState = (state: ActionsReducerState) => {
   const updatedKeys = Object.fromEntries(
     Object.entries(state.keys).map(([key, value]) => [
       key,
       {
         ...value,
-        isOpen: value?.docking === ThDockingKeys.transient || value?.docking === null && value?.isOpen === true ? false : value?.isOpen,
+        isOpen: value?.docking === ThDockingKeys.transient || value?.docking == null && value?.isOpen === true ? false : value?.isOpen,
       },
     ])
   );
@@ -39,6 +55,11 @@ const loadState = (storageKey?: string) => {
     }
     const deserializedState = JSON.parse(serializedState);
     deserializedState.actions = updateActionsState(deserializedState.actions);
+    
+    // TMP Migration
+    // TODO: Remove this in the next major version
+    deserializedState.theming = migrateThemeState(deserializedState.theming);
+
     return deserializedState;
   } catch (err) {
     return { actions: undefined, settings: undefined, theming: undefined };
@@ -73,7 +94,7 @@ export const makeStore = (storageKey?: string) => {
 
   const saveStateDebounced = debounce(() => {
     saveState(store.getState(), storageKey);
-  }, 500);
+  }, 250);
 
   store.subscribe(saveStateDebounced);
 

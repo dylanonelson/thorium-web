@@ -3,7 +3,7 @@
   font-variant-numeric: lining-nums tabular-nums;
 }
 
-:global(.isFXL.isImmersive:not(.isHovering)) #current {
+:global(.layered-ui.isImmersive:not(.isHovering)) #current {
   user-select: none;
   pointer-events: none;
   opacity: 0;

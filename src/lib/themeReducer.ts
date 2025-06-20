@@ -4,10 +4,23 @@ import { ThColorScheme } from "@/core/Hooks/useColorScheme";
 import { ThContrast } from "@/core/Hooks/useContrast";
 import { ThBreakpoints } from "@/preferences/models/enums";
 
+export interface ThemeStateObject {
+  reflow?: string;
+  fxl?: string;
+}
+
+export interface ThemeStateChangePayload {
+  type: string;
+  payload: {
+    key: "reflow" | "fxl";
+    value?: string;
+  }
+}
+
 export interface ThemeReducerState {
   monochrome: boolean;
   colorScheme: ThColorScheme;
-  theme: string;
+  theme: ThemeStateObject;
   prefersReducedMotion: boolean;
   prefersReducedTransparency: boolean;
   prefersContrast: ThContrast;
@@ -18,7 +31,10 @@ export interface ThemeReducerState {
 const initialState: ThemeReducerState = {
   monochrome: false,
   colorScheme: ThColorScheme.light,
-  theme: "auto",
+  theme: {
+    reflow: "auto",
+    fxl: "auto"
+  },
   prefersReducedMotion: false,
   prefersReducedTransparency: false, 
   prefersContrast: ThContrast.none,
@@ -36,8 +52,8 @@ export const themeSlice = createSlice({
     setColorScheme: (state, action) => {
       state.colorScheme = action.payload
     },
-    setTheme: (state, action) => {
-      state.theme = action.payload
+    setTheme: (state, action: ThemeStateChangePayload) => {
+      state.theme[action.payload.key] = action.payload.value || "auto"
     },
     setReducedMotion: (state, action) => {
       state.prefersReducedMotion = action.payload

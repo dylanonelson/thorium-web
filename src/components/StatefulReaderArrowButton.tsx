@@ -6,7 +6,6 @@ import Locale from "../resources/locales/en.json";
 
 import arrowStyles from "./assets/styles/readerArrowButton.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
-import readerStateStyles from "./assets/styles/readerStates.module.css";
 
 import { PressEvent } from "react-aria";
 
@@ -62,7 +61,7 @@ export const StatefulReaderArrowButton = ({
   const handleClassNameFromState = () => {
     let className = "";
     if (!hasArrows && !switchedFromScrollable()) {
-      className = readerStateStyles.noOpacity;
+      className = arrowStyles.visuallyHidden;
     }
     return className;
   };
