@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { 
   defaultFontFamilyOptions, 
@@ -77,8 +77,7 @@ import {
   setMonochrome, 
   setReducedMotion, 
   setReducedTransparency, 
-  setTheme, 
-  ThemeStateObject 
+  setTheme 
 } from "@/lib/themeReducer";
 import { 
   setImmersive, 
@@ -136,12 +135,14 @@ export interface ReadiumCSSSettings {
 export interface StatelessCache {
   layoutUI: ThLayoutUI;
   isImmersive: boolean;
+  isHovering: boolean;
   arrowsOccupySpace: boolean;
   settings: ReadiumCSSSettings;
   tocTree?: TocItem[];
   positionsList: Locator[];
   colorScheme?: ThColorScheme;
   reducedMotion?: boolean;
+  lastProgression: number | null;
 }
 
 export interface StatefulReaderProps {
@@ -204,11 +205,13 @@ export const StatefulReader = ({
   const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
 
   const breakpoint = useAppSelector(state => state.theming.breakpoint);
-  const arrowsOccupySpace = breakpoint && 
+  const arrowsOccupySpace = isPaged && breakpoint &&
     (breakpoint === ThBreakpoints.large || breakpoint === ThBreakpoints.xLarge);
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
+
+  const [lastProgression, setLastProgression] = useState<number | null>(null);
 
   // Init theming (breakpoints, theme, media queries…)
   useTheming<ThemeKeyType>({ 
@@ -235,6 +238,7 @@ export const StatefulReader = ({
   const cache = useRef<StatelessCache>({
     layoutUI: layoutUI,
     isImmersive: isImmersive,
+    isHovering: isHovering,
     arrowsOccupySpace: arrowsOccupySpace || false,
     settings: {
       columnCount: columnCount,
@@ -258,7 +262,8 @@ export const StatefulReader = ({
     tocTree: tocTree,
     positionsList: positionsList || [],
     colorScheme: colorScheme,
-    reducedMotion: reducedMotion
+    reducedMotion: reducedMotion,
+    lastProgression: lastProgression
   });
 
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
@@ -298,10 +303,6 @@ export const StatefulReader = ({
     dispatch(setArrows(false));
     dispatch(toggleImmersive());
   }, [dispatch]);
-
-  useEffect(() => {
-    cache.current.isImmersive = isImmersive;
-  }, [isImmersive]);
 
   // Warning: this is using navigator’s internal methods that will become private, do not rely on them
   // See https://github.com/edrlab/thorium-web/issues/25
@@ -476,11 +477,32 @@ export const StatefulReader = ({
         handleTocEntryOnNav(locator);
       }
 
-      // This can’t be relied upon with FXL to handleProgression at the moment,
-      // Only reflowable snappers will register the "progress" event
-      // that triggers positionChanged every time the progression changes
-      // in FXL, only first_visible_locator will, which is why it triggers when
-      // the spread has not been shown yet, but won’t if you just slid to them.
+      // Only handle scroll-based hide/show if scroll is enabled and we're in reflow
+      if (
+        cache.current.settings.scroll && 
+        !cache.current.isHovering && 
+        navLayout() === EPUBLayout.reflowable
+      ) {
+        // Get the current progression from the locator
+        const currentProgression = locator.locations.progression;
+        
+        // Only proceed if we have a valid position
+        if (currentProgression && cache.current.lastProgression !== null) {
+          if (currentProgression > cache.current.lastProgression) {
+            // Scrolling down
+            dispatch(setImmersive(true));
+          } else if (currentProgression < cache.current.lastProgression) {
+            // Scrolling up
+            dispatch(setImmersive(false));
+          }
+        }
+        
+        // Update last position if we have a valid one
+        if (currentProgression !== undefined) {
+          setLastProgression(currentProgression);
+        }
+      }
+      
       if (navLayout() === EPUBLayout.reflowable) {
         // Due to the lack of injection API we need to force scroll 
         // to mount/unmount scroll affordances ATM  
@@ -501,7 +523,7 @@ export const StatefulReader = ({
       }
     },
     tap: function (_e: FrameClickEvent): boolean {
-      handleTap(_e);
+      (!cache.current.settings.scroll) && handleTap(_e);
       return true;
     },
     click: function (_e: FrameClickEvent): boolean {
@@ -546,11 +568,27 @@ export const StatefulReader = ({
   // Handling side effects on Navigator
 
   useEffect(() => {
+    cache.current.isImmersive = isImmersive;
+  }, [isImmersive]);
+
+  useEffect(() => {
+    cache.current.isHovering = isHovering;
+  }, [isHovering]);
+
+  useEffect(() => {
     cache.current.layoutUI = layoutUI;
   }, [layoutUI]);
 
   useEffect(() => {
+    cache.current.lastProgression = lastProgression;
+  }, [lastProgression]);
+
+  useEffect(() => {
     cache.current.settings.scroll = scroll;
+
+    // Reset top bar visibility and last position
+    dispatch(setImmersive(false));
+    setLastProgression(null);
 
     const handleConstraint = async (value: number) => {
       await applyConstraint(value)
@@ -563,7 +601,7 @@ export const StatefulReader = ({
       handleConstraint(0)
         .catch(console.error);
     }
-  }, [scroll, arrowsOccupySpace, applyConstraint]);
+  }, [scroll, arrowsOccupySpace, applyConstraint, dispatch]);
 
   useEffect(() => {
     cache.current.settings.columnCount = columnCount;
@@ -843,6 +881,7 @@ export const StatefulReader = ({
                 isFXL ? "isFXL" : "isReflow",
                 isImmersive ? "isImmersive" : "",
                 isHovering ? "isHovering" : "",
+                scroll ? "isScroll" : "isPaged",
                 layoutUI
               )
             }
