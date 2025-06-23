@@ -24,11 +24,11 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; 
+  transition: opacity 0.4s ease-in-out;
 }
 
 :global(.layered-ui.isImmersive:not(.isHovering)) .header h1 {
   user-select: none;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.4s ease-in-out;
 }
