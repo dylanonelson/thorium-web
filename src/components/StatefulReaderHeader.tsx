@@ -19,6 +19,9 @@ import { usePreferences } from "@/preferences/hooks";
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
+import classNames from "classnames";
+import { StatefulOverlay } from "./StatefulOverlay";
+
 export const StatefulReaderHeader = () => {
   const { reflowActionKeys, fxlActionKeys } = usePreferenceKeys();
   const RSPrefs = usePreferences();
@@ -28,6 +31,7 @@ export const StatefulReaderHeader = () => {
   const runningHead = useAppSelector(state => state.publication.runningHead);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
+  const isScroll = useAppSelector(state => state.settings.scroll);
 
   const dispatch = useAppDispatch();
 
@@ -62,6 +66,14 @@ export const StatefulReaderHeader = () => {
 
   return (
     <>
+    <StatefulOverlay 
+      id="reader-header-overlay"
+      className="bar-overlay"
+      isActive={ isScroll && isImmersive && !isHovering }
+      onMouseEnter={ setHover }
+      onMouseLeave={ removeHover }
+    />
+
     <ThHeader 
       className={ readerHeaderStyles.header } 
       id="top-bar" 
