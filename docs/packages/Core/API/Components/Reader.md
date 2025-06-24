@@ -40,6 +40,24 @@ interface ThLoaderProps extends Omit<HTMLAttributesWithRef<HTMLDivElement>, "ari
 - Conditional rendering of loader content
 - Live region support for screen readers
 
+## ThInteractiveOverlay
+
+A component for creating interactive overlays e.g. tap/click zones, hover zones, etc.
+
+### Props
+
+```typescript
+interface ThInteractiveOverlayProps extends HTMLAttributesWithRef<HTMLDivElement> {
+  ref?: React.ForwardedRef<HTMLDivElement>;
+  isActive: boolean;
+}
+```
+
+### Features
+
+- Conditional rendering of the invisible overlay
+- Accepts all props from `HTMLAttributesWithRef<HTMLDivElement>`
+
 ## ThProgression
 
 A component for displaying reader progression.
