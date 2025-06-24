@@ -17,8 +17,8 @@ export interface ThPaginationProps extends React.HTMLAttributes<HTMLDivElement> 
   };
   compounds?: {
     listItem?: React.HTMLAttributes<HTMLLIElement>;
-    previousButton?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type"> | React.ReactElement<typeof Button>;
-    nextButton?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type"> | React.ReactElement<typeof Button>;
+    previousButton?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type">;
+    nextButton?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type">;
   };
 }
 
