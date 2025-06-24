@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import { ThFooter } from "@/core/Components/Reader/ThFooter";
 import { StatefulReaderProgression } from "./StatefulReaderProgression";
-import { StatefulOverlay } from "./StatefulOverlay";
+import { ThInteractiveOverlay } from "../core/Components/Reader/ThInteractiveOverlay";
 
 export const StatefulReaderFooter = () => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -28,7 +28,7 @@ export const StatefulReaderFooter = () => {
 
   return(
     <>
-    <StatefulOverlay 
+    <ThInteractiveOverlay 
       id="reader-footer-overlay"
       className="bar-overlay"
       isActive={ isScroll && isImmersive && !isHovering }

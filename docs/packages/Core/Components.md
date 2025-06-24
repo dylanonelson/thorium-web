@@ -186,6 +186,7 @@ These are general components for the interface of the reader:
 import { 
   ThFooter, 
   ThHeader, 
+  ThInteractiveOverlay,
   ThLoader, 
   ThProgression, 
   ThRunningHead 
