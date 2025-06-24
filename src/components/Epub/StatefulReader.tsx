@@ -914,7 +914,7 @@ export const StatefulReader = ({
               </nav> 
             : <></> }
 
-          { isPaged ? <StatefulReaderFooter /> : <></> }
+          <StatefulReaderFooter />
           </div>
       </StatefulDockingWrapper>
     </main>

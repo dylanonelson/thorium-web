@@ -188,6 +188,7 @@ import {
   ThHeader, 
   ThInteractiveOverlay,
   ThLoader, 
+  ThPagination,
   ThProgression, 
   ThRunningHead 
 } from "@edrlab/thorium-web/core/components";

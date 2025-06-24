@@ -58,6 +58,31 @@ interface ThInteractiveOverlayProps extends HTMLAttributesWithRef<HTMLDivElement
 - Conditional rendering of the invisible overlay
 - Accepts all props from `HTMLAttributesWithRef<HTMLDivElement>`
 
+## ThPagination
+
+### Props
+
+```typescript
+interface ThPaginationProps extends HTMLAttributesWithRef<HTMLDivElement> {
+  ref?: React.ForwardedRef<HTMLDivElement>;
+  links?: {
+    previous?: ThPaginationLinkProps;
+    next?: ThPaginationLinkProps;
+  };
+  compounds?: {
+    previousButton?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type"> | React.ReactElement<typeof Button>;
+    nextButton?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type"> | React.ReactElement<typeof Button>;
+  };
+}
+```
+
+### Features
+
+- Semantic `<nav>` structure
+- Accessibility support
+- Accepts a `links` prop to define the previous and next links
+- Accepts a `compounds` prop to define the previous and next buttons
+
 ## ThProgression
 
 A component for displaying reader progression.
