@@ -479,6 +479,7 @@ export const StatefulReader = ({
 
       // Only handle scroll-based hide/show if scroll is enabled and we're in reflow
       if (
+        currentLocator?.href === locator.href &&
         cache.current.settings.scroll && 
         !cache.current.isHovering && 
         navLayout() === EPUBLayout.reflowable
