@@ -37,7 +37,7 @@ export const defaultPreferences = createPreferences({
   },
   scroll: {
     topAffordance: ThScrollAffordancePref.none,
-    bottomAffordance: ThScrollAffordancePref.both,
+    bottomAffordance: ThScrollAffordancePref.none,
     backTo: ThScrollBackTo.top
   },
   theming: {

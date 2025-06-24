@@ -1,0 +1,21 @@
+.pagination {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  max-width: 600px;
+  gap: calc(var(--layout-spacing) / 2);
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+}
+
+.paginationListItem {
+  list-style: none;
+  padding-inline: calc(var(--layout-spacing) / 2);
+  flex: 1 1 0;
+  text-align: start;
+}
+
+.paginationListItem:not(:first-child):last-child {
+  text-align: end;
+}
