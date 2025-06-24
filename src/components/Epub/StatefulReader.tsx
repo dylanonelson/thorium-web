@@ -65,6 +65,8 @@ import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useFullscreen } from "@/core/Hooks/useFullscreen";
 import { usePrevious } from "@/core/Hooks/usePrevious";
+import { useScrollDirection } from "./Hooks/useScrollDirection";
+import { usePositionBoundaries } from "./Hooks/usePositionBoundaries";
 
 import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
@@ -142,7 +144,6 @@ export interface StatelessCache {
   positionsList: Locator[];
   colorScheme?: ThColorScheme;
   reducedMotion?: boolean;
-  lastProgression: number | null;
 }
 
 export interface StatefulReaderProps {
@@ -211,7 +212,8 @@ export const StatefulReader = ({
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
 
-  const [lastProgression, setLastProgression] = useState<number | null>(null);
+  const { getScrollState, handleScroll } = useScrollDirection();
+  const { getPositionBoundaries } = usePositionBoundaries();
 
   // Init theming (breakpoints, theme, media queries…)
   useTheming<ThemeKeyType>({ 
@@ -262,8 +264,7 @@ export const StatefulReader = ({
     tocTree: tocTree,
     positionsList: positionsList || [],
     colorScheme: colorScheme,
-    reducedMotion: reducedMotion,
-    lastProgression: lastProgression
+    reducedMotion: reducedMotion
   });
 
   const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
@@ -484,23 +485,17 @@ export const StatefulReader = ({
         !cache.current.isHovering && 
         navLayout() === EPUBLayout.reflowable
       ) {
-        // Get the current progression from the locator
-        const currentProgression = locator.locations.progression;
+        handleScroll(locator);
+
+        const scrollState = getScrollState(locator);
+        const { isStart, isEnd } = getPositionBoundaries(locator, currentPositions());
         
-        // Only proceed if we have a valid position
-        if (currentProgression && cache.current.lastProgression !== null) {
-          if (currentProgression > cache.current.lastProgression) {
-            // Scrolling down
-            dispatch(setImmersive(true));
-          } else if (currentProgression < cache.current.lastProgression) {
-            // Scrolling up
-            dispatch(setImmersive(false));
-          }
-        }
-        
-        // Update last position if we have a valid one
-        if (currentProgression !== undefined) {
-          setLastProgression(currentProgression);
+        if (isStart || isEnd) {
+          dispatch(setImmersive(false));
+        } else if (scrollState.isScrollingForward) {
+          dispatch(setImmersive(true));
+        } else {
+          dispatch(setImmersive(false));
         }
       }
       
@@ -581,15 +576,10 @@ export const StatefulReader = ({
   }, [layoutUI]);
 
   useEffect(() => {
-    cache.current.lastProgression = lastProgression;
-  }, [lastProgression]);
-
-  useEffect(() => {
     cache.current.settings.scroll = scroll;
 
     // Reset top bar visibility and last position
     dispatch(setImmersive(false));
-    setLastProgression(null);
 
     const handleConstraint = async (value: number) => {
       await applyConstraint(value)
