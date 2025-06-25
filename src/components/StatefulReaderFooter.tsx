@@ -15,6 +15,7 @@ import { ThInteractiveOverlay } from "../core/Components/Reader/ThInteractiveOve
 import { StatefulPagination } from "./StatefulPagination";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
+import { useFocusWithin } from "react-aria";
 
 export const StatefulReaderFooter = () => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -23,6 +24,15 @@ export const StatefulReaderFooter = () => {
   const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
 
   const dispatch = useAppDispatch();
+
+  const { focusWithinProps } = useFocusWithin({
+    onFocusWithin() {
+      dispatch(setHovering(true));
+    },
+    onBlurWithin() {
+      dispatch(setHovering(false));
+    }
+  });
 
   const setHover = () => {
     dispatch(setHovering(true));
@@ -60,6 +70,7 @@ export const StatefulReaderFooter = () => {
       aria-label={ Locale.reader.app.footer.label } 
       onMouseEnter={ setHover } 
       onMouseLeave={ removeHover }
+      { ...focusWithinProps }
     >
       { isScroll 
         ? <StatefulPagination 
