@@ -19,3 +19,21 @@
 .paginationListItem:not(:first-child):last-child {
   text-align: end;
 }
+
+.paginationListItem button {
+  box-sizing: border-box;
+  padding: calc(var(--icon-size, 24px) * (1/4)) calc(var(--layout-spacing) / 2);
+  width: 100%;
+}
+
+.paginationListItem button[data-hovered] {
+  background-color: var(--theme-hover);
+}
+
+.paginationListItem button[data-focus-visible] {
+  outline: 2px solid var(--theme-focus);
+}
+
+.paginationListItem button[data-disabled] {
+  color: var(--theme-disable);
+}

@@ -42,6 +42,8 @@ export const StatefulReaderHeader = () => {
     dispatch(setHovering(false));
   };
 
+  console.log(isHovering);
+
   const listActionItems = useCallback(() => {
     const actionKeys = isFXL? fxlActionKeys : reflowActionKeys;
     const actionsItems: ThActionEntry<ActionKeyType>[] = [];
