@@ -24,6 +24,7 @@
   box-sizing: border-box;
   padding: calc(var(--icon-size, 24px) * (1/4)) calc(var(--layout-spacing) / 2);
   width: 100%;
+  border-radius: var(--layout-radius);
 }
 
 .paginationListItem button[data-hovered] {
