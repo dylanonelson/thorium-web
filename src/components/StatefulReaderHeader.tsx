@@ -15,6 +15,7 @@ import { StatefulCollapsibleActionsBar } from "./Actions/StatefulCollapsibleActi
 
 import { usePlugins } from "./Plugins/PluginProvider";
 import { usePreferences } from "@/preferences/hooks";
+import { useFocusWithin } from "react-aria";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -33,6 +34,15 @@ export const StatefulReaderHeader = () => {
   const isScroll = useAppSelector(state => state.settings.scroll);
 
   const dispatch = useAppDispatch();
+
+  const { focusWithinProps } = useFocusWithin({
+    onFocusWithin() {
+      dispatch(setHovering(true));
+    },
+    onBlurWithin() {
+      dispatch(setHovering(false));
+    }
+  });
 
   const setHover = () => {
     dispatch(setHovering(true));
@@ -79,6 +89,7 @@ export const StatefulReaderHeader = () => {
       aria-label={ Locale.reader.app.header.label } 
       onMouseEnter={ setHover } 
       onMouseLeave={ removeHover }
+      { ...focusWithinProps }
     >
       <ThRunningHead 
         label={ runningHead || Locale.reader.app.header.runningHeadFallback } 
