@@ -5,6 +5,7 @@ export * from "./useColorScheme";
 export * from "./useContrast";
 export * from "./useForcedColors";
 export * from "./useFullscreen";
+export * from "./useLocalStorage";
 export * from "./useMediaQuery"
 export * from "./useMonochrome";
 export * from "./useIsClient";
