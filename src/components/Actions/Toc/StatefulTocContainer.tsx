@@ -35,13 +35,15 @@ import { isActiveElement } from "@/core/Helpers/focusUtilities";
 
 export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProps) => {
   const treeRef = useRef<HTMLDivElement | null>(null);
-  
-  const tocEntry = useAppSelector(state => state.publication.tocEntry);
+
+  const unstableTimeline = useAppSelector(state => state.publication.unstableTimeline);
+  const tocEntry = unstableTimeline?.toc?.currentEntry;
+  const tocTree = unstableTimeline?.toc?.tree;
+
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === ThLayoutDirection.rtl;
 
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.toc]);
-  const tocTree = useAppSelector(state => state.publication.tocTree);
   const dispatch = useAppDispatch();
 
   const previousTocEntry = usePrevious(tocEntry);
@@ -141,7 +143,7 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
     if (
         (sheetType === ThSheetTypes.dockedStart || sheetType === ThSheetTypes.dockedEnd) && 
         tocEntry !== undefined && 
-        previousTocEntry === undefined
+        (!previousTocEntry || previousTocEntry !== tocEntry)
       ) {
       setForceRerender(Math.random());
     }
