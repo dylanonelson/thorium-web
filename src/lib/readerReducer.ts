@@ -8,6 +8,7 @@ export interface ReaderReducerState {
   isLoading: boolean;
   isImmersive: boolean;
   isHovering: boolean;
+  hasScrollAffordance: boolean;
   hasArrows: boolean;
   isFullscreen: boolean;
   settingsContainer: ThSettingsContainerKeys;
@@ -19,6 +20,7 @@ const initialState: ReaderReducerState = {
   isLoading: true,
   isImmersive: false,
   isHovering: false,
+  hasScrollAffordance: false,
   hasArrows: true,
   isFullscreen: false,
   settingsContainer: ThSettingsContainerKeys.initial,
@@ -42,16 +44,25 @@ export const readerSlice = createSlice({
       state.isImmersive = action.payload
       if (action.payload === true) {
         state.isHovering = false;
+        state.hasScrollAffordance = false;
       }
     },
     toggleImmersive: (state) => {
       state.isImmersive = !state.isImmersive;
       if (state.isImmersive === true) {
         state.isHovering = false;
+        state.hasScrollAffordance = false;
       }
     },
     setHovering: (state, action) => {
       state.isHovering = action.payload
+    },
+    setScrollAffordance: (state, action) => {
+      state.hasScrollAffordance = action.payload
+      if (action.payload === true) {
+        state.isHovering = false;
+        state.isImmersive = false;
+      }
     },
     setArrows: (state, action) => {
       state.hasArrows = action.payload
@@ -73,6 +84,7 @@ export const {
   setImmersive, 
   toggleImmersive, 
   setHovering, 
+  setScrollAffordance, 
   setArrows, 
   setFullscreen, 
   setSettingsContainer

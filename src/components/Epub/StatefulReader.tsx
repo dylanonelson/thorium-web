@@ -66,7 +66,7 @@ import { useFullscreen } from "@/core/Hooks/useFullscreen";
 import { usePrevious } from "@/core/Hooks/usePrevious";
 import { useScrollDirection } from "./Hooks/useScrollDirection";
 import { usePositionBoundaries } from "./Hooks/usePositionBoundaries";
-import { UnstableTimeline, useTimeline } from "@/hooks/useTimeline";
+import { useTimeline } from "@/core/Hooks/useTimeline";
 import { useLocalStorage } from "@/core/Hooks/useLocalStorage";
 
 import { toggleActionOpen } from "@/lib/actionsReducer";
@@ -90,7 +90,8 @@ import {
   setPlatformModifier, 
   setDirection, 
   setArrows, 
-  setFullscreen
+  setFullscreen,
+  setScrollAffordance
 } from "@/lib/readerReducer";
 import { 
   setFXL, 
@@ -450,7 +451,7 @@ export const StatefulReader = ({
         const { isStart, isEnd } = getPositionBoundaries(locator, currentPositions());
         
         if (isStart || isEnd) {
-          dispatch(setImmersive(false));
+          dispatch(setScrollAffordance(true));
         } else if (scrollState.isScrollingForward) {
           dispatch(setImmersive(true));
         } else {

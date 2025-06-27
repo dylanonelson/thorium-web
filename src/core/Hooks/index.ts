@@ -12,4 +12,5 @@ export * from "./useIsClient";
 export * from "./usePrevious";
 export * from "./useReducedMotion";
 export * from "./useReducedTransparency";
+export * from "./useTimeline";
 export * from "./Epub";

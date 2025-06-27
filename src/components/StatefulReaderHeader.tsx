@@ -31,6 +31,7 @@ export const StatefulReaderHeader = () => {
   const runningHead = useAppSelector(state => state.publication.runningHead);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
+  const hasScrollAffordance = useAppSelector(state => state.reader.hasScrollAffordance);
   const isScroll = useAppSelector(state => state.settings.scroll);
 
   const dispatch = useAppDispatch();
@@ -45,11 +46,15 @@ export const StatefulReaderHeader = () => {
   });
 
   const setHover = () => {
-    dispatch(setHovering(true));
+    if (!hasScrollAffordance) {
+      dispatch(setHovering(true));
+    }
   };
 
   const removeHover = () => {
-    dispatch(setHovering(false));
+    if (!hasScrollAffordance) {
+      dispatch(setHovering(false));
+    }
   };
 
   const listActionItems = useCallback(() => {
