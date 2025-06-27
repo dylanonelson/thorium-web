@@ -6,6 +6,7 @@
   background-color: var(--theme-background);
   color: var(--theme-text);
   align-items: center;
+  overflow: hidden;
 }
 
 .paginationListItem {
@@ -19,11 +20,19 @@
   margin-inline-start: auto;
 }
 
+.paginationListItem button {
+  box-sizing: border-box;
+  padding: calc(var(--icon-size, 24px) * (1/4)) calc(var(--layout-spacing) / 2);
+  width: 100%;
+  border-radius: var(--layout-radius);
+}
+
 .previousButton {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: calc(var(--layout-spacing) / 2);
+  max-height: calc(var(--icon-size, 24px) * 2);
 }
 
 .previousButton svg {
@@ -38,6 +47,7 @@
   align-items: center;
   justify-content: flex-end;
   gap: calc(var(--layout-spacing) / 2);
+  max-height: calc(var(--icon-size, 24px) * 2);
 }
 
 .nextButton svg {
@@ -45,13 +55,6 @@
   width: var(--icon-size, 24px);
   height: var(--icon-size, 24px);
   fill: var(--theme-text);
-}
-
-.paginationListItem button {
-  box-sizing: border-box;
-  padding: calc(var(--icon-size, 24px) * (1/4)) calc(var(--layout-spacing) / 2);
-  width: 100%;
-  border-radius: var(--layout-radius);
 }
 
 .paginationListItem button[data-hovered] {
