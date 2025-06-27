@@ -132,6 +132,7 @@
 }
 
 .tocTreeItemButton svg {
+  flex: none;
   rotate: 0deg;
   transition: rotate 200ms;
   width: 100%;

@@ -7,7 +7,7 @@ import Locale from "../../../resources/locales/en.json";
 import { Link } from "@readium/shared";
 import { ThActionsKeys, ThDockingKeys, ThSheetTypes, ThLayoutDirection } from "@/preferences/models/enums";
 import { StatefulActionContainerProps } from "../models/actions";
-import { TocItem } from "@/helpers/createTocTree";
+import { TocItem } from "@/core/Hooks/useTimeline";
 
 import tocStyles from "./assets/styles/toc.module.css";
 
@@ -149,7 +149,7 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
     }
   }, [sheetType, tocEntry, previousTocEntry]);
 
-  const isItemInChildren = (item: TocItem, tocEntry?: string): boolean => {
+  const isItemInChildren = (item: TocItem, tocEntry?: string | null): boolean => {
     if (item.children && tocEntry) {
       return item.children.some(child => child.id === tocEntry || isItemInChildren(child, tocEntry));
     }

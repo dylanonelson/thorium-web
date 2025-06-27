@@ -2,22 +2,49 @@
   box-sizing: border-box;
   display: flex;
   flex: 1 1 auto;
-  justify-content: space-between;
-  max-width: 600px;
-  gap: calc(var(--layout-spacing) / 2);
+  max-width: 100%;
   background-color: var(--theme-background);
   color: var(--theme-text);
+  align-items: center;
 }
 
 .paginationListItem {
+  box-sizing: border-box;
   list-style: none;
   padding-inline: calc(var(--layout-spacing) / 2);
-  flex: 1 1 0;
-  text-align: start;
+  flex: 0 1 50%;
 }
 
-.paginationListItem:not(:first-child):last-child {
-  text-align: end;
+.paginationListItem:has(.nextButton) {
+  margin-inline-start: auto;
+}
+
+.previousButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: calc(var(--layout-spacing) / 2);
+}
+
+.previousButton svg {
+  flex: none;
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
+  fill: var(--theme-text);
+}
+
+.nextButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: calc(var(--layout-spacing) / 2);
+}
+
+.nextButton svg {
+  flex: none;
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
+  fill: var(--theme-text);
 }
 
 .paginationListItem button {

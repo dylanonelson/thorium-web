@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { UnstableProgressionObject } from "@/components/StatefulReaderProgression";
-import { TocItem } from "@/helpers/createTocTree";
 import { Locator } from "@readium/shared";
-import { UnstableTimeline } from "@/hooks/useTimeline";
+import { UnstableTimeline } from "@/core/Hooks/useTimeline";
 
 export interface PublicationReducerState {
   runningHead?: string;
