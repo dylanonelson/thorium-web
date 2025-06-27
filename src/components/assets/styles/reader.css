@@ -131,6 +131,7 @@ main {
   height: calc(var(--icon-size, 24px) * 2.5);
   z-index: 3;
   box-shadow: var(--theme-elevate);
+  overflow: hidden;
 }
 
 .stacked-ui:not(.isScroll) #bottom-bar {
@@ -151,6 +152,7 @@ main {
   height: calc(var(--icon-size, 24px) * 2.5);
   z-index: 3;
   box-shadow: var(--theme-elevate);
+  overflow: hidden;
 }
 
 .stacked-ui.isScroll .bar-overlay {
@@ -179,6 +181,7 @@ main {
   height: calc(var(--icon-size, 24px) * 2.5);
   z-index: 2;
   box-shadow: var(--theme-elevate);
+  overflow: hidden;
   transition-property: background-color, box-shadow;
   transition-duration: 0.4s;
   transition-timing-function: ease-in-out;
@@ -195,6 +198,7 @@ main {
   align-items: center;
   z-index: 2;
   box-shadow: var(--theme-elevate);
+  overflow: hidden;
   transition-property: background-color, box-shadow;
   transition-duration: 0.4s;
   transition-timing-function: ease-in-out;
