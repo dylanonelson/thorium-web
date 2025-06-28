@@ -107,10 +107,12 @@ export const StatefulReaderFooter = () => {
                 className: readerPaginationStyles.paginationListItem
               },
               previousButton: {
-                className: readerPaginationStyles.previousButton
+                className: readerPaginationStyles.previousButton,
+                preventFocusOnPress: true
               },
               nextButton: {
-                className: readerPaginationStyles.nextButton
+                className: readerPaginationStyles.nextButton,
+                preventFocusOnPress: true
               }
             } } 
           /> 
