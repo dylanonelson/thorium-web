@@ -25,7 +25,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; 
-  transition: opacity 0.4s ease-in-out;
+  transition: opacity 200ms ease-in-out;
 }
 
 :global(.layered-ui.isImmersive:not(.isHovering)) .header h1 {
