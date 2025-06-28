@@ -170,7 +170,7 @@ main {
   height: 100vh;
   height: 100dvh;
   background-color: var(--theme-background);
-  transition: background-color 0.4s ease-in-out;
+  transition: background-color 200ms ease-in-out;
 }
 
 .layered-ui #top-bar {
@@ -183,7 +183,7 @@ main {
   box-shadow: var(--theme-elevate);
   overflow: hidden;
   transition-property: background-color, box-shadow;
-  transition-duration: 0.4s;
+  transition-duration: 200ms;
   transition-timing-function: ease-in-out;
 }
 
@@ -200,7 +200,7 @@ main {
   box-shadow: var(--theme-elevate);
   overflow: hidden;
   transition-property: background-color, box-shadow;
-  transition-duration: 0.4s;
+  transition-duration: 200ms;
   transition-timing-function: ease-in-out;
 }
 
