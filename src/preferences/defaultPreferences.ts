@@ -336,7 +336,7 @@ export const defaultPreferences = createPreferences({
         [ThLineHeightOptions.large]: 1.75
       },
       [ThSettingsKeys.zoom]: {
-        range: [0.7, 2.5],
+        range: [0.7, 4],
         step: 0.05
       }
     },
