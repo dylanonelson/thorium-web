@@ -9,7 +9,7 @@ import ArrowBack from "../assets/icons/arrow_back.svg";
 import ArrowForward from "../assets/icons/arrow_forward.svg";
 
 export interface ThPaginationLinkProps {
-  label: React.ReactNode;
+  node: React.ReactNode;
   onPress: () => void;
 }
 
@@ -57,7 +57,7 @@ export const ThPagination = ({
               ? <ArrowBack aria-hidden="true" focusable="false" />
               : <ArrowForward aria-hidden="true" focusable="false" />
             }
-            { previous.label }
+            { previous.node }
           </Button>
         </li>
       )}
@@ -68,7 +68,7 @@ export const ThPagination = ({
             { ...compounds?.nextButton }
             type="button"
           >
-            { next.label }
+            { next.node }
             { direction === "left"
               ? <ArrowForward aria-hidden="true" focusable="false" />
               : <ArrowBack aria-hidden="true" focusable="false" />
