@@ -6,7 +6,6 @@
   background-color: var(--theme-background);
   color: var(--theme-text);
   align-items: center;
-  overflow: hidden;
 }
 
 .paginationListItem {
