@@ -32,7 +32,8 @@ export const StatefulReaderHeader = () => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const hasScrollAffordance = useAppSelector(state => state.reader.hasScrollAffordance);
-  const isScroll = useAppSelector(state => state.settings.scroll);
+  const scroll = useAppSelector(state => state.settings.scroll);
+  const isScroll = scroll && !isFXL;
 
   const dispatch = useAppDispatch();
 

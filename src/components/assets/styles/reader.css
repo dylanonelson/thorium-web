@@ -281,6 +281,8 @@ div:has(> .readium-navigator-iframe.blank)::after {
 .stacked-ui.isScroll.isImmersive:not(.isHovering) #top-bar {
   transform: translateY(calc(var(--icon-size, 24px) * -2.5));
   box-shadow: none;
+  /* For overflow button to be visible due to transforms being applied */
+  overflow: unset;
 }
 
 .stacked-ui.isScroll.isImmersive:not(.isHovering) #bottom-bar {

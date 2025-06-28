@@ -194,7 +194,7 @@ export const StatefulReader = ({
   const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
   const scroll = useAppSelector(state => state.settings.scroll);
-  const isPaged = !scroll;
+  const isScroll = scroll && !isFXL;
   const textNormalization = useAppSelector(state => state.settings.textNormalization);
   const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
   const themeObject = useAppSelector(state => state.theming.theme);
@@ -204,7 +204,7 @@ export const StatefulReader = ({
   const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
 
   const breakpoint = useAppSelector(state => state.theming.breakpoint);
-  const arrowsOccupySpace = isPaged && breakpoint &&
+  const arrowsOccupySpace = !isScroll && breakpoint &&
     (breakpoint === ThBreakpoints.large || breakpoint === ThBreakpoints.xLarge);
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -815,14 +815,14 @@ export const StatefulReader = ({
                 isFXL ? "isFXL" : "isReflow",
                 isImmersive ? "isImmersive" : "",
                 isHovering ? "isHovering" : "",
-                scroll ? "isScroll" : "isPaged",
+                isScroll ? "isScroll" : "isPaged",
                 layoutUI
               )
             }
           >
             <StatefulReaderHeader />
 
-          { isPaged 
+          { !isScroll 
             ? <nav className={ arrowStyles.container } id={ arrowStyles.left }>
                 <StatefulReaderArrowButton 
                   direction="left" 
@@ -837,7 +837,7 @@ export const StatefulReader = ({
               <div id="container" ref={ container }></div>
             </article>
 
-          { isPaged 
+          { !isScroll 
             ? <nav className={ arrowStyles.container } id={ arrowStyles.right }>
                 <StatefulReaderArrowButton 
                   direction="right" 
