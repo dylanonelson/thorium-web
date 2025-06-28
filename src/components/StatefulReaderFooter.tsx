@@ -22,7 +22,9 @@ export const StatefulReaderFooter = () => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const hasScrollAffordance = useAppSelector(state => state.reader.hasScrollAffordance);
-  const isScroll = useAppSelector(state => state.settings.scroll);
+  const scroll = useAppSelector(state => state.settings.scroll);
+  const isFXL = useAppSelector(state => state.publication.isFXL);
+  const isScroll = scroll && !isFXL;
   const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
   const timeline = useAppSelector(state => state.publication.unstableTimeline);
 
@@ -98,7 +100,7 @@ export const StatefulReaderFooter = () => {
       onMouseLeave={ removeHover }
       { ...focusWithinProps }
     >
-      { isScroll 
+      { isScroll && !isFXL
         ? <StatefulPagination 
             aria-label={ Locale.reader.navigation.scroll.wrapper }
             links={ updateLinks() } 

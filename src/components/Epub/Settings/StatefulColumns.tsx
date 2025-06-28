@@ -16,8 +16,9 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setColumnCount } from "@/lib/settingsReducer";
 
 export const StatefulColumns = () => {
-  const isScroll = useAppSelector(state => state.settings.scroll);
+  const scroll = useAppSelector(state => state.settings.scroll);
   const isFXL = useAppSelector(state => state.publication.isFXL);
+  const isScroll = scroll && !isFXL;
   const columnCount = useAppSelector(state => state.settings.columnCount) || "auto";
   const dispatch = useAppDispatch();
 
@@ -40,7 +41,7 @@ export const StatefulColumns = () => {
       orientation="horizontal"
       value={ columnCount }
       onChange={ async (val: string) => await updatePreference(val) }
-      isDisabled={ isScroll && !isFXL }
+      isDisabled={ isScroll }
       items={[
         {
           icon: AutoLayoutIcon,

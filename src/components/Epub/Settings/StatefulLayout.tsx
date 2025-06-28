@@ -17,7 +17,9 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setScroll } from "@/lib/settingsReducer";
 
 export const StatefulLayout = () => {
-  const isScroll = useAppSelector(state => state.settings.scroll);
+  const scroll = useAppSelector(state => state.settings.scroll);
+  const isFXL = useAppSelector(state => state.publication.isFXL);
+  const isScroll = scroll && !isFXL;
 
   const dispatch = useAppDispatch();
 
