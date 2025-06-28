@@ -64,14 +64,24 @@ export const StatefulReaderFooter = () => {
 
     if (previous) {
       links.previous = {
-        label: timeline?.previousItem?.title || previous.title || Locale.reader.navigation.scroll.prevLabel,
+        node: (
+          <>
+            <span className="sr-only">{ Locale.reader.navigation.scroll.prevA11yLabel }</span>
+            { timeline?.previousItem?.title || previous.title || Locale.reader.navigation.scroll.prevLabel }
+          </>
+        ),
         onPress: () => go(previous, !reducedMotion, () => {})
       }
     }
 
     if (next) {
       links.next = {
-        label: timeline?.nextItem?.title || next.title || Locale.reader.navigation.scroll.nextLabel,
+        node: (
+          <>
+            <span className="sr-only">{ Locale.reader.navigation.scroll.nextA11yLabel }</span>
+            { timeline?.nextItem?.title || next.title || Locale.reader.navigation.scroll.nextLabel }
+          </>
+        ),
         onPress: () => go(next, !reducedMotion, () => {})
       }
     }

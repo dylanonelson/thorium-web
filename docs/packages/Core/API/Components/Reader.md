@@ -64,7 +64,7 @@ interface ThInteractiveOverlayProps extends HTMLAttributesWithRef<HTMLDivElement
 
 ```typescript
 interface ThPaginationProps extends HTMLAttributesWithRef<HTMLDivElement> {
-  ref?: React.ForwardedRef<HTMLDivElement>;
+  ref?: React.RefObject<HTMLDivElement>;
   direction?: "left" | "right";
   links?: {
     previous?: ThPaginationLinkProps;
