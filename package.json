@@ -45,7 +45,7 @@
   },
   "peerDependencies": {
     "@readium/css": ">=2.0.0-beta.14",
-    "@readium/navigator": ">=2.0.0-beta.6",
+    "@readium/navigator": ">=2.0.0-beta.7",
     "@readium/navigator-html-injectables": ">=2.0.0-beta.3",
     "@readium/shared": "^1.2.1",
     "@reduxjs/toolkit": ">=2.6.0",
@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "@readium/css": ">=2.0.0-beta.14",
-    "@readium/navigator": ">=2.0.0-beta.6",
+    "@readium/navigator": ">=2.0.0-beta.7",
     "@readium/navigator-html-injectables": ">=2.0.0-beta.3",
     "@readium/shared": "^1.2.1",
     "@reduxjs/toolkit": "^2.8.2",
