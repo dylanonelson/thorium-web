@@ -711,7 +711,7 @@ export const StatefulReader = ({
       .then(() => {
         const isFXL = publication.metadata.getPresentation()?.layout === EPUBLayout.fixed;
 
-        const initialPosition: Locator = getLocalData();
+        const initialPosition: Locator | null = getLocalData();
 
         const initialConstraint = cache.current.arrowsOccupySpace ? arrowsWidth.current : 0;
         
@@ -776,7 +776,7 @@ export const StatefulReader = ({
           publication: publication,
           listeners: listeners, 
           positionsList: positionsList,
-          initialPosition: initialPosition,
+          initialPosition: initialPosition ?? undefined,
           preferences: preferences,
           defaults: defaults,
           scrollAffordances: {
