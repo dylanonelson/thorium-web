@@ -67,7 +67,7 @@ export const StatefulReaderFooter = () => {
         node: (
           <>
             <span className="sr-only">{ Locale.reader.navigation.scroll.prevA11yLabel }</span>
-            { timeline?.previousItem?.title || previous.title || Locale.reader.navigation.scroll.prevLabel }
+            <span className={ readerPaginationStyles.paginationLabel }>{ timeline?.previousItem?.title || previous.title || Locale.reader.navigation.scroll.prevLabel }</span>
           </>
         ),
         onPress: () => go(previous, !reducedMotion, () => {})
@@ -79,7 +79,7 @@ export const StatefulReaderFooter = () => {
         node: (
           <>
             <span className="sr-only">{ Locale.reader.navigation.scroll.nextA11yLabel }</span>
-            { timeline?.nextItem?.title || next.title || Locale.reader.navigation.scroll.nextLabel }
+            <span className={ readerPaginationStyles.paginationLabel }>{ timeline?.nextItem?.title || next.title || Locale.reader.navigation.scroll.nextLabel }</span>
           </>
         ),
         onPress: () => go(next, !reducedMotion, () => {})
