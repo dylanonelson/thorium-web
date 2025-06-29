@@ -11,22 +11,24 @@ import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
 import { ThHeader  } from "@/core/Components/Reader/ThHeader";
 import { ThRunningHead } from "@/core/Components/Reader/ThRunningHead";
+import { ThInteractiveOverlay } from "../core/Components/Reader/ThInteractiveOverlay";
 import { StatefulCollapsibleActionsBar } from "./Actions/StatefulCollapsibleActionsBar";
 
 import { usePlugins } from "./Plugins/PluginProvider";
 import { usePreferences } from "@/preferences/hooks";
+import { useActions } from "@/core/Components";
 import { useFocusWithin } from "react-aria";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-
-import { ThInteractiveOverlay } from "../core/Components/Reader/ThInteractiveOverlay";
 
 export const StatefulReaderHeader = () => {
   const { reflowActionKeys, fxlActionKeys } = usePreferenceKeys();
   const RSPrefs = usePreferences();
   const { actionsComponentsMap } = usePlugins();
   
+  const actionsMap = useAppSelector(state => state.actions.keys);
+  const overflowMap = useAppSelector(state => state.actions.overflow);
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const runningHead = useAppSelector(state => state.publication.runningHead);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -35,14 +37,17 @@ export const StatefulReaderHeader = () => {
   const scroll = useAppSelector(state => state.settings.scroll);
   const isScroll = scroll && !isFXL;
 
+  const actions = useActions({ ...actionsMap, ...overflowMap });
   const dispatch = useAppDispatch();
 
   const { focusWithinProps } = useFocusWithin({
     onFocusWithin() {
       dispatch(setHovering(true));
     },
-    onBlurWithin() {
-      dispatch(setHovering(false));
+    onBlurWithin() {      
+      if (actions.everyOpenDocked()) {
+        dispatch(setHovering(false));
+      }
     }
   });
 
