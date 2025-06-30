@@ -55,7 +55,8 @@ export const defaultPreferences = createPreferences({
       },
       constraints: {
         [ThSheetTypes.bottomSheet]: 600, // Max-width of all bottom sheets
-        [ThSheetTypes.popover]: 600 // Max-width of all popover sheets
+        [ThSheetTypes.popover]: 600, // Max-width of all popover sheets
+        pagination: 800 // Max-width of pagination component
       }
     },
     breakpoints: {
