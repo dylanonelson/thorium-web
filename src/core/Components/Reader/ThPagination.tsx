@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { ComponentType, SVGProps } from "react";
 
 import { Button, ButtonProps } from "react-aria-components";
 import { WithRef } from "../customTypes";
@@ -9,6 +9,7 @@ import ArrowBack from "../assets/icons/arrow_back.svg";
 import ArrowForward from "../assets/icons/arrow_forward.svg";
 
 export interface ThPaginationLinkProps {
+  icon?: ComponentType<SVGProps<SVGElement>> | null;
   node: React.ReactNode;
   onPress: () => void;
 }
@@ -16,14 +17,23 @@ export interface ThPaginationLinkProps {
 export interface ThPaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.RefObject<HTMLDivElement>;
   direction?: "left" | "right";
-  children?: never;
+  children?: React.ReactNode;
   links?: {
     previous?: ThPaginationLinkProps;
     next?: ThPaginationLinkProps;
   };
   compounds?: {
+    /**
+     * Props for the list item element wrapping links and children
+     */
     listItem?: React.HTMLAttributes<HTMLLIElement>;
+    /**
+     * Props for the previous button element
+     */
     previousButton?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type">;
+    /**
+     * Props for the next button element
+     */
     nextButton?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type">;
   };
 }
@@ -33,6 +43,7 @@ export const ThPagination = ({
   direction = "left",
   links,
   compounds,
+  children,
   ...props
 }: ThPaginationProps) => {
   if (!links) {
@@ -49,29 +60,41 @@ export const ThPagination = ({
       { previous && (
         <li { ...compounds?.listItem }>
           <Button
-            onPress={ previous.onPress }
             { ...compounds?.previousButton }
             type="button"
+            onPress={ previous.onPress }
           >
-            { direction === "left"
-              ? <ArrowBack aria-hidden="true" focusable="false" />
-              : <ArrowForward aria-hidden="true" focusable="false" />
+            { previous.icon 
+              ? <previous.icon aria-hidden="true" focusable="false" /> 
+              : direction === "left"
+                ? <ArrowBack aria-hidden="true" focusable="false" />
+                : <ArrowForward aria-hidden="true" focusable="false" />
             }
             { previous.node }
           </Button>
         </li>
       )}
+
+      { children && (
+        <li { ...compounds?.listItem }>
+          { children }
+        </li>
+      )}
+
       { next && (
         <li { ...compounds?.listItem }>
           <Button
-            onPress={ next.onPress }
             { ...compounds?.nextButton }
             type="button"
+            onPress={ next.onPress }
           >
             { next.node }
-            { direction === "left"
-              ? <ArrowForward aria-hidden="true" focusable="false" />
-              : <ArrowBack aria-hidden="true" focusable="false" />
+            
+            { next.icon 
+              ? <next.icon aria-hidden="true" focusable="false" /> 
+              : direction === "left"
+                ? <ArrowForward aria-hidden="true" focusable="false" />
+                : <ArrowBack aria-hidden="true" focusable="false" />
             }
           </Button>
         </li>

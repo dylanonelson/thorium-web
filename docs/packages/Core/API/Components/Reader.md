@@ -70,7 +70,9 @@ interface ThPaginationProps extends HTMLAttributesWithRef<HTMLDivElement> {
     previous?: ThPaginationLinkProps;
     next?: ThPaginationLinkProps;
   };
+  children?: React.ReactNode;
   compounds?: {
+    listItem?: React.HTMLAttributes<HTMLLIElement>;
     previousButton?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type"> | React.ReactElement<typeof Button>;
     nextButton?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type"> | React.ReactElement<typeof Button>;
   };
@@ -82,8 +84,9 @@ interface ThPaginationProps extends HTMLAttributesWithRef<HTMLDivElement> {
 - Semantic `<nav>` structure
 - Directional arrow icon support
 - Accessibility support
-- Accepts a `links` prop to define the previous and next links
+- Accepts a `links` prop to define the previous and next links, their icons and onPress handlers
 - Accepts a `compounds` prop to define the previous and next buttons
+- Accepts a `children` prop to define the content between the previous and next links
 
 ## ThProgression
 

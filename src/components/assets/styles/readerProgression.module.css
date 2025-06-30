@@ -1,6 +1,10 @@
 #current {
   color: var(--theme-text);
   font-variant-numeric: lining-nums tabular-nums;
+  text-align: center;
+}
+
+:global(.layered-ui.isFXL) #current {
   transition: opacity 200ms ease-in-out;
 }
 

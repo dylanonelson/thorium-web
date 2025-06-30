@@ -127,7 +127,9 @@ export const StatefulReaderFooter = () => {
                 preventFocusOnPress: true
               }
             } } 
-          /> 
+          >
+            <StatefulReaderProgression />
+          </StatefulPagination> 
         : <StatefulReaderProgression /> }
     </ThFooter>
     </>
