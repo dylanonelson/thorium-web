@@ -762,8 +762,12 @@ export const StatefulReader = ({
           minimalLineLength: RSPrefs.typography.minimalLineLength, 
           optimalLineLength: RSPrefs.typography.optimalLineLength,
           pageGutter: RSPrefs.typography.pageGutter,
-          scrollPaddingTop: (RSPrefs.theming.icon.size || 24) * 3,
-          scrollPaddingBottom: (RSPrefs.theming.icon.size || 24) * 5
+          scrollPaddingTop: cache.current.layoutUI === ThLayoutUI.layered 
+            ? (RSPrefs.theming.icon.size || 24) * 3 
+            : (RSPrefs.theming.icon.size || 24),
+          scrollPaddingBottom: cache.current.layoutUI === ThLayoutUI.layered 
+            ? (RSPrefs.theming.icon.size || 24) * 5 
+            : (RSPrefs.theming.icon.size || 24)
         }
   
         EpubNavigatorLoad({
