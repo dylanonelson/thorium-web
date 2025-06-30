@@ -143,7 +143,8 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
     };
     layout: {
       ui?: {
-        fxl: ThLayoutUI
+        reflow?: ThLayoutUI,
+        fxl?: ThLayoutUI
       };
       radius: number;
       spacing: number;

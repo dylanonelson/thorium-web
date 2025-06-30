@@ -174,10 +174,6 @@ export const StatefulReader = ({
   const positionsList = useAppSelector(state => state.publication.positionsList);
   const progression = useAppSelector(state => state.publication.progression);
 
-  const layoutUI = isFXL 
-    ? RSPrefs.theming.layout.ui?.fxl || ThLayoutUI.layered 
-    : ThLayoutUI.stacked;
-
   const textAlign = useAppSelector(state => state.settings.textAlign);
   const columnCount = useAppSelector(state => state.settings.columnCount);
   const fontFamily = useAppSelector(state => state.settings.fontFamily);
@@ -210,6 +206,12 @@ export const StatefulReader = ({
 
   const { getScrollState, handleScroll } = useScrollDirection();
   const { getPositionBoundaries } = usePositionBoundaries();
+
+  const layoutUI = isFXL 
+    ? RSPrefs.theming.layout.ui?.fxl || ThLayoutUI.layered 
+    : isScroll 
+      ? RSPrefs.theming.layout.ui?.reflow || ThLayoutUI.layered
+      : ThLayoutUI.stacked;
 
   // Init theming (breakpoints, theme, media queries…)
   useTheming<ThemeKeyType>({ 
@@ -443,11 +445,23 @@ export const StatefulReader = ({
         const { isStart, isEnd } = getPositionBoundaries(locator, currentPositions());
         
         if (isStart || isEnd) {
-          dispatch(setScrollAffordance(true));
+          if (
+            // Keep consistent with pagination behavior
+            cache.current.settings.scroll &&
+            cache.current.layoutUI === ThLayoutUI.layered
+          ) {
+            dispatch(setScrollAffordance(true));
+          }
         } else if (scrollState.isScrollingForward) {
           dispatch(setImmersive(true));
         } else {
-          dispatch(setImmersive(false));
+          if (
+            // Keep consistent with pagination behavior
+            cache.current.settings.scroll &&
+            cache.current.layoutUI === ThLayoutUI.layered
+          ) {
+            dispatch(setImmersive(false));
+          }
         }
       }
       
@@ -461,11 +475,18 @@ export const StatefulReader = ({
       }
     },
     tap: function (_e: FrameClickEvent): boolean {
-      (!cache.current.settings.scroll) && handleTap(_e);
+      if (!cache.current.settings.scroll) {
+        handleTap(_e);
+      }
       return true;
     },
     click: function (_e: FrameClickEvent): boolean {
-      (cache.current.layoutUI === ThLayoutUI.layered) && handleTap(_e);
+      if (
+        cache.current.layoutUI === ThLayoutUI.layered && 
+        !cache.current.settings.scroll
+      ) { 
+        handleTap(_e);
+      }
       return true;
     },
     zoom: function (_scale: number): void {},

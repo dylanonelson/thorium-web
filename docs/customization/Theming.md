@@ -40,7 +40,7 @@ These static breakpoints will be reused for docking, collapsibility, sheets/cont
 
 Object `layout` allows to configure:
 
-- `ui` for the layout of Fixed-Layout EPUBs;
+- `ui` for the layout of reflowable (scroll) and Fixed-Layout EPUBs;
 - the border `radius` of button icons and sheets/containers (in `px`);
 - the `spacing` of components (in `px`) when applicable e.g. padding and spacing of sheets/containers;
 - `defaults` for:
@@ -57,6 +57,7 @@ theming: {
   ...
   layout: {
     ui: {
+      scroll: ThLayoutUI.stacked,
       fxl: ThLayoutUI.layered
     },
     radius: 0,
@@ -74,7 +75,8 @@ theming: {
 ```
 This means:
 
-- Fixed-Layout EPUBs will use `layered` layout, with contents occupying the full size of the viewport – nav bars are layered on top of it;
+- reflowable EPUBs will use `stacked` layout for paginated contents – top bar, contents, and bottom bar are stacked on top of each other –, and `layered` for scrolled contents – contents occupy the full size of the viewport, nav bars are layered on top of it;
+- Fixed-Layout EPUBs will use `layered` layout;
 - your actions’ triggers and containers won’t have any border radius;
 - they’ll use `20px` as a reference for padding and their sections’ margins;
 - the default for the docking width is `300px`;
