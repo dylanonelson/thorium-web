@@ -6,6 +6,7 @@
   background-color: var(--theme-background);
   color: var(--theme-text);
   align-items: center;
+  max-width: var(--constraints-pagination, 800px);
 }
 
 .paginationListItem {

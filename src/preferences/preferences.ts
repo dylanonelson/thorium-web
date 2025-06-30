@@ -90,7 +90,7 @@ export type ThSettingsKeyTypes = {
   [ThSettingsKeys.zoom]?: ThSettingsRangePref;
 }
 
-export type ThConstraintKeys = Extract<ThSheetTypes, ThSheetTypes.bottomSheet | ThSheetTypes.popover>;
+export type ThConstraintKeys = Extract<ThSheetTypes, ThSheetTypes.bottomSheet | ThSheetTypes.popover> | "pagination";
 
 // Simplified type for customizable keys
 export type CustomKeyType = string;
