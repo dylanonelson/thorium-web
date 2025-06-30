@@ -44,6 +44,7 @@ export const defaultPreferences = createPreferences({
     },
     layout: {
       ui: {
+        reflow: ThLayoutUI.layered,
         fxl: ThLayoutUI.layered
       },
       radius: 5, // border-radius of containers
