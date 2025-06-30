@@ -6,8 +6,6 @@ import {
   ThDockingKeys,
   ThDockingTypes,
   ThLineHeightOptions, 
-  ThScrollAffordancePref, 
-  ThScrollBackTo, 
   ThSettingsKeys, 
   ThSettingsRangeVariant, 
   ThSheetHeaderVariant, 
@@ -131,11 +129,6 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
     optimalLineLength: number;
     pageGutter: number;
     layoutStrategy?: ThLayoutStrategy | null;
-  };
-  scroll: {
-    topAffordance: ThScrollAffordancePref;
-    bottomAffordance: ThScrollAffordancePref;
-    backTo: ThScrollBackTo;
   };
   theming: {
     arrow: {

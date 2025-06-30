@@ -19,7 +19,6 @@ import {
   ThActionsKeys, 
   ThBreakpoints, 
   ThLineHeightOptions, 
-  ThScrollBackTo, 
   ThSettingsKeys, 
   ThTextAlignOptions, 
   ThLayoutStrategy, 
@@ -108,7 +107,6 @@ import debounce from "debounce";
 import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
 import { createDefaultPlugin } from "../Plugins/helpers/createDefaultPlugin";
 import Peripherals from "../../helpers/peripherals";
-import { TH_CUSTOM_SCHEME, ThScrollActions } from "@/core/Hooks/Epub/scrollAffordance";
 import { getPlatformModifier } from "@/core/Helpers/keyboardUtilities";
 import { deserializePositions } from "@/helpers/deserializePositions";
 import { propsToCSSVars } from "@/core/Helpers/propsToCSSVars";
@@ -249,14 +247,12 @@ export const StatefulReader = ({
     goLeft, 
     goRight, 
     goBackward, 
-    goForward, 
-    scrollBackTo, 
+    goForward,  
     navLayout,
     currentLocator,
     currentPositions,
     getCframes,
     onFXLPositionChange,
-    handleScrollAffordances,
     submitPreferences
   } = useEpubNavigator();
 
@@ -363,10 +359,6 @@ export const StatefulReader = ({
       if (cLoc) {
         handleFXLProgression(cLoc);
       };
-    } else {
-      // [TMP] We need to handle this in multiple places due to the lack of Injection API.
-      // This mounts and unmounts scroll affordances on iframe loaded
-      handleScrollAffordances(cache.current.settings.scroll);
     }
   };
 
@@ -460,18 +452,8 @@ export const StatefulReader = ({
       }
       
       if (navLayout() === EPUBLayout.reflowable) {
-        // Due to the lack of injection API we need to force scroll 
-        // to mount/unmount scroll affordances ATM  
         const debouncedHandleProgression = debounce(
           async () => {
-            // TMP: To mount/unmount scroll affordances in the absence of the injection API.
-            // This is to make sure frames already loaded will mount/unmount scroll affordances. 
-            // We need to debounce because of swipe, which has a 150ms animation in Column Snapper, 
-            // otherwise the iframe will stay hidden since we must change the ReadingProgression,
-            // that requires re-loading the frame pool
-            if (currentLocator?.href !== locator.href) {
-              handleScrollAffordances(cache.current.settings.scroll);
-            }
             handleProgression(locator);
             setLocalData(locator);
           }, 250);
@@ -492,15 +474,7 @@ export const StatefulReader = ({
     handleLocator: function (locator: Locator): boolean {
       const href = locator.href;
 
-      // Scroll Affordances
-      // That’s not great though
-      if (href.includes(TH_CUSTOM_SCHEME)) {
-        if (href.includes(ThScrollActions.prev)) {
-          goLeft(false, () => { scrollBackTo(RSPrefs.scroll.backTo) }); 
-        } else if (href.includes(ThScrollActions.next)) {
-          goRight(false, () => { scrollBackTo(ThScrollBackTo.top) });
-        }
-      } else if (
+      if (
         href.startsWith("http://") ||
         href.startsWith("https://") ||
         href.startsWith("mailto:") ||
@@ -778,11 +752,7 @@ export const StatefulReader = ({
           positionsList: positionsList,
           initialPosition: initialPosition ?? undefined,
           preferences: preferences,
-          defaults: defaults,
-          scrollAffordances: {
-            top: RSPrefs.scroll.topAffordance,
-            bottom: RSPrefs.scroll.bottomAffordance
-          }
+          defaults: defaults
         }, () => p.observe(window));
       })
       .finally(() => {

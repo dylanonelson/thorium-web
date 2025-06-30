@@ -7,8 +7,6 @@ import {
   ThBreakpoints, 
   ThDockingTypes, 
   ThDockingKeys, 
-  ThScrollAffordancePref, 
-  ThScrollBackTo, 
   ThSettingsKeys, 
   ThSheetTypes, 
   ThThemeKeys,  
@@ -34,11 +32,6 @@ export const defaultPreferences = createPreferences({
     maximalLineLength: 75, // undefined | null | number of characters.
     pageGutter: 20, // body padding in px
     layoutStrategy: ThLayoutStrategy.lineLength
-  },
-  scroll: {
-    topAffordance: ThScrollAffordancePref.none,
-    bottomAffordance: ThScrollAffordancePref.none,
-    backTo: ThScrollBackTo.top
   },
   theming: {
     arrow: {

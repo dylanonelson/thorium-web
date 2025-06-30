@@ -13,10 +13,6 @@ interface EpubNavigatorLoadProps {
   initialPosition?: Locator;
   preferences?: IEpubPreferences;
   defaults?: IEpubDefaults;
-  scrollAffordances?: {
-    top?: ThScrollAffordancePref;
-    bottom?: ThScrollAffordancePref;
-  }
 }
 
 function useEpubNavigator(): {
@@ -28,8 +24,6 @@ function useEpubNavigator(): {
   goForward: (animated: boolean, callback: (ok: boolean) => void) => void;
   goLink: (link: Link, animated: boolean, callback: (ok: boolean) => void) => void;
   go: (locator: Locator, animated: boolean, callback: (ok: boolean) => void) => void;
-  handleScrollAffordances: (scroll: boolean) => void;
-  scrollBackTo: (position: ThScrollBackTo) => void;
   navLayout: () => EPUBLayout | undefined;
   currentLocator: () => Locator | undefined;
   currentPositions: () => number[] | undefined;
