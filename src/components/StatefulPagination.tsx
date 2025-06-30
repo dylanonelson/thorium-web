@@ -10,6 +10,7 @@ export const StatefulPagination = ({
   ref,
   links,
   compounds,
+  children,
   ...props
 }: ThPaginationProps) => {
   const previousButtonRef = useRef<HTMLButtonElement>(null);
@@ -44,6 +45,8 @@ export const StatefulPagination = ({
       links={ links } 
       compounds={ updatedCompounds } 
       { ...props }
-    />
+    >
+      { children }
+    </ThPagination>
   )
 }
