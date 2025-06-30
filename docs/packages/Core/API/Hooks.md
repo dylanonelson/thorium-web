@@ -243,3 +243,25 @@ function usePrevious<T>(
 - Generic type support
 - Ref-based storage for performance
 - Updates only after render
+
+### useTimeline
+
+> [!CAUTION]
+> This hook is unstable and will change in the future.
+
+Tracks and manages timeline data so that navigation can be contextualized more easily (current toc entry, positions, title, etc.).
+
+```typescript
+function useTimeline(
+  publication: Publication | null, 
+  currentLocation?: Locator, 
+  currentPositions: number[],
+  positionsList: Locator[],
+  onChange?: (timeline: Timeline) => void
+): Timeline
+```
+
+**Features:**
+- Creates timeline data to contextualize navigation (toc, items, positions)
+- Provides current timeline state (current toc entry, current item, previous item, next item)
+- Handles timeline updates
