@@ -1,6 +1,11 @@
-:global(.isScroll.isImmersive:not(.isHovering)) .activeButton {
+:global(.layered-ui.isScroll.isImmersive:not(.isHovering)) .activeButton {
+  box-sizing: border-box;
   transform: translateY(calc(var(--icon-size, 24px) * 2.5));
-  transition: transform 200ms ease-in-out;
+  outline: 1px solid var(--theme-subdue);
+  background-color: var(--theme-background);
+  transition-property: transform;
+  transition-duration: 200ms; 
+  transition-timing-function: ease-in-out;
 }
 
 .overflowPopover {
