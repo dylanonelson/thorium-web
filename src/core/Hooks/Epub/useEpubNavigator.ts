@@ -2,9 +2,6 @@
 
 import { useCallback, useMemo, useRef } from "react";
 
-import { ThScrollAffordancePref, ThScrollBackTo } from "@/preferences/models/enums";
-import { ScrollAffordance } from "./scrollAffordance";
-
 import { 
   EPUBLayout, 
   Link, 
@@ -16,8 +13,6 @@ import {
   EpubNavigatorListeners, 
   EpubPreferences, 
   EpubSettings, 
-  FrameManager, 
-  FXLFrameManager, 
   IEpubDefaults, 
   IEpubPreferences
 } from "@readium/navigator";
@@ -27,13 +22,6 @@ type cbb = (ok: boolean) => void;
 // Module scoped, singleton instance of navigator
 let navigatorInstance: EpubNavigator | null = null;
 
-// Scroll Affordances as mutable, otherwise the callbacks
-// will not work for components mounting before load
-// They should not be part of the hook anyway
-// And their existence is due to the lack of Injection API
-let scrollAffordanceTop: ScrollAffordance | null = null;
-let scrollAffordanceBottom: ScrollAffordance | null = null;
-
 export interface EpubNavigatorLoadProps {
   container: HTMLDivElement | null;
   publication: Publication;
@@ -42,10 +30,6 @@ export interface EpubNavigatorLoadProps {
   initialPosition?: Locator;
   preferences?: IEpubPreferences;
   defaults?: IEpubDefaults;
-  scrollAffordances?: {
-    top?: ThScrollAffordancePref;
-    bottom?: ThScrollAffordancePref;
-  }
 }
 
 export const useEpubNavigator = () => {
@@ -53,56 +37,12 @@ export const useEpubNavigator = () => {
   const containerParent = useRef<HTMLElement | null>(null);
   const publication = useRef<Publication | null>(null);
 
-  // Warning: this is using an internal member that will become private, do not rely on it
-  // See https://github.com/edrlab/thorium-web/issues/25
-  const mountScroll = useCallback(() => {
-    navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
-      if (frameManager) {        
-        scrollAffordanceTop?.render(frameManager.window.document);
-        scrollAffordanceBottom?.render(frameManager.window.document)
-      }
-    });
-  }, []);
-
-  // Warning: this is using an internal member that will become private, do not rely on it
-  // See https://github.com/edrlab/thorium-web/issues/25
-  const unmountScroll = useCallback(() => {
-    navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
-      if (frameManager) {
-        scrollAffordanceTop?.destroy(frameManager.window.document);
-        scrollAffordanceBottom?.destroy(frameManager.window.document)
-      }
-    });
-  }, []);
-
-  const handleScrollAffordances = useCallback((scroll: boolean) => {
-    if (navigatorInstance === null || navigatorInstance.layout === EPUBLayout.fixed) return;
-    scroll ? mountScroll() : unmountScroll();
-  }, [mountScroll, unmountScroll]);
-
   const submitPreferences = useCallback(async (preferences: IEpubPreferences) => {
     await navigatorInstance?.submitPreferences(new EpubPreferences(preferences));
   }, []);
 
   const getSetting = useCallback(<K extends keyof EpubSettings>(settingKey: K) => {
     return navigatorInstance?.settings[settingKey] as EpubSettings[K];
-  }, []);
-
-  // Warning: this is using an internal member that will become private, do not rely on it
-  // See https://github.com/edrlab/thorium-web/issues/25
-  const scrollBackTo = useCallback((position: ThScrollBackTo) => {
-    if (position !== ThScrollBackTo.untouched) {
-      navigatorInstance?._cframes.forEach((frameManager: FrameManager | FXLFrameManager | undefined) => {
-        if (frameManager) {
-          const scrollingEl = frameManager.window.document.scrollingElement;
-          if (position === ThScrollBackTo.top) {
-            scrollingEl?.scrollTo(0, 0);
-          } else {
-            scrollingEl?.scrollTo(0, scrollingEl.scrollHeight);
-          }
-        }
-      });
-    }
   }, []);
 
   // [TMP] Working around positionChanged not firing consistently for FXL
@@ -135,15 +75,6 @@ export const useEpubNavigator = () => {
       containerParent.current = container.current? container.current.parentElement : null;
       
       publication.current = config.publication;
-
-      if (config.scrollAffordances) {
-        if (config.scrollAffordances.top) {
-          scrollAffordanceTop = new ScrollAffordance({ pref: config.scrollAffordances.top, placement: "top" })
-        }
-        if (config.scrollAffordances.bottom) {
-          scrollAffordanceBottom = new ScrollAffordance({ pref: config.scrollAffordances.bottom, placement: "bottom" })
-        }
-      }
 
       navigatorInstance = new EpubNavigator(
         config.container, 
@@ -256,8 +187,6 @@ export const useEpubNavigator = () => {
     goForward,
     goLink, 
     go, 
-    handleScrollAffordances,
-    scrollBackTo, 
     navLayout, 
     currentLocator,
     previousLocator,
