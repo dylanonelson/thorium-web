@@ -21,8 +21,13 @@ import { useFocusWithin } from "react-aria";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { ThLayoutUI } from "@/preferences/models/enums";
 
-export const StatefulReaderHeader = () => {
+export const StatefulReaderHeader = ({
+  layout
+}: {
+  layout: ThLayoutUI;
+}) => {
   const { reflowActionKeys, fxlActionKeys } = usePreferenceKeys();
   const RSPrefs = usePreferences();
   const { actionsComponentsMap } = usePlugins();
@@ -34,8 +39,6 @@ export const StatefulReaderHeader = () => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const hasScrollAffordance = useAppSelector(state => state.reader.hasScrollAffordance);
-  const scroll = useAppSelector(state => state.settings.scroll);
-  const isScroll = scroll && !isFXL;
 
   const actions = useActions({ ...actionsMap, ...overflowMap });
   const dispatch = useAppDispatch();
@@ -89,7 +92,7 @@ export const StatefulReaderHeader = () => {
     <ThInteractiveOverlay 
       id="reader-header-overlay"
       className="bar-overlay"
-      isActive={ isScroll && isImmersive && !isHovering }
+      isActive={ layout === ThLayoutUI.layered && isImmersive && !isHovering }
       onMouseEnter={ setHover }
       onMouseLeave={ removeHover }
     />

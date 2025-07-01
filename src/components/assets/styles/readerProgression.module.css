@@ -3,13 +3,3 @@
   font-variant-numeric: lining-nums tabular-nums;
   text-align: center;
 }
-
-:global(.layered-ui.isFXL) #current {
-  transition: opacity 200ms ease-in-out;
-}
-
-:global(.layered-ui.isFXL.isImmersive:not(.isHovering)) #current {
-  user-select: none;
-  pointer-events: none;
-  opacity: 0;
-}
