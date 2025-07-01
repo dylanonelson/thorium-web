@@ -17,9 +17,13 @@ import { ThPaginationLinkProps } from "@/core/Components/Reader/ThPagination";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useFocusWithin } from "react-aria";
-import { ThBreakpoints } from "@/preferences/models/enums";
+import { ThBreakpoints, ThLayoutUI } from "@/preferences/models/enums";
 
-export const StatefulReaderFooter = () => {
+export const StatefulReaderFooter = ({
+  layout
+}: {
+  layout: ThLayoutUI;
+}) => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const hasScrollAffordance = useAppSelector(state => state.reader.hasScrollAffordance);
@@ -100,7 +104,7 @@ export const StatefulReaderFooter = () => {
     <ThInteractiveOverlay 
       id="reader-footer-overlay"
       className="bar-overlay"
-      isActive={ isScroll && isImmersive && !isHovering }
+      isActive={ layout === ThLayoutUI.layered && isImmersive && !isHovering }
       onMouseEnter={ setHover }
       onMouseLeave={ removeHover }
     />

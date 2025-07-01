@@ -68,12 +68,8 @@
   opacity: 1;
 }
 
-:global(.isImmersive:not(.isScroll):not(.isHovering)) .partiallyVisible {
+:global(.stacked-ui.isImmersive:not(.isHovering)) .partiallyVisible {
   opacity: 0;
-}
-
-:global(.layered-ui.isFXL) .partiallyVisible {
-  transition: opacity 200ms ease-in-out;
 }
 
 /* Utils to improve icons’ consistency */

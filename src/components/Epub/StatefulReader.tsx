@@ -816,7 +816,7 @@ export const StatefulReader = ({
               )
             }
           >
-            <StatefulReaderHeader />
+            <StatefulReaderHeader layout={ layoutUI } />
 
           { !isScroll 
             ? <nav className={ arrowStyles.container } id={ arrowStyles.left }>
@@ -844,7 +844,7 @@ export const StatefulReader = ({
               </nav> 
             : <></> }
 
-          <StatefulReaderFooter />
+          <StatefulReaderFooter layout={ layoutUI } />
           </div>
       </StatefulDockingWrapper>
     </main>
