@@ -1,11 +1,11 @@
 .pagination {
   box-sizing: border-box;
-  display: flex;
-  flex: 1 1 auto;
-  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
   background-color: var(--theme-background);
   color: var(--theme-text);
   align-items: center;
+  width: 100%;
   max-width: var(--constraints-pagination, 100%);
 }
 
@@ -13,11 +13,6 @@
   box-sizing: border-box;
   list-style: none;
   padding-inline: calc(var(--layout-spacing) / 2);
-  flex: 0 1 50%;
-}
-
-.paginationListItem:has(.nextButton) {
-  margin-inline-start: auto;
 }
 
 .paginationListItem button {

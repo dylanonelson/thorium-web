@@ -131,7 +131,7 @@ export const StatefulReaderFooter = () => {
             } } 
           >
           { (breakpoint !== ThBreakpoints.compact && breakpoint !== ThBreakpoints.medium) 
-              && <StatefulReaderProgression />
+              && <StatefulReaderProgression className={ readerPaginationStyles.progression } />
           }
           </StatefulPagination> 
         : <StatefulReaderProgression /> }
