@@ -811,7 +811,8 @@ export const StatefulReader = ({
                 isImmersive ? "isImmersive" : "",
                 isHovering ? "isHovering" : "",
                 isScroll ? "isScroll" : "isPaged",
-                layoutUI
+                layoutUI,
+                breakpoint
               )
             }
           >
