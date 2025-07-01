@@ -17,6 +17,7 @@ import { ThPaginationLinkProps } from "@/core/Components/Reader/ThPagination";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useFocusWithin } from "react-aria";
+import { ThBreakpoints } from "@/preferences/models/enums";
 
 export const StatefulReaderFooter = () => {
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
@@ -25,6 +26,7 @@ export const StatefulReaderFooter = () => {
   const scroll = useAppSelector(state => state.settings.scroll);
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const isScroll = scroll && !isFXL;
+  const breakpoint = useAppSelector(state => state.theming.breakpoint);
   const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
   const timeline = useAppSelector(state => state.publication.unstableTimeline);
 
@@ -128,7 +130,9 @@ export const StatefulReaderFooter = () => {
               }
             } } 
           >
-            <StatefulReaderProgression />
+          { (breakpoint !== ThBreakpoints.compact && breakpoint !== ThBreakpoints.medium) 
+              && <StatefulReaderProgression />
+          }
           </StatefulPagination> 
         : <StatefulReaderProgression /> }
     </ThFooter>

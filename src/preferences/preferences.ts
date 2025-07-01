@@ -153,7 +153,7 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
         scrim: string;
       };
       constraints?: {
-        [key in KeysOf<T["constraintsKeys"], ThConstraintKeys>]?: number
+        [key in KeysOf<T["constraintsKeys"], ThConstraintKeys>]?: number | null
       }
     };
     breakpoints: BreakpointsMap<number | null>;

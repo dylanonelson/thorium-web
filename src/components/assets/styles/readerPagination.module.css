@@ -6,7 +6,7 @@
   background-color: var(--theme-background);
   color: var(--theme-text);
   align-items: center;
-  max-width: var(--constraints-pagination, 800px);
+  max-width: var(--constraints-pagination, 100%);
 }
 
 .paginationListItem {
@@ -36,6 +36,7 @@
 }
 
 .nextButton {
+  text-align: end;
   justify-content: flex-end;
 }
 
@@ -54,10 +55,21 @@
 .paginationListItem button .paginationLabel {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
   overflow: hidden;
   white-space: normal;
+}
+
+:global(.compact) .paginationListItem button .paginationLabel,
+:global(.medium) .paginationListItem button .paginationLabel {
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+:global(.expanded) .paginationListItem button .paginationLabel,
+:global(.large) .paginationListItem button .paginationLabel,
+:global(.xLarge) .paginationListItem button .paginationLabel {
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
 }
 
 .paginationListItem button svg {
