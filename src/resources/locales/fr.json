@@ -101,9 +101,34 @@
         },
         "layoutStrategy": {
             "tooltip": "Mise en page",
-            "trigger": "Stratégie de mise en page",
+            "trigger": "Afficher le panneau Stratégie de mise en page",
             "close": "Fermer le panneau Stratégie de mise en page",
-            "heading": "Stratégie de mise en page"
+            "heading": "Stratégie de mise en page",
+            "title": "Stratégie",
+            "margin": "Marge",
+            "lineLength": "Longueur de ligne",
+            "columns": "Colonnes",
+            "minChars": "Désactiver la longue de ligne minimale",
+            "maxChars": "Désactiver la longueur de ligne maximale",
+            "minimalLineLength": {
+                "title": "Longueur de ligne minimale",
+                "increase": "Augmenter la longueur de ligne minimale",
+                "decrease": "Diminuer la longue de ligne minimale"
+            },
+            "optimalLineLength": {
+                "title": "Longueur de ligne optimale",
+                "increase": "Augmenter la longueur de ligne optimale",
+                "decrease": "Diminuer la longueur de ligne optimale"
+            },
+            "maximalLineLength": {
+                "title": "Longueur de ligne maximale",
+                "increase": "Augmenter la longueur de ligne maximale",
+                "decrease": "Diminuer la longueur de ligne maximale"
+            }
+        },
+        "settings": {
+            "tooltip": "Préférences",
+            "trigger": "Menu des préférences"
         }
     }
 }
