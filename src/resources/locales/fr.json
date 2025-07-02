@@ -70,9 +70,40 @@
         },
         "toc": {
             "tooltip": "Table des matières",
-            "trigger": "Table des matières",
+            "trigger": "Afficher la table des matières",
             "close": "Fermer la table des matières",
-            "heading": "Table des matières"
+            "heading": "Table des matières",
+            "entries": "Entrées de la table des matières",
+            "empty": "La table des matières n’est pas disponible pour cette publication.",
+            "search": {
+                "label": "Chercher",
+                "placeholder": "Chercher",
+                "clear": "Effacer"
+            }
+        },
+        "jumpToPosition": {
+            "tooltip": "Aller à …",
+            "trigger": "Aller à la position",
+            "heading": "Aller à la position",
+            "go": "Aller",
+            "close": "Fermer le panneau aller à la position",
+            "label": "Sélectionner une position entre {{ positionStart }} et {{ positionEnd }} :"
+        },
+        "overflowMenu": {
+            "active": {
+                "tooltip": "Actions supplémentaires",
+                "trigger": "Basculer le menu"
+            },
+            "hint": {
+                "tooltip": "Basculer les actions",
+                "trigger": "Afficher les actions"
+            }
+        },
+        "layoutStrategy": {
+            "tooltip": "Mise en page",
+            "trigger": "Stratégie de mise en page",
+            "close": "Fermer le panneau Stratégie de mise en page",
+            "heading": "Stratégie de mise en page"
         }
     }
 }
