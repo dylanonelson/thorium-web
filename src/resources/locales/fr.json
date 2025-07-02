@@ -128,8 +128,19 @@
         },
         "settings": {
             "tooltip": "Préférences",
-            "trigger": "Afficher le menu des préférences",
-            "close": "Fermer le menu de préférences"
+            "trigger": "Afficher le menu de préférences",
+            "close": "Fermer le menu de préférences",
+            "heading": "Préférences d’affichage",
+            "themes": {
+                "title": "Thèmes",
+                "auto": "Auto",
+                "light": "Clair",
+                "sepia": "Sépia",
+                "paper": "Papier",
+                "dark": "Sombre",
+                "contrast1": "Contrast 1",
+                "contrast2": "Contraste 2"
+            }
         }
     }
 }
