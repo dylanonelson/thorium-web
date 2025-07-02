@@ -70,10 +70,14 @@ export const StatefulReaderFooter = ({
 
     if (previous) {
       links.previous = {
-        node: (
+        node: breakpoint !== ThBreakpoints.compact && breakpoint !== ThBreakpoints.medium ? (
           <>
             <span className="sr-only">{ Locale.reader.navigation.scroll.prevA11yLabel }</span>
             <span className={ readerPaginationStyles.paginationLabel }>{ timeline?.previousItem?.title || previous.title || Locale.reader.navigation.scroll.prevLabel }</span>
+          </>
+        ) : (
+          <>
+            <span className={ readerPaginationStyles.paginationLabel }>{ Locale.reader.navigation.scroll.prevLabel }</span>
           </>
         ),
         onPress: () => go(previous, !reducedMotion, () => {})
@@ -82,10 +86,14 @@ export const StatefulReaderFooter = ({
 
     if (next) {
       links.next = {
-        node: (
+        node: breakpoint !== ThBreakpoints.compact && breakpoint !== ThBreakpoints.medium ? (
           <>
             <span className="sr-only">{ Locale.reader.navigation.scroll.nextA11yLabel }</span>
             <span className={ readerPaginationStyles.paginationLabel }>{ timeline?.nextItem?.title || next.title || Locale.reader.navigation.scroll.nextLabel }</span>
+          </>
+        ) : ( 
+          <>
+            <span className={ readerPaginationStyles.paginationLabel }>{ Locale.reader.navigation.scroll.nextLabel }</span>
           </>
         ),
         onPress: () => go(next, !reducedMotion, () => {})
@@ -93,7 +101,7 @@ export const StatefulReaderFooter = ({
     }
 
     return links;
-  }, [go, previousLocator, nextLocator, timeline, reducedMotion]);
+  }, [go, previousLocator, nextLocator, timeline, breakpoint, reducedMotion]);
 
   useEffect(() => {
     updateLinks();
@@ -134,9 +142,7 @@ export const StatefulReaderFooter = ({
               }
             } } 
           >
-          { (breakpoint !== ThBreakpoints.compact && breakpoint !== ThBreakpoints.medium) 
-              && <StatefulReaderProgression className={ readerPaginationStyles.progression } />
-          }
+            <StatefulReaderProgression className={ readerPaginationStyles.progression } />
           </StatefulPagination> 
         : <StatefulReaderProgression /> }
     </ThFooter>
