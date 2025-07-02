@@ -173,7 +173,70 @@
                 "label": "Désactiver le formatage du texte"
             },
             "align": {
-                "title": "Alignement"
+                "title": "Alignement du texte",
+                "publisher": "Par défaut",
+                "left": "Ferré à gauche",
+                "justify": "Justifié",
+                "right": "Ferré à droite"
+            },
+            "hyphens": {
+                "title": "Césures",
+                "label": "Activer la césure du texte"
+            },
+            "text": {
+                "title": "Texte",
+                "advanced": {
+                    "tooltip": "Options supplémentaires",
+                    "trigger": "Options de formatage supplémentaires"
+                }
+            },
+            "lineHeight": {
+                "title": "Interligne",
+                "publisher": "Par défaut",
+                "small": "Resserré",
+                "medium": "Équilibré",
+                "large": "Élargi"
+            },
+            "paraSpacing": {
+                "title": "Espacement des paragraphes",
+                "increase": "Augmenter l’espacement des paragraphes",
+                "decrease": "Diminuer l’espacement des paragraphes"
+            },
+            "paraIndent": {
+                "title": "Indentation du texte",
+                "increase": "Augmenter l’indentation du texte",
+                "decrease": "Diminuer l’indentation du texte"
+            },
+            "wordSpacing": {
+                "title": "Espacement des mots",
+                "increase": "Augmenter l’espacement entre les mots",
+                "decrease": "Diminuer l’espacement entre les mots"
+            },
+            "letterSpacing": {
+                "title": "Espacement interlettre",
+                "increase": "Augmenter l’espacement entre les lettres",
+                "decrease": "Diminuer l’espacement entre les lettres"
+            },
+            "publisherStyles": {
+                "label": "Utiliser le formatage original"
+            },
+            "spacing": {
+                "title": "Espacement",
+                "advanced": {
+                    "tooltip": "Options supplémentaires",
+                    "trigger": "Options d’espacement supplémentaires"
+                }
+            },
+            "layout": {
+                "title": "Mise en page",
+                "scrolled": "Scrollé",
+                "paginated": "Paginé"
+            },
+            "column": {
+                "title": "Colonnes",
+                "auto": "Auto",
+                "one": "1 colonne",
+                "two": "2 colonnes"
             }
         }
     }
