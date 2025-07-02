@@ -1,1 +1,28 @@
-{}
+{
+    "reader": {
+        "app": {
+            "loading": "Chargement",
+            "publicationWrapper": "Vous êtes dans le contenu de la publication.",
+            "docking": {
+                "dockingLeft": "Panneau ancré à gauche",
+                "dockingRight": "Panneau ancré à droite",
+                "dockingEmpty": "Actuellement vide",
+                "dockingClosed": "Actuellement fermé, il contient {{ action }}",
+                "dockingCollapsed": "Actuellement replié. Il contient {{ action }}"
+            },
+            "header": {
+                "label": "Barre supérieure",
+                "runningHead": "Titre courant",
+                "runningHeadFallback": "…",
+                "actions": "Actions"
+            },
+            "footer": {
+                "label": "Barre inférieure"
+            },
+            "progression": {
+                "wrapper": "Progression dans la publication",
+                "of": "{{ actuel }} de {{ référence }}"
+            }
+        }
+    }
+}
