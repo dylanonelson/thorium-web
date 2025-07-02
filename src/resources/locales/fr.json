@@ -138,8 +138,42 @@
                 "sepia": "Sépia",
                 "paper": "Papier",
                 "dark": "Sombre",
-                "contrast1": "Contrast 1",
-                "contrast2": "Contraste 2"
+                "contrast1": "Contraste 1",
+                "contrast2": "Contraste 2",
+                "contrast3": "Contraste 3"
+            },
+            "zoom": {
+                "title": "Zoom",
+                "increase": "Augmenter la taille de zoom",
+                "decrease": "Diminuer la taille de zoom"
+            },
+            "fontSize": {
+                "title": "Taille de police",
+                "increase": "Augmenter la taille de police",
+                "decrease": "Diminuer la taille de police"
+            },
+            "fontFamily": {
+                "title": "Police de caractères",
+                "labels": {
+                    "publisher": "Police par défaut",
+                    "oldStyle": "Sérif classique",
+                    "modern": "Sérif moderne",
+                    "sans": "Sans sérif",
+                    "humanist": "Humaniste",
+                    "monospace": "Chasse fixe"
+                }
+            },
+            "fontWeight": {
+                "title": "Graisse",
+                "increase": "Augmenter la graisse",
+                "decrease": "Diminuer la graisse"
+            },
+            "normalizeText": {
+                "title": "Styles du texte",
+                "label": "Désactiver le formatage du texte"
+            },
+            "align": {
+                "title": "Alignement"
             }
         }
     }
