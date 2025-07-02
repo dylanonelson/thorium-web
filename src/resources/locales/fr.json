@@ -128,7 +128,8 @@
         },
         "settings": {
             "tooltip": "Préférences",
-            "trigger": "Menu des préférences"
+            "trigger": "Afficher le menu des préférences",
+            "close": "Fermer le menu de préférences"
         }
     }
 }
