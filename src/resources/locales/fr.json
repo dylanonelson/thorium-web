@@ -28,10 +28,51 @@
             "docker": {
                 "wrapper": "Options d’ancrage",
                 "dockToLeft": {
-                    "trigger": "Ancrer à gauche",
+                    "trigger": "Ancrer le panneau à gauche",
                     "tooltip": "Ancrer à gauche"
+                },
+                "dockToRight": {
+                    "trigger": "Ancrer le panneau à droite",
+                    "tooltip": "Ancrer à droite"
+                },
+                "popover": {
+                    "trigger": "Afficher dans une fenêtre",
+                    "tooltip": "Fenêtrer"
+                },
+                "fullscreen": {
+                    "trigger": "Afficher au-dessus du contenu",
+                    "tooltip": "Superposer"
+                },
+                "close": {
+                    "trigger": "Fermer",
+                    "tooltip": "Fermer"
                 }
+            },
+            "back": {
+                "trigger": "Précédent"
             }
+        },
+        "navigation": {
+            "goForward": "Avancer",
+            "goBackward": "Reculer",
+            "scroll": {
+                "wrapper": "Naviguer à travers la publication",
+                "prevLabel": "Précédent",
+                "nextLabel": "Suivant",
+                "prevA11yLabel": "Aller à la ressource précédente",
+                "nextA11yLabel": "Aller à la ressource suivante"
+            }
+        },
+        "fullscreen": {
+            "tooltip": "Plein-écran",
+            "trigger": "Basculer le mode plein-écran",
+            "close": "Quitter le mode plein-écran"
+        },
+        "toc": {
+            "tooltip": "Table des matières",
+            "trigger": "Table des matières",
+            "close": "Fermer la table des matières",
+            "heading": "Table des matières"
         }
     }
 }
