@@ -21,7 +21,16 @@
             },
             "progression": {
                 "wrapper": "Progression dans la publication",
-                "of": "{{ actuel }} de {{ référence }}"
+                "of": "{{ current }} de {{ reference }}",
+                "referenceFallback": "chapitre en cours",
+                "pubFallback": "la publication"
+            },
+            "docker": {
+                "wrapper": "Options d’ancrage",
+                "dockToLeft": {
+                    "trigger": "Ancrer à gauche",
+                    "tooltip": "Ancrer à gauche"
+                }
             }
         }
     }
