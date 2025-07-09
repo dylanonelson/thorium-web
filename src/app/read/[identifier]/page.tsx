@@ -26,7 +26,7 @@ export default function BookPage({ params }: Props) {
 
   return (
     <>
-      {error ? (
+      { error ? (
         <div className="container">
           <h1>Error</h1>
           <p>{ error }</p>
