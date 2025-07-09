@@ -2,6 +2,7 @@
 
 import { BookUrlConverter } from "@/components/BookUrlConverter";
 import { Link } from "react-aria-components";
+import { MANIFEST_CONFIG } from "@/config/manifest";
 
 export default function Home() {
   return (
@@ -10,22 +11,36 @@ export default function Home() {
 
       <BookUrlConverter />
 
-      <p>Alternatively, here’s a list of reflowable and fixed-layout publications you can read and test:</p>
+      <p>Here’s a list of reflowable and fixed-layout publications you can read and test:</p>
 
       <ul>
         <li>
-          <Link href="/read?book=https%3A%2F%2Fpublication-server.readium.org%2FZ3M6Ly9yZWFkaXVtLXBsYXlncm91bmQtZmlsZXMvZGVtby9tb2J5LWRpY2suZXB1Yg">Moby Dick (reflow)</Link>
+          <Link href="/read/moby-dick">Moby Dick (reflow)</Link>
         </li>
         <li>
-          <Link href="/read?book=https%3A%2F%2Fpublication-server.readium.org%2FZ3M6Ly9yZWFkaXVtLXBsYXlncm91bmQtZmlsZXMvZGVtby9uYXRoYW5pZWwtaGF3dGhvcm5lX3RoZS1ob3VzZS1vZi10aGUtc2V2ZW4tZ2FibGVzX2FkdmFuY2VkLmVwdWI">The House of the Seven Gables (reflow advanced)</Link>
+          <Link href="/read/the-house-of-seven-gables">The House of the Seven Gables (reflow advanced)</Link>
         </li>
         <li>
-          <Link href="/read?book=https%3A%2F%2Fpublication-server.readium.org%2FZ3M6Ly9yZWFkaXVtLXBsYXlncm91bmQtZmlsZXMvZGVtby9sZXNfZGlhYm9saXF1ZXMuZXB1Yg">Les Diaboliques (reflow french)</Link>
+          <Link href="/read/les-diaboliques">Les Diaboliques (reflow french)</Link>
         </li>
         <li>
-          <Link href="/read?book=https%3A%2F%2Fpublication-server.readium.org%2FZ3M6Ly9yZWFkaXVtLXBsYXlncm91bmQtZmlsZXMvZGVtby9CZWxsYU9yaWdpbmFsMy5lcHVi">Bella the Dragon (FXL)</Link>
+          <Link href="/read/bella-the-dragon">Bella the Dragon (FXL)</Link>
         </li>
       </ul>
+
+      {MANIFEST_CONFIG.enabled && (
+        <>
+          <p>Or use an arbitrary manifest:</p>
+          <ul>
+            <li>
+              <Link href="/read/manifest/https%3A%2F%2Fpublication-server.readium.org%2FaHR0cHM6Ly9naXRodWIuY29tL0lEUEYvZXB1YjMtc2FtcGxlcy9yZWxlYXNlcy9kb3dubG9hZC8yMDIzMDcwNC9hY2Nlc3NpYmxlX2VwdWJfMy5lcHVi%2Fmanifest.json">Accessible EPUB3</Link>
+            </li>
+            <li>
+              <Link href="/read/manifest/https%3A%2F%2Fpublication-server.readium.org%2FaHR0cHM6Ly9naXRodWIuY29tL0lEUEYvZXB1YjMtc2FtcGxlcy9yZWxlYXNlcy9kb3dubG9hZC8yMDIzMDcwNC9jaGlsZHJlbnMtbGl0ZXJhdHVyZS5lcHVi%2Fmanifest.json">Children Literature</Link>
+            </li>
+          </ul>
+        </>
+      )}
     </main>
   );
 }
