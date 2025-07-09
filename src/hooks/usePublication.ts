@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@readium/shared";
 import { HttpFetcher } from "@readium/shared";
-import { MANIFEST_CONFIG } from "@/config/manifest";
 import { useAppSelector } from "@/lib/hooks";
 
 export interface UsePublicationOptions {
@@ -15,26 +14,7 @@ export function usePublication({ url, onError = () => {} }: UsePublicationOption
   const [selfLink, setSelfLink] = useState<string | undefined>(undefined);
   const readerIsLoading = useAppSelector(state => state.reader.isLoading);
 
-  // Validate manifest URL in production
-  useEffect(() => {
-    if (!MANIFEST_CONFIG.enabled) {
-      setError("Manifest route is disabled in production mode");
-      return;
-    }
-
-    // If in production and not force enabled, check domain whitelist
-    if (process.env.NODE_ENV === "production" && !MANIFEST_CONFIG.forceEnable) {
-      const urlObj = new URL(url);
-      const domain = urlObj.hostname;
-      
-      if (!MANIFEST_CONFIG.allowedDomains.includes(domain)) {
-        setError(`Manifest from domain ${ domain } is not allowed`);
-        return;
-      }
-    }
-  }, [url]);
-
-  // Fetch manifest
+  // Basic URL validation and loading
   useEffect(() => {
     if (!url) {
       setError("Manifest URL is required");
