@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import Locale from "../../../resources/locales/en.json";
 
@@ -19,10 +19,28 @@ export const StatefulColumns = () => {
   const scroll = useAppSelector(state => state.settings.scroll);
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const isScroll = scroll && !isFXL;
+
   const columnCount = useAppSelector(state => state.settings.columnCount) || "auto";
   const [effectiveValue, setEffectiveValue] = useState(columnCount);
 
+  const fontSize = useAppSelector(state => state.settings.fontSize);
+  const fontFamily = useAppSelector(state => state.settings.fontFamily);
+  const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
+  const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
+  const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
+
+  const layoutSettings = useMemo(() => {
+    return {
+      fontSize,
+      fontFamily,
+      wordSpacing,
+      letterSpacing,
+      publisherStyles
+    };
+  }, [fontSize, fontFamily, wordSpacing, letterSpacing, publisherStyles]);
+
   const dispatch = useAppDispatch();
+
   const { submitPreferences, getSetting } = useEpubNavigator();
 
   const updateEffectiveValue = useCallback((preference: string, setting: number | null) => {
@@ -37,11 +55,15 @@ export const StatefulColumns = () => {
     dispatch(setColumnCount(value));
   }, [submitPreferences, getSetting, updateEffectiveValue, dispatch]);
 
-  // Debounce the resize handler
   const debouncedUpdate = useCallback(() => {
     const update = () => updateEffectiveValue(columnCount, getSetting("columnCount"));
     debounce(update, 50)();
-  }, [columnCount, getSetting, updateEffectiveValue]);
+
+    // layoutSettings is required as a dependency because it contains all the settings
+    // that affect column layout (fontSize, fontFamily, wordSpacing, letterSpacing, publisherStyles)
+    // and we need to recalculate the layout when any of these change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columnCount, layoutSettings, getSetting, updateEffectiveValue]);
 
   useEffect(() => {
     debouncedUpdate();
