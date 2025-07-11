@@ -1,10 +1,4 @@
 {
-  "bookUrlConverter": {
-    "label": "Load an EPUB publication from a remote server (it must support byte-range requests):",
-    "placeholder": "https://www.example.org/ebook.epub",
-    "button": "Load",
-    "error": "The URL is invalid. Please check the URL is correct and try again."
-  },
   "reader": {
     "app": {
       "loading": "Loading",
@@ -103,33 +97,6 @@
       "hint": {
         "tooltip": "Toggle actions",
         "trigger": "Display actions"
-      }
-    },
-    "layoutStrategy": {
-      "tooltip": "Layout",
-      "trigger": "Layout strategy",
-      "close": "Close layout strategy menu",
-      "heading": "Layout strategy",
-      "title": "Strategy",
-      "margin": "Margin",
-      "lineLength": "Line length",
-      "columns": "Columns",
-      "minChars": "Disable minimal line length",
-      "maxChars": "Disable maximal line length",
-      "minimalLineLength": {
-        "title": "Minimal line length",
-        "increase": "Increase minimal line length",
-        "decrease": "Decrease maximal line length"
-      },
-      "optimalLineLength": {
-        "title": "Optimal line length",
-        "increase": "Increase optimal line length",
-        "decrease": "Decrease optimal line length"
-      },
-      "maximalLineLength": {
-        "title": "Maximal line length",
-        "increase": "Increase maximal line length",
-        "decrease": "Decrease maximal line length"
       }
     },
     "settings": {
