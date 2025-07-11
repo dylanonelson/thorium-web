@@ -40,7 +40,7 @@ export const BookUrlConverter = () => {
   return (
     <>
     <ThForm
-      label={ Locale.bookUrlConverter.button }
+      label="Load"
       className={ bookUrlConverterStyles.bookConverterForm }
       onSubmit={ handleAction }
       compounds={{
@@ -51,11 +51,11 @@ export const BookUrlConverter = () => {
       }}
     >
       <ThFormTextField
-        label={ Locale.bookUrlConverter.label }
+        label="Load an EPUB publication from a remote server (it must support byte-range requests):"
         name="book-url-converter"
         className={ bookUrlConverterStyles.bookConverterFormTextField }
         type="url"
-        errorMessage={ Locale.bookUrlConverter.error }
+        errorMessage="The URL is invalid. Please check the URL is correct and try again."
         compounds={{
           label: {
             className: bookUrlConverterStyles.bookConverterFormLabel
@@ -64,7 +64,7 @@ export const BookUrlConverter = () => {
             className: bookUrlConverterStyles.bookConverterFormInput,
             value: bookUrl,
             onChange: (e) => setBookUrl(e.target.value),
-            placeholder: Locale.bookUrlConverter.placeholder
+            placeholder: "https://www.example.org/ebook.epub"
           },
           fieldError: {
             className: bookUrlConverterStyles.bookConverterFormFieldError
