@@ -160,7 +160,7 @@ export const useTimeline = ({
 
     // Process reading order items
     for (const item of readingOrder) {
-      const toc = publication?.tableOfContents?.items || [];
+      const toc = publication?.toc?.items || [];
       const flatToc = toc.flatMap(t => [t, ...(t.children?.items || [])]);
 
       // Find all matching TOC items (with or without fragment)
@@ -216,7 +216,7 @@ export const useTimeline = ({
     }
 
     return timelineItems;
-  }, [publication?.readingOrder?.items, publication?.tableOfContents?.items, positionsList]);
+  }, [publication?.readingOrder?.items, publication?.toc?.items, positionsList]);
 
   // Callback to update previous and next items
   const updateTimelineItems = useCallback(() => {
@@ -253,7 +253,7 @@ export const useTimeline = ({
     if (!publication) return;
     
     const idGenerator = () => `toc-${ ++idCounterRef.current }`;
-    setTocTree(buildTocTree(publication.tableOfContents?.items || [], idGenerator, positionsList));
+    setTocTree(buildTocTree(publication.toc?.items || [], idGenerator, positionsList));
     setTimelineItems(buildTimelineItems());
   }, [publication, positionsList, buildTocTree, buildTimelineItems]);
 

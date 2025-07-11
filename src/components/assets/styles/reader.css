@@ -123,12 +123,10 @@ main {
   background-color: var(--theme-background);
 }
 
-.stacked-ui #top-bar {
-  /* Otherwise it will shrink/grow when switching paginated/scroll with bottom bar toggled */
-  flex: 0 0 calc(var(--icon-size, 24px) * 2.5);
-}
-
+.stacked-ui #top-bar,
 .stacked-ui #bottom-bar {
+  /* Need both. Otherwise it will shrink/grow when switching from stacked/layered */
+  flex: 0 0 calc(var(--icon-size, 24px) * 2.5);
   height: calc(var(--icon-size, 24px) * 2.5);
 }
 

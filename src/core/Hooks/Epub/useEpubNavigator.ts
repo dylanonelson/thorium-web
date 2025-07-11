@@ -169,7 +169,23 @@ export const useEpubNavigator = () => {
   }, [getLocatorAtOffset]);
 
   const currentPositions = useCallback(() => {
-    return navigatorInstance?.currentPositionNumbers;
+    return navigatorInstance?.viewport?.positions;
+  }, []);
+
+  const canGoBackward = useCallback(() => {
+    return navigatorInstance?.canGoBackward;
+  }, []);
+
+  const canGoForward = useCallback(() => {
+    return navigatorInstance?.canGoForward;
+  }, []);
+
+  const isScrollStart = useCallback(() => {
+    return navigatorInstance?.isScrollStart;
+  }, []);
+
+  const isScrollEnd = useCallback(() => {
+    return navigatorInstance?.isScrollEnd;
   }, []);
 
   // Warning: this is an internal member that will become private, do not rely on it
@@ -192,6 +208,10 @@ export const useEpubNavigator = () => {
     previousLocator,
     nextLocator,
     currentPositions,
+    canGoBackward,
+    canGoForward,
+    isScrollStart,
+    isScrollEnd,
     preferencesEditor: navigatorInstance?.preferencesEditor,
     getSetting,
     submitPreferences,

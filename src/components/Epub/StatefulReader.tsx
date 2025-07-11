@@ -98,7 +98,9 @@ import {
   setProgression, 
   setRunningHead, 
   setPositionsList,
-  setTimeline
+  setTimeline,
+  setPublicationStart,
+  setPublicationEnd
 } from "@/lib/publicationReducer";
 import { LineLengthStateObject } from "@/lib/settingsReducer";
 
@@ -253,6 +255,10 @@ export const StatefulReader = ({
     navLayout,
     currentLocator,
     currentPositions,
+    canGoBackward,
+    canGoForward,
+    isScrollStart,
+    isScrollEnd,
     getCframes,
     onFXLPositionChange,
     submitPreferences
@@ -429,8 +435,6 @@ export const StatefulReader = ({
     },
     positionChanged: async function (locator: Locator): Promise<void> {
       const currentLocator = getLocalData();
-      if (currentLocator?.href !== locator.href) {
-      }
 
       // Only handle scroll-based hide/show if scroll is enabled and we're in reflow
       if (
@@ -442,9 +446,8 @@ export const StatefulReader = ({
         handleScroll(locator);
 
         const scrollState = getScrollState(locator);
-        const { isStart, isEnd } = getPositionBoundaries(locator, currentPositions());
         
-        if (isStart || isEnd) {
+        if (isScrollStart() || isScrollEnd()) {
           if (
             // Keep consistent with pagination behavior
             cache.current.settings.scroll &&
@@ -472,6 +475,20 @@ export const StatefulReader = ({
             setLocalData(locator);
           }, 250);
         debouncedHandleProgression();
+      }
+
+      // We could use canGoBackward() and canGoForward() directly on arrows
+      // but maybe we will need to sync the state for other features in the future
+      if (canGoBackward()) {
+        dispatch(setPublicationStart(false));
+      } else {
+        dispatch(setPublicationStart(true));
+      }
+      
+      if (canGoForward()) {
+        dispatch(setPublicationEnd(false));
+      } else {
+        dispatch(setPublicationEnd(true));
       }
     },
     tap: function (_e: FrameClickEvent): boolean {
@@ -762,10 +779,10 @@ export const StatefulReader = ({
           minimalLineLength: RSPrefs.typography.minimalLineLength, 
           optimalLineLength: RSPrefs.typography.optimalLineLength,
           pageGutter: RSPrefs.typography.pageGutter,
-          scrollPaddingTop: cache.current.layoutUI === ThLayoutUI.layered 
+          scrollPaddingTop: RSPrefs.theming.layout.ui?.reflow === ThLayoutUI.layered 
             ? (RSPrefs.theming.icon.size || 24) * 3 
             : (RSPrefs.theming.icon.size || 24),
-          scrollPaddingBottom: cache.current.layoutUI === ThLayoutUI.layered 
+          scrollPaddingBottom: RSPrefs.theming.layout.ui?.reflow === ThLayoutUI.layered 
             ? (RSPrefs.theming.icon.size || 24) * 5 
             : (RSPrefs.theming.icon.size || 24)
         }
