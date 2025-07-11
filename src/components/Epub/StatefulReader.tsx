@@ -64,7 +64,6 @@ import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useFullscreen } from "@/core/Hooks/useFullscreen";
 import { usePrevious } from "@/core/Hooks/usePrevious";
 import { useScrollDirection } from "./Hooks/useScrollDirection";
-import { usePositionBoundaries } from "./Hooks/usePositionBoundaries";
 import { useTimeline } from "@/core/Hooks/useTimeline";
 import { useLocalStorage } from "@/core/Hooks/useLocalStorage";
 
@@ -207,7 +206,6 @@ export const StatefulReader = ({
   const isHovering = useAppSelector(state => state.reader.isHovering);
 
   const { getScrollState, handleScroll } = useScrollDirection();
-  const { getPositionBoundaries } = usePositionBoundaries();
 
   const layoutUI = isFXL 
     ? RSPrefs.theming.layout.ui?.fxl || ThLayoutUI.layered 
