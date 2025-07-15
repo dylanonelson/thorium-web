@@ -3,7 +3,6 @@
 export * from "./Settings";
 export * from "./StatefulReader";
 
-export * from "../BookUrlConverter";
 export * from "../Actions";
 export * from "../Docking";
 export * from "../Plugins";
