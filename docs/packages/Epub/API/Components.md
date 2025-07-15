@@ -96,7 +96,6 @@ Core reader interface components:
 - `StatefulReaderFooter`: Reader footer component
 - `StatefulReaderHeader`: Reader header component
 - `StatefulReaderProgression`: Reading progress indicator
-- `BookUrlConverter`: URL handling for books
 
 ## Plugins
 

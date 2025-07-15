@@ -1,6 +1,5 @@
 "use client";
 
-import { BookUrlConverter } from "@/components/BookUrlConverter";
 import { Link } from "react-aria-components";
 import { MANIFEST_CONFIG } from "@/config/manifest";
 
@@ -8,8 +7,6 @@ export default function Home() {
   return (
     <main>
       <h1>Welcome to Thorium Web (Under Development)</h1>
-
-      <BookUrlConverter />
 
       <p>Here’s a list of reflowable and fixed-layout publications you can read and test:</p>
 
