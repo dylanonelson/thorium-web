@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 
 import { ActionKeyType, usePreferenceKeys } from "@/preferences";
 
@@ -86,6 +86,16 @@ export const StatefulReaderHeader = ({
     
     return actionsItems;
   }, [isFXL, fxlActionKeys, reflowActionKeys, actionsComponentsMap]);
+
+  useEffect(() => {
+    // Blur any focused element when entering immersive mode
+    if (isImmersive) {
+      const focusElement = document.activeElement;
+      if (focusElement) {
+        (focusElement as HTMLElement).blur();
+      }
+    }
+  }, [isImmersive]);
 
   return (
     <>
