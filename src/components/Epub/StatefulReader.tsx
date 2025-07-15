@@ -438,7 +438,6 @@ export const StatefulReader = ({
       if (
         currentLocator?.href === locator.href &&
         cache.current.settings.scroll && 
-        !cache.current.isHovering && 
         navLayout() === EPUBLayout.reflowable
       ) {
         handleScroll(locator);

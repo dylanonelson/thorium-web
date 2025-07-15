@@ -107,6 +107,16 @@ export const StatefulReaderFooter = ({
     updateLinks();
   }, [timeline, updateLinks]);
 
+  useEffect(() => {
+    // Blur any focused element when entering immersive mode
+    if (isImmersive) {
+      const focusElement = document.activeElement;
+      if (focusElement) {
+        (focusElement as HTMLElement).blur();
+      }
+    }
+  }, [isImmersive]);
+
   return(
     <>
     <ThInteractiveOverlay 
