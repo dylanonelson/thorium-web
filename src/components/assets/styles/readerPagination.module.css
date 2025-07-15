@@ -1,6 +1,7 @@
 .pagination {
   box-sizing: border-box;
   display: grid;
+  gap: calc(var(--layout-spacing) / 2);
   grid-template-areas: "pagination-start pagination-center pagination-end";
   grid-template-columns: 1fr minmax(auto, 1fr) 1fr;
   background-color: var(--theme-background);
