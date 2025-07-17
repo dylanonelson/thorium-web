@@ -35,10 +35,27 @@ Example translation file (`en/thorium-web.json`):
 }
 ```
 
-### 2. Use Translations in Components
+### 2. Wrap your app with the `<ThI18nProvider>`
 
 ```tsx
-import { useI18n } from "@/i18n";
+import { ThI18nProvider } from "@edrlab/thorium-web/i18n";
+
+function App() {
+  return (
+    <ThI18nProvider>
+      <YourApp />
+    </ThI18nProvider>
+  );
+}
+```
+
+> [!CAUTION]
+> When using `<StatefulReader>` and all other components from `@edrlab/thorium-web/epub`, you must use the `<ThI18nProvider>` from this same path, and not `@edrlab/thorium-web/i18n`.
+
+### 3. Use Translations in Components
+
+```tsx
+import { useI18n } from "@edrlab/thorium-web/i18n";
 
 function MyComponent() {
   const { t } = useI18n();
@@ -54,26 +71,23 @@ function MyComponent() {
 
 ## Using as a Package
 
-When using `@edrlab/thorium-web` as a package, wrap your app with the `I18nProvider`:
+When using `@edrlab/thorium-web` as a package, wrap your app with the `<ThI18nProvider>`:
 
 ```tsx
-import { I18nProvider } from "@edrlab/thorium-web";
+import { ThI18nProvider } from "@edrlab/thorium-web/i18n";
 
 function App() {
   return (
-    <I18nProvider
-      lng="en"
-      fallbackLng="en"
-    >
+    <ThI18nProvider>
       <YourApp />
-    </I18nProvider>
+    </ThI18nProvider>
   );
 }
 ```
 
 ## Available Options
 
-The `I18nProvider` accepts all `i18next` initialization options. Here are the most commonly used ones:
+The `<ThI18nProvider>` accepts all `i18next` initialization options. Here are the most commonly used ones:
 
 - `lng`: Set the default language (defaults to browser language)
 - `fallbackLng`: Fallback language (default: `en`)
@@ -88,20 +102,20 @@ The `I18nProvider` accepts all `i18next` initialization options. Here are the mo
 
 ### Backend Configuration
 
-The i18n system uses `i18next-http-backend` by default to load translation files. All configuration is passed directly through the `I18nProvider` component.
+The i18n system uses `i18next-http-backend` by default to load translation files. All configuration is passed directly through the `<ThI18nProvider>` component.
 
 #### Basic Usage
 
 ```tsx
 function App() {
   return (
-    <I18nProvider
+    <ThI18nProvider
       backend={{
         loadPath: "/locales/{{lng}}/{{ns}}.json"
       }}
     >
       <YourApp />
-    </I18nProvider>
+    </ThI18nProvider>
   );
 }
 ```
@@ -113,7 +127,7 @@ You can customize the backend by passing options to the `backend` prop:
 ```tsx
 function App() {
   return (
-    <I18nProvider
+    <ThI18nProvider
       backend={{
         // Load from a custom path
         loadPath: "/my-custom-path/{{lng}}/{{ns}}.json",
@@ -128,7 +142,7 @@ function App() {
       }}
     >
       <YourApp />
-    </I18nProvider>
+    </ThI18nProvider>
   );
 }
 ```
@@ -153,14 +167,14 @@ To load translations from a CDN or external URL:
 ```tsx
 function App() {
   return (
-    <I18nProvider
+    <ThI18nProvider
       backend={{
         loadPath: "https://cdn.example.com/locales/{{lng}}/{{ns}}.json",
         crossDomain: true
       }}
     >
       <YourApp />
-    </I18nProvider>
+    </ThI18nProvider>
   );
 }
 ```
@@ -172,7 +186,7 @@ You can also provide translations directly through the `resources` prop:
 ```tsx
 function App() {
   return (
-    <I18nProvider
+    <ThI18nProvider
       resources={{
         en: {
           "thorium-web": {
@@ -191,7 +205,7 @@ function App() {
       fallbackLng="en"
     >
       <YourApp />
-    </I18nProvider>
+    </ThI18nProvider>
   );
 }
 ```
@@ -213,14 +227,14 @@ To organize translations into multiple namespaces:
 
 2. **Configure namespaces in your app**:
    ```tsx
-   <I18nProvider
+   <ThI18nProvider
      lng="en"
      fallbackLng="en"
      ns={["common", "auth"]}
      defaultNS="common"
    >
      <YourApp />
-   </I18nProvider>
+   </ThI18nProvider>
    ```
 
 3. **Use namespaced translations**:
@@ -239,14 +253,14 @@ To organize translations into multiple namespaces:
 
 ### Language Detection
 
-The i18n system includes language detection using `i18next-browser-languagedetector`. Configure it through the `detection` prop in `I18nProvider`:
+The i18n system includes language detection using `i18next-browser-languagedetector`. Configure it through the `detection` prop in `<ThI18nProvider>`:
 
 #### Basic Usage
 
 ```tsx
 function App() {
   return (
-    <I18nProvider
+    <ThI18nProvider
       detection={{
         order: ["querystring", "navigator"],
         lookupQuerystring: "lng",
@@ -254,7 +268,7 @@ function App() {
       }}
     >
       <YourApp />
-    </I18nProvider>
+    </ThI18nProvider>
   );
 }
 ```
@@ -264,7 +278,7 @@ function App() {
 ```tsx
 function App() {
   return (
-    <I18nProvider
+    <ThI18nProvider
       detection={{
         // Order of language detection
         order: ["querystring", "cookie", "localStorage", "navigator"],
@@ -286,7 +300,7 @@ function App() {
       }}
     >
       <YourApp />
-    </I18nProvider>
+    </ThI18nProvider>
   );
 }
 ```
@@ -298,9 +312,9 @@ To disable language detection completely:
 ```tsx
 function App() {
   return (
-    <I18nProvider detection={ false }>
+    <ThI18nProvider detection={ false }>
       <YourApp />
-    </I18nProvider>
+    </ThI18nProvider>
   );
 }
 ```
@@ -308,11 +322,11 @@ function App() {
 When you want to fetch translations from a custom endpoint:
 
 ```tsx
-import { I18nProvider } from "@edrlab/thorium-web";
+import { ThI18nProvider } from "@edrlab/thorium-web/i18n";
 
 function App() {
   return (
-    <I18nProvider 
+    <ThI18nProvider 
       config={{
         namespace: "my-app",
         loadPath: "/api/i18n/{{lng}}/{{ns}}",
@@ -327,7 +341,7 @@ function App() {
       fallbackLng="en"
     >
       <YourApp />
-    </I18nProvider>
+    </ThI18nProvider>
   );
 }
 ```
@@ -340,12 +354,12 @@ The `useI18n` hook provides access to translation functions and i18n settings. I
 
 ```typescript
 const {
-  t,                // Translation function
+  t,               // Translation function
   i18n,            // i18n instance
   ready,           // Whether translations are loaded
   changeLanguage,  // Function to change the current language (updates preferences)
   currentLanguage, // Current language code
-  languages,       // List of available languages
+  languages        // List of available languages
 } = useI18n("optional-namespace");
 
 // Example usage:
@@ -362,7 +376,7 @@ const handleLanguageChange = (lang) => {
 The `Trans` component is used for complex translations that include components:
 
 ```tsx
-import { Trans } from "@/i18n";
+import { Trans } from "@edrlab/thorium-web/i18n";
 
 function MyComponent() {
   return (

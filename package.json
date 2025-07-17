@@ -51,6 +51,8 @@
     "@readium/shared": "^1.2.1",
     "@reduxjs/toolkit": ">=2.6.0",
     "i18next": ">=23.0.0",
+    "i18next-browser-languagedetector": "^7.2.0",
+    "i18next-http-backend": "^2.4.1",
     "motion": ">=12.4.0",
     "react": ">=19.0.0",
     "react-aria": ">=3.38.0",

@@ -12,7 +12,7 @@ It also provides with its components to build your owns in a consistent way, and
 Thorium Web relies on peer dependencies to work. You must install them manually.
 
 ```bash
-npm install @edrlab/thorium-web @readium/css @readium/navigator @readium/navigator-html-injectables @readium/shared react-redux @reduxjs/toolkit motion react-aria react-aria-components react-stately react-modal-sheet react-resizable-panels 
+npm install @edrlab/thorium-web @readium/css @readium/navigator @readium/navigator-html-injectables @readium/shared react-redux @reduxjs/toolkit i18next i18next-browser-languagedetector i18next-http-backend motion react-aria react-aria-components react-stately react-modal-sheet react-resizable-panels 
 ```
 
 ## Reader Component
@@ -22,13 +22,15 @@ The Reader Component is the main component of this package. It is a React compon
 You can use it like this:
 
 ```jsx
-import { StatefulReader, ThStoreProvider, ThPreferencesProvider } from "@edrlab/thorium-web/epub";
+import { StatefulReader, ThStoreProvider, ThPreferencesProvider, ThI18nProvider } from "@edrlab/thorium-web/epub";
 
 const App = () => {
   return (
     <ThStoreProvider>
       <ThPreferencesProvider>
-        <StatefulReader rawManifest={ manifestObject } selfHref={ manifestSelfLink } />
+        <ThI18nProvider>
+          <StatefulReader rawManifest={ manifestObject } selfHref={ manifestSelfLink } />
+        </ThI18nProvider>
       </ThPreferencesProvider>
     </ThStoreProvider>
   );
@@ -46,10 +48,10 @@ You can take a look how the NextJS app is currently doing in [the Read Page](../
 > [!IMPORTANT]
 > Due to the complexity the reader has to handle, it does not currently accept `children`. This also explains why it requires dependencies (Redux, Preferences) and is not directly stylable. We are hopeful these limitations may be removed in the future but it will require some additional effort. If you have any ideas, please let us know. In the meantime, you can build your own reader component if you want to use the other components exported from this package.
 
-It is critical you wrap this component in a `<ThStoreProvider>` and a `<ThPreferencesProvider>`, in this order, for it to work properly.
+It is critical you wrap this component in a `<ThStoreProvider>`, a `<ThPreferencesProvider>`, and a `<ThI18nProvider>`, in this order, for it to work properly.
 
 > [!CAUTION]
-> When using this `<StatefulReader>` and all other components from `@edrlab/thorium-web/epub`, you must use the `<StoreProvider>` and `<ThPreferencesProvider>` from this same path, and not the ones from `@edrlab/thorium-web/core`.
+> When using this `<StatefulReader>` and all other components from `@edrlab/thorium-web/epub`, you must use the `<ThStoreProvider>`, `<ThPreferencesProvider>`, and `<ThI18nProvider>` from this same path, and not their specific ones.
 > If you do not, they will not work as expected as your app will use specific providers that are not shared with the Stateful Components.
 
 ### ThStoreProvider
@@ -66,6 +68,12 @@ The `<ThPreferencesProvider>` is a context provider used to configure all the re
 It accepts one optional prop:
 
 - `value`: your own preferences if you need to modify or extend the default ones.
+
+### ThI18nProvider
+
+The `<ThI18nProvider>` is a context provider used to configure the i18next instance.
+
+It accepts the same props as `InitOptions` from `i18next`.
 
 ## Customizing the Reader
 
