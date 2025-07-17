@@ -11,6 +11,7 @@ export default defineConfig({
     "src/core/Helpers/index.ts",
     "src/core/Hooks/index.ts", 
     "src/components/Epub/index.ts",
+    "src/i18n/index.ts",
     "src/lib/index.ts",
     "src/preferences/index.ts"
   ],
@@ -38,6 +39,9 @@ export default defineConfig({
     "react-stately", 
     "react-resizable-panels", 
     "react-modal-sheet",
+    "i18next",
+    "i18next-browser-languagedetector",
+    "i18next-http-backend",
     "motion",
     "@readium/css",
     "@readium/navigator",

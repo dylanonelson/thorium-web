@@ -6,14 +6,14 @@ import { i18n, initI18n } from "./config";
 import { InitOptions } from "i18next";
 import { usePreferences } from "@/preferences";
 
-export type I18nProviderProps = {
+export type ThI18nProviderProps = {
   children: ReactNode;
 } & Partial<InitOptions>;
 
-export const I18nProvider: React.FC<I18nProviderProps> = ({
+export const ThI18nProvider = ({
   children,
   ...options
-}) => {
+}: ThI18nProviderProps) => {
   const RSPrefs = usePreferences();
   const [isInitialized, setIsInitialized] = useState(false);
   
@@ -39,4 +39,4 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
   return <I18nextProvider i18n={ i18n }>{ children }</I18nextProvider>;
 };
 
-export default I18nProvider;
+export default ThI18nProvider;

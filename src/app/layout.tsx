@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 
 import { ThStoreProvider } from "@/lib/ThStoreProvider";
 import { ThPreferencesProvider } from "@/preferences";
-import { I18nProvider } from "@/i18n/I18nProvider";
+import { ThI18nProvider } from "@/i18n/ThI18nProvider";
 
 export const runtime = "edge";
 
@@ -24,9 +24,9 @@ export default function RootLayout({
       <body className={ inter.className }>
         <ThStoreProvider>
           <ThPreferencesProvider>
-            <I18nProvider>
+            <ThI18nProvider>
               { children }
-            </I18nProvider>
+            </ThI18nProvider>
           </ThPreferencesProvider>
         </ThStoreProvider>
       </body>
