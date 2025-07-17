@@ -2,14 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 
-import Locale from "../resources/locales/en.json";
 import progressionStyles from "./assets/styles/readerProgression.module.css";
 
 import { ThProgression } from "@/core/Components/Reader/ThProgression";
 
-import { useAppSelector } from "@/lib/hooks";
+import { useI18n } from "@/i18n/useI18n";
 
-import parseTemplate from "json-templates";
+import { useAppSelector } from "@/lib/hooks";
 
 export interface UnstableProgressionObject {
   totalPositions?: number;
@@ -21,7 +20,7 @@ export interface UnstableProgressionObject {
 }
 
 export const StatefulReaderProgression = () => {
-  const jsonTemplate = parseTemplate(Locale.reader.app.progression.of);
+  const { t } = useI18n();
   const progression: UnstableProgressionObject = useAppSelector(state => state.publication.progression);
 
   const [current, setCurrent] = useState("");
@@ -45,13 +44,13 @@ export const StatefulReaderProgression = () => {
 
   return (
     <>
-    {( current && reference ) 
-    && <ThProgression 
-      id={ progressionStyles.current } 
-      aria-label={ Locale.reader.app.progression.wrapper }
-    >
-      { jsonTemplate({ current: current, reference: reference }) }
-    </ThProgression>}
+      {(current && reference) 
+        && <ThProgression 
+          id={ progressionStyles.current } 
+          aria-label={ t("reader.app.progression.wrapper") }
+        >
+          { t("reader.app.progression.of", { current, reference }) }
+        </ThProgression>}
     </>
   )
 }

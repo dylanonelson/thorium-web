@@ -4,8 +4,6 @@ import { useCallback } from "react";
 
 import { defaultParagraphSpacing, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
 import { StatefulNumberField } from "../../Settings/StatefulNumberField";
@@ -13,12 +11,14 @@ import { StatefulSlider } from "../../Settings/StatefulSlider";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setParagraphSpacing, setPublisherStyles } from "@/lib/settingsReducer";
 
 export const StatefulParagraphSpacing = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
   const paragraphSpacingRangeConfig = {
     variant: RSPrefs.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.variant ?? defaultParagraphSpacing.variant,
@@ -43,15 +43,15 @@ export const StatefulParagraphSpacing = ({ standalone = true }: StatefulSettings
     { paragraphSpacingRangeConfig.variant === ThSettingsRangeVariant.numberField 
       ? <StatefulNumberField 
         standalone={ standalone }
-        label={ Locale.reader.settings.paraSpacing.title }
+        label={ t("reader.settings.paraSpacing.title") }
         defaultValue={ 0 } 
         value={ paragraphSpacing || 0 } 
         onChange={ async(value) => await updatePreference(value) } 
         range={ paragraphSpacingRangeConfig.range }
         step={ paragraphSpacingRangeConfig.step }
         steppers={{
-          decrementLabel: Locale.reader.settings.paraSpacing.decrease,
-          incrementLabel: Locale.reader.settings.paraSpacing.increase
+          decrementLabel: t("reader.settings.paraSpacing.decrease"),
+          incrementLabel: t("reader.settings.paraSpacing.increase")
         }}
         formatOptions={{
           signDisplay: "exceptZero",
@@ -63,7 +63,7 @@ export const StatefulParagraphSpacing = ({ standalone = true }: StatefulSettings
       />
       : <StatefulSlider
         standalone={ standalone }
-        label={ Locale.reader.settings.paraSpacing.title }
+        label={ t("reader.settings.paraSpacing.title") }
         defaultValue={ 0 } 
         value={ paragraphSpacing || 0 } 
         onChange={ async(value) => await updatePreference(value as number) } 

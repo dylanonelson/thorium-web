@@ -26,8 +26,8 @@ import sepiaMode from "@readium/css/css/vars/sepia.json";
 import nightMode from "@readium/css/css/vars/night.json";
 
 export const defaultPreferences = createPreferences({
-  direction: ThLayoutDirection.ltr,
-  locale: "en",
+//  direction: ThLayoutDirection.ltr,
+//  locale: "en",
   typography: {
     minimalLineLength: 40, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this

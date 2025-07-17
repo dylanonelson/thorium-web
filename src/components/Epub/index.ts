@@ -26,3 +26,5 @@ export {
 export {
   useTheming
 } from "../../preferences/hooks";
+
+export * from "../../i18n";

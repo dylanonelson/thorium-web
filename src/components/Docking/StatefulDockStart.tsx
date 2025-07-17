@@ -2,8 +2,6 @@
 
 import { useCallback } from "react";
 
-import Locale from "../../resources/locales/en.json";
-
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
 import { StatefulActionTriggerProps } from "@/components/Actions/models/actions";
@@ -18,16 +16,24 @@ import { StatefulOverflowMenuItem } from "../Actions/Triggers/StatefulOverflowMe
 
 import { useActions } from "@/core/Components/Actions/hooks/useActions";
 import { usePreferences } from "@/preferences/hooks/usePreferences";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { dockAction } from "@/lib/actionsReducer";
 
 export const StatefulDockStart = ({ variant, associatedKey }: StatefulActionTriggerProps) => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const direction = useAppSelector(state => state.reader.direction);
   const actionsMap = useAppSelector(state => state.actions.keys);
   const isRTL = direction === ThLayoutDirection.rtl;
-  const localeKey = isRTL ? Locale.reader.app.docker.dockToRight : Locale.reader.app.docker.dockToLeft;
+  const translationKey = isRTL 
+    ? "reader.app.docker.dockToRight" 
+    : "reader.app.docker.dockToLeft";
+  const localeKey = {
+    trigger: t(`${ translationKey }.trigger`),
+    tooltip: t(`${ translationKey }.tooltip`)
+  };
 
   const actions = useActions(actionsMap);
   const isDisabled = actions.whichDocked(associatedKey) === ThDockingKeys.start;

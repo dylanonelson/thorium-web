@@ -1,17 +1,19 @@
 import { ReactNode } from "react";
 
-import Locale from "../resources/locales/en.json";
-
 import readerLoaderStyles from "./assets/styles/readerLoader.module.css";
 
 import { ThLoader } from "@/core/Components/Reader/ThLoader";
 
+import { useI18n } from "@/i18n/useI18n";
+
 export const StatefulLoader = ({ isLoading, children }: { isLoading: boolean, children: ReactNode }) => {
+  const { t } = useI18n();
+
   return (
     <>
     <ThLoader 
       isLoading={ isLoading } 
-      loader={ <div className={ readerLoaderStyles.readerLoader}>{ Locale.reader.app.loading }</div> } 
+      loader={ <div className={ readerLoaderStyles.readerLoader }>{ t("reader.app.loading") }</div> } 
       className={ readerLoaderStyles.readerLoaderWrapper } 
     >
       { children }

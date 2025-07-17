@@ -2,18 +2,19 @@
 
 import { useCallback } from "react";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
 import { StatefulSwitch } from "../../Settings/StatefulSwitch";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
+import { useI18n } from "@/i18n/useI18n";
+
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setTextNormalization } from "@/lib/settingsReducer";
 
 // TMP Component that is not meant to be implemented AS-IS, for testing purposes
 export const StatefulTextNormalize = ({ standalone = true }: StatefulSettingsItemProps) => {
+  const { t } = useI18n();
   const textNormalization = useAppSelector(state => state.settings.textNormalization);
   const dispatch = useAppDispatch();
 
@@ -29,8 +30,8 @@ export const StatefulTextNormalize = ({ standalone = true }: StatefulSettingsIte
     <>
     <StatefulSwitch 
       standalone={ standalone }
-      heading={ Locale.reader.settings.normalizeText.title }
-      label={ Locale.reader.settings.normalizeText.label }
+      heading={ t("reader.settings.normalizeText.title") }
+      label={ t("reader.settings.normalizeText.label") }
       onChange={ async (isSelected: boolean) => await updatePreference(isSelected) }
       isSelected={ textNormalization ?? false }
     />

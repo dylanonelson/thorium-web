@@ -2,8 +2,6 @@
 
 import { ReactNode, useCallback, useEffect, useRef } from "react";
 
-import Locale from "../../resources/locales/en.json";
-
 import dockingStyles from "./assets/styles/docking.module.css";
 
 import { ImperativePanelHandle, Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
@@ -13,12 +11,13 @@ import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useResizablePanel } from "./hooks/useResizablePanel";
+import { useI18n } from "@/i18n/useI18n";
+
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { activateDockPanel, collapseDockPanel, deactivateDockPanel, expandDockPanel, setDockPanelWidth } from "@/lib/actionsReducer";
 
 import { makeBreakpointsMap } from "@/core/Helpers/breakpointsMap";
 import classNames from "classnames";
-import parseTemplate from "json-templates";
 
 export interface DockPanelSizes {
   width: number;
@@ -85,6 +84,8 @@ const DockPanel = ({
   forceExpand: boolean;
   hasDragIndicator?: boolean;
 }) => {
+  const { t } = useI18n();
+
   const panelRef = useRef<ImperativePanelHandle>(null);
   const direction = useAppSelector(state => state.reader.direction);
   const dispatch = useAppDispatch();
@@ -94,27 +95,23 @@ const DockPanel = ({
   const makeDockLabel = useCallback(() => {    
     let label = "";
     if (flow === ThDockingKeys.end && direction === ThLayoutDirection.ltr) {
-      label += Locale.reader.app.docking.dockingRight;
+      label += t("reader.app.docking.dockingRight");
     } else {
-      label += Locale.reader.app.docking.dockingLeft
+      label += t("reader.app.docking.dockingLeft")
     }
 
     if (actionKey) {
       if (!isPopulated) {
-        const jsonTemplate = parseTemplate(Locale.reader.app.docking.dockingClosed);
-        // @ts-ignore
-        label += ` – ${ jsonTemplate({ action: Locale.reader[actionKey].heading }) }`
+        label += ` – ${ t("reader.app.docking.dockingClosed", { action: t(`reader.${ actionKey }.heading`) }) }`;
       } else if (isCollapsed) {
-        const jsonTemplate = parseTemplate(Locale.reader.app.docking.dockingCollapsed);
-        // @ts-ignore
-        label += ` – ${ jsonTemplate({ action: Locale.reader[actionKey].heading }) }`
+        label += ` – ${ t("reader.app.docking.dockingCollapsed", { action: t(`reader.${ actionKey }.heading`) }) }`;
       }
     } else {
-      label += ` – ${ Locale.reader.app.docking.dockingEmpty }`
+      label += ` – ${ t("reader.app.docking.dockingEmpty") }`;
     }
 
     return label;
-  }, [flow, direction, isPopulated, isCollapsed, actionKey]);
+  }, [flow, direction, isPopulated, isCollapsed, actionKey, t]);
 
   const collapsePanel = useCallback(() => {
     if (panelRef.current) {

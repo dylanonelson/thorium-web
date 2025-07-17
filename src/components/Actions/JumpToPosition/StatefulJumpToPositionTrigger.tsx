@@ -2,8 +2,6 @@
 
 import React from "react";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionTriggerProps } from "../models/actions";
 import { ThActionsTriggerVariant } from "@/core/Components/Actions/ThActionsBar";
@@ -14,11 +12,13 @@ import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
+import { useI18n } from "@/i18n/useI18n";
 
 import { setActionOpen, useAppDispatch, useAppSelector } from "@/lib";
 
 export const StatefulJumpToPositionTrigger = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.jumpToPosition]);
   const positionsList = useAppSelector(state => state.publication.positionsList);
   const dispatch = useAppDispatch();
@@ -37,7 +37,7 @@ export const StatefulJumpToPositionTrigger = ({ variant }: StatefulActionTrigger
     <>
     { (variant && variant === ThActionsTriggerVariant.menu) 
      ? <StatefulOverflowMenuItem 
-         label={ Locale.reader.jumpToPosition.trigger }
+         label={ t("reader.jumpToPosition.trigger") }
           SVGIcon={ TargetIcon }
           shortcut={ RSPrefs.actions.keys[ThActionsKeys.jumpToPosition].shortcut }
           id={ ThActionsKeys.jumpToPosition }
@@ -45,9 +45,9 @@ export const StatefulJumpToPositionTrigger = ({ variant }: StatefulActionTrigger
         />
       : <StatefulActionIcon
           visibility={ RSPrefs.actions.keys[ThActionsKeys.jumpToPosition].visibility } 
-          aria-label={ Locale.reader.jumpToPosition.trigger }
+          aria-label={ t("reader.jumpToPosition.trigger") }
           placement="bottom" 
-          tooltipLabel={ Locale.reader.jumpToPosition.tooltip }
+          tooltipLabel={ t("reader.jumpToPosition.tooltip") }
           onPress={ () => setOpen(!actionState?.isOpen) }
         >
           <TargetIcon aria-hidden="true" focusable="false" />

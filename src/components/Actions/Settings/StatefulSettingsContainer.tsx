@@ -10,8 +10,6 @@ import {
   usePreferenceKeys
 } from "@/preferences";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { 
   ThActionsKeys, 
   ThSettingsContainerKeys, 
@@ -29,6 +27,7 @@ import { StatefulTextGroupContainer } from "../../Epub/Settings/StatefulTextGrou
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { usePlugins } from "@/components/Plugins/PluginProvider";
 import { useDocking } from "../../Docking/hooks/useDocking";
+import { useI18n } from "@/i18n/useI18n";
 
 import { setHovering, setSettingsContainer } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -46,6 +45,7 @@ export const StatefulSettingsContainer = ({
     subPanelTextSettingsKeys,
   } = usePreferenceKeys();
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const { settingsComponentsMap } = usePlugins();
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const contains = useAppSelector(state => state.reader.settingsContainer);
@@ -124,16 +124,16 @@ export const StatefulSettingsContainer = ({
   const getHeading = useCallback(() => {
     switch (contains) {
       case ThSettingsContainerKeys.text:
-        return Locale.reader.settings.text.title;
+        return t("reader.settings.text.title");
 
       case ThSettingsContainerKeys.spacing:
-        return Locale.reader.settings.spacing.title;
+        return t("reader.settings.spacing.title");
 
       case ThSettingsContainerKeys.initial:
       default:
-        return Locale.reader.settings.heading;
+        return t("reader.settings.heading");
     }
-  }, [contains]);
+  }, [contains, t]);
 
   const getHeaderVariant = useCallback(() => {
     switch (contains) {

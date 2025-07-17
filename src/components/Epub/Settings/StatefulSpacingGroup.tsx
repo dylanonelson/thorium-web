@@ -9,18 +9,18 @@ import {
   ThSpacingSettingsKeys 
 } from "@/preferences";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { StatefulGroupWrapper } from "../../Settings/StatefulGroupWrapper";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { usePlugins } from "../../Plugins/PluginProvider";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
 export const StatefulSpacingGroup = () => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const { spacingSettingsComponentsMap } = usePlugins();
   const dispatch = useAppDispatch();
   
@@ -31,9 +31,9 @@ export const StatefulSpacingGroup = () => {
   return (
     <>
     <StatefulGroupWrapper 
-      heading={ Locale.reader.settings.spacing.title }
-      moreLabel={ Locale.reader.settings.spacing.advanced.trigger }
-      moreTooltip={ Locale.reader.settings.spacing.advanced.tooltip }
+      heading={ t("reader.settings.spacing.title") }
+      moreLabel={ t("reader.settings.spacing.advanced.trigger") }
+      moreTooltip={ t("reader.settings.spacing.advanced.tooltip") }
       onPressMore={ setSpacingContainer }
       componentsMap={ spacingSettingsComponentsMap }
       prefs={ RSPrefs.settings.spacing }
