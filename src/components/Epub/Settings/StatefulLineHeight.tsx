@@ -4,8 +4,6 @@ import React, { useCallback, useRef } from "react";
 
 import { defaultLineHeights, ThLineHeightOptions, ThSettingsKeys } from "@/preferences";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
 import BookIcon from "./assets/icons/book.svg";
@@ -17,12 +15,14 @@ import { StatefulRadioGroup } from "../../Settings/StatefulRadioGroup";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLineHeight, setPublisherStyles } from "@/lib/settingsReducer";
 
 export const StatefulLineHeight = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
   const lineHeight = useAppSelector(state => state.settings.lineHeight);
   const dispatch = useAppDispatch();
@@ -56,29 +56,29 @@ export const StatefulLineHeight = ({ standalone = true }: StatefulSettingsItemPr
     <>
     <StatefulRadioGroup 
       standalone={ standalone }
-      label={ Locale.reader.settings.lineHeight.title }
+      label={ t("reader.settings.lineHeight.title") }
       orientation="horizontal"
       value={ publisherStyles ? ThLineHeightOptions.publisher : lineHeight } 
       onChange={ async (val: string) => await updatePreference(val) }
       items={[
         {
           icon: BookIcon,
-          label: Locale.reader.settings.lineHeight.publisher, 
+          label: t("reader.settings.lineHeight.publisher"), 
           value: ThLineHeightOptions.publisher 
         },
         {
           icon: SmallIcon,
-          label: Locale.reader.settings.lineHeight.small, 
+          label: t("reader.settings.lineHeight.small"), 
           value: ThLineHeightOptions.small 
         },
         {
           icon: MediumIcon,
-          label: Locale.reader.settings.lineHeight.medium, 
+          label: t("reader.settings.lineHeight.medium"), 
           value: ThLineHeightOptions.medium 
         },
         {
           icon: LargeIcon,
-          label: Locale.reader.settings.lineHeight.large, 
+          label: t("reader.settings.lineHeight.large"), 
           value: ThLineHeightOptions.large 
         },
       ]}

@@ -4,8 +4,6 @@ import React, { CSSProperties, KeyboardEvent, useCallback, useMemo, useRef } fro
 
 import { ThBottomSheetDetent, ThSheetHeaderVariant } from "@/preferences";
 
-import Locale from "../../resources/locales/en.json";
-
 import { StatefulSheet } from "./models/sheets";
 
 import sheetStyles from "./assets/styles/sheets.module.css";
@@ -20,6 +18,7 @@ import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton
 import { ThCloseButton } from "@/core/Components/Buttons/ThCloseButton";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
+import { useI18n } from "@/i18n";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -52,6 +51,7 @@ export const StatefulBottomSheet = ({
   dismissEscapeKeyClose
 }: StatefulBottomSheetProps) => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n()
   const direction = useAppSelector((state) => state.reader.direction);
   const prefersReducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
 
@@ -314,16 +314,16 @@ export const StatefulBottomSheet = ({
         { headerVariant === ThSheetHeaderVariant.previous 
             ? <ThNavigationButton 
               direction={ direction === "ltr" ? "left" : "right" }
-              label={ Locale.reader.app.back.trigger }
+              label={ t("reader.app.back.trigger") }
               ref={ bottomSheetCloseRef }
               className={ classNames(className, readerSharedUI.backButton) } 
-              aria-label={ Locale.reader.app.back.trigger }
+              aria-label={ t("reader.app.back.trigger") }
               onPress={ onClosePress }
             /> 
             : <ThCloseButton
               ref={ bottomSheetCloseRef }
               className={ readerSharedUI.closeButton } 
-              aria-label={ Locale.reader.app.docker.close.trigger } 
+              aria-label={ t("reader.app.docker.close.trigger") } 
               onPress={ onClosePress }
             />
           }

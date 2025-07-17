@@ -2,15 +2,16 @@
 
 import React from "react";
 
-import Locale from "../resources/locales/en.json";
+import { ThFooter } from "@/core/Components/Reader/ThFooter";
+import { StatefulReaderProgression } from "./StatefulReaderProgression";
+
+import { useI18n } from "@/i18n/useI18n";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch } from "@/lib/hooks";
 
-import { ThFooter } from "@/core/Components/Reader/ThFooter";
-import { StatefulReaderProgression } from "./StatefulReaderProgression";
-
 export const StatefulReaderFooter = () => {
+  const { t } = useI18n();
   const dispatch = useAppDispatch();
 
   const setHover = () => {
@@ -25,7 +26,7 @@ export const StatefulReaderFooter = () => {
     <>
     <ThFooter 
       id="bottom-bar" 
-      aria-label={ Locale.reader.app.footer.label } 
+      aria-label={ t("reader.app.footer.label") } 
       onMouseEnter={ setHover } 
       onMouseLeave={ removeHover }
     >

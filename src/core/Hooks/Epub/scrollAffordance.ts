@@ -1,7 +1,5 @@
 "use client";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { ScrollAffordanceConfig, ThScrollAffordancePref } from "@/preferences/models/enums";
 
 // Button posting message from iFrame won’t work since Navigator handles click
@@ -123,9 +121,9 @@ export class ScrollAffordance {
           // is a custom scheme, they wouldn’t be able to preload the document
           // that is handled by navigator anyway. So not sure it hurts or has any benefit…
           prevAnchor.rel = "prev";
-          prevAnchor.setAttribute("aria-label", Locale.reader.navigation.scroll.prevA11yLabel);
+          prevAnchor.setAttribute("aria-label", "Go to the previous resource");
 
-          prevAnchor.innerHTML = `<span>${Locale.reader.navigation.scroll.prevLabel}</span>`;
+          prevAnchor.innerHTML = `<span>Previous</span>`;
         }
 
         if ((this.pref === ThScrollAffordancePref.both || this.pref === ThScrollAffordancePref.next)) {
@@ -138,9 +136,9 @@ export class ScrollAffordance {
           // is a custom scheme, they wouldn’t be able to preload the document
           // that is handled by navigator anyway. So not sure it hurts or has any benefit…
           nextAnchor.rel = "next";
-          nextAnchor.setAttribute("aria-label", Locale.reader.navigation.scroll.nextA11yLabel);
+          nextAnchor.setAttribute("aria-label", "Go to the next resource");
 
-          nextAnchor.innerHTML = `<span>${Locale.reader.navigation.scroll.nextLabel}</span>`
+          nextAnchor.innerHTML = `<span>Next</span>`
         }
 
         if (prevAnchor || nextAnchor) {
@@ -148,7 +146,7 @@ export class ScrollAffordance {
           wrapper.id = `thorium-web-scroll-affordance-wrapper-${this.placement}`;
           wrapper.className = this.className || "thorium-web-scroll-affordance-wrapper";
           wrapper.dataset.readium = "true";
-          wrapper.setAttribute("aria-label", Locale.reader.navigation.scroll.wrapper);
+          wrapper.setAttribute("aria-label", "Navigate through the publication");
 
           if (prevAnchor) wrapper.append(prevAnchor);
           if (nextAnchor) wrapper.append(nextAnchor);

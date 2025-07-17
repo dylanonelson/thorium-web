@@ -2,8 +2,6 @@
 
 import React, { FormEvent, useCallback, useEffect, useState } from "react";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionContainerProps } from "../models/actions";
 
@@ -15,15 +13,15 @@ import { ThFormNumberField } from "@/core/Components/Form/Fields/ThFormNumberFie
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useDocking } from "../../Docking/hooks/useDocking";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
-import parseTemplate from "json-templates";
-
 export const StatefulJumpToPositionContainer = ({ 
   triggerRef 
 }: StatefulActionContainerProps) => {
+  const { t } = useI18n();
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.jumpToPosition]);
   const positionsList = useAppSelector(state => state.publication.positionsList);
 
@@ -51,11 +49,8 @@ export const StatefulJumpToPositionContainer = ({
       : position === positionNumbers[0];
   }, [position, positionNumbers]);
 
-  // Label indicates the total number of positions for the book
-  const makeFieldLabel = useCallback(() => {
-    const jsonTemplate = parseTemplate(Locale.reader.jumpToPosition.label);
-    return jsonTemplate({ positionStart: 1, positionEnd: positionsList.length });
-  }, [positionsList]);
+  // Update the label to use react-i18next interpolation
+  const label = t("reader.jumpToPosition.label", { positionStart: 1, positionEnd: positionsList.length });
 
   const setOpen = useCallback((value: boolean) => {
     dispatch(setActionOpen({
@@ -100,7 +95,7 @@ export const StatefulJumpToPositionContainer = ({
         sheetProps={{
           id: ThActionsKeys.jumpToPosition,
           triggerRef: triggerRef,
-          heading: Locale.reader.jumpToPosition.heading,
+          heading: t("reader.jumpToPosition.heading"),
           className: jumpToPositionStyles.jumpToPosition,
           placement: "bottom",
           isOpen: actionState?.isOpen || false,
@@ -110,7 +105,7 @@ export const StatefulJumpToPositionContainer = ({
         }}
       >
         <ThForm
-          label={ Locale.reader.jumpToPosition.go }
+          label={ t("reader.jumpToPosition.go") }
           className={ jumpToPositionStyles.jumpToPositionForm }
           onSubmit={ handleAction }
           compounds={{
@@ -121,7 +116,7 @@ export const StatefulJumpToPositionContainer = ({
           }}
         >
           <ThFormNumberField
-            label={ makeFieldLabel() }
+            label={ label }
             name="jumpToPosition"
             className={ jumpToPositionStyles.jumpToPositionNumberField }
             onChange={ setPosition }

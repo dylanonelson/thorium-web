@@ -9,18 +9,18 @@ import {
   ThTextSettingsKeys 
 } from "@/preferences";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { StatefulGroupWrapper } from "../../Settings/StatefulGroupWrapper";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { usePlugins } from "../../Plugins/PluginProvider";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setSettingsContainer } from "@/lib/readerReducer";
 
 export const StatefulTextGroup = () => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const { textSettingsComponentsMap } = usePlugins();
   const dispatch = useAppDispatch();
 
@@ -31,9 +31,9 @@ export const StatefulTextGroup = () => {
   return(
     <>
     <StatefulGroupWrapper 
-      heading={ Locale.reader.settings.text.title }
-      moreLabel={ Locale.reader.settings.text.advanced.trigger }
-      moreTooltip={ Locale.reader.settings.text.advanced.tooltip }
+      heading={ t("reader.settings.text.title") }
+      moreLabel={ t("reader.settings.text.advanced.trigger") }
+      moreTooltip={ t("reader.settings.text.advanced.tooltip") }
       onPressMore={ setTextContainer }
       componentsMap={ textSettingsComponentsMap }
       prefs={ RSPrefs.settings.text }

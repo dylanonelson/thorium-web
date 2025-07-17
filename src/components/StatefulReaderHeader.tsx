@@ -4,8 +4,6 @@ import React, { useCallback } from "react";
 
 import { ActionKeyType, usePreferenceKeys } from "@/preferences";
 
-import Locale from "../resources/locales/en.json";
-
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 
 import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
@@ -18,10 +16,12 @@ import { usePreferences } from "@/preferences/hooks";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useI18n } from "@/i18n/useI18n";
 
 export const StatefulReaderHeader = () => {
   const { reflowActionKeys, fxlActionKeys } = usePreferenceKeys();
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const { actionsComponentsMap } = usePlugins();
   
   const isFXL = useAppSelector(state => state.publication.isFXL);
@@ -65,14 +65,14 @@ export const StatefulReaderHeader = () => {
     <ThHeader 
       className={ readerHeaderStyles.header } 
       id="top-bar" 
-      aria-label={ Locale.reader.app.header.label } 
+      aria-label={ t("reader.app.header.label") } 
       onMouseEnter={ setHover } 
       onMouseLeave={ removeHover }
     >
       <ThRunningHead 
-        label={ runningHead || Locale.reader.app.header.runningHeadFallback } 
+        label={ runningHead || t("reader.app.header.runningHeadFallback") } 
         syncDocTitle={ true }
-        aria-label={ Locale.reader.app.header.runningHead }
+        aria-label={ t("reader.app.header.runningHead") }
       />
       
       <StatefulCollapsibleActionsBar 
@@ -80,7 +80,7 @@ export const StatefulReaderHeader = () => {
         items={ listActionItems() }
         prefs={{ ...RSPrefs.actions, displayOrder: isFXL ? RSPrefs.actions.fxlOrder : RSPrefs.actions.reflowOrder }}
         className={ readerHeaderStyles.actionsWrapper } 
-        aria-label={ Locale.reader.app.header.actions } 
+        aria-label={ t("reader.app.header.actions") } 
         overflowActionCallback={ (isImmersive && !isHovering) }
         overflowMenuDisplay={ (!isImmersive || isHovering) }
       />

@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 
-import Locale from "../resources/locales/en.json";
-
 import bookUrlConverterStyles from "./assets/styles/bookUrlConverter.module.css";
 
 import { ThForm } from "@/core/Components/Form/ThForm";

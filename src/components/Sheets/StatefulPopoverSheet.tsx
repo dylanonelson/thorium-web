@@ -2,8 +2,6 @@
 
 import React, { useRef } from "react";
 
-import Locale from "../../resources/locales/en.json";
-
 import { StatefulSheet } from "./models/sheets";
 import { ThSheetHeaderVariant } from "@/preferences/models/enums";
 
@@ -17,6 +15,8 @@ import { ThContainerHeader } from "@/core/Components/Containers/ThContainerHeade
 import { ThContainerBody } from "@/core/Components/Containers/ThContainerBody";
 import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton";
 import { StatefulDocker } from "../Docking/StatefulDocker";
+
+import { useI18n } from "@/i18n";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -42,6 +42,7 @@ export const StatefulPopoverSheet = ({
     focusWithinRef,
     dismissEscapeKeyClose
   }: StatefulPopoverSheetProps) => {
+  const { t } = useI18n()
   const direction = useAppSelector(state => state.reader.direction);
   const popoverRef = useRef<HTMLDivElement | null>(null);
   const popoverHeaderRef = useRef<HTMLDivElement | null>(null);
@@ -87,10 +88,10 @@ export const StatefulPopoverSheet = ({
           { headerVariant === ThSheetHeaderVariant.previous 
             ? <ThNavigationButton 
                 direction={ direction === "ltr" ? "left" : "right" }
-                label={ Locale.reader.app.back.trigger }
+                label={ t("reader.app.back.trigger") }
                 ref={ popoverCloseRef }
                 className={ classNames(className, readerSharedUI.backButton) } 
-                aria-label={ Locale.reader.app.back.trigger }
+                aria-label={ t("reader.app.back.trigger") }
                 onPress={ onClosePress }
               />
               : <StatefulDocker 

@@ -2,8 +2,6 @@
 
 import React, { useCallback } from "react";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { ThLayoutOptions } from "@/preferences/models/enums";
 
 import ScrollableIcon from "./assets/icons/contract.svg";
@@ -12,11 +10,13 @@ import PaginatedIcon from "./assets/icons/docs.svg";
 import { StatefulRadioGroup } from "../../Settings/StatefulRadioGroup";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setScroll } from "@/lib/settingsReducer";
 
 export const StatefulLayout = () => {
+  const { t } = useI18n();
   const isScroll = useAppSelector(state => state.settings.scroll);
 
   const dispatch = useAppDispatch();
@@ -37,19 +37,19 @@ export const StatefulLayout = () => {
     <>
     <StatefulRadioGroup
       standalone={ true }
-      label={ Locale.reader.settings.layout.title }
+      label={ t("reader.settings.layout.title") }
       orientation="horizontal"
       value={ isScroll ? ThLayoutOptions.scroll : ThLayoutOptions.paginated }
       onChange={ async (val: string) => await updatePreference(val) }
       items={[
         {
           icon: PaginatedIcon,
-          label: Locale.reader.settings.layout.paginated,
+          label: t("reader.settings.layout.paginated"),
           value: ThLayoutOptions.paginated
         },
         {
           icon: ScrollableIcon,
-          label: Locale.reader.settings.layout.scrolled,
+          label: t("reader.settings.layout.scrolled"),
           value: ThLayoutOptions.scroll
         }
       ]} 

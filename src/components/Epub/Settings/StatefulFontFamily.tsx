@@ -2,8 +2,6 @@
 
 import { CSSProperties, Key, useCallback, useRef } from "react";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
 import settingsStyles from "../../Settings/assets/styles/settings.module.css";
@@ -13,16 +11,18 @@ import { ThDropdown } from "@/core/Components/Settings/ThDropdown";
 import { ListBox, ListBoxItem } from "react-aria-components";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontFamily } from "@/lib/settingsReducer";
 import { defaultFontFamilyOptions } from "@/preferences/models/const";
 
 export const StatefulFontFamily = ({ standalone = true }: StatefulSettingsItemProps) => {
+  const { t } = useI18n();
   const fontFamily = useAppSelector(state => state.settings.fontFamily);
   const fontFamilyOptions = useRef(Object.entries(defaultFontFamilyOptions).map(([property, stack]) => ({
       id: property,
-      label: Locale.reader.settings.fontFamily.labels[property as keyof typeof Locale.reader.settings.fontFamily.labels],
+      label: t(`reader.settings.fontFamily.labels.${ property }`),
       value: stack
     }))
   );
@@ -54,10 +54,10 @@ export const StatefulFontFamily = ({ standalone = true }: StatefulSettingsItemPr
       { ...(standalone 
         ? { 
           className: settingsStyles.readerSettingsGroup,
-          label: Locale.reader.settings.fontFamily.title
+          label: t("reader.settings.fontFamily.title")
         } 
         : {
-          "aria-label": Locale.reader.settings.fontFamily.title
+          "aria-label": t("reader.settings.fontFamily.title")
         }) }
       selectedKey={ fontFamily }
       onSelectionChange={ async (key) => await updatePreference(key) }

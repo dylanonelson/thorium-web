@@ -26,8 +26,7 @@ export default defineConfig({
   bundle: true,
   noExternal: [
     "classNames", 
-    "debounce", 
-    "json-templates"
+    "debounce"
   ],
   external: [
     "react", 

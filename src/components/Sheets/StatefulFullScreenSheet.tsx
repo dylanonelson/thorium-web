@@ -2,8 +2,6 @@
 
 import React, { useRef } from "react";
 
-import Locale from "../../resources/locales/en.json";
-
 import { StatefulSheet } from "./models/sheets";
 import { ThSheetHeaderVariant } from "@/preferences/models/enums";
 
@@ -15,6 +13,8 @@ import { ThContainerHeader } from "@/core/Components/Containers/ThContainerHeade
 import { ThContainerBody } from "@/core/Components/Containers/ThContainerBody";
 import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton";
 import { ThCloseButton } from "@/core/Components/Buttons/ThCloseButton";
+
+import { useI18n } from "@/i18n";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -34,6 +34,7 @@ export const StatefulFullScreenSheet = ({
     focusWithinRef,
     dismissEscapeKeyClose
   }: StatefulFullScreenSheetProps) => {
+  const { t } = useI18n()
   const direction = useAppSelector(state => state.reader.direction);
   const fullScreenHeaderRef = useRef<HTMLDivElement | null>(null);
   const fullScreenBodyRef = useRef<HTMLDivElement | null>(null);
@@ -77,16 +78,16 @@ export const StatefulFullScreenSheet = ({
           { headerVariant === ThSheetHeaderVariant.previous
               ? <ThNavigationButton
                 direction={ direction === "ltr" ? "left" : "right" }
-                label={ Locale.reader.app.back.trigger }
+                label={ t("reader.app.back.trigger") }
                 ref={ fullScreenCloseRef }
                 className={ classNames(className, readerSharedUI.backButton) } 
-                aria-label={ Locale.reader.app.back.trigger }
+                aria-label={ t("reader.app.back.trigger") }
                 onPress={ onClosePress }
               />
               : <ThCloseButton
                 ref={ fullScreenCloseRef }
                 className={ readerSharedUI.closeButton } 
-                aria-label={ Locale.reader.app.docker.close.trigger } 
+                aria-label={ t("reader.app.docker.close.trigger") } 
                 onPress={ onClosePress }
               />
             }

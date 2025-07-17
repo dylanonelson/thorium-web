@@ -2,8 +2,6 @@
 
 import React, { useCallback, useRef } from "react";
 
-import Locale from "../../resources/locales/en.json";
-
 import { StatefulSheet } from "./models/sheets";
 import { ThDockingKeys, ThSheetHeaderVariant, ThLayoutDirection } from "@/preferences/models/enums";
 
@@ -15,6 +13,8 @@ import { ThContainerHeader } from "@/core/Components/Containers/ThContainerHeade
 import { ThContainerBody } from "@/core/Components/Containers/ThContainerBody";
 import { StatefulDocker } from "../Docking/StatefulDocker";
 import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton";
+
+import { useI18n } from "@/i18n";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -37,6 +37,7 @@ export const StatefulDockedSheet = ({
     resetFocus,
     focusWithinRef
   }: StatefulDockedSheetProps) => {
+  const { t } = useI18n()
   const dockPortal = flow && document.getElementById(flow);
   const dockedSheetHeaderRef = useRef<HTMLDivElement | null>(null);
   const dockedSheetBodyRef = useRef<HTMLDivElement | null>(null);
@@ -83,10 +84,10 @@ export const StatefulDockedSheet = ({
           { headerVariant === ThSheetHeaderVariant.previous 
             ? <ThNavigationButton
               direction={ direction === "ltr" ? "left" : "right" } 
-              label={ Locale.reader.app.back.trigger }
+              label={ t("reader.app.back.trigger") }
               ref={ dockedSheetCloseRef }
               className={ classNames(className, readerSharedUI.backButton) } 
-              aria-label={ Locale.reader.app.back.trigger }
+              aria-label={ t("reader.app.back.trigger") }
               onPress={ onClosePress }
             /> 
             : <StatefulDocker 
