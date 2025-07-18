@@ -484,9 +484,7 @@ export const StatefulReader = ({
       }
     },
     tap: function (_e: FrameClickEvent): boolean {
-      if (!cache.current.settings.scroll) {
-        handleTap(_e);
-      }
+      handleTap(_e);
       return true;
     },
     click: function (_e: FrameClickEvent): boolean {
