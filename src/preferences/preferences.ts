@@ -14,7 +14,6 @@ import {
   ThTextSettingsKeys, 
   ThThemeKeys, 
   ThLayoutDirection, 
-  ThLayoutStrategy, 
   ThLayoutUI
 } from "./models/enums";
 import { ThCollapsibility, ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
@@ -128,7 +127,6 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
     maximalLineLength?: number | null;
     optimalLineLength: number;
     pageGutter: number;
-    layoutStrategy?: ThLayoutStrategy | null;
   };
   theming: {
     arrow: {

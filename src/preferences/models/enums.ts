@@ -109,12 +109,6 @@ export enum ThLayoutDirection {
   ltr = "ltr"
 }
 
-export enum ThLayoutStrategy {
-  margin = "margin",
-  lineLength = "lineLength",
-  columns = "columns"
-}
-
 export enum ThLayoutOptions { 
   scroll = "scroll_option",
   paginated = "page_option"

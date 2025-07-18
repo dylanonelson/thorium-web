@@ -21,7 +21,6 @@ import {
   ThLineHeightOptions, 
   ThSettingsKeys, 
   ThTextAlignOptions, 
-  ThLayoutStrategy, 
   ThLayoutUI
 } from "../../preferences/models/enums";
 import { ThColorScheme } from "@/core/Hooks/useColorScheme";
@@ -41,7 +40,6 @@ import {
   FXLFrameManager, 
   IEpubDefaults, 
   IEpubPreferences,  
-  LayoutStrategy,  
   TextAlignment
 } from "@readium/navigator";
 import { 
@@ -121,7 +119,6 @@ export interface ReadiumCSSSettings {
   letterSpacing: number | null;
   lineLength: LineLengthStateObject;
   lineHeight: ThLineHeightOptions | null;
-  layoutStrategy: ThLayoutStrategy;
   paragraphIndent: number | null;
   paragraphSpacing: number | null;
   publisherStyles: boolean;
@@ -181,7 +178,6 @@ export const StatefulReader = ({
   const fontSize = useAppSelector(state => state.settings.fontSize);
   const fontWeight = useAppSelector(state => state.settings.fontWeight);
   const hyphens = useAppSelector(state => state.settings.hyphens);
-  const layoutStrategy = useAppSelector(state => state.settings.layoutStrategy);
   const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
   const lineLength = useAppSelector(state => state.settings.lineLength);
   const lineHeight = useAppSelector(state => state.settings.lineHeight);
@@ -287,7 +283,6 @@ export const StatefulReader = ({
       fontSize: fontSize,
       fontWeight: fontWeight,
       hyphens: hyphens,
-      layoutStrategy: layoutStrategy,
       letterSpacing: letterSpacing,
       lineHeight: lineHeight,
       lineLength: lineLength,
@@ -584,10 +579,6 @@ export const StatefulReader = ({
   }, [hyphens]);
 
   useEffect(() => {
-    cache.current.settings.layoutStrategy = layoutStrategy;
-  }, [layoutStrategy]);
-
-  useEffect(() => {
     cache.current.settings.letterSpacing = letterSpacing;
   }, [letterSpacing]);
 
@@ -747,7 +738,6 @@ export const StatefulReader = ({
           fontSize: cache.current.settings.fontSize,
           fontWeight: cache.current.settings.fontWeight,
           hyphens: cache.current.settings.hyphens,
-          layoutStrategy: cache.current.settings.layoutStrategy as unknown as LayoutStrategy | null | undefined,
           letterSpacing: cache.current.settings.publisherStyles ? undefined : cache.current.settings.letterSpacing,
           lineHeight: cache.current.settings.publisherStyles 
             ? undefined 
@@ -771,7 +761,6 @@ export const StatefulReader = ({
         };
 
         const defaults: IEpubDefaults = isFXL ? {} : {
-          layoutStrategy: RSPrefs.typography.layoutStrategy as LayoutStrategy | null | undefined,
           maximalLineLength: RSPrefs.typography.maximalLineLength, 
           minimalLineLength: RSPrefs.typography.minimalLineLength, 
           optimalLineLength: RSPrefs.typography.optimalLineLength,

@@ -23,8 +23,7 @@ The `typography` object can be used to set the following properties:
 - `pageGutter`;
 - `optimalLineLength`; 
 - `minimalLineLength`;
-- `maximalLineLength`;
-- `layoutStrategy`.
+- `maximalLineLength`.
 
 For instance: 
 
@@ -33,8 +32,7 @@ typography: {
   minimalLineLength: 35,
   optimalLineLength: 65,
   maximalLineLength: 75,
-  pageGutter: 20,
-  layoutStrategy: ThLayoutStrategy.margin
+  pageGutter: 20
 }
 ```
 
@@ -63,18 +61,6 @@ The maximal line length a column of text can reach in `ch`.
 If the value is `undefined`, then optimal line length is the maximal line length. The algorithm will also check this value is higher than the optimal line length and apply the same logic.
 
 If it’s `null` then this means it is disabled entirely, and there is no upper limit. This can be used to enforce the line of text is as long as its container or column when the count is set by the user.
-
-### Layout Strategy (optional)
-
-The strategy that should be used to lay out reflowable contents. 
-
-It is using the `ThLayoutStrategy` enum (`margin`, `lineLength`, `columns`).
-
-- `margin` prioritizes optimal line length and whitespace; 
-- `lineLength` prioritizes maximal line length and uses optimal as a floor to add some fluidity;
-- `columns` prioritizes minimal line length and the number of columns. This is only compatible with `colCount: "auto"`
-
-These strategies are part of the Preferences API and can be switched dynamically if needed.
 
 ## Scroll
 
