@@ -1,17 +1,18 @@
 import { useCallback, useRef } from "react";
 import { Locator } from "@readium/shared";
 
-interface ResourceScrollState {
+interface ScrollState {
   isScrollingForward: boolean;
   lastProgression: number;
-}
-
-interface ScrollState {
-  [href: string]: ResourceScrollState;
+  currentHref: string | null;
 }
 
 export const useScrollDirection = () => {
-  const scrollState = useRef<ScrollState>({});
+  const scrollState = useRef<ScrollState>({
+    isScrollingForward: true,
+    lastProgression: 0,
+    currentHref: null
+  });
 
   const handleScroll = useCallback((locator: Locator) => {
     if (!locator.locations.progression) return;
@@ -19,25 +20,25 @@ export const useScrollDirection = () => {
     const currentProgression = locator.locations.progression;
     const currentHref = locator.href;
     
-    let resourceState = scrollState.current[currentHref];
-    
-    if (!resourceState) {
-      scrollState.current[currentHref] = {
+    // Reset state if href changes
+    if (scrollState.current.currentHref !== currentHref) {
+      scrollState.current = {
         isScrollingForward: true,
         lastProgression: currentProgression,
+        currentHref: currentHref
       };
       return;
     }
     
-    resourceState.isScrollingForward = currentProgression > resourceState.lastProgression;
-    
-    resourceState.lastProgression = currentProgression;
+    // Update scroll direction based on progression
+    scrollState.current.isScrollingForward = currentProgression > scrollState.current.lastProgression;
+    scrollState.current.lastProgression = currentProgression;
   }, []);
 
   const getScrollState = useCallback((locator: Locator) => {
-    return scrollState.current[locator.href] || {
-      isScrollingForward: false,
-      lastProgression: locator.locations.progression || 0,
+    return {
+      isScrollingForward: scrollState.current.isScrollingForward,
+      lastProgression: scrollState.current.lastProgression
     };
   }, []);
 
