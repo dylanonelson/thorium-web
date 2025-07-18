@@ -11,7 +11,6 @@ import {
   ThSheetTypes, 
   ThThemeKeys,  
   ThLayoutDirection,
-  ThLayoutStrategy,
   ThLineHeightOptions,
   ThTextSettingsKeys,
   ThSheetHeaderVariant,
@@ -30,8 +29,7 @@ export const defaultPreferences = createPreferences({
     minimalLineLength: 40, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
     maximalLineLength: 75, // undefined | null | number of characters.
-    pageGutter: 20, // body padding in px
-    layoutStrategy: ThLayoutStrategy.lineLength
+    pageGutter: 20
   },
   theming: {
     arrow: {

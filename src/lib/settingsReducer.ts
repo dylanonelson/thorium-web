@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ThLineHeightOptions, ThTextAlignOptions, ThLayoutStrategy } from "@/preferences/models/enums";
+import { ThLineHeightOptions, ThTextAlignOptions } from "@/preferences/models/enums";
 import { defaultFontFamilyOptions } from "@/preferences/models/const";
 
 export interface LineLengthStateObject {
@@ -30,7 +30,6 @@ export interface SettingsReducerState {
   fontSize: number;
   fontWeight: number;
   hyphens: boolean | null;
-  layoutStrategy: ThLayoutStrategy;
   letterSpacing: number | null;
   lineHeight: ThLineHeightOptions;
   lineLength: LineLengthStateObject;
@@ -49,7 +48,6 @@ const initialState: SettingsReducerState = {
   fontSize: 1,
   fontWeight: 400,
   hyphens: null,
-  layoutStrategy: ThLayoutStrategy.lineLength,
   letterSpacing: null,
   lineHeight: ThLineHeightOptions.publisher,
   lineLength: {
@@ -82,9 +80,6 @@ export const settingsSlice = createSlice({
     },
     setHyphens: (state, action) => {
       state.hyphens = action.payload
-    },
-    setLayoutStrategy: (state, action) => {
-      state.layoutStrategy = action.payload
     },
     setLetterSpacing: (state, action) => {
       state.letterSpacing = action.payload
@@ -170,7 +165,6 @@ export const {
   setFontWeight, 
   setFontFamily,
   setHyphens, 
-  setLayoutStrategy,
   setLetterSpacing,
   setLineHeight,
   setLineLength,
