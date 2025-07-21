@@ -167,6 +167,14 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
       };
     };
   };
+  affordances: {
+    scroll: {
+      hintInImmersive: boolean;
+      toggleOnMiddlePointer: Array<"tap" | "click">;
+      hideOnForwardScroll: boolean;
+      showOnBackwardScroll: boolean;
+    }
+  };
   actions: ThActionsPref<KeysOf<T["actionKeys"], ThActionsKeys>>;
   shortcuts: {
     representation: UnstableShortcutRepresentation;

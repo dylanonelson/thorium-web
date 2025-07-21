@@ -289,7 +289,7 @@ export const StatefulReader = ({
       paragraphIndent: paragraphIndent,
       paragraphSpacing: paragraphSpacing,
       publisherStyles: publisherStyles,
-      scroll: scroll,
+      scroll: isScroll,
       textAlign: textAlign,
       textNormalization: textNormalization,
       theme: theme,
@@ -315,19 +315,23 @@ export const StatefulReader = ({
   // See https://github.com/edrlab/thorium-web/issues/25
   const handleTap = (event: FrameClickEvent) => {
     const _cframes = getCframes();
-    if (_cframes && !cache.current.settings.scroll) {
-      const oneQuarter = ((_cframes.length === 2 ? _cframes[0]!.window.innerWidth + _cframes[1]!.window.innerWidth : _cframes![0]!.window.innerWidth) * window.devicePixelRatio) / 4;
+    if (_cframes) {
+      if (!cache.current.settings.scroll) {
+        const oneQuarter = ((_cframes.length === 2 ? _cframes[0]!.window.innerWidth + _cframes[1]!.window.innerWidth : _cframes![0]!.window.innerWidth) * window.devicePixelRatio) / 4;
     
-      if (event.x < oneQuarter) {
-        goLeft(!cache.current.reducedMotion, activateImmersiveOnAction);
-      } 
-      else if (event.x > oneQuarter * 3) {
-        goRight(!cache.current.reducedMotion, activateImmersiveOnAction);
-      } else if (oneQuarter <= event.x && event.x <= oneQuarter * 3) {
-        toggleIsImmersive();
+        if (event.x < oneQuarter) {
+          goLeft(!cache.current.reducedMotion, activateImmersiveOnAction);
+        } 
+        else if (event.x > oneQuarter * 3) {
+          goRight(!cache.current.reducedMotion, activateImmersiveOnAction);
+        } else if (oneQuarter <= event.x && event.x <= oneQuarter * 3) {
+          toggleIsImmersive();
+        }
+      } else {
+        if (RSPrefs.affordances.scroll.toggleOnMiddlePointer.includes("tap")) {
+          toggleIsImmersive();
+        }
       }
-    } else {
-      toggleIsImmersive();
     }
   };
 
@@ -375,12 +379,10 @@ export const StatefulReader = ({
         case "up":
         case "home":
           // Home should probably go to first column/page of chapter in reflow?
-          if (cache.current.settings.scroll) activateImmersiveOnAction();
           break;
         case "down":
         case "end":
           // End should probably go to last column/page of chapter in reflow?
-          if (cache.current.settings.scroll) activateImmersiveOnAction();
           break;
         default:
           break;
@@ -391,8 +393,6 @@ export const StatefulReader = ({
         shiftKey 
           ? goBackward(!cache.current.reducedMotion, activateImmersiveOnAction) 
           : goForward(!cache.current.reducedMotion, activateImmersiveOnAction);
-      } else {
-        activateImmersiveOnAction();
       }
     },
     toggleAction: (actionKey) => {
@@ -448,12 +448,15 @@ export const StatefulReader = ({
             dispatch(setScrollAffordance(true));
           }
         } else if (scrollState.isScrollingForward) {
-          dispatch(setImmersive(true));
+          if (RSPrefs.affordances.scroll.hideOnForwardScroll) {
+            dispatch(setImmersive(true));
+          }
         } else {
           if (
             // Keep consistent with pagination behavior
             cache.current.settings.scroll &&
-            cache.current.layoutUI === ThLayoutUI.layered
+            cache.current.layoutUI === ThLayoutUI.layered &&
+            RSPrefs.affordances.scroll.showOnBackwardScroll
           ) {
             dispatch(setImmersive(false));
           }
@@ -488,11 +491,13 @@ export const StatefulReader = ({
       return true;
     },
     click: function (_e: FrameClickEvent): boolean {
-      if (
-        cache.current.layoutUI === ThLayoutUI.layered && 
-        !cache.current.settings.scroll
-      ) { 
-        handleTap(_e);
+      if (cache.current.layoutUI === ThLayoutUI.layered) {
+        if (
+          !cache.current.settings.scroll ||
+          RSPrefs.affordances.scroll.toggleOnMiddlePointer.includes("click")
+        ) {
+          handleTap(_e);
+        }
       }
       return true;
     },
@@ -538,7 +543,7 @@ export const StatefulReader = ({
   }, [layoutUI]);
 
   useEffect(() => {
-    cache.current.settings.scroll = scroll;
+    cache.current.settings.scroll = isScroll;
 
     // Reset top bar visibility and last position
     dispatch(setImmersive(false));
@@ -547,14 +552,14 @@ export const StatefulReader = ({
       await applyConstraint(value)
     }
 
-    if (!scroll) {
+    if (!isScroll) {
       handleConstraint(arrowsOccupySpace ? arrowsWidth.current : 0)
         .catch(console.error);
     } else {
       handleConstraint(0)
         .catch(console.error);
     }
-  }, [scroll, arrowsOccupySpace, applyConstraint, dispatch]);
+  }, [isScroll, arrowsOccupySpace, applyConstraint, dispatch]);
 
   useEffect(() => {
     cache.current.settings.columnCount = columnCount;
