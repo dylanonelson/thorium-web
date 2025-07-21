@@ -194,6 +194,14 @@ export const defaultPreferences = createPreferences({
       }
     }
   },
+  affordances: {
+    scroll: {
+      hintInImmersive: true,
+      toggleOnMiddlePointer: ["tap"],
+      hideOnForwardScroll: true,
+      showOnBackwardScroll: true
+    }
+  },
   shortcuts: {
     representation: UnstableShortcutRepresentation.symbol,
     joiner: "+"

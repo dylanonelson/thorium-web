@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 import { ActionKeyType, usePreferenceKeys } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
+import overflowMenuStyles from "./Actions/assets/styles/overflowMenu.module.css";
 
 import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
 import { ThHeader  } from "@/core/Components/Reader/ThHeader";
@@ -28,6 +29,7 @@ export const StatefulReaderHeader = ({
 }: {
   layout: ThLayoutUI;
 }) => {
+  const headerRef = useRef<HTMLDivElement>(null);
   const { reflowActionKeys, fxlActionKeys } = usePreferenceKeys();
   const RSPrefs = usePreferences();
   const { actionsComponentsMap } = usePlugins();
@@ -35,6 +37,7 @@ export const StatefulReaderHeader = ({
   const actionsMap = useAppSelector(state => state.actions.keys);
   const overflowMap = useAppSelector(state => state.actions.overflow);
   const isFXL = useAppSelector(state => state.publication.isFXL);
+  const isScroll = useAppSelector(state => state.settings.scroll);
   const runningHead = useAppSelector(state => state.publication.runningHead);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
@@ -91,7 +94,7 @@ export const StatefulReaderHeader = ({
     // Blur any focused element when entering immersive mode
     if (isImmersive) {
       const focusElement = document.activeElement;
-      if (focusElement) {
+      if (focusElement && headerRef.current?.contains(focusElement)) {
         (focusElement as HTMLElement).blur();
       }
     }
@@ -108,6 +111,7 @@ export const StatefulReaderHeader = ({
     />
 
     <ThHeader 
+      ref={ headerRef }
       className={ readerHeaderStyles.header } 
       id="top-bar" 
       aria-label={ Locale.reader.app.header.label } 
@@ -124,11 +128,19 @@ export const StatefulReaderHeader = ({
       <StatefulCollapsibleActionsBar 
         id="reader-header-overflowMenu" 
         items={ listActionItems() }
-        prefs={{ ...RSPrefs.actions, displayOrder: isFXL ? RSPrefs.actions.fxlOrder : RSPrefs.actions.reflowOrder }}
+        prefs={{ 
+          ...RSPrefs.actions, 
+          displayOrder: isFXL 
+            ? RSPrefs.actions.fxlOrder 
+            : RSPrefs.actions.reflowOrder 
+        }}
         className={ readerHeaderStyles.actionsWrapper } 
         aria-label={ Locale.reader.app.header.actions } 
-        overflowActionCallback={ (isImmersive && !isHovering) }
-        overflowMenuDisplay={ (!isImmersive || isHovering) }
+        overflowMenuClassName={ 
+          (!isScroll || RSPrefs.affordances.scroll.hintInImmersive) 
+            ? overflowMenuStyles.hintButton 
+            : undefined 
+        }
       />
     </ThHeader>
     </>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 import Locale from "../resources/locales/en.json";
 
@@ -24,6 +24,7 @@ export const StatefulReaderFooter = ({
 }: {
   layout: ThLayoutUI;
 }) => {
+  const footerRef = useRef<HTMLDivElement>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
   const hasScrollAffordance = useAppSelector(state => state.reader.hasScrollAffordance);
@@ -111,7 +112,7 @@ export const StatefulReaderFooter = ({
     // Blur any focused element when entering immersive mode
     if (isImmersive) {
       const focusElement = document.activeElement;
-      if (focusElement) {
+      if (focusElement && footerRef.current?.contains(focusElement)) {
         (focusElement as HTMLElement).blur();
       }
     }
@@ -128,6 +129,7 @@ export const StatefulReaderFooter = ({
     />
     
     <ThFooter 
+      ref={ footerRef }
       id="bottom-bar" 
       aria-label={ Locale.reader.app.footer.label } 
       onMouseEnter={ setHover } 
