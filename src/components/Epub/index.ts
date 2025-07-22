@@ -25,3 +25,7 @@ export {
 export {
   useTheming
 } from "../../preferences/hooks";
+
+export {
+  usePublication
+} from "../../hooks";
