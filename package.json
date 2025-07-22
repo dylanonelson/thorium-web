@@ -44,9 +44,9 @@
     "bundle": "tsup --config tsup.config.ts"
   },
   "peerDependencies": {
-    "@readium/css": ">=2.0.0-beta.14",
-    "@readium/navigator": ">=2.0.0-beta.6",
-    "@readium/navigator-html-injectables": ">=2.0.0-beta.3",
+    "@readium/css": "2.0.0-beta.14",
+    "@readium/navigator": "2.0.0-beta.6",
+    "@readium/navigator-html-injectables": "2.0.0-beta.3",
     "@readium/shared": "^1.2.1",
     "@reduxjs/toolkit": ">=2.6.0",
     "motion": ">=12.4.0",
@@ -60,9 +60,9 @@
     "react-stately": ">=3.36.0"
   },
   "dependencies": {
-    "@readium/css": ">=2.0.0-beta.14",
-    "@readium/navigator": ">=2.0.0-beta.6",
-    "@readium/navigator-html-injectables": ">=2.0.0-beta.3",
+    "@readium/css": "2.0.0-beta.14",
+    "@readium/navigator": "2.0.0-beta.6",
+    "@readium/navigator-html-injectables": "2.0.0-beta.3",
     "@readium/shared": "^1.2.1",
     "@reduxjs/toolkit": "^2.8.2",
     "classnames": "^2.5.1",

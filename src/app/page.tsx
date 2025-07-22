@@ -25,7 +25,7 @@ export default function Home() {
         </li>
       </ul>
 
-      {MANIFEST_CONFIG.enabled && (
+      { MANIFEST_CONFIG.enabled && (
         <>
           <p>Or use an arbitrary manifest:</p>
           <ul>
@@ -37,7 +37,7 @@ export default function Home() {
             </li>
           </ul>
         </>
-      )}
+      ) }
     </main>
   );
 }

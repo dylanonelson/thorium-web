@@ -5,6 +5,7 @@ import { StatefulReader } from "@/components/Epub";
 import { StatefulLoader } from "@/components/StatefulLoader";
 import { PUBLICATION_MANIFESTS } from "@/config/publications";
 import { usePublication } from "@/hooks/usePublication";
+import { useAppSelector } from "@/lib/hooks";
 
 import "@/app/app.css";
 
@@ -16,8 +17,9 @@ type Props = {
 
 export default function BookPage({ params }: Props) {
   const identifier = use(params).identifier;
+  const isLoading = useAppSelector(state => state.reader.isLoading);
 
-  const { error, manifest, selfLink, isLoading } = usePublication({
+  const { error, manifest, selfLink } = usePublication({
     url: identifier ? PUBLICATION_MANIFESTS[identifier as keyof typeof PUBLICATION_MANIFESTS] : "",
     onError: (error) => {
       console.error("Publication loading error:", error);

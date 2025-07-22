@@ -12,7 +12,6 @@ export function usePublication({ url, onError = () => {} }: UsePublicationOption
   const [error, setError] = useState("");
   const [manifest, setManifest] = useState<object | undefined>(undefined);
   const [selfLink, setSelfLink] = useState<string | undefined>(undefined);
-  const readerIsLoading = useAppSelector(state => state.reader.isLoading);
 
   // Basic URL validation and loading
   useEffect(() => {
@@ -57,7 +56,6 @@ export function usePublication({ url, onError = () => {} }: UsePublicationOption
   return {
     error,
     manifest,
-    selfLink,
-    isLoading: readerIsLoading
+    selfLink
   };
 }

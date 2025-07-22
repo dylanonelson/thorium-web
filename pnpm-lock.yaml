@@ -9,13 +9,13 @@ importers:
   .:
     dependencies:
       '@readium/css':
-        specifier: '>=2.0.0-beta.14'
+        specifier: 2.0.0-beta.14
         version: 2.0.0-beta.14
       '@readium/navigator':
-        specifier: '>=2.0.0-beta.6'
+        specifier: 2.0.0-beta.6
         version: 2.0.0-beta.6
       '@readium/navigator-html-injectables':
-        specifier: '>=2.0.0-beta.3'
+        specifier: 2.0.0-beta.3
         version: 2.0.0-beta.3
       '@readium/shared':
         specifier: ^1.2.1
