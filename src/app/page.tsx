@@ -3,6 +3,39 @@
 import { Link } from "react-aria-components";
 import { MANIFEST_CONFIG } from "@/config/manifest";
 
+import { PublicationGrid } from "@/components/PublicationGrid";
+
+const books = [
+  {
+    title: "Moby Dick",
+    author: "Herman Melville",
+    cover: "/images/MobyDick.jpg",
+    url: "/read/moby-dick",
+    rendition: "Reflowable"
+  },
+  {
+    title: "The House of the Seven Gables",
+    author: "Nathaniel Hawthorne",
+    cover: "/images/TheHouseOfTheSevenGables.jpg",
+    url: "/read/the-house-of-seven-gables",
+    rendition: "Reflowable"
+  },
+  {
+    title: "Les Diaboliques",
+    author: "Jules Barbey d'Aurevilly",
+    cover: "/images/LesDiaboliques.png",
+    url: "/read/les-diaboliques",
+    rendition: "Reflowable"
+  },
+  {
+    title: "Bella the Dragon",
+    author: "Barbara Nick, Elaine, Steckler",
+    cover: "/images/Bella.jpg",
+    url: "/read/bella-the-dragon",
+    rendition: "Fixed Layout"
+  }
+];
+
 export default function Home() {
   return (
     <main>
@@ -10,20 +43,9 @@ export default function Home() {
 
       <p>Here’s a list of reflowable and fixed-layout publications you can read and test:</p>
 
-      <ul>
-        <li>
-          <Link href="/read/moby-dick">Moby Dick (reflow)</Link>
-        </li>
-        <li>
-          <Link href="/read/the-house-of-seven-gables">The House of the Seven Gables (reflow advanced)</Link>
-        </li>
-        <li>
-          <Link href="/read/les-diaboliques">Les Diaboliques (reflow french)</Link>
-        </li>
-        <li>
-          <Link href="/read/bella-the-dragon">Bella the Dragon (FXL)</Link>
-        </li>
-      </ul>
+      <PublicationGrid
+        publications={ books }
+      />
 
       { MANIFEST_CONFIG.enabled && (
         <>
