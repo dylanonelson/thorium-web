@@ -224,16 +224,15 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
                 textValue={ item.title || "" }
               >
                 <TreeItemContent>
-                  { item.children
-                    ? (<Button
+                  {item.children && (
+                    <Button
                       slot="chevron"
-                      className={ tocStyles.tocTreeItemButton }
-                      { ...(isRTL ? { style: { transform: "scaleX(-1)" } } as CSSProperties : {}) }
+                      className={tocStyles.tocTreeItemButton}
+                      style={{ transform: isRTL ? "scaleX(-1)" : "none" } as CSSProperties}
                     >
                       <Chevron aria-hidden="true" focusable="false" />
-                    </Button>)
-                    : null
-                  }
+                    </Button>
+                  )}
                   <div className={ tocStyles.tocTreeItemText }>
                     <div className={ tocStyles.tocTreeItemTextTitle }>{ item.title }</div>
                     { item.position && <div className={ tocStyles.tocTreeItemTextPosition }>{ item.position }</div> }
