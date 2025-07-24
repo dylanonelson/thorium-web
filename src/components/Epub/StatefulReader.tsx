@@ -117,7 +117,7 @@ export interface ReadiumCSSSettings {
   fontWeight: number;
   hyphens: boolean | null;
   letterSpacing: number | null;
-  lineLength: LineLengthStateObject;
+  lineLength: LineLengthStateObject | null;
   lineHeight: ThLineHeightOptions | null;
   paragraphIndent: number | null;
   paragraphSpacing: number | null;
