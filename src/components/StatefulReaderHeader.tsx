@@ -58,13 +58,13 @@ export const StatefulReaderHeader = ({
   });
 
   const setHover = () => {
-    if (!hasScrollAffordance) {
+    if (!hasScrollAffordance && actions.everyOpenDocked()) {
       dispatch(setHovering(true));
     }
   };
 
   const removeHover = () => {
-    if (!hasScrollAffordance) {
+    if (!hasScrollAffordance && actions.everyOpenDocked()) {
       dispatch(setHovering(false));
     }
   };
