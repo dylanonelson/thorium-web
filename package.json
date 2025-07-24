@@ -95,9 +95,11 @@
     "typescript": "^5.8.3"
   },
   "overrides": {
-    "css-select": "5.1.0"
+    "css-select": "5.1.0",
+    "vercel": "44.5.1"
   },
   "resolutions": {
-    "css-select": "5.1.0"
+    "css-select": "5.1.0",
+    "vercel": "44.5.1"
   }
 }
