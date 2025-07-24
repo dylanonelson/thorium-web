@@ -61,7 +61,6 @@ import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useFullscreen } from "@/core/Hooks/useFullscreen";
 import { usePrevious } from "@/core/Hooks/usePrevious";
-import { useScrollDirection } from "./Hooks/useScrollDirection";
 import { useTimeline } from "@/core/Hooks/useTimeline";
 import { useLocalStorage } from "@/core/Hooks/useLocalStorage";
 
@@ -200,8 +199,6 @@ export const StatefulReader = ({
   
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
-
-  const { getScrollState, handleScroll } = useScrollDirection();
 
   const layoutUI = isFXL 
     ? RSPrefs.theming.layout.ui?.fxl || ThLayoutUI.layered 
@@ -427,42 +424,6 @@ export const StatefulReader = ({
       p.observe(window);
     },
     positionChanged: async function (locator: Locator): Promise<void> {
-      const currentLocator = getLocalData();
-
-      // Only handle scroll-based hide/show if scroll is enabled and we're in reflow
-      if (
-        currentLocator?.href === locator.href &&
-        cache.current.settings.scroll && 
-        navLayout() === EPUBLayout.reflowable
-      ) {
-        handleScroll(locator);
-
-        const scrollState = getScrollState(locator);
-        
-        if (isScrollStart() || isScrollEnd()) {
-          if (
-            // Keep consistent with pagination behavior
-            cache.current.settings.scroll &&
-            cache.current.layoutUI === ThLayoutUI.layered
-          ) {
-            dispatch(setScrollAffordance(true));
-          }
-        } else if (scrollState.isScrollingForward) {
-          if (RSPrefs.affordances.scroll.hideOnForwardScroll) {
-            dispatch(setImmersive(true));
-          }
-        } else {
-          if (
-            // Keep consistent with pagination behavior
-            cache.current.settings.scroll &&
-            cache.current.layoutUI === ThLayoutUI.layered &&
-            RSPrefs.affordances.scroll.showOnBackwardScroll
-          ) {
-            dispatch(setImmersive(false));
-          }
-        }
-      }
-      
       if (navLayout() === EPUBLayout.reflowable) {
         const debouncedHandleProgression = debounce(
           async () => {
@@ -503,6 +464,33 @@ export const StatefulReader = ({
     },
     zoom: function (_scale: number): void {},
     miscPointer: function (_amount: number): void {},
+    scroll: function (_delta: number): void {
+      if (
+        cache.current.settings.scroll && 
+        navLayout() === EPUBLayout.reflowable
+      ) {        
+        if (isScrollStart() || isScrollEnd()) {
+          if (
+            // Keep consistent with pagination behavior
+            cache.current.layoutUI === ThLayoutUI.layered
+          ) {
+            dispatch(setScrollAffordance(true));
+          }
+        } else if (!cache.current.isImmersive && _delta > 40) {
+          if (RSPrefs.affordances.scroll.hideOnForwardScroll) {
+            dispatch(setImmersive(true));
+          }
+        } else if (cache.current.isImmersive && _delta < -40) {
+          if (
+            // Keep consistent with pagination behavior
+            cache.current.layoutUI === ThLayoutUI.layered && 
+            RSPrefs.affordances.scroll.showOnBackwardScroll
+          ) {
+            dispatch(setImmersive(false));
+          }
+        }
+      }
+    },
     customEvent: function (_key: string, _data: unknown): void {},
     handleLocator: function (locator: Locator): boolean {
       const href = locator.href;
