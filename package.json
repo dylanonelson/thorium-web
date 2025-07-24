@@ -92,7 +92,8 @@
     "glob": "^8.1.0",
     "immer": "^10.1.1",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vercel": "44.5.1"
   },
   "overrides": {
     "css-select": "5.1.0",
