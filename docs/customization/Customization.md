@@ -23,8 +23,7 @@ The `typography` object can be used to set the following properties:
 - `pageGutter`;
 - `optimalLineLength`; 
 - `minimalLineLength`;
-- `maximalLineLength`;
-- `layoutStrategy`.
+- `maximalLineLength`.
 
 For instance: 
 
@@ -33,8 +32,7 @@ typography: {
   minimalLineLength: 35,
   optimalLineLength: 65,
   maximalLineLength: 75,
-  pageGutter: 20,
-  layoutStrategy: ThLayoutStrategy.margin
+  pageGutter: 20
 }
 ```
 
@@ -64,56 +62,33 @@ If the value is `undefined`, then optimal line length is the maximal line length
 
 If it’s `null` then this means it is disabled entirely, and there is no upper limit. This can be used to enforce the line of text is as long as its container or column when the count is set by the user.
 
-### Layout Strategy (optional)
+## Affordances
 
-The strategy that should be used to lay out reflowable contents. 
+The `affordances` object can be used to set the following properties:
 
-It is using the `ThLayoutStrategy` enum (`margin`, `lineLength`, `columns`).
+- `scroll` to configure the scroll affordances.
 
-- `margin` prioritizes optimal line length and whitespace; 
-- `lineLength` prioritizes maximal line length and uses optimal as a floor to add some fluidity;
-- `columns` prioritizes minimal line length and the number of columns. This is only compatible with `colCount: "auto"`
+### Scroll
 
-These strategies are part of the Preferences API and can be switched dynamically if needed.
+The `scroll` object can be used to set the following properties:
 
-## Scroll
+- `hintInImmersive` to configure whether the scroll affordances should be displayed in immersive mode.
+- `toggleOnMiddlePointer` to configure whether the scroll affordances should be toggled on middle tap or click.
+- `hideOnForwardScroll` to configure whether the scroll affordances should be hidden on forward scroll.
+- `showOnBackwardScroll` to configure whether the scroll affordances should be shown on backward scroll.
 
-The `scroll` preference is used to configure the scroll affordances at the top and bottom of each resource when in scrollable layout.
-
-### Affordances
-
-You can set what top and bottom affordances should display with properties:
-
-- `topAffordance`;
-- `bottomAffordance`.
-
-They are using the `ThScrollAffordancePref` enum (`none`, `prev`, `next`, `both`).
-
-For instance if you want nothing in the top slot you can set: 
+For instance:
 
 ```
-scroll: {
-  topAffordance: ThScrollAffordancePref.none,
-  bottomAffordance: ThScrollAffordancePref.both,
-  ...
+affordances: {
+  scroll: {
+    hintInImmersive: false,
+    toggleOnMiddlePointer: ["tap", "click"],
+    hideOnForwardScroll: true,
+    showOnBackwardScroll: false
+  }
 }
 ```
-
-Or if you want a link to the previous resource at the top, and the next at the bottom:
-
-```
-scroll: {
-  topAffordance: ThScrollAffordancePref.prev,
-  bottomAffordance: ThScrollAffordancePref.next,
-  ...
-}
-```
-
-### Position to scroll back to (WIP)
-
-TBD.
-
-For the previous affordance, you can set the position it should go back to using `backTo` and the `ThScrollBackTo` enum (`top`, `bottom`, `untouched`).
 
 ## Theming
 

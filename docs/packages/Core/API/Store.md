@@ -138,7 +138,6 @@ interface SettingsReducerState {
   fontSize: number;
   fontWeight: number;
   hyphens: boolean | null;
-  layoutStrategy: ThLayoutStrategy;
   letterSpacing: number | null;
   lineHeight: ThLineHeightOptions;
   lineLength: LineLengthStateObject;
@@ -158,7 +157,6 @@ interface SettingsReducerState {
 - `setFontSize`: Set font size
 - `setFontWeight`: Set font weight
 - `setHyphens`: Set hyphenation
-- `setLayoutStrategy`: Set layout strategy
 - `setLetterSpacing`: Set letter spacing
 - `setLineHeight`: Set line height
 - `setLineLength`: Set one or several line lengths (optimal, min, max)

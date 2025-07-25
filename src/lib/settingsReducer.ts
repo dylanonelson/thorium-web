@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ThLineHeightOptions, ThTextAlignOptions, ThLayoutStrategy } from "@/preferences/models/enums";
+import { ThLineHeightOptions, ThTextAlignOptions } from "@/preferences/models/enums";
 import { defaultFontFamilyOptions } from "@/preferences/models/const";
 
 export interface LineLengthStateObject {
-  optimal: number;
+  optimal?: number | null;
   min?: {
     chars?: number | null;
     isDisabled?: boolean;
@@ -30,10 +30,9 @@ export interface SettingsReducerState {
   fontSize: number;
   fontWeight: number;
   hyphens: boolean | null;
-  layoutStrategy: ThLayoutStrategy;
   letterSpacing: number | null;
   lineHeight: ThLineHeightOptions;
-  lineLength: LineLengthStateObject;
+  lineLength: LineLengthStateObject | null;
   paragraphIndent: number | null;
   paragraphSpacing: number | null;
   publisherStyles: boolean;
@@ -49,12 +48,9 @@ const initialState: SettingsReducerState = {
   fontSize: 1,
   fontWeight: 400,
   hyphens: null,
-  layoutStrategy: ThLayoutStrategy.lineLength,
   letterSpacing: null,
   lineHeight: ThLineHeightOptions.publisher,
-  lineLength: {
-    optimal: 65,
-  },
+  lineLength: null,
   paragraphIndent: null,
   paragraphSpacing: null,
   publisherStyles: true,
@@ -82,9 +78,6 @@ export const settingsSlice = createSlice({
     },
     setHyphens: (state, action) => {
       state.hyphens = action.payload
-    },
-    setLayoutStrategy: (state, action) => {
-      state.layoutStrategy = action.payload
     },
     setLetterSpacing: (state, action) => {
       state.letterSpacing = action.payload
@@ -115,10 +108,10 @@ export const settingsSlice = createSlice({
           state.lineLength = {
             ...state.lineLength,
             min: {
-              ...state.lineLength.min,
+              ...state.lineLength?.min,
               chars: action.payload.value !== undefined 
                 ? action.payload.value 
-                : state.lineLength.min?.chars,
+                : state.lineLength?.min?.chars,
               isDisabled: deriveIsDisabled(action.payload.value, action.payload.isDisabled)
             }
           };
@@ -127,10 +120,10 @@ export const settingsSlice = createSlice({
           state.lineLength = {
             ...state.lineLength,
             max: {
-              ...state.lineLength.max,
+              ...state.lineLength?.max,
               chars: action.payload.value !== undefined 
                 ? action.payload.value 
-                : state.lineLength.max?.chars,
+                : state.lineLength?.max?.chars,
               isDisabled: deriveIsDisabled(action.payload.value, action.payload.isDisabled)
             }
           };
@@ -170,7 +163,6 @@ export const {
   setFontWeight, 
   setFontFamily,
   setHyphens, 
-  setLayoutStrategy,
   setLetterSpacing,
   setLineHeight,
   setLineLength,
