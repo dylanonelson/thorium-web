@@ -476,11 +476,11 @@ export const StatefulReader = ({
           ) {
             dispatch(setScrollAffordance(true));
           }
-        } else if (!cache.current.isImmersive && _delta > 40) {
+        } else if (!cache.current.isImmersive && _delta > 20) {
           if (RSPrefs.affordances.scroll.hideOnForwardScroll) {
             dispatch(setImmersive(true));
           }
-        } else if (cache.current.isImmersive && _delta < -40) {
+        } else if (cache.current.isImmersive && _delta < -20) {
           if (
             // Keep consistent with pagination behavior
             cache.current.layoutUI === ThLayoutUI.layered && 
