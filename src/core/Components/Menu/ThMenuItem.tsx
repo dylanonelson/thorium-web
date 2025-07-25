@@ -8,7 +8,7 @@ import { WithRef } from "../customTypes";
 import { Keyboard, LabelProps, MenuItem, MenuItemProps, Text } from "react-aria-components";
 
 export interface ThMenuItemProps extends MenuItemProps {
-  ref?: React.Ref<HTMLLIElement>;
+  ref?: React.Ref<HTMLDivElement>;
   id: string;
   SVGIcon?: React.ComponentType<React.SVGProps<SVGElement>>;
   label: string;

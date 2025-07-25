@@ -1,4 +1,5 @@
 .header {
+  box-sizing: border-box;
   display: grid;
   grid-template-areas: "header-start header-center header-end";
   grid-template-columns: 1fr 3fr 1fr;
@@ -25,10 +26,4 @@
   overflow: hidden;
   text-overflow: ellipsis; 
   transition: opacity 200ms ease-in-out;
-}
-
-:global(.layered-ui.isImmersive:not(.isHovering)) .header h1 {
-  user-select: none;
-  pointer-events: none;
-  opacity: 0;
 }
