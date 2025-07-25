@@ -1,9 +1,10 @@
 "use client";
 
-import { Link } from "react-aria-components";
 import { MANIFEST_CONFIG } from "@/config/manifest";
 
 import { PublicationGrid } from "@/components/PublicationGrid";
+
+import "./home.css";
 
 const books = [
   {
@@ -36,12 +37,31 @@ const books = [
   }
 ];
 
+const onlineBooks = [
+  {
+    title: "Accessible EPUB3",
+    author: "Matt Garrish",
+    cover: "/images/accessibleEpub3.jpg",
+    url: "/read/manifest/https%3A%2F%2Fpublication-server.readium.org%2FaHR0cHM6Ly9naXRodWIuY29tL0lEUEYvZXB1YjMtc2FtcGxlcy9yZWxlYXNlcy9kb3dubG9hZC8yMDIzMDcwNC9hY2Nlc3NpYmxlX2VwdWJfMy5lcHVi%2Fmanifest.json",
+    rendition: "Reflowable"
+  },
+  {
+    title: "Children Literature",
+    author: "Charles Madison Curry, Erle Elsworth Clippinger",
+    cover: "/images/ChildrensLiterature.png",
+    url: "/read/manifest/https%3A%2F%2Fpublication-server.readium.org%2FaHR0cHM6Ly9naXRodWIuY29tL0lEUEYvZXB1YjMtc2FtcGxlcy9yZWxlYXNlcy9kb3dubG9hZC8yMDIzMDcwNC9jaGlsZHJlbnMtbGl0ZXJhdHVyZS5lcHVi%2Fmanifest.json",
+    rendition: "Reflowable"
+  }
+];
+
 export default function Home() {
   return (
-    <main>
-      <h1>Welcome to Thorium Web (Under Development)</h1>
+    <main id="home">
+      <header className="header">
+        <h1>Welcome to Thorium Web</h1>
 
-      <p>Here’s a list of reflowable and fixed-layout publications you can read and test:</p>
+        <p className="subtitle">An open-source ebook/audiobook/comics Web Reader</p>
+      </header>
 
       <PublicationGrid
         publications={ books }
@@ -49,15 +69,13 @@ export default function Home() {
 
       { MANIFEST_CONFIG.enabled && (
         <>
-          <p>Or use an arbitrary manifest:</p>
-          <ul>
-            <li>
-              <Link href="/read/manifest/https%3A%2F%2Fpublication-server.readium.org%2FaHR0cHM6Ly9naXRodWIuY29tL0lEUEYvZXB1YjMtc2FtcGxlcy9yZWxlYXNlcy9kb3dubG9hZC8yMDIzMDcwNC9hY2Nlc3NpYmxlX2VwdWJfMy5lcHVi%2Fmanifest.json">Accessible EPUB3</Link>
-            </li>
-            <li>
-              <Link href="/read/manifest/https%3A%2F%2Fpublication-server.readium.org%2FaHR0cHM6Ly9naXRodWIuY29tL0lEUEYvZXB1YjMtc2FtcGxlcy9yZWxlYXNlcy9kb3dubG9hZC8yMDIzMDcwNC9jaGlsZHJlbnMtbGl0ZXJhdHVyZS5lcHVi%2Fmanifest.json">Children Literature</Link>
-            </li>
-          </ul>
+        <div className="dev-books">
+          <p>In dev you can also use the <code>/manifest/</code> route to load any publication. For instance:</p>
+          
+          <PublicationGrid
+            publications={ onlineBooks }
+          />
+        </div>
         </>
       ) }
     </main>
