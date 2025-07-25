@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import Locale from "../../resources/locales/en.json";
 
@@ -18,6 +18,8 @@ import { ThContainerBody } from "@/core/Components/Containers/ThContainerBody";
 import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton";
 import { StatefulDocker } from "../Docking/StatefulDocker";
 
+import { useWebkitPatch } from "./hooks/useWebkitPatch";
+
 import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
@@ -27,26 +29,29 @@ export interface StatefulPopoverSheetProps extends StatefulSheet {
 }
 
 export const StatefulPopoverSheet = ({ 
-    id,
-    triggerRef,
-    heading,
-    headerVariant,
-    className, 
-    isOpen,
-    onOpenChange, 
-    onClosePress,
-    placement,
-    docker,
-    children,
-    resetFocus,
-    focusWithinRef,
-    dismissEscapeKeyClose
-  }: StatefulPopoverSheetProps) => {
+  id,
+  triggerRef,
+  heading,
+  headerVariant,
+  className, 
+  isOpen,
+  onOpenChange, 
+  onClosePress,
+  placement,
+  docker,
+  children,
+  resetFocus,
+  focusWithinRef,
+  dismissEscapeKeyClose
+}: StatefulPopoverSheetProps) => {
   const direction = useAppSelector(state => state.reader.direction);
   const popoverRef = useRef<HTMLDivElement | null>(null);
   const popoverHeaderRef = useRef<HTMLDivElement | null>(null);
   const popoverBodyRef = useRef<HTMLDivElement | null>(null);
   const popoverCloseRef = useRef<HTMLButtonElement | null>(null);
+
+  // Warning: This is a temporary fix for a bug in React Aria Components.
+  useWebkitPatch(!!isOpen);
 
   if (React.Children.toArray(children).length > 0) {
     return(

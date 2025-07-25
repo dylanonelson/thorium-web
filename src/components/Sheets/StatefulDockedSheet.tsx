@@ -25,18 +25,18 @@ export interface StatefulDockedSheetProps extends StatefulSheet {
 }
 
 export const StatefulDockedSheet = ({ 
-    id,
-    heading,
-    headerVariant,
-    className, 
-    isOpen,
-    onClosePress,
-    docker, 
-    flow,
-    children,
-    resetFocus,
-    focusWithinRef
-  }: StatefulDockedSheetProps) => {
+  id,
+  heading,
+  headerVariant,
+  className, 
+  isOpen,
+  onClosePress,
+  docker, 
+  flow,
+  children,
+  resetFocus,
+  focusWithinRef
+}: StatefulDockedSheetProps) => {
   const dockPortal = flow && document.getElementById(flow);
   const dockedSheetHeaderRef = useRef<HTMLDivElement | null>(null);
   const dockedSheetBodyRef = useRef<HTMLDivElement | null>(null);

@@ -1,6 +1,7 @@
 "use client";
 
 import { ActionStateObject } from "@/lib/actionsReducer";
+import { ThDockingKeys } from "@/preferences/models/enums";
 
 export interface ThActionMap {
   [key: string | number | symbol]: ActionStateObject | undefined;
@@ -36,18 +37,26 @@ export const useActions = <K extends string | number | symbol>(actionMap: ThActi
     const docked: K[] = [];
 
     Object.entries(actionMap).forEach(([key, value]) => {
-      if (value?.docking) docked.push(key as K);
+      const docking = value?.docking;
+      if (docking === ThDockingKeys.start || docking === ThDockingKeys.end) {
+        docked.push(key as K);
+      }
     });
 
     return docked;
   };
 
   const anyDocked = () => {
-    return Object.values(actionMap).some((value) => value?.docking);
+    return Object.values(actionMap).some((value) => {
+      const docking = value?.docking;
+      return docking === ThDockingKeys.start || docking === ThDockingKeys.end;
+    });
   };
 
   const isDocked = (key?: K | null) => {
-    return key ? !!(actionMap[key]?.docking) : false;
+    if (!key) return false;
+    const docking = actionMap[key]?.docking;
+    return docking === ThDockingKeys.start || docking === ThDockingKeys.end;
   };
 
   const whichDocked = (key?: K | null) => {

@@ -7,7 +7,7 @@ import Locale from "../../../resources/locales/en.json";
 import { Link } from "@readium/shared";
 import { ThActionsKeys, ThDockingKeys, ThSheetTypes, ThLayoutDirection } from "@/preferences/models/enums";
 import { StatefulActionContainerProps } from "../models/actions";
-import { TocItem } from "@/helpers/createTocTree";
+import { TocItem } from "@/core/Hooks/useTimeline";
 
 import tocStyles from "./assets/styles/toc.module.css";
 
@@ -29,19 +29,21 @@ import { usePrevious } from "@/core/Hooks/usePrevious";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 import { setTocEntry } from "@/lib/publicationReducer";
-import { setHovering, setImmersive } from "@/lib/readerReducer";
+import { setImmersive } from "@/lib/readerReducer";
 
 import { isActiveElement } from "@/core/Helpers/focusUtilities";
 
 export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProps) => {
   const treeRef = useRef<HTMLDivElement | null>(null);
-  
-  const tocEntry = useAppSelector(state => state.publication.tocEntry);
+
+  const unstableTimeline = useAppSelector(state => state.publication.unstableTimeline);
+  const tocEntry = unstableTimeline?.toc?.currentEntry;
+  const tocTree = unstableTimeline?.toc?.tree;
+
   const direction = useAppSelector(state => state.reader.direction);
   const isRTL = direction === ThLayoutDirection.rtl;
 
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.toc]);
-  const tocTree = useAppSelector(state => state.publication.tocTree);
   const dispatch = useAppDispatch();
 
   const previousTocEntry = usePrevious(tocEntry);
@@ -105,12 +107,10 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
         ? () => {
           dispatch(setTocEntry(key));
           dispatch(setImmersive(true));
-          dispatch(setHovering(false));
         } 
         : () => {
           dispatch(setTocEntry(key));
           dispatch(setImmersive(true));
-          dispatch(setHovering(false));
           setOpen(false);
         }
 
@@ -143,13 +143,13 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
     if (
         (sheetType === ThSheetTypes.dockedStart || sheetType === ThSheetTypes.dockedEnd) && 
         tocEntry !== undefined && 
-        previousTocEntry === undefined
+        (!previousTocEntry || previousTocEntry !== tocEntry)
       ) {
       setForceRerender(Math.random());
     }
   }, [sheetType, tocEntry, previousTocEntry]);
 
-  const isItemInChildren = (item: TocItem, tocEntry?: string): boolean => {
+  const isItemInChildren = (item: TocItem, tocEntry?: string | null): boolean => {
     if (item.children && tocEntry) {
       return item.children.some(child => child.id === tocEntry || isItemInChildren(child, tocEntry));
     }
@@ -224,16 +224,15 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
                 textValue={ item.title || "" }
               >
                 <TreeItemContent>
-                  { item.children
-                    ? (<Button
+                  {item.children && (
+                    <Button
                       slot="chevron"
-                      className={ tocStyles.tocTreeItemButton }
-                      { ...(isRTL ? { style: { transform: "scaleX(-1)" } } as CSSProperties : {}) }
+                      className={tocStyles.tocTreeItemButton}
+                      style={{ transform: isRTL ? "scaleX(-1)" : "none" } as CSSProperties}
                     >
                       <Chevron aria-hidden="true" focusable="false" />
-                    </Button>)
-                    : null
-                  }
+                    </Button>
+                  )}
                   <div className={ tocStyles.tocTreeItemText }>
                     <div className={ tocStyles.tocTreeItemTextTitle }>{ item.title }</div>
                     { item.position && <div className={ tocStyles.tocTreeItemTextPosition }>{ item.position }</div> }

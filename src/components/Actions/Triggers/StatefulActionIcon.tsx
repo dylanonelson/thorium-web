@@ -34,8 +34,6 @@ export const StatefulActionIcon = ({
   const RSPrefs = usePreferences();
 
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const isImmersive = useAppSelector(state => state.reader.isImmersive);
-  const isHovering = useAppSelector(state => state.reader.isHovering);
 
   const dispatch = useAppDispatch();
 
