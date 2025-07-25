@@ -16,6 +16,8 @@ import { ThContainerBody } from "@/core/Components/Containers/ThContainerBody";
 import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton";
 import { ThCloseButton } from "@/core/Components/Buttons/ThCloseButton";
 
+import { useWebkitPatch } from "./hooks/useWebkitPatch";
+
 import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
@@ -23,21 +25,24 @@ import classNames from "classnames";
 export interface StatefulFullScreenSheetProps extends StatefulSheet {};
 
 export const StatefulFullScreenSheet = ({
-    heading,
-    headerVariant,
-    className, 
-    isOpen,
-    onOpenChange, 
-    onClosePress,
-    children,
-    resetFocus,
-    focusWithinRef,
-    dismissEscapeKeyClose
-  }: StatefulFullScreenSheetProps) => {
+  heading,
+  headerVariant,
+  className, 
+  isOpen,
+  onOpenChange, 
+  onClosePress,
+  children,
+  resetFocus,
+  focusWithinRef,
+  dismissEscapeKeyClose
+}: StatefulFullScreenSheetProps) => {
   const direction = useAppSelector(state => state.reader.direction);
   const fullScreenHeaderRef = useRef<HTMLDivElement | null>(null);
   const fullScreenBodyRef = useRef<HTMLDivElement | null>(null);
   const fullScreenCloseRef = useRef<HTMLButtonElement | null>(null);
+
+  // Warning: This is a temporary fix for a bug in React Aria Components.
+  useWebkitPatch(!!isOpen);
 
   if (React.Children.toArray(children).length > 0) {
     return(
