@@ -2,8 +2,8 @@
 
 import React from "react";
 
-import ArrowBack from "./assets/icons/arrow_back.svg";
-import ArrowForward from "./assets/icons/arrow_forward.svg";
+import ArrowBack from "../assets/icons/arrow_back.svg";
+import ArrowForward from "../assets/icons/arrow_forward.svg";
 
 import { ThActionButton, ThActionButtonProps } from "./ThActionButton";
 

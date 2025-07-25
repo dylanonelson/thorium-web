@@ -14,25 +14,22 @@ import { ThActionsKeys, ThDockingKeys } from "@/preferences/models/enums";
 import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
 
 import { useAppDispatch } from "@/lib/hooks";
-import { toggleImmersive } from "@/lib/readerReducer";
 import { setOverflow } from "@/lib/actionsReducer";
 import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
+
+import classNames from "classnames";
 
 export interface StatefulOverflowMenuProps {
   id: string;
   items: ThActionEntry<string | ThActionsKeys | ThDockingKeys>[];
   triggerRef: RefObject<HTMLElement | null>;
   className?: string;
-  actionFallback?: boolean;
-  display: boolean;
   children?: ReactNode;
 }
 
 export const StatefulOverflowMenu = ({ 
   id,
   className, 
-  actionFallback,
-  display,
   items,
   triggerRef
 }: StatefulOverflowMenuProps) => {
@@ -45,7 +42,7 @@ export const StatefulOverflowMenu = ({
     }));
   }
 
-  if (items.length > 0 && (display)) {
+  if (items.length > 0) {
     return (
       <>
       <ThMenu 
@@ -65,7 +62,7 @@ export const StatefulOverflowMenu = ({
           },
           button: (
             <StatefulActionIcon
-              className={ className ? className : overflowMenuStyles.activeButton }
+              className={ classNames(className, overflowMenuStyles.activeButton) }
               aria-label={ Locale.reader.overflowMenu.active.trigger }
               placement="bottom"
               tooltipLabel={ Locale.reader.overflowMenu.active.tooltip }
@@ -78,25 +75,5 @@ export const StatefulOverflowMenu = ({
       />
       </>
     )
-  } else {
-    if (actionFallback) {
-      return(
-        <>
-        <StatefulActionIcon 
-          className={ className ? className : overflowMenuStyles.hintButton } 
-          aria-label={ Locale.reader.overflowMenu.hint.trigger }
-          placement="bottom"
-          tooltipLabel={ Locale.reader.overflowMenu.hint.tooltip } 
-          visibility={ ThCollapsibilityVisibility.always }
-          onPress={ () => { dispatch(toggleImmersive()) } }
-          preventFocusOnPress={ true }
-        >
-          <MenuIcon aria-hidden="true" focusable="false" />
-        </StatefulActionIcon>
-      </>
-      )
-    } else {
-      return(<></>)
-    }
   }
 }

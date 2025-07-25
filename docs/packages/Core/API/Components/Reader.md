@@ -40,6 +40,54 @@ interface ThLoaderProps extends Omit<HTMLAttributesWithRef<HTMLDivElement>, "ari
 - Conditional rendering of loader content
 - Live region support for screen readers
 
+## ThInteractiveOverlay
+
+A component for creating interactive overlays e.g. tap/click zones, hover zones, etc.
+
+### Props
+
+```typescript
+interface ThInteractiveOverlayProps extends HTMLAttributesWithRef<HTMLDivElement> {
+  ref?: React.ForwardedRef<HTMLDivElement>;
+  isActive: boolean;
+}
+```
+
+### Features
+
+- Conditional rendering of the invisible overlay
+- Accepts all props from `HTMLAttributesWithRef<HTMLDivElement>`
+
+## ThPagination
+
+### Props
+
+```typescript
+interface ThPaginationProps extends HTMLAttributesWithRef<HTMLDivElement> {
+  ref?: React.RefObject<HTMLDivElement>;
+  direction?: "left" | "right";
+  links?: {
+    previous?: ThPaginationLinkProps;
+    next?: ThPaginationLinkProps;
+  };
+  children?: React.ReactNode;
+  compounds?: {
+    listItem?: React.HTMLAttributes<HTMLLIElement>;
+    previousButton?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type"> | React.ReactElement<typeof Button>;
+    nextButton?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type"> | React.ReactElement<typeof Button>;
+  };
+}
+```
+
+### Features
+
+- Semantic `<nav>` structure
+- Directional arrow icon support
+- Accessibility support
+- Accepts a `links` prop to define the previous and next links, their icons and onPress handlers
+- Accepts a `compounds` prop to define the previous and next buttons
+- Accepts a `children` prop to define the content between the previous and next links
+
 ## ThProgression
 
 A component for displaying reader progression.

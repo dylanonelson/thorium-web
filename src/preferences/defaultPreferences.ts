@@ -7,13 +7,10 @@ import {
   ThBreakpoints, 
   ThDockingTypes, 
   ThDockingKeys, 
-  ThScrollAffordancePref, 
-  ThScrollBackTo, 
   ThSettingsKeys, 
   ThSheetTypes, 
   ThThemeKeys,  
   ThLayoutDirection,
-  ThLayoutStrategy,
   ThLineHeightOptions,
   ThTextSettingsKeys,
   ThSheetHeaderVariant,
@@ -32,13 +29,7 @@ export const defaultPreferences = createPreferences({
     minimalLineLength: 40, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
     optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
     maximalLineLength: 75, // undefined | null | number of characters.
-    pageGutter: 20, // body padding in px
-    layoutStrategy: ThLayoutStrategy.lineLength
-  },
-  scroll: {
-    topAffordance: ThScrollAffordancePref.none,
-    bottomAffordance: ThScrollAffordancePref.both,
-    backTo: ThScrollBackTo.top
+    pageGutter: 20
   },
   theming: {
     arrow: {
@@ -51,6 +42,7 @@ export const defaultPreferences = createPreferences({
     },
     layout: {
       ui: {
+        reflow: ThLayoutUI.layered,
         fxl: ThLayoutUI.layered
       },
       radius: 5, // border-radius of containers
@@ -61,7 +53,8 @@ export const defaultPreferences = createPreferences({
       },
       constraints: {
         [ThSheetTypes.bottomSheet]: 600, // Max-width of all bottom sheets
-        [ThSheetTypes.popover]: 600 // Max-width of all popover sheets
+        [ThSheetTypes.popover]: 600, // Max-width of all popover sheets
+        pagination: null // Max-width of pagination component
       }
     },
     breakpoints: {
@@ -201,6 +194,14 @@ export const defaultPreferences = createPreferences({
       }
     }
   },
+  affordances: {
+    scroll: {
+      hintInImmersive: true,
+      toggleOnMiddlePointer: ["tap"],
+      hideOnForwardScroll: true,
+      showOnBackwardScroll: true
+    }
+  },
   shortcuts: {
     representation: UnstableShortcutRepresentation.symbol,
     joiner: "+"
@@ -336,7 +337,7 @@ export const defaultPreferences = createPreferences({
         [ThLineHeightOptions.large]: 1.75
       },
       [ThSettingsKeys.zoom]: {
-        range: [0.7, 2.5],
+        range: [0.7, 4],
         step: 0.05
       }
     },

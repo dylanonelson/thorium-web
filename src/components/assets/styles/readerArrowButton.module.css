@@ -57,6 +57,10 @@
   opacity: 1;
 }
 
+.container button[data-disabled] {
+  opacity: 0;
+}
+
 /* Exclude taps as they will eventually apply hover state */
 @media (hover: hover) and (pointer: fine) {
   .container button:not(:disabled):hover {
