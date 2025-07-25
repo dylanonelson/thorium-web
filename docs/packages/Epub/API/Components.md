@@ -96,7 +96,10 @@ Core reader interface components:
 - `StatefulReaderFooter`: Reader footer component
 - `StatefulReaderHeader`: Reader header component
 - `StatefulReaderProgression`: Reading progress indicator
-- `BookUrlConverter`: URL handling for books
+
+## Misc
+
+- `PublicationGrid`: a component that can be used to create a grid of publications (cover, title, authors, rendition)
 
 ## Plugins
 

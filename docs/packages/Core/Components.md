@@ -217,3 +217,13 @@ TBD.
 The package also contains a wrapper component that can be used to create a group/collection of settings, `<ThSettingsWrapper>`. It accepts an `items` prop to build entries of the settings list dynamically.
 
 TBD.
+
+## Misc Components
+
+Miscellaneous components:
+
+```tsx
+import { ThGrid } from "@edrlab/thorium-web/core/components";
+```
+
+`ThGrid` is a component that can be used to create a grid of items. 

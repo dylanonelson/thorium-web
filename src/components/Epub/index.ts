@@ -3,13 +3,13 @@
 export * from "./Settings";
 export * from "./StatefulReader";
 
-export * from "../BookUrlConverter";
 export * from "../Actions";
 export * from "../Docking";
 export * from "../Plugins";
 export * from "../Settings";
 export * from "../Sheets";
 export * from "../StatefulLoader";
+export * from "../PublicationGrid";
 // export * from "../StatefulPagination";
 // export * from "../StatefulReaderArrowButton";
 // export * from "../StatefulReaderFooter";
@@ -31,3 +31,7 @@ export {
 export {
   useTheming
 } from "../../preferences/hooks";
+
+export {
+  usePublication
+} from "../../hooks";
