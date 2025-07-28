@@ -795,10 +795,10 @@ export const StatefulReader = ({
     <>
     <I18nProvider locale={ RSPrefs.locale }>
     <ThPluginProvider>
-      <main>
+      <main id="reader-main">
         <StatefulDockingWrapper>
           <div 
-            id="reader-main" 
+            id="reader-shell" 
             className={ 
               classNames(
                 isFXL ? "isFXL" : "isReflow",
@@ -839,7 +839,7 @@ export const StatefulReader = ({
             : <></> }
 
           <StatefulReaderFooter layout={ layoutUI } />
-          </div>
+        </div>
       </StatefulDockingWrapper>
     </main>
   </ThPluginProvider>

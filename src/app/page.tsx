@@ -3,6 +3,7 @@
 import { MANIFEST_CONFIG } from "@/config/manifest";
 
 import { PublicationGrid } from "@/components/PublicationGrid";
+import Image from "next/image";
 
 import "./home.css";
 
@@ -65,6 +66,15 @@ export default function Home() {
 
       <PublicationGrid
         publications={ books }
+        renderCover={ (publication) => (
+          <Image
+            src={ publication.cover }
+            alt=""
+            loading="lazy"
+            width={ 120 }
+            height={ 180 }
+          />
+        ) }
       />
 
       { MANIFEST_CONFIG.enabled && (
@@ -74,6 +84,15 @@ export default function Home() {
           
           <PublicationGrid
             publications={ onlineBooks }
+            renderCover={ (publication) => (
+              <Image
+                src={ publication.cover }
+                alt=""
+                loading="lazy"
+                width={ 120 }
+                height={ 180 }
+              />
+            ) }
           />
         </div>
         </>
