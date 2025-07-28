@@ -1,7 +1,8 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { Link } from "@readium/shared";
 import { HttpFetcher } from "@readium/shared";
-import { useAppSelector } from "@/lib/hooks";
 
 export interface UsePublicationOptions {
   url: string;
