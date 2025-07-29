@@ -90,6 +90,50 @@ affordances: {
 }
 ```
 
+## Header
+
+### BackLink
+
+The `backLink` preference allows you to configure the back button in the header. It accepts the following properties:
+
+- `href`: (string) The URL to navigate to when the back button is clicked
+- `variant`: (ThBackLinkVariant) Variant for the back link. Can be one of enum `ThBackLinkVariant`:
+  - `home`: Shows a home icon
+  - `library`: Shows a library/books icon
+  - `custom`: Use with `content` to provide a custom icon
+- `content?`: (ThBackLinkContent) Optional custom content for the back button when `variant` is set to `custom`. Can be either:
+  - An image with `{ type: "img"; src: string; alt?: string }`
+  - An SVG with `{ type: "svg"; content: string }`
+
+For example:
+
+```typescript
+header: {
+  backLink: {
+    href: "/library",
+    variant: ThBackLinkVariant.custom,
+    content: {
+      type: "img",
+      src: "/path/to/custom-icon.png",
+      alt: "Back to Library"
+    }
+  }
+}
+```
+
+Or for a simple home button:
+
+```typescript
+header: {
+  backLink: {
+    href: "/",
+    variant: ThBackLinkVariant.home
+  }
+}
+```
+
+If `backLink` is `undefined` or `null`, then the back button will not be rendered.
+
 ## Theming
 
 See the [dedicated Theming doc](./Theming.md).

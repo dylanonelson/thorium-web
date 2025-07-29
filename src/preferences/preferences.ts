@@ -33,7 +33,7 @@ export type ThBackLinkContent =
 
 export interface ThBackLinkPref {
   href: string;
-  variant?: ThBackLinkVariant;
+  variant: ThBackLinkVariant;
   content?: ThBackLinkContent;
 }
 
