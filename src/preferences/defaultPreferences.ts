@@ -14,7 +14,8 @@ import {
   ThLineHeightOptions,
   ThTextSettingsKeys,
   ThSheetHeaderVariant,
-  ThLayoutUI
+  ThLayoutUI,
+  ThBackLinkVariant
 } from "./models/enums";
 import { createPreferences } from "./preferences";
 
@@ -200,6 +201,12 @@ export const defaultPreferences = createPreferences({
       toggleOnMiddlePointer: ["tap"],
       hideOnForwardScroll: true,
       showOnBackwardScroll: true
+    }
+  },
+  header: {
+    backLink: {
+      variant: ThBackLinkVariant.library,
+      href: "/"
     }
   },
   shortcuts: {

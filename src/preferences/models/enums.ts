@@ -1,5 +1,11 @@
 "use client";
 
+export enum ThBackLinkVariant {
+  home = "home",
+  library = "library",
+  custom = "custom"
+}
+
 export enum ThLayoutUI {
   stacked = "stacked-ui",
   layered = "layered-ui"
