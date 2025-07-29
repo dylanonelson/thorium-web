@@ -20,13 +20,21 @@ import {
 import { ThCollapsibility, ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
 import { defaultActionKeysObject } from "./models";
 
+export type ThBackLinkContent = 
+  | { 
+      type: "img";
+      src: string;
+      alt?: string;
+    }
+  | {
+      type: "svg";
+      content: string; // Raw SVG string
+    };
+
 export interface ThBackLinkPref {
   href: string;
   variant?: ThBackLinkVariant;
-  img?: {
-    src: string;
-    alt?: string;
-  };
+  content?: ThBackLinkContent;
 }
 
 export type ThBottomSheetDetent = "content-height" | "full-height";
