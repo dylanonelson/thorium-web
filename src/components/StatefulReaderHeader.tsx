@@ -6,11 +6,14 @@ import { ActionKeyType, usePreferenceKeys } from "@/preferences";
 
 import Locale from "../resources/locales/en.json";
 
+import { ThLayoutUI } from "@/preferences/models/enums";
+
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 import overflowMenuStyles from "./Actions/assets/styles/overflowMenu.module.css";
 
 import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
 import { ThHeader  } from "@/core/Components/Reader/ThHeader";
+import { StatefulBackLink } from "./StatefulBackLink";
 import { ThRunningHead } from "@/core/Components/Reader/ThRunningHead";
 import { ThInteractiveOverlay } from "../core/Components/Reader/ThInteractiveOverlay";
 import { StatefulCollapsibleActionsBar } from "./Actions/StatefulCollapsibleActionsBar";
@@ -22,7 +25,6 @@ import { useFocusWithin } from "react-aria";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { ThLayoutUI } from "@/preferences/models/enums";
 
 export const StatefulReaderHeader = ({
   layout
@@ -119,6 +121,8 @@ export const StatefulReaderHeader = ({
       onMouseLeave={ removeHover }
       { ...focusWithinProps }
     >
+      { RSPrefs.header.backLink && <StatefulBackLink className={ readerHeaderStyles.backLinkWrapper } /> }
+      
       <ThRunningHead 
         label={ runningHead || Locale.reader.app.header.runningHeadFallback } 
         syncDocTitle={ true }

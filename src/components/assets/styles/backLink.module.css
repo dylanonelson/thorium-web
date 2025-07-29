@@ -1,0 +1,34 @@
+.backLink {
+  display: block;
+  box-sizing: border-box;
+  padding: calc(var(--icon-size, 24px) * (1/4));
+  text-align: start;
+  border-radius: var(--layout-radius);
+}
+
+.backLink svg {
+  fill: var(--theme-text);
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
+}
+
+.backLink img {
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
+}
+
+.backLink[data-hovered] {
+  background-color: var(--theme-hover);
+}
+
+.backLink[data-focus-visible] {
+  outline: 2px solid var(--theme-focus);
+}
+
+.backLink[data-disabled] {
+  color: var(--theme-disable)
+}
+
+.backLink[data-disabled] svg {
+  fill: var(--theme-disable);
+}
