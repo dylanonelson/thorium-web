@@ -36,9 +36,100 @@ The Core package comes with a list of slices offering multiple reducers:
 - `settingsReducer`: manages settings of the application (typography, spacing, etc.);
 - `themeReducer`: manages the theme and accessibility of the application.
 
-These are used to build the default store if no one is provided through `store` prop.
+These are used to build the default store if none is provided through the `store` prop.
 
-They are exposed so that you can use them in your own store, and extend it with your own reducers.
+### Extending with Custom Reducers
+
+You can extend the default store with your own Redux Toolkit slices. Here"s how to create a custom slice that follows the same pattern as the built-in reducers.
+
+> [!IMPORTANT]
+> When using stateful components from `@edrlab/thorium-web/epub`, you must import from that same package, not from `@edrlab/thorium-web/core`. Otherwise, your app and components will use a different store.
+
+First create your reducer, e.g. a redux slice:
+
+```typescript
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export const counterSlice = createSlice({
+  name: "counter",
+  initialState: {
+    value: 0,
+  },
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+    incrementByAmount: (state, action: PayloadAction<number>) => {
+      state.value += action.payload;
+    },
+  },
+});
+
+// Export actions
+export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+
+export default counterSlice.reducer;
+```
+
+Then, create a store with your custom reducer:
+
+```typescript
+// Store configuration
+import { configureStore } from "@reduxjs/toolkit";
+import { makeStore } from "@edrlab/thorium-web/core/lib";
+import counterReducer from "./features/counter/counterSlice";
+
+// Create store with your custom reducer
+const store = makeStore("my-app-storage-key", {
+  counter: {
+    reducer: counterReducer,
+    persist: true 
+  }
+});
+```
+
+Then pass it to the store prop of the `<ThStoreProvider>`:
+
+```typescript
+import { ThStoreProvider } from "@edrlab/thorium-web/core/lib";
+
+const App = () => {
+  return (
+    <ThStoreProvider store={ store }>
+      {/* Your application */}
+    </ThStoreProvider>
+  );
+};
+```
+
+Finally use in your components:
+
+```typescript
+import { useAppDispatch, useAppSelector } from "@edrlab/thorium-web/core/lib";
+import { increment } from "./features/counter/counterSlice";
+
+export function Counter() {
+  const count = useAppSelector((state) => state.counter.value);
+  const dispatch = useAppDispatch();
+
+  return (
+    <div>
+      <span>{ count }</span>
+      <button onClick={ () => dispatch(increment()) }>Increment</button>
+    </div>
+  );
+}
+```
+
+### Reducer Configuration
+
+When adding a reducer to the store, you can configure it with these options:
+
+- `reducer`: (Required) The reducer function
+- `persist`: (Optional) Whether to persist this reducer’s state in localStorage (default: `false`)
 
 ## Hooks
 
