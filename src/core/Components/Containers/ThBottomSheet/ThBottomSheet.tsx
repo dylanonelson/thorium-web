@@ -9,6 +9,8 @@ import React, {
   useState 
 } from "react";
 
+import { ThBottomSheetDetent } from "@/preferences/preferences";
+
 import { OverlayTriggerState, useOverlayTriggerState } from "react-stately";
 
 import { ThContainerHeader, ThContainerHeaderProps } from "../ThContainerHeader";
@@ -58,6 +60,7 @@ const ThBottomSheetContainer = ({
   isDraggable, 
   isKeyboardDismissDisabled,
   focusOptions,
+  detent,
   compounds,
   children
 }: {
@@ -67,6 +70,7 @@ const ThBottomSheetContainer = ({
   isDraggable?: boolean;
   isKeyboardDismissDisabled?: boolean;
   focusOptions?: UseFirstFocusableProps;
+  detent?: ThBottomSheetDetent;
   compounds?: ThBottomSheetCompounds;
   children: ThContainerProps["children"];
 }) => {
@@ -86,6 +90,7 @@ const ThBottomSheetContainer = ({
   const fullHeightIntersectionCallback = useCallback((entries: IntersectionObserverEntry[]) => {
     entries.forEach( (entry) => {
       if (
+          detent === "full-height" &&
           entry.isIntersecting && 
           entry.intersectionRatio === 1 && 
           // For some reason width is larger on mobile (and border-right is almost invisible)…
@@ -203,12 +208,6 @@ export const ThBottomSheet = ({
       ref={ resolvedRef }
       isOpen={ sheetState.isOpen }
       onClose={ sheetState.close }
-      // Otherwise buggy with prefersReducedMotion
-      // as the bottom sheet won’t be displayed on mount
-      style={{
-        zIndex: isOpen ? "999999" : "-1",
-        visibility: isOpen ? "visible" : "hidden"
-      } as CSSProperties }
       detent={ detent }
       snapPoints={ snapPoints }
       { ...props }
@@ -225,6 +224,7 @@ export const ThBottomSheet = ({
             isDraggable= { isDraggable }
             isKeyboardDismissDisabled={ isKeyboardDismissDisabled }
             focusOptions={ focusOptions }
+            detent={ detent }
             compounds={ compounds }
           >
             { children }
