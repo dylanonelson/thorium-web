@@ -208,12 +208,6 @@ export const ThBottomSheet = ({
       ref={ resolvedRef }
       isOpen={ sheetState.isOpen }
       onClose={ sheetState.close }
-      // Otherwise buggy with prefersReducedMotion
-      // as the bottom sheet won’t be displayed on mount
-      style={{
-        zIndex: isOpen ? "999999" : "-1",
-        visibility: isOpen ? "visible" : "hidden"
-      } as CSSProperties }
       detent={ detent }
       snapPoints={ snapPoints }
       { ...props }
