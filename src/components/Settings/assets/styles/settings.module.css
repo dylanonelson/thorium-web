@@ -40,6 +40,10 @@
   border-radius: var(--layout-radius);
 }
 
+.readerSettingsRadioWrapper {
+  flex-wrap: wrap;
+}
+
 .readerSettingsGroupWrapper {
   width: fit-content;
 }

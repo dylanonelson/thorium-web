@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { StatefulSheet } from "./models/sheets";
 import { ThSheetHeaderVariant } from "@/preferences/models/enums";
@@ -17,6 +17,7 @@ import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton
 import { StatefulDocker } from "../Docking/StatefulDocker";
 
 import { useI18n } from "@/i18n";
+import { useWebkitPatch } from "./hooks/useWebkitPatch";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -48,6 +49,9 @@ export const StatefulPopoverSheet = ({
   const popoverHeaderRef = useRef<HTMLDivElement | null>(null);
   const popoverBodyRef = useRef<HTMLDivElement | null>(null);
   const popoverCloseRef = useRef<HTMLButtonElement | null>(null);
+
+  // Warning: This is a temporary fix for a bug in React Aria Components.
+  useWebkitPatch(!!isOpen);
 
   if (React.Children.toArray(children).length > 0) {
     return(

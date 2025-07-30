@@ -1,5 +1,11 @@
 "use client";
 
+export enum ThBackLinkVariant {
+  home = "home",
+  library = "library",
+  custom = "custom"
+}
+
 export enum ThLayoutUI {
   stacked = "stacked-ui",
   layered = "layered-ui"
@@ -33,12 +39,6 @@ export enum ThDockingTypes {
   end = "end"
 }
 
-export enum ThScrollBackTo {
-  top = "top",
-  bottom = "bottom",
-  untouched = "untouched"
-}
-
 export enum ThSettingsKeys {
   columns = "columns",
   fontFamily = "fontFamily",
@@ -65,20 +65,6 @@ export enum ThTextSettingsKeys {
   hyphens = "hyphens",
   textAlign = "textAlign",
   textNormalize = "textNormalize"
-}
-
-export enum ThScrollAffordancePref {
-  none = "none",
-  prev = "previous",
-  next = "next",
-  both = "both"
-}
-
-export interface ScrollAffordanceConfig {
-  pref: ThScrollAffordancePref;
-  placement: "top" | "bottom";
-  className?: string;
-  styleSheetContent?: string;
 }
 
 export enum ThSpacingSettingsKeys {
@@ -127,12 +113,6 @@ export enum ThThemeKeys {
 export enum ThLayoutDirection {
   rtl = "rtl",
   ltr = "ltr"
-}
-
-export enum ThLayoutStrategy {
-  margin = "margin",
-  lineLength = "lineLength",
-  columns = "columns"
 }
 
 export enum ThLayoutOptions { 

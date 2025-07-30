@@ -6,8 +6,6 @@ import {
   ThDockingKeys,
   ThDockingTypes,
   ThLineHeightOptions, 
-  ThScrollAffordancePref, 
-  ThScrollBackTo, 
   ThSettingsKeys, 
   ThSettingsRangeVariant, 
   ThSheetHeaderVariant, 
@@ -16,11 +14,28 @@ import {
   ThTextSettingsKeys, 
   ThThemeKeys, 
   ThLayoutDirection, 
-  ThLayoutStrategy, 
-  ThLayoutUI
+  ThLayoutUI,
+  ThBackLinkVariant
 } from "./models/enums";
 import { ThCollapsibility, ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
 import { defaultActionKeysObject } from "./models";
+
+export type ThBackLinkContent = 
+  | { 
+      type: "img";
+      src: string;
+      alt?: string;
+    }
+  | {
+      type: "svg";
+      content: string; // Raw SVG string
+    };
+
+export interface ThBackLinkPref {
+  href: string;
+  variant: ThBackLinkVariant;
+  content?: ThBackLinkContent;
+}
 
 export type ThBottomSheetDetent = "content-height" | "full-height";
 
@@ -92,7 +107,7 @@ export type ThSettingsKeyTypes = {
   [ThSettingsKeys.zoom]?: ThSettingsRangePref;
 }
 
-export type ThConstraintKeys = Extract<ThSheetTypes, ThSheetTypes.bottomSheet | ThSheetTypes.popover>;
+export type ThConstraintKeys = Extract<ThSheetTypes, ThSheetTypes.bottomSheet | ThSheetTypes.popover> | "pagination";
 
 // Simplified type for customizable keys
 export type CustomKeyType = string;
@@ -130,12 +145,6 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
     maximalLineLength?: number | null;
     optimalLineLength: number;
     pageGutter: number;
-    layoutStrategy?: ThLayoutStrategy | null;
-  };
-  scroll: {
-    topAffordance: ThScrollAffordancePref;
-    bottomAffordance: ThScrollAffordancePref;
-    backTo: ThScrollBackTo;
   };
   theming: {
     arrow: {
@@ -150,7 +159,8 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
     };
     layout: {
       ui?: {
-        fxl: ThLayoutUI
+        reflow?: ThLayoutUI,
+        fxl?: ThLayoutUI
       };
       radius: number;
       spacing: number;
@@ -159,7 +169,7 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
         scrim: string;
       };
       constraints?: {
-        [key in KeysOf<T["constraintsKeys"], ThConstraintKeys>]?: number
+        [key in KeysOf<T["constraintsKeys"], ThConstraintKeys>]?: number | null
       }
     };
     breakpoints: BreakpointsMap<number | null>;
@@ -174,6 +184,17 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
         [key in KeysOf<T["themeKeys"], ThThemeKeys>]: ThemeTokens;
       };
     };
+  };
+  affordances: {
+    scroll: {
+      hintInImmersive: boolean;
+      toggleOnMiddlePointer: Array<"tap" | "click">;
+      hideOnForwardScroll: boolean;
+      showOnBackwardScroll: boolean;
+    }
+  };
+  header: {
+    backLink?: ThBackLinkPref | null;
   };
   actions: ThActionsPref<KeysOf<T["actionKeys"], ThActionsKeys>>;
   shortcuts: {

@@ -19,7 +19,11 @@ export interface UnstableProgressionObject {
   currentPublication?: string;
 }
 
-export const StatefulReaderProgression = () => {
+export const StatefulReaderProgression = ({ 
+  className 
+}: { 
+  className?: string 
+}) => {
   const { t } = useI18n();
   const progression: UnstableProgressionObject = useAppSelector(state => state.publication.progression);
 

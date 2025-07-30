@@ -41,7 +41,10 @@ export const StatefulReaderArrowButton = ({
   const isRTL = useAppSelector(state => state.publication.isRTL);
   const hasArrows = useAppSelector(state => state.reader.hasArrows);
 
-  const isScroll = useAppSelector(state => state.settings.scroll);
+  const scroll = useAppSelector(state => state.settings.scroll);
+  const isFXL = useAppSelector(state => state.publication.isFXL);
+  const isScroll = scroll && !isFXL;
+  
   const wasScroll = usePrevious(isScroll);
 
   const dispatch = useAppDispatch();

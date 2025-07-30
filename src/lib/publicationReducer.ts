@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { UnstableProgressionObject } from "@/components/StatefulReaderProgression";
-import { TocItem } from "@/helpers/createTocTree";
 import { Locator } from "@readium/shared";
+import { UnstableTimeline } from "@/core/Hooks/useTimeline";
 
 export interface PublicationReducerState {
   runningHead?: string;
@@ -12,8 +12,7 @@ export interface PublicationReducerState {
   positionsList: Locator[],
   atPublicationStart: boolean;
   atPublicationEnd: boolean;
-  tocTree?: TocItem[];
-  tocEntry?: string;
+  unstableTimeline?: UnstableTimeline;
 }
 
 const initialState: PublicationReducerState = {
@@ -24,8 +23,7 @@ const initialState: PublicationReducerState = {
   positionsList: [],
   atPublicationStart: false,
   atPublicationEnd: false,
-  tocTree: undefined, 
-  tocEntry: undefined
+  unstableTimeline: undefined
 }
 
 export const publicationSlice = createSlice({
@@ -53,11 +51,33 @@ export const publicationSlice = createSlice({
     setPublicationEnd: (state, action) => {
       state.atPublicationEnd = action.payload
     },
+    setTimeline: (state, action) => {
+      state.unstableTimeline = {
+        ...action.payload,
+        toc: action.payload.toc || { tree: undefined, currentEntry: undefined }
+      };
+    },
     setTocTree: (state, action) => {
-      state.tocTree = action.payload;
+      if (!state.unstableTimeline) {
+        state.unstableTimeline = {
+          toc: { tree: action.payload, currentEntry: undefined }
+        };
+      } else if (state.unstableTimeline.toc) {
+        state.unstableTimeline.toc.tree = action.payload;
+      } else {
+        state.unstableTimeline.toc = { tree: action.payload, currentEntry: undefined };
+      }
     },
     setTocEntry: (state, action) => {
-      state.tocEntry = action.payload;
+      if (!state.unstableTimeline) {
+        state.unstableTimeline = {
+          toc: { tree: undefined, currentEntry: action.payload }
+        };
+      } else if (state.unstableTimeline.toc) {
+        state.unstableTimeline.toc.currentEntry = action.payload;
+      } else {
+        state.unstableTimeline.toc = { tree: undefined, currentEntry: action.payload };
+      }
     }
   }
 });
@@ -71,8 +91,9 @@ export const {
   setPositionsList,
   setPublicationStart,
   setPublicationEnd,
+  setTimeline,
   setTocTree, 
-  setTocEntry
+  setTocEntry,
 } = publicationSlice.actions;
 
 export default publicationSlice.reducer;

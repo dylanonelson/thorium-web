@@ -12,17 +12,13 @@ import { useAppSelector } from "@/lib/hooks";
 
 export interface StatefulCollapsibleActionsBarProps extends ThCollapsibleActionsBarProps {
   items: ThActionEntry<string | ThActionsKeys | ThDockingKeys>[];
-  overflowActionCallback?: boolean;
   overflowMenuClassName?: string;
-  overflowMenuDisplay?: boolean;
 }
 
 export const StatefulCollapsibleActionsBar = ({
   id, 
   items,
-  overflowActionCallback,
   overflowMenuClassName,
-  overflowMenuDisplay,
   ...props
 }: StatefulCollapsibleActionsBarProps) => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -39,9 +35,7 @@ export const StatefulCollapsibleActionsBar = ({
         menu: (<StatefulOverflowMenu 
           id={ id }
           triggerRef={ ref }
-          display={ overflowMenuDisplay || true }
           className={ overflowMenuClassName } 
-          actionFallback={ overflowActionCallback }
           items={ [] }
       />) }}
       { ...props }

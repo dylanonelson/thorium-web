@@ -1,14 +1,29 @@
 import { ThDockingKeys } from "@/preferences/models/enums";
 
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, Reducer } from "@reduxjs/toolkit";
 
-import readerReducer from "@/lib/readerReducer";
-import settingsReducer from "@/lib/settingsReducer";
+import readerReducer, { ReaderReducerState } from "@/lib/readerReducer";
+import settingsReducer, { SettingsReducerState } from "@/lib/settingsReducer";
 import themeReducer, { ThemeReducerState } from "@/lib/themeReducer";
 import actionsReducer, { ActionsReducerState } from "@/lib/actionsReducer";
-import publicationReducer from "./publicationReducer";
+import publicationReducer, { PublicationReducerState } from "./publicationReducer";
 
 import debounce from "debounce";
+
+interface ExternalReducerConfig {
+  reducer: any;
+  persist?: boolean;
+}
+
+// Define the shape of the root state
+export type RootState = {
+  reader: ReaderReducerState;
+  settings: SettingsReducerState;
+  theming: ThemeReducerState;
+  actions: ActionsReducerState;
+  publication: PublicationReducerState;
+  [key: string]: any; // For external reducers
+};
 
 const DEFAULT_STORAGE_KEY = "thorium-web-state";
 
@@ -66,34 +81,70 @@ const loadState = (storageKey?: string) => {
   }
 };
 
-const saveState = (state: object, storageKey?: string) => {
+const saveState = (state: any, storageKey?: string, externalReducers: Record<string, ExternalReducerConfig> = {}) => {
   try {
     const resolvedKey = storageKey || DEFAULT_STORAGE_KEY;
-    const serializedState = JSON.stringify(state);
+    
+    // Only persist the state of reducers that are marked for persistence
+    const stateToPersist: any = {};
+    
+    // Internal reducers to persist
+    if (state.actions) stateToPersist.actions = state.actions;
+    if (state.settings) stateToPersist.settings = state.settings;
+    if (state.theming) stateToPersist.theming = state.theming;
+    
+    // External reducers to persist
+    Object.entries(externalReducers).forEach(([key, config]) => {
+      if (config.persist && state[key] !== undefined) {
+        stateToPersist[key] = state[key];
+      }
+    });
+    
+    const serializedState = JSON.stringify(stateToPersist);
     localStorage.setItem(resolvedKey, serializedState);
   } catch (err) {
     console.error(err);
   }
 };
 
-export const makeStore = (storageKey?: string) => {
+export const makeStore = (storageKey?: string, externalReducers: Record<string, ExternalReducerConfig> = {}) => {
+  // Combine internal and external reducers
+  const combinedReducers = {
+    reader: readerReducer,
+    settings: settingsReducer,
+    theming: themeReducer,
+    actions: actionsReducer,
+    publication: publicationReducer,
+    ...Object.entries(externalReducers).reduce((acc, [key, config]) => ({
+      ...acc,
+      [key]: config.reducer
+    }), {})
+  };
+
+  // Get persisted state for internal reducers
+  const persistedState = loadState(storageKey);
+  
+  // Create preloaded state with persisted values
+  const preloadedState: any = {
+    actions: persistedState.actions,
+    settings: persistedState.settings,
+    theming: persistedState.theming,
+    // Include persisted state for external reducers that have it
+    ...Object.entries(externalReducers).reduce((acc, [key, config]) => {
+      if (config.persist && persistedState[key] !== undefined) {
+        return { ...acc, [key]: persistedState[key] };
+      }
+      return acc;
+    }, {})
+  };
+
   const store = configureStore({
-    reducer: {
-      reader: readerReducer,
-      settings: settingsReducer,
-      theming: themeReducer,
-      actions: actionsReducer,
-      publication: publicationReducer
-    },
-    preloadedState: {
-      actions: loadState(storageKey).actions,
-      settings: loadState(storageKey).settings,
-      theming: loadState(storageKey).theming
-    },
+    reducer: combinedReducers as unknown as Reducer<RootState>,
+    preloadedState,
   });
 
   const saveStateDebounced = debounce(() => {
-    saveState(store.getState(), storageKey);
+    saveState(store.getState(), storageKey, externalReducers);
   }, 250);
 
   store.subscribe(saveStateDebounced);
@@ -104,5 +155,6 @@ export const makeStore = (storageKey?: string) => {
 // Infer the type of makeStore
 export type AppStore = ReturnType<typeof makeStore>;
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<AppStore["getState"]>;
+// Export the RootState type for external use
+export type AppState = RootState;
 export type AppDispatch = AppStore["dispatch"];

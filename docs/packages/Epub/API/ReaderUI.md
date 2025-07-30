@@ -102,14 +102,30 @@ Features:
 - Localized loading message
 - Accessible loading indicators
 
-### BookUrlConverter
+### PublicationGrid
 
-Utility component for handling remote book URL conversion and loading.
+Publication grid component for displaying a list of publications in a responsive grid layout.
+
+```typescript
+interface PublicationGridProps {
+  publications: Publication[];  // List of publication objects to display
+  columnWidth?: number;         // Minimum width of each grid column in pixels (default: 400)
+  gap?: string;                 // Gap between grid items (default: "1.5rem")
+  renderCover?: (publication: Publication) => React.ReactElement<React.ImgHTMLAttributes<HTMLImageElement>>; // Custom cover renderer function
+}
+
+interface Publication {
+  title: string;      // Title of the publication
+  author: string;     // Author of the publication
+  cover: string;      // URL to the cover image
+  url: string;        // URL to the publication
+  rendition?: string; // Optional rendition information
+}
+```
 
 Features:
-- URL to base64Url conversion
-- Publication server integration
-- Form-based input
-
-**Features:**
-- Format conversion
+- Responsive grid layout that adapts to different screen sizes
+- Customizable column width and gaps
+- Hover effects and transitions
+- Accessible semantic HTML structure
+- Support for custom cover rendering

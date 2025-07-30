@@ -15,6 +15,7 @@ import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton
 import { ThCloseButton } from "@/core/Components/Buttons/ThCloseButton";
 
 import { useI18n } from "@/i18n";
+import { useWebkitPatch } from "./hooks/useWebkitPatch";
 
 import { useAppSelector } from "@/lib/hooks";
 
@@ -39,6 +40,9 @@ export const StatefulFullScreenSheet = ({
   const fullScreenHeaderRef = useRef<HTMLDivElement | null>(null);
   const fullScreenBodyRef = useRef<HTMLDivElement | null>(null);
   const fullScreenCloseRef = useRef<HTMLButtonElement | null>(null);
+
+  // Warning: This is a temporary fix for a bug in React Aria Components.
+  useWebkitPatch(!!isOpen);
 
   if (React.Children.toArray(children).length > 0) {
     return(
