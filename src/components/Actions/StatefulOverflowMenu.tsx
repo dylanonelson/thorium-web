@@ -15,7 +15,6 @@ import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
 import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch } from "@/lib/hooks";
-import { toggleImmersive } from "@/lib/readerReducer";
 import { setOverflow } from "@/lib/actionsReducer";
 
 export interface StatefulOverflowMenuProps {
@@ -23,16 +22,12 @@ export interface StatefulOverflowMenuProps {
   items: ThActionEntry<string | ThActionsKeys | ThDockingKeys>[];
   triggerRef: RefObject<HTMLElement | null>;
   className?: string;
-  actionFallback?: boolean;
-  display: boolean;
   children?: ReactNode;
 }
 
 export const StatefulOverflowMenu = ({ 
   id,
   className, 
-  actionFallback,
-  display,
   items,
   triggerRef
 }: StatefulOverflowMenuProps) => {
@@ -46,7 +41,7 @@ export const StatefulOverflowMenu = ({
     }));
   }
 
-  if (items.length > 0 && (display)) {
+  if (items.length > 0) {
     return (
       <>
       <ThMenu 
@@ -79,25 +74,5 @@ export const StatefulOverflowMenu = ({
       />
       </>
     )
-  } else {
-    if (actionFallback) {
-      return(
-        <>
-        <StatefulActionIcon 
-          className={ className ? className : overflowMenuStyles.hintButton } 
-          aria-label={ t("reader.overflowMenu.hint.trigger") }
-          placement="bottom"
-          tooltipLabel={ t("reader.overflowMenu.hint.tooltip") } 
-          visibility={ ThCollapsibilityVisibility.always }
-          onPress={ () => { dispatch(toggleImmersive()) } }
-          preventFocusOnPress={ true }
-        >
-          <MenuIcon aria-hidden="true" focusable="false" />
-        </StatefulActionIcon>
-      </>
-      )
-    } else {
-      return(<></>)
-    }
   }
 }

@@ -43,6 +43,7 @@
   max-width: var(--constraints-bottomSheet, 600px);
   left: max(calc((100% - var(--constraints-bottomSheet, 600px)) / 2), 0px) !important;
   background-color: var(--theme-background) !important;
+  color: var(--theme-text) !important;
   border: none;
   /* Animating drop-shadow pretty much kills performance, hence why we use a pseudo-element */
   filter: none !important;

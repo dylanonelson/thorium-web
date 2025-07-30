@@ -11,6 +11,10 @@
         "dockingCollapsed": "Is Collapsed, contains {{ action }}"
       },
       "header": {
+        "backLink": {
+          "trigger": "Back to the library",
+          "tooltip": "Library"
+        },
         "label": "Top bar",
         "runningHead": "Running head",
         "runningHeadFallback": "...",

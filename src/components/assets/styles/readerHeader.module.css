@@ -1,16 +1,15 @@
 .header {
+  box-sizing: border-box;
   display: grid;
   grid-template-areas: "header-start header-center header-end";
   grid-template-columns: 1fr 3fr 1fr;
   padding: 0.25rem 0.5rem 0;
 }
 
-.actionsWrapper {
-  grid-area: header-end;
-  justify-self: end;
-  display: flex;
-  align-items: center;
-  gap: 2px;
+.backLinkWrapper {
+  grid-area: header-start;
+  justify-self: start;
+  align-self: center;
 }
 
 .header h1 {
@@ -27,8 +26,10 @@
   transition: opacity 200ms ease-in-out;
 }
 
-:global(.layered-ui.isImmersive:not(.isHovering)) .header h1 {
-  user-select: none;
-  pointer-events: none;
-  opacity: 0;
+.actionsWrapper {
+  grid-area: header-end;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }

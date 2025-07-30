@@ -101,17 +101,13 @@ const MyScrollSwitch = () => {
 
   const dispatch = useAppDispatch();
 
-  const { getSetting, submitPreferences, handleScrollAffordances } = useEpubNavigator();
+  const { getSetting, submitPreferences } = useEpubNavigator();
 
   const updatePreference = useCallback(async (value: string) => { 
     const derivedValue = value === ThLayoutOptions.scroll;
     await submitPreferences({ scroll: derivedValue });
     dispatch(setScroll(getSetting("scroll")));
-
-    // [TMP] We need to handle this in multiple places due to the lack
-    // of Injection API. This mounts and unmounts scroll affordances
-    handleScrollAffordances(derivedValue);
-  }, [submitPreferences, getSetting, dispatch, handleScrollAffordances]);
+  }, [submitPreferences, getSetting, dispatch]);
 
   return (
     <StatefulSwitch

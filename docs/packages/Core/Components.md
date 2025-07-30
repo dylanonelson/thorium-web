@@ -162,6 +162,28 @@ import {
 
 TBD.
 
+## Link Components
+
+Components for creating accessible navigation links with optional icons:
+
+```tsx
+import { 
+  ThLink,
+  ThHome,
+  ThLibrary
+} from "@edrlab/thorium-web/core/components";
+```
+
+`<ThLink>` is the base component for creating accessible links. It extends the Link component from react-aria-components and provides consistent styling and behavior across the application.
+
+- `ThLink` - Base link component with consistent styling
+- `ThHome` - Pre-configured link with a home icon
+- `ThLibrary` - Pre-configured link with a library/bookshelf icon
+
+For detailed API documentation, see [Links API](./API/Components/Links.md).
+
+TBD.
+
 ## Menu Components
 
 Components for creating menus and menu items:
@@ -186,7 +208,9 @@ These are general components for the interface of the reader:
 import { 
   ThFooter, 
   ThHeader, 
+  ThInteractiveOverlay,
   ThLoader, 
+  ThPagination,
   ThProgression, 
   ThRunningHead 
 } from "@edrlab/thorium-web/core/components";
@@ -215,3 +239,13 @@ TBD.
 The package also contains a wrapper component that can be used to create a group/collection of settings, `<ThSettingsWrapper>`. It accepts an `items` prop to build entries of the settings list dynamically.
 
 TBD.
+
+## Misc Components
+
+Miscellaneous components:
+
+```tsx
+import { ThGrid } from "@edrlab/thorium-web/core/components";
+```
+
+`ThGrid` is a component that can be used to create a grid of items. 

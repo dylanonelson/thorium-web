@@ -14,8 +14,7 @@ const myPreferences = createPreferences({
   locale: "en-US",
   typography: {
     optimalLineLength: 65,
-    pageGutter: 20,
-    layoutStrategy: ThLayoutStrategy.margin
+    pageGutter: 20
   },
   // ... other preference settings
 });
