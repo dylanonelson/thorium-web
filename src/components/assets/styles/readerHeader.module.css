@@ -6,12 +6,10 @@
   padding: 0.25rem 0.5rem 0;
 }
 
-.actionsWrapper {
-  grid-area: header-end;
-  justify-self: end;
-  display: flex;
-  align-items: center;
-  gap: 2px;
+.backLinkWrapper {
+  grid-area: header-start;
+  justify-self: start;
+  align-self: center;
 }
 
 .header h1 {
@@ -26,4 +24,12 @@
   overflow: hidden;
   text-overflow: ellipsis; 
   transition: opacity 200ms ease-in-out;
+}
+
+.actionsWrapper {
+  grid-area: header-end;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
