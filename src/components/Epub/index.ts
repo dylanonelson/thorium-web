@@ -15,6 +15,7 @@ export * from "../PublicationGrid";
 // export * from "../StatefulReaderFooter";
 // export * from "../StatefulReaderHeader";
 // export * from "../StatefulReaderProgression";
+// export * from "../StatefulBackLink";
 
 export {
   useEpubNavigator

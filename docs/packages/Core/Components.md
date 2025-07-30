@@ -162,6 +162,28 @@ import {
 
 TBD.
 
+## Link Components
+
+Components for creating accessible navigation links with optional icons:
+
+```tsx
+import { 
+  ThLink,
+  ThHome,
+  ThLibrary
+} from "@edrlab/thorium-web/core/components";
+```
+
+`<ThLink>` is the base component for creating accessible links. It extends the Link component from react-aria-components and provides consistent styling and behavior across the application.
+
+- `ThLink` - Base link component with consistent styling
+- `ThHome` - Pre-configured link with a home icon
+- `ThLibrary` - Pre-configured link with a library/bookshelf icon
+
+For detailed API documentation, see [Links API](./API/Components/Links.md).
+
+TBD.
+
 ## Menu Components
 
 Components for creating menus and menu items:

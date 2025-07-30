@@ -14,10 +14,28 @@ import {
   ThTextSettingsKeys, 
   ThThemeKeys, 
   ThLayoutDirection, 
-  ThLayoutUI
+  ThLayoutUI,
+  ThBackLinkVariant
 } from "./models/enums";
 import { ThCollapsibility, ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
 import { defaultActionKeysObject } from "./models";
+
+export type ThBackLinkContent = 
+  | { 
+      type: "img";
+      src: string;
+      alt?: string;
+    }
+  | {
+      type: "svg";
+      content: string; // Raw SVG string
+    };
+
+export interface ThBackLinkPref {
+  href: string;
+  variant: ThBackLinkVariant;
+  content?: ThBackLinkContent;
+}
 
 export type ThBottomSheetDetent = "content-height" | "full-height";
 
@@ -174,6 +192,9 @@ export interface ThPreferences<T extends Partial<CustomizableKeys> = {}> {
       hideOnForwardScroll: boolean;
       showOnBackwardScroll: boolean;
     }
+  };
+  header: {
+    backLink?: ThBackLinkPref | null;
   };
   actions: ThActionsPref<KeysOf<T["actionKeys"], ThActionsKeys>>;
   shortcuts: {
