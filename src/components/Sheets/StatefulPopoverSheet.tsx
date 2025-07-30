@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 
 import { StatefulSheet } from "./models/sheets";
 import { ThSheetHeaderVariant } from "@/preferences/models/enums";
