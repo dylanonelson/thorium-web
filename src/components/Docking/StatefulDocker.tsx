@@ -2,8 +2,6 @@
 
 import React, { useCallback } from "react";
 
-import Locale from "../../resources/locales/en.json";
-
 import dockingStyles from "./assets/styles/docking.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 
@@ -19,6 +17,7 @@ import { StatefulDockEnd } from "./StatefulDockEnd";
 import { StatefulDockTransientPopover } from "./StatefulDockTransientPopover";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
+import { useI18n } from "@/i18n/useI18n";
 
 import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
 import { ActionsStateKeys } from "@/lib/actionsReducer";
@@ -49,6 +48,7 @@ export const StatefulDocker = ({
   onClose
 }: StatefulDockerProps) => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   
   const listActionItems = useCallback(() => {
     const actionsItems: ThActionEntry<ThDockingKeys>[] = [];
@@ -73,13 +73,13 @@ export const StatefulDocker = ({
         className={ dockingStyles.docker } 
         overflowMenuClassName={ readerSharedUI.dockerButton }
         prefs={ RSPrefs.docking }
-        aria-label={ Locale.reader.app.docker.wrapper }
+        aria-label={ t("reader.app.docker.wrapper") }
       />
 
       <ThCloseButton 
         ref={ ref }
         className={ readerSharedUI.dockerButton } 
-        aria-label={ Locale.reader.app.docker.close.trigger } 
+        aria-label={ t("reader.app.docker.close.trigger") } 
         onPress={ onClose }
         compounds={ {
           tooltipTrigger: {
@@ -89,7 +89,7 @@ export const StatefulDocker = ({
           tooltip: {
             className: readerSharedUI.tooltip
           },
-          label: Locale.reader.app.docker.close.tooltip
+          label: t("reader.app.docker.close.tooltip")
         }}
       />
     </Toolbar>

@@ -2,8 +2,6 @@
 
 import React, { useCallback } from "react";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { ThActionsKeys } from "@/preferences/models/enums";
 import { StatefulActionTriggerProps } from "../models/actions";
 import { ThActionsTriggerVariant } from "@/core/Components/Actions/ThActionsBar";
@@ -18,6 +16,7 @@ import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useFullscreen } from "@/core/Hooks/useFullscreen";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setFullscreen, setHovering } from "@/lib/readerReducer";
@@ -28,6 +27,7 @@ export const StatefulFullscreenTrigger = ({ variant }: StatefulActionTriggerProp
   // difficult to control in isolation due to collapsibility + shortcuts
 
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
 
   const dispatch = useAppDispatch();
   const onChange = useCallback((isFullscreen: boolean) => {
@@ -36,7 +36,7 @@ export const StatefulFullscreenTrigger = ({ variant }: StatefulActionTriggerProp
   
   const fs = useFullscreen(onChange);
 
-  const label = fs.isFullscreen ? Locale.reader.fullscreen.close : Locale.reader.fullscreen.trigger;
+  const label = fs.isFullscreen ? t("reader.fullscreen.close") : t("reader.fullscreen.trigger");
   const Icon = fs.isFullscreen ? FullscreenExit : FullscreenCorners;
 
   const handlePress = () => {
@@ -67,7 +67,7 @@ export const StatefulFullscreenTrigger = ({ variant }: StatefulActionTriggerProp
           visibility={ RSPrefs.actions.keys[ThActionsKeys.fullscreen].visibility }  
           aria-label={ label }
           placement="bottom" 
-          tooltipLabel={ Locale.reader.fullscreen.tooltip } 
+          tooltipLabel={ t("reader.fullscreen.tooltip") } 
           onPress={ handlePress } 
         >
           <Icon aria-hidden="true" focusable="false" />

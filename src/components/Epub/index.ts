@@ -33,6 +33,8 @@ export {
   useTheming
 } from "../../preferences/hooks";
 
+export * from "../../i18n";
+
 export {
   usePublication
 } from "../../hooks";

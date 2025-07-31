@@ -4,8 +4,6 @@ import { useCallback } from "react";
 
 import { defaultLetterSpacing, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
 import { StatefulNumberField } from "../../Settings/StatefulNumberField";
@@ -13,12 +11,14 @@ import { StatefulSlider } from "../../Settings/StatefulSlider";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLetterSpacing, setPublisherStyles } from "@/lib/settingsReducer";
 
 export const StatefulLetterSpacing = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
   const letterSpacingRangeConfig = {
     variant: RSPrefs.settings.keys?.[ThSettingsKeys.letterSpacing]?.variant ?? defaultLetterSpacing.variant,
@@ -43,15 +43,15 @@ export const StatefulLetterSpacing = ({ standalone = true }: StatefulSettingsIte
     { letterSpacingRangeConfig.variant === ThSettingsRangeVariant.numberField 
       ? <StatefulNumberField 
         standalone={ standalone }
-        label={ Locale.reader.settings.letterSpacing.title }
+        label={ t("reader.settings.letterSpacing.title") }
         defaultValue={ 0 } 
         value={ letterSpacing || 0 } 
         onChange={ async(value) => await updatePreference(value) } 
         range={ letterSpacingRangeConfig.range }
         step={ letterSpacingRangeConfig.step }
         steppers={{
-          decrementLabel: Locale.reader.settings.letterSpacing.decrease,
-          incrementLabel: Locale.reader.settings.letterSpacing.increase
+          decrementLabel: t("reader.settings.letterSpacing.decrease"),
+          incrementLabel: t("reader.settings.letterSpacing.increase")
         }}
         formatOptions={{ style: "percent" }} 
         isWheelDisabled={ true }
@@ -59,7 +59,7 @@ export const StatefulLetterSpacing = ({ standalone = true }: StatefulSettingsIte
       />
       : <StatefulSlider
         standalone={ standalone }
-        label={ Locale.reader.settings.letterSpacing.title }
+        label={ t("reader.settings.letterSpacing.title") }
         defaultValue={ 0 } 
         value={ letterSpacing || 0 } 
         onChange={ async(value) => await updatePreference(value as number) } 

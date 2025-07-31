@@ -4,8 +4,6 @@ import { useCallback } from "react";
 
 import { defaultParagraphIndent, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
 import { StatefulNumberField } from "../../Settings/StatefulNumberField";
@@ -13,12 +11,14 @@ import { StatefulSlider } from "../../Settings/StatefulSlider";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setParagraphIndent, setPublisherStyles } from "@/lib/settingsReducer";
 
 export const StatefulParagraphIndent = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const paragraphIndent = useAppSelector(state => state.settings.paragraphIndent);
   const paragraphIndentRangeConfig = {
       variant: RSPrefs.settings.keys?.[ThSettingsKeys.paragraphIndent]?.variant ?? defaultParagraphIndent.variant,
@@ -43,15 +43,15 @@ export const StatefulParagraphIndent = ({ standalone = true }: StatefulSettingsI
     { paragraphIndentRangeConfig.variant === ThSettingsRangeVariant.numberField 
       ? <StatefulNumberField 
         standalone={ standalone }
-        label={ Locale.reader.settings.paraIndent.title }
+        label={ t("reader.settings.paraIndent.title") }
         defaultValue={ 0 } 
         value={ paragraphIndent || 0 } 
         onChange={ async(value) => await updatePreference(value) } 
         range={ paragraphIndentRangeConfig.range }
         step={ paragraphIndentRangeConfig.step }
         steppers={{
-          decrementLabel: Locale.reader.settings.paraIndent.decrease,
-          incrementLabel: Locale.reader.settings.paraIndent.increase
+          decrementLabel: t("reader.settings.paraIndent.decrease"),
+          incrementLabel: t("reader.settings.paraIndent.increase")
         }}
         formatOptions={{
           signDisplay: "exceptZero",
@@ -63,7 +63,7 @@ export const StatefulParagraphIndent = ({ standalone = true }: StatefulSettingsI
       />
       : <StatefulSlider
         standalone={ standalone }
-        label={ Locale.reader.settings.paraIndent.title }
+        label={ t("reader.settings.paraIndent.title") }
         defaultValue={ 0 } 
         value={ paragraphIndent || 0 } 
         onChange={ async(value) => await updatePreference(value as number) } 

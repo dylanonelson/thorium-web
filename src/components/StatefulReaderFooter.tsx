@@ -2,12 +2,9 @@
 
 import React, { useCallback, useEffect, useRef } from "react";
 
-import Locale from "../resources/locales/en.json";
-
 import readerPaginationStyles from "./assets/styles/readerPagination.module.css";
 
-import { setHovering } from "@/lib/readerReducer";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { ThBreakpoints, ThLayoutUI } from "@/preferences/models/enums";
 
 import { ThFooter } from "@/core/Components/Reader/ThFooter";
 import { StatefulReaderProgression } from "./StatefulReaderProgression";
@@ -17,13 +14,17 @@ import { ThPaginationLinkProps } from "@/core/Components/Reader/ThPagination";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useFocusWithin } from "react-aria";
-import { ThBreakpoints, ThLayoutUI } from "@/preferences/models/enums";
+import { useI18n } from "@/i18n/useI18n";
+
+import { setHovering } from "@/lib/readerReducer";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 export const StatefulReaderFooter = ({
   layout
 }: {
   layout: ThLayoutUI;
 }) => {
+  const { t } = useI18n();
   const footerRef = useRef<HTMLDivElement>(null);
   const isImmersive = useAppSelector(state => state.reader.isImmersive);
   const isHovering = useAppSelector(state => state.reader.isHovering);
@@ -73,12 +74,12 @@ export const StatefulReaderFooter = ({
       links.previous = {
         node: breakpoint !== ThBreakpoints.compact && breakpoint !== ThBreakpoints.medium ? (
           <>
-            <span className="sr-only">{ Locale.reader.navigation.scroll.prevA11yLabel }</span>
-            <span className={ readerPaginationStyles.paginationLabel }>{ timeline?.previousItem?.title || previous.title || Locale.reader.navigation.scroll.prevLabel }</span>
+            <span className="sr-only">{ t("reader.navigation.scroll.prevA11yLabel") }</span>
+            <span className={ readerPaginationStyles.paginationLabel }>{ timeline?.previousItem?.title || previous.title || t("reader.navigation.scroll.prevLabel") }</span>
           </>
         ) : (
           <>
-            <span className={ readerPaginationStyles.paginationLabel }>{ Locale.reader.navigation.scroll.prevLabel }</span>
+            <span className={ readerPaginationStyles.paginationLabel }>{ t("reader.navigation.scroll.prevLabel") }</span>
           </>
         ),
         onPress: () => go(previous, !reducedMotion, () => {})
@@ -89,12 +90,12 @@ export const StatefulReaderFooter = ({
       links.next = {
         node: breakpoint !== ThBreakpoints.compact && breakpoint !== ThBreakpoints.medium ? (
           <>
-            <span className="sr-only">{ Locale.reader.navigation.scroll.nextA11yLabel }</span>
-            <span className={ readerPaginationStyles.paginationLabel }>{ timeline?.nextItem?.title || next.title || Locale.reader.navigation.scroll.nextLabel }</span>
+            <span className="sr-only">{ t("reader.navigation.scroll.nextA11yLabel") }</span>
+            <span className={ readerPaginationStyles.paginationLabel }>{ timeline?.nextItem?.title || next.title || t("reader.navigation.scroll.nextLabel") }</span>
           </>
         ) : ( 
           <>
-            <span className={ readerPaginationStyles.paginationLabel }>{ Locale.reader.navigation.scroll.nextLabel }</span>
+            <span className={ readerPaginationStyles.paginationLabel }>{ t("reader.navigation.scroll.nextLabel") }</span>
           </>
         ),
         onPress: () => go(next, !reducedMotion, () => {})
@@ -102,7 +103,7 @@ export const StatefulReaderFooter = ({
     }
 
     return links;
-  }, [go, previousLocator, nextLocator, timeline, breakpoint, reducedMotion]);
+  }, [go, previousLocator, nextLocator, t, timeline, breakpoint, reducedMotion]);
 
   useEffect(() => {
     updateLinks();
@@ -131,14 +132,14 @@ export const StatefulReaderFooter = ({
     <ThFooter 
       ref={ footerRef }
       id="bottom-bar" 
-      aria-label={ Locale.reader.app.footer.label } 
+      aria-label={ t("reader.app.footer.label") } 
       onMouseEnter={ setHover } 
       onMouseLeave={ removeHover }
       { ...focusWithinProps }
     >
       { isScroll && !isFXL
         ? <StatefulPagination 
-            aria-label={ Locale.reader.navigation.scroll.wrapper }
+            aria-label={ t("reader.navigation.scroll.wrapper") }
             links={ updateLinks() } 
             compounds={ {
               listItem: {

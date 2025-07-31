@@ -10,8 +10,6 @@ import {
   useTheming
 } from "../../preferences";
 
-import Locale from "../../resources/locales/en.json";
-
 import "../assets/styles/reader.css";
 import arrowStyles from "../assets/styles/readerArrowButton.module.css";
 
@@ -61,6 +59,7 @@ import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useFullscreen } from "@/core/Hooks/useFullscreen";
 import { usePrevious } from "@/core/Hooks/usePrevious";
+import { useI18n } from "@/i18n/useI18n";
 import { useTimeline } from "@/core/Hooks/useTimeline";
 import { useLocalStorage } from "@/core/Hooks/useLocalStorage";
 
@@ -160,7 +159,8 @@ export const StatefulReader = ({
   
   const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
   const RSPrefs = usePreferences();
-
+  const { t } = useI18n();
+  
   const [publication, setPublication] = useState<Publication | null>(null);
 
   const container = useRef<HTMLDivElement>(null);
@@ -333,7 +333,7 @@ export const StatefulReader = ({
   };
 
   const handleProgression = useCallback((locator: Locator) => {
-    const relativeRef = locator.title || Locale.reader.app.progression.referenceFallback;
+    const relativeRef = locator.title || t("reader.app.progression.referenceFallback");
       
     dispatch(setProgression( { 
       currentPositions: currentPositions(), 
@@ -341,7 +341,7 @@ export const StatefulReader = ({
       currentChapter: relativeRef, 
       totalProgression: locator.locations.totalProgression 
     }));
-  }, [dispatch, currentPositions]);
+  }, [dispatch, currentPositions, t]);
 
   // We need this as a workaround due to positionChanged being unreliable
   // in FXL – if the frame is in the pool hidden and is shown again,
@@ -823,7 +823,7 @@ export const StatefulReader = ({
             </nav> 
             : <></> }
 
-            <article id="wrapper" aria-label={ Locale.reader.app.publicationWrapper }>
+            <article id="wrapper" aria-label={ t("reader.app.publicationWrapper") }>
               <div id="container" ref={ container }></div>
             </article>
 

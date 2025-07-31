@@ -2,8 +2,6 @@
 
 import React, { ReactNode, RefObject } from "react";
 
-import Locale from "../../resources/locales/en.json";
-
 import overflowMenuStyles from "./assets/styles/overflowMenu.module.css";
 
 import MenuIcon from "./assets/icons/more_vert.svg";
@@ -12,12 +10,12 @@ import { ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useC
 import { ThMenu } from "@/core/Components/Menu/ThMenu";
 import { ThActionsKeys, ThDockingKeys } from "@/preferences/models/enums";
 import { StatefulActionIcon } from "./Triggers/StatefulActionIcon";
+import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
+
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch } from "@/lib/hooks";
 import { setOverflow } from "@/lib/actionsReducer";
-import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
-
-import classNames from "classnames";
 
 export interface StatefulOverflowMenuProps {
   id: string;
@@ -33,6 +31,7 @@ export const StatefulOverflowMenu = ({
   items,
   triggerRef
 }: StatefulOverflowMenuProps) => {
+  const { t } = useI18n();
   const dispatch = useAppDispatch();
 
   const toggleMenuState = (value: boolean) => {
@@ -62,10 +61,10 @@ export const StatefulOverflowMenu = ({
           },
           button: (
             <StatefulActionIcon
-              className={ classNames(className, overflowMenuStyles.activeButton) }
-              aria-label={ Locale.reader.overflowMenu.active.trigger }
+              className={ className ? className : overflowMenuStyles.activeButton }
+              aria-label={ t("reader.overflowMenu.active.trigger") }
               placement="bottom"
-              tooltipLabel={ Locale.reader.overflowMenu.active.tooltip }
+              tooltipLabel={ t("reader.overflowMenu.active.tooltip") }
               visibility={ ThCollapsibilityVisibility.always }
             >
               <MenuIcon aria-hidden="true" focusable="false" />

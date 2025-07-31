@@ -2,8 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-import Locale from "../resources/locales/en.json";
-
 import arrowStyles from "./assets/styles/readerArrowButton.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
@@ -13,11 +11,13 @@ import { ThNavigationButton, ThNavigationButtonProps } from "@/core/Components/B
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { usePrevious } from "@/core/Hooks/usePrevious";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setArrows } from "@/lib/readerReducer";
 
 import { isActiveElement } from "@/core/Helpers/focusUtilities";
+
 
 import classNames from "classnames";
 
@@ -35,6 +35,7 @@ export const StatefulReaderArrowButton = ({
   ...props
 }: StatefulReaderArrowButtonProps) => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   
   const buttonRef = useRef<HTMLButtonElement>(null);
   const isRTL = useAppSelector(state => state.publication.isRTL);
@@ -58,8 +59,8 @@ export const StatefulReaderArrowButton = ({
     direction === "right" && !isRTL || 
     direction === "left" && isRTL
   ) 
-    ? Locale.reader.navigation.goForward 
-    : Locale.reader.navigation.goBackward;
+    ? t("reader.navigation.goForward") 
+    : t("reader.navigation.goBackward");
 
   const handleClassNameFromState = () => {
     let className = "";

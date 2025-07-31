@@ -2,8 +2,6 @@
 
 import React from "react";
 
-import Locale from "@/resources/locales/en.json";
-
 import backLinkStyles from "./assets/styles/backLink.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
@@ -13,6 +11,7 @@ import { ThHome } from "@/core/Components/Links";
 import { ThLibrary } from "@/core/Components/Links";
 import { ThLink } from "@/core/Components/Links";
 
+import { useI18n } from "@/i18n";
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 
 export const StatefulBackLink = ({ 
@@ -20,6 +19,7 @@ export const StatefulBackLink = ({
 }: { 
   className?: string 
 }) => {
+  const { t } = useI18n();
   const RSPrefs = usePreferences();
   
   const variant = RSPrefs.header.backLink?.variant || ThBackLinkVariant.home;
@@ -34,7 +34,7 @@ export const StatefulBackLink = ({
     tooltip: {
       className: readerSharedUI.tooltip
     },
-    label: Locale.reader.app.header.backLink.tooltip
+    label: t("reader.app.header.backLink.tooltip")
   };
 
   if (!href) return null;
@@ -46,7 +46,7 @@ export const StatefulBackLink = ({
           <ThHome 
             className={ backLinkStyles.backLink } 
             href={ href } 
-            aria-label={ Locale.reader.app.header.backLink.trigger }
+            aria-label={ t("reader.app.header.backLink.trigger") }
             compounds={ compounds }
           />
         </div>
@@ -58,7 +58,7 @@ export const StatefulBackLink = ({
           <ThLibrary 
             className={ backLinkStyles.backLink } 
             href={ href } 
-            aria-label={ Locale.reader.app.header.backLink.trigger }
+            aria-label={ t("reader.app.header.backLink.trigger") }
             compounds={ compounds }
           />
         </div>
@@ -104,7 +104,7 @@ export const StatefulBackLink = ({
           <ThLink 
             className={ backLinkStyles.backLink } 
             href={ href } 
-            aria-label={ Locale.reader.app.header.backLink.trigger }
+            aria-label={ t("reader.app.header.backLink.trigger") }
             compounds={ compounds }
           >
             { contentNode }
