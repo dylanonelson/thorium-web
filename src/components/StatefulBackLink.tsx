@@ -14,6 +14,8 @@ import { ThLink } from "@/core/Components/Links";
 import { useI18n } from "@/i18n";
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 
+import classNames from "classnames";
+
 export const StatefulBackLink = ({ 
   className 
 }: { 
@@ -25,6 +27,8 @@ export const StatefulBackLink = ({
   const variant = RSPrefs.header.backLink?.variant || ThBackLinkVariant.home;
   const href = RSPrefs.header.backLink?.href;
   const content = RSPrefs.header.backLink?.content;
+  const visibility = RSPrefs.header.backLink?.visibility || "partially";
+  const backLinkClassName = classNames(backLinkStyles.backLink, visibility === "always" ? readerSharedUI.alwaysVisible : readerSharedUI.partiallyVisible);
 
   const compounds = {
     tooltipTrigger: {
@@ -44,7 +48,7 @@ export const StatefulBackLink = ({
       return (
         <div className={ className }>
           <ThHome 
-            className={ backLinkStyles.backLink } 
+            className={ backLinkClassName } 
             href={ href } 
             aria-label={ t("reader.app.header.backLink.trigger") }
             compounds={ compounds }
@@ -56,7 +60,7 @@ export const StatefulBackLink = ({
       return (
         <div className={ className }>
           <ThLibrary 
-            className={ backLinkStyles.backLink } 
+            className={ backLinkClassName } 
             href={ href } 
             aria-label={ t("reader.app.header.backLink.trigger") }
             compounds={ compounds }
@@ -102,7 +106,7 @@ export const StatefulBackLink = ({
       return (
         <div className={ className }>
           <ThLink 
-            className={ backLinkStyles.backLink } 
+            className={ backLinkClassName } 
             href={ href } 
             aria-label={ t("reader.app.header.backLink.trigger") }
             compounds={ compounds }
