@@ -205,7 +205,7 @@ export const defaultPreferences = createPreferences({
   },
   header: {
     backLink: {
-      variant: ThBackLinkVariant.library,
+      variant: ThBackLinkVariant.arrow,
       visibility: "partially",
       href: "/"
     }

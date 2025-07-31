@@ -109,6 +109,33 @@ import { ThLibrary } from "@thorium-web/core/Components/Links";
 />
 ```
 
+## ThBackArrow
+
+A specialized link component that displays a back arrow icon. Always shows the back arrow icon and ignores any children.
+
+### Props
+
+Extends `ThLinkIconProps` (which includes `aria-label`, omits `children`, and adds `direction`).
+
+### Usage
+
+```tsx
+import { ThBackArrow } from "@thorium-web/core/Components/Links";
+
+<ThBackArrow 
+  href="/example" 
+  aria-label="Go to example"
+  direction="left"
+  compounds={{
+    tooltipTrigger: {
+      delay: 500,
+      closeDelay: 300
+    },
+    label: "Navigate to example page"
+  }}
+/>
+```
+
 ## Accessibility
 
 All link components implement proper accessibility features including:

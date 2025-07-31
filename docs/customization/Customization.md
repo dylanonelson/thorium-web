@@ -99,7 +99,8 @@ The `backLink` preference allows you to configure the back button in the header.
 - `href`: (string) The URL to navigate to when the back button is clicked
 - `visibility`: Visibility of the back button. If `always`, the back button will be always visible. If `partially`, the back button will be hidden in immersive mode. It is `partially` by default.
 - `variant?`: Variant for the back link. Can be one of enum `ThBackLinkVariant`:
-  - `home`: Shows a home icon (the default if `undefined`)
+  - `arrow`: Shows an arrow icon (the default if `undefined`)
+  - `home`: Shows a home icon
   - `library`: Shows a library/books icon
   - `custom`: Use with `content` to provide a custom icon
 - `content?`: Optional custom content for the back button when `variant` is set to `custom`. Can be either:
