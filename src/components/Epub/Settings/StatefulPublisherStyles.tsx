@@ -4,20 +4,20 @@ import { useCallback, useRef } from "react";
 
 import { defaultLineHeights, ThLineHeightOptions, ThSettingsKeys } from "@/preferences";
 
-import Locale from "../../../resources/locales/en.json";
-
 import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
 import { StatefulSwitch } from "../../Settings/StatefulSwitch";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setPublisherStyles } from "@/lib/settingsReducer";
 
 export const StatefulPublisherStyles = ({ standalone = true }: StatefulSettingsItemProps) => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
 
   const lineHeight = useAppSelector(state => state.settings.lineHeight);
@@ -64,7 +64,7 @@ export const StatefulPublisherStyles = ({ standalone = true }: StatefulSettingsI
     <>
     <StatefulSwitch 
       standalone={ standalone }
-      label={ Locale.reader.settings.publisherStyles.label }
+      label={ t("reader.settings.publisherStyles.label") }
       onChange={ async (isSelected: boolean) => await updatePreference(isSelected) }
       isSelected={ publisherStyles }
     />

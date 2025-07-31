@@ -2,8 +2,6 @@
 
 import { ThActionsKeys } from "@/preferences/models/enums";
 
-import Locale from "../../../resources/locales/en.json";
-
 import TocIcon from "./assets/icons/toc.svg";
 
 import { StatefulActionTriggerProps } from "../models/actions";
@@ -13,12 +11,14 @@ import { StatefulActionIcon } from "../Triggers/StatefulActionIcon";
 import { StatefulOverflowMenuItem } from "../Triggers/StatefulOverflowMenuItem";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
 export const StatefulTocTrigger = ({ variant }: StatefulActionTriggerProps) => {
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.toc]);
   const dispatch = useAppDispatch();
 
@@ -33,7 +33,7 @@ export const StatefulTocTrigger = ({ variant }: StatefulActionTriggerProps) => {
     <>
     { (variant && variant === ThActionsTriggerVariant.menu) 
       ? <StatefulOverflowMenuItem 
-          label={ Locale.reader.toc.trigger }
+          label={ t("reader.toc.trigger") }
           SVGIcon={ TocIcon } 
           shortcut={ RSPrefs.actions.keys[ThActionsKeys.toc].shortcut }
           id={ ThActionsKeys.toc }
@@ -41,9 +41,9 @@ export const StatefulTocTrigger = ({ variant }: StatefulActionTriggerProps) => {
         />
       : <StatefulActionIcon 
           visibility={ RSPrefs.actions.keys[ThActionsKeys.toc].visibility }
-          aria-label={ Locale.reader.toc.trigger } 
+          aria-label={ t("reader.toc.trigger") } 
           placement="bottom"
-          tooltipLabel={ Locale.reader.toc.tooltip } 
+          tooltipLabel={ t("reader.toc.tooltip") } 
           onPress={ () => setOpen(!actionState?.isOpen) }
         >
           <TocIcon aria-hidden="true" focusable="false" />

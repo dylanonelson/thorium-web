@@ -2,8 +2,6 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
-import Locale from "../../../resources/locales/en.json";
-
 import AutoLayoutIcon from "./assets/icons/document_scanner.svg";
 import OneColIcon from "./assets/icons/article.svg";
 import TwoColsIcon from "./assets/icons/menu_book.svg";
@@ -12,10 +10,12 @@ import { StatefulRadioGroup } from "../../Settings/StatefulRadioGroup";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { setColumnCount } from "@/lib/settingsReducer";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
+import { useI18n } from "@/i18n/useI18n";
 
 import debounce from "debounce";
 
 export const StatefulColumns = () => {
+  const { t } = useI18n();
   const scroll = useAppSelector(state => state.settings.scroll);
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const isScroll = scroll && !isFXL;
@@ -79,7 +79,7 @@ export const StatefulColumns = () => {
     <>
     <StatefulRadioGroup 
       standalone={ true }
-      label={ Locale.reader.settings.column.title }
+      label={ t("reader.settings.column.title") }
       orientation="horizontal"
       value={ effectiveValue }
       onChange={ async (val: string) => await updatePreference(val) }
@@ -87,17 +87,17 @@ export const StatefulColumns = () => {
       items={[
         {
           icon: AutoLayoutIcon,
-          label: Locale.reader.settings.column.auto, 
+          label: t("reader.settings.column.auto"), 
           value: "auto" 
         },
         {
           icon: OneColIcon,
-          label: Locale.reader.settings.column.one, 
+          label: t("reader.settings.column.one"), 
           value: "1" 
         },
         {
           icon: TwoColsIcon,
-          label: Locale.reader.settings.column.two, 
+          label: t("reader.settings.column.two"), 
           value: "2",
           // This is subpar when the columnCount is 1 though because
           // it won’t be disabled, but it’s the best we can do with

@@ -101,7 +101,7 @@ const ThBottomSheetContainer = ({
         setFullHeight(false);
       }
     });
-  }, [setFullHeight]);
+  }, [setFullHeight, detent]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(fullHeightIntersectionCallback, {

@@ -4,8 +4,6 @@ import React, { useCallback, useEffect, useRef } from "react";
 
 import { ActionKeyType, usePreferenceKeys } from "@/preferences";
 
-import Locale from "../resources/locales/en.json";
-
 import { ThLayoutUI } from "@/preferences/models/enums";
 
 import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
@@ -25,6 +23,7 @@ import { useFocusWithin } from "react-aria";
 
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useI18n } from "@/i18n/useI18n";
 
 export const StatefulReaderHeader = ({
   layout
@@ -34,6 +33,7 @@ export const StatefulReaderHeader = ({
   const headerRef = useRef<HTMLDivElement>(null);
   const { reflowActionKeys, fxlActionKeys } = usePreferenceKeys();
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
   const { actionsComponentsMap } = usePlugins();
   
   const actionsMap = useAppSelector(state => state.actions.keys);
@@ -116,7 +116,7 @@ export const StatefulReaderHeader = ({
       ref={ headerRef }
       className={ readerHeaderStyles.header } 
       id="top-bar" 
-      aria-label={ Locale.reader.app.header.label } 
+      aria-label={ t("reader.app.header.label") } 
       onMouseEnter={ setHover } 
       onMouseLeave={ removeHover }
       { ...focusWithinProps }
@@ -124,9 +124,9 @@ export const StatefulReaderHeader = ({
       { RSPrefs.header.backLink && <StatefulBackLink className={ readerHeaderStyles.backLinkWrapper } /> }
       
       <ThRunningHead 
-        label={ runningHead || Locale.reader.app.header.runningHeadFallback } 
+        label={ runningHead || t("reader.app.header.runningHeadFallback") } 
         syncDocTitle={ true }
-        aria-label={ Locale.reader.app.header.runningHead }
+        aria-label={ t("reader.app.header.runningHead") }
       />
       
       <StatefulCollapsibleActionsBar 
@@ -139,7 +139,7 @@ export const StatefulReaderHeader = ({
             : RSPrefs.actions.reflowOrder 
         }}
         className={ readerHeaderStyles.actionsWrapper } 
-        aria-label={ Locale.reader.app.header.actions } 
+        aria-label={ t("reader.app.header.actions") } 
         overflowMenuClassName={ 
           (!isScroll || RSPrefs.affordances.scroll.hintInImmersive) 
             ? overflowMenuStyles.hintButton 

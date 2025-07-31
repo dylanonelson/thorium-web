@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useRef } from "react";
 
 import { ThemeKeyType, usePreferenceKeys } from "@/preferences";
 
-import Locale from "../../../resources/locales/en.json";
 import settingsStyles from "../../Settings/assets/styles/settings.module.css";
 
 import CheckIcon from "./assets/icons/check.svg";
@@ -16,6 +15,7 @@ import { Radio } from "react-aria-components";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
+import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
@@ -27,6 +27,8 @@ import { buildThemeObject } from "@/preferences/helpers/buildThemeObject";
 export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
   const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
   const RSPrefs = usePreferences();
+  const { t } = useI18n();
+
   const radioGroupRef = useRef<HTMLDivElement | null>(null);
 
   const isFXL = useAppSelector(state => state.publication.isFXL);
@@ -160,31 +162,28 @@ export const StatefulTheme = ({ mapArrowNav }: { mapArrowNav?: number }) => {
     <StatefulRadioGroup
       ref={ radioGroupRef }
       standalone={ true }
-      label={ Locale.reader.settings.themes.title }
+      label={ t("reader.settings.themes.title") }
       value={ theme }
       onChange={ async (val) => await updatePreference(val as ThemeKeyType) }
     >
       <div className={ classNames(settingsStyles.readerSettingsRadioWrapper, settingsStyles.readerSettingsThemesWrapper) }>
-        { themeItems.current.map(( t ) => 
+        { themeItems.current.map(( themeItem ) => 
           <Radio
             className={ classNames(
               settingsStyles.readerSettingsRadio, 
               settingsStyles.readerSettingsThemeRadio
             ) }
-            value={ t }
-            id={ t }
-            key={ t }
-            style={ doStyles(t) }
+            value={ themeItem }
+            id={ themeItem }
+            key={ themeItem }
+            style={ doStyles(themeItem) }
             { ...(mapArrowNav && !isNaN(mapArrowNav) ? {
               onKeyDown: (async (e: React.KeyboardEvent) => await handleKeyboardNav(e))
             } : {}) }
           >
           <span>
-            { t in Locale.reader.settings.themes 
-              ? Locale.reader.settings.themes[t as keyof typeof Locale.reader.settings.themes]
-              : t
-            } 
-            { t === theme ? <CheckIcon aria-hidden="true" focusable="false" /> : <></> }
+            { t(`reader.settings.themes.${ themeItem }`, { defaultValue: themeItem }) }
+            { themeItem === theme && <CheckIcon aria-hidden="true" focusable="false" /> }
           </span>
         </Radio>
         ) }

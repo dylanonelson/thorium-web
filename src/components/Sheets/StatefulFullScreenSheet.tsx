@@ -2,8 +2,6 @@
 
 import React, { useRef } from "react";
 
-import Locale from "../../resources/locales/en.json";
-
 import { StatefulSheet } from "./models/sheets";
 import { ThSheetHeaderVariant } from "@/preferences/models/enums";
 
@@ -16,6 +14,7 @@ import { ThContainerBody } from "@/core/Components/Containers/ThContainerBody";
 import { ThNavigationButton } from "@/core/Components/Buttons/ThNavigationButton";
 import { ThCloseButton } from "@/core/Components/Buttons/ThCloseButton";
 
+import { useI18n } from "@/i18n";
 import { useWebkitPatch } from "./hooks/useWebkitPatch";
 
 import { useAppSelector } from "@/lib/hooks";
@@ -25,17 +24,18 @@ import classNames from "classnames";
 export interface StatefulFullScreenSheetProps extends StatefulSheet {};
 
 export const StatefulFullScreenSheet = ({
-  heading,
-  headerVariant,
-  className, 
-  isOpen,
-  onOpenChange, 
-  onClosePress,
-  children,
-  resetFocus,
-  focusWithinRef,
-  dismissEscapeKeyClose
-}: StatefulFullScreenSheetProps) => {
+    heading,
+    headerVariant,
+    className, 
+    isOpen,
+    onOpenChange, 
+    onClosePress,
+    children,
+    resetFocus,
+    focusWithinRef,
+    dismissEscapeKeyClose
+  }: StatefulFullScreenSheetProps) => {
+  const { t } = useI18n()
   const direction = useAppSelector(state => state.reader.direction);
   const fullScreenHeaderRef = useRef<HTMLDivElement | null>(null);
   const fullScreenBodyRef = useRef<HTMLDivElement | null>(null);
@@ -82,16 +82,16 @@ export const StatefulFullScreenSheet = ({
           { headerVariant === ThSheetHeaderVariant.previous
               ? <ThNavigationButton
                 direction={ direction === "ltr" ? "left" : "right" }
-                label={ Locale.reader.app.back.trigger }
+                label={ t("reader.app.back.trigger") }
                 ref={ fullScreenCloseRef }
                 className={ classNames(className, readerSharedUI.backButton) } 
-                aria-label={ Locale.reader.app.back.trigger }
+                aria-label={ t("reader.app.back.trigger") }
                 onPress={ onClosePress }
               />
               : <ThCloseButton
                 ref={ fullScreenCloseRef }
                 className={ readerSharedUI.closeButton } 
-                aria-label={ Locale.reader.app.docker.close.trigger } 
+                aria-label={ t("reader.app.docker.close.trigger") } 
                 onPress={ onClosePress }
               />
             }
