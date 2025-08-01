@@ -97,13 +97,15 @@ affordances: {
 The `backLink` preference allows you to configure the back button in the header. It accepts the following properties:
 
 - `href`: (string) The URL to navigate to when the back button is clicked
-- `variant`: (ThBackLinkVariant) Variant for the back link. Can be one of enum `ThBackLinkVariant`:
+- `visibility`: Visibility of the back button. If `always`, the back button will be always visible. If `partially`, the back button will be hidden in immersive mode. It is `partially` by default.
+- `variant?`: Variant for the back link. Can be one of enum `ThBackLinkVariant`:
+  - `arrow`: Shows an arrow icon (the default if `undefined`)
   - `home`: Shows a home icon
   - `library`: Shows a library/books icon
   - `custom`: Use with `content` to provide a custom icon
-- `content?`: (ThBackLinkContent) Optional custom content for the back button when `variant` is set to `custom`. Can be either:
+- `content?`: Optional custom content for the back button when `variant` is set to `custom`. Can be either:
   - An image with `{ type: "img"; src: string; alt?: string }`
-  - An SVG with `{ type: "svg"; content: string }`
+  - An SVG with `{ type: "svg"; content: string }` with the `content` string being the raw inline SVG markup
 
 For example:
 
@@ -112,6 +114,7 @@ header: {
   backLink: {
     href: "/library",
     variant: ThBackLinkVariant.custom,
+    visibility: "always",
     content: {
       type: "img",
       src: "/path/to/custom-icon.png",

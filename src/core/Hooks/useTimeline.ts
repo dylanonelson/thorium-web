@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { EPUBLayout, Link, Locator, Publication } from "@readium/shared";
+import { Layout, Link, Locator, Publication } from "@readium/shared";
 
 export interface TocItem {
   id: string;
@@ -46,7 +46,7 @@ export const useTimeline = ({
   positionsList: Locator[],
   onChange?: (timeline: UnstableTimeline) => void
 }): UnstableTimeline => {
-  const layout = publication?.metadata.getPresentation()?.layout || EPUBLayout.reflowable;
+  const layout = publication?.metadata.effectiveLayout || Layout.reflowable;
 
   // Convert all refs to state
   const [timelineItems, setTimelineItems] = useState<{ [href: string]: TimelineItem }>({});
@@ -118,7 +118,7 @@ export const useTimeline = ({
     }
 
     // If we're in FXL and didn't find a match, try to find a match for the other position in the spread
-    if (layout === EPUBLayout.fixed) {
+    if (layout === Layout.fixed) {
       const positions = currentPositions;
       if (positions && positions.length === 2) {
         const otherPosition = positions[0] === locator.locations.position ? positions[1] : positions[0];

@@ -5,14 +5,19 @@ import React from "react";
 import backLinkStyles from "./assets/styles/backLink.module.css";
 import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
-import { ThBackLinkVariant } from "@/preferences/models/enums";
+import { ThBackLinkVariant, ThLayoutDirection } from "@/preferences/models/enums";
 
+import { ThBackArrow } from "@/core/Components/Links";
 import { ThHome } from "@/core/Components/Links";
 import { ThLibrary } from "@/core/Components/Links";
 import { ThLink } from "@/core/Components/Links";
 
 import { useI18n } from "@/i18n";
 import { usePreferences } from "@/preferences/hooks/usePreferences";
+
+import { useAppSelector } from "@/lib/hooks";
+
+import classNames from "classnames";
 
 export const StatefulBackLink = ({ 
   className 
@@ -21,10 +26,14 @@ export const StatefulBackLink = ({
 }) => {
   const { t } = useI18n();
   const RSPrefs = usePreferences();
+  const direction = useAppSelector(state => state.reader.direction);
+  const isRTL = direction === ThLayoutDirection.rtl;
   
-  const variant = RSPrefs.header.backLink?.variant || ThBackLinkVariant.home;
+  const variant = RSPrefs.header.backLink?.variant || ThBackLinkVariant.arrow;
   const href = RSPrefs.header.backLink?.href;
   const content = RSPrefs.header.backLink?.content;
+  const visibility = RSPrefs.header.backLink?.visibility || "partially";
+  const backLinkClassName = classNames(backLinkStyles.backLink, visibility === "always" ? readerSharedUI.alwaysVisible : readerSharedUI.partiallyVisible);
 
   const compounds = {
     tooltipTrigger: {
@@ -40,11 +49,24 @@ export const StatefulBackLink = ({
   if (!href) return null;
 
   switch (variant) {
+    case ThBackLinkVariant.arrow:
+      return (
+        <div className={ className }>
+          <ThBackArrow 
+            className={ backLinkClassName } 
+            href={ href } 
+            direction={ isRTL ? "right" : "left" }
+            aria-label={ t("reader.app.header.backLink.trigger") }
+            compounds={ compounds }
+          />
+        </div>
+      );
+
     case ThBackLinkVariant.home:
       return (
         <div className={ className }>
           <ThHome 
-            className={ backLinkStyles.backLink } 
+            className={ backLinkClassName } 
             href={ href } 
             aria-label={ t("reader.app.header.backLink.trigger") }
             compounds={ compounds }
@@ -56,7 +78,7 @@ export const StatefulBackLink = ({
       return (
         <div className={ className }>
           <ThLibrary 
-            className={ backLinkStyles.backLink } 
+            className={ backLinkClassName } 
             href={ href } 
             aria-label={ t("reader.app.header.backLink.trigger") }
             compounds={ compounds }
@@ -102,7 +124,7 @@ export const StatefulBackLink = ({
       return (
         <div className={ className }>
           <ThLink 
-            className={ backLinkStyles.backLink } 
+            className={ backLinkClassName } 
             href={ href } 
             aria-label={ t("reader.app.header.backLink.trigger") }
             compounds={ compounds }
