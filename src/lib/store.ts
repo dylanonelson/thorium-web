@@ -28,7 +28,7 @@ export type RootState = {
 const DEFAULT_STORAGE_KEY = "thorium-web-state";
 
 // TMP Migration
-// TODO: Remove this in the next major version
+// TODO: Remove this in the next minor version
 const migrateThemeState = (state: ThemeReducerState) => {
   if (typeof state.theme === "string") {
     return {
@@ -72,7 +72,7 @@ const loadState = (storageKey?: string) => {
     deserializedState.actions = updateActionsState(deserializedState.actions);
     
     // TMP Migration
-    // TODO: Remove this in the next major version
+    // TODO: Remove this in the next minor version
     deserializedState.theming = migrateThemeState(deserializedState.theming);
 
     return deserializedState;
