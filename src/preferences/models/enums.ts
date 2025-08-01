@@ -1,6 +1,7 @@
 "use client";
 
 export enum ThBackLinkVariant {
+  arrow = "arrow",
   home = "home",
   library = "library",
   custom = "custom"
