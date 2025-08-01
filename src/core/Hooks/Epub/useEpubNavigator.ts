@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useRef } from "react";
 
 import { 
-  EPUBLayout, 
+  Layout, 
   Link, 
   Locator, 
   Publication 
@@ -88,7 +88,7 @@ export const useEpubNavigator = () => {
       navigatorInstance.load().then(() => {
         cb();
 
-        if (navigatorInstance?.layout === EPUBLayout.fixed) {
+        if (navigatorInstance?.layout === Layout.fixed) {
           // @ts-ignore
           FXLPositionChanged.observe((navigatorInstance?.pool.spineElement as HTMLElement), {
             attributeFilter: ["style"], 
@@ -102,7 +102,7 @@ export const useEpubNavigator = () => {
   const EpubNavigatorDestroy = useCallback((cb: Function) => {
     cb();
 
-    if (navigatorInstance?.layout === EPUBLayout.fixed) {
+    if (navigatorInstance?.layout === Layout.fixed) {
       FXLPositionChanged.disconnect();
     }
     navigatorInstance?.destroy;
