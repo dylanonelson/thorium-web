@@ -46,7 +46,7 @@ import {
   Publication, 
   Fetcher, 
   HttpFetcher, 
-  EPUBLayout, 
+  Layout, 
   ReadingProgression
 } from "@readium/shared";
 
@@ -354,7 +354,7 @@ export const StatefulReader = ({
   onFXLPositionChange(handleFXLProgression);
 
   const initReadingEnv = async () => {
-    if (navLayout() === EPUBLayout.fixed) {
+    if (navLayout() === Layout.fixed) {
       // [TMP] Working around positionChanged not firing consistently for FXL
       // Init’ing so that progression can be populated on first spread loaded
       const cLoc = currentLocator();
@@ -424,7 +424,7 @@ export const StatefulReader = ({
       p.observe(window);
     },
     positionChanged: async function (locator: Locator): Promise<void> {
-      if (navLayout() === EPUBLayout.reflowable) {
+      if (navLayout() !== Layout.fixed) {
         const debouncedHandleProgression = debounce(
           async () => {
             handleProgression(locator);
@@ -467,7 +467,7 @@ export const StatefulReader = ({
     scroll: function (_delta: number): void {
       if (
         cache.current.settings.scroll && 
-        navLayout() === EPUBLayout.reflowable
+        navLayout() !== Layout.fixed
       ) {        
         if (isScrollStart() || isScrollEnd()) {
           if (
@@ -679,7 +679,7 @@ export const StatefulReader = ({
     if (!publication) return;
 
     dispatch(setRTL(publication.metadata.effectiveReadingProgression === ReadingProgression.rtl));
-    dispatch(setFXL(publication.metadata.getPresentation()?.layout === EPUBLayout.fixed));
+    dispatch(setFXL(publication.metadata.effectiveLayout === Layout.fixed));
 
     const pubTitle = publication.metadata.title.getTranslation("en");
 
@@ -700,7 +700,7 @@ export const StatefulReader = ({
     fetchPositions()
       .catch(console.error)
       .then(() => {
-        const isFXL = publication.metadata.getPresentation()?.layout === EPUBLayout.fixed;
+        const isFXL = publication.metadata.effectiveLayout === Layout.fixed;
 
         const initialPosition: Locator | null = getLocalData();
 
