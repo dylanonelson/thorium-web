@@ -1,1 +1,73 @@
-{}
+{
+    "reader": {
+        "app": {
+            "loading": "Įkeliama",
+            "docking": {
+                "dockingEmpty": "Šiuo metu tuščia"
+            },
+            "header": {
+                "runningHeadFallback": "...",
+                "backLink": {
+                    "tooltip": "Biblioteka"
+                }
+            },
+            "docker": {
+                "close": {
+                    "trigger": "Užverti",
+                    "tooltip": "Užverti"
+                }
+            },
+            "back": {
+                "trigger": "Atgal"
+            }
+        },
+        "navigation": {
+            "goForward": "Eiti pirmyn",
+            "goBackward": "Eiti atgal"
+        },
+        "fullscreen": {
+            "tooltip": "Visas ekranas",
+            "trigger": "Perjungti viso ekrano režimą"
+        },
+        "toc": {
+            "tooltip": "Turinys",
+            "trigger": "Turinys",
+            "heading": "Turinys"
+        },
+        "jumpToPosition": {
+            "go": "Eiti"
+        },
+        "settings": {
+            "tooltip": "Nuostatos",
+            "trigger": "Nuostatų meniu",
+            "close": "Užverti nuostatų meniu",
+            "heading": "Atvaizdavimo nuostatos",
+            "themes": {
+                "title": "Temos",
+                "light": "Šviesi",
+                "sepia": "Sepija",
+                "paper": "Popierius",
+                "dark": "Tamsi",
+                "contrast1": "Kontrastas 1",
+                "contrast2": "Kontrastas 2",
+                "contrast3": "Kontrastas 3"
+            },
+            "zoom": {
+                "title": "Mastelis",
+                "increase": "Didinti",
+                "decrease": "Mažinti"
+            },
+            "fontSize": {
+                "title": "Šrifto dydis",
+                "increase": "Didinti šrifto dydį",
+                "decrease": "Mažinti šrifto dydį"
+            },
+            "fontFamily": {
+                "title": "Šriftų šeima",
+                "labels": {
+                    "publisher": "Leidėjo šriftas"
+                }
+            }
+        }
+    }
+}
