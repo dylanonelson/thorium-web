@@ -9,7 +9,8 @@
                 "runningHeadFallback": "...",
                 "backLink": {
                     "tooltip": "Biblioteka"
-                }
+                },
+                "actions": "Veiksmai"
             },
             "docker": {
                 "close": {
