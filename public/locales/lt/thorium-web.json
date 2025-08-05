@@ -10,30 +10,50 @@
                 "backLink": {
                     "tooltip": "Biblioteka"
                 },
-                "actions": "Veiksmai"
+                "actions": "Veiksmai",
+                "label": "Viršutinė juosta"
             },
             "docker": {
                 "close": {
                     "trigger": "Užverti",
                     "tooltip": "Užverti"
+                },
+                "fullscreen": {
+                    "trigger": "Atvaizduoti virš turinio"
                 }
             },
             "back": {
                 "trigger": "Atgal"
+            },
+            "footer": {
+                "label": "Apatinė juosta"
             }
         },
         "navigation": {
             "goForward": "Eiti pirmyn",
-            "goBackward": "Eiti atgal"
+            "goBackward": "Eiti atgal",
+            "scroll": {
+                "nextLabel": "Kitas",
+                "prevA11yLabel": "Eiti į ankstesnį išteklių",
+                "nextA11yLabel": "Eiti į kitą išteklių",
+                "prevLabel": "Ankstesnis",
+                "wrapper": "Naršyti leidinyje"
+            }
         },
         "fullscreen": {
             "tooltip": "Visas ekranas",
-            "trigger": "Perjungti viso ekrano režimą"
+            "trigger": "Perjungti viso ekrano režimą",
+            "close": "Išeiti iš viso ekrano režimo"
         },
         "toc": {
             "tooltip": "Turinys",
             "trigger": "Turinys",
-            "heading": "Turinys"
+            "heading": "Turinys",
+            "close": "Užverti turinį",
+            "search": {
+                "clear": "Išvalyti"
+            },
+            "entries": "Turinio įrašai"
         },
         "jumpToPosition": {
             "go": "Eiti"
@@ -51,7 +71,8 @@
                 "dark": "Tamsi",
                 "contrast1": "Kontrastas 1",
                 "contrast2": "Kontrastas 2",
-                "contrast3": "Kontrastas 3"
+                "contrast3": "Kontrastas 3",
+                "auto": "Automatinė"
             },
             "zoom": {
                 "title": "Mastelis",
@@ -68,6 +89,39 @@
                 "labels": {
                     "publisher": "Leidėjo šriftas"
                 }
+            },
+            "align": {
+                "title": "Teksto lygiuotė",
+                "publisher": "Numatytoji",
+                "left": "Kairinė",
+                "justify": "Abipusė",
+                "right": "Dešininė"
+            },
+            "hyphens": {
+                "title": "Skiemenavimas",
+                "label": "Įgalinti brūkšnelius"
+            },
+            "lineHeight": {
+                "title": "Eilutės aukštis",
+                "publisher": "Numatytasis",
+                "small": "Glaudus",
+                "medium": "Subalansuotas",
+                "large": "Erdvus"
+            },
+            "column": {
+                "title": "Stulpeliai",
+                "auto": "Auto",
+                "one": "1 stulpelis",
+                "two": "2 stulpeliai"
+            }
+        },
+        "overflowMenu": {
+            "active": {
+                "trigger": "Perjungti meniu"
+            },
+            "hint": {
+                "tooltip": "Perjungti veiksmus",
+                "trigger": "Atvaizduoti veiksmus"
             }
         }
     }
