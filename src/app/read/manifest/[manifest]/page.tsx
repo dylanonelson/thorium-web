@@ -5,6 +5,8 @@ import { StatefulReader } from "@/components/Epub";
 import { StatefulLoader } from "@/components/StatefulLoader";
 import { usePublication } from "@/hooks/usePublication";
 import { useAppSelector } from "@/lib/hooks";
+import { MANIFEST_CONFIG } from "@/config/manifest";
+
 
 import "@/app/app.css";
 
@@ -20,6 +22,7 @@ export default function ManifestPage({ params }: Props) {
 
   const { error, manifest, selfLink } = usePublication({
     url: manifestUrl,
+    allowedDomains: MANIFEST_CONFIG.allowedDomains,
     onError: (error) => {
       console.error("Manifest loading error:", error);
     }
