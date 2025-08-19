@@ -13,7 +13,7 @@ import Chevron from "./assets/icons/chevron_right.svg";
 
 import { StatefulSheetWrapper } from "../../Sheets/StatefulSheetWrapper";
 import { ThFormSearchField } from "@/core/Components";
-import { Button, Collection, Selection, useFilter } from "react-aria-components";
+import { Button, Collection, Key, Selection, useFilter } from "react-aria-components";
 import {
   Tree,
   TreeItem,
@@ -22,7 +22,6 @@ import {
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useDocking } from "../../Docking/hooks/useDocking";
-import { usePrevious } from "@/core/Hooks/usePrevious";
 import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -35,7 +34,8 @@ import { isActiveElement } from "@/core/Helpers/focusUtilities";
 export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProps) => {
   const { t } = useI18n();
 
-  const treeRef = useRef<HTMLDivElement | null>(null);
+  const treeRef = useRef<HTMLDivElement>(null);
+  const [expandedKeys, setExpandedKeys] = useState<Set<Key>>(new Set());
 
   const unstableTimeline = useAppSelector(state => state.publication.unstableTimeline);
   const tocEntry = unstableTimeline?.toc?.currentEntry;
@@ -47,42 +47,39 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
   const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.toc]);
   const dispatch = useAppDispatch();
 
-  const previousTocEntry = usePrevious(tocEntry);
-  const [forceRerender, setForceRerender] = useState(0);
-
   const { goLink } = useEpubNavigator();
 
   const docking = useDocking(ThActionsKeys.toc);
   const sheetType = docking.sheetType;
 
   const { contains } = useFilter({ sensitivity: "base" });
-   const [filterValue, setFilterValue] = React.useState("");
-   const searchInputRef = React.useRef<HTMLInputElement>(null);
+  const [filterValue, setFilterValue] = React.useState("");
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
 
-   const filterTocTree = (items: TocItem[], filterValue: string): TocItem[] => {
-     if (!filterValue) {
-       return items;
-     }
+  const filterTocTree = (items: TocItem[], filterValue: string): TocItem[] => {
+    if (!filterValue) {
+      return items;
+    }
 
-     const recursiveFilter = (items: TocItem[]): TocItem[] => {
-       return items.reduce((acc: TocItem[], item: TocItem) => {
-         if (item.title && contains(item.title, filterValue)) {
-           acc.push({ ...item, children: undefined });
-         }
-         if (item.children) {
-           acc.push(...recursiveFilter(item.children));
-         }
-         return acc;
-       }, []);
-     };
+    const recursiveFilter = (items: TocItem[]): TocItem[] => {
+      return items.reduce((acc: TocItem[], item: TocItem) => {
+        if (item.title && contains(item.title, filterValue)) {
+          acc.push({ ...item, children: undefined });
+        }
+        if (item.children) {
+          acc.push(...recursiveFilter(item.children));
+        }
+        return acc;
+      }, []);
+    };
 
-     const result = recursiveFilter(items);
-     return result.map((item: TocItem, index: number) => ({ ...item, key: `${item.id}-${index}` }));
-   };
+    const result = recursiveFilter(items);
+    return result.map((item: TocItem, index: number) => ({ ...item, key: `${item.id}-${index}` }));
+  };
 
-   const displayedTocTree = filterTocTree(tocTree || [], filterValue);
+  const displayedTocTree = filterTocTree(tocTree || [], filterValue);
 
-   const setOpen = useCallback((value: boolean) => {
+  const setOpen = useCallback((value: boolean) => {
     if (!value) setFilterValue("");
 
     dispatch(setActionOpen({ 
@@ -136,26 +133,36 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
     }
   }, [actionState, setOpen, filterValue]);
 
-  // For docked sheets they are mounted before we could even retrieve tocEntry…
-  // So we need to force a rerender as we cannot rely on dependencies prop
-  // TODO: Once we handle fragments, etc. this can be removed, and we can add a condition
-  // tocEntry has to be defined to render Tree
+  // Update expanded keys when tocEntry changes
   useEffect(() => {
-    if (
-        (sheetType === ThSheetTypes.dockedStart || sheetType === ThSheetTypes.dockedEnd) && 
-        tocEntry !== undefined && 
-        (!previousTocEntry || previousTocEntry !== tocEntry)
-      ) {
-      setForceRerender(Math.random());
+    if (tocEntry && tocTree) {
+      setExpandedKeys(prevExpandedKeys => {
+        // Start with the current expanded keys to preserve existing state
+        const newExpandedKeys = new Set<Key>(prevExpandedKeys);
+        let hasUpdates = false;
+        
+        // Helper function to find and expand parent items of the current entry
+        const updateExpanded = (items: TocItem[]): boolean => {
+          return items.some(item => {
+            if (item.id === tocEntry) return true;
+            if (item.children) {
+              const hasChild = updateExpanded(item.children);
+              if (hasChild && !newExpandedKeys.has(item.id)) {
+                newExpandedKeys.add(item.id);
+                hasUpdates = true;
+              }
+              return hasChild;
+            }
+            return false;
+          });
+        };
+        
+        // Only update state if we actually need to expand anything
+        updateExpanded(tocTree);
+        return hasUpdates ? newExpandedKeys : prevExpandedKeys;
+      });
     }
-  }, [sheetType, tocEntry, previousTocEntry]);
-
-  const isItemInChildren = (item: TocItem, tocEntry?: string | null): boolean => {
-    if (item.children && tocEntry) {
-      return item.children.some(child => child.id === tocEntry || isItemInChildren(child, tocEntry));
-    }
-    return false;
-  };
+  }, [tocEntry, tocTree]);
 
   return(
     <>
@@ -202,20 +209,15 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
           }}
         />
         <Tree
-          // TODO: Remove this when we handle fragments
-          key={ forceRerender }
           ref={ treeRef }
           aria-label={ t("reader.toc.entries") }
           selectionMode="single"
           items={ displayedTocTree }
           className={ tocStyles.tocTree }
           onSelectionChange={ handleAction }
-          defaultSelectedKeys={ tocEntry ? [tocEntry] : [] }
           selectedKeys={ tocEntry ? [tocEntry] : [] }
-          defaultExpandedKeys={ tocTree
-            .filter(item => isItemInChildren(item, tocEntry))
-            .map(item => item.id) 
-          }
+          expandedKeys={ expandedKeys }
+          onExpandedChange={ setExpandedKeys }
         >
           { function renderItem(item) {
             return (
