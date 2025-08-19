@@ -51,6 +51,7 @@ export const StatefulReaderProgression = ({
       {(current && reference) 
         && <ThProgression 
           id={ progressionStyles.current } 
+          className={ className }
           aria-label={ t("reader.app.progression.wrapper") }
         >
           { t("reader.app.progression.of", { current, reference }) }
