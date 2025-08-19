@@ -60,7 +60,7 @@ export function usePublication({
       console.error("Error loading manifest:", error);
       setError(`Failed loading manifest ${ decodedUrl }: ${ error instanceof Error ? error.message : "Unknown error" }`);
     }
-  }, [url, allowedDomains, onError]);
+  }, [url, allowedDomains]);
 
   // Call onError callback when error changes
   useEffect(() => {
