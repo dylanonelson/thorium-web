@@ -178,6 +178,7 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
         onOpenChange: setOpen,
         onClosePress: () => setOpen(false),
         docker: docking.getDocker(),
+        resetFocus: tocEntry,
         focusWithinRef: treeRef
       } }
     >

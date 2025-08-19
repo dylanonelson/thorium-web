@@ -35,7 +35,8 @@ export const StatefulDockedSheet = ({
     flow,
     children,
     resetFocus,
-    focusWithinRef
+    focusWithinRef,
+    scrollTopOnFocus
   }: StatefulDockedSheetProps) => {
   const { t } = useI18n()
   const dockPortal = flow && document.getElementById(flow);
@@ -63,7 +64,8 @@ export const StatefulDockedSheet = ({
           withinRef: focusWithinRef ?? dockedSheetBodyRef, 
           trackedState: isOpen, 
           fallbackRef: dockedSheetCloseRef,
-          autoFocus: false,
+          autoFocus: true,
+          scrollTop: scrollTopOnFocus,
           updateState: resetFocus
         }}
         className={ classNames(sheetStyles.dockedSheet, className, classFromFlow()) }

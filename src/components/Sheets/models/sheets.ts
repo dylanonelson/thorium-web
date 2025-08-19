@@ -15,5 +15,6 @@ export interface StatefulSheet {
   children?: ReactNode;
   resetFocus?: unknown;
   focusWithinRef?: RefObject<HTMLElement | null>;
+  scrollTopOnFocus?: boolean;
   dismissEscapeKeyClose?: boolean;
 }
