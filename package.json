@@ -104,10 +104,6 @@
     "glob": "^11.0.3",
     "immer": "^10.1.1",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
-    "vercel": "44.5.5"
-  },
-  "overrides": {
-    "vercel": "$vercel"
+    "typescript": "^5.9.2"
   }
 }
