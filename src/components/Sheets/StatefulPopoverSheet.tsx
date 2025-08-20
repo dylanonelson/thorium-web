@@ -41,6 +41,7 @@ export const StatefulPopoverSheet = ({
     children,
     resetFocus,
     focusWithinRef,
+    scrollTopOnFocus,
     dismissEscapeKeyClose
   }: StatefulPopoverSheetProps) => {
   const { t } = useI18n()
@@ -63,6 +64,7 @@ export const StatefulPopoverSheet = ({
           withinRef: focusWithinRef ?? popoverBodyRef,
           trackedState: isOpen,
           fallbackRef: popoverCloseRef,
+          scrollTop: scrollTopOnFocus,
           updateState: resetFocus
         }}
         placement={ placement || "bottom" }

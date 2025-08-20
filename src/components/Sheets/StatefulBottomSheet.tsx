@@ -48,6 +48,7 @@ export const StatefulBottomSheet = ({
   children,
   resetFocus,
   focusWithinRef,
+  scrollTopOnFocus,
   dismissEscapeKeyClose
 }: StatefulBottomSheetProps) => {
   const RSPrefs = usePreferences();
@@ -259,6 +260,7 @@ export const StatefulBottomSheet = ({
           withinRef: focusWithinRef ?? bottomSheetBodyRef,
           trackedState: isOpen,
           fallbackRef: bottomSheetCloseRef,
+          scrollTop: scrollTopOnFocus,
           updateState: resetFocus
         }}
         onOpenChange={ onOpenChange }

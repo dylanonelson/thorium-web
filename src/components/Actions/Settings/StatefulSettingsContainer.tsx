@@ -185,6 +185,7 @@ useEffect(() => {
         onClosePress: () => { contains === ThSettingsContainerKeys.initial ? setOpen(false) : setInitial() },
         docker: docking.getDocker(),
         resetFocus: contains,
+        scrollTopOnFocus: true,
         dismissEscapeKeyClose: contains !== ThSettingsContainerKeys.initial
       } }
     >

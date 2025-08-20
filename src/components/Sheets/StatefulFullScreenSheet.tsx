@@ -33,6 +33,7 @@ export const StatefulFullScreenSheet = ({
     children,
     resetFocus,
     focusWithinRef,
+    scrollTopOnFocus,
     dismissEscapeKeyClose
   }: StatefulFullScreenSheetProps) => {
   const { t } = useI18n()
@@ -53,6 +54,7 @@ export const StatefulFullScreenSheet = ({
           withinRef: focusWithinRef ?? fullScreenBodyRef,
           trackedState: isOpen,
           fallbackRef: fullScreenCloseRef,
+          scrollTop: scrollTopOnFocus,
           updateState: resetFocus
         }}
         compounds={{

@@ -120,9 +120,24 @@ Thorium Web follows the [Readium Architecture](https://readium.org/architecture/
 - **Server with publications:** We need a server that can store and serve publications with a Readium Web Publication Manifest and a Positions List. The resources of the publication must be fetchable separately. This can be a simple file server or a more complex system like Google Cloud Storage.
 - **Deployment platform for Next.js app:** We need a platform to deploy the Next.js app to. This can be Cloudflare Pages, Vercel, or another platform that supports Next.js deployments. [See Next.js documentation for more information](https://nextjs.org/docs/app/building-your-application/deploying).
 
-Route `/read` expects a URL-encoded `book` parameter pointing to the Publication URL or the Readium Web Publication Manifest of the publication you want to display and navigate. The Readium Web Publication Manifest will be fetched from this URL. Then, in a second step, the Positions List will automatically be fetched by `Reader`.
+The application supports two main routes for accessing publications:
 
-A handful of publications are listed at the root of the app for demonstration purposes. You could update this to have a dynamic collection with covers, etc.
+- `/read/[identifier]` - For accessing publications by their identifier (the list of publications is defined in `src/config/publications.ts`)
+- `/read/manifest/[manifest]` - For accessing publications via their manifest URL (must be URL-encoded). Note: This route is disabled in production by default for security reasons.
+
+Manifest URLs are validated against the allowed domains configured in `.env`. You can configure the allowed domains by setting `NEXT_PUBLIC_MANIFEST_ALLOWED_DOMAINS` in your environment variables.
+
+Finally, to enable the `read/manifest/[manifest]` route in production, set `NEXT_PUBLIC_MANIFEST_FORCE_ENABLE=true` in your environment variables.
+
+Alternatively, you can set them in bash:
+
+```bash
+NEXT_PUBLIC_MANIFEST_ALLOWED_DOMAINS="publication-server.readium.org" NEXT_PUBLIC_MANIFEST_FORCE_ENABLE=true pnpm build && pnpm start
+```
+
+They should override the values in `.env`.
+
+Remember that you have to rebuild and restart the app for the changes to take effect since environment variables in Next.js are embedded at build time.
 
 ## Configuration and Setup
 
