@@ -8,11 +8,12 @@ export interface UseFirstFocusableProps {
   scrollerRef?: React.RefObject<HTMLElement | null>;
   trackedState?: boolean;
   autoFocus?: boolean;
+  scrollTop?: boolean;
   updateState?: unknown;
 }
 
 export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
-  const { withinRef, fallbackRef, scrollerRef, trackedState, autoFocus = true, updateState } = props ?? {};
+  const { withinRef, fallbackRef, scrollerRef, trackedState, autoFocus = true, scrollTop, updateState } = props ?? {};
 
   const focusableElement = useRef<HTMLElement | null>(null);
   const attemptsRef = useRef(0);
@@ -37,6 +38,10 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
       }
 
       if (!firstFocusable) {
+        firstFocusable = withinRef.current && withinRef.current.querySelector("[data-selected]") as HTMLElement | null;
+      }
+
+      if (!firstFocusable) {
         const focusableElements = withinRef.current && withinRef.current.querySelectorAll("a, button, input, select");
         const element = focusableElements && Array.from(focusableElements).find(element => {
           const htmlElement = element as HTMLAnchorElement | HTMLButtonElement | HTMLInputElement | HTMLSelectElement;
@@ -48,11 +53,15 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
 
       if (firstFocusable) {
         if (autoFocus) {
-          firstFocusable.focus({ preventScroll: true });
-          if (scrollerRef?.current) {
-            scrollerRef.current.scrollTop = 0;
+          if (scrollTop) {
+            firstFocusable.focus({ preventScroll: true });
+            if (scrollerRef?.current) {
+              scrollerRef.current.scrollTop = 0;
+            } else {
+              withinRef.current!.scrollTop = 0;
+            }
           } else {
-            withinRef.current!.scrollTop = 0;
+            firstFocusable.focus();
           }
         }
         focusableElement.current = firstFocusable;
@@ -76,7 +85,7 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
     return () => {
       attemptsRef.current = 0;
     };
-  }, [withinRef, fallbackRef, scrollerRef, trackedState, autoFocus, updateState]);
+  }, [withinRef, fallbackRef, scrollerRef, trackedState, autoFocus, scrollTop, updateState]);
 
   return focusableElement.current;
 };
