@@ -33,19 +33,22 @@
 
 .readerSettingsRadioWrapper,
 .readerSettingsGroupWrapper {
-  display: flex;
-  gap: var(--layout-spacing) calc(var(--layout-spacing) / 2);
   margin: var(--layout-spacing) 0;
   text-align: center;
   border-radius: var(--layout-radius);
 }
 
 .readerSettingsRadioWrapper {
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 100px), 1fr));
+  gap: calc(var(--layout-spacing) / 2);
+  width: 100%; 
 }
 
 .readerSettingsGroupWrapper {
+  display: flex;
   width: fit-content;
+  gap: var(--layout-spacing) calc(var(--layout-spacing) / 2);
 }
 
 .readerSettingsAdvancedGroup .readerSettingsRadioWrapper {
@@ -75,6 +78,34 @@
   border: 2px solid transparent;
 }
 
+.readerSettingsRadio:not(.readerSettingsThemeRadio) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  width: 100%;
+}
+
+.readerSettingsRadio:not(.readerSettingsThemeRadio) > * {
+  width: 100%;
+  text-align: center;
+}
+
+/* Text truncation for non-theme radios */
+.readerSettingsRadio:not(.readerSettingsThemeRadio) span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2em;
+  max-height: 2.4em; /* 2 lines of text */
+  width: 100%;
+  box-sizing: border-box;
+  white-space: normal;
+}
+
 .readerSettingsRadio:not(.readerSettingsThemeRadio)[data-selected] {
   border: 2px solid var(--theme-subdue);
 }
@@ -96,10 +127,6 @@
   height: var(--icon-size, 32px);
   /* So that it’s the same color as text based on state */
   fill: currentColor;
-}
-
-.readerSettingsRadio span {
-  display: block;
 }
 
 .readerSettingsThemesWrapper {
