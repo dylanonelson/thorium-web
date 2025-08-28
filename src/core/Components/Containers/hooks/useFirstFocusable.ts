@@ -13,10 +13,11 @@ export interface UseFirstFocusableProps {
 }
 
 export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
-  const { withinRef, fallbackRef, scrollerRef, trackedState, autoFocus = true, scrollTop, updateState } = props ?? {};
+  const { withinRef, fallbackRef, scrollerRef, trackedState, autoFocus, scrollTop, updateState } = props ?? {};
 
   const focusableElement = useRef<HTMLElement | null>(null);
   const attemptsRef = useRef(0);
+  const timeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!withinRef || !trackedState) return;
@@ -68,7 +69,7 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
       } else {
         attemptsRef.current++;
         if (attemptsRef.current < 3) {
-          setTimeout(tryFocus, 50);
+          timeoutRef.current = window.setTimeout(tryFocus, 50) as unknown as number;
         } else {
           if (fallbackRef?.current) {
             if (autoFocus) {
@@ -83,6 +84,10 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
     tryFocus();
 
     return () => {
+      if (timeoutRef.current !== null) {
+        window.clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
       attemptsRef.current = 0;
     };
   }, [withinRef, fallbackRef, scrollerRef, trackedState, autoFocus, scrollTop, updateState]);

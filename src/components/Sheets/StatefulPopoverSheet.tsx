@@ -64,6 +64,7 @@ export const StatefulPopoverSheet = ({
           withinRef: focusWithinRef ?? popoverBodyRef,
           trackedState: isOpen,
           fallbackRef: popoverCloseRef,
+          autoFocus: true,
           scrollTop: scrollTopOnFocus,
           updateState: resetFocus
         }}

@@ -238,6 +238,29 @@ function usePrevious<T>(
 - Ref-based storage for performance
 - Updates only after render
 
+### useScrollIntoView
+
+Scrolls an element into view when conditions are met.
+
+```typescript
+function useScrollIntoView({
+  target: string | RefObject<HTMLElement> | null,
+  behavior?: ScrollBehavior,
+  block?: ScrollLogicalPosition,
+  inline?: ScrollLogicalPosition,
+  condition?: boolean,
+  updateState?: unknown,
+  onScroll?: (scrolled: boolean) => void,
+}: UseScrollIntoViewOptions)
+```
+
+**Features:**
+- Scrolls an element into view when conditions are met
+- Checks if the element is already visible in the viewport
+- Re-runs when `updateState` changes
+- Runs an optional callback when scrolling occurs
+- Client-side only functionality
+
 ### useTimeline
 
 > [!CAUTION]
