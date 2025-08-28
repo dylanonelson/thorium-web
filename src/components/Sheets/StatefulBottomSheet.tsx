@@ -260,6 +260,7 @@ export const StatefulBottomSheet = ({
           withinRef: focusWithinRef ?? bottomSheetBodyRef,
           trackedState: isOpen,
           fallbackRef: bottomSheetCloseRef,
+          autoFocus: true,
           scrollTop: scrollTopOnFocus,
           updateState: resetFocus
         }}

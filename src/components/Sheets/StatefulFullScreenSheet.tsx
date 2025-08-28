@@ -54,6 +54,7 @@ export const StatefulFullScreenSheet = ({
           withinRef: focusWithinRef ?? fullScreenBodyRef,
           trackedState: isOpen,
           fallbackRef: fullScreenCloseRef,
+          autoFocus: true,
           scrollTop: scrollTopOnFocus,
           updateState: resetFocus
         }}

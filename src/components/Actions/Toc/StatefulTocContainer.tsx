@@ -23,6 +23,7 @@ import {
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useDocking } from "../../Docking/hooks/useDocking";
 import { useI18n } from "@/i18n/useI18n";
+import { useScrollIntoView } from "@/core/Hooks";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
@@ -55,6 +56,14 @@ export const StatefulTocContainer = ({ triggerRef }: StatefulActionContainerProp
   const { contains } = useFilter({ sensitivity: "base" });
   const [filterValue, setFilterValue] = React.useState("");
   const searchInputRef = React.useRef<HTMLInputElement>(null);
+
+  useScrollIntoView({
+    target: tocEntry ? `[data-key="${tocEntry}"]` : null,
+    updateState: [expandedKeys, actionState?.isOpen],
+    condition: (sheetType === ThSheetTypes.dockedStart || sheetType === ThSheetTypes.dockedEnd) && !!actionState?.isOpen,
+    behavior: "instant",
+    block: "center"
+  });
 
   const filterTocTree = (items: TocItem[], filterValue: string): TocItem[] => {
     if (!filterValue) {

@@ -64,7 +64,7 @@ export const StatefulDockedSheet = ({
           withinRef: focusWithinRef ?? dockedSheetBodyRef, 
           trackedState: isOpen, 
           fallbackRef: dockedSheetCloseRef,
-          autoFocus: true,
+          autoFocus: false,
           scrollTop: scrollTopOnFocus,
           updateState: resetFocus
         }}
