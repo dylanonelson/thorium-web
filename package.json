@@ -48,7 +48,7 @@
     "bundle": "tsup --config tsup.config.ts && pnpm copy-locales"
   },
   "peerDependencies": {
-    "@readium/css": ">=2.0.0-beta.18",
+    "@readium/css": ">=2.0.0-beta.19",
     "@readium/navigator": "2.1.0",
     "@readium/navigator-html-injectables": "2.1.0",
     "@readium/shared": "2.1.0",
@@ -68,7 +68,7 @@
     "react-stately": ">=3.36.0"
   },
   "dependencies": {
-    "@readium/css": "2.0.0-beta.18",
+    "@readium/css": "2.0.0-beta.19",
     "@readium/navigator": "2.1.0",
     "@readium/navigator-html-injectables": "2.1.0",
     "@readium/shared": "2.1.0",

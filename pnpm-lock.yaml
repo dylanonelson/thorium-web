@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@readium/css':
-        specifier: 2.0.0-beta.18
-        version: 2.0.0-beta.18
+        specifier: 2.0.0-beta.19
+        version: 2.0.0-beta.19
       '@readium/navigator':
         specifier: 2.1.0
         version: 2.1.0
@@ -1818,8 +1818,8 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
-  '@readium/css@2.0.0-beta.18':
-    resolution: {integrity: sha512-YtejnbUQFu9JFlyMEJomw5NuItOECPI+/vkAePJ/EzqpRpap5FHFC1QpTCFRKz7m5K2znYDyilcyzV7SFtaO6Q==}
+  '@readium/css@2.0.0-beta.19':
+    resolution: {integrity: sha512-yZrWzxpG3RKgJ7+iVZYCNYZZeGxx9d4ipyppBd/1RGsodHgykjAt8pPT/Ngpob6KiZ1rga5boDFrH8JiNASg2g==}
 
   '@readium/navigator-html-injectables@2.1.0':
     resolution: {integrity: sha512-bgCza6MHuQXreXxkM6HvSIzzqr2VdKW4Cq43aPkTIcs6BRIZkugtGQJCyQIZQNH6vreuaLjtOogQJzEha9fDdQ==}
@@ -6225,7 +6225,7 @@ snapshots:
       '@react-types/shared': 3.31.0(react@19.1.1)
       react: 19.1.1
 
-  '@readium/css@2.0.0-beta.18': {}
+  '@readium/css@2.0.0-beta.19': {}
 
   '@readium/navigator-html-injectables@2.1.0': {}
 
