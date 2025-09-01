@@ -54,8 +54,13 @@ export const StatefulFullScreenSheet = ({
           withinRef: focusWithinRef ?? fullScreenBodyRef,
           trackedState: isOpen,
           fallbackRef: fullScreenCloseRef,
-          autoFocus: true,
-          scrollTop: scrollTopOnFocus,
+          action: {
+            type: "focus",
+            options: {
+              preventScroll: scrollTopOnFocus ? true : false,
+              scrollContainerToTop: scrollTopOnFocus
+            }
+          },
           updateState: resetFocus
         }}
         compounds={{

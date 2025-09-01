@@ -64,8 +64,13 @@ export const StatefulPopoverSheet = ({
           withinRef: focusWithinRef ?? popoverBodyRef,
           trackedState: isOpen,
           fallbackRef: popoverCloseRef,
-          autoFocus: true,
-          scrollTop: scrollTopOnFocus,
+          action: {
+            type: "focus",
+            options: {
+              preventScroll: scrollTopOnFocus ? true : false,
+              scrollContainerToTop: scrollTopOnFocus
+            }
+          },
           updateState: resetFocus
         }}
         placement={ placement || "bottom" }
