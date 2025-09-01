@@ -61,14 +61,19 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
     action = { type: "none" } // Default to no action if not provided
   } = props || {};
 
+  // Store action in a ref to avoid triggering useEffect on action change
+  // action will be updated on every render, but ref will not trigger useEffect
+  const actionRef = useRef(action);
+  actionRef.current = action;
+
   const focusableElement = useRef<HTMLElement | null>(null);
   const attemptsRef = useRef(0);
   const timeoutRef = useRef<number | null>(null);
 
   const previousUpdateState = usePrevious(updateState);
 
-  useEffect(() => {    
-    if (!withinRef || !trackedState || updateState === previousUpdateState) return;
+  useEffect(() => {
+    if (!withinRef || (!trackedState && updateState === previousUpdateState)) return;
 
     attemptsRef.current = 0;
 
@@ -103,15 +108,15 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
       }
 
       const handleElement = (element: HTMLElement) => {
-        if (action.type === "none") return;
+        if (actionRef.current.type === "none") return;
 
-        switch (action.type) {
+        switch (actionRef.current.type) {
           case "focus": {
-            const preventScroll = action.options?.preventScroll;
-            element.focus({ preventScroll });
+            const preventScroll = actionRef.current.options?.preventScroll;
+            element.focus({ preventScroll: preventScroll ?? false });
             
             // Handle container scrolling if requested
-            if (action.options?.scrollContainerToTop) {
+            if (actionRef.current.options?.scrollContainerToTop) {
               const scrollContainer = scrollerRef?.current || withinRef.current;
               scrollContainer?.scrollTo({ top: 0 });
             }
@@ -120,7 +125,7 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
           
           case "scrollIntoView":
             if (!isInViewport(element, scrollerRef?.current || null)) {
-              element.scrollIntoView(action.options);
+              element.scrollIntoView(actionRef.current.options);
             }
             break;
         }
@@ -135,10 +140,10 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
           timeoutRef.current = window.setTimeout(tryFindAndHandle, 50);
         } else if (fallbackRef?.current) {
           // Handle fallback based on action type
-          if (action.type === "focus") {
+          if (actionRef.current.type === "focus") {
             fallbackRef.current.focus({ preventScroll: true });
-          } else if (action.type === "scrollIntoView") {
-            fallbackRef.current.scrollIntoView(action.options);
+          } else if (actionRef.current.type === "scrollIntoView") {
+            fallbackRef.current.scrollIntoView(actionRef.current.options);
           }
           focusableElement.current = fallbackRef.current;
         }
@@ -154,7 +159,7 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
       }
       attemptsRef.current = 0;
     };
-  }, [withinRef, fallbackRef, scrollerRef, trackedState, updateState, action]);
+  }, [withinRef, fallbackRef, scrollerRef, trackedState, previousUpdateState, updateState]);
 
   return focusableElement.current;
 };
