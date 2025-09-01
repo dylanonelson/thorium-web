@@ -26,7 +26,12 @@ export const ThModal = ({
 }: ThModalProps) => {
   const resolvedRef = useObjectRef(ref as React.RefObject<HTMLDivElement | null>);
 
-  useFirstFocusable(focusOptions);
+  const updatedFocusOptions = focusOptions ? {
+    ...focusOptions,
+    scrollerRef: focusOptions.scrollerRef || resolvedRef
+  } : undefined;
+
+  useFirstFocusable(updatedFocusOptions);
 
   return (
     <Modal 

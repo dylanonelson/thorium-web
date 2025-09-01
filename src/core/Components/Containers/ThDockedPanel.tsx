@@ -23,7 +23,12 @@ export const ThDockedPanel = ({
 }: ThDockedPanelProps) => {
   const resolvedRef = useObjectRef(ref as React.RefObject<HTMLDivElement | null>);
 
-  useFirstFocusable(focusOptions);
+  const updatedFocusOptions = focusOptions ? {
+    ...focusOptions,
+    scrollerRef: focusOptions.scrollerRef || resolvedRef
+  } : undefined;
+
+  useFirstFocusable(updatedFocusOptions);
 
   return (
     <>
