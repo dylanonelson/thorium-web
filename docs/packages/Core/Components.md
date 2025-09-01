@@ -138,9 +138,99 @@ const MyPopover = (triggerRef: RefObject<HTMLButtonElement>) => {
 }
 ```
 
-The package ships with a specific hook: `useFirstFocusable`, which can be used to focus the first focusable element of a container on open.
+The package ships with a specific hook: `useFirstFocusable`, which can be used to focus or scroll to the first focusable element of a container on open.
 
-TBD.
+### useFirstFocusable
+
+A hook that finds and manages focus/scroll behavior for the first focusable element within a container.
+
+> [!CAUTION]
+> This hook is specifically designed for React Aria Components and does target the first focusable element based on their idiosyncrasies.
+
+```typescript
+const focusableElement = useFirstFocusable({
+  withinRef: RefObject<HTMLElement | null>;
+  fallbackRef?: RefObject<HTMLElement | null>;
+  scrollerRef?: RefObject<HTMLElement | null>;
+  trackedState?: boolean;
+  updateState?: unknown;
+  action?: {
+    type: "focus" | "scrollIntoView" | "none";
+    options?: {
+      // For "focus" type
+      preventScroll?: boolean;
+      scrollContainerToTop?: boolean;
+      // For "scrollIntoView" type
+      behavior?: ScrollBehavior;
+      block?: ScrollLogicalPosition;
+      inline?: ScrollLogicalPosition;
+    };
+  };
+});
+```
+
+#### Usage Examples
+
+**Basic Focus on First Element**:
+
+```typescript
+const containerRef = useRef(null);
+useFirstFocusable({
+  withinRef: containerRef,
+  action: { type: "focus" }
+});
+```
+
+**Focus and Scroll Container to Top**:
+
+```typescript
+useFirstFocusable({
+  withinRef: containerRef,
+  action: { 
+    type: "focus",
+    options: { 
+      preventScroll: true,
+      scrollContainerToTop: true 
+    }
+  }
+});
+```
+
+**Scroll Element into View**:
+
+```typescript
+useFirstFocusable({
+  withinRef: containerRef,
+  action: {
+    type: "scrollIntoView",
+    options: {
+      behavior: "smooth",
+      block: "center"
+    }
+  }
+});
+```
+
+**With Fallback Element**:
+
+```typescript
+const fallbackRef = useRef(null);
+useFirstFocusable({
+  withinRef: containerRef,
+  fallbackRef,
+  action: { type: "focus" }
+});
+```
+
+#### Behavior
+- Automatically finds the first focusable element within `withinRef`
+- If no focusable element is found, falls back to `fallbackRef` if provided
+- Respects `trackedState` to conditionally enable/disable the behavior
+- Updates when `updateState` changes
+- Supports smooth scrolling and precise positioning with `scrollIntoView`
+- Handles edge cases like disabled elements and tabIndex
+
+### Higher-Order Component
 
 This package also contains a higher-order component that can be used to switch between containers, `<ThTypedComponentRenderer>`. It requires a type parameter to specify the `type` of container to render, as well as a `componentsMap`.
 

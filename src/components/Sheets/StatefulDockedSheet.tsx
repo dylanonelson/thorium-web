@@ -64,8 +64,14 @@ export const StatefulDockedSheet = ({
           withinRef: focusWithinRef ?? dockedSheetBodyRef, 
           trackedState: isOpen, 
           fallbackRef: dockedSheetCloseRef,
-          autoFocus: false,
-          scrollTop: scrollTopOnFocus,
+          action: {
+            type: "scrollIntoView",
+            options: {
+              behavior: "instant",
+              block: "center",
+              inline: "nearest"
+            }
+          },
           updateState: resetFocus
         }}
         className={ classNames(sheetStyles.dockedSheet, className, classFromFlow()) }
