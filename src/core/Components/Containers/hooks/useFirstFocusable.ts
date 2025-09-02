@@ -150,7 +150,9 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
       }
     };
 
-    tryFindAndHandle();
+    requestAnimationFrame(() => {
+      tryFindAndHandle();
+    });
 
     return () => {
       if (timeoutRef.current !== null) {
