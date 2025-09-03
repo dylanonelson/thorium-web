@@ -278,7 +278,7 @@ export const StatefulBottomSheet = ({
           action: {
             type: "focus",
             options: {
-              preventScroll: scrollTopOnFocus ? true : false,
+              preventScroll: true, // Safari needs this otherwise focus() creates artifacts on open
               scrollContainerToTop: scrollTopOnFocus
             }
           },
