@@ -12,13 +12,13 @@ importers:
         specifier: 2.0.0-beta.19
         version: 2.0.0-beta.19
       '@readium/navigator':
-        specifier: 2.1.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@readium/navigator-html-injectables':
-        specifier: 2.1.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@readium/shared':
-        specifier: 2.1.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@reduxjs/toolkit':
         specifier: ^2.8.2
@@ -38,9 +38,6 @@ importers:
       i18next-http-backend:
         specifier: ^3.0.2
         version: 3.0.2
-      json-templates:
-        specifier: ^5.2.0
-        version: 5.2.0
       motion:
         specifier: ^12.23.12
         version: 12.23.12(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -3153,9 +3150,6 @@ packages:
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
-  json-templates@5.2.0:
-    resolution: {integrity: sha512-lZQvWIG58tE3S72EsYhkBE2dvON9OtnUTelcaLEbBSdXFm3SYshh0M3CxeJYYVuujN4cwVIQrgD3c9ceJc6FYA==}
-
   json5@1.0.2:
     resolution: {integrity: sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==}
     hasBin: true
@@ -3361,10 +3355,6 @@ packages:
   object-keys@1.1.1:
     resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==}
     engines: {node: '>= 0.4'}
-
-  object-path@0.11.8:
-    resolution: {integrity: sha512-YJjNZrlXJFM42wTBn6zgOJVar9KFJvzx6sTWDte8sWZF//cnjl0BxHNpfZx+ZffXX63A9q0b1zsFiBX4g4X5KA==}
-    engines: {node: '>= 10.12.0'}
 
   object.assign@4.1.7:
     resolution: {integrity: sha512-nK28WOo+QIjBkDduTINE4JkF/UJJKyf2EJxvJKfblDpyg0Q+pkOHNTL0Qwy6NP6FhE/EnzV73BxxqcJaXY9anw==}
@@ -7741,10 +7731,6 @@ snapshots:
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
-  json-templates@5.2.0:
-    dependencies:
-      object-path: 0.11.8
-
   json5@1.0.2:
     dependencies:
       minimist: 1.2.8
@@ -7926,8 +7912,6 @@ snapshots:
   object-inspect@1.13.4: {}
 
   object-keys@1.1.1: {}
-
-  object-path@0.11.8: {}
 
   object.assign@4.1.7:
     dependencies:
