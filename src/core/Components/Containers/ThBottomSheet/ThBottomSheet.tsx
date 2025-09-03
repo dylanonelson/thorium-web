@@ -214,7 +214,8 @@ export const ThBottomSheet = ({
       <OverlayProvider>
         <FocusScope 
           contain={ true } 
-          autoFocus={ focusOptions?.autoFocus ?? true } 
+          // If not set to true, focus is not contained on open
+          autoFocus={ true } 
           restoreFocus={ true }
         >
           <ThBottomSheetContainer 

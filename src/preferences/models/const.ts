@@ -50,13 +50,13 @@ export const defaultFontSize: Required<ThSettingsRangePref> = {
 }
 
 export const defaultParagraphSpacing: Required<ThSettingsRangePref> = {
-  variant: ThSettingsRangeVariant.slider,
+  variant: ThSettingsRangeVariant.numberField,
   range: [0, 3],
   step: 0.5
 }
 
 export const defaultParagraphIndent: Required<ThSettingsRangePref> = {
-  variant: ThSettingsRangeVariant.slider,
+  variant: ThSettingsRangeVariant.numberField,
   range: [0, 2],
   step: 0.25
 }

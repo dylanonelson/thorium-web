@@ -29,7 +29,12 @@ export const ThPopover = ({
 }: ThPopoverProps) => {
   const resolvedRef = useObjectRef(ref as React.RefObject<HTMLDivElement | null>);
 
-  useFirstFocusable(focusOptions);
+  const updatedFocusOptions = focusOptions ? {
+    ...focusOptions,
+    scrollerRef: focusOptions.scrollerRef || resolvedRef
+  } : undefined;
+
+  useFirstFocusable(updatedFocusOptions);
 
   const computeMaxHeight = () => {
     if (!resolvedRef.current) return;

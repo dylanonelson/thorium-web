@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/edrlab/thorium-web/issues"
   },
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": false,
   "files": [
     "./dist"
@@ -48,37 +48,36 @@
     "bundle": "tsup --config tsup.config.ts && pnpm copy-locales"
   },
   "peerDependencies": {
-    "@readium/css": ">=2.0.0-beta.18",
-    "@readium/navigator": "2.0.0",
-    "@readium/navigator-html-injectables": "2.0.0",
-    "@readium/shared": "2.0.0",
+    "@readium/css": ">=2.0.0-beta.19",
+    "@readium/navigator": "^2.1.0",
+    "@readium/navigator-html-injectables": "^2.1.0",
+    "@readium/shared": "^2.1.0",
     "@reduxjs/toolkit": ">=2.6.0",
     "i18next": "^25.4.0",
     "i18next-browser-languagedetector": "^8.2.0",
     "i18next-http-backend": "^3.0.2",
     "motion": ">=12.4.0",
     "react": ">=19.0.0",
-    "react-aria": ">=3.38.0",
-    "react-aria-components": ">=1.7.0",
+    "react-aria": "^3.42.0",
+    "react-aria-components": "^1.11.0",
     "react-dom": ">=19.0.0",
     "react-i18next": ">=13.0.0",
     "react-modal-sheet": ">=4.4.0",
     "react-redux": ">=9.2.0",
     "react-resizable-panels": ">=3.0.0",
-    "react-stately": ">=3.36.0"
+    "react-stately": "^3.40.0"
   },
   "dependencies": {
-    "@readium/css": "2.0.0-beta.18",
-    "@readium/navigator": "2.0.0",
-    "@readium/navigator-html-injectables": "2.0.0",
-    "@readium/shared": "2.0.0",
+    "@readium/css": "2.0.0-beta.19",
+    "@readium/navigator": "^2.1.0",
+    "@readium/navigator-html-injectables": "^2.1.0",
+    "@readium/shared": "^2.1.0",
     "@reduxjs/toolkit": "^2.8.2",
     "classnames": "^2.5.1",
     "debounce": "^2.2.0",
     "i18next": "^25.4.0",
     "i18next-browser-languagedetector": "^8.2.0",
     "i18next-http-backend": "^3.0.2",
-    "json-templates": "^5.2.0",
     "motion": "^12.23.12",
     "next": "15.5.0",
     "react": "^19.1.1",
