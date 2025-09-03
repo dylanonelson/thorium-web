@@ -112,7 +112,7 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
 
         switch (actionRef.current.type) {
           case "focus": {
-            const preventScroll = actionRef.current.options?.preventScroll;
+            const preventScroll = actionRef.current.options?.scrollContainerToTop || actionRef.current.options?.preventScroll;
             element.focus({ preventScroll: preventScroll ?? false });
             
             // Handle container scrolling if requested

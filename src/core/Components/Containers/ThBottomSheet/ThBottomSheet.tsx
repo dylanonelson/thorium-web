@@ -131,10 +131,13 @@ const ThBottomSheetContainer = ({
     return [modifiedHeader, body];
   }, [children, dialog.titleProps]);
 
-  const updatedFocusOptions = focusOptions ? {
-    ...focusOptions,
-    scrollerRef: scrollerRef
-  } : undefined;
+  const updatedFocusOptions = useMemo(() => 
+    focusOptions ? {
+      ...focusOptions,
+      scrollerRef: scrollerRef
+    } : undefined,
+    [focusOptions, scrollerRef]
+  );
 
   useFirstFocusable(updatedFocusOptions);
 
