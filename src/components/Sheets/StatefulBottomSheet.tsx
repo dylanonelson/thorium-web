@@ -249,6 +249,20 @@ export const StatefulBottomSheet = ({
     return scrimPref.active ? sheetStyles.bottomSheetScrim : "";
   }, [scrimPref]);
 
+  // On focus within triggered by the keyboard,
+  // snap to the largest value (first in the array).
+  // This is getting around a bug in Safari,
+  // where the parent of the sheet’s scroller
+  // is shifted by the padding added at the bottom
+  // on focus().
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (["Tab", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) {
+      if (snapArray.length > 0) {
+        sheetRef.current?.snapTo?.(0);
+      }
+    }
+  };
+
   if (React.Children.toArray(children).length > 0) {
     return(
       <>
@@ -256,11 +270,18 @@ export const StatefulBottomSheet = ({
         id={ id }
         ref={ sheetRef }
         isOpen={ isOpen }
+        onKeyDown={ handleKeyDown }
         focusOptions={{
           withinRef: focusWithinRef ?? bottomSheetBodyRef,
           trackedState: isOpen,
           fallbackRef: bottomSheetCloseRef,
-          scrollTop: scrollTopOnFocus,
+          action: {
+            type: "focus",
+            options: {
+              preventScroll: scrollTopOnFocus ? true : false,
+              scrollContainerToTop: scrollTopOnFocus
+            }
+          },
           updateState: resetFocus
         }}
         onOpenChange={ onOpenChange }

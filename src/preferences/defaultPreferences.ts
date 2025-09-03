@@ -19,9 +19,7 @@ import {
 } from "./models/enums";
 import { createPreferences } from "./preferences";
 
-import dayMode from "@readium/css/css/vars/day.json";
-import sepiaMode from "@readium/css/css/vars/sepia.json";
-import nightMode from "@readium/css/css/vars/night.json";
+import ReadiumCSSColors from "@readium/css/css/vars/colors.json";
 
 export const defaultPreferences = createPreferences({
 //  direction: ThLayoutDirection.ltr,
@@ -88,14 +86,14 @@ export const defaultPreferences = createPreferences({
       },
       keys: {
         [ThThemeKeys.light]: {
-          background: dayMode.RS__backgroundColor, // Color of background
-          text: dayMode.RS__textColor,    // Color of text
+          background: ReadiumCSSColors.RS__backgroundColor, // Color of background
+          text: ReadiumCSSColors.RS__textColor,    // Color of text
           link: "#0000ee",                // Color of links
           visited: "#551a8b",             // Color of visited links
           subdue: "#808080",              // Color of subdued elements
           disable: "#808080",             // color for :disabled
           hover: "#d9d9d9",               // color of background for :hover
-          onHover: dayMode.RS__textColor, // color of text for :hover
+          onHover: ReadiumCSSColors.RS__textColor, // color of text for :hover
           select: "#b4d8fe",              // color of selected background
           onSelect: "inherit",            // color of selected text
           focus: "#0067f4",               // color of :focus-visible
@@ -103,31 +101,31 @@ export const defaultPreferences = createPreferences({
           immerse: "0.6"                  // opacity of immersive mode
         },
         [ThThemeKeys.sepia]: {
-          background: sepiaMode.RS__backgroundColor,
-          text: sepiaMode.RS__textColor,
-          link: sepiaMode.RS__linkColor,
-          visited: sepiaMode.RS__visitedColor,
+          background: "#faf4e8",
+          text: "#121212",
+          link: "#0000EE",
+          visited: "#551A8B",
           subdue: "#8c8c8c",
           disable: "#8c8c8c",
           hover: "#edd7ab",
-          onHover: sepiaMode.RS__textColor,
-          select: sepiaMode.RS__selectionBackgroundColor,
-          onSelect: sepiaMode.RS__selectionTextColor,
+          onHover: "#121212",
+          select: "#b4d8fe",
+          onSelect: "inherit",
           focus: "#0067f4",
           elevate: "0px 0px 2px #8c8c8c",
           immerse: "0.5"
         },
         [ThThemeKeys.dark]: {
-          background: nightMode.RS__backgroundColor,
-          text: nightMode.RS__textColor,
-          link: nightMode.RS__linkColor,
-          visited: nightMode.RS__visitedColor,
+          background: "#000000",
+          text: "#FEFEFE",
+          link: "#63caff",
+          visited: "#0099E5",
           subdue: "#808080",
           disable: "#808080",
           hover: "#404040",
-          onHover: nightMode.RS__textColor,
-          select: nightMode.RS__selectionBackgroundColor,
-          onSelect: nightMode.RS__selectionTextColor,
+          onHover: "#FEFEFE",
+          select: "#b4d8fe",
+          onSelect: "inherit",
           focus: "#0067f4",
           elevate: "0px 0px 2px #808080",
           immerse: "0.4"
@@ -135,14 +133,14 @@ export const defaultPreferences = createPreferences({
         [ThThemeKeys.paper]: {
           background: "#e9ddc8",
           text: "#000000",
-          link: sepiaMode.RS__linkColor,
-          visited: sepiaMode.RS__visitedColor,
+          link: "#0000EE",
+          visited: "#551A8B",
           subdue: "#8c8c8c",
           disable: "#8c8c8c",
           hover: "#ccb07f",
-          onHover: sepiaMode.RS__textColor,
-          select: sepiaMode.RS__selectionBackgroundColor,
-          onSelect: sepiaMode.RS__selectionTextColor,
+          onHover: "#000000",
+          select: "#b4d8fe",
+          onSelect: "inherit",
           focus: "#004099",
           elevate: "0px 0px 2px #8c8c8c",
           immerse: "0.45"
@@ -150,14 +148,14 @@ export const defaultPreferences = createPreferences({
         [ThThemeKeys.contrast1]: {
           background: "#000000",
           text: "#ffff00",
-          link: nightMode.RS__linkColor,
-          visited: nightMode.RS__visitedColor,
+          link: "#63caff",
+          visited: "#0099E5",
           subdue: "#808000",
           disable: "#808000",
           hover: "#404040",
-          onHover: nightMode.RS__textColor,
-          select: nightMode.RS__selectionBackgroundColor,
-          onSelect: nightMode.RS__selectionTextColor,
+          onHover: "#ffff00",
+          select: "#b4d8fe",
+          onSelect: "inherit",
           focus: "#0067f4",
           elevate: "0px 0px 2px #808000",
           immerse: "0.4"
@@ -170,9 +168,9 @@ export const defaultPreferences = createPreferences({
           subdue: "#808080",
           disable: "#808080",
           hover: "#4444bb",
-          onHover: nightMode.RS__textColor,
-          select: nightMode.RS__selectionBackgroundColor,
-          onSelect: nightMode.RS__selectionTextColor,
+          onHover: "#ffffff",
+          select: "#b4d8fe",
+          onSelect: "inherit",
           focus: "#6BA9FF",
           elevate: "0px 0px 2px #808080",
           immerse: "0.4"
@@ -180,14 +178,14 @@ export const defaultPreferences = createPreferences({
         [ThThemeKeys.contrast3]: {
           background: "#c5e7cd",
           text: "#000000",
-          link: sepiaMode.RS__linkColor,
-          visited: sepiaMode.RS__visitedColor,
+          link: "#0000EE",
+          visited: "#551A8B",
           subdue: "#8c8c8c",
           disable: "#8c8c8c",
           hover: "#6fc383",
-          onHover: sepiaMode.RS__textColor,
-          select: sepiaMode.RS__selectionBackgroundColor,
-          onSelect: sepiaMode.RS__selectionTextColor,
+          onHover: "#000000",
+          select: "#b4d8fe",
+          onSelect: "inherit",
           focus: "#004099",
           elevate: "0px 0px 2px #8c8c8c",
           immerse: "0.45"
