@@ -15,22 +15,115 @@ import {
   ThTextSettingsKeys,
   ThSheetHeaderVariant,
   ThLayoutUI,
-  ThBackLinkVariant
+  ThBackLinkVariant,
+  ThProgressionFormat,
+  ThRunningHeadFormat,
+  ThDocumentTitleFormat
 } from "./models/enums";
-import { createPreferences } from "./preferences";
+import { createPreferences, ThPreferences, DefaultKeys } from "./preferences";
 
 import ReadiumCSSColors from "@readium/css/css/vars/colors.json";
 
-export const defaultPreferences = createPreferences({
+export const defaultPreferences: ThPreferences<DefaultKeys> = createPreferences<DefaultKeys>({
 //  direction: ThLayoutDirection.ltr,
 //  locale: "en",
+  metadata: {
+    documentTitle: {
+      format: ThDocumentTitleFormat.title
+    }
+  },
   typography: {
-    minimalLineLength: 40, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
-    optimalLineLength: 65, // number of characters. If auto layout, picks colCount based on this
-    maximalLineLength: 75, // undefined | null | number of characters.
+    minimalLineLength: 35, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
+    optimalLineLength: 60, // number of characters. If auto layout, picks colCount based on this
+    maximalLineLength: 70, // undefined | null | number of characters.
     pageGutter: 20
   },
   theming: {
+    header: {
+      backLink: {
+        variant: ThBackLinkVariant.arrow,
+        visibility: "partially",
+        href: "/"
+      },
+      runningHead: {
+        format: {
+          reflow: {
+            default: {
+              variants: ThRunningHeadFormat.chapter,
+              displayInImmersive: true,
+              displayInFullscreen: false
+            },
+            breakpoints: {
+              [ThBreakpoints.compact]: {
+                variants: ThRunningHeadFormat.chapter,
+                displayInImmersive: false,
+                displayInFullscreen: false
+              }
+            }
+          },
+          fxl: {
+            default: {
+              variants: ThRunningHeadFormat.title,
+              displayInImmersive: true,
+              displayInFullscreen: true
+            },
+            breakpoints: {
+              [ThBreakpoints.compact]: {
+                variants: ThRunningHeadFormat.title,
+                displayInImmersive: false,
+                displayInFullscreen: true
+              }
+            }
+          }
+        }
+      }
+    },
+    progression: {
+      format: {
+        reflow: {
+          default: {
+            variants: [
+              ThProgressionFormat.positionsPercentOfTotal,
+              ThProgressionFormat.progressionOfResource
+            ],
+            displayInImmersive: true,
+            displayInFullscreen: false
+          },
+          breakpoints: {
+            [ThBreakpoints.compact]: {
+              variants: [
+                ThProgressionFormat.positionsOfTotal, 
+                ThProgressionFormat.resourceProgression
+              ],
+              displayInImmersive: false,
+              displayInFullscreen: false
+            }
+          }
+        },
+        fxl: {
+          default: {
+            variants: [
+              ThProgressionFormat.positionsOfTotal, 
+              ThProgressionFormat.overallProgression,
+              ThProgressionFormat.none
+            ],
+            displayInImmersive: true,
+            displayInFullscreen: true
+          },
+          breakpoints: {
+            [ThBreakpoints.compact]: {
+              variants: [
+                ThProgressionFormat.positions, 
+                ThProgressionFormat.overallProgression,
+                ThProgressionFormat.none
+              ],
+              displayInImmersive: false,
+              displayInFullscreen: true
+            }
+          }
+        }
+      }
+    },
     arrow: {
       size: 40, // Size of the left and right arrows in px
       offset: 5 // offset of the arrows from the edges in px
@@ -193,19 +286,12 @@ export const defaultPreferences = createPreferences({
       }
     }
   },
-  affordances: {
+  affordances: { 
     scroll: {
       hintInImmersive: true,
       toggleOnMiddlePointer: ["tap"],
       hideOnForwardScroll: true,
       showOnBackwardScroll: true
-    }
-  },
-  header: {
-    backLink: {
-      variant: ThBackLinkVariant.arrow,
-      visibility: "partially",
-      href: "/"
     }
   },
   shortcuts: {
