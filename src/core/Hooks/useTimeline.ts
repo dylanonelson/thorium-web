@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 
 import { Layout, Link, Locator, Publication } from "@readium/shared";
 
@@ -12,6 +12,7 @@ export interface TocItem {
 
 export interface TimelineItem {
   href: string;
+  readingOrderIndex?: number;
   title?: string;
   fragments?: string[];
   positionRange?: [number, number?];
@@ -20,7 +21,19 @@ export interface TimelineItem {
   children?: TimelineItem[];
 }
 
+export interface TimelineProgression {
+  totalItems?: number;
+  currentIndex?: number;
+  totalPositions: number;
+  currentPositions: number[];
+  relativeProgression?: number;
+  totalProgression?: number;
+  currentChapter?: string;
+  positionsLeft: number;
+}
+
 export interface UnstableTimeline {
+  title?: string;
   items?: {
     [href: string]: TimelineItem;
   };
@@ -31,7 +44,10 @@ export interface UnstableTimeline {
   currentItem?: TimelineItem | null;
   previousItem?: TimelineItem | null;
   nextItem?: TimelineItem | null;
+  progression?: TimelineProgression;
 }
+
+export let timelineInstance: UnstableTimeline | undefined;
 
 export const useTimeline = ({
   publication, 
@@ -48,7 +64,6 @@ export const useTimeline = ({
 }): UnstableTimeline => {
   const layout = publication?.metadata.effectiveLayout || Layout.reflowable;
 
-  // Convert all refs to state
   const [timelineItems, setTimelineItems] = useState<{ [href: string]: TimelineItem }>({});
   const [tocTree, setTocTree] = useState<TocItem[]>([]);
   const [currentTocEntry, setCurrentTocEntry] = useState<string | null>(null);
@@ -56,8 +71,43 @@ export const useTimeline = ({
   const [previousItem, setPreviousItem] = useState<TimelineItem | null>(null);
   const [nextItem, setNextItem] = useState<TimelineItem | null>(null);
 
-  // Keep idCounter as ref since it's just a counter
   const idCounterRef = useRef(0);
+
+  // Create the timeline object
+  const timeline = useMemo(() => ({
+    title: publication?.metadata.title.getTranslation("en"),
+    items: timelineItems,
+    toc: {
+      tree: tocTree,
+      currentEntry: currentTocEntry
+    },
+    currentItem,
+    previousItem,
+    nextItem,
+    progression: {
+      totalItems: publication?.readingOrder.items.length,
+      currentIndex: currentItem?.readingOrderIndex ? currentItem.readingOrderIndex + 1 : undefined,
+      totalPositions: positionsList.length,
+      currentPositions: currentPositions || [],
+      relativeProgression: currentItem?.progressionRange?.[0],
+      totalProgression: currentItem?.totalProgressionRange?.[0],
+      currentChapter: currentItem?.title,
+      positionsLeft: currentItem?.positionRange?.[1] && currentPositions[0] !== undefined
+        ? Math.max(0, currentItem.positionRange[1] - currentPositions[0])
+        : 0
+    }
+  }), [
+    publication?.metadata.title,
+    publication?.readingOrder.items,
+    timelineItems,
+    tocTree,
+    currentTocEntry,
+    currentItem,
+    previousItem,
+    nextItem,
+    positionsList,
+    currentPositions
+  ]);
 
   const buildTocTree = useCallback((
     links: Link[],
@@ -150,19 +200,46 @@ export const useTimeline = ({
   const buildTimelineItems = useCallback(() => {
     const timelineItems: { [href: string]: TimelineItem } = {};
     const readingOrder = publication?.readingOrder?.items || [];
+    const toc = publication?.toc?.items || [];
+    const flatToc = toc.flatMap(t => [t, ...(t.children?.items || [])]);
   
     // Helper function to get URL base (without params and fragment)
     const getBaseUrl = (url: string): string => {
-      const [base] = url.split('#');
-      const [path] = base.split('?');
+      const [base] = url.split("#");
+      const [path] = base.split("?");
       return path;
     };
 
-    // Process reading order items
-    for (const item of readingOrder) {
-      const toc = publication?.toc?.items || [];
-      const flatToc = toc.flatMap(t => [t, ...(t.children?.items || [])]);
+    // Function to find the first non-empty title by searching backward 
+    // in flatToc from the current item"s position
+    // The issue with this fallback is that for progressionOfResource
+    // the progression is effectively scoped to the reading order item
+    // so we have to differentiate using the index 
+    const findNearestTitle = (currentHref: string): string => {
+      const currentIndex = readingOrder.findIndex(item => getBaseUrl(item.href) === getBaseUrl(currentHref));
+    
+      if (currentIndex === -1) return "";
+      
+      for (let i = currentIndex; i >= 0; i--) {
+        const item = readingOrder[i];
+        // Find matching TOC items for this reading order item
+        const matchingTocItems = flatToc.filter(t => 
+          getBaseUrl(t.href) === getBaseUrl(item.href)
+        );
+        
+        // If we have a matching TOC item with a title, return it with the difference in indices
+        const title = matchingTocItems[0]?.title?.trim();
+        if (title) {
+          const diff = currentIndex - i;
+          return diff > 0 ? `${ title } (${ diff + 1 })` : title;
+        }
+      }
+      
+      return "";
+    };
 
+    // Process reading order items
+    readingOrder.forEach((item, index) => {
       // Find all matching TOC items (with or without fragment)
       const matchingTocItems = flatToc.filter(t => {
         const baseHref = getBaseUrl(t.href);
@@ -173,18 +250,21 @@ export const useTimeline = ({
       // Create timeline item with all matching titles
       const timelineItem: TimelineItem = {
         href: item.href,
-        title: matchingTocItems[0]?.title || "",
+        readingOrderIndex: index,
+        title: item.title || matchingTocItems[0]?.title || findNearestTitle(item.href),
         fragments: matchingTocItems
-          .map(t => t.href.split('#')[1])
+          .map(t => t.href.split("#")[1])
           .filter(Boolean),
         children: matchingTocItems[0]?.children?.items?.map(child => ({
+          // We do not care about index for children
+          // since currentLocation is guaranteed to be in the reading order
           title: child.title,
           href: child.href
         })) || []
       };
 
       timelineItems[item.href] = timelineItem;
-    }
+    });
   
     // Then add position and progression information from positionsList
     for (const item of readingOrder) {
@@ -218,7 +298,6 @@ export const useTimeline = ({
     return timelineItems;
   }, [publication?.readingOrder?.items, publication?.toc?.items, positionsList]);
 
-  // Callback to update previous and next items
   const updateTimelineItems = useCallback(() => {
     if (!currentLocation || !timelineItems) {
       setPreviousItem(null);
@@ -272,32 +351,13 @@ export const useTimeline = ({
     updateTimelineItems();
   }, [currentLocation, tocTree, timelineItems, handleTocEntryOnNav, updateTimelineItems]);
 
-  // Effect to handle onChange when state changes
+  // Update the singleton and call onChange
   useEffect(() => {
-    if (!onChange) return;
+    timelineInstance = timeline;
+    if (onChange) {
+      onChange(timeline);
+    }
+  }, [timeline, onChange]);
 
-    const timeline: UnstableTimeline = {
-      items: timelineItems,
-      toc: {
-        tree: tocTree,
-        currentEntry: currentTocEntry
-      },
-      currentItem,
-      previousItem,
-      nextItem
-    };
-
-    onChange(timeline);
-  }, [timelineItems, currentItem, tocTree, currentTocEntry, previousItem, nextItem, onChange]);
-
-  return {
-    items: timelineItems,
-    toc: {
-      tree: tocTree,
-      currentEntry: currentTocEntry
-    },
-    currentItem,
-    previousItem,
-    nextItem
-  };
+  return timeline;
 };

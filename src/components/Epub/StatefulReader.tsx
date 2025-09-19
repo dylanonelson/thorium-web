@@ -19,7 +19,8 @@ import {
   ThLineHeightOptions, 
   ThSettingsKeys, 
   ThTextAlignOptions, 
-  ThLayoutUI
+  ThLayoutUI,
+  ThDocumentTitleFormat
 } from "../../preferences/models/enums";
 import { ThColorScheme } from "@/core/Hooks/useColorScheme";
 
@@ -62,6 +63,7 @@ import { usePrevious } from "@/core/Hooks/usePrevious";
 import { useI18n } from "@/i18n/useI18n";
 import { useTimeline } from "@/core/Hooks/useTimeline";
 import { useLocalStorage } from "@/core/Hooks/useLocalStorage";
+import { useDocumentTitle } from "@/core/Hooks/useDocumentTitle";
 
 import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
@@ -90,8 +92,6 @@ import {
 import { 
   setFXL, 
   setRTL, 
-  setProgression, 
-  setRunningHead, 
   setPositionsList,
   setTimeline,
   setPublicationStart,
@@ -158,18 +158,17 @@ export const StatefulReader = ({
   }
   
   const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
-  const RSPrefs = usePreferences();
+  const { preferences } = usePreferences();
   const { t } = useI18n();
   
   const [publication, setPublication] = useState<Publication | null>(null);
 
   const container = useRef<HTMLDivElement>(null);
   const localDataKey = useRef(`${selfHref}-current-location`);
-  const arrowsWidth = useRef(2 * ((RSPrefs.theming.arrow.size || 40) + (RSPrefs.theming.arrow.offset || 0)));
+  const arrowsWidth = useRef(2 * ((preferences.theming.arrow.size || 40) + (preferences.theming.arrow.offset || 0)));
 
   const isFXL = useAppSelector(state => state.publication.isFXL);
   const positionsList = useAppSelector(state => state.publication.positionsList);
-  const progression = useAppSelector(state => state.publication.progression);
 
   const textAlign = useAppSelector(state => state.settings.textAlign);
   const columnCount = useAppSelector(state => state.settings.columnCount);
@@ -201,21 +200,21 @@ export const StatefulReader = ({
   const isHovering = useAppSelector(state => state.reader.isHovering);
 
   const layoutUI = isFXL 
-    ? RSPrefs.theming.layout.ui?.fxl || ThLayoutUI.layered 
+    ? preferences.theming.layout.ui?.fxl || ThLayoutUI.layered 
     : isScroll 
-      ? RSPrefs.theming.layout.ui?.reflow || ThLayoutUI.layered
+      ? preferences.theming.layout.ui?.reflow || ThLayoutUI.layered
       : ThLayoutUI.stacked;
 
   // Init theming (breakpoints, theme, media queries…)
   useTheming<ThemeKeyType>({ 
     theme: theme,
-    themeKeys: RSPrefs.theming.themes.keys,
-    systemKeys: RSPrefs.theming.themes.systemThemes,
-    breakpointsMap: RSPrefs.theming.breakpoints,
+    themeKeys: preferences.theming.themes.keys,
+    systemKeys: preferences.theming.themes.systemThemes,
+    breakpointsMap: preferences.theming.breakpoints,
     initProps: {
-      ...propsToCSSVars(RSPrefs.theming.arrow, "arrow"), 
-      ...propsToCSSVars(RSPrefs.theming.icon, "icon"),
-      ...propsToCSSVars(RSPrefs.theming.layout, "layout")
+      ...propsToCSSVars(preferences.theming.arrow, "arrow"), 
+      ...propsToCSSVars(preferences.theming.icon, "icon"),
+      ...propsToCSSVars(preferences.theming.layout, "layout")
     },
     onBreakpointChange: (breakpoint) => dispatch(setBreakpoint(breakpoint)),
     onColorSchemeChange: (colorScheme) => dispatch(setColorScheme(colorScheme)),
@@ -260,12 +259,41 @@ export const StatefulReader = ({
   const timeline = useTimeline({
     publication: publication,
     currentLocation: localData,
-    currentPositions: progression.currentPositions || [],
+    currentPositions: currentPositions() || [],
     positionsList: positionsList,
     onChange: (timeline) => {
       dispatch(setTimeline(timeline));
     }
   });
+
+  const documentTitleFormat = preferences.metadata?.documentTitle?.format;
+  
+  let documentTitle: string | undefined;
+  
+  if (documentTitleFormat) {
+    if (typeof documentTitleFormat === "object") {
+      documentTitle = documentTitleFormat.custom;
+    } else {
+      switch (documentTitleFormat) {
+        case ThDocumentTitleFormat.title:
+          documentTitle = timeline?.title;
+          break;
+        case ThDocumentTitleFormat.chapter:
+          documentTitle = timeline?.progression?.currentChapter;
+          break;
+        case ThDocumentTitleFormat.titleAndChapter:
+          if (timeline?.title && timeline?.progression?.currentChapter) {
+            documentTitle = `${ timeline.title } – ${ timeline.progression.currentChapter }`;
+          }
+          break;
+        case ThDocumentTitleFormat.none:
+          documentTitle = undefined;
+          break;
+      }
+    }
+  }
+
+  useDocumentTitle(documentTitle);
 
   // We need to use a cache so that we can use updated values
   // without re-rendering the component, and reloading EpubNavigator
@@ -325,31 +353,19 @@ export const StatefulReader = ({
           toggleIsImmersive();
         }
       } else {
-        if (RSPrefs.affordances.scroll.toggleOnMiddlePointer.includes("tap")) {
+        if (preferences.affordances.scroll.toggleOnMiddlePointer.includes("tap")) {
           toggleIsImmersive();
         }
       }
     }
   };
 
-  const handleProgression = useCallback((locator: Locator) => {
-    const relativeRef = locator.title || t("reader.app.progression.referenceFallback");
-      
-    dispatch(setProgression( { 
-      currentPositions: currentPositions(), 
-      relativeProgression: locator.locations.progression, 
-      currentChapter: relativeRef, 
-      totalProgression: locator.locations.totalProgression 
-    }));
-  }, [dispatch, currentPositions, t]);
-
   // We need this as a workaround due to positionChanged being unreliable
   // in FXL – if the frame is in the pool hidden and is shown again,
   // positionChanged won’t fire.
   const handleFXLProgression = useCallback((locator: Locator) => {
-    handleProgression(locator);
     setLocalData(locator);
-  }, [handleProgression, setLocalData]);
+  }, [setLocalData]);
 
   onFXLPositionChange(handleFXLProgression);
 
@@ -364,7 +380,7 @@ export const StatefulReader = ({
     }
   };
 
-  const p = new Peripherals(useAppStore(), RSPrefs.actions, {
+  const p = new Peripherals(useAppStore(), preferences.actions, {
     moveTo: (direction) => {
       switch(direction) {
         case "right":
@@ -427,7 +443,6 @@ export const StatefulReader = ({
       if (navLayout() !== Layout.fixed) {
         const debouncedHandleProgression = debounce(
           async () => {
-            handleProgression(locator);
             setLocalData(locator);
           }, 250);
         debouncedHandleProgression();
@@ -455,7 +470,7 @@ export const StatefulReader = ({
       if (cache.current.layoutUI === ThLayoutUI.layered) {
         if (
           !cache.current.settings.scroll ||
-          RSPrefs.affordances.scroll.toggleOnMiddlePointer.includes("click")
+          preferences.affordances.scroll.toggleOnMiddlePointer.includes("click")
         ) {
           handleTap(_e);
         }
@@ -477,14 +492,14 @@ export const StatefulReader = ({
             dispatch(setScrollAffordance(true));
           }
         } else if (!cache.current.isImmersive && _delta > 20) {
-          if (RSPrefs.affordances.scroll.hideOnForwardScroll) {
+          if (preferences.affordances.scroll.hideOnForwardScroll) {
             dispatch(setImmersive(true));
           }
         } else if (cache.current.isImmersive && _delta < -20) {
           if (
             // Keep consistent with pagination behavior
             cache.current.layoutUI === ThLayoutUI.layered && 
-            RSPrefs.affordances.scroll.showOnBackwardScroll
+            preferences.affordances.scroll.showOnBackwardScroll
           ) {
             dispatch(setImmersive(false));
           }
@@ -535,19 +550,7 @@ export const StatefulReader = ({
 
     // Reset top bar visibility and last position
     dispatch(setImmersive(false));
-
-    const handleConstraint = async (value: number) => {
-      await applyConstraint(value)
-    }
-
-    if (!isScroll) {
-      handleConstraint(arrowsOccupySpace ? arrowsWidth.current : 0)
-        .catch(console.error);
-    } else {
-      handleConstraint(0)
-        .catch(console.error);
-    }
-  }, [isScroll, arrowsOccupySpace, applyConstraint, dispatch]);
+  }, [isScroll, dispatch]);
 
   useEffect(() => {
     cache.current.settings.columnCount = columnCount;
@@ -611,7 +614,13 @@ export const StatefulReader = ({
 
   useEffect(() => {
     cache.current.arrowsOccupySpace = arrowsOccupySpace || false;
-  }, [arrowsOccupySpace]);
+
+    const handleConstraint = async () => {
+      await applyConstraint(arrowsOccupySpace ? arrowsWidth.current : 0)
+    }
+    handleConstraint()
+      .catch(console.error);
+  }, [arrowsOccupySpace, applyConstraint]);
 
   useEffect(() => {
     cache.current.reducedMotion = reducedMotion;
@@ -636,8 +645,8 @@ export const StatefulReader = ({
       const themeKey = themeKeys.includes(theme as any) ? theme : "auto";
       const themeProps = buildThemeObject<ThemeKeyType>({
         theme: themeKey,
-        themeKeys: RSPrefs.theming.themes.keys,
-        systemThemes: RSPrefs.theming.themes.systemThemes,
+        themeKeys: preferences.theming.themes.keys,
+        systemThemes: preferences.theming.themes.systemThemes,
         colorScheme
       });
       await submitPreferences(themeProps);
@@ -649,20 +658,12 @@ export const StatefulReader = ({
 
     applyCurrentTheme()
       .catch(console.error);
-  }, [themeObject, previousTheme, RSPrefs.theming.themes, fxlThemeKeys, reflowThemeKeys, colorScheme, isFXL, submitPreferences, dispatch]);
+  }, [themeObject, previousTheme, preferences.theming.themes, fxlThemeKeys, reflowThemeKeys, colorScheme, isFXL, submitPreferences, dispatch]);
 
   useEffect(() => {
-    RSPrefs.direction && dispatch(setDirection(RSPrefs.direction));
+    preferences.direction && dispatch(setDirection(preferences.direction));
     dispatch(setPlatformModifier(getPlatformModifier()));
-  }, [RSPrefs.direction, dispatch]);
-
-  useEffect(() => {
-    const handleConstraint = async () => {
-      await applyConstraint(arrowsOccupySpace ? arrowsWidth.current : 0)
-    }
-    handleConstraint()
-      .catch(console.error);
-  }, [arrowsOccupySpace, applyConstraint]);
+  }, [preferences.direction, dispatch]);
 
   useEffect(() => {
     const fetcher: Fetcher = new HttpFetcher(undefined, selfHref);
@@ -681,18 +682,10 @@ export const StatefulReader = ({
     dispatch(setRTL(publication.metadata.effectiveReadingProgression === ReadingProgression.rtl));
     dispatch(setFXL(publication.metadata.effectiveLayout === Layout.fixed));
 
-    const pubTitle = publication.metadata.title.getTranslation("en");
-
-    dispatch(setRunningHead(pubTitle));
-    dispatch(setProgression({ currentPublication: pubTitle }));
-
     let positionsList: Locator[] | undefined;
 
     const fetchPositions = async () => {
       positionsList = await publication.positionsFromManifest();
-      if (positionsList && positionsList.length > 0) {
-        dispatch(setProgression( { totalPositions: positionsList.length }))
-      };
       const deserializedPositionsList = deserializePositions(positionsList);
       dispatch(setPositionsList(deserializedPositionsList));
     };
@@ -710,19 +703,19 @@ export const StatefulReader = ({
         const theme = themeKeys.includes(cache.current.settings.theme as any) ? cache.current.settings.theme : "auto";
         const themeProps = buildThemeObject<ThemeKeyType>({
           theme: theme,
-          themeKeys: RSPrefs.theming.themes.keys,
-          systemThemes: RSPrefs.theming.themes.systemThemes,
+          themeKeys: preferences.theming.themes.keys,
+          systemThemes: preferences.theming.themes.systemThemes,
           colorScheme: cache.current.colorScheme
         });
 
         const lineHeightOptions = {
           [ThLineHeightOptions.publisher]: null,
-          [ThLineHeightOptions.small]: RSPrefs.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.small] || defaultLineHeights[ThLineHeightOptions.small],
-          [ThLineHeightOptions.medium]: RSPrefs.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.medium] || defaultLineHeights[ThLineHeightOptions.medium],
-          [ThLineHeightOptions.large]: RSPrefs.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.large] || defaultLineHeights[ThLineHeightOptions.large],
+          [ThLineHeightOptions.small]: preferences.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.small] || defaultLineHeights[ThLineHeightOptions.small],
+          [ThLineHeightOptions.medium]: preferences.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.medium] || defaultLineHeights[ThLineHeightOptions.medium],
+          [ThLineHeightOptions.large]: preferences.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.large] || defaultLineHeights[ThLineHeightOptions.large],
         };
 
-        const preferences: IEpubPreferences = isFXL ? {} : {
+        const epubPreferences: IEpubPreferences = isFXL ? {} : {
           columnCount: cache.current.settings.columnCount === "auto" ? null : Number(cache.current.settings.columnCount),
           constraint: initialConstraint,
           fontFamily: cache.current.settings.fontFamily && defaultFontFamilyOptions[cache.current.settings.fontFamily],
@@ -752,16 +745,16 @@ export const StatefulReader = ({
         };
 
         const defaults: IEpubDefaults = isFXL ? {} : {
-          maximalLineLength: RSPrefs.typography.maximalLineLength, 
-          minimalLineLength: RSPrefs.typography.minimalLineLength, 
-          optimalLineLength: RSPrefs.typography.optimalLineLength,
-          pageGutter: RSPrefs.typography.pageGutter,
-          scrollPaddingTop: RSPrefs.theming.layout.ui?.reflow === ThLayoutUI.layered 
-            ? (RSPrefs.theming.icon.size || 24) * 3 
-            : (RSPrefs.theming.icon.size || 24),
-          scrollPaddingBottom: RSPrefs.theming.layout.ui?.reflow === ThLayoutUI.layered 
-            ? (RSPrefs.theming.icon.size || 24) * 5 
-            : (RSPrefs.theming.icon.size || 24)
+          maximalLineLength: preferences.typography.maximalLineLength, 
+          minimalLineLength: preferences.typography.minimalLineLength, 
+          optimalLineLength: preferences.typography.optimalLineLength,
+          pageGutter: preferences.typography.pageGutter,
+          scrollPaddingTop: preferences.theming.layout.ui?.reflow === ThLayoutUI.layered 
+            ? (preferences.theming.icon.size || 24) * 3 
+            : (preferences.theming.icon.size || 24),
+          scrollPaddingBottom: preferences.theming.layout.ui?.reflow === ThLayoutUI.layered 
+            ? (preferences.theming.icon.size || 24) * 5 
+            : (preferences.theming.icon.size || 24)
         }
   
         EpubNavigatorLoad({
@@ -770,7 +763,7 @@ export const StatefulReader = ({
           listeners: listeners, 
           positionsList: positionsList,
           initialPosition: initialPosition ?? undefined,
-          preferences: preferences,
+          preferences: epubPreferences,
           defaults: defaults
         }, () => p.observe(window));
       })
@@ -784,7 +777,7 @@ export const StatefulReader = ({
     return () => {
       EpubNavigatorDestroy(() => p.destroy());
     };
-  }, [publication, RSPrefs, fxlThemeKeys, reflowThemeKeys]);
+  }, [publication, preferences, fxlThemeKeys, reflowThemeKeys]);
 
   // If breakpoint is not defined, we are not ready to render
   // since useDocking needs it to derive the sheet type
@@ -793,7 +786,7 @@ export const StatefulReader = ({
 
   return (
     <>
-    <I18nProvider locale={ RSPrefs.locale }>
+    <I18nProvider locale={ preferences.locale }>
     <ThPluginProvider>
       <main id="reader-main">
         <StatefulDockingWrapper>
