@@ -1,5 +1,10 @@
 "use client";
 
+export enum ThLayoutUI {
+  stacked = "stacked-ui",
+  layered = "layered-ui"
+}
+
 export enum ThBackLinkVariant {
   arrow = "arrow",
   home = "home",
@@ -7,9 +12,30 @@ export enum ThBackLinkVariant {
   custom = "custom"
 }
 
-export enum ThLayoutUI {
-  stacked = "stacked-ui",
-  layered = "layered-ui"
+export enum ThDocumentTitleFormat {
+  title = "title",
+  chapter = "chapter",
+  titleAndChapter = "titleAndChapter",
+  none = "none"
+}
+
+export enum ThRunningHeadFormat {
+  title = "title",
+  chapter = "chapter",
+  // titleAndChapter = "titleAndChapter",
+  none = "none"
+}
+
+export enum ThProgressionFormat {
+  positionsPercentOfTotal = "positionsPercentOfTotal",  // x-y of z (%)
+  positionsOfTotal = "positionsOfTotal",                // x-y of z
+  positions = "positions",                              // x-y
+  overallProgression = "overallProgression",            // x%
+  positionsLeft = "positionsLeft",                      // x left in chapter
+  readingOrderIndex = "readingOrderIndex",              // x of y
+  resourceProgression = "resourceProgression",          // x%
+  progressionOfResource = "progressionOfResource",      // x% of y
+  none = "none"                                         // nothing displayed
 }
 
 export enum ThActionsKeys {
@@ -85,6 +111,7 @@ export enum ThSettingsContainerKeys {
 
 export enum ThSettingsRangeVariant {
   slider = "slider",
+  incrementedSlider = "incrementedSlider",
   numberField = "numberField"
 }
 
