@@ -17,13 +17,13 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setParagraphSpacing, setPublisherStyles } from "@/lib/settingsReducer";
 
 export const StatefulParagraphSpacing = ({ standalone = true }: StatefulSettingsItemProps) => {
-  const RSPrefs = usePreferences();
+  const { preferences } = usePreferences();
   const { t } = useI18n();
   const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
   const paragraphSpacingRangeConfig = {
-    variant: RSPrefs.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.variant ?? defaultParagraphSpacing.variant,
-    range: RSPrefs.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.range ?? defaultParagraphSpacing.range,
-    step: RSPrefs.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.step ?? defaultParagraphSpacing.step
+    variant: preferences.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.variant ?? defaultParagraphSpacing.variant,
+    range: preferences.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.range ?? defaultParagraphSpacing.range,
+    step: preferences.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.step ?? defaultParagraphSpacing.step
   };
   const dispatch = useAppDispatch();
 
@@ -63,6 +63,7 @@ export const StatefulParagraphSpacing = ({ standalone = true }: StatefulSettings
       />
       : <StatefulSlider
         standalone={ standalone }
+        displayTicks={ paragraphSpacingRangeConfig.variant === ThSettingsRangeVariant.incrementedSlider }
         label={ t("reader.settings.paraSpacing.title") }
         defaultValue={ 0 } 
         value={ paragraphSpacing || 0 } 
