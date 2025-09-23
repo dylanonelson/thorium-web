@@ -79,6 +79,7 @@ export enum ThSettingsKeys {
   paragraphSpacing = "paragraphSpacing",
   publisherStyles = "publisherStyles",
   spacingGroup = "spacingGroup",
+  spacingPresets = "spacingPresets",
   textAlign = "textAlign",
   textGroup = "textGroup",
   textNormalize = "textNormalize",
@@ -102,6 +103,7 @@ export enum ThSpacingSettingsKeys {
   paragraphIndent = "paragraphIndent",
   paragraphSpacing = "paragraphSpacing",
   publisherStyles = "publisherStyles",
+  spacingPresets = "spacingPresets",
   wordSpacing = "wordSpacing"
 }
 
@@ -138,6 +140,15 @@ export enum ThThemeKeys {
   contrast1 = "contrast1",
   contrast2 = "contrast2",
   contrast3 = "contrast3"
+}
+
+export enum ThSpacingKeys {
+  publisher = "publisher",
+  tight = "tight",
+  balanced = "balanced",
+  loose = "loose",
+  accessible = "accessible",
+  custom = "custom"
 }
 
 export enum ThLayoutDirection {
