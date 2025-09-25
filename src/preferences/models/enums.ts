@@ -142,7 +142,7 @@ export enum ThThemeKeys {
   contrast3 = "contrast3"
 }
 
-export enum ThSpacingKeys {
+export enum ThSpacingPresetKeys {
   publisher = "publisher",
   tight = "tight",
   balanced = "balanced",
