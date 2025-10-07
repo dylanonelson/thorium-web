@@ -143,6 +143,8 @@
       },
       "fontWeight": {
         "title": "Font weight",
+        "default": "Normal",
+        "bolder": "Bolder",
         "increase": "Increase font weight",
         "decrease": "Decrease font weight"
       },
