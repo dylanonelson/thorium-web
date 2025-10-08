@@ -2,41 +2,44 @@
 
 import { useCallback } from "react";
 
-import { defaultParagraphSpacing, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
+import { ThSettingsKeys, ThSettingsRangeVariant, ThSpacingSettingsKeys } from "@/preferences";
 
-import { StatefulSettingsItemProps } from "../../Settings/models/settings";
+import { StatefulSettingsItemProps } from "../../../Settings/models/settings";
 
-import { StatefulNumberField } from "../../Settings/StatefulNumberField";
-import { StatefulSlider } from "../../Settings/StatefulSlider";
+import { StatefulNumberField } from "../../../Settings/StatefulNumberField";
+import { StatefulSlider } from "../../../Settings/StatefulSlider";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useI18n } from "@/i18n/useI18n";
-
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setParagraphSpacing, setPublisherStyles } from "@/lib/settingsReducer";
+import { useSpacingPresets } from "./hooks/useSpacingPresets";
+import { usePlaceholder } from "../hooks/usePlaceholder";
 
 export const StatefulParagraphSpacing = ({ standalone = true }: StatefulSettingsItemProps) => {
   const { preferences } = usePreferences();
   const { t } = useI18n();
-  const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
   const paragraphSpacingRangeConfig = {
-    variant: preferences.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.variant ?? defaultParagraphSpacing.variant,
-    range: preferences.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.range ?? defaultParagraphSpacing.range,
-    step: preferences.settings.keys?.[ThSettingsKeys.paragraphSpacing]?.step ?? defaultParagraphSpacing.step
+    variant: preferences.settings.keys[ThSettingsKeys.paragraphSpacing].variant,
+    placeholder: preferences.settings.keys[ThSettingsKeys.paragraphSpacing].placeholder,
+    range: preferences.settings.keys[ThSettingsKeys.paragraphSpacing].range,
+    step: preferences.settings.keys[ThSettingsKeys.paragraphSpacing].step
   };
-  const dispatch = useAppDispatch();
 
+  const placeholderText = usePlaceholder(paragraphSpacingRangeConfig.placeholder, paragraphSpacingRangeConfig.range, "multiplier");
+  
   const { getSetting, submitPreferences } = useEpubNavigator();
 
-  const updatePreference = useCallback(async (value: number) => {
+  const { getEffectiveSpacingValue, setParagraphSpacing, canBeReset } = useSpacingPresets();
+
+  const paragraphSpacing = getEffectiveSpacingValue(ThSpacingSettingsKeys.paragraphSpacing);
+
+  const updatePreference = useCallback(async (value: number | number[] | null) => {
     await submitPreferences({
-      paragraphSpacing: value
+      paragraphSpacing: Array.isArray(value) ? value[0] : value
     });
 
-    dispatch(setParagraphSpacing(getSetting("paragraphSpacing")));
-    dispatch(setPublisherStyles(false));
-  }, [submitPreferences, getSetting, dispatch]);
+    setParagraphSpacing(getSetting("paragraphSpacing"));
+  }, [submitPreferences, getSetting, setParagraphSpacing]);
 
   return (
     <>
@@ -44,9 +47,11 @@ export const StatefulParagraphSpacing = ({ standalone = true }: StatefulSettings
       ? <StatefulNumberField 
         standalone={ standalone }
         label={ t("reader.settings.paraSpacing.title") }
-        defaultValue={ 0 } 
-        value={ paragraphSpacing || 0 } 
+        placeholder={ placeholderText }
+        defaultValue={ undefined } 
+        value={ paragraphSpacing ?? undefined } 
         onChange={ async(value) => await updatePreference(value) } 
+        onReset={ canBeReset(ThSpacingSettingsKeys.paragraphSpacing) ? async() => await updatePreference(null) : undefined }
         range={ paragraphSpacingRangeConfig.range }
         step={ paragraphSpacingRangeConfig.step }
         steppers={{
@@ -65,9 +70,11 @@ export const StatefulParagraphSpacing = ({ standalone = true }: StatefulSettings
         standalone={ standalone }
         displayTicks={ paragraphSpacingRangeConfig.variant === ThSettingsRangeVariant.incrementedSlider }
         label={ t("reader.settings.paraSpacing.title") }
-        defaultValue={ 0 } 
-        value={ paragraphSpacing || 0 } 
+        placeholder={ placeholderText }
+        defaultValue={ undefined } 
+        value={ paragraphSpacing ?? undefined } 
         onChange={ async(value) => await updatePreference(value as number) } 
+        onReset={ canBeReset(ThSpacingSettingsKeys.paragraphSpacing) ? async() => await updatePreference(null) : undefined }
         range={ paragraphSpacingRangeConfig.range }
         step={ paragraphSpacingRangeConfig.step }
         formatOptions={{

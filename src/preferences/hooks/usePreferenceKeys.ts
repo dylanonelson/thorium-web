@@ -1,5 +1,14 @@
 "use client";
 
+import { ThSpacingPresetKeys } from "@/preferences/models/enums";
+import { 
+  defaultSpacingSettingsSubpanel,
+  defaultTextSettingsMain,
+  defaultTextSettingsSubpanel,
+  defaultSpacingSettingsMain,
+  defaultSpacingPresetsOrder
+} from "@/preferences/models/const";
+
 import { usePreferences } from "./usePreferences";
 
 export const usePreferenceKeys = () => {
@@ -14,10 +23,13 @@ export const usePreferenceKeys = () => {
   const reflowSettingsKeys = preferences.settings.reflowOrder;
   const fxlSettingsKeys = preferences.settings.fxlOrder;
 
-  const mainTextSettingsKeys = preferences.settings.text?.main ?? [];
-  const subPanelTextSettingsKeys = preferences.settings.text?.subPanel ?? [];
-  const mainSpacingSettingsKeys = preferences.settings.spacing?.main ?? [];
-  const subPanelSpacingSettingsKeys = preferences.settings.spacing?.subPanel ?? [];
+  const mainTextSettingsKeys = preferences.settings.text?.main ?? defaultTextSettingsMain;
+  const subPanelTextSettingsKeys = preferences.settings.text?.subPanel ?? defaultTextSettingsSubpanel;
+  const mainSpacingSettingsKeys = preferences.settings.spacing?.main ?? defaultSpacingSettingsMain;
+  const subPanelSpacingSettingsKeys = preferences.settings.spacing?.subPanel ?? defaultSpacingSettingsSubpanel;
+
+  const reflowSpacingPresetKeys = preferences.settings.spacing?.presets?.reflowOrder ?? defaultSpacingPresetsOrder;
+  const fxlSpacingPresetKeys: ThSpacingPresetKeys[] = [];
 
   return {
     reflowActionKeys,
@@ -30,5 +42,7 @@ export const usePreferenceKeys = () => {
     subPanelTextSettingsKeys,
     mainSpacingSettingsKeys,
     subPanelSpacingSettingsKeys,
+    reflowSpacingPresetKeys,
+    fxlSpacingPresetKeys
   };
 }

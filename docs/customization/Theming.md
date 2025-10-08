@@ -356,6 +356,7 @@ theming: {
     }
   }
 }
+```
 
 If you do not, the `auto` theme will not be rendered. In case it was previously selected, it will be set to the first theme in the `fxlOrder` array – excluding value `auto`.
 

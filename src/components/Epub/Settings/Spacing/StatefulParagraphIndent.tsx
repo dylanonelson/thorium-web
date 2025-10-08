@@ -2,41 +2,44 @@
 
 import { useCallback } from "react";
 
-import { defaultParagraphIndent, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
+import { ThSettingsKeys, ThSettingsRangeVariant, ThSpacingSettingsKeys } from "@/preferences";
 
-import { StatefulSettingsItemProps } from "../../Settings/models/settings";
+import { StatefulSettingsItemProps } from "../../../Settings/models/settings";
 
-import { StatefulNumberField } from "../../Settings/StatefulNumberField";
-import { StatefulSlider } from "../../Settings/StatefulSlider";
+import { StatefulNumberField } from "../../../Settings/StatefulNumberField";
+import { StatefulSlider } from "../../../Settings/StatefulSlider";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useI18n } from "@/i18n/useI18n";
-
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setParagraphIndent, setPublisherStyles } from "@/lib/settingsReducer";
+import { useSpacingPresets } from "./hooks/useSpacingPresets";
+import { usePlaceholder } from "../hooks/usePlaceholder";
 
 export const StatefulParagraphIndent = ({ standalone = true }: StatefulSettingsItemProps) => {
   const { preferences } = usePreferences();
   const { t } = useI18n();
-  const paragraphIndent = useAppSelector(state => state.settings.paragraphIndent);
   const paragraphIndentRangeConfig = {
-      variant: preferences.settings.keys?.[ThSettingsKeys.paragraphIndent]?.variant ?? defaultParagraphIndent.variant,
-      range: preferences.settings.keys?.[ThSettingsKeys.paragraphIndent]?.range ?? defaultParagraphIndent.range,
-      step: preferences.settings.keys?.[ThSettingsKeys.paragraphIndent]?.step ?? defaultParagraphIndent.step
+      variant: preferences.settings.keys[ThSettingsKeys.paragraphIndent].variant,
+      placeholder: preferences.settings.keys[ThSettingsKeys.paragraphIndent].placeholder,
+      range: preferences.settings.keys[ThSettingsKeys.paragraphIndent].range,
+      step: preferences.settings.keys[ThSettingsKeys.paragraphIndent].step
     };
-  const dispatch = useAppDispatch();
 
+  const placeholderText = usePlaceholder(paragraphIndentRangeConfig.placeholder, paragraphIndentRangeConfig.range, "multiplier");
+  
   const { getSetting, submitPreferences } = useEpubNavigator();
 
-  const updatePreference = useCallback(async (value: number) => {
+  const { getEffectiveSpacingValue, setParagraphIndent, canBeReset } = useSpacingPresets();
+
+  const paragraphIndent = getEffectiveSpacingValue(ThSpacingSettingsKeys.paragraphIndent);
+
+  const updatePreference = useCallback(async (value: number | number[] | null) => {
     await submitPreferences({
-      paragraphIndent: value
+      paragraphIndent: Array.isArray(value) ? value[0] : value
     });
 
-    dispatch(setParagraphIndent(getSetting("paragraphIndent")));
-    dispatch(setPublisherStyles(false));
-  }, [submitPreferences, getSetting, dispatch]);
+    setParagraphIndent(getSetting("paragraphIndent"));
+  }, [submitPreferences, getSetting, setParagraphIndent]);
 
   return (
     <>
@@ -44,9 +47,11 @@ export const StatefulParagraphIndent = ({ standalone = true }: StatefulSettingsI
       ? <StatefulNumberField 
         standalone={ standalone }
         label={ t("reader.settings.paraIndent.title") }
-        defaultValue={ 0 } 
-        value={ paragraphIndent || 0 } 
+        placeholder={ placeholderText }
+        defaultValue={ undefined } 
+        value={ paragraphIndent ?? undefined } 
         onChange={ async(value) => await updatePreference(value) } 
+        onReset={ canBeReset(ThSpacingSettingsKeys.paragraphIndent) ? async () => await updatePreference(null) : undefined }
         range={ paragraphIndentRangeConfig.range }
         step={ paragraphIndentRangeConfig.step }
         steppers={{
@@ -65,9 +70,11 @@ export const StatefulParagraphIndent = ({ standalone = true }: StatefulSettingsI
         standalone={ standalone }
         displayTicks={ paragraphIndentRangeConfig.variant === ThSettingsRangeVariant.incrementedSlider }
         label={ t("reader.settings.paraIndent.title") }
-        defaultValue={ 0 } 
-        value={ paragraphIndent || 0 } 
+        placeholder={ placeholderText }
+        defaultValue={ undefined } 
+        value={ paragraphIndent ?? undefined } 
         onChange={ async(value) => await updatePreference(value as number) } 
+        onReset={ canBeReset(ThSpacingSettingsKeys.paragraphIndent) ? async () => await updatePreference(null) : undefined }
         range={ paragraphIndentRangeConfig.range }
         step={ paragraphIndentRangeConfig.step }
         formatOptions={{

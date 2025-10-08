@@ -282,6 +282,43 @@ interface StatefulSpacingGroupProps {}
 <StatefulSpacingGroup />
 ```
 
+#### StatefulSpacingPresets
+
+```typescript
+interface StatefulSpacingPresetsProps extends StatefulSettingsItemProps {
+  standalone?: boolean;
+}
+```
+
+**Features:**
+- Spacing presets toggle
+- Integration with spacing settings
+- State persistence
+- Accessibility labels
+- Real-time spacing updates
+
+**Example:**
+```typescript
+<StatefulSpacingPresets />
+```
+
+#### StatefulLineHeight
+
+```typescript
+interface StatefulLineHeightProps extends StatefulSettingsItemProps {
+  standalone?: boolean;
+}
+```
+
+**Features:**
+- Line height control (radio group)
+- Publisher style integration
+
+**Example:**
+```typescript
+<StatefulLineHeight />
+```
+
 #### StatefulLetterSpacing
 
 ```typescript

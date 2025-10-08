@@ -1,39 +1,33 @@
 "use client";
 
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 
-import { defaultLineHeights, ThLineHeightOptions, ThSettingsKeys } from "@/preferences";
+import { ThLineHeightOptions, ThSpacingSettingsKeys } from "@/preferences";
 
 import { StatefulSettingsItemProps } from "../../Settings/models/settings";
 
 import { StatefulSwitch } from "../../Settings/StatefulSwitch";
 
-import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useI18n } from "@/i18n/useI18n";
+import { useSpacingPresets } from "./Spacing/hooks/useSpacingPresets";
+import { useLineHeight } from "./Spacing/hooks/useLineHeight";
 
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setPublisherStyles } from "@/lib/settingsReducer";
+import { useAppSelector } from "@/lib/hooks";
 
 export const StatefulPublisherStyles = ({ standalone = true }: StatefulSettingsItemProps) => {
-  const { preferences } = usePreferences();
   const { t } = useI18n();
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
 
-  const lineHeight = useAppSelector(state => state.settings.lineHeight);
-  const paragraphIndent = useAppSelector(state => state.settings.paragraphIndent);
-  const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
-  const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
-  const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
+  const { getEffectiveSpacingValue, setPublisherStyles } = useSpacingPresets();
 
-  const dispatch = useAppDispatch();
+  const lineHeight = getEffectiveSpacingValue(ThSpacingSettingsKeys.lineHeight);
+  const paragraphIndent = getEffectiveSpacingValue(ThSpacingSettingsKeys.paragraphIndent);
+  const paragraphSpacing = getEffectiveSpacingValue(ThSpacingSettingsKeys.paragraphSpacing);
+  const letterSpacing = getEffectiveSpacingValue(ThSpacingSettingsKeys.letterSpacing);
+  const wordSpacing = getEffectiveSpacingValue(ThSpacingSettingsKeys.wordSpacing);
 
-  const lineHeightOptions = useRef({
-    [ThLineHeightOptions.publisher]: null,
-    [ThLineHeightOptions.small]: preferences.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.small] || defaultLineHeights[ThLineHeightOptions.small],
-    [ThLineHeightOptions.medium]: preferences.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.medium] || defaultLineHeights[ThLineHeightOptions.medium],
-    [ThLineHeightOptions.large]: preferences.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.large] || defaultLineHeights[ThLineHeightOptions.large],
-  });
+  const lineHeightOptions = useLineHeight();
 
   const { submitPreferences } = useEpubNavigator();
 
@@ -49,16 +43,16 @@ export const StatefulPublisherStyles = ({ standalone = true }: StatefulSettingsI
     {
       lineHeight: lineHeight === ThLineHeightOptions.publisher 
         ? null 
-        : lineHeightOptions.current[lineHeight as keyof typeof ThLineHeightOptions],
-      paragraphIndent: paragraphIndent || 0,
-      paragraphSpacing: paragraphSpacing || 0,
-      letterSpacing: letterSpacing || 0,
-      wordSpacing: wordSpacing || 0
+        : lineHeightOptions[lineHeight as keyof typeof ThLineHeightOptions],
+      paragraphIndent: paragraphIndent,
+      paragraphSpacing: paragraphSpacing,
+      letterSpacing: letterSpacing,
+      wordSpacing: wordSpacing
     };
     await submitPreferences(values);
 
-    dispatch(setPublisherStyles(isSelected ? true : false));
-  }, [submitPreferences, dispatch, lineHeight, paragraphIndent, paragraphSpacing, letterSpacing, wordSpacing]);
+    setPublisherStyles(isSelected ? true : false);
+  }, [submitPreferences, setPublisherStyles, lineHeight, paragraphIndent, paragraphSpacing, letterSpacing, wordSpacing, lineHeightOptions]);
 
   return(
     <>

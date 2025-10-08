@@ -19,9 +19,13 @@ import {
   ThProgressionFormat,
   ThRunningHeadFormat,
   ThBreakpoints,
-  ThDocumentTitleFormat
+  ThDocumentTitleFormat,
+  ThSpacingPresetKeys,
+  ThSettingsRangePlaceholder
 } from "./models/enums";
 import { ThCollapsibility, ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useCollapsibility";
+
+export type I18nValue<T> = T | string | { key: string; fallback?: string };
 
 export type ThBackLinkContent = 
   | { 
@@ -69,6 +73,27 @@ export interface ThActionsTokens {
   docked?: ThActionsDockedPref;
   snapped?: ThActionsSnappedPref;
 };
+
+export interface ThSettingsSpacingPresets<K extends CustomizableKeys = DefaultKeys> {
+  reflowOrder: Array<ThSpacingPresetKeys>;
+  // Not customizable as the component is static radiogroup (icons), unlike themes
+  // Publisher and custom are not included as they are special cases
+  keys: {
+    [key in Exclude<ThSpacingPresetKeys, "publisher" | "custom">]?: ThSpacingPreset<K>;
+  };
+}
+
+export type ThSpacingPreset<K extends CustomizableKeys = DefaultKeys> = {
+  [ThSpacingSettingsKeys.letterSpacing]?: number;
+  [ThSpacingSettingsKeys.lineHeight]?: ThLineHeightOptions;
+  [ThSpacingSettingsKeys.paragraphIndent]?: number;
+  [ThSpacingSettingsKeys.paragraphSpacing]?: number;
+  [ThSpacingSettingsKeys.wordSpacing]?: number;
+} & (K extends { spacing: infer S } 
+  ? S extends string 
+      ? { [key in S]?: number | ThLineHeightOptions }
+    : {}
+  : {});
 
 export type CustomizableKeys = {
   action?: string;
@@ -138,20 +163,32 @@ export interface ThSettingsGroupPref<T> {
 
 export interface ThSettingsRangePref {
   variant?: ThSettingsRangeVariant;
+  placeholder?: I18nValue<ThSettingsRangePlaceholder>;
   range?: [number, number];
   step?: number;
 }
 
-export type ThSettingsKeyTypes = {
-  [ThSettingsKeys.letterSpacing]?: ThSettingsRangePref;
-  [ThSettingsKeys.lineHeight]?: {
-      [key in Exclude<ThLineHeightOptions, ThLineHeightOptions.publisher>]: number
-    };
-  [ThSettingsKeys.paragraphIndent]?: ThSettingsRangePref;
-  [ThSettingsKeys.paragraphSpacing]?: ThSettingsRangePref;
-  [ThSettingsKeys.wordSpacing]?: ThSettingsRangePref;
-  [ThSettingsKeys.zoom]?: ThSettingsRangePref;
+export interface ThSettingsRadioPref<T extends string> {
+  allowUnset?: boolean;
+  keys: {
+    [key in T]: number;
+  };
 }
+
+export type ThSettingsKeyTypes<K extends CustomizableKeys = DefaultKeys> = {
+  [ThSettingsKeys.letterSpacing]: ThSettingsRangePref;
+  [ThSettingsKeys.lineHeight]: ThSettingsRadioPref<Exclude<ThLineHeightOptions, ThLineHeightOptions.publisher>>;
+  [ThSettingsKeys.paragraphIndent]: ThSettingsRangePref;
+  [ThSettingsKeys.paragraphSpacing]: ThSettingsRangePref;
+  [ThSettingsKeys.wordSpacing]: ThSettingsRangePref;
+  [ThSettingsKeys.zoom]: ThSettingsRangePref;
+} & (
+  K extends { settings: infer S } 
+    ? S extends string 
+      ? { [key in S]: any }
+      : {}
+    : {}
+);
 
 export type ThConstraintKeys = Extract<ThSheetTypes, ThSheetTypes.bottomSheet | ThSheetTypes.popover> | "pagination";
 
@@ -175,7 +212,7 @@ export interface ThPreferences<K extends CustomizableKeys = {}> {
   metadata?: {
     documentTitle?: {
       // TODO – Templating of custom
-      format: ThDocumentTitleFormat | { custom: string };
+      format: I18nValue<ThDocumentTitleFormat>;
     };
   };
   typography: {
@@ -254,9 +291,9 @@ export interface ThPreferences<K extends CustomizableKeys = {}> {
   settings: {
     reflowOrder: Array<SettingsKey<K>>;
     fxlOrder: Array<SettingsKey<K>>;
-    keys?: ThSettingsKeyTypes;
+    keys: ThSettingsKeyTypes<K>;
     text?: ThSettingsGroupPref<TextSettingsKey<K>>;
-    spacing?: ThSettingsGroupPref<SpacingSettingsKey<K>>;
+    spacing?: ThSettingsGroupPref<SpacingSettingsKey<K>> & { presets?: ThSettingsSpacingPresets<K> };
   };
 }
 
@@ -273,12 +310,21 @@ export const createPreferences = <K extends CustomizableKeys = {}>(
     orderArrays: K[][],
     keysObj: Record<string, V>,
     context: string,
-    specialCase?: string,
+    specialCase?: string | string[],
     fallback?: V
   ): void => {
     // Combine all arrays and filter out special cases if needed
     const allOrders = new Set<K>(
-      orderArrays.flatMap(arr => specialCase ? arr.filter(k => k !== specialCase) : arr)
+      orderArrays.flatMap(arr => {
+        if (!specialCase) return arr;
+        return arr.filter(k => {
+          if (Array.isArray(specialCase)) {
+            return !specialCase.includes(k);
+          } else {
+            return k !== specialCase;
+          }
+        });
+      })
     );
     
     // Get available keys
@@ -313,6 +359,110 @@ export const createPreferences = <K extends CustomizableKeys = {}>(
       "theming.themes",
       "auto" // Special case for themes
     );
+  }
+
+  // Validate spacing presets
+  if (params.settings.spacing?.presets) {
+    validateObjectKeys<ThSpacingPresetKeys, ThSpacingPreset<K>>(
+      [params.settings.spacing.presets.reflowOrder],
+      params.settings.spacing.presets.keys as Record<string, ThSpacingPreset<K>>,
+      "settings.spacing.presets",
+      ["publisher", "custom"]
+    );
+  }
+
+  // Validate spacing values in theming against settings
+  if (params.settings?.spacing?.presets?.keys && params.settings?.keys) {
+    const spacingSettings = params.settings.spacing.presets.keys;
+    const spacingThemes = params.settings.spacing.presets.keys;
+    
+    // Helper function to adjust a value to the nearest valid step or range boundary
+    const adjustSpacingValue = (key: string, value: number, context: string[]): number => {
+      // Type-safe way to get the setting
+      const settingKey = Object.values(ThSettingsKeys).find((k) => k === key);
+      if (!settingKey) {
+        return value; // Return as-is if no setting found
+      }
+      
+      const setting = (spacingSettings as any)[settingKey];
+      if (!setting) {
+        return value; // Return as-is if no setting found
+      }
+      
+      // Handle different setting types
+      let range: [number, number] | undefined;
+      let step: number | undefined;
+      
+      if (setting && typeof setting === "object" && "range" in setting) {
+        range = setting.range;
+        step = setting.step;
+      } else if (setting && typeof setting === "object") {
+        // Handle nested settings (like lineHeight and margin)
+        // These will be validated when their parent key is validated
+        return value;
+      }
+      
+      let adjustedValue = value;
+      
+      // Adjust to range boundaries if needed
+      if (range) {
+        const [min, max] = range;
+        if (adjustedValue < min) {
+          console.warn(`Adjusting value ${ value } for ${ context.join(".") } to minimum allowed value ${ min }`);
+          adjustedValue = min;
+        } else if (adjustedValue > max) {
+          console.warn(`Adjusting value ${ value } for ${ context.join(".") } to maximum allowed value ${ max }`);
+          adjustedValue = max;
+        }
+      }
+      
+      // Adjust to nearest step if needed
+      if (step && range) {
+        const [min] = range;
+        const steps = Math.round((adjustedValue - min) / step);
+        const steppedValue = parseFloat((min + (steps * step)).toFixed(10));
+        
+        // Ensure the stepped value is within range (in case of floating point precision issues)
+        const finalValue = Math.min(Math.max(steppedValue, range[0]), range[1]);
+        
+        if (Math.abs(finalValue - adjustedValue) > Number.EPSILON) {
+          console.warn(`Adjusting value ${ value } for ${ context.join(".") } to nearest step value ${ finalValue }`);
+          adjustedValue = finalValue;
+        }
+      }
+      
+      return adjustedValue;
+    };
+    
+    // Process each spacing theme to adjust values to valid steps/ranges
+    for (const [themeName, spacingTheme] of Object.entries(spacingThemes)) {
+      if (spacingTheme && typeof spacingTheme === "object") {
+        const adjustedTheme: Record<string, any> = {};
+        let hasAdjustedValues = false;
+        
+        // Process each value in the theme
+        for (const [key, value] of Object.entries(spacingTheme)) {
+          if (typeof value === "number") {
+            const context = ["theming", "spacing", "keys", themeName, key];
+            const adjustedValue = adjustSpacingValue(key, value, context);
+            adjustedTheme[key] = adjustedValue;
+            
+            if (adjustedValue !== value) {
+              hasAdjustedValues = true;
+            }
+          } else {
+            // Keep non-number values as-is
+            adjustedTheme[key] = value;
+          }
+        }
+        
+        // Replace the theme with adjusted values if any changes were made
+        if (hasAdjustedValues) {
+          // @ts-ignore - We know spacingThemes[themeName] is mutable
+          spacingThemes[themeName as keyof typeof spacingThemes] = adjustedTheme;
+        }
+      }
+    }
   }
   
   return params;

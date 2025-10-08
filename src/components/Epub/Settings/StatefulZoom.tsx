@@ -2,7 +2,7 @@
 
 import React, { useCallback } from "react";
 
-import { defaultFontSize, ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
+import { ThSettingsKeys, ThSettingsRangeVariant } from "@/preferences";
 
 import Decrease from "./assets/icons/text_decrease.svg";
 import Increase from "./assets/icons/text_increase.svg";
@@ -15,9 +15,11 @@ import { StatefulNumberField } from "../../Settings/StatefulNumberField";
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useI18n } from "@/i18n/useI18n";
+import { usePlaceholder } from "./hooks/usePlaceholder";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setFontSize } from "@/lib/settingsReducer";
+
 
 export const StatefulZoom = () => {
   const { preferences } = usePreferences();
@@ -32,20 +34,17 @@ export const StatefulZoom = () => {
     preferencesEditor 
   } = useEpubNavigator();
 
-  const updatePreference = useCallback(async (value: number) => {
-    await submitPreferences({ fontSize: value });
+  const updatePreference = useCallback(async (value: number | number[]) => {
+    await submitPreferences({ fontSize: Array.isArray(value) ? value[0] : value });
     dispatch(setFontSize(getSetting("fontSize")));
   }, [submitPreferences, getSetting, dispatch]);
 
-  const getEffectiveRange = (preferred: [number, number] | undefined, fallback: [number, number], supportedRange: [number, number] | undefined): [number, number] => {
+  const getEffectiveRange = (preferred: [number, number], supportedRange: [number, number] | undefined): [number, number] => {
     if (!supportedRange) {
-      return preferred || fallback
+      return preferred
     }
     if (preferred && isRangeWithinSupportedRange(preferred, supportedRange)) {
       return preferred;
-    }
-    if (fallback && isRangeWithinSupportedRange(fallback, supportedRange)) {
-      return fallback;
     }
     return supportedRange;
   }
@@ -56,12 +55,15 @@ export const StatefulZoom = () => {
   }
 
   const zoomRangeConfig = {
-    variant: preferences.settings.keys?.[ThSettingsKeys.zoom]?.variant || defaultFontSize.variant,
+    variant: preferences.settings.keys[ThSettingsKeys.zoom].variant,
+    placeholder: preferences.settings.keys[ThSettingsKeys.zoom].placeholder,
     range: preferencesEditor?.fontSize.supportedRange
-      ? getEffectiveRange(preferences.settings.keys?.[ThSettingsKeys.zoom]?.range, defaultFontSize.range, preferencesEditor?.fontSize.supportedRange)
-      : preferences.settings.keys?.[ThSettingsKeys.zoom]?.range || defaultFontSize.range,
-    step: preferences.settings.keys?.[ThSettingsKeys.zoom]?.step || preferencesEditor?.fontSize.step || defaultFontSize.step
+      ? getEffectiveRange(preferences.settings.keys[ThSettingsKeys.zoom].range, preferencesEditor?.fontSize.supportedRange)
+      : preferences.settings.keys[ThSettingsKeys.zoom].range,
+    step: preferences.settings.keys[ThSettingsKeys.zoom].step
   }
+
+  const placeholderText = usePlaceholder(zoomRangeConfig.placeholder, zoomRangeConfig.range);
 
   return (
     <>
@@ -72,6 +74,7 @@ export const StatefulZoom = () => {
         value={ fontSize } 
         onChange={ async(value) => await updatePreference(value) } 
         label={ isFXL ? t("reader.settings.zoom.title") : t("reader.settings.fontSize.title") }
+        placeholder={ placeholderText }
         range={ zoomRangeConfig.range }
         step={ zoomRangeConfig.step }
         steppers={{
@@ -91,6 +94,7 @@ export const StatefulZoom = () => {
         value={ fontSize } 
         onChange={ async(value) => await updatePreference(value as number) } 
         label={ isFXL ? t("reader.settings.zoom.title") : t("reader.settings.fontSize.title") }
+        placeholder={ placeholderText }
         range={ zoomRangeConfig.range }
         step={ zoomRangeConfig.step }
         formatOptions={{ style: "percent" }} 
