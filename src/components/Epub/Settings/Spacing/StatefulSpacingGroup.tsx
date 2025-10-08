@@ -9,10 +9,10 @@ import {
   ThSpacingSettingsKeys 
 } from "@/preferences";
 
-import { StatefulGroupWrapper } from "../../Settings/StatefulGroupWrapper";
+import { StatefulGroupWrapper } from "../../../Settings/StatefulGroupWrapper";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
-import { usePlugins } from "../../Plugins/PluginProvider";
+import { usePlugins } from "../../../Plugins/PluginProvider";
 import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch } from "@/lib/hooks";
@@ -48,6 +48,7 @@ export const StatefulSpacingGroup = () => {
 
 export const StatefulSpacingGroupContainer = () => {
   const { preferences } = usePreferences();
+
   const displayOrder = preferences.settings.spacing?.subPanel as ThSpacingSettingsKeys[] | null | undefined || defaultSpacingSettingsSubpanel;
   const { spacingSettingsComponentsMap } = usePlugins();
 

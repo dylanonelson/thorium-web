@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { 
   defaultFontFamilyOptions, 
-  defaultLineHeights, 
   ThemeKeyType, 
   usePreferenceKeys, 
   useTheming
@@ -17,10 +16,10 @@ import {
   ThActionsKeys, 
   ThBreakpoints, 
   ThLineHeightOptions, 
-  ThSettingsKeys, 
   ThTextAlignOptions, 
   ThLayoutUI,
-  ThDocumentTitleFormat
+  ThDocumentTitleFormat,
+  ThSpacingSettingsKeys
 } from "../../preferences/models/enums";
 import { ThColorScheme } from "@/core/Hooks/useColorScheme";
 
@@ -64,6 +63,8 @@ import { useI18n } from "@/i18n/useI18n";
 import { useTimeline } from "@/core/Hooks/useTimeline";
 import { useLocalStorage } from "@/core/Hooks/useLocalStorage";
 import { useDocumentTitle } from "@/core/Hooks/useDocumentTitle";
+import { useSpacingPresets } from "./Settings/Spacing/hooks/useSpacingPresets";
+import { useLineHeight } from "./Settings";
 
 import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
@@ -144,22 +145,46 @@ export interface StatefulReaderProps {
   plugins?: ThPlugin[];
 }
 
-export const StatefulReader = ({ 
-  rawManifest, 
-  selfHref, 
-  plugins 
+// We need to register plugins before hooks run
+// otherwise we can’t access the values of spacing presets
+// when the component is effectively mounted as we check
+// if the component is registered and displayed from prefs
+export const StatefulReader = ({
+  rawManifest,
+  selfHref,
+  plugins
 }: StatefulReaderProps) => {
-  if (plugins && plugins.length > 0) {
-    plugins.forEach(plugin => {
-      ThPluginRegistry.register(plugin);
-    });
-  } else {
-    ThPluginRegistry.register(createDefaultPlugin());
+  const [pluginsRegistered, setPluginsRegistered] = useState(false);
+
+  useEffect(() => {
+    if (plugins && plugins.length > 0) {
+      plugins.forEach(plugin => {
+        ThPluginRegistry.register(plugin);
+      });
+    } else {
+      ThPluginRegistry.register(createDefaultPlugin());
+    }
+    setPluginsRegistered(true);
+  }, [plugins]);
+
+  if (!pluginsRegistered) {
+    return null;
   }
-  
+
+  return (
+    <>
+      <ThPluginProvider>
+        <StatefulReaderInner rawManifest={ rawManifest } selfHref={ selfHref } />
+      </ThPluginProvider>
+    </>
+  );
+};
+
+const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; selfHref: string }) => {
   const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
   const { preferences } = usePreferences();
   const { t } = useI18n();
+  const { getEffectiveSpacingValue } = useSpacingPresets();
   
   const [publication, setPublication] = useState<Publication | null>(null);
 
@@ -176,16 +201,16 @@ export const StatefulReader = ({
   const fontSize = useAppSelector(state => state.settings.fontSize);
   const fontWeight = useAppSelector(state => state.settings.fontWeight);
   const hyphens = useAppSelector(state => state.settings.hyphens);
-  const letterSpacing = useAppSelector(state => state.settings.letterSpacing);
+  const letterSpacing = getEffectiveSpacingValue(ThSpacingSettingsKeys.letterSpacing);
   const lineLength = useAppSelector(state => state.settings.lineLength);
-  const lineHeight = useAppSelector(state => state.settings.lineHeight);
-  const paragraphIndent = useAppSelector(state => state.settings.paragraphIndent);
-  const paragraphSpacing = useAppSelector(state => state.settings.paragraphSpacing);
+  const lineHeight = getEffectiveSpacingValue(ThSpacingSettingsKeys.lineHeight);
+  const paragraphIndent = getEffectiveSpacingValue(ThSpacingSettingsKeys.paragraphIndent);
+  const paragraphSpacing = getEffectiveSpacingValue(ThSpacingSettingsKeys.paragraphSpacing);
   const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
   const scroll = useAppSelector(state => state.settings.scroll);
   const isScroll = scroll && !isFXL;
   const textNormalization = useAppSelector(state => state.settings.textNormalization);
-  const wordSpacing = useAppSelector(state => state.settings.wordSpacing);
+  const wordSpacing = getEffectiveSpacingValue(ThSpacingSettingsKeys.wordSpacing);
   const themeObject = useAppSelector(state => state.theming.theme);
   const theme = isFXL ? themeObject.fxl : themeObject.reflow;
   const previousTheme = usePrevious(theme);
@@ -266,13 +291,18 @@ export const StatefulReader = ({
     }
   });
 
+  const lineHeightOptions = useLineHeight();
+
   const documentTitleFormat = preferences.metadata?.documentTitle?.format;
   
   let documentTitle: string | undefined;
   
   if (documentTitleFormat) {
-    if (typeof documentTitleFormat === "object") {
-      documentTitle = documentTitleFormat.custom;
+    if (typeof documentTitleFormat === "object" && "key" in documentTitleFormat) {
+      const translatedTitle = t(documentTitleFormat.key);
+      documentTitle = translatedTitle !== documentTitleFormat.key 
+        ? translatedTitle 
+        : documentTitleFormat.fallback;
     } else {
       switch (documentTitleFormat) {
         case ThDocumentTitleFormat.title:
@@ -288,6 +318,9 @@ export const StatefulReader = ({
           break;
         case ThDocumentTitleFormat.none:
           documentTitle = undefined;
+          break;
+        default: 
+          documentTitle = documentTitleFormat;
           break;
       }
     }
@@ -708,13 +741,6 @@ export const StatefulReader = ({
           colorScheme: cache.current.colorScheme
         });
 
-        const lineHeightOptions = {
-          [ThLineHeightOptions.publisher]: null,
-          [ThLineHeightOptions.small]: preferences.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.small] || defaultLineHeights[ThLineHeightOptions.small],
-          [ThLineHeightOptions.medium]: preferences.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.medium] || defaultLineHeights[ThLineHeightOptions.medium],
-          [ThLineHeightOptions.large]: preferences.settings.keys?.[ThSettingsKeys.lineHeight]?.[ThLineHeightOptions.large] || defaultLineHeights[ThLineHeightOptions.large],
-        };
-
         const epubPreferences: IEpubPreferences = isFXL ? {} : {
           columnCount: cache.current.settings.columnCount === "auto" ? null : Number(cache.current.settings.columnCount),
           constraint: initialConstraint,
@@ -728,13 +754,19 @@ export const StatefulReader = ({
             : cache.current.settings.lineHeight === null 
               ? null 
               : lineHeightOptions[cache.current.settings.lineHeight],
-          optimalLineLength: cache.current.settings.lineLength?.optimal,
+          optimalLineLength: cache.current.settings.lineLength?.optimal != null 
+            ? cache.current.settings.lineLength.optimal 
+            : undefined,
           maximalLineLength: cache.current.settings.lineLength?.max?.isDisabled 
             ? null 
-            : cache.current.settings.lineLength?.max?.chars,
+            : (cache.current.settings.lineLength?.max?.chars != null) 
+              ? cache.current.settings.lineLength.max.chars 
+              : undefined,
           minimalLineLength: cache.current.settings.lineLength?.min?.isDisabled 
             ? null 
-            : cache.current.settings.lineLength?.min?.chars,
+            : (cache.current.settings.lineLength?.min?.chars != null) 
+              ? cache.current.settings.lineLength.min.chars 
+              : undefined,
           paragraphIndent: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paragraphIndent,
           paragraphSpacing: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paragraphSpacing,
           scroll: cache.current.settings.scroll,
@@ -745,8 +777,8 @@ export const StatefulReader = ({
         };
 
         const defaults: IEpubDefaults = isFXL ? {} : {
-          maximalLineLength: preferences.typography.maximalLineLength, 
-          minimalLineLength: preferences.typography.minimalLineLength, 
+          maximalLineLength: preferences.typography.maximalLineLength,
+          minimalLineLength: preferences.typography.minimalLineLength,
           optimalLineLength: preferences.typography.optimalLineLength,
           pageGutter: preferences.typography.pageGutter,
           scrollPaddingTop: preferences.theming.layout.ui?.reflow === ThLayoutUI.layered 
@@ -787,7 +819,6 @@ export const StatefulReader = ({
   return (
     <>
     <I18nProvider locale={ preferences.locale }>
-    <ThPluginProvider>
       <main id="reader-main">
         <StatefulDockingWrapper>
           <div 
@@ -835,7 +866,6 @@ export const StatefulReader = ({
         </div>
       </StatefulDockingWrapper>
     </main>
-  </ThPluginProvider>
   </I18nProvider>
   </>
 )};

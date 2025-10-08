@@ -11,18 +11,27 @@ import {
   ThSheetTypes, 
   ThThemeKeys,  
   ThLayoutDirection,
-  ThLineHeightOptions,
   ThTextSettingsKeys,
   ThSheetHeaderVariant,
   ThLayoutUI,
   ThBackLinkVariant,
   ThProgressionFormat,
   ThRunningHeadFormat,
-  ThDocumentTitleFormat
+  ThDocumentTitleFormat,
 } from "./models/enums";
 import { createPreferences, ThPreferences, DefaultKeys } from "./preferences";
 
 import ReadiumCSSColors from "@readium/css/css/vars/colors.json";
+import { 
+  defaultLetterSpacing, 
+  defaultLineHeights, 
+  defaultParagraphIndent, 
+  defaultParagraphSpacing, 
+  defaultSpacingPresets, 
+  defaultSpacingPresetsOrder, 
+  defaultWordSpacing, 
+  defaultZoom
+} from "./models/const";
 
 export const defaultPreferences: ThPreferences<DefaultKeys> = createPreferences<DefaultKeys>({
 //  direction: ThLayoutDirection.ltr,
@@ -33,8 +42,8 @@ export const defaultPreferences: ThPreferences<DefaultKeys> = createPreferences<
     }
   },
   typography: {
-    minimalLineLength: 35, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
-    optimalLineLength: 60, // number of characters. If auto layout, picks colCount based on this
+    minimalLineLength: 40, // undefined | null | number of characters. If 2 cols will switch to 1 based on this
+    optimalLineLength: 55, // number of characters. If auto layout, picks colCount based on this
     maximalLineLength: 70, // undefined | null | number of characters.
     pageGutter: 20
   },
@@ -284,7 +293,7 @@ export const defaultPreferences: ThPreferences<DefaultKeys> = createPreferences<
           immerse: "0.45"
         }
       }
-    }
+    },
   },
   affordances: { 
     scroll: {
@@ -423,28 +432,25 @@ export const defaultPreferences: ThPreferences<DefaultKeys> = createPreferences<
       ThSettingsKeys.columns
     ],
     keys: {
+      [ThSettingsKeys.letterSpacing]: defaultLetterSpacing,
       [ThSettingsKeys.lineHeight]: {
-        [ThLineHeightOptions.small]: 1.3,
-        [ThLineHeightOptions.medium]: 1.5,
-        [ThLineHeightOptions.large]: 1.75
+        allowUnset: false,
+        keys: defaultLineHeights
       },
-      [ThSettingsKeys.zoom]: {
-        range: [0.7, 4],
-        step: 0.05
-      }
+      [ThSettingsKeys.paragraphIndent]: defaultParagraphIndent,
+      [ThSettingsKeys.paragraphSpacing]: defaultParagraphSpacing,
+      [ThSettingsKeys.wordSpacing]: defaultWordSpacing,
+      [ThSettingsKeys.zoom]: defaultZoom
     },
     text: {
-      header: ThSheetHeaderVariant.previous,
-      subPanel: [
-        ThTextSettingsKeys.fontFamily,
-        ThTextSettingsKeys.fontWeight,
-        ThTextSettingsKeys.textAlign,
-        ThTextSettingsKeys.hyphens,
-        ThTextSettingsKeys.textNormalize
-      ]
+      header: ThSheetHeaderVariant.previous
     },
     spacing: {
       header: ThSheetHeaderVariant.previous,
+      presets: {
+        reflowOrder: defaultSpacingPresetsOrder,
+        keys: defaultSpacingPresets
+      }
     }
   }
 })

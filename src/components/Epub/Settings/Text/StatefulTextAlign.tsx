@@ -3,15 +3,15 @@
 import React, { useCallback } from "react";
 
 import { ThTextAlignOptions } from "@/preferences/models/enums";
-import { StatefulSettingsItemProps } from "../../Settings/models/settings";
+import { StatefulSettingsItemProps } from "../../../Settings/models/settings";
 import { TextAlignment } from "@readium/navigator";
 
-import BookIcon from "./assets/icons/book.svg";
+import BookIcon from "../assets/icons/book.svg";
 import LeftAlignIcon from "./assets/icons/format_align_left.svg";
 import RightAlignIcon from "./assets/icons/format_align_right.svg";
 import JustifyIcon from "./assets/icons/format_align_justify.svg";
 
-import { StatefulRadioGroup } from "../../Settings/StatefulRadioGroup";
+import { StatefulRadioGroup } from "../../../Settings/StatefulRadioGroup";
 
 import { useEpubNavigator } from "@/core/Hooks/Epub/useEpubNavigator";
 import { useI18n } from "@/i18n/useI18n";
@@ -26,6 +26,27 @@ export const StatefulTextAlign = ({ standalone = true }: StatefulSettingsItemPro
   const dispatch = useAppDispatch();
 
   const { getSetting, submitPreferences } = useEpubNavigator();
+
+  const items = [
+    {
+      id: ThTextAlignOptions.publisher,
+      icon: BookIcon,
+      label: t("reader.settings.align.publisher"), 
+      value: ThTextAlignOptions.publisher 
+    },
+    {
+      id: ThTextAlignOptions.start,
+      icon: isRTL ? RightAlignIcon : LeftAlignIcon,
+      label: isRTL ? t("reader.settings.align.right") : t("reader.settings.align.left"), 
+      value: ThTextAlignOptions.start 
+    },
+    {
+      id: ThTextAlignOptions.justify,
+      icon: JustifyIcon,
+      label: t("reader.settings.align.justify"), 
+      value: ThTextAlignOptions.justify 
+    }
+  ];
 
   const updatePreference = useCallback(async (value: string) => {
     const textAlign: TextAlignment | null = value === ThTextAlignOptions.publisher 
@@ -60,23 +81,7 @@ export const StatefulTextAlign = ({ standalone = true }: StatefulSettingsItemPro
       orientation="horizontal" 
       value={ textAlign } 
       onChange={ async (val: string) => await updatePreference(val) }
-      items={[
-        {
-          icon: BookIcon,
-          label: t("reader.settings.align.publisher"), 
-          value: ThTextAlignOptions.publisher 
-        },
-        {
-          icon: isRTL ? RightAlignIcon : LeftAlignIcon,
-          label: isRTL ? t("reader.settings.align.right") : t("reader.settings.align.left"), 
-          value: ThTextAlignOptions.start 
-        },
-        {
-          icon: JustifyIcon,
-          label: t("reader.settings.align.justify"), 
-          value: ThTextAlignOptions.justify 
-        }
-      ]}
+      items={ items }
     />
     </>
   );

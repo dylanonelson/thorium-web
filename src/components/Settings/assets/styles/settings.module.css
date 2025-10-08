@@ -2,14 +2,6 @@
   margin: calc(var(--layout-spacing) * 2) 0; 
 }
 
-.readerSettings .readerSettingsGroup:first-of-type {
-  margin-top: 0;
-}
-
-.readerSettings .readerSettingsGroup:last-of-type {
-  margin-bottom: 0;
-}
-
 .readerSettingsAdvancedGroup {
   position: relative;
 }
@@ -38,6 +30,10 @@
   border-radius: var(--layout-radius);
 }
 
+.readerSettingsNumberField .readerSettingsGroupWrapper {
+  margin-bottom: 0;
+}
+
 .readerSettingsRadioWrapper {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 100px), 1fr));
@@ -59,12 +55,40 @@
   outline: 2px solid var(--theme-focus);
 }
 
+.readerSettingsNumberFieldWrapper,
+.readerSettingsSliderWrapper {
+  display: flex;
+  align-items: flex-start;
+  max-width: 100%;
+}
+
+.readerSettingsNumberFieldWrapper .readerSettingsNumberField,
+.readerSettingsSliderWrapper .readerSettingsSlider {
+  flex: 1 0 auto;
+}
+
+.readerSettings .readerSettingsGroup:first-of-type {
+  margin-top: 0;
+}
+
+.readerSettings .readerSettingsGroup:last-of-type {
+  margin-bottom: 0;
+}
+
+/* Reset button */
+
+.readerSettingsResetButton {
+  margin-inline-start: auto;
+}
+
+/* Number field */
+
 .readerSettingsNumberField .readerSettingsInput {
   background-color: var(--theme-background);
   color: var(--theme-text);
   font-weight: bold;
   align-self: center;
-  max-width: 10ch;
+  max-width: 20ch;
 }
 
 .readerSettingsGroupWrapper[data-disabled] .readerSettingsInput {
@@ -166,13 +190,13 @@
 
 .readerSettingsSlider {
   display: grid;
-  grid-template-areas: "label output blank"
-                       "track track blank";
-  grid-template-columns: 1fr auto minmax(calc(var(--layout-spacing) / 2), 20%);
+  grid-template-areas: "label output"
+                       "track track";
+  grid-template-columns: 1fr auto;
   gap: calc(var(--layout-spacing) / 2);
   color: var(--theme-text);
   flex-direction: column;
-  max-width: 100%;
+  max-width: min(calc(100% - (var(--layout-spacing) / 2)), 80%);
 }
 
 .readerSettingsSliderLabel {
@@ -235,6 +259,10 @@
   border: 2px solid var(--theme-focus);
 }
 
+.readerSettingsSliderPlaceholder {
+  color: var(--theme-subdue);  
+}
+
 /* Slider with ticks */
 
 .readerSettingsSliderWithTicks .readerSettingsSliderTrack::before {
@@ -290,7 +318,7 @@
   pointer-events: none;
 }
 
-/* TMP?: Dropdown */
+/* Dropdown */
 
 .readerSettingsDropdownButton {
   margin-top: var(--layout-spacing);
@@ -351,7 +379,7 @@
   color: var(--theme-disable);
 }
 
-/* TMP: maxChars switch */
+/* Switch */
 
 .readerSettingsSwitch {
   display: flex;
