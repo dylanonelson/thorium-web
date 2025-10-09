@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "path": "backend",
+      "name": "Backend (Python)"
+    },
+    {
+      "path": "frontend",
+      "name": "Frontend (Next.js)"
+    },
+    {
+      "path": ".",
+      "name": "Root"
+    }
+  ],
+  "settings": {
+    // Global settings across all folders
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/*.pyc": true,
+      "**/.DS_Store": true
+    }
+  }
+}
