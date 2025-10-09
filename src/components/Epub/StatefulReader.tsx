@@ -816,6 +816,8 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
   // Same for arrows and collapsible actions.
   if (!breakpoint) return null;
 
+  console.log('currentLocator', currentLocator()?.locations.position)
+
   return (
     <>
     <I18nProvider locale={ preferences.locale }>
