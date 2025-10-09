@@ -10,7 +10,7 @@
 /coverage
 
 # next.js
-/.next/
+frontend/.next/
 /out/
 
 # production
@@ -43,3 +43,8 @@ next-env.d.ts
 
 # Rollup
 .rollup.cache
+
+backend/proto_gen/*
+frontend/proto_gen/*
+!backend/proto_gen/.keep
+!frontend/proto_gen/.keep
