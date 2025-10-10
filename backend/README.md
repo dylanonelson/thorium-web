@@ -41,3 +41,9 @@ pip-compile --upgrade requirements.in
 # Then install
 pip-sync requirements.txt dev.txt
 ```
+
+## Running the app
+
+```bash
+uvicorn main:app --reload
+```

@@ -1,9 +1,0 @@
-syntax = "proto3";
-package echo.v1;
-
-message HealthRequest {}
-
-message HealthResponse {
-  bool ok = 1;
-  int64  timestamp_ms = 2;
-}

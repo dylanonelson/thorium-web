@@ -11,40 +11,22 @@ frontend/coverage
 
 # next.js
 frontend/.next/
-/out/
+frontend/out/
 
 # production
-/build
+frontend/build
 
 # bundle
-/dist
-
-# misc
-.DS_Store
-*.pem
+frontend/dist
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
-.env*.local
+backend/.env
+backend/.venv
 
-# vercel
-.vercel
-
-# wrangler
-.wrangler
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# Rollup
-.rollup.cache
-
-backend/proto_gen/*
-frontend/proto_gen/*
-!backend/proto_gen/.keep
-!frontend/proto_gen/.keep
+# misc
+.DS_Store
+*.pem
