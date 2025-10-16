@@ -1,3 +1,5 @@
 fastapi
 uvicorn[standard]
 sse-starlette
+litellm
+dotenv
