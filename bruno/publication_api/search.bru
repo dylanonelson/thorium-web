@@ -5,11 +5,21 @@ meta {
 }
 
 post {
-  url: http://localhost:8091/search
-  body: none
+  url: {{origin}}/search
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+    "publication_id": "david-copperfield",
+    "query": "happy",
+    "max_results": 10,
+    "context_chars": 100
+  }
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

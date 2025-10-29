@@ -24,7 +24,6 @@ tidy: ## Tidy go.mod
 tools: ## Install dev tools into .tools/bin
 	@echo "Installing dev tools to $(TOOLS_BIN)"
 	@mkdir -p $(TOOLS_BIN)
-	@$(GO) get -d $(AIR)
 	@GOBIN=$(TOOLS_BIN) $(GO) install $(AIR)
 
 build: deps ## Build server binary
