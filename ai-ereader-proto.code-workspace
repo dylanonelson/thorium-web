@@ -1,13 +1,17 @@
 {
   "folders": [
     {
-      "path": "backend",
+      "path": "reader_api",
       "name": "Backend (Python)"
     },
     {
       "path": "frontend",
       "name": "Frontend (Next.js)"
     },
+    {
+      "path": "publication_api",
+      "name": "Publication Server (Go)"
+    }
   ],
   "settings": {
     // Global settings across all folders

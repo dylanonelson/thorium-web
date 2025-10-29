@@ -8,6 +8,12 @@ There are multiple code workspaces and each one is largely configured in its own
 
 Dependencies are managed using pip and pip-tools. Dependencies are listed in both requirements.in (for production) and dev.in (for development), then compiled with pinned hashes into requirements.txt and dev.txt. To find which dependencies are included in the project or to add a new dependency, see the .in files.
 
+Node & npm version inside frontend is managed by nvm.
+
+Python version inside reader_api is managed by pyenv.
+
+Go version inside publication_api is managed by goenv.
+
 # Instructions
 
 Make changes based only on the instructions in my prompt. If you think other actions are necessary or would be helpful, ask before adding them to the plan or doing them. When the prompt is vague or doesn't include specific instructions, create a more concrete set of steps and ask for confirmation before carrying them out.

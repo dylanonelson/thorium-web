@@ -1,0 +1,11 @@
+{
+  "go.useLanguageServer": true,
+  "gopls": {
+    "env": {
+      "GOPROXY": "https://proxy.golang.org,direct"
+    }
+  },
+  "go.toolsEnvVars": {
+    "GOPROXY": "https://proxy.golang.org,direct"
+  }
+}
