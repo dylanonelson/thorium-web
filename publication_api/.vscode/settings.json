@@ -7,5 +7,5 @@
   },
   "go.toolsEnvVars": {
     "GOPROXY": "https://proxy.golang.org,direct"
-  }
+ } 
 }

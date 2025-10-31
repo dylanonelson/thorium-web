@@ -6,7 +6,15 @@ meta {
 
 post {
   url: ${origin}/ask
-  body: none
+  body: json
+    {
+      "question": "What is happening right now?",
+      "publication_id": "david-copperfield",
+      "locator": {
+        "href": "/text/chapter-01.xhtml",
+        "type": "application/xhtml+xml"
+      }
+    }
   auth: inherit
 }
 

@@ -1,4 +1,3 @@
-import json
 from app.models import LocatorModel
 
 SYSTEM_PROMPT_V0 = """
@@ -42,6 +41,16 @@ https://readium.org/architecture/models/locators/#the-locator-object
     "after": "which none of us could have foreseen." // Text immediately after the location
   }}
 }}
+
+When you're searching for an answer to the user's question in the book, you
+should retry the search without asking until you find the answer or run out of
+tries. And if the search tool is crude, you should try multiple searches in parallel.
+
+For the exact keyword search tool, you should search only for simple words or
+phrases that might appear in the passage in question, and read all of the
+surrounding context to try to find the passage. For example, if the user asks
+for a scene set at a ball, you should try searching for just "ball" or "dance"
+and read through a large number of results to find the answer.
 ```
 """
 

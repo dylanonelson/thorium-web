@@ -3,7 +3,6 @@ from typing import Any
 
 import httpx
 
-
 CONTENT_SERVICE_URL = os.getenv("CONTENT_SERVICE_URL", "http://127.0.0.1:8091")
 
 

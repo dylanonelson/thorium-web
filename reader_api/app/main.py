@@ -1,21 +1,13 @@
-from datetime import datetime
 import time
-from typing import AsyncIterator
-import os
-from pathlib import Path
 
-from fastapi import FastAPI, Request, WebSocket
-from fastapi.responses import JSONResponse, StreamingResponse, Response
-from sse_starlette.sse import EventSourceResponse
-from dotenv import load_dotenv
+from fastapi import FastAPI
 
-from app.models import HealthResponseModel, AskRequestModel, AskResponseModel
-from app.model_connector import get_connector
+from app.config import Config
+from app.model_connector import SEARCH_PUBLICATION_TOOL_NAME, get_connector
+from app.models import AskRequestModel, AskResponseModel, HealthResponseModel
 from app.prompts import get_messages
 
-# Load environment variables from .env file
-env_path = Path(__file__).parent.parent / ".env"
-load_dotenv(dotenv_path=env_path)
+Config.initialize()
 
 app = FastAPI(title="Tabula", version="0.1.0")
 
@@ -32,12 +24,18 @@ async def ask(request: AskRequestModel) -> AskResponseModel:
     """
     model_connector = get_connector()
 
+    publication_id = request.publication_id
+
     messages = get_messages(
         request.question,
         request.locator,
-        title="David Copperfield",
-        author="Charles Dickens",
+        title="Anna Karenina",
+        author="Leo Tolstoy",
         prompt_version="v0",
     )
-    answer = await model_connector.chat_sync(messages)
+    answer = await model_connector.chat_sync(
+        messages,
+        enabled_tools=[SEARCH_PUBLICATION_TOOL_NAME],
+        request_context={"publication_id": publication_id},
+    )
     return AskResponseModel(answer=answer)

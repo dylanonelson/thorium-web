@@ -1,0 +1,1 @@
+Never use an "any" type, unless it is absolutely necessary. Whenever using any types or using type coercion or manual type checking, include a comment explaining why it is necessary. Always prefer more specific or in-built types to more generic types like Dict, str, or object.

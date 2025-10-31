@@ -1,0 +1,27 @@
+meta {
+  name: test_anna_k
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{reader_api_dev}}/ask
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "question": "Find me the location of the famous scene where Vronsky ends up breaking his horse's back during a horse race",
+    "publication_id": "anna-karenina",
+    "locator": {
+      "href": "epub/text/chapter-8-19.xhtml",
+      "type": "application/xhtml+xml"
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

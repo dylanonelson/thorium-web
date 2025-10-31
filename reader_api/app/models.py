@@ -46,6 +46,7 @@ class LocatorModel(BaseModel):
 class AskRequestModel(BaseModel):
     question: str
     locator: LocatorModel
+    publication_id: str
 
 
 class AskResponseModel(BaseModel):

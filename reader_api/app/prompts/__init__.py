@@ -1,4 +1,7 @@
-from typing import List, Dict
+from typing import Dict, List
+
+from litellm.types.utils import Message
+
 from app.models import LocatorModel
 from app.prompts import prompt_v0
 
@@ -10,11 +13,11 @@ def get_messages(
     title: str,
     author: str,
     prompt_version: str = "v0",
-) -> List[Dict[str, str]]:
+) -> List[Message]:
     if prompt_version == "v0":
         return [
-            {"role": "system", "content": prompt_v0.get_system_prompt(title, author)},
-            {"role": "user", "content": prompt_v0.get_user_prompt(question, location)},
+            Message(role="system", content=prompt_v0.get_system_prompt(title, author)),
+            Message(role="user", content=prompt_v0.get_user_prompt(question, location)),
         ]
     else:
         raise ValueError(f"Invalid prompt version: {prompt_version}")
