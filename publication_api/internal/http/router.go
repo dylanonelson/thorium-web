@@ -3,6 +3,7 @@ package httpapi
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -133,7 +134,13 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 			}
 			loc.Locations = locatorLocations
 
-			resp.Hits = append(resp.Hits, SearchHit{Href: href, Locator: loc})
+			searchHit := SearchHit{Href: href, Locator: loc}
+			fmt.Printf("searchHit: %+v\n", searchHit)
+			fmt.Printf("locator.text.before: %+v\n", *loc.Text.Before)
+			fmt.Printf("locator.text.highlight: %+v\n", *loc.Text.Highlight)
+			fmt.Printf("locator.text.after: %+v\n", *loc.Text.After)
+			fmt.Printf("\n")
+			resp.Hits = append(resp.Hits, searchHit)
 			if len(resp.Hits) >= req.MaxResults {
 				// Enough results; cancel context to stop the iterator.
 				cancel()

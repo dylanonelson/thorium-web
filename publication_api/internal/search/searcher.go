@@ -5,10 +5,10 @@ import (
 )
 
 type Hit struct {
-	Href    string `json:"href"`
-	Before  string `json:"before"`
-	Match   string `json:"highlight"`
-	After   string `json:"after"`
+	Href   string `json:"href"`
+	Before string `json:"before"`
+	Match  string `json:"highlight"`
+	After  string `json:"after"`
 }
 
 // FindMatches returns up to maxResults matches of query within text, with a
@@ -40,10 +40,9 @@ func FindMatches(text string, query string, maxResults int, contextChars int) []
 		before := strings.TrimSpace(text[beforeStart:matchStart])
 		match := text[matchStart:matchEnd]
 		after := strings.TrimSpace(text[matchEnd:afterEnd])
-		results = append(results, Hit{Before: before, Match: match, After: after})
+		hit := Hit{Before: before, Match: match, After: after}
+		results = append(results, hit)
 		start = matchEnd
 	}
 	return results
 }
-
-

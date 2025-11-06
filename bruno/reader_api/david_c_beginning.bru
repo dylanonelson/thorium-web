@@ -1,0 +1,27 @@
+meta {
+  name: david_c_beginning
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{reader_api_dev}}/ask
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "question": "What is happening right now?",
+    "publication_id": "david-copperfield",
+    "locator": {
+      "href": "/text/chapter-01.xhtml",
+      "type": "application/xhtml+xml"
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -43,7 +43,6 @@ func IterateTextSegments(ctx context.Context, publication *pub.Publication) (<-c
 					continue
 				}
 				seg := Segment{Text: txt, Locator: te.Locator()}
-				fmt.Printf("text segment: %#v\n", seg)
 				select {
 				case <-ctx.Done():
 					return
