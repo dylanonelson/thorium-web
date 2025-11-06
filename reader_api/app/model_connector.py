@@ -264,9 +264,6 @@ class ModelConnector:
                     )
                 )
 
-        logger.info("Conversation: %s", conversation)
-        logger.info("Conversation length: %s", len(conversation))
-        logger.info("Conversation[-1]: %s", conversation[-1])
         logger.info("Conversation[-1].content: %s", conversation[-1].content)
         return self._extract_message_content(conversation[-1])
 

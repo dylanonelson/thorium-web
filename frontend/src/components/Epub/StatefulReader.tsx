@@ -816,7 +816,8 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
   // Same for arrows and collapsible actions.
   if (!breakpoint) return null;
 
-  console.log('currentLocator', currentLocator()?.locations.position)
+  console.log('currentLocator', currentLocator())
+  console.log(JSON.stringify(currentLocator(), null))
 
   return (
     <>

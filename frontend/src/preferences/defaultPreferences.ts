@@ -372,7 +372,7 @@ export const defaultPreferences: ThPreferences<DefaultKeys> = createPreferences<
       },
       [ThActionsKeys.jumpToPosition]: {
         visibility: ThCollapsibilityVisibility.overflow,
-        shortcut: null, // `${ UnstableShortcutMetaKeywords.shift }+${ ShortcutMetaKeywords.alt }+J`,
+        shortcut: `${ UnstableShortcutMetaKeywords.ctrl }+G`,
         sheet: {
           defaultSheet: ThSheetTypes.popover,
           breakpoints: {

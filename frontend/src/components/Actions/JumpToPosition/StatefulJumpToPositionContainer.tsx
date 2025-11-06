@@ -17,6 +17,8 @@ import { useI18n } from "@/i18n/useI18n";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
+import { ThFormTextField } from "@/core/Components";
+import { Locator } from "@readium/shared";
 
 export const StatefulJumpToPositionContainer = ({ 
   triggerRef 
@@ -28,6 +30,7 @@ export const StatefulJumpToPositionContainer = ({
   const positionNumbers = useAppSelector(state => state.publication.unstableTimeline?.progression?.currentPositions);
 
   const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
+  const currentLocator = useEpubNavigator().currentLocator();
   const dispatch = useAppDispatch();
 
   const docking = useDocking(ThActionsKeys.jumpToPosition);
@@ -38,6 +41,8 @@ export const StatefulJumpToPositionContainer = ({
   // Component has to handle updates locally since EpubNavigator updates positions, 
   // so we use these as an intermediary
   const [position, setPosition] = useState(0);
+  const [locatorString, setLocatorString] = useState<string>("");
+  const [locator, setLocator] = useState<Locator | null>(null);
 
   // Position Numbers can be a range so we must check position is in range
   // And not only that the array simply includes the position
@@ -65,6 +70,35 @@ export const StatefulJumpToPositionContainer = ({
     setPosition(parseInt(target.value));
   }, []);
 
+  const handleCopyLocatorAction = useCallback((e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!currentLocator) return;
+
+    navigator.clipboard.writeText(JSON.stringify(currentLocator));
+  }, [currentLocator]);
+
+  const handleLocatorInput = useCallback((e: FormEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    try {
+      console.log('target.value', target.value);
+      const locator = Locator.deserialize(JSON.parse(target.value));
+      if (!locator) throw new Error("Could not deserialize locator");
+      console.log('locator', locator);
+      setLocator(locator);
+    } catch (error) {
+      setLocator(null);
+      console.error(error);
+    }
+  }, []);
+
+  const handleLocatorAction = useCallback((e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!locator) return;
+
+    go(locator, !reducedMotion, () => setOpen(false));
+  }, [locator, reducedMotion, setOpen, go]);
   // This is a form submit handler so we have to preventDefault
   // We have to use this otherwise any change will trigger a navigation
   const handleAction = useCallback((e: FormEvent<HTMLFormElement>) => {
@@ -137,6 +171,46 @@ export const StatefulJumpToPositionContainer = ({
             }}
           />
         </ThForm>
+        <ThForm
+          label={"Go"}
+          className={ jumpToPositionStyles.jumpToPositionForm }
+          onSubmit={ handleLocatorAction }
+          compounds={{
+            button: {
+              className: jumpToPositionStyles.jumpToPositionButton,
+              isDisabled: false,
+            }
+          }}
+        >
+          <ThFormTextField
+            label={"Enter a locator"}
+            name="jumpToPosition"
+            className={ jumpToPositionStyles.jumpToPositionNumberField }
+            onChange={ setLocatorString }
+            onInput={ handleLocatorInput }
+            value={ locatorString }
+            compounds={{
+              label: {
+                className: jumpToPositionStyles.jumpToPositionLabel
+              },
+              input: {
+                className: jumpToPositionStyles.jumpToPositionInput,
+                inputMode: "numeric"
+              }
+            }}
+          />
+        </ThForm>
+        <ThForm 
+          label={"Copy current locator"}
+          className={ jumpToPositionStyles.jumpToPositionForm }
+          onSubmit={ handleCopyLocatorAction }
+          compounds={{
+            button: {
+              className: jumpToPositionStyles.jumpToPositionButton,
+              isDisabled: false,
+            }
+          }}
+        />
       </StatefulSheetWrapper>
     </>
   )

@@ -29,9 +29,10 @@ type SearchRequest struct {
 }
 
 type LocatorLocations struct {
-	Position         *int     `json:"position,omitempty"`
-	Progression      *float64 `json:"progression,omitempty"`
-	TotalProgression *float64 `json:"totalProgression,omitempty"`
+	Position         *int                   `json:"position,omitempty"`
+	Progression      *float64               `json:"progression,omitempty"`
+	TotalProgression *float64               `json:"totalProgression,omitempty"`
+	OtherLocations   map[string]interface{} `json:"other_locations,omitempty"`
 }
 
 type LocatorText struct {
@@ -117,7 +118,21 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 			after := m.After
 			locText := &LocatorText{Before: &before, Highlight: &highlight, After: &after}
 			href := seg.Locator.Href.String()
-			loc := Locator{Href: href, Type: "", Text: locText}
+
+			loc := Locator{Href: href, Text: locText, Type: seg.Locator.MediaType.String()}
+
+			locatorLocations := &LocatorLocations{}
+			if seg.Locator.Locations.Position != nil {
+				uintPosition := *seg.Locator.Locations.Position
+				position := int(uintPosition)
+				locatorLocations.Position = &position
+			}
+			// The Readium iterator populates the CSS selector in the OtherLocations map.
+			if seg.Locator.Locations.OtherLocations != nil {
+				locatorLocations.OtherLocations = seg.Locator.Locations.OtherLocations
+			}
+			loc.Locations = locatorLocations
+
 			resp.Hits = append(resp.Hits, SearchHit{Href: href, Locator: loc})
 			if len(resp.Hits) >= req.MaxResults {
 				// Enough results; cancel context to stop the iterator.

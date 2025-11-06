@@ -10,10 +10,10 @@ import "./home.css";
 
 const books = [
   {
-    title: "Moby Dick",
-    author: "Herman Melville",
-    cover: "/images/MobyDick.jpg",
-    url: "/read/moby-dick",
+    title: "Anna Karenina",
+    author: "Leo Tolstoy",
+    cover: "",
+    url: "/read/anna-karenina",
     rendition: "Reflowable",
   },
   {
@@ -22,27 +22,6 @@ const books = [
     cover: "",
     url: "/read/david-copperfield",
     rendition: "Reflowable",
-  },
-  {
-    title: "The House of the Seven Gables",
-    author: "Nathaniel Hawthorne",
-    cover: "/images/TheHouseOfTheSevenGables.jpg",
-    url: "/read/the-house-of-seven-gables",
-    rendition: "Reflowable",
-  },
-  {
-    title: "Les Diaboliques",
-    author: "Jules Barbey d'Aurevilly",
-    cover: "/images/LesDiaboliques.png",
-    url: "/read/les-diaboliques",
-    rendition: "Reflowable",
-  },
-  {
-    title: "Bella the Dragon",
-    author: "Barbara Nick, Elaine Steckler",
-    cover: "/images/Bella.jpg",
-    url: "/read/bella-the-dragon",
-    rendition: "Fixed Layout",
   },
 ];
 
