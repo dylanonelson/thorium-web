@@ -11,6 +11,14 @@
     {
       "path": "publication_api",
       "name": "Publication Server (Go)"
+    },
+    {
+      "path": "evals",
+      "name": "Evals"
+    },
+    {
+      "path": ".",
+      "name": "Root"
     }
   ],
   "settings": {
