@@ -4,3 +4,9 @@ sse-starlette
 litellm
 dotenv
 httpx
+opentelemetry-distro
+opentelemetry-exporter-otlp
+opentelemetry-instrumentation-asyncio
+opentelemetry-instrumentation-fastapi
+opentelemetry-instrumentation-httpx
+opentelemetry-instrumentation-logging

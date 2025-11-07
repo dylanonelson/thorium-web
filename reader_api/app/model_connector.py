@@ -2,34 +2,44 @@
 LLM connector using LiteLLM for flexible model provider support.
 """
 
+import asyncio
 import json
 import logging
 import os
 from collections.abc import Mapping, Sequence
-from typing import Any, AsyncIterator, Dict, List, Optional, Tuple, TypeAlias, Union
+from typing import (
+    Any,
+    AsyncIterator,
+    Coroutine,
+    Dict,
+    List,
+    Optional,
+    Tuple,
+    Union,
+)
 
 import litellm
 from litellm import ChatCompletionToolParam, acompletion
 from litellm.cost_calculator import completion_cost
 from litellm.litellm_core_utils.streaming_handler import CustomStreamWrapper
-from litellm.types.llms.openai import (
-    ChatCompletionResponseMessage,
-    ChatCompletionToolCallChunk,
-    OpenAIChatCompletionChoices,
-    OpenAIChatCompletionResponse,
-)
 from litellm.types.utils import (
-    ChatCompletionMessageToolCall,
     Choices,
     Function,
     Message,
     ModelResponse,
     StreamingChoices,
 )
+from opentelemetry import context as context_api
+from opentelemetry import trace
+from opentelemetry.context import Context
+from opentelemetry.trace import Span, SpanKind
+from opentelemetry.trace.status import Status, StatusCode
 
 from app import publication_reader
+from app.request_context import RequestContext
 
 logger = logging.getLogger(__name__)
+tracer = trace.get_tracer(__name__)
 
 
 SEARCH_PUBLICATION_TOOL_NAME = "search_publication"
@@ -43,16 +53,6 @@ JsonValue = Union[
     JsonPrimitive,
     Sequence["JsonValue"],
     Mapping[str, "JsonValue"],
-]
-JSONDict: TypeAlias = Dict[str, JsonValue]
-
-ChoicePayload = Union[Choices, OpenAIChatCompletionChoices]
-MessagePayload = Union[Message, ChatCompletionResponseMessage]
-ToolCallPayload = Union[
-    ChatCompletionMessageToolCall, ChatCompletionToolCallChunk, Mapping[str, JsonValue]
-]
-ResponsePayload = Union[
-    ModelResponse, OpenAIChatCompletionResponse, Mapping[str, JsonValue]
 ]
 
 
@@ -93,11 +93,11 @@ class ModelConnector:
     async def chat(
         self,
         messages: List[Message],
+        request_context: RequestContext,
         model: Optional[str] = None,
         temperature: Optional[float] = None,
         max_tokens: Optional[int] = None,
         enabled_tools: Optional[List[str]] = None,
-        request_context: Optional[Dict[str, Any]] = None,
     ) -> AsyncIterator[str]:
         """
         Send chat messages to LLM and get response.
@@ -109,6 +109,7 @@ class ModelConnector:
                   Examples: "gpt-4", "claude-3-5-sonnet-20241022", "ollama/llama2"
             temperature: Sampling temperature (0.0-1.0)
             max_tokens: Maximum tokens in response
+            request_context: Optional contextual metadata for tracing/tooling
 
         Returns:
             Response string, or async iterator if stream=True
@@ -124,29 +125,54 @@ class ModelConnector:
         )
         max_tokens = max_tokens if max_tokens is not None else self.config.max_tokens
 
-        request_context = request_context or {}
+        parent_context = request_context.otel_context
+        span = tracer.start_span(
+            "litellm.acompletion.stream",
+            kind=SpanKind.CLIENT,
+            context=parent_context,
+        )
+        self._set_llm_span_attributes(
+            span,
+            model=model,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            stream=True,
+            tool_count=0,
+        )
 
+        token: Optional[object] = None
         try:
-            response = await acompletion(
-                model=model,
-                messages=messages,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                stream=True,
+            span_context = trace.set_span_in_context(span, parent_context)
+            token = context_api.attach(parent_context)
+            with trace.use_span(span, end_on_exit=False):
+                response = await acompletion(
+                    model=model,
+                    messages=messages,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    stream=True,
+                )
+            return self._stream_response(
+                response,
+                span,
+                span_context,
             )
-            return self._stream_response(response)
-
-        except Exception as e:
-            raise RuntimeError(f"Error calling LLM: {str(e)}") from e
+        except Exception as exc:
+            self._record_span_exception(span, exc)
+            span.end()
+            raise RuntimeError(f"Error calling LLM: {str(exc)}") from exc
+        finally:
+            if token is not None:
+                context_api.detach(token)
 
     async def chat_sync(
         self,
         messages: List[Message],
+        request_context: RequestContext,
         model: Optional[str] = None,
         temperature: Optional[float] = None,
         max_tokens: Optional[int] = None,
         enabled_tools: Optional[List[str]] = None,
-        request_context: Optional[Dict[str, Any]] = None,
     ) -> str:
         """
         Send chat messages to LLM and get response. Wrapper around chat() to get a synchronous response.
@@ -156,18 +182,16 @@ class ModelConnector:
             temperature if temperature is not None else self.config.temperature
         )
         max_tokens = max_tokens if max_tokens is not None else self.config.max_tokens
-        request_context = request_context or {}
-
         tools = self._resolve_tools(enabled_tools, request_context)
 
         if not tools:
             response_stream = await self.chat(
                 messages,
+                request_context,
                 model,
                 temperature,
                 max_tokens,
                 enabled_tools=None,
-                request_context=request_context,
             )
             full_response = ""
             async for chunk in response_stream:
@@ -186,7 +210,7 @@ class ModelConnector:
     def _resolve_tools(
         self,
         enabled_tools: Optional[List[str]],
-        request_context: Dict[str, Any],
+        request_context: RequestContext,
     ) -> List[ChatCompletionToolParam]:
         if not enabled_tools:
             return []
@@ -194,11 +218,6 @@ class ModelConnector:
         resolved_tools: List[ChatCompletionToolParam] = []
         for tool_name in enabled_tools:
             if tool_name == SEARCH_PUBLICATION_TOOL_NAME:
-                if "publication_id" not in request_context:
-                    logger.warning(
-                        "Skipping search tool because publication_id is missing from request context."
-                    )
-                    continue
                 resolved_tools.append(self._search_tool_definition())
             else:
                 logger.warning("Unknown tool requested: %s", tool_name)
@@ -211,7 +230,7 @@ class ModelConnector:
         temperature: float,
         max_tokens: int,
         tools: List[ChatCompletionToolParam],
-        request_context: Dict[str, Any],
+        request_context: RequestContext,
     ) -> str:
         conversation: List[Message] = [message for message in messages]
         tool_iterations = 0
@@ -227,16 +246,49 @@ class ModelConnector:
                 "tool_choice": "auto",
             }
 
-            response = await acompletion(**completion_kwargs)
+            parent_context = request_context.otel_context
+            span = tracer.start_span(
+                "litellm.acompletion",
+                kind=SpanKind.CLIENT,
+                context=parent_context,
+            )
+            self._set_llm_span_attributes(
+                span,
+                model=model,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                stream=False,
+                tool_count=len(tools),
+            )
+
+            token: Optional[object] = None
+            try:
+                if parent_context is not None:
+                    token = context_api.attach(parent_context)
+                with trace.use_span(span, end_on_exit=False):
+                    response = await acompletion(**completion_kwargs)
+            except Exception as exc:
+                self._record_span_exception(span, exc)
+                span.end()
+                raise
+            finally:
+                if token is not None:
+                    context_api.detach(token)
+
             if isinstance(response, CustomStreamWrapper):
-                raise TypeError(
+                error = TypeError(
                     "Tool-enabled chat does not support streaming responses"
                 )
-            first_choice = self._get_first_choice(response)
-            conversation.append(first_choice.message)
+                self._record_span_exception(span, error)
+                span.end()
+                raise error
 
             choice = self._get_first_choice(response)
+            conversation.append(choice.message)
+
             tool_calls = self._get_tool_calls(choice)
+            span.set_attribute("gen_ai.response.tool_call_count", len(tool_calls))
+            span.end()
             logger.info("Number of tool calls: %s", len(tool_calls))
             if tool_calls:
                 tool_iterations += len(tool_calls)
@@ -245,6 +297,8 @@ class ModelConnector:
             else:
                 break
 
+            tool_tasks: List[Coroutine[object, object, JsonValue]] = []
+            task_metadata: List[Tuple[str, str]] = []
             for tool_call_id, function in tool_calls:
                 logger.info("Function: %s", function)
                 logger.info("Executing tool call: %s", tool_call_id)
@@ -252,9 +306,16 @@ class ModelConnector:
                 arguments_json = function.arguments
                 if not tool_name or not arguments_json:
                     raise ValueError("Tool call is missing a name or arguments")
-                result = await self._dispatch_tool(
-                    tool_name, arguments_json, request_context
+                tool_tasks.append(
+                    self._dispatch_tool(
+                        tool_name,
+                        arguments_json,
+                        request_context,
+                    )
                 )
+                task_metadata.append((tool_call_id, tool_name))
+            results = await asyncio.gather(*tool_tasks)
+            for (tool_call_id, tool_name), result in zip(task_metadata, results):
                 conversation.append(
                     Message(
                         tool_call_id=tool_call_id,
@@ -268,13 +329,38 @@ class ModelConnector:
         return self._extract_message_content(conversation[-1])
 
     async def _dispatch_tool(
-        self, tool_name: str, arguments_json: str, request_context: Dict[str, Any]
+        self,
+        tool_name: str,
+        arguments_json: str,
+        request_context: RequestContext,
     ) -> JsonValue:
+        parent_context = request_context.otel_context
+        token: Optional[object] = None
+        if parent_context is not None:
+            token = context_api.attach(parent_context)
+
         try:
-            return await self._execute_tool(tool_name, arguments_json, request_context)
-        except Exception as exc:  # noqa: BLE001
-            logger.exception("Tool %s failed: %s", tool_name, exc)
-            return {"error": str(exc)}
+            with tracer.start_as_current_span(
+                "litellm.tool.execute",
+                kind=SpanKind.INTERNAL,
+            ) as span:
+                span.set_attribute("gen_ai.tool.name", tool_name)
+                span.set_attribute("gen_ai.tool.arguments", arguments_json)
+                publication_id = request_context.publication_id
+                span.set_attribute("gen_ai.tool.publication_id", publication_id)
+                try:
+                    return await self._execute_tool(
+                        tool_name,
+                        arguments_json,
+                        request_context,
+                    )
+                except Exception as exc:  # noqa: BLE001
+                    self._record_span_exception(span, exc)
+                    logger.exception("Tool %s failed: %s", tool_name, exc)
+                    return {"error": str(exc)}
+        finally:
+            if token is not None:
+                context_api.detach(token)
 
     def _get_first_choice(self, response: ModelResponse) -> Choices:
         if not response.choices:
@@ -299,14 +385,15 @@ class ModelConnector:
         ]
 
     async def _execute_tool(
-        self, tool_name: str, arguments_json: str, request_context: Dict[str, Any]
+        self,
+        tool_name: str,
+        arguments_json: str,
+        request_context: RequestContext,
     ) -> JsonValue:
         if tool_name != SEARCH_PUBLICATION_TOOL_NAME:
             raise ValueError(f"Unsupported tool: {tool_name}")
 
-        publication_id = request_context.get("publication_id")
-        if not publication_id:
-            raise ValueError("Missing publication_id for search tool execution")
+        publication_id = request_context.publication_id
 
         search_args = self._parse_search_arguments(arguments_json)
 
@@ -388,16 +475,57 @@ class ModelConnector:
             },
         }
 
+    def _set_llm_span_attributes(
+        self,
+        span: Span,
+        *,
+        model: str,
+        temperature: float,
+        max_tokens: int,
+        stream: bool,
+        tool_count: int,
+    ) -> None:
+        span.set_attribute("gen_ai.system", "litellm")
+        span.set_attribute("gen_ai.request.model", model)
+        span.set_attribute("gen_ai.request.temperature", temperature)
+        span.set_attribute("gen_ai.request.max_output_tokens", max_tokens)
+        span.set_attribute("gen_ai.request.stream", stream)
+        span.set_attribute("gen_ai.request.tool_count", tool_count)
+        span.set_attribute("gen_ai.request.has_tools", tool_count > 0)
+
+    @staticmethod
+    def _record_span_exception(span: Span, exc: Exception) -> None:
+        span.record_exception(exc)
+        span.set_status(Status(StatusCode.ERROR, str(exc)))
+
     def _extract_message_content(self, message: Message) -> str:
         if not message.content:
             raise ValueError("Message content is empty")
         return message.content
 
-    async def _stream_response(self, response) -> AsyncIterator[str]:
+    async def _stream_response(
+        self,
+        response,
+        span: Optional[Span] = None,
+        span_context: Optional[Context] = None,
+    ) -> AsyncIterator[str]:
         """Helper to stream response chunks."""
-        async for chunk in response:
-            if chunk.choices[0].delta.content:
-                yield chunk.choices[0].delta.content
+        token: Optional[object] = None
+        if span_context is not None:
+            token = context_api.attach(span_context)
+        try:
+            async for chunk in response:
+                if chunk.choices[0].delta.content:
+                    yield chunk.choices[0].delta.content
+        except Exception as exc:
+            if span is not None:
+                self._record_span_exception(span, exc)
+            raise
+        finally:
+            if token is not None:
+                context_api.detach(token)
+            if span is not None:
+                span.end()
 
     def get_cost(self, response) -> Optional[float]:
         """
