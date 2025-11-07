@@ -294,36 +294,55 @@ class ModelConnector:
                 tool_iterations += len(tool_calls)
                 if tool_iterations > MAX_TOOL_CALL_ITERATIONS:
                     raise RuntimeError("Tool call loop exceeded iteration limit")
+                parent_context = request_context.otel_context
+                batch_token = context_api.attach(parent_context)
+                try:
+                    with tracer.start_as_current_span(
+                        "litellm.tool.batch",
+                    ) as tool_batch_span:
+                        tool_batch_span.set_attribute(
+                            "gen_ai.tool_call.count", len(tool_calls)
+                        )
+                        tool_parent_context = trace.set_span_in_context(
+                            tool_batch_span, parent_context
+                        )
+                        tool_tasks: List[Coroutine[object, object, JsonValue]] = []
+                        task_metadata: List[Tuple[str, str]] = []
+                        for tool_call_id, function in tool_calls:
+                            logger.info("Function: %s", function)
+                            logger.info("Executing tool call: %s", tool_call_id)
+                            tool_name = function.name
+                            arguments_json = function.arguments
+                            if not tool_name or not arguments_json:
+                                raise ValueError(
+                                    "Tool call is missing a name or arguments"
+                                )
+                            tool_tasks.append(
+                                self._dispatch_tool(
+                                    tool_name,
+                                    arguments_json,
+                                    tool_parent_context,
+                                    request_context,
+                                )
+                            )
+                            task_metadata.append((tool_call_id, tool_name))
+                        results = await asyncio.gather(*tool_tasks)
+                        for (tool_call_id, tool_name), result in zip(
+                            task_metadata, results
+                        ):
+                            conversation.append(
+                                Message(
+                                    tool_call_id=tool_call_id,
+                                    role="tool",
+                                    name=tool_name,
+                                    content=json.dumps(result),
+                                )
+                            )
+                finally:
+                    if batch_token is not None:
+                        context_api.detach(batch_token)
             else:
                 break
-
-            tool_tasks: List[Coroutine[object, object, JsonValue]] = []
-            task_metadata: List[Tuple[str, str]] = []
-            for tool_call_id, function in tool_calls:
-                logger.info("Function: %s", function)
-                logger.info("Executing tool call: %s", tool_call_id)
-                tool_name = function.name
-                arguments_json = function.arguments
-                if not tool_name or not arguments_json:
-                    raise ValueError("Tool call is missing a name or arguments")
-                tool_tasks.append(
-                    self._dispatch_tool(
-                        tool_name,
-                        arguments_json,
-                        request_context,
-                    )
-                )
-                task_metadata.append((tool_call_id, tool_name))
-            results = await asyncio.gather(*tool_tasks)
-            for (tool_call_id, tool_name), result in zip(task_metadata, results):
-                conversation.append(
-                    Message(
-                        tool_call_id=tool_call_id,
-                        role="tool",
-                        name=tool_name,
-                        content=json.dumps(result),
-                    )
-                )
 
         logger.info("Conversation[-1].content: %s", conversation[-1].content)
         return self._extract_message_content(conversation[-1])
@@ -332,17 +351,14 @@ class ModelConnector:
         self,
         tool_name: str,
         arguments_json: str,
+        parent_context: Context,
         request_context: RequestContext,
     ) -> JsonValue:
-        parent_context = request_context.otel_context
-        token: Optional[object] = None
-        if parent_context is not None:
-            token = context_api.attach(parent_context)
+        token = context_api.attach(parent_context)
 
         try:
             with tracer.start_as_current_span(
                 "litellm.tool.execute",
-                kind=SpanKind.INTERNAL,
             ) as span:
                 span.set_attribute("gen_ai.tool.name", tool_name)
                 span.set_attribute("gen_ai.tool.arguments", arguments_json)
@@ -359,8 +375,7 @@ class ModelConnector:
                     logger.exception("Tool %s failed: %s", tool_name, exc)
                     return {"error": str(exc)}
         finally:
-            if token is not None:
-                context_api.detach(token)
+            context_api.detach(token)
 
     def _get_first_choice(self, response: ModelResponse) -> Choices:
         if not response.choices:
