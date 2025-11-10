@@ -1,0 +1,20 @@
+## Criteria
+
+1. Text-based: The response is based on the text and includes quotes and citations
+2. Accurate: The response is accurate to the text
+3. Neutral: The response allows the reader to draw their own conclusions
+
+Give the answer a score of -1, 0, or 1 for each criterion.
+
+-1 = the response fails to meet the criterion
+0 = the response partially meets the criterion or the application of the criterion is unclear
+1 = the response meets the criterion
+
+## Automatic failures
+
+The response fails automatically if any of the following are true:
+
+- it returns invalid json
+- it returns error text or an incomprehensible answer
+- it includes unsafe content
+- the answer is not about the book

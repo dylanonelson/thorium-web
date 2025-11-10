@@ -1,0 +1,30 @@
+providers:
+  - id: "{{env.READER_API_URL}}/ask"
+    label: reader_api/ask
+    config:
+      method: POST
+      headers:
+        Content-Type: application/json
+      body:
+        question: "{{prompt}}"
+        publication_id: "{{publication_id}}"
+        locator:
+          href: "{{locator_href}}"
+          type: "application/xhtml+xml"
+          position: {{locator_position}}
+      responsePath: answer
+
+defaultTest:
+  assert:
+    - type: llm-rubric
+      provider: "ollama:{{env.OLLAMA_MODEL}}"
+      threshold: 0.5
+      rubricPrompt: file://ak-rubric.yaml
+      value: file://rubric.txt
+
+judges:
+  - id: ollama-judge
+    label: Local Ollama judge
+    provider: "ollama:{{env.OLLAMA_MODEL}}"
+    config:
+      temperature: 0

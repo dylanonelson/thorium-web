@@ -1,0 +1,17 @@
+{
+  "name": "evals",
+  "version": "1.0.0",
+  "description": "Promptfoo evaluation harness for reader_api's /ask endpoint.",
+  "private": true,
+  "scripts": {
+    "eval": "promptfoo eval --config promptfooconfig.yaml scenarios/anna-karenina.yaml --env-path .env",
+    "eval:watch": "promptfoo eval --config promptfooconfig.yaml scenarios/anna-karenina.yaml --env-path .env --watch",
+    "eval:view": "promptfoo view --env-path .env"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "promptfoo": "^0.119.4"
+  }
+}

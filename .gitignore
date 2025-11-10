@@ -33,3 +33,5 @@ tmp
 
 publication_api/bin
 publication_api/.tools
+
+evals/promptfoo-output.json

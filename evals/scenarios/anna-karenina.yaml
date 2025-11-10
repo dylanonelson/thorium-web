@@ -1,0 +1,35 @@
+tests:
+  - description: "Catch me up: end of part 1"
+    options:
+      provider: "{{env.READER_API_URL}}/ask"
+    vars:
+      prompt: "Catch me up on what's happened so far in the book."
+      publication_id: anna-karenina
+      locator_href: epub/text/part-2.xhtml
+      locator_position: 154
+    metadata:
+      publication_id: anna-karenina
+      feature: catch-me-up
+      reference_answer: |
+        Here's Part 1 in a nutshell - just the big beats and where everyone stands by the end:
+        - Oblonsky household in crisis: Stiva's affair with the governess shatters domestic peace. Dolly is devastated and considering leaving him.
+        - Anna arrives in Moscow: Stiva's sister, Anna Karenina, comes from St. Petersburg to help mend the marriage. Her tact and warmth calm Dolly, and a fragile reconciliation takes hold.
+        - Levin's hope and setback: Konstantin Levin returns to Moscow to propose to Kitty Shcherbatskaya. She refuses him - she's dazzled by the dashing officer Count Vronsky.
+        - The meeting that electrifies society: Anna and Vronsky meet at the train station and are instantly struck by each other.
+        - The ball: Expecting Vronsky's proposal, Kitty is crushed when he showers his attention on Anna instead. Society notices; Kitty is humiliated and heartsick.
+        - Departures and retreats: Levin, rejected, withdraws to his country estate in quiet despair. Anna, unsettled by the attention and her own feelings, leaves Moscow for St. Petersburg.
+        - Where things stand at the end of Part 1:
+          - Dolly and Stiva: temporarily reconciled but the marriage is fragile.
+          - Kitty: emotionally wrecked and confused.
+          - Levin: wounded, self-doubting, back in the country.
+          - Anna: outwardly composed, inwardly disturbed after the charged encounter with Vronsky.
+
+  - description: "Find a passage: Horse race"
+    vars:
+      prompt: "Find the famous horse race scene"
+      publication_id: anna-karenina
+      locator_href: epub/text/chapter-8-4.xhtml
+      locator_position: 1005
+    metadata:
+      publication_id: anna-karenina
+      feature: find-a-passage
