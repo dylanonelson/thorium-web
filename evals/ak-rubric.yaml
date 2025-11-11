@@ -13,12 +13,7 @@
     {
       "pass": <boolean>,
       "score": <number between -1 and 1 inclusive>,
-      "reason": "Short justification that references specific evidence",
-      "namedScores": {
-        "text_based": <number>,
-        "accuracy": <number>,
-        "neutrality": <number>
-      }
+      "reason": "Justification that references specific evidence. Provide scores for each criterion in this section.",
     }
 
     Scoring Guidance
@@ -26,12 +21,6 @@
     - Compute "score" as the average of the three criterion scores.
     - Set pass=true when score >= {{assertion.threshold | default(0)}} and no automatic failure applies; otherwise pass=false.
     - In "reason", cite the passages or parts of the assistant response that support the decision.
-
-    Context for Grading
-    -------------------
-    User question: {{vars.prompt}}
-    Assistant answer: {{output}}
-    Reference answer: {{metadata.reference_answer | default("(none provided)")}}
 - role: user
   content: |
     Question: {{vars.prompt}}
