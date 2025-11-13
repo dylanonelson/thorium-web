@@ -25,6 +25,7 @@ frontend/yarn-error.log*
 tmp
 
 .env
+.env.local
 .venv
 
 # misc

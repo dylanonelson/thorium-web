@@ -1,0 +1,37 @@
+#############
+# Mandatory #
+#############
+CONTENT_SERVICE_URL=http://127.0.0.1:8091
+
+##########################
+# Logging & Observability #
+##########################
+# Set to DEBUG, INFO, WARNING, ERROR, or CRITICAL. Defaults to WARNING when unset.
+LOG_LEVEL=INFO
+# Endpoint for OTLP trace exporter. Defaults to http://localhost:4317 when unset.
+OTLP_ENDPOINT=http://localhost:4317
+
+#######################
+# Model Configuration #
+#######################
+# Default model alias passed to LiteLLM. Defaults to gpt-4 when unset.
+DEFAULT_MODEL=gpt-4o
+# Turn on verbose LiteLLM logging (true/false). Defaults to false when unset.
+LITELLM_VERBOSE=false
+
+############################################
+# Provider Credentials (set the ones you use)
+############################################
+OPENAI_API_KEY=replace-with-openai-api-key
+ANTHROPIC_API_KEY=replace-with-anthropic-api-key
+GEMINI_API_KEY=replace-with-gemini-api-key
+AZURE_API_KEY=replace-with-azure-openai-api-key
+AZURE_API_BASE=https://your-azure-resource.openai.azure.com
+AZURE_API_VERSION=2024-02-15-preview
+
+# Auth0
+# Comma separate AUTH0_ALGORITHMS if you need to allow multiple values.
+
+AUTH0_API_AUDIENCE=https://api.apparatus-ebooks.com
+AUTH0_ISSUER_DOMAIN=dev-usf5eu2woue2lk2d.us.auth0.com
+AUTH0_ALGORITHMS=RS256

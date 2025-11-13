@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { PublicationGrid } from "@/components/PublicationGrid";
 import Image from "next/image";
 
@@ -44,6 +45,35 @@ const onlineBooks = [
 
 export default function Home() {
   const [isManifestEnabled, setIsManifestEnabled] = useState<boolean>(true);
+  const [protectedMessage, setProtectedMessage] = useState<string | null>(null);
+  const [protectedError, setProtectedError] = useState<string | null>(null);
+  const [isCallingProtected, setIsCallingProtected] = useState<boolean>(false);
+
+  const { user, isLoading, error } = useUser();
+  const isLoggedIn = !error && user !== undefined && user !== null;
+
+  const onCallProtectedClick = async () => {
+    setIsCallingProtected(true);
+    setProtectedError(null);
+
+    try {
+      const response = await fetch("/api/protected");
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+
+      const data: { message?: string } = await response.json();
+      setProtectedMessage(data.message ?? "Received response from protected API.");
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Unknown error occurred while calling the protected API.";
+      setProtectedError(message);
+      setProtectedMessage(null);
+    } finally {
+      setIsCallingProtected(false);
+    }
+  };
 
   useEffect(() => {
     const checkManifestRoute = async () => {
@@ -59,6 +89,8 @@ export default function Home() {
     checkManifestRoute();
   }, []);
 
+  if (isLoading) return null
+
   return (
     <main id="home">
       <header className="header">
@@ -67,6 +99,19 @@ export default function Home() {
         <p className="subtitle">
           An open-source ebook/audiobook/comics Web Reader
         </p>
+        {user && <p>Welcome {user.name}</p>}
+        <p>{isLoggedIn ? <a href="/auth/logout">Logout</a> : <a href="/auth/login">Login</a>}</p>
+        <button
+          type="button"
+          onClick={onCallProtectedClick}
+          disabled={isCallingProtected}
+        >
+          {isCallingProtected ? "Calling Protected API..." : "Call Protected API"}
+        </button>
+        <div aria-live="polite">
+          {protectedMessage && <p>{protectedMessage}</p>}
+          {protectedError && <p>{protectedError}</p>}
+        </div>
       </header>
 
       <PublicationGrid

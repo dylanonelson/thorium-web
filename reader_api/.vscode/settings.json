@@ -18,7 +18,11 @@
   },
   "ruff.enable": true,
   "ruff.organizeImports": true,
+  "ruff.lineLength": 80,
   "cursorpyright.analysis.autoSearchPaths": true,
   "cursorpyright.analysis.typeCheckingMode": "basic",
-  "cursorpyright.analysis.useLibraryCodeForTypes": true
+  "cursorpyright.analysis.useLibraryCodeForTypes": true,
+  "recommendations": [
+    "charliemarsh.ruff",
+  ]
 }

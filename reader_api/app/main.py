@@ -1,6 +1,7 @@
 import time
-
-from fastapi import FastAPI
+from fastapi_plugin import Auth0FastAPI
+from fastapi import Depends, FastAPI, Security
+from fastapi.security import HTTPBearer
 from opentelemetry import context as context_api
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
@@ -17,11 +18,19 @@ setup_tracing()
 app = FastAPI(title="Tabula", version="0.1.0")
 FastAPIInstrumentor().instrument_app(app)
 
+auth0 = Auth0FastAPI(
+    domain=Config.get_instance().auth0.issuer_domain,
+    audience=Config.get_instance().auth0.api_audience,
+)
 
 @app.get("/health", response_model=HealthResponseModel)
 def health() -> HealthResponseModel:
     return HealthResponseModel(ok=True, timestamp_ms=int(time.time() * 1000))
 
+
+@app.get("/protected", dependencies=[Depends(auth0.require_auth())])
+async def protected():
+    return {"message": "This is a protected route"}
 
 @app.post("/ask", response_model=AskResponseModel)
 async def ask(request: AskRequestModel) -> AskResponseModel:
