@@ -12,6 +12,7 @@ import (
 	"testing"
 	"time"
 
+	"publication_server/internal/publications"
 	"publication_server/internal/readium"
 )
 
@@ -31,6 +32,7 @@ func TestSearch_EndToEnd_SampleTwoChapters_ExactParagraph(t *testing.T) {
 	if err := os.Setenv("PUBLICATIONS_DIR", pubs); err != nil {
 		t.Fatalf("set env: %v", err)
 	}
+	publications.ResetStoreCache()
 	defer os.Unsetenv("PUBLICATIONS_DIR")
 
 	// Open the same publication via readium to obtain the exact paragraph text.

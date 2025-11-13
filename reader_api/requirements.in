@@ -10,4 +10,5 @@ opentelemetry-instrumentation-asyncio
 opentelemetry-instrumentation-fastapi
 opentelemetry-instrumentation-httpx
 opentelemetry-instrumentation-logging
+PyYAML
 auth0-fastapi-api

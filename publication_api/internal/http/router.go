@@ -88,7 +88,13 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 	}
 
 	baseDir := config.PublicationsDir()
-	path, err := publications.ResolvePublicationPath(baseDir, req.PublicationID)
+	store, err := publications.GetStore(baseDir)
+	if err != nil {
+		logging.L.Printf("load catalog error: %v", err)
+		http.Error(w, "failed to load catalog", http.StatusInternalServerError)
+		return
+	}
+	path, err := store.ResolvePublicationPath(req.PublicationID)
 	if err != nil {
 		http.Error(w, "publication not found", http.StatusNotFound)
 		return

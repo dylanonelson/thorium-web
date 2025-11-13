@@ -1,0 +1,9 @@
+---
+- id: "anna-karenina_std-ebks-2025"
+  title: "Anna Karenina"
+  author: "Leo Tolstoy"
+  filename: "anna-karenina.epub"
+- id: "david-copperfield_std-ebks-2025"
+  title: "David Copperfield"
+  author: "Charles Dickens"
+  filename: "david-copperfield.epub"
