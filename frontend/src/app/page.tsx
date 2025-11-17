@@ -64,6 +64,7 @@ export default function Home() {
       }
 
       const data: { message?: string } = await response.json();
+      console.log(data)
       setProtectedMessage(data.message ?? "Received response from protected API.");
     } catch (error) {
       const message =

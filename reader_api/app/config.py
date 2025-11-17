@@ -21,6 +21,12 @@ class LoggingConfig:
     level: int
 
 
+@dataclass(frozen=True)
+class DatabaseConfig:
+    url: str
+    echo: bool
+
+
 class Config:
     instance: Optional["Config"] = None
 
@@ -31,6 +37,7 @@ class Config:
 
         self.auth0 = self._load_auth0_config()
         self.logging = self._load_logging_config()
+        self.database = self._load_database_config()
 
         logging.basicConfig(level=self.logging.level)
 
@@ -52,6 +59,12 @@ class Config:
             issuer_domain=issuer_domain,
             algorithms=algorithms,
         )
+
+    def _load_database_config(self) -> DatabaseConfig:
+        url = self._require_env("DATABASE_URL")
+        echo_raw = os.getenv("DB_ECHO", "false").strip().lower()
+        echo = echo_raw in {"1", "true", "yes", "on"}
+        return DatabaseConfig(url=url, echo=echo)
 
     def _load_logging_config(self) -> LoggingConfig:
         level_name = os.getenv("LOG_LEVEL", "WARNING").strip().upper()
@@ -75,9 +88,9 @@ class Config:
 
     @staticmethod
     def get_instance() -> "Config":
-        if not hasattr(Config, "instance"):
+        if Config.instance is None:
             Config.instance = Config()
-        return Config()
+        return Config.instance
 
     @staticmethod
     def initialize() -> None:

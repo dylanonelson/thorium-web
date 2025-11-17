@@ -9,7 +9,7 @@ export async function GET() {
     if (!token) {
       return NextResponse.json({ error: "Unable to obtain access token" }, { status: 401 });
     }
-    const resp = await fetch(`${process.env.READER_API_ORIGIN}/protected`, {
+    const resp = await fetch(`${process.env.READER_API_ORIGIN}/users/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
@@ -18,6 +18,7 @@ export async function GET() {
     if (!resp.ok) {
         return NextResponse.json({ error: await resp.text() }, { status: resp.status });
     }
+    return NextResponse.json(await resp.json());
   } catch (err) {
     // err will be an instance of AccessTokenError if an access token could not be obtained
     if (err instanceof AccessTokenError) {
@@ -25,7 +26,4 @@ export async function GET() {
     }
     return NextResponse.json({ error: 'Unknown error' }, { status: 500 });
   }
-  return NextResponse.json({
-    message: "Success!"
-  });
 }

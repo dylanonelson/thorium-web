@@ -2,7 +2,7 @@ from typing import Dict, List
 
 from litellm.types.utils import Message
 
-from app.models import LocatorModel
+from app.api_models import LocatorModel
 from app.prompts import prompt_v0
 
 

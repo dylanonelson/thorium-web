@@ -55,7 +55,7 @@ pip-sync requirements.txt dev.txt
 Copy the ENV_TEMPLATE file to create your .env file:
 
 ```bash
-cp ENV_TEMPLATE .env
+cp ENV_EXAMPLE .env
 ```
 
 Then edit .env and add your API keys. At minimum, you'll need one of:
@@ -64,7 +64,7 @@ Then edit .env and add your API keys. At minimum, you'll need one of:
 - `ANTHROPIC_API_KEY` for Anthropic models (Claude)
 - Or run Ollama locally for free local models (no API key needed)
 
-See ENV_TEMPLATE for all available configuration options.
+See ENV_EXAMPLE for all available configuration options.
 
 ### Model Configuration
 
@@ -79,6 +79,42 @@ DEFAULT_MODEL=claude-3-5-sonnet-20241022
 
 # For local Ollama
 DEFAULT_MODEL=ollama/llama2
+```
+
+## Database
+
+### Start PostgreSQL Locally
+
+The API expects a PostgreSQL instance reachable via the async SQLAlchemy driver. The quickest way to start one locally is with Docker:
+
+```bash
+docker run --rm --name apparatus-db \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=apparatus \
+  -p 5432:5432 \
+  postgres:18
+```
+
+Update `.env` (or export directly) with the connection string:
+
+```bash
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/apparatus
+DB_ECHO=false  # set true to log SQL while developing
+```
+
+### Run Database Migrations
+
+Apply schema migrations from the `reader_api/` directory:
+
+```bash
+alembic upgrade head
+```
+
+To create a new migration after changing SQLModel metadata:
+
+```bash
+alembic revision -m "meaningful message" --autogenerate
 ```
 
 ## Running the app

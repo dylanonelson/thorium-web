@@ -12,3 +12,6 @@ opentelemetry-instrumentation-httpx
 opentelemetry-instrumentation-logging
 PyYAML
 auth0-fastapi-api
+sqlmodel
+alembic
+asyncpg

@@ -1,3 +1,6 @@
+from datetime import datetime
+from uuid import UUID
+
 from pydantic import BaseModel
 
 
@@ -51,5 +54,15 @@ class AskRequestModel(BaseModel):
 
 class AskResponseModel(BaseModel):
     answer: str
+
+
+class UserResponseModel(BaseModel):
+    email: str | None = None
+    display_name: str | None = None
+    created_at: datetime
+
+    model_config = {
+        "from_attributes": True,
+    }
 
 

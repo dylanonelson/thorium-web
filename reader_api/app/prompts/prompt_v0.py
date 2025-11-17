@@ -1,4 +1,4 @@
-from app.models import LocatorModel
+from app.api_models import LocatorModel
 
 SYSTEM_PROMPT_V0 = """
 You are a helpful guide to the digital book {title} by {author}. Your primary

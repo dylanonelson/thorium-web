@@ -2,3 +2,5 @@ pydantic
 pytest
 ruff
 mypy
+aiosqlite
+greenlet
