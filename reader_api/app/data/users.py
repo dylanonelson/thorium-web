@@ -49,7 +49,7 @@ async def get_or_create_user(
     if existing_user is not None:
         return existing_user
 
-    userinfo = await _fetch_auth0_userinfo(access_token)
+    userinfo = await fetch_auth0_userinfo(access_token)
     logger.info("Userinfo: %s", userinfo)
     email = _coerce_optional_str(userinfo.get("email"))
     display_name = _coerce_optional_str(userinfo.get("name"))
@@ -83,7 +83,7 @@ async def _lookup_user(session: AsyncSession, auth0_id: str) -> User | None:
     return result.scalar_one_or_none()
 
 
-async def _fetch_auth0_userinfo(access_token: str) -> dict[str, object]:
+async def fetch_auth0_userinfo(access_token: str) -> dict[str, object]:
     if not access_token:
         raise Auth0UserInfoError("An access token is required to fetch Auth0 user info")
 
@@ -125,14 +125,3 @@ def _coerce_optional_str(value: object) -> str | None:
     if isinstance(value, str) and value:
         return value
     return None
-
-
-def _resolve_display_name(
-    userinfo: Mapping[str, object],
-    email: str | None,
-) -> str | None:
-    for key in ("name", "nickname", "preferred_username"):
-        candidate = userinfo.get(key)
-        if isinstance(candidate, str) and candidate:
-            return candidate
-    return email

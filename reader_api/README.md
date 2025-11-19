@@ -99,22 +99,22 @@ docker run --rm --name apparatus-db \
 Update `.env` (or export directly) with the connection string:
 
 ```bash
-DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/apparatus
+DATABASE_URL=postgresql+asyncpg://username:password@localhost:5432/apparatus
 DB_ECHO=false  # set true to log SQL while developing
 ```
 
 ### Run Database Migrations
 
-Apply schema migrations from the `reader_api/` directory:
-
-```bash
-alembic upgrade head
-```
-
 To create a new migration after changing SQLModel metadata:
 
 ```bash
 alembic revision -m "meaningful message" --autogenerate
+```
+
+Apply schema migrations from the `reader_api/` directory:
+
+```bash
+alembic upgrade head
 ```
 
 ## Running the app

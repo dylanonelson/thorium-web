@@ -40,15 +40,7 @@ def get_session_factory() -> async_sessionmaker[AsyncSession]:
     return _session_factory
 
 
-async def get_session() -> AsyncGenerator[AsyncSession, None]:
+async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
     session_factory = get_session_factory()
     async with session_factory() as session:
         yield session
-
-
-async def init_db() -> None:
-    """Ensure all SQLModel metadata is applied to the database."""
-    engine = get_engine()
-    async with engine.begin() as connection:
-        await connection.run_sync(SQLModel.metadata.create_all)
-

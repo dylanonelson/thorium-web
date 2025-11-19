@@ -27,7 +27,7 @@ os.environ.setdefault("AUTH0_ISSUER_DOMAIN", "example.us.auth0.com")
 os.environ.setdefault("AUTH0_ALGORITHMS", "RS256")
 os.environ.setdefault("PYTHON_DOTENV_DISABLED", "true")
 
-from app.db.models import User
+from app.db.models import AuthType, User
 
 
 @dataclass
@@ -45,7 +45,12 @@ class TestApp:
         display_name: str | None = None,
     ) -> User:
         async with self.session_factory() as session:
-            user = User(auth0_id=auth0_id, email=email, display_name=display_name)
+            user = User(
+                auth0_id=auth0_id,
+                email=email,
+                display_name=display_name,
+                auth_type=AuthType.AUTH0_PASSWORD,
+            )
             session.add(user)
             await session.commit()
             await session.refresh(user)
@@ -63,6 +68,12 @@ class TestApp:
         async with AsyncClient(transport=transport, base_url="http://testserver") as client:
             headers = {"Authorization": f"Bearer {self.access_token}"}
             return await client.get(path, headers=headers)
+
+    async def post(self, path: str, json: dict[str, object]) -> Response:
+        transport = ASGITransport(app=self.app)
+        async with AsyncClient(transport=transport, base_url="http://testserver") as client:
+            headers = {"Authorization": f"Bearer {self.access_token}"}
+            return await client.post(path, headers=headers, json=json)
 
 
 @pytest.fixture()
@@ -125,18 +136,33 @@ def test_app() -> Generator[TestApp, None, None]:
 
     main_module = import_module("app.main")
     app: FastAPI = main_module.app
-    get_session = main_module.get_session
+    get_db_session = main_module.get_db_session
     require_auth = main_module.require_auth
 
-    async def override_get_session() -> AsyncGenerator[AsyncSession, None]:
+    require_auth_dependency = None
+    defaults = main_module.get_authenticated_user.__defaults__ or ()
+    for default in defaults:
+        dependency_callable = getattr(default, "dependency", None)
+        if dependency_callable is None:
+            continue
+        if dependency_callable is get_db_session:
+            continue
+        if dependency_callable.__module__.startswith("fastapi_plugin"):
+            require_auth_dependency = dependency_callable
+            break
+
+    if require_auth_dependency is None:
+        require_auth_dependency = require_auth()
+
+    async def override_get_db_session() -> AsyncGenerator[AsyncSession, None]:
         async with session_factory() as session:
             yield session
 
     def override_require_auth() -> dict[str, object]:
         return claims_state.copy()
 
-    app.dependency_overrides[get_session] = override_get_session
-    app.dependency_overrides[require_auth] = override_require_auth
+    app.dependency_overrides[get_db_session] = override_get_db_session
+    app.dependency_overrides[require_auth_dependency] = override_require_auth
 
     helper = TestApp(
         app=app,
@@ -147,8 +173,8 @@ def test_app() -> Generator[TestApp, None, None]:
 
     yield helper
 
-    app.dependency_overrides.pop(get_session, None)
-    app.dependency_overrides.pop(require_auth, None)
+    app.dependency_overrides.pop(get_db_session, None)
+    app.dependency_overrides.pop(require_auth_dependency, None)
 
     asyncio.run(engine.dispose())
 

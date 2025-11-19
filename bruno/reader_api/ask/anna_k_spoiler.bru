@@ -1,0 +1,27 @@
+meta {
+  name: anna_k_spoiler
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{reader_api_dev}}/ask
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "question": "When do Anna and Vronsky first get together",
+    "publication_id": "anna-karenina",
+    "locator": {
+      "href": "epub/text/chapter-1-2.xhtml",
+      "type": "application/xhtml+xml"
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

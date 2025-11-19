@@ -43,6 +43,23 @@ class LocatorModel(BaseModel):
     text: TextModel | None = None  # Optional: Text context
 
 
+class StoreReadingLocationRequestModel(BaseModel):
+    publication_id: str
+    locator: LocatorModel
+    recorded_at: datetime | None = None
+
+
+class ReadingLocationResponseModel(BaseModel):
+    id: UUID
+    publication_id: str
+    locator: LocatorModel
+    recorded_at: datetime | None = None
+    created_at: datetime
+
+    model_config = {
+        "from_attributes": True,
+    }
+
 
 
 

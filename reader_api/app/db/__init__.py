@@ -1,7 +1,13 @@
 """Database initialization helpers and models."""
 
-from app.db.db import get_engine, get_session, get_session_factory, init_db
-from app.db.models import User
+from app.db.db import get_engine, get_db_session, get_session_factory
+from app.db.models import ReadingLocation, User
 
-__all__ = ["get_engine", "get_session", "get_session_factory", "init_db", "User"]
+__all__ = [
+    "get_engine",
+    "get_db_session",
+    "get_session_factory",
+    "ReadingLocation",
+    "User",
+]
 

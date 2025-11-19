@@ -3,23 +3,31 @@ from __future__ import annotations
 import asyncio
 
 import pytest
+from typing import cast
+
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
-    AsyncSession,
+    AsyncSession as SQLAlchemyAsyncSession,
     async_sessionmaker,
     create_async_engine,
 )
 from sqlmodel import SQLModel, select
+from sqlmodel.ext.asyncio.session import AsyncSession as SQLModelAsyncSession
 
 from app.data import get_or_create_user
-from app.db.models import User
+from app.db.models import AuthType, User
 
 
-async def _setup_database() -> tuple[AsyncEngine, async_sessionmaker[AsyncSession]]:
+async def _setup_database() -> tuple[
+    AsyncEngine, async_sessionmaker[SQLAlchemyAsyncSession]
+]:
     engine = create_async_engine("sqlite+aiosqlite:///:memory:", future=True)
     async with engine.begin() as connection:
         await connection.run_sync(SQLModel.metadata.create_all)
-    session_factory = async_sessionmaker(engine, expire_on_commit=False)
+    session_factory = async_sessionmaker(
+        engine,
+        expire_on_commit=False,
+    )
     return engine, session_factory
 
 
@@ -34,6 +42,7 @@ def test_get_or_create_user_returns_existing(
                     auth0_id="auth0|existing-user",
                     email="existing@example.com",
                     display_name="Existing User",
+                    auth_type=AuthType.AUTH0_PASSWORD,
                 )
                 session.add(created)
                 await session.commit()
@@ -46,7 +55,7 @@ def test_get_or_create_user_returns_existing(
 
             async with session_factory() as session:
                 user = await get_or_create_user(
-                    session,
+                    cast(SQLModelAsyncSession, session),
                     auth0_id="auth0|existing-user",
                     access_token="ignored-access-token",
                 )
@@ -76,7 +85,7 @@ def test_get_or_create_user_creates_when_missing(
 
             async with session_factory() as session:
                 user = await get_or_create_user(
-                    session,
+                    cast(SQLModelAsyncSession, session),
                     auth0_id="auth0|new-user",
                     access_token="valid-access-token",
                 )

@@ -1,0 +1,15 @@
+meta {
+  name: get_latest_reading_pos
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{reader_api}}/reading_locations/latest
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
