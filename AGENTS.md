@@ -19,3 +19,5 @@ Go version inside publication_api is managed by goenv.
 Make changes based only on the instructions in my prompt. If you think other actions are necessary or would be helpful, ask before adding them to the plan or doing them. When the prompt is vague or doesn't include specific instructions, create a more concrete set of steps and ask for confirmation before carrying them out.
 
 If the prompt is a question that doesn't explicitly ask for you to take action but you think an action would be appropriate, create a plan for me to approve before doing anything. When I ask for an explanation of something, you don't have to make a plan; just give me an explanation.
+
+After making changes, do a pass through the affected files to clean up any unused or redundant code.

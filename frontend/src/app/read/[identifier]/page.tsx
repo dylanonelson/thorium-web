@@ -18,9 +18,11 @@ type Props = {
 
 export default function BookPage({ params }: Props) {
   const [domainError, setDomainError] = useState<string | null>(null);
-  const identifier = use(params).identifier;
+  const urlSlug = use(params).identifier;
   const isLoading = useAppSelector(state => state.reader.isLoading);
-  const manifestUrl = identifier ? PUBLICATION_MANIFESTS[identifier as keyof typeof PUBLICATION_MANIFESTS] : "";
+  const manifestUrl = urlSlug
+    ? PUBLICATION_MANIFESTS[urlSlug as keyof typeof PUBLICATION_MANIFESTS]?.manifestUrl ?? ""
+    : "";
 
   useEffect(() => {
     if (manifestUrl) {
