@@ -11,12 +11,7 @@ export const ThLibrary = ({
   ...props
 }: ThLinkIconProps) => {
   return (
-    <ThLink 
-      href={ href }
-      ref={ ref }
-      aria-label={ ariaLabel }
-      { ...props }
-    >
+    <ThLink href={href} ref={ref} aria-label={ariaLabel} {...props}>
       <LibraryIcon aria-hidden="true" focusable="false" />
     </ThLink>
   );

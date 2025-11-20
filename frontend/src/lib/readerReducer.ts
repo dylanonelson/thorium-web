@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { defaultPlatformModifier, UnstablePlatformModifier } from "@/core/Helpers/keyboardUtilities";
-import { ThSettingsContainerKeys, ThLayoutDirection } from "@/preferences/models/enums";
+import {
+  defaultPlatformModifier,
+  UnstablePlatformModifier,
+} from "@/core/Helpers/keyboardUtilities";
+import {
+  ThSettingsContainerKeys,
+  ThLayoutDirection,
+} from "@/preferences/models/enums";
 
 export interface ReaderReducerState {
   direction: ThLayoutDirection;
@@ -24,24 +30,24 @@ const initialState: ReaderReducerState = {
   hasArrows: true,
   isFullscreen: false,
   settingsContainer: ThSettingsContainerKeys.initial,
-  platformModifier: defaultPlatformModifier
-}
+  platformModifier: defaultPlatformModifier,
+};
 
 export const readerSlice = createSlice({
   name: "reader",
   initialState,
   reducers: {
     setDirection: (state, action) => {
-      state.direction = action.payload
+      state.direction = action.payload;
     },
     setLoading: (state, action) => {
-      state.isLoading = action.payload
+      state.isLoading = action.payload;
     },
     setPlatformModifier: (state, action) => {
-      state.platformModifier = action.payload
+      state.platformModifier = action.payload;
     },
     setImmersive: (state, action) => {
-      state.isImmersive = action.payload
+      state.isImmersive = action.payload;
       if (action.payload === true) {
         state.isHovering = false;
         state.hasScrollAffordance = false;
@@ -55,39 +61,39 @@ export const readerSlice = createSlice({
       }
     },
     setHovering: (state, action) => {
-      state.isHovering = action.payload
+      state.isHovering = action.payload;
     },
     setScrollAffordance: (state, action) => {
-      state.hasScrollAffordance = action.payload
+      state.hasScrollAffordance = action.payload;
       if (action.payload === true) {
         state.isHovering = false;
         state.isImmersive = false;
       }
     },
     setArrows: (state, action) => {
-      state.hasArrows = action.payload
+      state.hasArrows = action.payload;
     },
     setFullscreen: (state, action) => {
-      state.isFullscreen = action.payload
+      state.isFullscreen = action.payload;
     },
     setSettingsContainer: (state, action) => {
-      state.settingsContainer = action.payload
-    }
-  }
-})
+      state.settingsContainer = action.payload;
+    },
+  },
+});
 
 // Action creators are generated for each case reducer function
-export const { 
-  setDirection, 
+export const {
+  setDirection,
   setLoading,
-  setPlatformModifier, 
-  setImmersive, 
-  toggleImmersive, 
-  setHovering, 
-  setScrollAffordance, 
-  setArrows, 
-  setFullscreen, 
-  setSettingsContainer
+  setPlatformModifier,
+  setImmersive,
+  toggleImmersive,
+  setHovering,
+  setScrollAffordance,
+  setArrows,
+  setFullscreen,
+  setSettingsContainer,
 } = readerSlice.actions;
 
 export default readerSlice.reducer;

@@ -7,16 +7,24 @@ export enum ThContrast {
   none = "no-preference",
   more = "more",
   less = "less",
-  custom = "custom"
+  custom = "custom",
 }
 
 export const useContrast = (onChange?: (contrast: ThContrast) => void) => {
   const [contrast, setContrast] = useState(ThContrast.none);
 
-  const prefersNoContrast = useMediaQuery(`(prefers-contrast: ${ ThContrast.none })`);
-  const prefersLessContrast = useMediaQuery(`(prefers-contrast: ${ ThContrast.less })`);
-  const prefersMoreContrast = useMediaQuery(`(prefers-contrast: ${ ThContrast.more })`);
-  const prefersCustomContrast = useMediaQuery(`(prefers-contrast: ${ ThContrast.custom })`);
+  const prefersNoContrast = useMediaQuery(
+    `(prefers-contrast: ${ThContrast.none})`,
+  );
+  const prefersLessContrast = useMediaQuery(
+    `(prefers-contrast: ${ThContrast.less})`,
+  );
+  const prefersMoreContrast = useMediaQuery(
+    `(prefers-contrast: ${ThContrast.more})`,
+  );
+  const prefersCustomContrast = useMediaQuery(
+    `(prefers-contrast: ${ThContrast.custom})`,
+  );
 
   useEffect(() => {
     let newContrast: ThContrast = ThContrast.none;
@@ -31,7 +39,13 @@ export const useContrast = (onChange?: (contrast: ThContrast) => void) => {
     }
     setContrast(newContrast);
     onChange && onChange(newContrast);
-  }, [onChange, prefersNoContrast, prefersLessContrast, prefersMoreContrast, prefersCustomContrast]);
+  }, [
+    onChange,
+    prefersNoContrast,
+    prefersLessContrast,
+    prefersMoreContrast,
+    prefersCustomContrast,
+  ]);
 
   return contrast;
-}
+};

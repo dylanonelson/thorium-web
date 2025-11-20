@@ -8,7 +8,10 @@ import { AppState } from "@/lib/store";
 import { preferencesSlice } from "@/lib/preferencesReducer";
 import { mapStateToPreferences } from "@/lib/helpers/mapPreferences";
 
-export class ThReduxPreferencesAdapter<T extends CustomizableKeys = CustomizableKeys> implements ThPreferencesAdapter<T> {
+export class ThReduxPreferencesAdapter<
+  T extends CustomizableKeys = CustomizableKeys,
+> implements ThPreferencesAdapter<T>
+{
   private store: Store<AppState>;
   private listeners: Set<(prefs: ThPreferences<T>) => void> = new Set();
   private currentPreferences: ThPreferences<T>;
@@ -16,7 +19,7 @@ export class ThReduxPreferencesAdapter<T extends CustomizableKeys = Customizable
   constructor(store: Store<AppState>, initialPreferences: ThPreferences<T>) {
     this.store = store;
     this.currentPreferences = initialPreferences;
-    
+
     this.store.subscribe(() => {
       const state = this.store.getState();
       const prefs = this.mapStateToPreferences(state);
@@ -30,7 +33,9 @@ export class ThReduxPreferencesAdapter<T extends CustomizableKeys = Customizable
 
   public setPreferences(prefs: ThPreferences<T>): void {
     this.currentPreferences = prefs;
-    this.store.dispatch(preferencesSlice.actions.updateFromPreferences(prefs as any));
+    this.store.dispatch(
+      preferencesSlice.actions.updateFromPreferences(prefs as any),
+    );
     this.notifyListeners(prefs);
   }
 
@@ -45,13 +50,15 @@ export class ThReduxPreferencesAdapter<T extends CustomizableKeys = Customizable
 
   private mapStateToPreferences(state: AppState): ThPreferences<T> {
     if (!state.preferences) return this.currentPreferences;
-    
-    const updatedPrefs = mapStateToPreferences<T>(state.preferences, { ...this.currentPreferences });
+
+    const updatedPrefs = mapStateToPreferences<T>(state.preferences, {
+      ...this.currentPreferences,
+    });
     return updatedPrefs;
   }
 
   private notifyListeners(prefs: ThPreferences<T>): void {
     const prefsCopy = JSON.parse(JSON.stringify(prefs));
-    this.listeners.forEach(callback => callback(prefsCopy));
+    this.listeners.forEach((callback) => callback(prefsCopy));
   }
 }

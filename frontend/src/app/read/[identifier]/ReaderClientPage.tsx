@@ -32,7 +32,7 @@ export default function ReaderClientPage({
       verifyManifestUrl(manifestUrl).then((allowed) => {
         if (!allowed) {
           setDomainError(
-            `Domain not allowed: ${new URL(manifestUrl).hostname}`
+            `Domain not allowed: ${new URL(manifestUrl).hostname}`,
           );
         }
       });

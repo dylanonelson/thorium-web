@@ -1,16 +1,17 @@
-export interface ThInteractiveOverlayProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ThInteractiveOverlayProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.ForwardedRef<HTMLDivElement>;
   isActive: boolean;
   children?: never;
 }
 
 // This is meant to mount invisible zones that can be hovered, clicked, etc.
-export const ThInteractiveOverlay = ({ 
+export const ThInteractiveOverlay = ({
   ref,
   isActive,
   className,
   style,
-  ...props 
+  ...props
 }: ThInteractiveOverlayProps) => {
   const defaultStyles: React.CSSProperties = {
     opacity: 0,
@@ -18,21 +19,21 @@ export const ThInteractiveOverlay = ({
     pointerEvents: "auto",
   };
 
-  const mergedStyles = className 
-    ? undefined 
+  const mergedStyles = className
+    ? undefined
     : {
-      ...defaultStyles,
-      ...style
-    };
+        ...defaultStyles,
+        ...style,
+      };
 
   if (isActive) {
     return (
-      <div 
-        ref={ ref } 
-        className={ className }
-        style={ mergedStyles }
-        { ...props }
+      <div
+        ref={ref}
+        className={className}
+        style={mergedStyles}
+        {...props}
       ></div>
-    )
+    );
   }
-}
+};

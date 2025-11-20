@@ -1,6 +1,12 @@
 "use client";
 
-import React, { CSSProperties, KeyboardEvent, useCallback, useMemo, useRef } from "react";
+import React, {
+  CSSProperties,
+  KeyboardEvent,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 
 import { ThBottomSheetDetent, ThSheetHeaderVariant } from "@/preferences";
 
@@ -24,7 +30,7 @@ import { useAppSelector } from "@/lib/hooks";
 
 import classNames from "classnames";
 
-export interface StatefulBottomSheetProps extends StatefulSheet {};
+export interface StatefulBottomSheetProps extends StatefulSheet {}
 
 export interface ScrimPref {
   active: boolean;
@@ -34,27 +40,29 @@ export interface ScrimPref {
 const DEFAULT_SNAPPOINTS = {
   min: 0.3,
   peek: 0.5,
-  max: 1
-}
+  max: 1,
+};
 
 export const StatefulBottomSheet = ({
   id,
   heading,
   headerVariant,
-  className, 
+  className,
   isOpen,
-  onOpenChange, 
+  onOpenChange,
   onClosePress,
   children,
   resetFocus,
   focusWithinRef,
   scrollTopOnFocus,
-  dismissEscapeKeyClose
+  dismissEscapeKeyClose,
 }: StatefulBottomSheetProps) => {
   const { preferences } = usePreferences();
-  const { t } = useI18n()
+  const { t } = useI18n();
   const direction = useAppSelector((state) => state.reader.direction);
-  const prefersReducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
+  const prefersReducedMotion = useAppSelector(
+    (state) => state.theming.prefersReducedMotion,
+  );
 
   const sheetRef = useRef<SheetRef | null>(null);
   const sheetContainerRef = useRef<HTMLDivElement | null>(null);
@@ -70,7 +78,7 @@ export const StatefulBottomSheet = ({
       if (val > ref) {
         return val;
       } else {
-        return ((1 - ref) / 2) + ref;
+        return (1 - ref) / 2 + ref;
       }
     };
 
@@ -79,25 +87,28 @@ export const StatefulBottomSheet = ({
     // If it doesn’t have a max, then peek is @ index 1.
     let snapArray: number[] = [0];
 
-    const snapPref = preferences.actions.keys[id as keyof typeof preferences.actions.keys].snapped;
+    const snapPref =
+      preferences.actions.keys[id as keyof typeof preferences.actions.keys]
+        .snapped;
     if (snapPref) {
-      // We must start with minHeight to see if it’s 
+      // We must start with minHeight to see if it’s
       // constrained by a detent as it means
       // the bottom sheet is not draggable.
       // Hence why unshifting into the array instead of pushing
       if (snapPref.minHeight) {
-        switch(snapPref.minHeight) {
+        switch (snapPref.minHeight) {
           case "content-height":
           case "full-height":
           case 100:
-            detent.current = snapPref.minHeight === 100 ? "full-height" : snapPref.minHeight;
+            detent.current =
+              snapPref.minHeight === 100 ? "full-height" : snapPref.minHeight;
             isDraggable.current = false;
             return [];
           default:
             const minVal = snapPref.minHeight / 100;
             // Protecting against pref > 100
-            minVal > 0 && minVal < 1 
-              ? snapArray.push(minVal) 
+            minVal > 0 && minVal < 1
+              ? snapArray.push(minVal)
               : snapArray.push(DEFAULT_SNAPPOINTS.min);
             break;
         }
@@ -113,11 +124,12 @@ export const StatefulBottomSheet = ({
       // If peekHeight is constrained by a detent
       // then there is no maxHeight
       if (snapPref.peekHeight) {
-        switch(snapPref.peekHeight) {
+        switch (snapPref.peekHeight) {
           case "content-height":
           case "full-height":
           case 100:
-            detent.current = snapPref.peekHeight === 100 ? "full-height" : snapPref.peekHeight;
+            detent.current =
+              snapPref.peekHeight === 100 ? "full-height" : snapPref.peekHeight;
             snapArray.push(1);
             return snapArray;
           default:
@@ -125,8 +137,8 @@ export const StatefulBottomSheet = ({
             const prevVal = snapArray[0];
 
             peekVal > 0 && peekVal < 1
-              ? snapArray.push(getSecureVal(peekVal, prevVal)) 
-              : snapArray.push(getSecureVal(DEFAULT_SNAPPOINTS.peek, prevVal))
+              ? snapArray.push(getSecureVal(peekVal, prevVal))
+              : snapArray.push(getSecureVal(DEFAULT_SNAPPOINTS.peek, prevVal));
             break;
         }
       } else {
@@ -138,19 +150,20 @@ export const StatefulBottomSheet = ({
       // then it means the bottom sheet can’t be fullscreen
       // Otherwise we can remove the top corners radii
       if (snapPref.maxHeight) {
-        switch(snapPref.maxHeight) {
+        switch (snapPref.maxHeight) {
           case "content-height":
           case "full-height":
           case 100:
-            detent.current = snapPref.maxHeight === 100 ? "full-height" : snapPref.maxHeight;
+            detent.current =
+              snapPref.maxHeight === 100 ? "full-height" : snapPref.maxHeight;
             snapArray.push(1);
             return snapArray;
           default:
             const maxVal = snapPref.maxHeight / 100;
             const prevVal = snapArray[0];
 
-            maxVal > 0 && maxVal < 1 
-              ? snapArray.push(getSecureVal(maxVal, prevVal)) 
+            maxVal > 0 && maxVal < 1
+              ? snapArray.push(getSecureVal(maxVal, prevVal))
               : snapArray.push(getSecureVal(DEFAULT_SNAPPOINTS.max, prevVal));
             break;
         }
@@ -161,7 +174,11 @@ export const StatefulBottomSheet = ({
     } else {
       // There is no pref set
       // Reminder: order of React Modal Sheet is descending so min, peek, max
-      snapArray.push(DEFAULT_SNAPPOINTS.min, DEFAULT_SNAPPOINTS.peek, DEFAULT_SNAPPOINTS.max);
+      snapArray.push(
+        DEFAULT_SNAPPOINTS.min,
+        DEFAULT_SNAPPOINTS.peek,
+        DEFAULT_SNAPPOINTS.max,
+      );
     }
 
     return snapArray;
@@ -172,55 +189,63 @@ export const StatefulBottomSheet = ({
   const onDragPressCallback = useCallback(() => {
     if (snapIdx.current !== null) {
       // In [0, min, peek, max] order, cycle to next index but skip index 0
-      const nextIdx = snapIdx.current === snapArray.length - 1 ? 1 : snapIdx.current + 1;
+      const nextIdx =
+        snapIdx.current === snapArray.length - 1 ? 1 : snapIdx.current + 1;
       sheetRef.current?.snapTo(nextIdx);
     }
   }, [snapArray]);
 
-  const onDragKeyCallback = useCallback((e: KeyboardEvent) => {
-    if (snapIdx.current !== null) {
-      switch(e.code) {
-        case "PageUp":
-          if (snapIdx.current === snapArray.length - 1) return;
-          sheetRef.current?.snapTo(snapArray.length - 1);
-          break;
-        case "ArrowUp":
-          if (snapIdx.current === snapArray.length - 1) return;
-          sheetRef.current?.snapTo(snapIdx.current + 1);
-          break;
-        case "PageDown":
-          onClosePress();
-          break;
-        case "ArrowDown":
-          if (snapIdx.current === 1) {
+  const onDragKeyCallback = useCallback(
+    (e: KeyboardEvent) => {
+      if (snapIdx.current !== null) {
+        switch (e.code) {
+          case "PageUp":
+            if (snapIdx.current === snapArray.length - 1) return;
+            sheetRef.current?.snapTo(snapArray.length - 1);
+            break;
+          case "ArrowUp":
+            if (snapIdx.current === snapArray.length - 1) return;
+            sheetRef.current?.snapTo(snapIdx.current + 1);
+            break;
+          case "PageDown":
             onClosePress();
             break;
-          }
-          sheetRef.current?.snapTo(snapIdx.current - 1)
-          break;
-        default:
-          break;
+          case "ArrowDown":
+            if (snapIdx.current === 1) {
+              onClosePress();
+              break;
+            }
+            sheetRef.current?.snapTo(snapIdx.current - 1);
+            break;
+          default:
+            break;
+        }
       }
-    }
-  }, [snapArray, onClosePress]);
+    },
+    [snapArray, onClosePress],
+  );
 
   const maxWidthPref = useMemo(() => {
-    const maxWidth = preferences.actions.keys[id as keyof typeof preferences.actions.keys].snapped?.maxWidth;
+    const maxWidth =
+      preferences.actions.keys[id as keyof typeof preferences.actions.keys]
+        .snapped?.maxWidth;
     if (typeof maxWidth === "undefined") {
       return undefined;
     } else if (maxWidth === null) {
       return "100%";
     } else {
-      return `${ maxWidth }px`;
+      return `${maxWidth}px`;
     }
   }, [id, preferences]);
 
   const scrimPref = useMemo(() => {
     let scrimPref: ScrimPref = {
       active: false,
-      override: undefined
-    }
-    const scrim = preferences.actions.keys[id as keyof typeof preferences.actions.keys].snapped?.scrim;
+      override: undefined,
+    };
+    const scrim =
+      preferences.actions.keys[id as keyof typeof preferences.actions.keys]
+        .snapped?.scrim;
     if (scrim) {
       scrimPref.active = true;
 
@@ -247,7 +272,7 @@ export const StatefulBottomSheet = ({
   }, [scrimPref]);
 
   const convertDetent = (detent: ThBottomSheetDetent): SheetDetent => {
-    switch(detent) {
+    switch (detent) {
       case "content-height":
         return "content";
       case "full-height":
@@ -258,100 +283,108 @@ export const StatefulBottomSheet = ({
   };
 
   if (React.Children.toArray(children).length > 0) {
-    return(
+    return (
       <>
-      <ThBottomSheet
-        id={ id }
-        ref={ sheetRef }
-        className={ sheetStyles.bottomSheetRoot }
-        isOpen={ isOpen }
-        focusOptions={{
-          withinRef: focusWithinRef ?? bottomSheetBodyRef,
-          trackedState: isOpen,
-          fallbackRef: bottomSheetCloseRef,
-          action: {
-            type: "focus",
-            options: {
-              preventScroll: true, // Safari needs this otherwise focus() creates artifacts on open
-              scrollContainerToTop: scrollTopOnFocus
-            }
-          },
-          updateState: resetFocus
-        }}
-        onOpenChange={ onOpenChange }
-        isKeyboardDismissDisabled={ dismissEscapeKeyClose }
-        { ...(snapArray.length > 2 
-          ? { 
-            snapPoints: snapArray, 
-            initialSnap: 2,
-            detent: convertDetent(detent.current)
-          } 
-          : {
-            detent: convertDetent(detent.current)
-          }) 
-        }
-        onSnap={ (index) => { snapIdx.current = index }}
-        prefersReducedMotion={ prefersReducedMotion }
-        compounds={ {
-          container: {
-            className: classNames(sheetStyles.bottomSheetModal, detentClassName),
-            ref: sheetContainerRef,
-            style: {
-              maxWidth: maxWidthPref 
-            } as CSSProperties
-          },
-          dragIndicator: {
-            className: sheetStyles.dragIndicator,
-            onPress: onDragPressCallback,
-            onKeyDown: onDragKeyCallback
-          },
-          content: {
-            className: classNames(sheetStyles.bottomSheet, className),
-            disableDrag: true
-          },
-          scroller: {
-            className: sheetStyles.bottomSheetScroller
-          },
-          backdrop: {
-            className: classNames(sheetStyles.bottomSheetBackdrop, scrimClassName),
-            style: { "--defaults-scrim": scrimPref.override }
-          }
-        } }
-      >
-        <ThContainerHeader
-          label={ heading }
-          className={ sheetStyles.bottomSheetHeader }
-          compounds={ {
-            heading: {
-              className: sheetStyles.sheetHeading
-            }
+        <ThBottomSheet
+          id={id}
+          ref={sheetRef}
+          className={sheetStyles.bottomSheetRoot}
+          isOpen={isOpen}
+          focusOptions={{
+            withinRef: focusWithinRef ?? bottomSheetBodyRef,
+            trackedState: isOpen,
+            fallbackRef: bottomSheetCloseRef,
+            action: {
+              type: "focus",
+              options: {
+                preventScroll: true, // Safari needs this otherwise focus() creates artifacts on open
+                scrollContainerToTop: scrollTopOnFocus,
+              },
+            },
+            updateState: resetFocus,
+          }}
+          onOpenChange={onOpenChange}
+          isKeyboardDismissDisabled={dismissEscapeKeyClose}
+          {...(snapArray.length > 2
+            ? {
+                snapPoints: snapArray,
+                initialSnap: 2,
+                detent: convertDetent(detent.current),
+              }
+            : {
+                detent: convertDetent(detent.current),
+              })}
+          onSnap={(index) => {
+            snapIdx.current = index;
+          }}
+          prefersReducedMotion={prefersReducedMotion}
+          compounds={{
+            container: {
+              className: classNames(
+                sheetStyles.bottomSheetModal,
+                detentClassName,
+              ),
+              ref: sheetContainerRef,
+              style: {
+                maxWidth: maxWidthPref,
+              } as CSSProperties,
+            },
+            dragIndicator: {
+              className: sheetStyles.dragIndicator,
+              onPress: onDragPressCallback,
+              onKeyDown: onDragKeyCallback,
+            },
+            content: {
+              className: classNames(sheetStyles.bottomSheet, className),
+              disableDrag: true,
+            },
+            scroller: {
+              className: sheetStyles.bottomSheetScroller,
+            },
+            backdrop: {
+              className: classNames(
+                sheetStyles.bottomSheetBackdrop,
+                scrimClassName,
+              ),
+              style: { "--defaults-scrim": scrimPref.override },
+            },
           }}
         >
-        { headerVariant === ThSheetHeaderVariant.previous 
-            ? <ThNavigationButton 
-              direction={ direction === "ltr" ? "left" : "right" }
-              label={ t("reader.app.back.trigger") }
-              ref={ bottomSheetCloseRef }
-              className={ classNames(className, readerSharedUI.backButton) } 
-              aria-label={ t("reader.app.back.trigger") }
-              onPress={ onClosePress }
-            /> 
-            : <ThCloseButton
-              ref={ bottomSheetCloseRef }
-              className={ readerSharedUI.closeButton } 
-              aria-label={ t("reader.app.docker.close.trigger") } 
-              onPress={ onClosePress }
-            />
-          }
-        </ThContainerHeader>
-        <ThContainerBody 
-          ref={ bottomSheetBodyRef }
-          className={ sheetStyles.sheetBody }
-        >
-          { children }
-        </ThContainerBody>
-      </ThBottomSheet>
+          <ThContainerHeader
+            label={heading}
+            className={sheetStyles.bottomSheetHeader}
+            compounds={{
+              heading: {
+                className: sheetStyles.sheetHeading,
+              },
+            }}
+          >
+            {headerVariant === ThSheetHeaderVariant.previous ? (
+              <ThNavigationButton
+                direction={direction === "ltr" ? "left" : "right"}
+                label={t("reader.app.back.trigger")}
+                ref={bottomSheetCloseRef}
+                className={classNames(className, readerSharedUI.backButton)}
+                aria-label={t("reader.app.back.trigger")}
+                onPress={onClosePress}
+              />
+            ) : (
+              <ThCloseButton
+                ref={bottomSheetCloseRef}
+                className={readerSharedUI.closeButton}
+                aria-label={t("reader.app.docker.close.trigger")}
+                onPress={onClosePress}
+              />
+            )}
+          </ThContainerHeader>
+          <ThContainerBody
+            ref={bottomSheetBodyRef}
+            className={sheetStyles.sheetBody}
+          >
+            {children}
+          </ThContainerBody>
+        </ThBottomSheet>
       </>
-    )
+    );
   }
-}
+};

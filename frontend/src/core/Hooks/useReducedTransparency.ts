@@ -3,10 +3,14 @@
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "./useMediaQuery";
 
-export const useReducedTransparency = (onChange?: (reducedTransparency: boolean) => void) => {
+export const useReducedTransparency = (
+  onChange?: (reducedTransparency: boolean) => void,
+) => {
   const [reducedTransparency, setReducedTransparency] = useState(false);
 
-  const prefersReducedTransparency = useMediaQuery("(prefers-reduced-transparency: reduce)");
+  const prefersReducedTransparency = useMediaQuery(
+    "(prefers-reduced-transparency: reduce)",
+  );
 
   useEffect(() => {
     setReducedTransparency(prefersReducedTransparency);
@@ -14,4 +18,4 @@ export const useReducedTransparency = (onChange?: (reducedTransparency: boolean)
   }, [prefersReducedTransparency, onChange]);
 
   return reducedTransparency;
-}
+};

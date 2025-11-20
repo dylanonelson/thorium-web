@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
  */
 export const useI18n = (ns: string = "thorium-web") => {
   const { t, i18n, ready } = useTranslation(ns);
-  
+
   // Helper function to change language
   const changeLanguage = (lng: string) => {
     return i18n.changeLanguage(lng);
@@ -25,6 +25,6 @@ export const useI18n = (ns: string = "thorium-web") => {
     // List of available languages
     languages: i18n.languages,
     // Function to change language
-    changeLanguage
+    changeLanguage,
   };
 };

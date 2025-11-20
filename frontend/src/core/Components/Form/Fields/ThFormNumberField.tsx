@@ -2,14 +2,14 @@
 
 import { WithRef } from "../../customTypes";
 
-import { 
-  Input, 
-  InputProps, 
-  Label, 
-  LabelProps, 
-  NumberField, 
-  NumberFieldProps, 
-  Text 
+import {
+  Input,
+  InputProps,
+  Label,
+  LabelProps,
+  NumberField,
+  NumberFieldProps,
+  Text,
 } from "react-aria-components";
 
 export interface ThFormNumberFieldProps extends NumberFieldProps {
@@ -19,7 +19,7 @@ export interface ThFormNumberFieldProps extends NumberFieldProps {
     label?: WithRef<LabelProps, HTMLLabelElement>;
     input?: WithRef<InputProps, HTMLInputElement>;
     description?: string;
-  }
+  };
 }
 
 export const ThFormNumberField = ({
@@ -29,29 +29,23 @@ export const ThFormNumberField = ({
   children,
   ...props
 }: ThFormNumberFieldProps) => {
-  return(
+  return (
     <>
-    <NumberField
-      ref={ ref }
-      {...props }
-    >
-      { children 
-        ? children 
-        : <>
-          { label && <Label {...compounds?.label }>
-              { label }
-            </Label>
-          }
+      <NumberField ref={ref} {...props}>
+        {children ? (
+          children
+        ) : (
+          <>
+            {label && <Label {...compounds?.label}>{label}</Label>}
 
-          <Input {...compounds?.input } />
-          
-          { compounds?.description && <Text slot="description"> 
-              { compounds?.description } 
-            </Text> 
-          }
-          </> 
-      }
-    </NumberField>
+            <Input {...compounds?.input} />
+
+            {compounds?.description && (
+              <Text slot="description">{compounds?.description}</Text>
+            )}
+          </>
+        )}
+      </NumberField>
     </>
-  )
-}
+  );
+};

@@ -11,11 +11,14 @@ import { UseFirstFocusableProps } from "./hooks/useFirstFocusable";
 export enum ThContainerHeaderVariant {
   close = "close",
   docker = "docker",
-  previous = "previous"
+  previous = "previous",
 }
 
 export interface ThContainerProps {
   ref?: React.RefObject<HTMLDivElement | SheetRef | null>;
   focusOptions?: UseFirstFocusableProps;
-  children: [React.ReactElement<ThContainerHeaderProps>, React.ReactElement<ThContainerBodyProps>];
+  children: [
+    React.ReactElement<ThContainerHeaderProps>,
+    React.ReactElement<ThContainerBodyProps>,
+  ];
 }

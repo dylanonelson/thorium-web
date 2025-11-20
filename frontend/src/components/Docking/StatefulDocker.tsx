@@ -24,15 +24,15 @@ import { ActionsStateKeys } from "@/lib/actionsReducer";
 
 const dockingComponentsMap = {
   [ThDockingKeys.start]: {
-    trigger: StatefulDockStart
+    trigger: StatefulDockStart,
   },
   [ThDockingKeys.end]: {
-    trigger: StatefulDockEnd
+    trigger: StatefulDockEnd,
   },
   [ThDockingKeys.transient]: {
-    trigger: StatefulDockTransientPopover
-  }
-}
+    trigger: StatefulDockTransientPopover,
+  },
+};
 
 export interface StatefulDockerProps {
   id: ActionsStateKeys;
@@ -45,11 +45,11 @@ export const StatefulDocker = ({
   id,
   keys,
   ref,
-  onClose
+  onClose,
 }: StatefulDockerProps) => {
   const { preferences } = usePreferences();
   const { t } = useI18n();
-  
+
   const listActionItems = useCallback(() => {
     const actionsItems: ThActionEntry<ThDockingKeys>[] = [];
 
@@ -57,43 +57,42 @@ export const StatefulDocker = ({
       actionsItems.push({
         Trigger: dockingComponentsMap[key].trigger,
         key: key,
-        associatedKey: id
-      })
+        associatedKey: id,
+      });
     });
 
     return actionsItems;
   }, [keys, id]);
 
-  return(
+  return (
     <>
-    <Toolbar className={ dockingStyles.dockerWrapper }>
-      <StatefulCollapsibleActionsBar 
-        id={ `${ id }-docker-overflowMenu` }
-        items={ listActionItems() }
-        className={ dockingStyles.docker } 
-        overflowMenuClassName={ readerSharedUI.dockerButton }
-        prefs={ preferences.docking }
-        aria-label={ t("reader.app.docker.wrapper") }
-      />
+      <Toolbar className={dockingStyles.dockerWrapper}>
+        <StatefulCollapsibleActionsBar
+          id={`${id}-docker-overflowMenu`}
+          items={listActionItems()}
+          className={dockingStyles.docker}
+          overflowMenuClassName={readerSharedUI.dockerButton}
+          prefs={preferences.docking}
+          aria-label={t("reader.app.docker.wrapper")}
+        />
 
-      <ThCloseButton 
-        ref={ ref }
-        className={ readerSharedUI.dockerButton } 
-        aria-label={ t("reader.app.docker.close.trigger") } 
-        onPress={ onClose }
-        compounds={ {
-          tooltipTrigger: {
-            delay: preferences.theming.icon.tooltipDelay,
-            closeDelay: preferences.theming.icon.tooltipDelay
-          },
-          tooltip: {
-            className: readerSharedUI.tooltip
-          },
-          label: t("reader.app.docker.close.tooltip")
-        }}
-      />
-    </Toolbar>
+        <ThCloseButton
+          ref={ref}
+          className={readerSharedUI.dockerButton}
+          aria-label={t("reader.app.docker.close.trigger")}
+          onPress={onClose}
+          compounds={{
+            tooltipTrigger: {
+              delay: preferences.theming.icon.tooltipDelay,
+              closeDelay: preferences.theming.icon.tooltipDelay,
+            },
+            tooltip: {
+              className: readerSharedUI.tooltip,
+            },
+            label: t("reader.app.docker.close.tooltip"),
+          }}
+        />
+      </Toolbar>
     </>
-  )
-}
-
+  );
+};

@@ -3,7 +3,10 @@ import { ThPreferences, CustomizableKeys } from "../preferences";
 import { ThPreferencesAdapter } from "./ThPreferencesAdapter";
 import { mapPreferencesToState } from "@/lib/helpers/mapPreferences";
 
-export class ThMemoryPreferencesAdapter<T extends CustomizableKeys = CustomizableKeys> implements ThPreferencesAdapter<T> {
+export class ThMemoryPreferencesAdapter<
+  T extends CustomizableKeys = CustomizableKeys,
+> implements ThPreferencesAdapter<T>
+{
   private currentPreferences: ThPreferences<T>;
   private listeners: Set<(prefs: ThPreferences<T>) => void> = new Set();
 
@@ -29,6 +32,6 @@ export class ThMemoryPreferencesAdapter<T extends CustomizableKeys = Customizabl
   }
 
   private notifyListeners(prefs: ThPreferences<T>): void {
-    this.listeners.forEach(listener => listener({ ...prefs }));
+    this.listeners.forEach((listener) => listener({ ...prefs }));
   }
 }

@@ -5,7 +5,7 @@ import { Toolbar, ToolbarProps } from "react-aria-components";
 
 export enum ThActionsTriggerVariant {
   button = "iconButton",
-  menu = "menuItem"
+  menu = "menuItem",
 }
 
 export interface ThActionEntry<T> {
@@ -16,22 +16,19 @@ export interface ThActionEntry<T> {
 }
 
 export interface ThActionsBarProps extends ToolbarProps {
-  ref?: React.ForwardedRef<HTMLDivElement>
-};
+  ref?: React.ForwardedRef<HTMLDivElement>;
+}
 
-export const ThActionsBar = ({ 
-  ref, 
-  children, 
-  ...props 
+export const ThActionsBar = ({
+  ref,
+  children,
+  ...props
 }: ThActionsBarProps) => {
   const resolvedRef = useObjectRef(ref);
 
   return (
-    <Toolbar 
-      ref={ resolvedRef } 
-      { ...props }
-    >
-      { children }
+    <Toolbar ref={resolvedRef} {...props}>
+      {children}
     </Toolbar>
-  )
-}
+  );
+};

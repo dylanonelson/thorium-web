@@ -1,54 +1,69 @@
 "use client";
 
-import React, { 
-  RefObject, 
-  useCallback, 
-  useEffect, 
-  useMemo, 
-  useState 
+import React, {
+  RefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
 } from "react";
 
 import { OverlayTriggerState, useOverlayTriggerState } from "react-stately";
 
-import { ThContainerHeader, ThContainerHeaderProps } from "../ThContainerHeader";
+import {
+  ThContainerHeader,
+  ThContainerHeaderProps,
+} from "../ThContainerHeader";
 import { ThContainerBody } from "../ThContainerBody";
 import { ThContainerProps } from "../ThContainer";
-import { useFirstFocusable, UseFirstFocusableProps } from "../hooks/useFirstFocusable";
+import {
+  useFirstFocusable,
+  UseFirstFocusableProps,
+} from "../hooks/useFirstFocusable";
 
-import { ThDragIndicatorButton, ThDragIndicatorButtonProps } from "./ThDragIndicatorButton";
+import {
+  ThDragIndicatorButton,
+  ThDragIndicatorButtonProps,
+} from "./ThDragIndicatorButton";
 
 import { Sheet, SheetDetent, SheetRef } from "react-modal-sheet";
 import { HeadingProps } from "react-aria-components";
-import { 
-  AriaOverlayProps, 
-  FocusScope, 
-  OverlayProvider, 
-  useDialog, 
-  useModal, 
-  useObjectRef, 
-  useOverlay 
+import {
+  AriaOverlayProps,
+  FocusScope,
+  OverlayProvider,
+  useDialog,
+  useModal,
+  useObjectRef,
+  useOverlay,
 } from "react-aria";
 
 export interface ThBottomSheetHeaderProps extends ThContainerHeaderProps {
-  wrapper: React.ComponentProps<typeof Sheet.Header>,
-  dragIndicator: React.ComponentProps<typeof ThDragIndicatorButton>,
-  header: ThContainerHeaderProps,
-  heading: HeadingProps
+  wrapper: React.ComponentProps<typeof Sheet.Header>;
+  dragIndicator: React.ComponentProps<typeof ThDragIndicatorButton>;
+  header: ThContainerHeaderProps;
+  heading: HeadingProps;
 }
 
 export interface ThBottomSheetCompounds {
-  container?: Omit<React.ComponentProps<typeof Sheet.Container>, "children">,
-  header?: React.ComponentProps<typeof Sheet.Header>,
-  dragIndicator?: ThDragIndicatorButtonProps,
-  scroller?: { 
-    ref?: React.RefObject<HTMLDivElement>; 
-    className?: string; 
-  },
-  content?: React.ComponentProps<typeof Sheet.Content>,
-  backdrop?: React.ComponentProps<typeof Sheet.Backdrop>
+  container?: Omit<React.ComponentProps<typeof Sheet.Container>, "children">;
+  header?: React.ComponentProps<typeof Sheet.Header>;
+  dragIndicator?: ThDragIndicatorButtonProps;
+  scroller?: {
+    ref?: React.RefObject<HTMLDivElement>;
+    className?: string;
+  };
+  content?: React.ComponentProps<typeof Sheet.Content>;
+  backdrop?: React.ComponentProps<typeof Sheet.Backdrop>;
 }
 
-export interface ThBottomSheetProps extends Omit<React.ComponentProps<typeof Sheet>, "children" | "ref" | "isOpen" | "onClose">, AriaOverlayProps, ThContainerProps {
+export interface ThBottomSheetProps
+  extends Omit<
+      React.ComponentProps<typeof Sheet>,
+      "children" | "ref" | "isOpen" | "onClose"
+    >,
+    AriaOverlayProps,
+    ThContainerProps {
   onOpenChange?: (isOpen: boolean) => void;
   isKeyboardDismissDisabled?: boolean;
   compounds?: ThBottomSheetCompounds;
@@ -57,12 +72,12 @@ export interface ThBottomSheetProps extends Omit<React.ComponentProps<typeof She
 const ThBottomSheetContainer = ({
   sheetRef,
   sheetState,
-  isDraggable, 
+  isDraggable,
   isKeyboardDismissDisabled,
   focusOptions,
   detent,
   compounds,
-  children
+  children,
 }: {
   sheetRef: RefObject<HTMLDivElement | SheetRef | null>;
   sheetState: OverlayTriggerState;
@@ -77,12 +92,15 @@ const ThBottomSheetContainer = ({
   const containerRef = useObjectRef(compounds?.container?.ref);
   const scrollerRef = useObjectRef(compounds?.scroller?.ref);
   const dialog = useDialog({}, containerRef);
-  const overlay = useOverlay({ 
-    onClose: sheetState.close, 
-    isOpen: true, 
-    isDismissable: true,
-    isKeyboardDismissDisabled: isKeyboardDismissDisabled
-  }, containerRef);
+  const overlay = useOverlay(
+    {
+      onClose: sheetState.close,
+      isOpen: true,
+      isDismissable: true,
+      isKeyboardDismissDisabled: isKeyboardDismissDisabled,
+    },
+    containerRef,
+  );
   const [isFullHeight, setFullHeight] = useState<boolean>(false);
 
   // Apply scroller className from compounds
@@ -101,94 +119,106 @@ const ThBottomSheetContainer = ({
 
   useModal();
 
-  const fullHeightIntersectionCallback = useCallback((entries: IntersectionObserverEntry[]) => {
-    entries.forEach( (entry) => {
-      if (
+  const fullHeightIntersectionCallback = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (
           detent === "default" &&
-          entry.isIntersecting && 
-          entry.intersectionRatio === 1 && 
+          entry.isIntersecting &&
+          entry.intersectionRatio === 1 &&
           // For some reason width is larger on mobile (and border-right is almost invisible)…
           entry.boundingClientRect.width >= window.innerWidth
         ) {
           setFullHeight(true);
-      } else {
-        setFullHeight(false);
-      }
-    });
-  }, [setFullHeight, detent]);
+        } else {
+          setFullHeight(false);
+        }
+      });
+    },
+    [setFullHeight, detent],
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(fullHeightIntersectionCallback, {
-      threshold: 1.0
+      threshold: 1.0,
     });
     containerRef.current && observer.observe(containerRef.current);
 
     return () => {
       observer.disconnect();
-    }
+    };
   });
 
   const [Header, Body] = useMemo(() => {
     const header = children.find((child) => child.type === ThContainerHeader);
     const body = children.find((child) => child.type === ThContainerBody);
-    
-    const modifiedHeader = header ? React.cloneElement(header as React.ReactElement<ThContainerHeaderProps>, {
-      ...header.props,
-      compounds: {
-        ...(header.props as ThContainerHeaderProps).compounds,
-        heading: {
-          ...(header.props as ThContainerHeaderProps).compounds?.heading,
-          ...dialog.titleProps
-        }
-      }
-    }) : null;
+
+    const modifiedHeader = header
+      ? React.cloneElement(
+          header as React.ReactElement<ThContainerHeaderProps>,
+          {
+            ...header.props,
+            compounds: {
+              ...(header.props as ThContainerHeaderProps).compounds,
+              heading: {
+                ...(header.props as ThContainerHeaderProps).compounds?.heading,
+                ...dialog.titleProps,
+              },
+            },
+          },
+        )
+      : null;
 
     return [modifiedHeader, body];
   }, [children, dialog.titleProps]);
 
-  const updatedFocusOptions = useMemo(() => 
-    focusOptions ? {
-      ...focusOptions,
-      scrollerRef: scrollerRef
-    } : undefined,
-    [focusOptions, scrollerRef]
+  const updatedFocusOptions = useMemo(
+    () =>
+      focusOptions
+        ? {
+            ...focusOptions,
+            scrollerRef: scrollerRef,
+          }
+        : undefined,
+    [focusOptions, scrollerRef],
   );
 
   useFirstFocusable(updatedFocusOptions);
 
   return (
     <>
-    <Sheet.Container 
-      { ...compounds?.container }
-      ref={ containerRef }
-      {...(isFullHeight ? { "data-full-height": "true" } : {} )}
-      { ...overlay.overlayProps as any}
-      { ...dialog.dialogProps }
-    >
-      <Sheet.Header
-        { ...compounds?.header }
+      <Sheet.Container
+        {...compounds?.container}
+        ref={containerRef}
+        {...(isFullHeight ? { "data-full-height": "true" } : {})}
+        {...(overlay.overlayProps as any)}
+        {...dialog.dialogProps}
       >
-        { isDraggable && 
-          <ThDragIndicatorButton 
-            { ...compounds?.dragIndicator }
-          /> 
-        }
-        { Header }
-      </Sheet.Header>
-      <Sheet.Content 
-        scrollRef={ scrollerRef }
-        { ...compounds?.content }
-        { ...(isDraggable ? { style: { ...compounds?.content?.style, paddingBottom: (sheetRef.current as SheetRef)?.y } as { [key: string]: any }} : {})}
-      >
-        { Body }
-      </Sheet.Content>
-    </Sheet.Container>
-    <Sheet.Backdrop 
-      { ...compounds?.backdrop }
-    />
+        <Sheet.Header {...compounds?.header}>
+          {isDraggable && (
+            <ThDragIndicatorButton {...compounds?.dragIndicator} />
+          )}
+          {Header}
+        </Sheet.Header>
+        <Sheet.Content
+          scrollRef={scrollerRef}
+          {...compounds?.content}
+          {...(isDraggable
+            ? {
+                style: {
+                  ...compounds?.content?.style,
+                  paddingBottom: (sheetRef.current as SheetRef)?.y,
+                } as { [key: string]: any },
+              }
+            : {})}
+        >
+          {Body}
+        </Sheet.Content>
+      </Sheet.Container>
+      <Sheet.Backdrop {...compounds?.backdrop} />
     </>
-  )
-}
+  );
+};
 
 export const ThBottomSheet = ({
   id,
@@ -200,49 +230,52 @@ export const ThBottomSheet = ({
   detent,
   snapPoints,
   compounds,
-  children, 
+  children,
   ...props
 }: ThBottomSheetProps) => {
   const resolvedRef = useObjectRef(ref);
 
   let sheetState = useOverlayTriggerState({
     isOpen: isOpen,
-    onOpenChange: onOpenChange
+    onOpenChange: onOpenChange,
   });
 
-  const isDraggable = useMemo(() => snapPoints && snapPoints.length > 1, [snapPoints]);
+  const isDraggable = useMemo(
+    () => snapPoints && snapPoints.length > 1,
+    [snapPoints],
+  );
 
-  return(
+  return (
     <>
-    <Sheet
-      ref={ resolvedRef }
-      isOpen={ sheetState.isOpen }
-      onClose={ sheetState.close }
-      detent={ detent }
-      snapPoints={ snapPoints }
-      { ...props }
-    >
-      <OverlayProvider>
-        <FocusScope 
-          contain={ true } 
-          // If not set to true, focus is not contained on open
-          autoFocus={ true } 
-          restoreFocus={ true }
-        >
-          <ThBottomSheetContainer 
-            sheetRef={ resolvedRef } 
-            sheetState={ sheetState } 
-            isDraggable= { isDraggable }
-            isKeyboardDismissDisabled={ isKeyboardDismissDisabled }
-            focusOptions={ focusOptions }
-            detent={ detent }
-            compounds={ compounds }
+      <Sheet
+        ref={resolvedRef}
+        isOpen={sheetState.isOpen}
+        onClose={sheetState.close}
+        detent={detent}
+        snapPoints={snapPoints}
+        {...props}
+      >
+        <OverlayProvider>
+          <FocusScope
+            contain={true}
+            // If not set to true, focus is not contained on open
+            autoFocus={true}
+            restoreFocus={true}
           >
-            { children }
-          </ThBottomSheetContainer>
-      </FocusScope>
-    </OverlayProvider>
-  </Sheet> 
-  </>
-  )
-}
+            <ThBottomSheetContainer
+              sheetRef={resolvedRef}
+              sheetState={sheetState}
+              isDraggable={isDraggable}
+              isKeyboardDismissDisabled={isKeyboardDismissDisabled}
+              focusOptions={focusOptions}
+              detent={detent}
+              compounds={compounds}
+            >
+              {children}
+            </ThBottomSheetContainer>
+          </FocusScope>
+        </OverlayProvider>
+      </Sheet>
+    </>
+  );
+};

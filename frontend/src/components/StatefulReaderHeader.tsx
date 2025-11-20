@@ -10,7 +10,7 @@ import readerHeaderStyles from "./assets/styles/readerHeader.module.css";
 import overflowMenuStyles from "./Actions/assets/styles/overflowMenu.module.css";
 
 import { ThActionEntry } from "@/core/Components/Actions/ThActionsBar";
-import { ThHeader  } from "@/core/Components/Reader/ThHeader";
+import { ThHeader } from "@/core/Components/Reader/ThHeader";
 import { StatefulBackLink } from "./StatefulBackLink";
 import { StatefulReaderRunningHead } from "./StatefulReaderRunningHead";
 import { ThInteractiveOverlay } from "../core/Components/Reader/ThInteractiveOverlay";
@@ -25,24 +25,22 @@ import { useFocusWithin } from "react-aria";
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-export const StatefulReaderHeader = ({
-  layout
-}: {
-  layout: ThLayoutUI;
-}) => {
+export const StatefulReaderHeader = ({ layout }: { layout: ThLayoutUI }) => {
   const headerRef = useRef<HTMLDivElement>(null);
   const { reflowActionKeys, fxlActionKeys } = usePreferenceKeys();
   const { preferences } = usePreferences();
   const { t } = useI18n();
   const { actionsComponentsMap } = usePlugins();
-  
-  const actionsMap = useAppSelector(state => state.actions.keys);
-  const overflowMap = useAppSelector(state => state.actions.overflow);
-  const isFXL = useAppSelector(state => state.publication.isFXL);
-  const isScroll = useAppSelector(state => state.settings.scroll);
-  const isImmersive = useAppSelector(state => state.reader.isImmersive);
-  const isHovering = useAppSelector(state => state.reader.isHovering);
-  const hasScrollAffordance = useAppSelector(state => state.reader.hasScrollAffordance);
+
+  const actionsMap = useAppSelector((state) => state.actions.keys);
+  const overflowMap = useAppSelector((state) => state.actions.overflow);
+  const isFXL = useAppSelector((state) => state.publication.isFXL);
+  const isScroll = useAppSelector((state) => state.settings.scroll);
+  const isImmersive = useAppSelector((state) => state.reader.isImmersive);
+  const isHovering = useAppSelector((state) => state.reader.isHovering);
+  const hasScrollAffordance = useAppSelector(
+    (state) => state.reader.hasScrollAffordance,
+  );
 
   const actions = useActions({ ...actionsMap, ...overflowMap });
   const dispatch = useAppDispatch();
@@ -51,11 +49,11 @@ export const StatefulReaderHeader = ({
     onFocusWithin() {
       dispatch(setHovering(true));
     },
-    onBlurWithin() {      
+    onBlurWithin() {
       if (actions.everyOpenDocked()) {
         dispatch(setHovering(false));
       }
-    }
+    },
   });
 
   const setHover = () => {
@@ -71,23 +69,25 @@ export const StatefulReaderHeader = ({
   };
 
   const listActionItems = useCallback(() => {
-    const actionKeys = isFXL? fxlActionKeys : reflowActionKeys;
+    const actionKeys = isFXL ? fxlActionKeys : reflowActionKeys;
     const actionsItems: ThActionEntry<ActionKeyType>[] = [];
 
     if (actionsComponentsMap && Object.keys(actionsComponentsMap).length > 0) {
-      actionKeys.forEach((key) => {      
+      actionKeys.forEach((key) => {
         if (actionsComponentsMap[key]) {
           actionsItems.push({
             Trigger: actionsComponentsMap[key].Trigger,
             Target: actionsComponentsMap[key].Target,
-            key: key
+            key: key,
           });
         } else {
-          console.warn(`Action key "${ key }" not found in the plugin registry while present in preferences.`);
+          console.warn(
+            `Action key "${key}" not found in the plugin registry while present in preferences.`,
+          );
         }
       });
     }
-    
+
     return actionsItems;
   }, [isFXL, fxlActionKeys, reflowActionKeys, actionsComponentsMap]);
 
@@ -103,45 +103,47 @@ export const StatefulReaderHeader = ({
 
   return (
     <>
-    <ThInteractiveOverlay 
-      id="reader-header-overlay"
-      className="bar-overlay"
-      isActive={ layout === ThLayoutUI.layered && isImmersive && !isHovering }
-      onMouseEnter={ setHover }
-      onMouseLeave={ removeHover }
-    />
-
-    <ThHeader 
-      ref={ headerRef }
-      className={ readerHeaderStyles.header } 
-      id="top-bar" 
-      aria-label={ t("reader.app.header.label") } 
-      onMouseEnter={ setHover } 
-      onMouseLeave={ removeHover }
-      { ...focusWithinProps }
-    >
-      { preferences.theming.header?.backLink && <StatefulBackLink className={ readerHeaderStyles.backLinkWrapper } /> }
-      
-      <StatefulReaderRunningHead />
-      
-      <StatefulCollapsibleActionsBar 
-        id="reader-header-overflowMenu" 
-        items={ listActionItems() }
-        prefs={{ 
-          ...preferences.actions, 
-          displayOrder: isFXL 
-            ? preferences.actions.fxlOrder 
-            : preferences.actions.reflowOrder 
-        }}
-        className={ readerHeaderStyles.actionsWrapper } 
-        aria-label={ t("reader.app.header.actions") } 
-        overflowMenuClassName={ 
-          (!isScroll || preferences.affordances.scroll.hintInImmersive) 
-            ? overflowMenuStyles.hintButton 
-            : undefined 
-        }
+      <ThInteractiveOverlay
+        id="reader-header-overlay"
+        className="bar-overlay"
+        isActive={layout === ThLayoutUI.layered && isImmersive && !isHovering}
+        onMouseEnter={setHover}
+        onMouseLeave={removeHover}
       />
-    </ThHeader>
+
+      <ThHeader
+        ref={headerRef}
+        className={readerHeaderStyles.header}
+        id="top-bar"
+        aria-label={t("reader.app.header.label")}
+        onMouseEnter={setHover}
+        onMouseLeave={removeHover}
+        {...focusWithinProps}
+      >
+        {preferences.theming.header?.backLink && (
+          <StatefulBackLink className={readerHeaderStyles.backLinkWrapper} />
+        )}
+
+        <StatefulReaderRunningHead />
+
+        <StatefulCollapsibleActionsBar
+          id="reader-header-overflowMenu"
+          items={listActionItems()}
+          prefs={{
+            ...preferences.actions,
+            displayOrder: isFXL
+              ? preferences.actions.fxlOrder
+              : preferences.actions.reflowOrder,
+          }}
+          className={readerHeaderStyles.actionsWrapper}
+          aria-label={t("reader.app.header.actions")}
+          overflowMenuClassName={
+            !isScroll || preferences.affordances.scroll.hintInImmersive
+              ? overflowMenuStyles.hintButton
+              : undefined
+          }
+        />
+      </ThHeader>
     </>
   );
-}
+};

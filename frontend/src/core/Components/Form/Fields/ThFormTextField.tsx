@@ -2,17 +2,17 @@
 
 import { WithRef } from "../../customTypes";
 
-import { 
-  FieldError, 
-  FieldErrorProps, 
-  Input, 
-  InputProps, 
-  Label, 
-  LabelProps, 
-  Text, 
-  TextField, 
-  TextFieldProps, 
-  ValidationResult 
+import {
+  FieldError,
+  FieldErrorProps,
+  Input,
+  InputProps,
+  Label,
+  LabelProps,
+  Text,
+  TextField,
+  TextFieldProps,
+  ValidationResult,
 } from "react-aria-components";
 
 export interface ThFormTextFieldProps extends TextFieldProps {
@@ -23,7 +23,7 @@ export interface ThFormTextFieldProps extends TextFieldProps {
     input?: WithRef<InputProps, HTMLInputElement>;
     description?: string;
     fieldError?: WithRef<FieldErrorProps, HTMLDivElement>;
-  },
+  };
   errorMessage?: string | ((validation: ValidationResult) => string);
 }
 
@@ -35,36 +35,31 @@ export const ThFormTextField = ({
   errorMessage,
   ...props
 }: ThFormTextFieldProps) => {
-  return(
+  return (
     <>
-    <TextField
-      ref={ ref }
-      {...props }
-    >
-      <>
-      { children 
-        ? children 
-        : <>
-          { label && <Label {...compounds?.label }>
-              { label }
-            </Label>
-          }
-          
-          { errorMessage && <FieldError { ...compounds?.fieldError }>
-              { errorMessage }
-            </FieldError> 
-          }
-          
-          <Input {...compounds?.input } />
-          
-          { compounds?.description && <Text slot="description"> 
-              { compounds?.description } 
-            </Text> 
-          }
-          </> 
-      }
-      </>
-    </TextField>
+      <TextField ref={ref} {...props}>
+        <>
+          {children ? (
+            children
+          ) : (
+            <>
+              {label && <Label {...compounds?.label}>{label}</Label>}
+
+              {errorMessage && (
+                <FieldError {...compounds?.fieldError}>
+                  {errorMessage}
+                </FieldError>
+              )}
+
+              <Input {...compounds?.input} />
+
+              {compounds?.description && (
+                <Text slot="description">{compounds?.description}</Text>
+              )}
+            </>
+          )}
+        </>
+      </TextField>
     </>
-  )
-}
+  );
+};

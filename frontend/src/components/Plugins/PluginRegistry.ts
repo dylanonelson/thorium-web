@@ -29,51 +29,63 @@ const pluginsStore: ThPlugin[] = [];
 
 class PluginRegistryClass {
   register(plugin: ThPlugin): void {
-    const existingPluginIndex = pluginsStore.findIndex(p => p.id === plugin.id);
-    
+    const existingPluginIndex = pluginsStore.findIndex(
+      (p) => p.id === plugin.id,
+    );
+
     if (existingPluginIndex >= 0) {
       pluginsStore[existingPluginIndex] = plugin;
     } else {
       pluginsStore.push(plugin);
     }
   }
-  
+
   unregister(pluginId: string): void {
-    const filteredPlugins = pluginsStore.filter(plugin => plugin.id !== pluginId);
-    
+    const filteredPlugins = pluginsStore.filter(
+      (plugin) => plugin.id !== pluginId,
+    );
+
     // Clear the array and repopulate it
     pluginsStore.length = 0;
     pluginsStore.push(...filteredPlugins);
   }
-  
+
   getPlugins(): ThPlugin[] {
     return [...pluginsStore];
   }
-  
-  getComponentMaps() {    
-    const actionsComponentsMap: Record<string, ActionComponent> = {} as Record<string, ActionComponent>;
-    const settingsComponentsMap: Record<string, SettingComponent> = {} as Record<string, SettingComponent>;
-    
+
+  getComponentMaps() {
+    const actionsComponentsMap: Record<string, ActionComponent> = {} as Record<
+      string,
+      ActionComponent
+    >;
+    const settingsComponentsMap: Record<string, SettingComponent> =
+      {} as Record<string, SettingComponent>;
+
     // Process plugins in reverse order so later plugins override earlier ones
-    [...pluginsStore].reverse().forEach(plugin => {      
+    [...pluginsStore].reverse().forEach((plugin) => {
       // Merge actions components
       if (plugin.components.actions) {
-        Object.entries(plugin.components.actions).forEach(([key, component]) => {
-          actionsComponentsMap[key as string] = component;
-        });
+        Object.entries(plugin.components.actions).forEach(
+          ([key, component]) => {
+            actionsComponentsMap[key as string] = component;
+          },
+        );
       }
-      
+
       // Merge settings components
       if (plugin.components.settings) {
-        Object.entries(plugin.components.settings).forEach(([key, component]) => {
-          settingsComponentsMap[key as string] = component;
-        });
+        Object.entries(plugin.components.settings).forEach(
+          ([key, component]) => {
+            settingsComponentsMap[key as string] = component;
+          },
+        );
       }
     });
-    
+
     return {
       actionsComponentsMap,
-      settingsComponentsMap
+      settingsComponentsMap,
     };
   }
 }

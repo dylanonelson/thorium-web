@@ -12,18 +12,15 @@ export const ThMenuButton = ({
   ...props
 }: ThActionButtonProps) => {
   return (
-    <ThActionButton
-      ref={ ref }
-      compounds={ compounds }
-      { ...props }
-    >
-      { children 
-        ? children 
-        : <>
-          <MoreVertIcon aria-hidden="true" focusable="false" /> 
-          { label }
-          </> 
-      }
+    <ThActionButton ref={ref} compounds={compounds} {...props}>
+      {children ? (
+        children
+      ) : (
+        <>
+          <MoreVertIcon aria-hidden="true" focusable="false" />
+          {label}
+        </>
+      )}
     </ThActionButton>
-  )
-}
+  );
+};

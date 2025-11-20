@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 
-import { 
+import {
   ThSpacingPresetKeys,
   ThLineHeightOptions,
   ThSpacingSettingsKeys,
@@ -38,11 +38,17 @@ const iconMap = {
   [ThSpacingPresetKeys.loose]: LargeIcon,
 };
 
-export const StatefulSpacingPresets = ({ standalone }: StatefulSettingsItemProps) => {
+export const StatefulSpacingPresets = ({
+  standalone,
+}: StatefulSettingsItemProps) => {
   const { t } = useI18n();
-  const { reflowSpacingPresetKeys, fxlSpacingPresetKeys, subPanelSpacingSettingsKeys } = usePreferenceKeys();
-  const spacing = useAppSelector(state => state.settings.spacing);
-  const isFXL = useAppSelector(state => state.publication.isFXL);
+  const {
+    reflowSpacingPresetKeys,
+    fxlSpacingPresetKeys,
+    subPanelSpacingSettingsKeys,
+  } = usePreferenceKeys();
+  const spacing = useAppSelector((state) => state.settings.spacing);
+  const isFXL = useAppSelector((state) => state.publication.isFXL);
 
   const dispatch = useAppDispatch();
 
@@ -52,57 +58,78 @@ export const StatefulSpacingPresets = ({ standalone }: StatefulSettingsItemProps
 
   const { getPresetValues } = useSpacingPresets();
 
-  const updatePreference = useCallback(async (value: string) => {
-    const spacingKey = value as ThSpacingPresetKeys;
-    
-    // Get preset values directly from preferences config
-    const presetValues = getPresetValues(spacingKey);
-    
-    // Raw values for Redux state (lineHeight stays as enum)
-    const reduxValues = {
-      [ThSpacingSettingsKeys.letterSpacing]: presetValues?.[ThSpacingSettingsKeys.letterSpacing] ?? null,
-      [ThSpacingSettingsKeys.lineHeight]: presetValues?.[ThSpacingSettingsKeys.lineHeight] ?? null,
-      [ThSpacingSettingsKeys.paragraphIndent]: presetValues?.[ThSpacingSettingsKeys.paragraphIndent] ?? null,
-      [ThSpacingSettingsKeys.paragraphSpacing]: presetValues?.[ThSpacingSettingsKeys.paragraphSpacing] ?? null,
-      [ThSpacingSettingsKeys.wordSpacing]: presetValues?.[ThSpacingSettingsKeys.wordSpacing] ?? null,
-    };
-  
-    // Convert lineHeight for preferences API (enum to number)
-    const lineHeightValue = reduxValues[ThSpacingSettingsKeys.lineHeight];
-    const lineHeightValueNumber = lineHeightValue && lineHeightValue !== ThLineHeightOptions.publisher 
-      ? lineHeightOptions[lineHeightValue as ThLineHeightOptions] 
-      : null;
-  
-    const preferencesToSubmit = {
-      [ThSpacingSettingsKeys.letterSpacing]: reduxValues[ThSpacingSettingsKeys.letterSpacing],
-      [ThSpacingSettingsKeys.lineHeight]: lineHeightValueNumber,
-      [ThSpacingSettingsKeys.paragraphIndent]: reduxValues[ThSpacingSettingsKeys.paragraphIndent],
-      [ThSpacingSettingsKeys.paragraphSpacing]: reduxValues[ThSpacingSettingsKeys.paragraphSpacing],
-      [ThSpacingSettingsKeys.wordSpacing]: reduxValues[ThSpacingSettingsKeys.wordSpacing],
-    };
-  
-    await submitPreferences(preferencesToSubmit);
-  
-    dispatch(setSpacingPreset({
-      preset: spacingKey,
-      values: reduxValues,
-    }));
-  }, [dispatch, submitPreferences, getPresetValues, lineHeightOptions]);
+  const updatePreference = useCallback(
+    async (value: string) => {
+      const spacingKey = value as ThSpacingPresetKeys;
+
+      // Get preset values directly from preferences config
+      const presetValues = getPresetValues(spacingKey);
+
+      // Raw values for Redux state (lineHeight stays as enum)
+      const reduxValues = {
+        [ThSpacingSettingsKeys.letterSpacing]:
+          presetValues?.[ThSpacingSettingsKeys.letterSpacing] ?? null,
+        [ThSpacingSettingsKeys.lineHeight]:
+          presetValues?.[ThSpacingSettingsKeys.lineHeight] ?? null,
+        [ThSpacingSettingsKeys.paragraphIndent]:
+          presetValues?.[ThSpacingSettingsKeys.paragraphIndent] ?? null,
+        [ThSpacingSettingsKeys.paragraphSpacing]:
+          presetValues?.[ThSpacingSettingsKeys.paragraphSpacing] ?? null,
+        [ThSpacingSettingsKeys.wordSpacing]:
+          presetValues?.[ThSpacingSettingsKeys.wordSpacing] ?? null,
+      };
+
+      // Convert lineHeight for preferences API (enum to number)
+      const lineHeightValue = reduxValues[ThSpacingSettingsKeys.lineHeight];
+      const lineHeightValueNumber =
+        lineHeightValue && lineHeightValue !== ThLineHeightOptions.publisher
+          ? lineHeightOptions[lineHeightValue as ThLineHeightOptions]
+          : null;
+
+      const preferencesToSubmit = {
+        [ThSpacingSettingsKeys.letterSpacing]:
+          reduxValues[ThSpacingSettingsKeys.letterSpacing],
+        [ThSpacingSettingsKeys.lineHeight]: lineHeightValueNumber,
+        [ThSpacingSettingsKeys.paragraphIndent]:
+          reduxValues[ThSpacingSettingsKeys.paragraphIndent],
+        [ThSpacingSettingsKeys.paragraphSpacing]:
+          reduxValues[ThSpacingSettingsKeys.paragraphSpacing],
+        [ThSpacingSettingsKeys.wordSpacing]:
+          reduxValues[ThSpacingSettingsKeys.wordSpacing],
+      };
+
+      await submitPreferences(preferencesToSubmit);
+
+      dispatch(
+        setSpacingPreset({
+          preset: spacingKey,
+          values: reduxValues,
+        }),
+      );
+    },
+    [dispatch, submitPreferences, getPresetValues, lineHeightOptions],
+  );
 
   // Use appropriate spacing keys based on layout
   const spacingKeys = useMemo(() => {
     const baseKeys = isFXL ? fxlSpacingPresetKeys : reflowSpacingPresetKeys;
     const subPanelKeys = subPanelSpacingSettingsKeys || [];
 
-    const hasCustomizableSettings = hasCustomizableSpacingSettings(subPanelKeys);
+    const hasCustomizableSettings =
+      hasCustomizableSpacingSettings(subPanelKeys);
 
     if (hasCustomizableSettings) {
       return baseKeys;
     } else {
       // Exclude "custom" if no spacing settings are available for customization
-      return baseKeys.filter(key => key !== ThSpacingPresetKeys.custom);
+      return baseKeys.filter((key) => key !== ThSpacingPresetKeys.custom);
     }
-  }, [isFXL, fxlSpacingPresetKeys, reflowSpacingPresetKeys, subPanelSpacingSettingsKeys]);
+  }, [
+    isFXL,
+    fxlSpacingPresetKeys,
+    reflowSpacingPresetKeys,
+    subPanelSpacingSettingsKeys,
+  ]);
 
   // Create dynamic items array based on spacing keys
   const items = useMemo(() => {
@@ -110,7 +137,7 @@ export const StatefulSpacingPresets = ({ standalone }: StatefulSettingsItemProps
       id: key,
       icon: iconMap[key],
       value: key,
-      label: t(`reader.settings.spacing.presets.${ key }`)
+      label: t(`reader.settings.spacing.presets.${key}`),
     }));
   }, [spacingKeys, t]);
 
@@ -121,14 +148,16 @@ export const StatefulSpacingPresets = ({ standalone }: StatefulSettingsItemProps
 
   return (
     <>
-    <StatefulRadioGroup
-      standalone={ standalone }
-      label={ t("reader.settings.spacing.presets.title") }
-      orientation="horizontal"
-      value={ spacing?.preset || ThSpacingPresetKeys.publisher }
-      onChange={ async (val: string) => await updatePreference(val as ThSpacingPresetKeys) }
-      items={ items }
-    />
+      <StatefulRadioGroup
+        standalone={standalone}
+        label={t("reader.settings.spacing.presets.title")}
+        orientation="horizontal"
+        value={spacing?.preset || ThSpacingPresetKeys.publisher}
+        onChange={async (val: string) =>
+          await updatePreference(val as ThSpacingPresetKeys)
+        }
+        items={items}
+      />
     </>
   );
-}
+};

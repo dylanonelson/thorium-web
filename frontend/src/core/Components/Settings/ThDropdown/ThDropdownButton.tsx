@@ -15,18 +15,16 @@ export const ThDropdownButton = ({
 }: ThDropdownButtonProps) => {
   return (
     <>
-    <Button 
-      ref={ ref }
-      { ...props }
-    >
-      { children 
-        ? children 
-        : <>
-          <SelectValue /> 
-          <ArrowDropDownIcon aria-hidden="true" focusable="false" />
-          </> 
-      }
-    </Button>
+      <Button ref={ref} {...props}>
+        {children ? (
+          children
+        ) : (
+          <>
+            <SelectValue />
+            <ArrowDropDownIcon aria-hidden="true" focusable="false" />
+          </>
+        )}
+      </Button>
     </>
-  )
-}
+  );
+};

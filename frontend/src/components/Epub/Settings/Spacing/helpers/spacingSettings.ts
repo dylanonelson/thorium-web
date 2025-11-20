@@ -4,14 +4,16 @@ import { ThSpacingSettingsKeys } from "@/preferences/models/enums";
  * Check if spacing settings are available for customization
  * Returns true if subPanel contains at least one spacing setting (excluding spacingPresets and publisherStyles)
  */
-export const hasCustomizableSpacingSettings = (subPanelKeys: ThSpacingSettingsKeys[]): boolean => {
+export const hasCustomizableSpacingSettings = (
+  subPanelKeys: ThSpacingSettingsKeys[],
+): boolean => {
   const spacingSettingsKeys = [
     ThSpacingSettingsKeys.letterSpacing,
     ThSpacingSettingsKeys.lineHeight,
     ThSpacingSettingsKeys.paragraphIndent,
     ThSpacingSettingsKeys.paragraphSpacing,
-    ThSpacingSettingsKeys.wordSpacing
+    ThSpacingSettingsKeys.wordSpacing,
   ];
 
-  return spacingSettingsKeys.some(key => subPanelKeys.includes(key));
+  return spacingSettingsKeys.some((key) => subPanelKeys.includes(key));
 };

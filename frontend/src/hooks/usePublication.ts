@@ -9,9 +9,9 @@ export interface UsePublicationOptions {
   onError?: (error: string) => void;
 }
 
-export const usePublication = ({ 
-  url, 
-  onError = () => {} 
+export const usePublication = ({
+  url,
+  onError = () => {},
 }: UsePublicationOptions) => {
   const [error, setError] = useState("");
   const [manifest, setManifest] = useState<object | undefined>(undefined);
@@ -26,28 +26,35 @@ export const usePublication = ({
 
     // Decode URL if needed
     const decodedUrl = decodeURIComponent(url);
-    
+
     const manifestLink = new Link({ href: decodedUrl });
     const fetcher = new HttpFetcher(undefined);
 
     try {
       const fetched = fetcher.get(manifestLink);
-      
+
       // Get self-link first
       fetched.link().then((link) => {
         setSelfLink(link.toURL(decodedUrl));
       });
 
       // Then get manifest data
-      fetched.readAsJSON().then((manifestData) => {
-        setManifest(manifestData as object);
-      }).catch((error) => {
-        console.error("Error loading manifest:", error);
-        setError(`Failed loading manifest ${ decodedUrl }: ${ error instanceof Error ? error.message : "Unknown error" }`);
-      });
+      fetched
+        .readAsJSON()
+        .then((manifestData) => {
+          setManifest(manifestData as object);
+        })
+        .catch((error) => {
+          console.error("Error loading manifest:", error);
+          setError(
+            `Failed loading manifest ${decodedUrl}: ${error instanceof Error ? error.message : "Unknown error"}`,
+          );
+        });
     } catch (error: unknown) {
       console.error("Error loading manifest:", error);
-      setError(`Failed loading manifest ${ decodedUrl }: ${ error instanceof Error ? error.message : "Unknown error" }`);
+      setError(
+        `Failed loading manifest ${decodedUrl}: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
   }, [url]);
 
@@ -61,6 +68,6 @@ export const usePublication = ({
   return {
     error,
     manifest,
-    selfLink
+    selfLink,
   };
-}
+};

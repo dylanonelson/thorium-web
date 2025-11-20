@@ -10,16 +10,16 @@ export const DEFAULT_CONFIG: InitOptions = {
   nonExplicitSupportedLngs: true,
   detection: {
     order: ["navigator"],
-    caches: []
+    caches: [],
   },
   interpolation: {
-    escapeValue: false
+    escapeValue: false,
   },
   backend: {
-    loadPath: "/locales/{{lng}}/{{ns}}.json"
+    loadPath: "/locales/{{lng}}/{{ns}}.json",
   },
   ns: ["thorium-web"],
-  defaultNS: "thorium-web"
+  defaultNS: "thorium-web",
 };
 
 export const initI18n = async (options: Partial<InitOptions> = {}) => {
@@ -33,7 +33,7 @@ export const initI18n = async (options: Partial<InitOptions> = {}) => {
     .use(initReactI18next)
     .init({
       ...DEFAULT_CONFIG,
-      ...options
+      ...options,
     });
 };
 

@@ -25,54 +25,58 @@ export interface StatefulOverflowMenuProps {
   children?: ReactNode;
 }
 
-export const StatefulOverflowMenu = ({ 
+export const StatefulOverflowMenu = ({
   id,
-  className, 
+  className,
   items,
-  triggerRef
+  triggerRef,
 }: StatefulOverflowMenuProps) => {
   const { t } = useI18n();
   const dispatch = useAppDispatch();
 
   const toggleMenuState = (value: boolean) => {
-    dispatch(setOverflow({
-      key: id,
-      isOpen: value
-    }));
-  }
+    dispatch(
+      setOverflow({
+        key: id,
+        isOpen: value,
+      }),
+    );
+  };
 
   if (items.length > 0) {
     return (
       <>
-      <ThMenu 
-        id={ id }
-        triggerRef={ triggerRef }
-        selectionMode="none" 
-        className={ overflowMenuStyles.overflowMenu }
-        dependencies={ ["Trigger"] }
-        items={ items }
-        compounds={{
-          menuTrigger: {
-            onOpenChange: (val: boolean) => toggleMenuState(val)
-          },
-          popover: {
-            placement: "bottom",
-            className: overflowMenuStyles.overflowPopover
-          },
-          button: (
-            <StatefulActionIcon
-              className={ className ? className : overflowMenuStyles.activeButton }
-              aria-label={ t("reader.overflowMenu.active.trigger") }
-              placement="bottom"
-              tooltipLabel={ t("reader.overflowMenu.active.tooltip") }
-              visibility={ ThCollapsibilityVisibility.always }
-            >
-              <MenuIcon aria-hidden="true" focusable="false" />
-            </StatefulActionIcon>
-          ),
-        }}
-      />
+        <ThMenu
+          id={id}
+          triggerRef={triggerRef}
+          selectionMode="none"
+          className={overflowMenuStyles.overflowMenu}
+          dependencies={["Trigger"]}
+          items={items}
+          compounds={{
+            menuTrigger: {
+              onOpenChange: (val: boolean) => toggleMenuState(val),
+            },
+            popover: {
+              placement: "bottom",
+              className: overflowMenuStyles.overflowPopover,
+            },
+            button: (
+              <StatefulActionIcon
+                className={
+                  className ? className : overflowMenuStyles.activeButton
+                }
+                aria-label={t("reader.overflowMenu.active.trigger")}
+                placement="bottom"
+                tooltipLabel={t("reader.overflowMenu.active.tooltip")}
+                visibility={ThCollapsibilityVisibility.always}
+              >
+                <MenuIcon aria-hidden="true" focusable="false" />
+              </StatefulActionIcon>
+            ),
+          }}
+        />
       </>
-    )
+    );
   }
-}
+};

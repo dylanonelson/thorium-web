@@ -21,21 +21,18 @@ export const ThNavigationButton = ({
 }: ThNavigationButtonProps) => {
   const fallBackChildren = (
     <React.Fragment>
-      { direction === "right"
-        ? <ArrowForward aria-hidden="true" focusable="false" />
-        : <ArrowBack aria-hidden="true" focusable="false" />
-      }
-      { label }
+      {direction === "right" ? (
+        <ArrowForward aria-hidden="true" focusable="false" />
+      ) : (
+        <ArrowBack aria-hidden="true" focusable="false" />
+      )}
+      {label}
     </React.Fragment>
   );
 
   return (
-    <ThActionButton
-      ref={ ref }
-      compounds={ compounds }
-      { ...props }
-    >
-      { children || fallBackChildren }
+    <ThActionButton ref={ref} compounds={compounds} {...props}>
+      {children || fallBackChildren}
     </ThActionButton>
-  )
-}
+  );
+};

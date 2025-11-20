@@ -2,7 +2,12 @@
 
 import { HTMLAttributesWithRef, WithRef } from "../customTypes";
 
-import { Heading, HeadingProps, Switch, SwitchProps } from "react-aria-components";
+import {
+  Heading,
+  HeadingProps,
+  Switch,
+  SwitchProps,
+} from "react-aria-components";
 
 export interface ThSwitchProps extends SwitchProps {
   ref?: React.ForwardedRef<HTMLLabelElement>;
@@ -21,31 +26,25 @@ export interface ThSwitchProps extends SwitchProps {
      * Props for the indicator component. See `HTMLAttributesWithRef` for more information.
      */
     indicator?: HTMLAttributesWithRef<HTMLDivElement>;
-  }
+  };
 }
 
 export const ThSwitch = ({
   ref,
   label,
   compounds,
-  heading, 
+  heading,
   ...props
 }: ThSwitchProps) => {
-  return(
+  return (
     <>
-    <div { ...compounds?.wrapper }>
-      { heading && <Heading { ...compounds?.heading }>
-          { heading }
-        </Heading> 
-      }
-      <Switch 
-        ref={ ref }
-        { ...props }
-      >
-        <div { ...compounds?.indicator } />
-        { label }
-      </Switch>
-    </div>
+      <div {...compounds?.wrapper}>
+        {heading && <Heading {...compounds?.heading}>{heading}</Heading>}
+        <Switch ref={ref} {...props}>
+          <div {...compounds?.indicator} />
+          {label}
+        </Switch>
+      </div>
     </>
-  )
-}
+  );
+};

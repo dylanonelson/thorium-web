@@ -15,12 +15,13 @@ export const ThDragIndicatorButton = ({
 }: ThDragIndicatorButtonProps) => {
   return (
     <>
-    <Button 
-      ref={ ref }
-      { ...props }
-    >
-      { children ? children : <HorizontalRule aria-hidden="true" focusable="false" /> }
-    </Button>
+      <Button ref={ref} {...props}>
+        {children ? (
+          children
+        ) : (
+          <HorizontalRule aria-hidden="true" focusable="false" />
+        )}
+      </Button>
     </>
-  )
-}
+  );
+};

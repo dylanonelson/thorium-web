@@ -2,7 +2,10 @@
 
 import Settings from "./assets/icons/settings.svg";
 
-import { ThActionButton, ThActionButtonProps } from "../../Buttons/ThActionButton";
+import {
+  ThActionButton,
+  ThActionButtonProps,
+} from "../../Buttons/ThActionButton";
 
 export const ThSettingsWrapperButton = ({
   label,
@@ -12,18 +15,15 @@ export const ThSettingsWrapperButton = ({
   ...props
 }: ThActionButtonProps) => {
   return (
-    <ThActionButton
-      ref={ ref }
-      compounds={ compounds }
-      { ...props }
-    >
-      { children 
-        ? children 
-        : <>
-          <Settings aria-hidden="true" focusable="false" /> 
-          { label }
-          </> 
-      }
+    <ThActionButton ref={ref} compounds={compounds} {...props}>
+      {children ? (
+        children
+      ) : (
+        <>
+          <Settings aria-hidden="true" focusable="false" />
+          {label}
+        </>
+      )}
     </ThActionButton>
-  )
-}
+  );
+};

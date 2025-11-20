@@ -22,16 +22,16 @@ export const useFullscreen = (onChange?: (isFullscreen: boolean) => void) => {
       const isFs = Boolean(document.fullscreenElement);
       setIsFullscreen(isFs);
       onChange && onChange(isFs);
-    }
+    };
     document.addEventListener("fullscreenchange", onFSchange);
 
     return () => {
       document.removeEventListener("fullscreenchange", onFSchange);
-    }
+    };
   }, [onChange]);
 
   return {
     isFullscreen,
-    handleFullscreen
-  }
-}
+    handleFullscreen,
+  };
+};

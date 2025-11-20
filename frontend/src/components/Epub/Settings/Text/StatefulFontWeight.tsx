@@ -17,9 +17,11 @@ import { setFontWeight } from "@/lib/settingsReducer";
 
 type FontWeight = "default" | "bolder";
 
-export const UnstableStatefulFontWeight = ({ standalone = true }: StatefulSettingsItemProps) => {
+export const UnstableStatefulFontWeight = ({
+  standalone = true,
+}: StatefulSettingsItemProps) => {
   const { t } = useI18n();
-  const fontWeight = useAppSelector(state => state.settings.fontWeight);
+  const fontWeight = useAppSelector((state) => state.settings.fontWeight);
 
   const dispatch = useAppDispatch();
 
@@ -29,15 +31,15 @@ export const UnstableStatefulFontWeight = ({ standalone = true }: StatefulSettin
     {
       id: "default",
       icon: DefaultIcon,
-      label: t("reader.settings.fontWeight.default"), 
-      value: "default" 
+      label: t("reader.settings.fontWeight.default"),
+      value: "default",
     },
     {
       id: "bolder",
       icon: BolderIcon,
-      label: t("reader.settings.fontWeight.bolder"), 
-      value: "bolder" 
-    }
+      label: t("reader.settings.fontWeight.bolder"),
+      value: "bolder",
+    },
   ];
 
   const derivedValue = useMemo(() => {
@@ -49,23 +51,28 @@ export const UnstableStatefulFontWeight = ({ standalone = true }: StatefulSettin
     return "default";
   }, [fontWeight]);
 
-  const updatePreference = useCallback(async (value: FontWeight) => {
-    const fontWeightValue = value === "default" ? 400 : 700;
-    await submitPreferences({ fontWeight: fontWeightValue });
+  const updatePreference = useCallback(
+    async (value: FontWeight) => {
+      const fontWeightValue = value === "default" ? 400 : 700;
+      await submitPreferences({ fontWeight: fontWeightValue });
 
-    dispatch(setFontWeight(getSetting("fontWeight")));
-  }, [submitPreferences, getSetting, dispatch]);
+      dispatch(setFontWeight(getSetting("fontWeight")));
+    },
+    [submitPreferences, getSetting, dispatch],
+  );
 
-  return(
+  return (
     <>
-    <StatefulRadioGroup 
-      standalone={ standalone } 
-      label={ t("reader.settings.fontWeight.title") }
-      orientation="horizontal" 
-      value={ derivedValue } 
-      onChange={ async (val: string) => await updatePreference(val as FontWeight) }
-      items={ items }
-    />  
+      <StatefulRadioGroup
+        standalone={standalone}
+        label={t("reader.settings.fontWeight.title")}
+        orientation="horizontal"
+        value={derivedValue}
+        onChange={async (val: string) =>
+          await updatePreference(val as FontWeight)
+        }
+        items={items}
+      />
     </>
-  )
-}
+  );
+};

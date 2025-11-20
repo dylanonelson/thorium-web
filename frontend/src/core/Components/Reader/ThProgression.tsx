@@ -2,23 +2,21 @@
 
 import React from "react";
 
-export interface ThProgressionProps extends React.HTMLAttributes<HTMLDivElement> {
-  ref?: React.RefObject<HTMLDivElement>
+export interface ThProgressionProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  ref?: React.RefObject<HTMLDivElement>;
 }
 
-export const ThProgression = ({ 
+export const ThProgression = ({
   ref,
-  children, 
+  children,
   ...props
 }: ThProgressionProps) => {
   return (
     <>
-    <div 
-      ref={ ref } 
-      {...props }
-    >
-      { children }
-    </div>
+      <div ref={ref} {...props}>
+        {children}
+      </div>
     </>
-  )
-}
+  );
+};

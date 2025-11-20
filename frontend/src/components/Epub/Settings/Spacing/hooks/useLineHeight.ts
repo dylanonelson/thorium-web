@@ -1,5 +1,8 @@
 import { useMemo } from "react";
-import { ThLineHeightOptions, ThSettingsKeys } from "@/preferences/models/enums";
+import {
+  ThLineHeightOptions,
+  ThSettingsKeys,
+} from "@/preferences/models/enums";
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 
 /**
@@ -9,10 +12,22 @@ import { usePreferences } from "@/preferences/hooks/usePreferences";
 export const useLineHeight = () => {
   const { preferences } = usePreferences();
 
-  return useMemo(() => ({
-    [ThLineHeightOptions.publisher]: null,
-    [ThLineHeightOptions.small]: preferences.settings.keys[ThSettingsKeys.lineHeight].keys[ThLineHeightOptions.small],
-    [ThLineHeightOptions.medium]: preferences.settings.keys[ThSettingsKeys.lineHeight].keys[ThLineHeightOptions.medium],
-    [ThLineHeightOptions.large]: preferences.settings.keys[ThSettingsKeys.lineHeight].keys[ThLineHeightOptions.large],
-  }), [preferences.settings.keys]);
+  return useMemo(
+    () => ({
+      [ThLineHeightOptions.publisher]: null,
+      [ThLineHeightOptions.small]:
+        preferences.settings.keys[ThSettingsKeys.lineHeight].keys[
+          ThLineHeightOptions.small
+        ],
+      [ThLineHeightOptions.medium]:
+        preferences.settings.keys[ThSettingsKeys.lineHeight].keys[
+          ThLineHeightOptions.medium
+        ],
+      [ThLineHeightOptions.large]:
+        preferences.settings.keys[ThSettingsKeys.lineHeight].keys[
+          ThLineHeightOptions.large
+        ],
+    }),
+    [preferences.settings.keys],
+  );
 };

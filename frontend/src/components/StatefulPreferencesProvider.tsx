@@ -11,22 +11,23 @@ import { ThReduxPreferencesAdapter } from "@/lib/ThReduxPreferencesAdapter";
 
 import { RootState } from "@/lib/store";
 
-export const StatefulPreferencesProvider = ({ 
+export const StatefulPreferencesProvider = ({
   children,
-  initialPreferences = defaultPreferences as ThPreferences<DefaultKeys>
-}: { 
+  initialPreferences = defaultPreferences as ThPreferences<DefaultKeys>,
+}: {
   children: ReactNode;
   initialPreferences?: ThPreferences<DefaultKeys>;
 }) => {
   const store = useStore<RootState>();
-  
+
   const adapter = useMemo(() => {
-    return new ThReduxPreferencesAdapter<DefaultKeys>(store, initialPreferences);
+    return new ThReduxPreferencesAdapter<DefaultKeys>(
+      store,
+      initialPreferences,
+    );
   }, [store, initialPreferences]);
-  
+
   return (
-    <ThPreferencesProvider adapter={ adapter }>
-      { children }
-    </ThPreferencesProvider>
+    <ThPreferencesProvider adapter={adapter}>{children}</ThPreferencesProvider>
   );
-}
+};

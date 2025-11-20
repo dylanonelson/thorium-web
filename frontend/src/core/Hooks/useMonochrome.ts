@@ -14,4 +14,4 @@ export const useMonochrome = (onChange?: (isMonochrome: boolean) => void) => {
   }, [monochrome, onChange]);
 
   return isMonochrome;
-}
+};

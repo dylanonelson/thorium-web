@@ -1,37 +1,48 @@
 import { PreferencesReducerState } from "../preferencesReducer";
 import { ThPreferences, CustomizableKeys } from "@/preferences/preferences";
-import { ThProgressionFormat, ThRunningHeadFormat } from "@/preferences/models/enums";
+import {
+  ThProgressionFormat,
+  ThRunningHeadFormat,
+} from "@/preferences/models/enums";
 
-export const mapPreferencesToState = <T extends CustomizableKeys>(prefs: ThPreferences<T>): PreferencesReducerState => {  
+export const mapPreferencesToState = <T extends CustomizableKeys>(
+  prefs: ThPreferences<T>,
+): PreferencesReducerState => {
   return {
     l10n: {
       locale: prefs.locale,
-      direction: prefs.direction
+      direction: prefs.direction,
     },
     progressionFormat: {
       reflow: prefs.theming?.progression?.format?.reflow?.default?.variants,
-      fxl: prefs.theming?.progression?.format?.fxl?.default?.variants
+      fxl: prefs.theming?.progression?.format?.fxl?.default?.variants,
     },
     runningHeadFormat: {
-      reflow: prefs.theming?.header?.runningHead?.format?.reflow?.default?.variants,
-      fxl: prefs.theming?.header?.runningHead?.format?.fxl?.default?.variants
+      reflow:
+        prefs.theming?.header?.runningHead?.format?.reflow?.default?.variants,
+      fxl: prefs.theming?.header?.runningHead?.format?.fxl?.default?.variants,
     },
     ui: {
       reflow: prefs.theming?.layout?.ui?.reflow,
-      fxl: prefs.theming?.layout?.ui?.fxl
+      fxl: prefs.theming?.layout?.ui?.fxl,
     },
     scrollAffordances: {
       hintInImmersive: prefs.affordances?.scroll?.hintInImmersive ?? false,
-      toggleOnMiddlePointer: prefs.affordances?.scroll?.toggleOnMiddlePointer ?? [],
-      hideOnForwardScroll: prefs.affordances?.scroll?.hideOnForwardScroll ?? false,
-      showOnBackwardScroll: prefs.affordances?.scroll?.showOnBackwardScroll ?? false
-    }
+      toggleOnMiddlePointer:
+        prefs.affordances?.scroll?.toggleOnMiddlePointer ?? [],
+      hideOnForwardScroll:
+        prefs.affordances?.scroll?.hideOnForwardScroll ?? false,
+      showOnBackwardScroll:
+        prefs.affordances?.scroll?.showOnBackwardScroll ?? false,
+    },
   };
-}
+};
 
-export const mapStateToPreferences = <T extends CustomizableKeys = CustomizableKeys>(
-  state: PreferencesReducerState, 
-  currentPrefs: ThPreferences<T>
+export const mapStateToPreferences = <
+  T extends CustomizableKeys = CustomizableKeys,
+>(
+  state: PreferencesReducerState,
+  currentPrefs: ThPreferences<T>,
 ): ThPreferences<T> => {
   const newPrefs: ThPreferences<T> = {
     ...currentPrefs,
@@ -47,23 +58,35 @@ export const mapStateToPreferences = <T extends CustomizableKeys = CustomizableK
             ...(state.progressionFormat.reflow !== undefined && {
               reflow: {
                 default: {
-                  variants: state.progressionFormat.reflow as ThProgressionFormat | ThProgressionFormat[],
-                  displayInImmersive: currentPrefs.theming.progression?.format?.reflow?.default?.displayInImmersive,
-                  displayInFullscreen: currentPrefs.theming.progression?.format?.reflow?.default?.displayInFullscreen
-                }
-              }
+                  variants: state.progressionFormat.reflow as
+                    | ThProgressionFormat
+                    | ThProgressionFormat[],
+                  displayInImmersive:
+                    currentPrefs.theming.progression?.format?.reflow?.default
+                      ?.displayInImmersive,
+                  displayInFullscreen:
+                    currentPrefs.theming.progression?.format?.reflow?.default
+                      ?.displayInFullscreen,
+                },
+              },
             }),
             ...(state.progressionFormat.fxl !== undefined && {
               fxl: {
                 default: {
-                  variants: state.progressionFormat.fxl as ThProgressionFormat | ThProgressionFormat[],
-                  displayInImmersive: currentPrefs.theming.progression?.format?.fxl?.default?.displayInImmersive,
-                  displayInFullscreen: currentPrefs.theming.progression?.format?.fxl?.default?.displayInFullscreen
-                }
-              }
-            })
-          }
-        }
+                  variants: state.progressionFormat.fxl as
+                    | ThProgressionFormat
+                    | ThProgressionFormat[],
+                  displayInImmersive:
+                    currentPrefs.theming.progression?.format?.fxl?.default
+                      ?.displayInImmersive,
+                  displayInFullscreen:
+                    currentPrefs.theming.progression?.format?.fxl?.default
+                      ?.displayInFullscreen,
+                },
+              },
+            }),
+          },
+        },
       }),
       ...(state.runningHeadFormat && {
         header: {
@@ -75,46 +98,62 @@ export const mapStateToPreferences = <T extends CustomizableKeys = CustomizableK
               ...(state.runningHeadFormat.reflow !== undefined && {
                 reflow: {
                   default: {
-                    variants: state.runningHeadFormat.reflow as ThRunningHeadFormat,
-                    displayInImmersive: currentPrefs.theming.header?.runningHead?.format?.reflow?.default?.displayInImmersive,
-                    displayInFullscreen: currentPrefs.theming.header?.runningHead?.format?.reflow?.default?.displayInFullscreen
-                  }
-                }
+                    variants: state.runningHeadFormat
+                      .reflow as ThRunningHeadFormat,
+                    displayInImmersive:
+                      currentPrefs.theming.header?.runningHead?.format?.reflow
+                        ?.default?.displayInImmersive,
+                    displayInFullscreen:
+                      currentPrefs.theming.header?.runningHead?.format?.reflow
+                        ?.default?.displayInFullscreen,
+                  },
+                },
               }),
               ...(state.runningHeadFormat.fxl !== undefined && {
                 fxl: {
                   default: {
-                    variants: state.runningHeadFormat.fxl as ThRunningHeadFormat,
-                    displayInImmersive: currentPrefs.theming.header?.runningHead?.format?.fxl?.default?.displayInImmersive,
-                    displayInFullscreen: currentPrefs.theming.header?.runningHead?.format?.fxl?.default?.displayInFullscreen
-                  }
-                }
-              })
-            }
-          }
-        }
+                    variants: state.runningHeadFormat
+                      .fxl as ThRunningHeadFormat,
+                    displayInImmersive:
+                      currentPrefs.theming.header?.runningHead?.format?.fxl
+                        ?.default?.displayInImmersive,
+                    displayInFullscreen:
+                      currentPrefs.theming.header?.runningHead?.format?.fxl
+                        ?.default?.displayInFullscreen,
+                  },
+                },
+              }),
+            },
+          },
+        },
       }),
       layout: {
         ...currentPrefs.theming.layout,
-        ui: state.ui ? {
-          reflow: state.ui.reflow ?? currentPrefs.theming.layout.ui?.reflow,
-          fxl: state.ui.fxl ?? currentPrefs.theming.layout.ui?.fxl
-        } : currentPrefs.theming.layout.ui
-      }
+        ui: state.ui
+          ? {
+              reflow: state.ui.reflow ?? currentPrefs.theming.layout.ui?.reflow,
+              fxl: state.ui.fxl ?? currentPrefs.theming.layout.ui?.fxl,
+            }
+          : currentPrefs.theming.layout.ui,
+      },
     },
     affordances: {
       ...currentPrefs.affordances,
       scroll: {
         ...currentPrefs.affordances.scroll,
-        ...(state.scrollAffordances ? {
-          hintInImmersive: state.scrollAffordances.hintInImmersive,
-          toggleOnMiddlePointer: state.scrollAffordances.toggleOnMiddlePointer,
-          hideOnForwardScroll: state.scrollAffordances.hideOnForwardScroll,
-          showOnBackwardScroll: state.scrollAffordances.showOnBackwardScroll
-        } : {})
-      }
-    }
+        ...(state.scrollAffordances
+          ? {
+              hintInImmersive: state.scrollAffordances.hintInImmersive,
+              toggleOnMiddlePointer:
+                state.scrollAffordances.toggleOnMiddlePointer,
+              hideOnForwardScroll: state.scrollAffordances.hideOnForwardScroll,
+              showOnBackwardScroll:
+                state.scrollAffordances.showOnBackwardScroll,
+            }
+          : {}),
+      },
+    },
   };
 
   return newPrefs;
-}
+};

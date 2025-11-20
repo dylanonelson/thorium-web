@@ -10,8 +10,10 @@ export interface ThFormProps extends FormProps {
   ref?: React.ForwardedRef<HTMLFormElement>;
   label: string;
   compounds?: {
-    button?: Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type"> | React.ReactElement<typeof Button>;
-  }
+    button?:
+      | Exclude<WithRef<ButtonProps, HTMLButtonElement>, "type">
+      | React.ReactElement<typeof Button>;
+  };
 }
 
 export const ThForm = ({
@@ -21,24 +23,19 @@ export const ThForm = ({
   children,
   ...props
 }: ThFormProps) => {
-  return(
+  return (
     <>
-    <Form
-      ref={ ref }
-      {...props}
-    >
-      { children }
-    
-      { compounds?.button && React.isValidElement(compounds.button) 
-        ? compounds.button 
-        : <Button
-            { ...compounds?.button }
-            type="submit"
-          >
-            { label }
+      <Form ref={ref} {...props}>
+        {children}
+
+        {compounds?.button && React.isValidElement(compounds.button) ? (
+          compounds.button
+        ) : (
+          <Button {...compounds?.button} type="submit">
+            {label}
           </Button>
-      }
-    </Form>
+        )}
+      </Form>
     </>
-  )
-}
+  );
+};

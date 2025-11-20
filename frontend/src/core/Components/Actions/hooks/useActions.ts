@@ -7,7 +7,9 @@ export interface ThActionMap {
   [key: string | number | symbol]: ActionStateObject | undefined;
 }
 
-export const useActions = <K extends string | number | symbol>(actionMap: ThActionMap) => {
+export const useActions = <K extends string | number | symbol>(
+  actionMap: ThActionMap,
+) => {
   const findOpen = () => {
     const open: K[] = [];
 
@@ -64,7 +66,7 @@ export const useActions = <K extends string | number | symbol>(actionMap: ThActi
   };
 
   const getDockedWidth = (key?: K | null) => {
-    return key && actionMap[key]?.dockedWidth || undefined;
+    return (key && actionMap[key]?.dockedWidth) || undefined;
   };
 
   const everyOpenDocked = () => {

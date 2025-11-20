@@ -7,7 +7,7 @@ import { ThActionButtonProps } from "../Buttons";
 
 import { ThSettingsResetButton } from "./ThSettingsResetButton";
 
-import { 
+import {
   Label,
   LabelProps,
   Slider,
@@ -17,12 +17,13 @@ import {
   SliderThumb,
   SliderThumbProps,
   SliderTrack,
-  SliderTrackProps 
+  SliderTrackProps,
 } from "react-aria-components";
 
 import { useObjectRef } from "react-aria";
 
-export interface ThSliderProps extends Omit<SliderProps, "minValue" | "maxValue"> {
+export interface ThSliderProps
+  extends Omit<SliderProps, "minValue" | "maxValue"> {
   ref?: React.ForwardedRef<HTMLDivElement>;
   onReset?: () => void;
   label?: string;
@@ -85,34 +86,35 @@ export const ThSlider = ({
       }
     });
   }, [onReset, resolvedRef]);
-  return(
+  return (
     <>
-    <div { ...compounds?.wrapper }>
-      <Slider
-        ref={ resolvedRef }
-        value={ value }
-        minValue={ Math.min(...range) }
-        maxValue={ Math.max(...range) }
-        { ...props }
-      >
-        { label && <Label { ...compounds?.label }>
-            { label }
-          </Label>
-        }
-        <SliderOutput { ...compounds?.output }>
-          { value !== undefined
-            ? value
-            : placeholder
-              ? <span { ...compounds?.placeholder }>{ placeholder }</span>
-              : null
-          }
-        </SliderOutput>
-        <SliderTrack { ...compounds?.track }>
-          <SliderThumb { ...compounds?.thumb } />
-        </SliderTrack>
-      </Slider>
-      { onReset && <ThSettingsResetButton { ...compounds?.reset } onClick={ handleResetWithFocus } /> }
-    </div>
+      <div {...compounds?.wrapper}>
+        <Slider
+          ref={resolvedRef}
+          value={value}
+          minValue={Math.min(...range)}
+          maxValue={Math.max(...range)}
+          {...props}
+        >
+          {label && <Label {...compounds?.label}>{label}</Label>}
+          <SliderOutput {...compounds?.output}>
+            {value !== undefined ? (
+              value
+            ) : placeholder ? (
+              <span {...compounds?.placeholder}>{placeholder}</span>
+            ) : null}
+          </SliderOutput>
+          <SliderTrack {...compounds?.track}>
+            <SliderThumb {...compounds?.thumb} />
+          </SliderTrack>
+        </Slider>
+        {onReset && (
+          <ThSettingsResetButton
+            {...compounds?.reset}
+            onClick={handleResetWithFocus}
+          />
+        )}
+      </div>
     </>
-  )
-}
+  );
+};

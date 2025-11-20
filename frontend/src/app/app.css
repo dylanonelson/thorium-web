@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   color: var(--theme-text);
   background-color: var(--theme-background);
   height: 100%;

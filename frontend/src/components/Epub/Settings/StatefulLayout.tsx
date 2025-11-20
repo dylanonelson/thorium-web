@@ -17,8 +17,8 @@ import { setScroll } from "@/lib/settingsReducer";
 
 export const StatefulLayout = () => {
   const { t } = useI18n();
-  const scroll = useAppSelector(state => state.settings.scroll);
-  const isFXL = useAppSelector(state => state.publication.isFXL);
+  const scroll = useAppSelector((state) => state.settings.scroll);
+  const isFXL = useAppSelector((state) => state.publication.isFXL);
   const isScroll = scroll && !isFXL;
 
   const dispatch = useAppDispatch();
@@ -30,32 +30,35 @@ export const StatefulLayout = () => {
       id: ThLayoutOptions.paginated,
       icon: PaginatedIcon,
       label: t("reader.settings.layout.paginated"),
-      value: ThLayoutOptions.paginated
+      value: ThLayoutOptions.paginated,
     },
     {
       id: ThLayoutOptions.scroll,
       icon: ScrollableIcon,
       label: t("reader.settings.layout.scrolled"),
-      value: ThLayoutOptions.scroll
-    }
+      value: ThLayoutOptions.scroll,
+    },
   ];
 
-  const updatePreference = useCallback(async (value: string) => { 
-    const derivedValue = value === ThLayoutOptions.scroll;
-    await submitPreferences({ scroll: derivedValue });
-    dispatch(setScroll(getSetting("scroll")));
-  }, [submitPreferences, getSetting, dispatch]);
+  const updatePreference = useCallback(
+    async (value: string) => {
+      const derivedValue = value === ThLayoutOptions.scroll;
+      await submitPreferences({ scroll: derivedValue });
+      dispatch(setScroll(getSetting("scroll")));
+    },
+    [submitPreferences, getSetting, dispatch],
+  );
 
   return (
     <>
-    <StatefulRadioGroup
-      standalone={ true }
-      label={ t("reader.settings.layout.title") }
-      orientation="horizontal"
-      value={ isScroll ? ThLayoutOptions.scroll : ThLayoutOptions.paginated }
-      onChange={ async (val: string) => await updatePreference(val) }
-      items={ items }
-    />
+      <StatefulRadioGroup
+        standalone={true}
+        label={t("reader.settings.layout.title")}
+        orientation="horizontal"
+        value={isScroll ? ThLayoutOptions.scroll : ThLayoutOptions.paginated}
+        onChange={async (val: string) => await updatePreference(val)}
+        items={items}
+      />
     </>
-  )
-}
+  );
+};

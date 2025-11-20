@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   if (!process.env.READER_API_ORIGIN) {
     return NextResponse.json(
       { error: "Reader API origin is not configured" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -26,30 +26,39 @@ export async function POST(request: Request) {
   try {
     payload = await request.json();
   } catch (error) {
-    return NextResponse.json({ error: "Invalid JSON payload" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid JSON payload" },
+      { status: 400 },
+    );
   }
 
   try {
     const { token } = await auth0.getAccessToken();
     if (!token) {
-      return NextResponse.json({ error: "Unable to obtain access token" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Unable to obtain access token" },
+        { status: 401 },
+      );
     }
 
-    const upstreamResponse = await fetch(`${process.env.READER_API_ORIGIN}/reading-locations`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
+    const upstreamResponse = await fetch(
+      `${process.env.READER_API_ORIGIN}/reading-locations`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       },
-      body: JSON.stringify(payload)
-    });
+    );
 
     const body = await parseResponseBody(upstreamResponse);
 
     if (!upstreamResponse.ok) {
       return NextResponse.json(
         { error: body ?? "Failed to store reading location" },
-        { status: upstreamResponse.status }
+        { status: upstreamResponse.status },
       );
     }
 

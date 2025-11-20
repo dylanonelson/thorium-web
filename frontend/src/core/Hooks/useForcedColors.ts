@@ -14,4 +14,4 @@ export const useForcedColors = (onChange?: (forcedColors: boolean) => void) => {
   }, [forcedColors, onChange]);
 
   return colors;
-}
+};

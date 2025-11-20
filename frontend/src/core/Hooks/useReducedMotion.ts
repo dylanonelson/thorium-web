@@ -3,10 +3,14 @@
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "./useMediaQuery";
 
-export const useReducedMotion = (onChange?: (reducedMotion: boolean) => void) => {
+export const useReducedMotion = (
+  onChange?: (reducedMotion: boolean) => void,
+) => {
   const [reducedMotion, setReducedMotion] = useState(false);
 
-  const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const prefersReducedMotion = useMediaQuery(
+    "(prefers-reduced-motion: reduce)",
+  );
 
   useEffect(() => {
     setReducedMotion(prefersReducedMotion);
@@ -14,4 +18,4 @@ export const useReducedMotion = (onChange?: (reducedMotion: boolean) => void) =>
   }, [prefersReducedMotion, onChange]);
 
   return reducedMotion;
-}
+};

@@ -19,36 +19,41 @@ import { setActionOpen } from "@/lib/actionsReducer";
 export const StatefulTocTrigger = ({ variant }: StatefulActionTriggerProps) => {
   const { preferences } = usePreferences();
   const { t } = useI18n();
-  const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.toc]);
+  const actionState = useAppSelector(
+    (state) => state.actions.keys[ThActionsKeys.toc],
+  );
   const dispatch = useAppDispatch();
 
   const setOpen = (value: boolean) => {
-    dispatch(setActionOpen({ 
-      key: ThActionsKeys.toc,
-      isOpen: value 
-    }));
-  }
+    dispatch(
+      setActionOpen({
+        key: ThActionsKeys.toc,
+        isOpen: value,
+      }),
+    );
+  };
 
-  return(
+  return (
     <>
-    { (variant && variant === ThActionsTriggerVariant.menu) 
-      ? <StatefulOverflowMenuItem 
-          label={ t("reader.toc.trigger") }
-          SVGIcon={ TocIcon } 
-          shortcut={ preferences.actions.keys[ThActionsKeys.toc].shortcut }
-          id={ ThActionsKeys.toc }
-          onAction={ () => setOpen(!actionState?.isOpen) }
+      {variant && variant === ThActionsTriggerVariant.menu ? (
+        <StatefulOverflowMenuItem
+          label={t("reader.toc.trigger")}
+          SVGIcon={TocIcon}
+          shortcut={preferences.actions.keys[ThActionsKeys.toc].shortcut}
+          id={ThActionsKeys.toc}
+          onAction={() => setOpen(!actionState?.isOpen)}
         />
-      : <StatefulActionIcon 
-          visibility={ preferences.actions.keys[ThActionsKeys.toc].visibility }
-          aria-label={ t("reader.toc.trigger") } 
+      ) : (
+        <StatefulActionIcon
+          visibility={preferences.actions.keys[ThActionsKeys.toc].visibility}
+          aria-label={t("reader.toc.trigger")}
           placement="bottom"
-          tooltipLabel={ t("reader.toc.tooltip") } 
-          onPress={ () => setOpen(!actionState?.isOpen) }
+          tooltipLabel={t("reader.toc.tooltip")}
+          onPress={() => setOpen(!actionState?.isOpen)}
         >
           <TocIcon aria-hidden="true" focusable="false" />
         </StatefulActionIcon>
-    }
+      )}
     </>
-  )
-}
+  );
+};

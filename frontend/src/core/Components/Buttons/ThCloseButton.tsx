@@ -12,18 +12,15 @@ export const ThCloseButton = ({
   ...props
 }: ThActionButtonProps) => {
   return (
-    <ThActionButton
-      ref={ ref }
-      compounds={ compounds }
-      { ...props }
-    >
-      { children 
-        ? children 
-        : <>
-          <Close aria-hidden="true" focusable="false" /> 
-          { label }
-          </> 
-      }
+    <ThActionButton ref={ref} compounds={compounds} {...props}>
+      {children ? (
+        children
+      ) : (
+        <>
+          <Close aria-hidden="true" focusable="false" />
+          {label}
+        </>
+      )}
     </ThActionButton>
-  )
-}
+  );
+};

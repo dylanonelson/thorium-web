@@ -64,11 +64,15 @@ export default function Home() {
       }
 
       const data: { message?: string } = await response.json();
-      console.log(data)
-      setProtectedMessage(data.message ?? "Received response from protected API.");
+      console.log(data);
+      setProtectedMessage(
+        data.message ?? "Received response from protected API.",
+      );
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : "Unknown error occurred while calling the protected API.";
+        error instanceof Error
+          ? error.message
+          : "Unknown error occurred while calling the protected API.";
       setProtectedError(message);
       setProtectedMessage(null);
     } finally {
@@ -90,7 +94,7 @@ export default function Home() {
     checkManifestRoute();
   }, []);
 
-  if (isLoading) return null
+  if (isLoading) return null;
 
   return (
     <main id="home">
@@ -101,13 +105,21 @@ export default function Home() {
           An open-source ebook/audiobook/comics Web Reader
         </p>
         {user && <p>Welcome {user.name}</p>}
-        <p>{isLoggedIn ? <a href="/auth/logout">Logout</a> : <a href="/auth/login">Login</a>}</p>
+        <p>
+          {isLoggedIn ? (
+            <a href="/auth/logout">Logout</a>
+          ) : (
+            <a href="/auth/login">Login</a>
+          )}
+        </p>
         <button
           type="button"
           onClick={onCallProtectedClick}
           disabled={isCallingProtected}
         >
-          {isCallingProtected ? "Calling Protected API..." : "Call Protected API"}
+          {isCallingProtected
+            ? "Calling Protected API..."
+            : "Call Protected API"}
         </button>
         <div aria-live="polite">
           {protectedMessage && <p>{protectedMessage}</p>}

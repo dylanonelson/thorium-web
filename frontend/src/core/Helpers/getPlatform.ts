@@ -17,34 +17,42 @@ export const getPlatform = () => {
   if (typeof window !== "undefined") {
     const nav: ExtNavigator = window.navigator as ExtNavigator;
 
-    if (typeof nav.userAgentData !== "undefined" && typeof nav.userAgentData != null) {
+    if (
+      typeof nav.userAgentData !== "undefined" &&
+      typeof nav.userAgentData != null
+    ) {
       return nav.userAgentData.platform.toLowerCase();
     }
 
     // Deprecated but userAgentData still experimental…
     if (typeof nav.platform !== "undefined") {
       // android navigator.platform is often set as "linux", so we have to check userAgent
-      if (typeof nav.userAgent !== "undefined" && /android/.test(nav.userAgent.toLowerCase())) {
+      if (
+        typeof nav.userAgent !== "undefined" &&
+        /android/.test(nav.userAgent.toLowerCase())
+      ) {
         return "android";
       }
       return nav.platform.toLowerCase();
     }
   }
   return "unknown";
-}
+};
 
 export const isMacish = () => {
   const MacOSPattern = /mac|ipod|iphone|ipad/i;
   const platform = getPlatform();
   return MacOSPattern.test(platform);
-}
+};
 
 // “Desktop-class” iPadOS
 export const isIpadOS = () => {
-  return !!(navigator.maxTouchPoints 
-        && navigator.maxTouchPoints > 2 
-        && navigator.userAgent.includes("Intel"));
-}
+  return !!(
+    navigator.maxTouchPoints &&
+    navigator.maxTouchPoints > 2 &&
+    navigator.userAgent.includes("Intel")
+  );
+};
 
 // Stopgap measure for fullscreen on iPadOS, do not use elsewhere
 export const isIOSish = () => {
@@ -55,4 +63,4 @@ export const isIOSish = () => {
   } else {
     return isIpadOS();
   }
-}
+};

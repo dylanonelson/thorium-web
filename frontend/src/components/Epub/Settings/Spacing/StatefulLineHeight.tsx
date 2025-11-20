@@ -2,7 +2,11 @@
 
 import { useCallback, useMemo } from "react";
 
-import { ThLineHeightOptions, ThSpacingSettingsKeys, ThSettingsKeys } from "@/preferences";
+import {
+  ThLineHeightOptions,
+  ThSpacingSettingsKeys,
+  ThSettingsKeys,
+} from "@/preferences";
 
 import { StatefulSettingsItemProps } from "../../../Settings/models/settings";
 
@@ -21,11 +25,15 @@ import { useAppSelector } from "@/lib/hooks";
 import { useLineHeight } from "./hooks/useLineHeight";
 import { useSpacingPresets } from "./hooks/useSpacingPresets";
 
-export const StatefulLineHeight = ({ standalone = true }: StatefulSettingsItemProps) => {
+export const StatefulLineHeight = ({
+  standalone = true,
+}: StatefulSettingsItemProps) => {
   const { t } = useI18n();
   const { preferences } = usePreferences();
 
-  const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
+  const publisherStyles = useAppSelector(
+    (state) => state.settings.publisherStyles,
+  );
 
   const { getSetting, submitPreferences } = useEpubNavigator();
 
@@ -42,60 +50,70 @@ export const StatefulLineHeight = ({ standalone = true }: StatefulSettingsItemPr
         id: ThLineHeightOptions.small,
         icon: SmallIcon,
         label: t("reader.settings.lineHeight.small"),
-        value: ThLineHeightOptions.small
+        value: ThLineHeightOptions.small,
       },
       {
         id: ThLineHeightOptions.medium,
         icon: MediumIcon,
         label: t("reader.settings.lineHeight.medium"),
-        value: ThLineHeightOptions.medium
+        value: ThLineHeightOptions.medium,
       },
       {
         id: ThLineHeightOptions.large,
         icon: LargeIcon,
         label: t("reader.settings.lineHeight.large"),
-        value: ThLineHeightOptions.large
+        value: ThLineHeightOptions.large,
       },
     ];
 
     // Only add publisher option if allowUnset is true
-    if (preferences.settings.keys[ThSettingsKeys.lineHeight].allowUnset !== false) {
+    if (
+      preferences.settings.keys[ThSettingsKeys.lineHeight].allowUnset !== false
+    ) {
       baseItems.unshift({
         id: ThLineHeightOptions.publisher,
         icon: BookIcon,
         label: t("reader.settings.lineHeight.publisher"),
-        value: ThLineHeightOptions.publisher
+        value: ThLineHeightOptions.publisher,
       });
     }
 
     return baseItems;
   }, [preferences.settings.keys, t]);
 
-  const updatePreference = useCallback(async (value: string) => {
-    const computedValue = value === ThLineHeightOptions.publisher
-      ? null
-      : lineHeightOptions[value as keyof typeof ThLineHeightOptions];
+  const updatePreference = useCallback(
+    async (value: string) => {
+      const computedValue =
+        value === ThLineHeightOptions.publisher
+          ? null
+          : lineHeightOptions[value as keyof typeof ThLineHeightOptions];
 
-    await submitPreferences({
-      lineHeight: computedValue
-    });
+      await submitPreferences({
+        lineHeight: computedValue,
+      });
 
-    const currentLineHeight = getSetting("lineHeight");
-    const currentDisplayLineHeightOption = Object.entries(lineHeightOptions).find(([key, value]) => value === currentLineHeight)?.[0] as ThLineHeightOptions;
+      const currentLineHeight = getSetting("lineHeight");
+      const currentDisplayLineHeightOption = Object.entries(
+        lineHeightOptions,
+      ).find(
+        ([key, value]) => value === currentLineHeight,
+      )?.[0] as ThLineHeightOptions;
 
-    setLineHeight(currentDisplayLineHeightOption);
-  }, [submitPreferences, getSetting, setLineHeight, lineHeightOptions]);
+      setLineHeight(currentDisplayLineHeightOption);
+    },
+    [submitPreferences, getSetting, setLineHeight, lineHeightOptions],
+  );
 
   return (
     <>
-    <StatefulRadioGroup
-      standalone={ standalone }
-      label={ t("reader.settings.lineHeight.title") }
-      orientation="horizontal"
-      value={ publisherStyles ? ThLineHeightOptions.publisher : lineHeight }
-      onChange={ async (val: string) => await updatePreference(val) }
-      items={ items }
-    />
+      <StatefulRadioGroup
+        standalone={standalone}
+        label={t("reader.settings.lineHeight.title")}
+        orientation="horizontal"
+        value={publisherStyles ? ThLineHeightOptions.publisher : lineHeight}
+        onChange={async (val: string) => await updatePreference(val)}
+        items={items}
+      />
     </>
   );
-}
+};

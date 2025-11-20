@@ -6,8 +6,12 @@ import readerReducer, { ReaderReducerState } from "@/lib/readerReducer";
 import settingsReducer, { SettingsReducerState } from "@/lib/settingsReducer";
 import themeReducer, { ThemeReducerState } from "@/lib/themeReducer";
 import actionsReducer, { ActionsReducerState } from "@/lib/actionsReducer";
-import publicationReducer, { PublicationReducerState } from "./publicationReducer";
-import preferencesReducer, { PreferencesReducerState } from "./preferencesReducer";
+import publicationReducer, {
+  PublicationReducerState,
+} from "./publicationReducer";
+import preferencesReducer, {
+  PreferencesReducerState,
+} from "./preferencesReducer";
 
 import debounce from "debounce";
 
@@ -37,13 +41,12 @@ const migrateThemeState = (state: ThemeReducerState) => {
       ...state,
       theme: {
         reflow: state.theme,
-        fxl: state.theme
-      }
+        fxl: state.theme,
+      },
     };
   }
   return state;
 };
-
 
 const updateActionsState = (state: ActionsReducerState) => {
   const updatedKeys = Object.fromEntries(
@@ -51,15 +54,19 @@ const updateActionsState = (state: ActionsReducerState) => {
       key,
       {
         ...value,
-        isOpen: value?.docking === ThDockingKeys.transient || value?.docking == null && value?.isOpen === true ? false : value?.isOpen,
+        isOpen:
+          value?.docking === ThDockingKeys.transient ||
+          (value?.docking == null && value?.isOpen === true)
+            ? false
+            : value?.isOpen,
       },
-    ])
+    ]),
   );
 
   return {
     ...state,
     keys: updatedKeys,
-    overflow: {}
+    overflow: {},
   };
 };
 
@@ -68,51 +75,55 @@ const loadState = (storageKey?: string) => {
     const resolvedKey = storageKey || DEFAULT_STORAGE_KEY;
     const serializedState = localStorage.getItem(resolvedKey);
     if (serializedState === null) {
-      return { 
-        actions: undefined, 
-        settings: undefined, 
+      return {
+        actions: undefined,
+        settings: undefined,
         theming: undefined,
-        preferences: undefined
+        preferences: undefined,
       };
     }
     const deserializedState = JSON.parse(serializedState);
     deserializedState.actions = updateActionsState(deserializedState.actions);
-    
+
     // TMP Migration
     // TODO: Remove this in the next minor version
     deserializedState.theming = migrateThemeState(deserializedState.theming);
 
     return deserializedState;
   } catch (err) {
-    return { 
-      actions: undefined, 
-      settings: undefined, 
+    return {
+      actions: undefined,
+      settings: undefined,
       theming: undefined,
-      preferences: undefined
+      preferences: undefined,
     };
   }
 };
 
-const saveState = (state: any, storageKey?: string, externalReducers: Record<string, ExternalReducerConfig> = {}) => {
+const saveState = (
+  state: any,
+  storageKey?: string,
+  externalReducers: Record<string, ExternalReducerConfig> = {},
+) => {
   try {
     const resolvedKey = storageKey || DEFAULT_STORAGE_KEY;
-    
+
     // Only persist the state of reducers that are marked for persistence
     const stateToPersist: any = {};
-    
+
     // Internal reducers to persist
     if (state.actions) stateToPersist.actions = state.actions;
     if (state.settings) stateToPersist.settings = state.settings;
     if (state.theming) stateToPersist.theming = state.theming;
     if (state.preferences) stateToPersist.preferences = state.preferences;
-    
+
     // External reducers to persist
     Object.entries(externalReducers).forEach(([key, config]) => {
       if (config.persist && state[key] !== undefined) {
         stateToPersist[key] = state[key];
       }
     });
-    
+
     const serializedState = JSON.stringify(stateToPersist);
     localStorage.setItem(resolvedKey, serializedState);
   } catch (err) {
@@ -120,7 +131,10 @@ const saveState = (state: any, storageKey?: string, externalReducers: Record<str
   }
 };
 
-export const makeStore = (storageKey?: string, externalReducers: Record<string, ExternalReducerConfig> = {}) => {
+export const makeStore = (
+  storageKey?: string,
+  externalReducers: Record<string, ExternalReducerConfig> = {},
+) => {
   // Combine internal and external reducers
   const combinedReducers = {
     reader: readerReducer,
@@ -129,15 +143,18 @@ export const makeStore = (storageKey?: string, externalReducers: Record<string, 
     actions: actionsReducer,
     publication: publicationReducer,
     preferences: preferencesReducer,
-    ...Object.entries(externalReducers).reduce((acc, [key, config]) => ({
-      ...acc,
-      [key]: config.reducer
-    }), {})
+    ...Object.entries(externalReducers).reduce(
+      (acc, [key, config]) => ({
+        ...acc,
+        [key]: config.reducer,
+      }),
+      {},
+    ),
   };
 
   // Get persisted state for internal reducers
   const persistedState = loadState(storageKey);
-  
+
   // Create preloaded state with persisted values
   const preloadedState: any = {
     actions: persistedState.actions,
@@ -150,7 +167,7 @@ export const makeStore = (storageKey?: string, externalReducers: Record<string, 
         return { ...acc, [key]: persistedState[key] };
       }
       return acc;
-    }, {})
+    }, {}),
   };
 
   const store = configureStore({
@@ -165,7 +182,7 @@ export const makeStore = (storageKey?: string, externalReducers: Record<string, 
   store.subscribe(saveStateDebounced);
 
   return store;
-}
+};
 
 // Infer the type of makeStore
 export type AppStore = ReturnType<typeof makeStore>;

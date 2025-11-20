@@ -27,25 +27,25 @@ export interface StatefulPopoverSheetProps extends StatefulSheet {
   placement?: PopoverProps["placement"];
 }
 
-export const StatefulPopoverSheet = ({ 
-    id,
-    triggerRef,
-    heading,
-    headerVariant,
-    className, 
-    isOpen,
-    onOpenChange, 
-    onClosePress,
-    placement,
-    docker,
-    children,
-    resetFocus,
-    focusWithinRef,
-    scrollTopOnFocus,
-    dismissEscapeKeyClose
-  }: StatefulPopoverSheetProps) => {
-  const { t } = useI18n()
-  const direction = useAppSelector(state => state.reader.direction);
+export const StatefulPopoverSheet = ({
+  id,
+  triggerRef,
+  heading,
+  headerVariant,
+  className,
+  isOpen,
+  onOpenChange,
+  onClosePress,
+  placement,
+  docker,
+  children,
+  resetFocus,
+  focusWithinRef,
+  scrollTopOnFocus,
+  dismissEscapeKeyClose,
+}: StatefulPopoverSheetProps) => {
+  const { t } = useI18n();
+  const direction = useAppSelector((state) => state.reader.direction);
   const popoverRef = useRef<HTMLDivElement | null>(null);
   const popoverHeaderRef = useRef<HTMLDivElement | null>(null);
   const popoverBodyRef = useRef<HTMLDivElement | null>(null);
@@ -55,73 +55,76 @@ export const StatefulPopoverSheet = ({
   useWebkitPatch(!!isOpen);
 
   if (React.Children.toArray(children).length > 0) {
-    return(
+    return (
       <>
-      <ThPopover 
-        ref={ popoverRef }
-        triggerRef={ triggerRef }
-        focusOptions={{
-          withinRef: focusWithinRef ?? popoverBodyRef,
-          trackedState: isOpen,
-          fallbackRef: popoverCloseRef,
-          action: {
-            type: "focus",
-            options: {
-              preventScroll: scrollTopOnFocus ? true : false,
-              scrollContainerToTop: scrollTopOnFocus
-            }
-          },
-          updateState: resetFocus
-        }}
-        placement={ placement || "bottom" }
-        className={ classNames(sheetStyles.popOverSheet , className) }
-        isOpen={ isOpen }
-        onOpenChange={ onOpenChange } 
-        isKeyboardDismissDisabled={ dismissEscapeKeyClose }
-        style={{
-          "--sheet-sticky-header": popoverHeaderRef.current ? `${ popoverHeaderRef.current.clientHeight }px` : undefined
-        }}
-        compounds={{
-          dialog: {
-            className: sheetStyles.sheetDialog
-          }
-        }}
-      >
-        <ThContainerHeader 
-          ref={ popoverHeaderRef }
-          className={ sheetStyles.sheetHeader }
-          label={ heading }
+        <ThPopover
+          ref={popoverRef}
+          triggerRef={triggerRef}
+          focusOptions={{
+            withinRef: focusWithinRef ?? popoverBodyRef,
+            trackedState: isOpen,
+            fallbackRef: popoverCloseRef,
+            action: {
+              type: "focus",
+              options: {
+                preventScroll: scrollTopOnFocus ? true : false,
+                scrollContainerToTop: scrollTopOnFocus,
+              },
+            },
+            updateState: resetFocus,
+          }}
+          placement={placement || "bottom"}
+          className={classNames(sheetStyles.popOverSheet, className)}
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          isKeyboardDismissDisabled={dismissEscapeKeyClose}
+          style={{
+            "--sheet-sticky-header": popoverHeaderRef.current
+              ? `${popoverHeaderRef.current.clientHeight}px`
+              : undefined,
+          }}
           compounds={{
-            heading: {
-              className: sheetStyles.sheetHeading
-            }
+            dialog: {
+              className: sheetStyles.sheetDialog,
+            },
           }}
         >
-          { headerVariant === ThSheetHeaderVariant.previous 
-            ? <ThNavigationButton 
-                direction={ direction === "ltr" ? "left" : "right" }
-                label={ t("reader.app.back.trigger") }
-                ref={ popoverCloseRef }
-                className={ classNames(className, readerSharedUI.backButton) } 
-                aria-label={ t("reader.app.back.trigger") }
-                onPress={ onClosePress }
+          <ThContainerHeader
+            ref={popoverHeaderRef}
+            className={sheetStyles.sheetHeader}
+            label={heading}
+            compounds={{
+              heading: {
+                className: sheetStyles.sheetHeading,
+              },
+            }}
+          >
+            {headerVariant === ThSheetHeaderVariant.previous ? (
+              <ThNavigationButton
+                direction={direction === "ltr" ? "left" : "right"}
+                label={t("reader.app.back.trigger")}
+                ref={popoverCloseRef}
+                className={classNames(className, readerSharedUI.backButton)}
+                aria-label={t("reader.app.back.trigger")}
+                onPress={onClosePress}
               />
-              : <StatefulDocker 
-                id={ id }
-                keys={ docker || [] }
-                ref={ popoverCloseRef }
-                onClose={ onClosePress }
+            ) : (
+              <StatefulDocker
+                id={id}
+                keys={docker || []}
+                ref={popoverCloseRef}
+                onClose={onClosePress}
               />
-          }
-        </ThContainerHeader>
-        <ThContainerBody
-          ref={ popoverBodyRef }
-          className={ sheetStyles.sheetBody }
-        >
-          { children }
-        </ThContainerBody>
-      </ThPopover>
+            )}
+          </ThContainerHeader>
+          <ThContainerBody
+            ref={popoverBodyRef}
+            className={sheetStyles.sheetBody}
+          >
+            {children}
+          </ThContainerBody>
+        </ThPopover>
       </>
-    ) 
+    );
   }
-}
+};

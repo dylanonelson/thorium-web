@@ -21,12 +21,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={ inter.className }>
+      <body className={inter.className}>
         <ThStoreProvider>
           <ThPreferencesProvider>
-            <ThI18nProvider>
-              { children }
-            </ThI18nProvider>
+            <ThI18nProvider>{children}</ThI18nProvider>
           </ThPreferencesProvider>
         </ThStoreProvider>
       </body>

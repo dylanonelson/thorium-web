@@ -16,42 +16,51 @@ import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setActionOpen } from "@/lib/actionsReducer";
 
-export const StatefulSettingsTrigger = ({ variant }: StatefulActionTriggerProps) => {
+export const StatefulSettingsTrigger = ({
+  variant,
+}: StatefulActionTriggerProps) => {
   const { preferences } = usePreferences();
   const { t } = useI18n();
-  const actionState = useAppSelector(state => state.actions.keys[ThActionsKeys.settings]);
+  const actionState = useAppSelector(
+    (state) => state.actions.keys[ThActionsKeys.settings],
+  );
   const dispatch = useAppDispatch();
 
-  const setOpen = (value: boolean) => {    
-    dispatch(setActionOpen({
-      key: ThActionsKeys.settings,
-      isOpen: value
-    }));
+  const setOpen = (value: boolean) => {
+    dispatch(
+      setActionOpen({
+        key: ThActionsKeys.settings,
+        isOpen: value,
+      }),
+    );
 
     // hover false otherwise it tends to stay on close button press…
     if (!value) dispatch(setHovering(false));
-  }
+  };
 
-  return(
+  return (
     <>
-    { (variant && variant === ThActionsTriggerVariant.menu) 
-      ? <StatefulOverflowMenuItem 
-          label={ t("reader.settings.trigger") }
-          SVGIcon={ TuneIcon }
-          shortcut={ preferences.actions.keys[ThActionsKeys.settings].shortcut } 
-          id={ ThActionsKeys.settings }
-          onAction={ () => setOpen(!actionState?.isOpen) }
+      {variant && variant === ThActionsTriggerVariant.menu ? (
+        <StatefulOverflowMenuItem
+          label={t("reader.settings.trigger")}
+          SVGIcon={TuneIcon}
+          shortcut={preferences.actions.keys[ThActionsKeys.settings].shortcut}
+          id={ThActionsKeys.settings}
+          onAction={() => setOpen(!actionState?.isOpen)}
         />
-      : <StatefulActionIcon 
-          visibility={ preferences.actions.keys[ThActionsKeys.settings].visibility }
-          aria-label={ t("reader.settings.trigger") }
-          placement="bottom" 
-          tooltipLabel={ t("reader.settings.tooltip") } 
-          onPress={ () => setOpen(!actionState?.isOpen) }
+      ) : (
+        <StatefulActionIcon
+          visibility={
+            preferences.actions.keys[ThActionsKeys.settings].visibility
+          }
+          aria-label={t("reader.settings.trigger")}
+          placement="bottom"
+          tooltipLabel={t("reader.settings.tooltip")}
+          onPress={() => setOpen(!actionState?.isOpen)}
         >
           <TuneIcon aria-hidden="true" focusable="false" />
         </StatefulActionIcon>
-    }
+      )}
     </>
-  )
-}
+  );
+};

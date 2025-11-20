@@ -3,7 +3,11 @@
 import React, { useCallback, useRef } from "react";
 
 import { StatefulSheet } from "./models/sheets";
-import { ThDockingKeys, ThSheetHeaderVariant, ThLayoutDirection } from "@/preferences/models/enums";
+import {
+  ThDockingKeys,
+  ThSheetHeaderVariant,
+  ThLayoutDirection,
+} from "@/preferences/models/enums";
 
 import sheetStyles from "./assets/styles/sheets.module.css";
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
@@ -24,96 +28,107 @@ export interface StatefulDockedSheetProps extends StatefulSheet {
   flow: ThDockingKeys.start | ThDockingKeys.end | null;
 }
 
-export const StatefulDockedSheet = ({ 
-    id,
-    heading,
-    headerVariant,
-    className, 
-    isOpen,
-    onClosePress,
-    docker, 
-    flow,
-    children,
-    resetFocus,
-    focusWithinRef,
-    scrollTopOnFocus
-  }: StatefulDockedSheetProps) => {
-  const { t } = useI18n()
+export const StatefulDockedSheet = ({
+  id,
+  heading,
+  headerVariant,
+  className,
+  isOpen,
+  onClosePress,
+  docker,
+  flow,
+  children,
+  resetFocus,
+  focusWithinRef,
+  scrollTopOnFocus,
+}: StatefulDockedSheetProps) => {
+  const { t } = useI18n();
   const dockPortal = flow && document.getElementById(flow);
   const dockedSheetHeaderRef = useRef<HTMLDivElement | null>(null);
   const dockedSheetBodyRef = useRef<HTMLDivElement | null>(null);
   const dockedSheetCloseRef = useRef<HTMLButtonElement | null>(null);
 
-  const direction = useAppSelector(state => state.reader.direction);
+  const direction = useAppSelector((state) => state.reader.direction);
 
   const classFromFlow = useCallback(() => {
     if (flow === ThDockingKeys.start) {
-      return direction === ThLayoutDirection.ltr ? sheetStyles.dockedSheetLeftBorder : sheetStyles.dockedSheetRightBorder;
+      return direction === ThLayoutDirection.ltr
+        ? sheetStyles.dockedSheetLeftBorder
+        : sheetStyles.dockedSheetRightBorder;
     } else if (flow === ThDockingKeys.end) {
-      return direction === ThLayoutDirection.ltr ? sheetStyles.dockedSheetRightBorder : sheetStyles.dockedSheetLeftBorder;
+      return direction === ThLayoutDirection.ltr
+        ? sheetStyles.dockedSheetRightBorder
+        : sheetStyles.dockedSheetLeftBorder;
     }
   }, [flow, direction]);
 
   if (React.Children.toArray(children).length > 0) {
-    return(
+    return (
       <>
-      <ThDockedPanel
-        isOpen={ isOpen }
-        portal={ dockPortal }
-        focusOptions={ {
-          withinRef: focusWithinRef ?? dockedSheetBodyRef, 
-          trackedState: isOpen, 
-          fallbackRef: dockedSheetCloseRef,
-          action: {
-            type: "scrollIntoView",
-            options: {
-              behavior: "instant",
-              block: "center",
-              inline: "nearest"
-            }
-          },
-          updateState: resetFocus
-        }}
-        className={ classNames(sheetStyles.dockedSheet, className, classFromFlow()) }
-        style={{
-          "--sheet-sticky-header": dockedSheetHeaderRef.current ? `${ dockedSheetHeaderRef.current.clientHeight }px` : undefined
-        }}
-      >
-        <ThContainerHeader 
-          ref={ dockedSheetHeaderRef }
-          className={ sheetStyles.sheetHeader }
-          label={ heading }
-          compounds={{
-            heading: {
-              className: sheetStyles.sheetHeading
-            }
+        <ThDockedPanel
+          isOpen={isOpen}
+          portal={dockPortal}
+          focusOptions={{
+            withinRef: focusWithinRef ?? dockedSheetBodyRef,
+            trackedState: isOpen,
+            fallbackRef: dockedSheetCloseRef,
+            action: {
+              type: "scrollIntoView",
+              options: {
+                behavior: "instant",
+                block: "center",
+                inline: "nearest",
+              },
+            },
+            updateState: resetFocus,
+          }}
+          className={classNames(
+            sheetStyles.dockedSheet,
+            className,
+            classFromFlow(),
+          )}
+          style={{
+            "--sheet-sticky-header": dockedSheetHeaderRef.current
+              ? `${dockedSheetHeaderRef.current.clientHeight}px`
+              : undefined,
           }}
         >
-          { headerVariant === ThSheetHeaderVariant.previous 
-            ? <ThNavigationButton
-              direction={ direction === "ltr" ? "left" : "right" } 
-              label={ t("reader.app.back.trigger") }
-              ref={ dockedSheetCloseRef }
-              className={ classNames(className, readerSharedUI.backButton) } 
-              aria-label={ t("reader.app.back.trigger") }
-              onPress={ onClosePress }
-            /> 
-            : <StatefulDocker 
-              id={ id }
-              keys={ docker || [] }
-              ref={ dockedSheetCloseRef }
-              onClose={ onClosePress }
-            />
-          } 
-        </ThContainerHeader>
-        <ThContainerBody 
-          ref={ dockedSheetBodyRef }
-          className={ sheetStyles.sheetBody }
-        >
-          { children }
-        </ThContainerBody>
-      </ThDockedPanel>
+          <ThContainerHeader
+            ref={dockedSheetHeaderRef}
+            className={sheetStyles.sheetHeader}
+            label={heading}
+            compounds={{
+              heading: {
+                className: sheetStyles.sheetHeading,
+              },
+            }}
+          >
+            {headerVariant === ThSheetHeaderVariant.previous ? (
+              <ThNavigationButton
+                direction={direction === "ltr" ? "left" : "right"}
+                label={t("reader.app.back.trigger")}
+                ref={dockedSheetCloseRef}
+                className={classNames(className, readerSharedUI.backButton)}
+                aria-label={t("reader.app.back.trigger")}
+                onPress={onClosePress}
+              />
+            ) : (
+              <StatefulDocker
+                id={id}
+                keys={docker || []}
+                ref={dockedSheetCloseRef}
+                onClose={onClosePress}
+              />
+            )}
+          </ThContainerHeader>
+          <ThContainerBody
+            ref={dockedSheetBodyRef}
+            className={sheetStyles.sheetBody}
+          >
+            {children}
+          </ThContainerBody>
+        </ThDockedPanel>
       </>
-    )
+    );
   }
-}
+};

@@ -4,7 +4,7 @@ import { WithRef } from "../../customTypes";
 
 import { HeadingProps } from "react-aria-components";
 import { ThActionButtonProps, ThCloseButton } from "../../Buttons";
-import { ThContainerHeader, ThContainerHeaderProps } from "./ThContainerHeader"
+import { ThContainerHeader, ThContainerHeaderProps } from "./ThContainerHeader";
 
 export interface THContainerWithCloseProps extends ThContainerHeaderProps {
   closeRef?: React.ForwardedRef<HTMLButtonElement>;
@@ -12,23 +12,23 @@ export interface THContainerWithCloseProps extends ThContainerHeaderProps {
   compounds?: {
     heading: WithRef<HeadingProps, HTMLHeadingElement>;
     button: ThActionButtonProps;
-  }
+  };
 }
-export const ThContainerHeaderWithClose = ({ 
+export const ThContainerHeaderWithClose = ({
   ref,
   closeRef,
   label,
   compounds,
-  ...props 
+  ...props
 }: THContainerWithCloseProps) => {
   return (
-    <ThContainerHeader 
-      ref={ ref } 
-      label={ label }
-      { ...props }
-      compounds={ { heading: compounds?.heading }}
+    <ThContainerHeader
+      ref={ref}
+      label={label}
+      {...props}
+      compounds={{ heading: compounds?.heading }}
     >
-      <ThCloseButton ref={ closeRef } { ...compounds?.button } />
+      <ThCloseButton ref={closeRef} {...compounds?.button} />
     </ThContainerHeader>
-  )
-}
+  );
+};

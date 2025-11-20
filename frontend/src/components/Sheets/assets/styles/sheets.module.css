@@ -9,7 +9,9 @@
   bottom: 0;
   z-index: 10;
   overflow-y: auto;
-  scroll-padding-top: calc(var(--sheet-sticky-header, 80px) + var(--layout-spacing));
+  scroll-padding-top: calc(
+    var(--sheet-sticky-header, 80px) + var(--layout-spacing)
+  );
   scroll-padding-bottom: var(--layout-spacing);
   box-sizing: border-box;
   width: 100%;
@@ -22,7 +24,9 @@
 
 .popOverSheet {
   overflow-y: auto;
-  scroll-padding-top: calc(var(--sheet-sticky-header, 80px) + var(--layout-spacing));
+  scroll-padding-top: calc(
+    var(--sheet-sticky-header, 80px) + var(--layout-spacing)
+  );
   scroll-padding-bottom: var(--layout-spacing);
   box-sizing: border-box;
   width: calc(340px + (2 * var(--layout-spacing)));
@@ -41,7 +45,10 @@
 .bottomSheetModal {
   box-sizing: border-box;
   max-width: var(--constraints-bottomSheet, 600px);
-  left: max(calc((100% - var(--constraints-bottomSheet, 600px)) / 2), 0px) !important;
+  left: max(
+    calc((100% - var(--constraints-bottomSheet, 600px)) / 2),
+    0px
+  ) !important;
   background-color: var(--theme-background) !important;
   color: var(--theme-text) !important;
   border: none;
@@ -127,7 +134,9 @@
   /* We need relative positioning so that RAC FocusScope scrolls properly on tabbing */
   position: relative;
   overflow-y: auto;
-  scroll-padding-top: calc(var(--sheet-sticky-header, 80px) + var(--layout-spacing));
+  scroll-padding-top: calc(
+    var(--sheet-sticky-header, 80px) + var(--layout-spacing)
+  );
   scroll-padding-bottom: var(--layout-spacing);
   box-sizing: border-box;
   width: 100%;
@@ -169,7 +178,8 @@
   align-items: center;
   background-color: var(--theme-background);
   border-bottom: 1px solid var(--theme-subdue);
-  padding: var(--layout-spacing) var(--layout-spacing) calc(var(--layout-spacing) / 2) var(--layout-spacing);
+  padding: var(--layout-spacing) var(--layout-spacing)
+    calc(var(--layout-spacing) / 2) var(--layout-spacing);
   /* Otherwise covers the modal’s */
   border-top-left-radius: 28px !important;
   border-top-right-radius: 28px !important;

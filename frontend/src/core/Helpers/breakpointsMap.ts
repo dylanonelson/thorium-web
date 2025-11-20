@@ -8,7 +8,7 @@ export const makeBreakpointsMap = <T>({
   fromEnum,
   pref,
   disabledValue,
-  validateKey
+  validateKey,
 }: {
   defaultValue: T;
   fromEnum: any;
@@ -16,19 +16,18 @@ export const makeBreakpointsMap = <T>({
   disabledValue?: T;
   validateKey?: string;
 }): Required<BreakpointsMap<T>> => {
-  
   const isValidType = (value: any): boolean => {
     if (!validateKey) return true;
-    
+
     // Helper to get nested property
-    const getNestedValue = (obj: any, path: string) => 
+    const getNestedValue = (obj: any, path: string) =>
       path.split(".").reduce((o, p) => o?.[p], obj);
-    
+
     const valueToCheck = getNestedValue(value, validateKey);
     if (valueToCheck === undefined) return false;
-    
+
     if (Array.isArray(valueToCheck)) {
-      return valueToCheck.every(v => Object.values(fromEnum).includes(v));
+      return valueToCheck.every((v) => Object.values(fromEnum).includes(v));
     }
     return Object.values(fromEnum).includes(valueToCheck);
   };
@@ -38,7 +37,7 @@ export const makeBreakpointsMap = <T>({
     [ThBreakpoints.medium]: defaultValue,
     [ThBreakpoints.expanded]: defaultValue,
     [ThBreakpoints.large]: defaultValue,
-    [ThBreakpoints.xLarge]: defaultValue
+    [ThBreakpoints.xLarge]: defaultValue,
   };
 
   if (typeof pref === "boolean" || pref instanceof Boolean) {
@@ -54,9 +53,9 @@ export const makeBreakpointsMap = <T>({
   } else if (typeof pref === "object") {
     Object.entries(pref).forEach(([key, value]) => {
       if (!value) return;
-      
+
       const isValid = !validateKey || isValidType(value);
-        
+
       if (isValid) {
         breakpointsMap[key as ThBreakpoints] = value as T;
       }

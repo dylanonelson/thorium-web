@@ -2,11 +2,11 @@
 
 import React, { useCallback } from "react";
 
-import { 
-  defaultTextSettingsMain, 
-  defaultTextSettingsSubpanel, 
-  ThSettingsContainerKeys, 
-  ThTextSettingsKeys 
+import {
+  defaultTextSettingsMain,
+  defaultTextSettingsSubpanel,
+  ThSettingsContainerKeys,
+  ThTextSettingsKeys,
 } from "@/preferences";
 
 import { StatefulGroupWrapper } from "../../../Settings/StatefulGroupWrapper";
@@ -28,39 +28,45 @@ export const StatefulTextGroup = () => {
     dispatch(setSettingsContainer(ThSettingsContainerKeys.text));
   }, [dispatch]);
 
-  return(
+  return (
     <>
-    <StatefulGroupWrapper 
-      heading={ t("reader.settings.text.title") }
-      moreLabel={ t("reader.settings.text.advanced.trigger") }
-      moreTooltip={ t("reader.settings.text.advanced.tooltip") }
-      onPressMore={ setTextContainer }
-      componentsMap={ textSettingsComponentsMap }
-      prefs={ preferences.settings.text }
-      defaultPrefs={ {
-        main: defaultTextSettingsMain, 
-        subPanel: defaultTextSettingsSubpanel
-      }}
-    />
+      <StatefulGroupWrapper
+        heading={t("reader.settings.text.title")}
+        moreLabel={t("reader.settings.text.advanced.trigger")}
+        moreTooltip={t("reader.settings.text.advanced.tooltip")}
+        onPressMore={setTextContainer}
+        componentsMap={textSettingsComponentsMap}
+        prefs={preferences.settings.text}
+        defaultPrefs={{
+          main: defaultTextSettingsMain,
+          subPanel: defaultTextSettingsSubpanel,
+        }}
+      />
     </>
-  )
-}
+  );
+};
 
 export const StatefulTextGroupContainer = () => {
   const { preferences } = usePreferences();
-  const displayOrder = preferences.settings.text?.subPanel as ThTextSettingsKeys[] | null | undefined || defaultTextSettingsSubpanel;
+  const displayOrder =
+    (preferences.settings.text?.subPanel as
+      | ThTextSettingsKeys[]
+      | null
+      | undefined) || defaultTextSettingsSubpanel;
   const { textSettingsComponentsMap } = usePlugins();
 
-  return(
+  return (
     <>
-    { displayOrder.map((key: ThTextSettingsKeys) => {
-      const match = textSettingsComponentsMap[key];
-      if (!match) {
-        console.warn(`Action key "${ key }" not found in the plugin registry while present in preferences.`);
-        return null;
-      }
-      return <match.Comp key={ key } standalone={ true } />;
-    }) }
+      {displayOrder.map((key: ThTextSettingsKeys) => {
+        const match = textSettingsComponentsMap[key];
+        if (!match) {
+          console.warn(
+            `Action key "${key}" not found in the plugin registry while present in preferences.`,
+          );
+          return null;
+        }
+        return <match.Comp key={key} standalone={true} />;
+      })}
     </>
-  )
-}
+  );
+};

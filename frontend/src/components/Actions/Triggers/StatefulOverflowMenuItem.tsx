@@ -9,8 +9,9 @@ import { UnstableStatefulShortcut as StatefulShortcut } from "./UnstableStateful
 
 import { ThMenuItem, ThMenuItemProps } from "@/core/Components/Menu/ThMenuItem";
 
-export interface StatefulOverflowMenuItemProps extends Omit<ThMenuItemProps, "shortcut"> {
-  shortcut?: string | null
+export interface StatefulOverflowMenuItemProps
+  extends Omit<ThMenuItemProps, "shortcut"> {
+  shortcut?: string | null;
 }
 
 export const StatefulOverflowMenuItem = ({
@@ -21,29 +22,31 @@ export const StatefulOverflowMenuItem = ({
   ...props
 }: StatefulOverflowMenuItemProps) => {
   const menuItemLabelId = `${id}-label`;
-  
-  return(
+
+  return (
     <>
-    <ThMenuItem 
-      id={ id } 
-      label={ label }
-      className={ overflowMenuStyles.menuItem } 
-      aria-labelledby={ menuItemLabelId } 
-      { ...props }
-    >
-      { SVGIcon && <SVGIcon aria-hidden="true" focusable="false" /> }
-      <Text 
-        className={ overflowMenuStyles.menuItemLabel } 
-        slot="label"
-        id={ menuItemLabelId }
+      <ThMenuItem
+        id={id}
+        label={label}
+        className={overflowMenuStyles.menuItem}
+        aria-labelledby={menuItemLabelId}
+        {...props}
       >
-        { label }
-      </Text>
-      { shortcut && <StatefulShortcut
-        className={ overflowMenuStyles.menuItemKbdShortcut } 
-        rawForm={ shortcut } 
-      /> }
-    </ThMenuItem>
+        {SVGIcon && <SVGIcon aria-hidden="true" focusable="false" />}
+        <Text
+          className={overflowMenuStyles.menuItemLabel}
+          slot="label"
+          id={menuItemLabelId}
+        >
+          {label}
+        </Text>
+        {shortcut && (
+          <StatefulShortcut
+            className={overflowMenuStyles.menuItemKbdShortcut}
+            rawForm={shortcut}
+          />
+        )}
+      </ThMenuItem>
     </>
-  )
-}
+  );
+};

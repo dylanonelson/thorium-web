@@ -16,9 +16,9 @@ export const ThI18nProvider = ({
 }: ThI18nProviderProps) => {
   const { preferences } = usePreferences();
   const [isInitialized, setIsInitialized] = useState(false);
-  
+
   useEffect(() => {
-    if (!i18n.isInitialized) {      
+    if (!i18n.isInitialized) {
       initI18n({
         ...options,
         lng: preferences?.locale || options.lng,
@@ -36,7 +36,7 @@ export const ThI18nProvider = ({
     return null;
   }
 
-  return <I18nextProvider i18n={ i18n }>{ children }</I18nextProvider>;
+  return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
 };
 
 export default ThI18nProvider;

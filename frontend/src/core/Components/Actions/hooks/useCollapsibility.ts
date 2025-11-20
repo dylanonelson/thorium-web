@@ -9,7 +9,7 @@ export type ThCollapsibility = boolean | Record<string, number | "all">;
 export enum ThCollapsibilityVisibility {
   always = "always",
   partially = "partially",
-  overflow = "overflow"
+  overflow = "overflow",
 }
 
 export interface CollapsiblePref {
@@ -20,10 +20,14 @@ export interface CollapsiblePref {
       [key: string]: any;
       visibility: ThCollapsibilityVisibility;
     };
-  }
+  };
 }
 
-export const useCollapsibility = (items: ThActionEntry<string>[], prefs: CollapsiblePref, breakpoint?: string) => {
+export const useCollapsibility = (
+  items: ThActionEntry<string>[],
+  prefs: CollapsiblePref,
+  breakpoint?: string,
+) => {
   const [actionIcons, menuItems] = useMemo(() => {
     const actionIcons: ThActionEntry<string>[] = [];
     const menuItems: ThActionEntry<string>[] = [];
@@ -32,7 +36,10 @@ export const useCollapsibility = (items: ThActionEntry<string>[], prefs: Collaps
 
     if (prefs.collapse) {
       // Handling number of items to collapse
-      if (typeof prefs.collapse === "object" && !(prefs.collapse instanceof Boolean)) {
+      if (
+        typeof prefs.collapse === "object" &&
+        !(prefs.collapse instanceof Boolean)
+      ) {
         if (breakpoint) {
           const prefForBreakpoint = prefs.collapse[breakpoint];
           if (prefForBreakpoint) {
@@ -43,7 +50,7 @@ export const useCollapsibility = (items: ThActionEntry<string>[], prefs: Collaps
                 countdown = 0;
               } else if (prefForBreakpoint < items.length) {
                 // We must take the overflow icon into account so that
-                // it doesn’t contain only one partially visible item 
+                // it doesn’t contain only one partially visible item
                 countdown = items.length - (prefForBreakpoint - 1);
               }
             }
@@ -52,22 +59,27 @@ export const useCollapsibility = (items: ThActionEntry<string>[], prefs: Collaps
       }
 
       // Creating a shallow copy so that actionsOrder doesn’t mutate between rerenders
-      [...items].slice().reverse().map((item) => {
-        const actionPref = prefs.keys[item.key];
-        if (actionPref.visibility === ThCollapsibilityVisibility.overflow) {
-          menuItems.unshift(item);
-          --countdown;
-        } else if (actionPref.visibility === ThCollapsibilityVisibility.partially) {
-          if (countdown > 0) {
+      [...items]
+        .slice()
+        .reverse()
+        .map((item) => {
+          const actionPref = prefs.keys[item.key];
+          if (actionPref.visibility === ThCollapsibilityVisibility.overflow) {
             menuItems.unshift(item);
             --countdown;
+          } else if (
+            actionPref.visibility === ThCollapsibilityVisibility.partially
+          ) {
+            if (countdown > 0) {
+              menuItems.unshift(item);
+              --countdown;
+            } else {
+              actionIcons.unshift(item);
+            }
           } else {
             actionIcons.unshift(item);
           }
-        } else {
-          actionIcons.unshift(item);
-        }
-      });
+        });
     } else {
       // collapse set to false so we ignore visibility and don’t triage
       items.map((item) => {
@@ -79,4 +91,4 @@ export const useCollapsibility = (items: ThActionEntry<string>[], prefs: Collaps
   }, [items, prefs, breakpoint]);
 
   return { ActionIcons: actionIcons, MenuItems: menuItems };
-}
+};

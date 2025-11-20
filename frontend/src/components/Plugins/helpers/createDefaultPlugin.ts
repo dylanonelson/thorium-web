@@ -37,89 +37,89 @@ export const createDefaultPlugin = (): ThPlugin => {
     components: {
       actions: {
         [ThActionsKeys.fullscreen]: {
-          Trigger: StatefulFullscreenTrigger
+          Trigger: StatefulFullscreenTrigger,
         },
         [ThActionsKeys.jumpToPosition]: {
           Trigger: StatefulJumpToPositionTrigger,
-          Target: StatefulJumpToPositionContainer
+          Target: StatefulJumpToPositionContainer,
         },
         [ThActionsKeys.settings]: {
           Trigger: StatefulSettingsTrigger,
-          Target: StatefulSettingsContainer
+          Target: StatefulSettingsContainer,
         },
         [ThActionsKeys.toc]: {
           Trigger: StatefulTocTrigger,
-          Target: StatefulTocContainer
-        }
+          Target: StatefulTocContainer,
+        },
       },
       settings: {
         [ThSettingsKeys.columns]: {
-          Comp: StatefulColumns
+          Comp: StatefulColumns,
         },
         [ThSettingsKeys.fontFamily]: {
           Comp: StatefulFontFamily,
-          type: "text"
+          type: "text",
         },
         [ThSettingsKeys.fontWeight]: {
           Comp: UnstableStatefulFontWeight,
-          type: "text"
+          type: "text",
         },
         [ThSettingsKeys.hyphens]: {
           Comp: StatefulHyphens,
-          type: "text"
+          type: "text",
         },
         [ThSettingsKeys.layout]: {
-          Comp: StatefulLayout
+          Comp: StatefulLayout,
         },
         [ThSettingsKeys.letterSpacing]: {
           Comp: StatefulLetterSpacing,
-          type: "spacing"
+          type: "spacing",
         },
         [ThSettingsKeys.lineHeight]: {
           Comp: StatefulLineHeight,
-          type: "spacing"
+          type: "spacing",
         },
         [ThSettingsKeys.paragraphIndent]: {
           Comp: StatefulParagraphIndent,
-          type: "spacing"
+          type: "spacing",
         },
         [ThSettingsKeys.paragraphSpacing]: {
           Comp: StatefulParagraphSpacing,
-          type: "spacing"
+          type: "spacing",
         },
         [ThSettingsKeys.publisherStyles]: {
           Comp: StatefulPublisherStyles,
-          type: "spacing"
+          type: "spacing",
         },
         [ThSettingsKeys.spacingGroup]: {
           Comp: StatefulSpacingGroup,
         },
         [ThSettingsKeys.spacingPresets]: {
           Comp: StatefulSpacingPresets,
-          type: "spacing"
+          type: "spacing",
         },
         [ThSettingsKeys.textAlign]: {
           Comp: StatefulTextAlign,
-          type: "text"
+          type: "text",
         },
         [ThSettingsKeys.textGroup]: {
-          Comp: StatefulTextGroup
+          Comp: StatefulTextGroup,
         },
         [ThSettingsKeys.textNormalize]: {
           Comp: StatefulTextNormalize,
-          type: "text"
+          type: "text",
         },
         [ThSettingsKeys.theme]: {
-          Comp: StatefulTheme
+          Comp: StatefulTheme,
         },
         [ThSettingsKeys.wordSpacing]: {
           Comp: StatefulWordSpacing,
-          type: "spacing"
+          type: "spacing",
         },
         [ThSettingsKeys.zoom]: {
-          Comp: StatefulZoom
-        }
-      }
-    }
+          Comp: StatefulZoom,
+        },
+      },
+    },
   };
 };

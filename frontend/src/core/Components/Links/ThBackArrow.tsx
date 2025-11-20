@@ -17,16 +17,12 @@ export const ThBackArrow = ({
   ...props
 }: ThBackArrowProps) => {
   return (
-    <ThLink 
-      href={ href }
-      ref={ ref }
-      aria-label={ ariaLabel }
-      { ...props }
-    >
-      { direction === "right"
-        ? <ArrowForwardIcon aria-hidden="true" focusable="false" />
-        : <ArrowBackIcon aria-hidden="true" focusable="false" />
-      }
+    <ThLink href={href} ref={ref} aria-label={ariaLabel} {...props}>
+      {direction === "right" ? (
+        <ArrowForwardIcon aria-hidden="true" focusable="false" />
+      ) : (
+        <ArrowBackIcon aria-hidden="true" focusable="false" />
+      )}
     </ThLink>
   );
 };

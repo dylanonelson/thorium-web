@@ -29,7 +29,7 @@ export interface ThemeTokens {
   focus: CSSColor;
   elevate: string;
   immerse: string;
-};
+}
 
 export interface useThemingProps<T extends string> {
   theme?: string;
@@ -46,7 +46,7 @@ export interface useThemingProps<T extends string> {
   onForcedColorsChange?: (forcedColors: boolean) => void;
   onMonochromeChange?: (isMonochrome: boolean) => void;
   onReducedMotionChange?: (reducedMotion: boolean) => void;
-  onReducedTransparencyChange?: (reducedTransparency: boolean) => void;  
+  onReducedTransparencyChange?: (reducedTransparency: boolean) => void;
 }
 
 // Takes care of the init of theming and side effects on :root/html
@@ -72,11 +72,13 @@ export const useTheming = <T extends string>({
   const forcedColors = useForcedColors(onForcedColorsChange);
   const monochrome = useMonochrome(onMonochromeChange);
   const reducedMotion = useReducedMotion(onReducedMotionChange);
-  const reducedTransparency = useReducedTransparency(onReducedTransparencyChange);
+  const reducedTransparency = useReducedTransparency(
+    onReducedTransparencyChange,
+  );
 
   const updateThemeColorMetaTag = useCallback((color: string): void => {
     if (typeof document === "undefined") return;
-    
+
     let metaTag = document.querySelector("meta[name='theme-color']");
     if (!metaTag) {
       metaTag = document.createElement("meta");
@@ -87,47 +89,52 @@ export const useTheming = <T extends string>({
   }, []);
 
   const inferThemeAuto = useCallback(() => {
-    return colorSchemeRef.current === ThColorScheme.dark ? systemKeys?.dark : systemKeys?.light;
+    return colorSchemeRef.current === ThColorScheme.dark
+      ? systemKeys?.dark
+      : systemKeys?.light;
   }, [systemKeys]);
 
   const initThemingCustomProps = useCallback(() => {
     for (let p in initProps) {
-      document.documentElement.style.setProperty(p, initProps[p])
+      document.documentElement.style.setProperty(p, initProps[p]);
     }
   }, [initProps]);
 
-  const setThemeCustomProps = useCallback((t?: string) => {
-    if (!t) {
-      return;
-    }
+  const setThemeCustomProps = useCallback(
+    (t?: string) => {
+      if (!t) {
+        return;
+      }
 
-    if (t === "auto") {
-      const autoTheme = inferThemeAuto();
-      if (!autoTheme) {
+      if (t === "auto") {
+        const autoTheme = inferThemeAuto();
+        if (!autoTheme) {
+          // We are not removing properties cos iframes won’t update
+          // Removing here would consequently create a theme inconsistency
+          // between the iframe and the main window
+          return;
+        }
+        t = autoTheme;
+      }
+
+      const themeTokens = themeKeys[t as T];
+      if (!themeTokens) {
         // We are not removing properties cos iframes won’t update
         // Removing here would consequently create a theme inconsistency
         // between the iframe and the main window
         return;
       }
-      t = autoTheme;
-    }
-  
-    const themeTokens = themeKeys[t as T];
-    if (!themeTokens) {
-      // We are not removing properties cos iframes won’t update
-      // Removing here would consequently create a theme inconsistency
-      // between the iframe and the main window
-      return;
-    }
-  
-    const props = propsToCSSVars(themeTokens, "theme");
-      
-    for (let p in props) {
-      document.documentElement.style.setProperty(p, props[p])
-    }
 
-    updateThemeColorMetaTag(themeTokens.background);
-  }, [inferThemeAuto, updateThemeColorMetaTag, themeKeys]);
+      const props = propsToCSSVars(themeTokens, "theme");
+
+      for (let p in props) {
+        document.documentElement.style.setProperty(p, props[p]);
+      }
+
+      updateThemeColorMetaTag(themeTokens.background);
+    },
+    [inferThemeAuto, updateThemeColorMetaTag, themeKeys],
+  );
 
   // On mount add custom props to :root/html
   useEffect(() => {
@@ -142,13 +149,13 @@ export const useTheming = <T extends string>({
 
   return {
     inferThemeAuto,
-    theme, 
+    theme,
     breakpoints,
     colorScheme,
-    contrast, 
-    forcedColors, 
-    monochrome, 
-    reducedMotion, 
-    reducedTransparency
-  }
-}
+    contrast,
+    forcedColors,
+    monochrome,
+    reducedMotion,
+    reducedTransparency,
+  };
+};

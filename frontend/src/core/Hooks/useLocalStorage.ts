@@ -6,13 +6,16 @@ export const useLocalStorage = (key: string) => {
   const [localData, setLocalData] = useState<any>(null);
   const cachedLocalData = useRef<any>(null);
 
-  const setValue = useCallback((newValue: any, silent = false) => {
-    if (!silent) {
-      setLocalData(newValue);
-    }
-    cachedLocalData.current = newValue;
-    localStorage.setItem(key, JSON.stringify(newValue));
-  }, [key]);
+  const setValue = useCallback(
+    (newValue: any, silent = false) => {
+      if (!silent) {
+        setLocalData(newValue);
+      }
+      cachedLocalData.current = newValue;
+      localStorage.setItem(key, JSON.stringify(newValue));
+    },
+    [key],
+  );
 
   const getValue = useCallback(() => {
     if (cachedLocalData.current !== null) return cachedLocalData.current;
@@ -22,19 +25,22 @@ export const useLocalStorage = (key: string) => {
     return parsedValue;
   }, [key]);
 
-  const clearValue = useCallback((silent = false) => {
-    if (!silent) {
-      setLocalData(null);
-    }
-    cachedLocalData.current = null;
-    localStorage.removeItem(key);
-  }, [key]);
+  const clearValue = useCallback(
+    (silent = false) => {
+      if (!silent) {
+        setLocalData(null);
+      }
+      cachedLocalData.current = null;
+      localStorage.removeItem(key);
+    },
+    [key],
+  );
 
   return {
     setLocalData: setValue,
     getLocalData: getValue,
     clearLocalData: clearValue,
     localData,
-    cachedLocalData
+    cachedLocalData,
   };
 };

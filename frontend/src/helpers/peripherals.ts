@@ -3,13 +3,18 @@ import { ThActionsPref, DefaultKeys } from "@/preferences";
 
 import { ThActionsKeys } from "@/preferences/models/enums";
 
-import { buildShortcut, UnstablePShortcut } from "@/core/Helpers/keyboardUtilities";
+import {
+  buildShortcut,
+  UnstablePShortcut,
+} from "@/core/Helpers/keyboardUtilities";
 import { isInteractiveElement } from "@/core/Helpers/focusUtilities";
 
 import { useAppStore } from "@/lib/hooks";
 
 export interface PCallbacks {
-  moveTo: (direction: "left" | "right" | "up" | "down" | "home" | "end") => void;
+  moveTo: (
+    direction: "left" | "right" | "up" | "down" | "home" | "end",
+  ) => void;
   goProgression: (shiftKey?: boolean) => void;
   toggleAction: (action: ThActionsKeys) => void;
 }
@@ -18,7 +23,7 @@ export interface PShortcuts {
   [key: string]: {
     actionKey: ThActionsKeys;
     modifiers: UnstablePShortcut["modifiers"];
-  }
+  };
 }
 
 export default class Peripherals {
@@ -29,7 +34,11 @@ export default class Peripherals {
   private readonly actionsPref: ThActionsPref<DefaultKeys> | undefined;
   private readonly shortcuts: PShortcuts;
 
-  constructor(store: ReturnType<typeof useAppStore>, actionsPref: ThActionsPref<DefaultKeys> | undefined, callbacks: PCallbacks) {
+  constructor(
+    store: ReturnType<typeof useAppStore>,
+    actionsPref: ThActionsPref<DefaultKeys> | undefined,
+    callbacks: PCallbacks,
+  ) {
     this.observers.forEach((method) => {
       (this as any)["on" + method] = (this as any)["on" + method].bind(this);
     });
@@ -54,7 +63,7 @@ export default class Peripherals {
 
     for (const actionKey of displayOrder) {
       const shortcutString = this.actionsPref.keys[actionKey].shortcut;
-      
+
       if (shortcutString) {
         const shortcutObj = buildShortcut(shortcutString);
 
@@ -62,15 +71,15 @@ export default class Peripherals {
           Object.defineProperty(shortcutsObj, shortcutObj.key, {
             value: {
               actionKey: actionKey,
-              modifiers: shortcutObj.modifiers
+              modifiers: shortcutObj.modifiers,
             },
             writable: false,
-            enumerable: true
+            enumerable: true,
           });
         }
       }
-    };
-    
+    }
+
     return shortcutsObj;
   }
 
@@ -84,7 +93,7 @@ export default class Peripherals {
       item.removeEventListener(
         EventName,
         (this as any)["on" + EventName],
-        false
+        false,
       );
     });
     this.targets = this.targets.filter((t) => t !== item);
@@ -101,8 +110,8 @@ export default class Peripherals {
 
   onkeydown(e: KeyboardEvent) {
     const focusIsSafe = !isInteractiveElement(document.activeElement);
-    
-    switch(e.code) {
+
+    switch (e.code) {
       case "Space":
         focusIsSafe && this.callbacks.goProgression(e.shiftKey);
         break;
@@ -129,18 +138,23 @@ export default class Peripherals {
       default:
         if (this.shortcuts.hasOwnProperty(e.code)) {
           const customShortcutObj = this.shortcuts[e.code];
-          const sendCallback = Object.entries(customShortcutObj.modifiers).every(( [modifier, value] ) => {
+          const sendCallback = Object.entries(
+            customShortcutObj.modifiers,
+          ).every(([modifier, value]) => {
             if (modifier === "platformKey") {
               return e[this.getPlatformModifier()] === value;
             } else {
-              return e[modifier as "altKey" | "ctrlKey" | "metaKey" | "shiftKey"] === value;
+              return (
+                e[modifier as "altKey" | "ctrlKey" | "metaKey" | "shiftKey"] ===
+                value
+              );
             }
-          })
-            
+          });
+
           if (sendCallback) {
             e.preventDefault();
-            this.callbacks.toggleAction(customShortcutObj.actionKey)
-          };
+            this.callbacks.toggleAction(customShortcutObj.actionKey);
+          }
         }
         break;
     }

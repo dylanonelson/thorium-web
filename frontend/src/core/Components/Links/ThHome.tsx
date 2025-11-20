@@ -11,12 +11,7 @@ export const ThHome = ({
   ...props
 }: ThLinkIconProps) => {
   return (
-    <ThLink 
-      href={ href }
-      ref={ ref }
-      aria-label={ ariaLabel }
-      { ...props }
-    >
+    <ThLink href={href} ref={ref} aria-label={ariaLabel} {...props}>
       <HomeIcon aria-hidden="true" focusable="false" />
     </ThLink>
   );

@@ -11,28 +11,28 @@ export interface StatefulSwitchProps extends Omit<ThSwitchProps, "classNames"> {
 export const StatefulSwitch = ({
   standalone,
   label,
-  heading, 
+  heading,
   ...props
 }: StatefulSwitchProps) => {
-  return(
+  return (
     <>
-    <ThSwitch 
-      { ...props }
-      { ...(standalone ? { heading: heading } : {}) }
-      label={ label }
-      className={ settingsStyles.readerSettingsSwitch }
-      compounds={{
-        wrapper: {
-          className: settingsStyles.readerSettingsGroup
-        },
-        heading: {
-          className: settingsStyles.readerSettingsLabel
-        },
-        indicator: {
-          className: settingsStyles.readerSettingsSwitchIndicator
-        }
-      }}
-    />
+      <ThSwitch
+        {...props}
+        {...(standalone ? { heading: heading } : {})}
+        label={label}
+        className={settingsStyles.readerSettingsSwitch}
+        compounds={{
+          wrapper: {
+            className: settingsStyles.readerSettingsGroup,
+          },
+          heading: {
+            className: settingsStyles.readerSettingsLabel,
+          },
+          indicator: {
+            className: settingsStyles.readerSettingsSwitchIndicator,
+          },
+        }}
+      />
     </>
-  )
-}
+  );
+};

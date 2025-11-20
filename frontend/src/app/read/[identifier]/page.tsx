@@ -22,7 +22,7 @@ type ReadingLocationResponse = {
 };
 
 async function fetchLatestReadingLocation(
-  publicationId: string
+  publicationId: string,
 ): Promise<LocalStorageReadingLocation | null> {
   if (!publicationId) return null;
 
@@ -36,14 +36,14 @@ async function fetchLatestReadingLocation(
       `${
         process.env.READER_API_ORIGIN
       }/reading-locations/latest?publication_id=${encodeURIComponent(
-        publicationId
+        publicationId,
       )}`,
       {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     if (response.status === 404) {
@@ -54,7 +54,7 @@ async function fetchLatestReadingLocation(
       console.error(
         "Failed to fetch latest reading location",
         response.status,
-        await response.text()
+        await response.text(),
       );
       return null;
     }
@@ -85,7 +85,7 @@ export default async function BookPage({ params }: Props) {
   }
 
   const serverInitialReadingLocation = await fetchLatestReadingLocation(
-    publicationConfig.id
+    publicationConfig.id,
   );
 
   return (

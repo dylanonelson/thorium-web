@@ -7,7 +7,7 @@ export * from "./useDocumentTitle";
 export * from "./useForcedColors";
 export * from "./useFullscreen";
 export * from "./useLocalStorage";
-export * from "./useMediaQuery"
+export * from "./useMediaQuery";
 export * from "./useMonochrome";
 export * from "./useIsClient";
 export * from "./usePrevious";

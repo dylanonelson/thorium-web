@@ -19,22 +19,24 @@ import { useI18n } from "@/i18n/useI18n";
 import { setHovering } from "@/lib/readerReducer";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-export const StatefulReaderFooter = ({
-  layout
-}: {
-  layout: ThLayoutUI;
-}) => {
+export const StatefulReaderFooter = ({ layout }: { layout: ThLayoutUI }) => {
   const { t } = useI18n();
   const footerRef = useRef<HTMLDivElement>(null);
-  const isImmersive = useAppSelector(state => state.reader.isImmersive);
-  const isHovering = useAppSelector(state => state.reader.isHovering);
-  const hasScrollAffordance = useAppSelector(state => state.reader.hasScrollAffordance);
-  const scroll = useAppSelector(state => state.settings.scroll);
-  const isFXL = useAppSelector(state => state.publication.isFXL);
+  const isImmersive = useAppSelector((state) => state.reader.isImmersive);
+  const isHovering = useAppSelector((state) => state.reader.isHovering);
+  const hasScrollAffordance = useAppSelector(
+    (state) => state.reader.hasScrollAffordance,
+  );
+  const scroll = useAppSelector((state) => state.settings.scroll);
+  const isFXL = useAppSelector((state) => state.publication.isFXL);
   const isScroll = scroll && !isFXL;
-  const breakpoint = useAppSelector(state => state.theming.breakpoint);
-  const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
-  const timeline = useAppSelector(state => state.publication.unstableTimeline);
+  const breakpoint = useAppSelector((state) => state.theming.breakpoint);
+  const reducedMotion = useAppSelector(
+    (state) => state.theming.prefersReducedMotion,
+  );
+  const timeline = useAppSelector(
+    (state) => state.publication.unstableTimeline,
+  );
 
   const dispatch = useAppDispatch();
 
@@ -44,7 +46,7 @@ export const StatefulReaderFooter = ({
     },
     onBlurWithin() {
       dispatch(setHovering(false));
-    }
+    },
   });
 
   const setHover = () => {
@@ -62,9 +64,12 @@ export const StatefulReaderFooter = ({
   const { previousLocator, nextLocator, go } = useEpubNavigator();
 
   const updateLinks = useCallback(() => {
-    const links: { previous?: ThPaginationLinkProps; next?: ThPaginationLinkProps } = {
+    const links: {
+      previous?: ThPaginationLinkProps;
+      next?: ThPaginationLinkProps;
+    } = {
       previous: undefined,
-      next: undefined
+      next: undefined,
     };
 
     const previous = previousLocator();
@@ -72,38 +77,66 @@ export const StatefulReaderFooter = ({
 
     if (previous) {
       links.previous = {
-        node: breakpoint !== ThBreakpoints.compact && breakpoint !== ThBreakpoints.medium ? (
-          <>
-            <span className="sr-only">{ t("reader.navigation.scroll.prevA11yLabel") }</span>
-            <span className={ readerPaginationStyles.paginationLabel }>{ timeline?.previousItem?.title || previous.title || t("reader.navigation.scroll.prevLabel") }</span>
-          </>
-        ) : (
-          <>
-            <span className={ readerPaginationStyles.paginationLabel }>{ t("reader.navigation.scroll.prevLabel") }</span>
-          </>
-        ),
-        onPress: () => go(previous, !reducedMotion, () => {})
-      }
+        node:
+          breakpoint !== ThBreakpoints.compact &&
+          breakpoint !== ThBreakpoints.medium ? (
+            <>
+              <span className="sr-only">
+                {t("reader.navigation.scroll.prevA11yLabel")}
+              </span>
+              <span className={readerPaginationStyles.paginationLabel}>
+                {timeline?.previousItem?.title ||
+                  previous.title ||
+                  t("reader.navigation.scroll.prevLabel")}
+              </span>
+            </>
+          ) : (
+            <>
+              <span className={readerPaginationStyles.paginationLabel}>
+                {t("reader.navigation.scroll.prevLabel")}
+              </span>
+            </>
+          ),
+        onPress: () => go(previous, !reducedMotion, () => {}),
+      };
     }
 
     if (next) {
       links.next = {
-        node: breakpoint !== ThBreakpoints.compact && breakpoint !== ThBreakpoints.medium ? (
-          <>
-            <span className="sr-only">{ t("reader.navigation.scroll.nextA11yLabel") }</span>
-            <span className={ readerPaginationStyles.paginationLabel }>{ timeline?.nextItem?.title || next.title || t("reader.navigation.scroll.nextLabel") }</span>
-          </>
-        ) : ( 
-          <>
-            <span className={ readerPaginationStyles.paginationLabel }>{ t("reader.navigation.scroll.nextLabel") }</span>
-          </>
-        ),
-        onPress: () => go(next, !reducedMotion, () => {})
-      }
+        node:
+          breakpoint !== ThBreakpoints.compact &&
+          breakpoint !== ThBreakpoints.medium ? (
+            <>
+              <span className="sr-only">
+                {t("reader.navigation.scroll.nextA11yLabel")}
+              </span>
+              <span className={readerPaginationStyles.paginationLabel}>
+                {timeline?.nextItem?.title ||
+                  next.title ||
+                  t("reader.navigation.scroll.nextLabel")}
+              </span>
+            </>
+          ) : (
+            <>
+              <span className={readerPaginationStyles.paginationLabel}>
+                {t("reader.navigation.scroll.nextLabel")}
+              </span>
+            </>
+          ),
+        onPress: () => go(next, !reducedMotion, () => {}),
+      };
     }
 
     return links;
-  }, [go, previousLocator, nextLocator, t, timeline, breakpoint, reducedMotion]);
+  }, [
+    go,
+    previousLocator,
+    nextLocator,
+    t,
+    timeline,
+    breakpoint,
+    reducedMotion,
+  ]);
 
   useEffect(() => {
     updateLinks();
@@ -119,46 +152,50 @@ export const StatefulReaderFooter = ({
     }
   }, [isImmersive]);
 
-  return(
+  return (
     <>
-    <ThInteractiveOverlay 
-      id="reader-footer-overlay"
-      className="bar-overlay"
-      isActive={ layout === ThLayoutUI.layered && isImmersive && !isHovering }
-      onMouseEnter={ setHover }
-      onMouseLeave={ removeHover }
-    />
-    
-    <ThFooter 
-      ref={ footerRef }
-      id="bottom-bar" 
-      aria-label={ t("reader.app.footer.label") } 
-      onMouseEnter={ setHover } 
-      onMouseLeave={ removeHover }
-      { ...focusWithinProps }
-    >
-      { isScroll && !isFXL
-        ? <StatefulReaderPagination 
-            aria-label={ t("reader.navigation.scroll.wrapper") }
-            links={ updateLinks() } 
-            compounds={ {
+      <ThInteractiveOverlay
+        id="reader-footer-overlay"
+        className="bar-overlay"
+        isActive={layout === ThLayoutUI.layered && isImmersive && !isHovering}
+        onMouseEnter={setHover}
+        onMouseLeave={removeHover}
+      />
+
+      <ThFooter
+        ref={footerRef}
+        id="bottom-bar"
+        aria-label={t("reader.app.footer.label")}
+        onMouseEnter={setHover}
+        onMouseLeave={removeHover}
+        {...focusWithinProps}
+      >
+        {isScroll && !isFXL ? (
+          <StatefulReaderPagination
+            aria-label={t("reader.navigation.scroll.wrapper")}
+            links={updateLinks()}
+            compounds={{
               listItem: {
-                className: readerPaginationStyles.paginationListItem
+                className: readerPaginationStyles.paginationListItem,
               },
               previousButton: {
                 className: readerPaginationStyles.previousButton,
-                preventFocusOnPress: true
+                preventFocusOnPress: true,
               },
               nextButton: {
                 className: readerPaginationStyles.nextButton,
-                preventFocusOnPress: true
-              }
-            } } 
+                preventFocusOnPress: true,
+              },
+            }}
           >
-            <StatefulReaderProgression className={ readerPaginationStyles.progression } />
-          </StatefulReaderPagination> 
-        : <StatefulReaderProgression /> }
-    </ThFooter>
+            <StatefulReaderProgression
+              className={readerPaginationStyles.progression}
+            />
+          </StatefulReaderPagination>
+        ) : (
+          <StatefulReaderProgression />
+        )}
+      </ThFooter>
     </>
-  )
-}
+  );
+};

@@ -5,11 +5,11 @@ import { ThemeTokens } from "../hooks/useTheming";
 
 export interface buildThemeProps<T extends string> {
   theme?: string;
-  themeKeys: { [key in T]?: ThemeTokens },
+  themeKeys: { [key in T]?: ThemeTokens };
   systemThemes?: {
-    light: T,
-    dark: T
-  },
+    light: T;
+    dark: T;
+  };
   colorScheme?: ThColorScheme;
 }
 
@@ -17,14 +17,17 @@ export const buildThemeObject = <T extends string>({
   theme,
   themeKeys,
   systemThemes,
-  colorScheme
+  colorScheme,
 }: buildThemeProps<T>) => {
   if (!theme) {
     return {};
   }
 
   if (theme === "auto" && colorScheme && systemThemes) {
-    theme = colorScheme === ThColorScheme.dark ? systemThemes.dark : systemThemes.light;
+    theme =
+      colorScheme === ThColorScheme.dark
+        ? systemThemes.dark
+        : systemThemes.light;
   }
 
   let themeProps = {};
@@ -37,7 +40,7 @@ export const buildThemeObject = <T extends string>({
       linkColor: themeToken.link,
       selectionBackgroundColor: themeToken.select,
       selectionTextColor: themeToken.onSelect,
-      visitedColor: themeToken.visited
+      visitedColor: themeToken.visited,
     };
   } else {
     // Fallback if theme doesn't exist
@@ -48,7 +51,7 @@ export const buildThemeObject = <T extends string>({
       linkColor: null,
       selectionBackgroundColor: null,
       selectionTextColor: null,
-      visitedColor: null
+      visitedColor: null,
     };
   }
 

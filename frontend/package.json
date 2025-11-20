@@ -46,7 +46,8 @@
     "deploy": "npx @cloudflare/next-on-pages && npx wrangler pages deploy",
     "preinstall": "npx only-allow pnpm",
     "copy-locales": "cpx \"public/locales/**/*\" dist/locales",
-    "bundle": "tsup --config tsup.config.ts && pnpm copy-locales"
+    "bundle": "tsup --config tsup.config.ts && pnpm copy-locales",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\""
   },
   "peerDependencies": {
     "@readium/css": ">=2.0.0-beta.19",
@@ -109,6 +110,7 @@
     "glob": "^11.0.3",
     "immer": "^10.1.3",
     "js-yaml": "^4.1.1",
+    "prettier": "^3.6.2",
     "tsup": "^8.5.0",
     "typescript": "^5.9.2"
   }

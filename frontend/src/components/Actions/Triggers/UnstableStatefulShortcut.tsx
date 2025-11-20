@@ -2,7 +2,12 @@
 
 import React from "react";
 
-import { UnstableShortcut, UnstableShortcutRepresentation, buildShortcut, metaKeys } from "@/core/Helpers/keyboardUtilities";
+import {
+  UnstableShortcut,
+  UnstableShortcutRepresentation,
+  buildShortcut,
+  metaKeys,
+} from "@/core/Helpers/keyboardUtilities";
 
 import { Keyboard } from "react-aria-components";
 
@@ -14,12 +19,17 @@ export const UnstableStatefulShortcut = ({
   className,
   rawForm,
   representation,
-  joiner
+  joiner,
 }: UnstableShortcut) => {
   const { preferences } = usePreferences();
-  const platformModifier = useAppSelector(state => state.reader.platformModifier);
+  const platformModifier = useAppSelector(
+    (state) => state.reader.platformModifier,
+  );
 
-  representation = representation ? representation : preferences.shortcuts.representation || UnstableShortcutRepresentation.symbol;
+  representation = representation
+    ? representation
+    : preferences.shortcuts.representation ||
+      UnstableShortcutRepresentation.symbol;
   joiner = joiner ? joiner : preferences.shortcuts.joiner || " + ";
 
   const shortcutObj = buildShortcut(rawForm);
@@ -33,7 +43,9 @@ export const UnstableStatefulShortcut = ({
           shortcutRepresentation.push(platformModifier[representation]);
         } else {
           const metaKey = metaKeys[prop];
-          shortcutRepresentation.push(metaKey[representation as UnstableShortcutRepresentation]);
+          shortcutRepresentation.push(
+            metaKey[representation as UnstableShortcutRepresentation],
+          );
         }
       }
     }
@@ -44,18 +56,12 @@ export const UnstableStatefulShortcut = ({
 
     if (shortcutRepresentation.length > 0) {
       const displayShortcut = shortcutRepresentation.join(joiner);
-      
-      return (
-        <Keyboard className={ className }>{ displayShortcut }</Keyboard>
-      ) 
+
+      return <Keyboard className={className}>{displayShortcut}</Keyboard>;
     } else {
-      return (
-        <></>
-      )
+      return <></>;
     }
   }
 
-  return (
-    <></>
-  );
-}
+  return <></>;
+};

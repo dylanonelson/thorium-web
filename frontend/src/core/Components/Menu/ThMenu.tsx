@@ -4,11 +4,21 @@ import React, { useRef } from "react";
 
 import { WithRef } from "../customTypes";
 
-import { Menu, MenuProps, MenuTrigger, MenuTriggerProps, Popover, PopoverProps } from "react-aria-components";
+import {
+  Menu,
+  MenuProps,
+  MenuTrigger,
+  MenuTriggerProps,
+  Popover,
+  PopoverProps,
+} from "react-aria-components";
 
 import { ThMenuButton } from "./ThMenuButton";
 import { ThActionButtonProps } from "../Buttons";
-import { ThActionEntry, ThActionsTriggerVariant } from "../Actions/ThActionsBar";
+import {
+  ThActionEntry,
+  ThActionsTriggerVariant,
+} from "../Actions/ThActionsBar";
 
 export interface THMenuProps<T> extends MenuProps<ThActionEntry<T>> {
   ref?: React.ForwardedRef<HTMLDivElement>;
@@ -29,7 +39,7 @@ export interface THMenuProps<T> extends MenuProps<ThActionEntry<T>> {
      * Props for the popover component. See `PopoverProps` for more information.
      */
     popover?: WithRef<PopoverProps, HTMLDivElement>;
-  }
+  };
 }
 
 export const ThMenu = ({
@@ -46,38 +56,39 @@ export const ThMenu = ({
   if (items) {
     return (
       <>
-      <MenuTrigger 
-        { ...compounds?.menuTrigger }
-      >
-      { compounds?.button && React.isValidElement(compounds.button) 
-        ? compounds.button 
-        : <ThMenuButton 
-            ref={ buttonRef }
-            { ...compounds?.button as ThActionButtonProps }
-          />
-        }
-        <Popover { ...compounds?.popover }>
-          <Menu 
-            ref={ ref }
-            id={ id }
-            dependencies={ dependencies }
-            { ...props }
-          >
-            { Array.from(items).map(({ Trigger, key, associatedKey }) => 
-              <Trigger 
-                key={ `${ key }-menuItem` } 
-                variant={ ThActionsTriggerVariant.menu }
-                { ...(associatedKey ? { associatedKey: associatedKey } : {}) } 
-                { ...props }
+        <MenuTrigger {...compounds?.menuTrigger}>
+          {compounds?.button && React.isValidElement(compounds.button) ? (
+            compounds.button
+          ) : (
+            <ThMenuButton
+              ref={buttonRef}
+              {...(compounds?.button as ThActionButtonProps)}
+            />
+          )}
+          <Popover {...compounds?.popover}>
+            <Menu ref={ref} id={id} dependencies={dependencies} {...props}>
+              {Array.from(items).map(({ Trigger, key, associatedKey }) => (
+                <Trigger
+                  key={`${key}-menuItem`}
+                  variant={ThActionsTriggerVariant.menu}
+                  {...(associatedKey ? { associatedKey: associatedKey } : {})}
+                  {...props}
+                />
+              ))}
+            </Menu>
+          </Popover>
+        </MenuTrigger>
+        {Array.from(items).map(
+          ({ Target, key }) =>
+            Target && (
+              <Target
+                key={`${key}-container`}
+                triggerRef={triggerRef || buttonRef}
+                {...props}
               />
-            )}
-          </Menu>
-        </Popover>
-      </MenuTrigger>
-      { Array.from(items).map(({ Target, key }) => 
-        Target && <Target key={ `${ key }-container` } triggerRef={ triggerRef || buttonRef } { ...props } />
-      )}
+            ),
+        )}
       </>
-    )
+    );
   }
-}
+};

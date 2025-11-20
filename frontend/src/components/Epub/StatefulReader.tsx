@@ -161,7 +161,7 @@ const isValidDate = (value?: string | null) => {
 
 const normalizeStoredLocation = (
   value: unknown,
-  publicationIdFromKey?: string
+  publicationIdFromKey?: string,
 ): LocalStorageReadingLocation | null => {
   if (!value || typeof value !== "object") return null;
   const candidate = value as Partial<LocalStorageReadingLocation>;
@@ -190,7 +190,7 @@ const normalizeStoredLocation = (
 };
 
 const normalizeStoredLocationMap = (
-  value: unknown
+  value: unknown,
 ): Record<string, LocalStorageReadingLocation> => {
   if (!value || typeof value !== "object") return {};
 
@@ -276,12 +276,12 @@ const StatefulReaderInner = ({
   const arrowsWidth = useRef(
     2 *
       ((preferences.theming.arrow.size || 40) +
-        (preferences.theming.arrow.offset || 0))
+        (preferences.theming.arrow.offset || 0)),
   );
 
   const isFXL = useAppSelector((state) => state.publication.isFXL);
   const positionsList = useAppSelector(
-    (state) => state.publication.positionsList
+    (state) => state.publication.positionsList,
   );
 
   const textAlign = useAppSelector((state) => state.settings.textAlign);
@@ -291,33 +291,33 @@ const StatefulReaderInner = ({
   const fontWeight = useAppSelector((state) => state.settings.fontWeight);
   const hyphens = useAppSelector((state) => state.settings.hyphens);
   const letterSpacing = getEffectiveSpacingValue(
-    ThSpacingSettingsKeys.letterSpacing
+    ThSpacingSettingsKeys.letterSpacing,
   );
   const lineLength = useAppSelector((state) => state.settings.lineLength);
   const lineHeight = getEffectiveSpacingValue(ThSpacingSettingsKeys.lineHeight);
   const paragraphIndent = getEffectiveSpacingValue(
-    ThSpacingSettingsKeys.paragraphIndent
+    ThSpacingSettingsKeys.paragraphIndent,
   );
   const paragraphSpacing = getEffectiveSpacingValue(
-    ThSpacingSettingsKeys.paragraphSpacing
+    ThSpacingSettingsKeys.paragraphSpacing,
   );
   const publisherStyles = useAppSelector(
-    (state) => state.settings.publisherStyles
+    (state) => state.settings.publisherStyles,
   );
   const scroll = useAppSelector((state) => state.settings.scroll);
   const isScroll = scroll && !isFXL;
   const textNormalization = useAppSelector(
-    (state) => state.settings.textNormalization
+    (state) => state.settings.textNormalization,
   );
   const wordSpacing = getEffectiveSpacingValue(
-    ThSpacingSettingsKeys.wordSpacing
+    ThSpacingSettingsKeys.wordSpacing,
   );
   const themeObject = useAppSelector((state) => state.theming.theme);
   const theme = isFXL ? themeObject.fxl : themeObject.reflow;
   const previousTheme = usePrevious(theme);
   const colorScheme = useAppSelector((state) => state.theming.colorScheme);
   const reducedMotion = useAppSelector(
-    (state) => state.theming.prefersReducedMotion
+    (state) => state.theming.prefersReducedMotion,
   );
 
   const breakpoint = useAppSelector((state) => state.theming.breakpoint);
@@ -332,8 +332,8 @@ const StatefulReaderInner = ({
   const layoutUI = isFXL
     ? preferences.theming.layout.ui?.fxl || ThLayoutUI.layered
     : isScroll
-    ? preferences.theming.layout.ui?.reflow || ThLayoutUI.layered
-    : ThLayoutUI.stacked;
+      ? preferences.theming.layout.ui?.reflow || ThLayoutUI.layered
+      : ThLayoutUI.stacked;
 
   // Init theming (breakpoints, theme, media queries…)
   useTheming<ThemeKeyType>({
@@ -359,10 +359,10 @@ const StatefulReaderInner = ({
   });
 
   const atPublicationStart = useAppSelector(
-    (state) => state.publication.atPublicationStart
+    (state) => state.publication.atPublicationStart,
   );
   const atPublicationEnd = useAppSelector(
-    (state) => state.publication.atPublicationEnd
+    (state) => state.publication.atPublicationEnd,
   );
 
   const dispatch = useAppDispatch();
@@ -371,7 +371,7 @@ const StatefulReaderInner = ({
     (isFullscreen: boolean) => {
       dispatch(setFullscreen(isFullscreen));
     },
-    [dispatch]
+    [dispatch],
   );
   const fs = useFullscreen(onFsChange);
 
@@ -406,7 +406,7 @@ const StatefulReaderInner = ({
     Record<string, LocalStorageReadingLocation>
   >(normalizeStoredLocationMap(getLocalData()));
   const lastRecordedLocation = useRef<LocalStorageReadingLocation | null>(
-    serverInitialReadingLocation ?? null
+    serverInitialReadingLocation ?? null,
   );
 
   const setLocalReadingLocation = useCallback(
@@ -426,7 +426,7 @@ const StatefulReaderInner = ({
       };
       setLocalData(next);
     },
-    [publicationId, setLocalData]
+    [publicationId, setLocalData],
   );
 
   const syncReadingLocationToServer = useCallback(
@@ -452,14 +452,14 @@ const StatefulReaderInner = ({
           console.error(
             "Failed to sync reading location",
             response.status,
-            await response.text()
+            await response.text(),
           );
         }
       } catch (error) {
         console.error("Failed to sync reading location", error);
       }
     },
-    [publicationId]
+    [publicationId],
   );
 
   const queueReadingLocationUpdate = useMemo(
@@ -479,7 +479,7 @@ const StatefulReaderInner = ({
         setLocalReadingLocation(locator, timestamp);
         syncReadingLocationToServer(nextLocation);
       }, 300),
-    [publicationId, setLocalReadingLocation, syncReadingLocationToServer]
+    [publicationId, setLocalReadingLocation, syncReadingLocationToServer],
   );
   useEffect(() => {
     console.log("queueReadingLocationUpdate", queueReadingLocationUpdate);
@@ -508,7 +508,7 @@ const StatefulReaderInner = ({
       } else if (serverLocation && serverTime !== null) {
         setLocalReadingLocation(
           serverLocation.locator,
-          serverLocation.recordedAt
+          serverLocation.recordedAt,
         );
         return serverLocation;
       }
@@ -519,7 +519,7 @@ const StatefulReaderInner = ({
   }, []);
 
   const [currentLocation, setCurrentLocation] = useState<Locator | undefined>(
-    initialLocationResult?.locator
+    initialLocationResult?.locator,
   );
 
   const timeline = useTimeline({
@@ -622,7 +622,7 @@ const StatefulReaderInner = ({
       if (_cframes) {
         const scrollToggleOnTap =
           preferencesRef.current.affordances.scroll.toggleOnMiddlePointer.includes(
-            "tap"
+            "tap",
           );
         if (!cache.current.settings.scroll) {
           const oneQuarter =
@@ -646,7 +646,7 @@ const StatefulReaderInner = ({
         }
       }
     },
-    [getCframes, goLeft, goRight, toggleIsImmersive, activateImmersiveOnAction]
+    [getCframes, goLeft, goRight, toggleIsImmersive, activateImmersiveOnAction],
   );
 
   // We need this as a workaround due to positionChanged being unreliable
@@ -656,7 +656,7 @@ const StatefulReaderInner = ({
     (locator: Locator) => {
       queueReadingLocationUpdate(locator);
     },
-    [queueReadingLocationUpdate]
+    [queueReadingLocationUpdate],
   );
 
   onFXLPositionChange(handleFXLProgression);
@@ -681,7 +681,7 @@ const StatefulReaderInner = ({
               if (!cache.current.settings.scroll)
                 goRight(
                   !cache.current.reducedMotion,
-                  activateImmersiveOnAction
+                  activateImmersiveOnAction,
                 );
               break;
             case "left":
@@ -703,11 +703,11 @@ const StatefulReaderInner = ({
             shiftKey
               ? goBackward(
                   !cache.current.reducedMotion,
-                  activateImmersiveOnAction
+                  activateImmersiveOnAction,
                 )
               : goForward(
                   !cache.current.reducedMotion,
-                  activateImmersiveOnAction
+                  activateImmersiveOnAction,
                 );
           }
         },
@@ -721,7 +721,7 @@ const StatefulReaderInner = ({
               dispatch(
                 toggleActionOpen({
                   key: actionKey,
-                })
+                }),
               );
               break;
             default:
@@ -738,7 +738,7 @@ const StatefulReaderInner = ({
       activateImmersiveOnAction,
       fs,
       dispatch,
-    ]
+    ],
   );
 
   const listeners: EpubNavigatorListeners = useMemo(
@@ -749,7 +749,7 @@ const StatefulReaderInner = ({
         _cframes?.forEach(
           (frameManager: FrameManager | FXLFrameManager | undefined) => {
             if (frameManager) peripherals.observe(frameManager.window);
-          }
+          },
         );
         peripherals.observe(window);
       },
@@ -782,7 +782,7 @@ const StatefulReaderInner = ({
           if (
             !cache.current.settings.scroll ||
             preferencesRef.current.affordances.scroll.toggleOnMiddlePointer.includes(
-              "click"
+              "click",
             )
           ) {
             handleTap(_e);
@@ -846,7 +846,7 @@ const StatefulReaderInner = ({
       handleTap,
       isScrollStart,
       isScrollEnd,
-    ]
+    ],
   );
 
   const applyConstraint = useCallback(
@@ -855,7 +855,7 @@ const StatefulReaderInner = ({
         constraint: value,
       });
     },
-    [submitPreferences]
+    [submitPreferences],
   );
 
   // Handling side effects on Navigator
@@ -1001,7 +1001,7 @@ const StatefulReaderInner = ({
         setTheme({
           key: isFXL ? "fxl" : "reflow",
           value: themeKey,
-        })
+        }),
       );
     };
 
@@ -1032,7 +1032,7 @@ const StatefulReaderInner = ({
       new Publication({
         manifest: manifest,
         fetcher: fetcher,
-      })
+      }),
     );
   }, [rawManifest, selfHref]);
 
@@ -1043,8 +1043,8 @@ const StatefulReaderInner = ({
     dispatch(
       setRTL(
         publication.metadata.effectiveReadingProgression ===
-          ReadingProgression.rtl
-      )
+          ReadingProgression.rtl,
+      ),
     );
     dispatch(setFXL(publication.metadata.effectiveLayout === Layout.fixed));
 
@@ -1100,8 +1100,8 @@ const StatefulReaderInner = ({
               lineHeight: cache.current.settings.publisherStyles
                 ? undefined
                 : cache.current.settings.lineHeight === null
-                ? null
-                : lineHeightOptions[cache.current.settings.lineHeight],
+                  ? null
+                  : lineHeightOptions[cache.current.settings.lineHeight],
               optimalLineLength:
                 cache.current.settings.lineLength?.optimal != null
                   ? cache.current.settings.lineLength.optimal
@@ -1110,14 +1110,14 @@ const StatefulReaderInner = ({
                 ?.isDisabled
                 ? null
                 : cache.current.settings.lineLength?.max?.chars != null
-                ? cache.current.settings.lineLength.max.chars
-                : undefined,
+                  ? cache.current.settings.lineLength.max.chars
+                  : undefined,
               minimalLineLength: cache.current.settings.lineLength?.min
                 ?.isDisabled
                 ? null
                 : cache.current.settings.lineLength?.min?.chars != null
-                ? cache.current.settings.lineLength.min.chars
-                : undefined,
+                  ? cache.current.settings.lineLength.min.chars
+                  : undefined,
               paragraphIndent: cache.current.settings.publisherStyles
                 ? undefined
                 : cache.current.settings.paragraphIndent,
@@ -1163,7 +1163,7 @@ const StatefulReaderInner = ({
             preferences: epubPreferences,
             defaults: defaults,
           },
-          () => peripherals.observe(window)
+          () => peripherals.observe(window),
         );
       })
       .finally(() => {
@@ -1176,6 +1176,7 @@ const StatefulReaderInner = ({
     return () => {
       EpubNavigatorDestroy(() => peripherals.destroy());
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publication, preferences, fxlThemeKeys, reflowThemeKeys]);
 
@@ -1197,7 +1198,7 @@ const StatefulReaderInner = ({
                 isHovering ? "isHovering" : "",
                 isScroll ? "isScroll" : "isPaged",
                 layoutUI,
-                breakpoint
+                breakpoint,
               )}
             >
               <StatefulReaderHeader layout={layoutUI} />

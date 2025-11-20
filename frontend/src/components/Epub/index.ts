@@ -20,24 +20,15 @@ export * from "../StatefulPreferencesProvider";
 // export * from "../StatefulReaderRunningHead";
 // export * from "../StatefulBackLink";
 
-export {
-  useEpubNavigator
-} from "../../core/Hooks";
+export { useEpubNavigator } from "../../core/Hooks";
 
 export * from "../../core/Helpers";
 export * from "../../lib";
 
-export {
-  usePreferences,
-  ThPreferencesProvider,
-} from "../../preferences";
+export { usePreferences, ThPreferencesProvider } from "../../preferences";
 
-export {
-  useTheming
-} from "../../preferences/hooks";
+export { useTheming } from "../../preferences/hooks";
 
 export * from "../../i18n";
 
-export {
-  usePublication
-} from "../../hooks";
+export { usePublication } from "../../hooks";

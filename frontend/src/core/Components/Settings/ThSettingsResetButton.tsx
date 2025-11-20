@@ -12,18 +12,15 @@ export const ThSettingsResetButton = ({
   ...props
 }: ThActionButtonProps) => {
   return (
-    <ThActionButton
-      ref={ ref }
-      compounds={ compounds }
-      { ...props }
-    >
-      { children 
-        ? children 
-        : <>
-          <Undo aria-hidden="true" focusable="false" /> 
-          { label }
-          </> 
-      }
+    <ThActionButton ref={ref} compounds={compounds} {...props}>
+      {children ? (
+        children
+      ) : (
+        <>
+          <Undo aria-hidden="true" focusable="false" />
+          {label}
+        </>
+      )}
     </ThActionButton>
-  )
-}
+  );
+};

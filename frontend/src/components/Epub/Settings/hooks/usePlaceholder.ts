@@ -3,9 +3,13 @@ import { ThSettingsRangePlaceholder } from "@/preferences";
 import { useI18n } from "@/i18n/useI18n";
 
 export const usePlaceholder = (
-  placeholder: ThSettingsRangePlaceholder | string | { key: string; fallback?: string } | undefined,
+  placeholder:
+    | ThSettingsRangePlaceholder
+    | string
+    | { key: string; fallback?: string }
+    | undefined,
   range: [number, number],
-  format?: "percent" | "number" | "multiplier"
+  format?: "percent" | "number" | "multiplier",
 ): string | undefined => {
   const { t } = useI18n();
 
@@ -24,23 +28,27 @@ export const usePlaceholder = (
         const maxRange = range[1] * 100;
         const minPercent = minRange === 0 ? "0" : `${minRange}%`;
         const maxPercent = maxRange === 0 ? "0" : `${maxRange}%`;
-        return `${ minPercent } - ${ maxPercent }`;
+        return `${minPercent} - ${maxPercent}`;
       case "multiplier":
         const minMultiplierRange = range[0];
         const maxMultiplierRange = range[1];
-        const minMultiplier = minMultiplierRange === 0 ? "0" : `${minMultiplierRange}×`;
-        const maxMultiplier = maxMultiplierRange === 0 ? "0" : `${maxMultiplierRange}×`;
-        return `${ minMultiplier } - ${ maxMultiplier }`;
+        const minMultiplier =
+          minMultiplierRange === 0 ? "0" : `${minMultiplierRange}×`;
+        const maxMultiplier =
+          maxMultiplierRange === 0 ? "0" : `${maxMultiplierRange}×`;
+        return `${minMultiplier} - ${maxMultiplier}`;
       case "number":
       default:
-        return `${ range[0] } - ${ range[1] }`;
+        return `${range[0]} - ${range[1]}`;
     }
   }
 
   // Handle i18n object
   if (typeof placeholder === "object" && "key" in placeholder) {
     const translatedPlaceholder = t(placeholder.key);
-    return translatedPlaceholder !== placeholder.key ? translatedPlaceholder : placeholder.fallback;
+    return translatedPlaceholder !== placeholder.key
+      ? translatedPlaceholder
+      : placeholder.fallback;
   }
 
   // Handle string values (literal text, not translated)

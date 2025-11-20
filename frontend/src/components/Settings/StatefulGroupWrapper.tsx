@@ -3,7 +3,11 @@
 import readerSharedUI from "../assets/styles/readerSharedUI.module.css";
 import settingsStyles from "./assets/styles/settings.module.css";
 
-import { ThSettingsGroupPref, ThSpacingSettingsKeys, ThTextSettingsKeys } from "@/preferences";
+import {
+  ThSettingsGroupPref,
+  ThSpacingSettingsKeys,
+  ThTextSettingsKeys,
+} from "@/preferences";
 import { PressEvent } from "react-aria";
 import { SettingComponent } from "@/components/Plugins/PluginRegistry";
 
@@ -33,50 +37,58 @@ export const StatefulGroupWrapper = ({
   onPressMore,
   componentsMap,
   prefs,
-  defaultPrefs
+  defaultPrefs,
 }: StatefulGroupWrapperProps) => {
   const { preferences } = usePreferences();
-  
+
   const main = prefs?.main || defaultPrefs.main;
-  const displayOrder = prefs?.subPanel !== undefined 
-    ? prefs.subPanel 
-    : defaultPrefs.subPanel;
+  const displayOrder =
+    prefs?.subPanel !== undefined ? prefs.subPanel : defaultPrefs.subPanel;
 
   const resolvedPrefs = {
     main: main,
-    subPanel: displayOrder
+    subPanel: displayOrder,
   };
-  
-  return(
+
+  return (
     <>
-    <ThSettingsWrapper
-      className={ classNames(settingsStyles.readerSettingsGroup, settingsStyles.readerSettingsAdvancedGroup) }
-      items={ componentsMap }
-      prefs={ resolvedPrefs }
-      compounds={{
-        label: heading,
-        heading: {
-          className: classNames(settingsStyles.readerSettingsLabel, settingsStyles.readerSettingsGroupLabel)
-        },
-        button: {
-          className: classNames(readerSharedUI.icon, settingsStyles.readerSettingsAdvancedIcon),
-          "aria-label": moreLabel,
-          compounds: {
-            tooltipTrigger: {
-              delay: preferences.theming.icon.tooltipDelay,
-              closeDelay: preferences.theming.icon.tooltipDelay
-            },
-            tooltip: {
-              className: readerSharedUI.tooltip,
-              placement: "top",
-              offset: preferences.theming.icon.tooltipOffset || 0
-            },
-            label: moreTooltip
+      <ThSettingsWrapper
+        className={classNames(
+          settingsStyles.readerSettingsGroup,
+          settingsStyles.readerSettingsAdvancedGroup,
+        )}
+        items={componentsMap}
+        prefs={resolvedPrefs}
+        compounds={{
+          label: heading,
+          heading: {
+            className: classNames(
+              settingsStyles.readerSettingsLabel,
+              settingsStyles.readerSettingsGroupLabel,
+            ),
           },
-          onPress: onPressMore
-        }
-      }}
-    />
+          button: {
+            className: classNames(
+              readerSharedUI.icon,
+              settingsStyles.readerSettingsAdvancedIcon,
+            ),
+            "aria-label": moreLabel,
+            compounds: {
+              tooltipTrigger: {
+                delay: preferences.theming.icon.tooltipDelay,
+                closeDelay: preferences.theming.icon.tooltipDelay,
+              },
+              tooltip: {
+                className: readerSharedUI.tooltip,
+                placement: "top",
+                offset: preferences.theming.icon.tooltipOffset || 0,
+              },
+              label: moreTooltip,
+            },
+            onPress: onPressMore,
+          },
+        }}
+      />
     </>
-  )
-}
+  );
+};

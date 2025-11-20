@@ -2,17 +2,14 @@
 
 import { HTMLAttributesWithRef } from "../customTypes";
 
-export const ThHeader = ({ 
+export const ThHeader = ({
   ref,
   children,
-  ...props 
+  ...props
 }: HTMLAttributesWithRef<HTMLDivElement>) => {
   return (
-    <header 
-      ref={ ref } 
-      { ...props }
-    >
-      { children }
+    <header ref={ref} {...props}>
+      {children}
     </header>
-  )
-}
+  );
+};

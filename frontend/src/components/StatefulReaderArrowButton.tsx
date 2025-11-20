@@ -7,7 +7,10 @@ import readerSharedUI from "./assets/styles/readerSharedUI.module.css";
 
 import { PressEvent } from "react-aria";
 
-import { ThNavigationButton, ThNavigationButtonProps } from "@/core/Components/Buttons/ThNavigationButton";
+import {
+  ThNavigationButton,
+  ThNavigationButtonProps,
+} from "@/core/Components/Buttons/ThNavigationButton";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 import { usePrevious } from "@/core/Hooks/usePrevious";
@@ -18,10 +21,10 @@ import { setArrows } from "@/lib/readerReducer";
 
 import { isActiveElement } from "@/core/Helpers/focusUtilities";
 
-
 import classNames from "classnames";
 
-export interface StatefulReaderArrowButtonProps extends ThNavigationButtonProps {
+export interface StatefulReaderArrowButtonProps
+  extends ThNavigationButtonProps {
   direction: "left" | "right";
   occupySpace: boolean;
 }
@@ -36,15 +39,15 @@ export const StatefulReaderArrowButton = ({
 }: StatefulReaderArrowButtonProps) => {
   const { preferences } = usePreferences();
   const { t } = useI18n();
-  
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const isRTL = useAppSelector(state => state.publication.isRTL);
-  const hasArrows = useAppSelector(state => state.reader.hasArrows);
 
-  const scroll = useAppSelector(state => state.settings.scroll);
-  const isFXL = useAppSelector(state => state.publication.isFXL);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const isRTL = useAppSelector((state) => state.publication.isRTL);
+  const hasArrows = useAppSelector((state) => state.reader.hasArrows);
+
+  const scroll = useAppSelector((state) => state.settings.scroll);
+  const isFXL = useAppSelector((state) => state.publication.isFXL);
   const isScroll = scroll && !isFXL;
-  
+
   const wasScroll = usePrevious(isScroll);
 
   const dispatch = useAppDispatch();
@@ -53,14 +56,12 @@ export const StatefulReaderArrowButton = ({
 
   const switchedFromScrollable = () => {
     return wasScroll && !isScroll;
-  }
+  };
 
-  const label = (
-    direction === "right" && !isRTL || 
-    direction === "left" && isRTL
-  ) 
-    ? t("reader.navigation.goForward") 
-    : t("reader.navigation.goBackward");
+  const label =
+    (direction === "right" && !isRTL) || (direction === "left" && isRTL)
+      ? t("reader.navigation.goForward")
+      : t("reader.navigation.goBackward");
 
   const handleClassNameFromState = () => {
     let className = "";
@@ -79,12 +80,15 @@ export const StatefulReaderArrowButton = ({
   };
 
   useEffect(() => {
-    if ((isDisabled || (!hasArrows && !isHovering)) && isActiveElement(buttonRef.current)) {
+    if (
+      (isDisabled || (!hasArrows && !isHovering)) &&
+      isActiveElement(buttonRef.current)
+    ) {
       buttonRef.current!.blur();
     }
   });
 
-  const blurOnEsc = (event: React.KeyboardEvent) => {    
+  const blurOnEsc = (event: React.KeyboardEvent) => {
     if (isActiveElement(buttonRef.current) && event.code === "Escape") {
       buttonRef.current!.blur();
     }
@@ -93,33 +97,37 @@ export const StatefulReaderArrowButton = ({
   const handleOnPress = (e: PressEvent, cb: (e: PressEvent) => void) => {
     dispatch(setArrows(false));
     cb(e);
-  }
+  };
 
   return (
     <>
-    <ThNavigationButton 
-      direction={ direction }
-      ref= { buttonRef }
-      aria-label={ label }
-      onPress={ (e: PressEvent) => onPress && handleOnPress(e, onPress) }
-      onHoverChange={ (isHovering: boolean) => setIsHovering(isHovering) } 
-      onKeyDown={ blurOnEsc }
-      className={ classNames(className, handleClassNameFromSpaceProp(), handleClassNameFromState()) }
-      isDisabled={ isDisabled }
-      preventFocusOnPress={ true }
-      { ...props }
-      compounds={ {
-        tooltipTrigger: {
-          delay: preferences.theming.arrow.tooltipDelay,
-          closeDelay: preferences.theming.arrow.tooltipDelay
-        },
-        tooltip: {
-          placement: direction === "left" ? "right" : "left",
-          className: readerSharedUI.tooltip
-        },
-        label: label
-      } }
-    />
+      <ThNavigationButton
+        direction={direction}
+        ref={buttonRef}
+        aria-label={label}
+        onPress={(e: PressEvent) => onPress && handleOnPress(e, onPress)}
+        onHoverChange={(isHovering: boolean) => setIsHovering(isHovering)}
+        onKeyDown={blurOnEsc}
+        className={classNames(
+          className,
+          handleClassNameFromSpaceProp(),
+          handleClassNameFromState(),
+        )}
+        isDisabled={isDisabled}
+        preventFocusOnPress={true}
+        {...props}
+        compounds={{
+          tooltipTrigger: {
+            delay: preferences.theming.arrow.tooltipDelay,
+            closeDelay: preferences.theming.arrow.tooltipDelay,
+          },
+          tooltip: {
+            placement: direction === "left" ? "right" : "left",
+            className: readerSharedUI.tooltip,
+          },
+          label: label,
+        }}
+      />
     </>
-  )
-}
+  );
+};

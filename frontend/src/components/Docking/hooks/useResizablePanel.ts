@@ -17,32 +17,38 @@ import { useAppSelector } from "@/lib/hooks";
 // There is no guarantee that the panel group is the same size as the window,
 // so we have to rewrite this hook to observe the panel group, and push the new
 // widths to the StatefulDockingWrapper so that it can update panels.
-// Note that the StatefulDockingWrapper cannot pass PanelGroup as a ref, 
+// Note that the StatefulDockingWrapper cannot pass PanelGroup as a ref,
 // it requires using a utility method: getPanelGroupElement(id)
 // See https://github.com/bvaughn/react-resizable-panels/tree/main/packages/react-resizable-panels#can-a-attach-a-ref-to-the-dom-elements
 export const useResizablePanel = (panel: DockStateObject) => {
   const { preferences } = usePreferences();
   const defaultWidth = preferences.theming.layout.defaults.dockingWidth;
   const [pref, setPref] = useState<ThActionsDockedPref | null>(
-    panel.actionKey ? preferences.actions.keys[panel.actionKey as keyof typeof preferences.actions.keys].docked || null : null
+    panel.actionKey
+      ? preferences.actions.keys[
+          panel.actionKey as keyof typeof preferences.actions.keys
+        ].docked || null
+      : null,
   );
 
-  const actionsMap = useAppSelector(state => state.actions.keys);
+  const actionsMap = useAppSelector((state) => state.actions.keys);
   const actions = useActions(actionsMap);
   const previouslyCollapsed = usePrevious(panel.collapsed);
 
   const previousWidth = actions.getDockedWidth(panel.actionKey) || null;
   const width = pref?.width || defaultWidth;
-  const minWidth = pref?.minWidth && pref.minWidth < width 
-    ? pref.minWidth 
-    : defaultWidth < width 
-      ? defaultWidth
-      : width;
-  const maxWidth = pref?.maxWidth && pref.maxWidth > width 
-    ? pref.maxWidth 
-    : defaultWidth > width
-      ? defaultWidth
-      : width;
+  const minWidth =
+    pref?.minWidth && pref.minWidth < width
+      ? pref.minWidth
+      : defaultWidth < width
+        ? defaultWidth
+        : width;
+  const maxWidth =
+    pref?.maxWidth && pref.maxWidth > width
+      ? pref.maxWidth
+      : defaultWidth > width
+        ? defaultWidth
+        : width;
 
   const isPopulated = () => {
     return panel.active && actions.isOpen(panel.actionKey);
@@ -50,18 +56,21 @@ export const useResizablePanel = (panel: DockStateObject) => {
 
   const isCollapsed = () => {
     return panel.collapsed;
-  }
+  };
 
   const forceExpand = () => {
     return !!(isPopulated() && previouslyCollapsed && !panel.collapsed);
-  }
+  };
 
   const currentKey = () => {
     return panel.actionKey;
   };
 
   const isResizable = () => {
-    return isPopulated() ? Math.round(width) > Math.round(minWidth) && Math.round(width) < Math.round(maxWidth) : false;
+    return isPopulated()
+      ? Math.round(width) > Math.round(minWidth) &&
+          Math.round(width) < Math.round(maxWidth)
+      : false;
   };
 
   const hasDragIndicator = () => {
@@ -69,9 +78,9 @@ export const useResizablePanel = (panel: DockStateObject) => {
   };
 
   const getWidth = useCallback(() => {
-    return previousWidth 
-        ? Math.round((previousWidth / window.innerWidth) * 100) 
-        : Math.round((width / window.innerWidth) * 100);
+    return previousWidth
+      ? Math.round((previousWidth / window.innerWidth) * 100)
+      : Math.round((width / window.innerWidth) * 100);
   }, [previousWidth, width]);
 
   const getMinWidth = useCallback(() => {
@@ -82,35 +91,44 @@ export const useResizablePanel = (panel: DockStateObject) => {
     return Math.round((maxWidth / window.innerWidth) * 100);
   }, [maxWidth]);
 
-  const getCurrentPxWidth = useCallback((percentage: number) => {
-    let current = Math.round((percentage * window.innerWidth) / 100);
-    
-    if (current < minWidth) {
-      current = minWidth;
-    }
-    
-    if (current > maxWidth) {
-      current = maxWidth;
-    }
-    
-    return current;
-  }, [minWidth, maxWidth]);
+  const getCurrentPxWidth = useCallback(
+    (percentage: number) => {
+      let current = Math.round((percentage * window.innerWidth) / 100);
 
-  // When the docked action changes, we need to update its preferences 
+      if (current < minWidth) {
+        current = minWidth;
+      }
+
+      if (current > maxWidth) {
+        current = maxWidth;
+      }
+
+      return current;
+    },
+    [minWidth, maxWidth],
+  );
+
+  // When the docked action changes, we need to update its preferences
   useEffect(() => {
-    setPref(panel.actionKey ? preferences.actions.keys[panel.actionKey as keyof typeof preferences.actions.keys].docked || null : null);
+    setPref(
+      panel.actionKey
+        ? preferences.actions.keys[
+            panel.actionKey as keyof typeof preferences.actions.keys
+          ].docked || null
+        : null,
+    );
   }, [panel.actionKey, preferences]);
 
   return {
-    currentKey, 
-    isPopulated, 
-    isCollapsed, 
-    forceExpand, 
+    currentKey,
+    isPopulated,
+    isCollapsed,
+    forceExpand,
     isResizable,
-    hasDragIndicator, 
+    hasDragIndicator,
     getWidth,
     getMinWidth,
     getMaxWidth,
-    getCurrentPxWidth
-  }
-}
+    getCurrentPxWidth,
+  };
+};

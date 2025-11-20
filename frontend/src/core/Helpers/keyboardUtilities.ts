@@ -31,19 +31,19 @@ export enum UnstableShortcutMetaKeywords {
   ctrl = "ctrlKey",
   meta = "metaKey",
   platform = "platformKey",
-  shift = "shiftKey"
+  shift = "shiftKey",
 }
 
 export enum UnstableShortcutRepresentation {
   symbol = "symbol",
   short = "shortform",
-  long = "longform"
-};
+  long = "longform",
+}
 
 export interface UnstableShortcut {
   className?: string;
   rawForm: string;
-  representation?: UnstableShortcutRepresentation; 
+  representation?: UnstableShortcutRepresentation;
   joiner?: string;
 }
 
@@ -57,50 +57,50 @@ export interface UnstablePShortcut {
     metaKey: boolean;
     platformKey: boolean;
     shiftKey: boolean;
-  }
+  };
 }
 
 const altModifier: UnstableMetaKey = {
   longform: "Option",
   shortform: "Alt",
   modifier: "altKey",
-  symbol: "⌥"
-}
+  symbol: "⌥",
+};
 
 const ctrlModifier: UnstableMetaKey & UnstablePlatformModifier = {
   longform: "Control",
   shortform: "Ctrl",
   modifier: "ctrlKey",
-  symbol: "^"
-}
+  symbol: "^",
+};
 
 const metaModifierMac: UnstableMetaKey & UnstablePlatformModifier = {
   longform: "Command",
   shortform: "Cmd",
   modifier: "metaKey",
-  symbol: "⌘"   
-}
+  symbol: "⌘",
+};
 
 const metaModifierWin: UnstableMetaKey = {
   longform: "Windows",
   shortform: "Win",
   modifier: "metaKey",
-  symbol: "⊞"
-}
+  symbol: "⊞",
+};
 
 const shiftModifier: UnstableMetaKey = {
   longform: "Shift",
   shortform: "Shift",
   modifier: "shiftKey",
-  symbol: "⇧"
-}
+  symbol: "⇧",
+};
 
 export const metaKeys: UnstableMetaKeys = {
   altKey: altModifier,
   ctrlKey: ctrlModifier,
   metaKey: isMacish() ? metaModifierMac : metaModifierWin,
-  shiftKey: shiftModifier
-}
+  shiftKey: shiftModifier,
+};
 
 // Platform modifier differs from Mac to Windows so we have to get it dynamically
 
@@ -112,7 +112,7 @@ export const getPlatformModifier = (): UnstablePlatformModifier => {
   } else {
     return ctrlModifier;
   }
-}
+};
 
 export const buildShortcut = (str: string) => {
   let shortcutObj: UnstablePShortcut = {
@@ -123,21 +123,23 @@ export const buildShortcut = (str: string) => {
       ctrlKey: false,
       metaKey: false,
       platformKey: false,
-      shiftKey: false
-    }
-  }
-  
+      shiftKey: false,
+    },
+  };
+
   const shortcutArray = str.split(/\s*?[+-]\s*?/);
 
   shortcutArray.filter((val) => {
-    if ((Object.values(UnstableShortcutMetaKeywords) as string[]).includes(val)) {
+    if (
+      (Object.values(UnstableShortcutMetaKeywords) as string[]).includes(val)
+    ) {
       const trimmedKey = val.trim();
       shortcutObj.modifiers[trimmedKey] = true;
     } else {
       shortcutObj.char = val.trim().toUpperCase();
-      shortcutObj.key = `Key${ val.trim().toUpperCase() }`;
+      shortcutObj.key = `Key${val.trim().toUpperCase()}`;
     }
   });
 
   return shortcutObj.key ? shortcutObj : null;
-}
+};

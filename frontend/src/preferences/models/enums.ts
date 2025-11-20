@@ -2,47 +2,47 @@
 
 export enum ThLayoutUI {
   stacked = "stacked-ui",
-  layered = "layered-ui"
+  layered = "layered-ui",
 }
 
 export enum ThBackLinkVariant {
   arrow = "arrow",
   home = "home",
   library = "library",
-  custom = "custom"
+  custom = "custom",
 }
 
 export enum ThDocumentTitleFormat {
   title = "title",
   chapter = "chapter",
   titleAndChapter = "titleAndChapter",
-  none = "none"
+  none = "none",
 }
 
 export enum ThRunningHeadFormat {
   title = "title",
   chapter = "chapter",
   // titleAndChapter = "titleAndChapter",
-  none = "none"
+  none = "none",
 }
 
 export enum ThProgressionFormat {
-  positionsPercentOfTotal = "positionsPercentOfTotal",  // x-y of z (%)
-  positionsOfTotal = "positionsOfTotal",                // x-y of z
-  positions = "positions",                              // x-y
-  overallProgression = "overallProgression",            // x%
-  positionsLeft = "positionsLeft",                      // x left in chapter
-  readingOrderIndex = "readingOrderIndex",              // x of y
-  resourceProgression = "resourceProgression",          // x%
-  progressionOfResource = "progressionOfResource",      // x% of y
-  none = "none"                                         // nothing displayed
+  positionsPercentOfTotal = "positionsPercentOfTotal", // x-y of z (%)
+  positionsOfTotal = "positionsOfTotal", // x-y of z
+  positions = "positions", // x-y
+  overallProgression = "overallProgression", // x%
+  positionsLeft = "positionsLeft", // x left in chapter
+  readingOrderIndex = "readingOrderIndex", // x of y
+  resourceProgression = "resourceProgression", // x%
+  progressionOfResource = "progressionOfResource", // x% of y
+  none = "none", // nothing displayed
 }
 
 export enum ThActionsKeys {
   fullscreen = "fullscreen",
   jumpToPosition = "jumpToPosition",
   settings = "settings",
-  toc = "toc"
+  toc = "toc",
 }
 
 export enum ThBreakpoints {
@@ -50,20 +50,20 @@ export enum ThBreakpoints {
   medium = "medium",
   expanded = "expanded",
   large = "large",
-  xLarge = "xLarge"
+  xLarge = "xLarge",
 }
 
 export enum ThDockingKeys {
   start = "dockingStart",
   end = "dockingEnd",
-  transient = "dockingTransient"
+  transient = "dockingTransient",
 }
 
 export enum ThDockingTypes {
   none = "none",
   both = "both",
   start = "start",
-  end = "end"
+  end = "end",
 }
 
 export enum ThSettingsKeys {
@@ -84,7 +84,7 @@ export enum ThSettingsKeys {
   textNormalize = "textNormalize",
   theme = "theme",
   wordSpacing = "wordSpacing",
-  zoom = "zoom"
+  zoom = "zoom",
 }
 
 export enum ThTextSettingsKeys {
@@ -92,7 +92,7 @@ export enum ThTextSettingsKeys {
   fontWeight = "fontWeight",
   hyphens = "hyphens",
   textAlign = "textAlign",
-  textNormalize = "textNormalize"
+  textNormalize = "textNormalize",
 }
 
 export enum ThSpacingSettingsKeys {
@@ -102,24 +102,24 @@ export enum ThSpacingSettingsKeys {
   paragraphSpacing = "paragraphSpacing",
   publisherStyles = "publisherStyles",
   spacingPresets = "spacingPresets",
-  wordSpacing = "wordSpacing"
+  wordSpacing = "wordSpacing",
 }
 
 export enum ThSettingsContainerKeys {
   initial = "initial",
   text = "text",
-  spacing = "spacing"
+  spacing = "spacing",
 }
 
 export enum ThSettingsRangeVariant {
   slider = "slider",
   incrementedSlider = "incrementedSlider",
-  numberField = "numberField"
+  numberField = "numberField",
 }
 
 export enum ThSettingsRangePlaceholder {
   range = "range",
-  none = "none"
+  none = "none",
 }
 
 export enum ThSheetTypes {
@@ -127,12 +127,12 @@ export enum ThSheetTypes {
   fullscreen = "fullscreen",
   dockedStart = "docked start",
   dockedEnd = "docked end",
-  bottomSheet = "bottomSheet"
+  bottomSheet = "bottomSheet",
 }
 
 export enum ThSheetHeaderVariant {
   close = "close",
-  previous = "previous"
+  previous = "previous",
 }
 
 export enum ThThemeKeys {
@@ -142,7 +142,7 @@ export enum ThThemeKeys {
   paper = "paper",
   contrast1 = "contrast1",
   contrast2 = "contrast2",
-  contrast3 = "contrast3"
+  contrast3 = "contrast3",
 }
 
 export enum ThSpacingPresetKeys {
@@ -151,28 +151,28 @@ export enum ThSpacingPresetKeys {
   balanced = "balanced",
   loose = "loose",
   accessible = "accessible",
-  custom = "custom"
+  custom = "custom",
 }
 
 export enum ThLayoutDirection {
   rtl = "rtl",
-  ltr = "ltr"
+  ltr = "ltr",
 }
 
-export enum ThLayoutOptions { 
+export enum ThLayoutOptions {
   scroll = "scroll_option",
-  paginated = "page_option"
+  paginated = "page_option",
 }
 
 export enum ThTextAlignOptions {
   publisher = "publisher",
   start = "start",
-  justify = "justify"
+  justify = "justify",
 }
 
 export enum ThLineHeightOptions {
   publisher = "publisher",
   small = "small",
   medium = "medium",
-  large = "large"
+  large = "large",
 }

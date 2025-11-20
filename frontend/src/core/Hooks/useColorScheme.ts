@@ -5,10 +5,12 @@ import { useMediaQuery } from "./useMediaQuery";
 
 export enum ThColorScheme {
   light = "light",
-  dark = "dark"
+  dark = "dark",
 }
 
-export const useColorScheme = (onChange?: (colorScheme: ThColorScheme) => void) => {
+export const useColorScheme = (
+  onChange?: (colorScheme: ThColorScheme) => void,
+) => {
   const [colorScheme, setColorScheme] = useState(ThColorScheme.light);
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
@@ -19,4 +21,4 @@ export const useColorScheme = (onChange?: (colorScheme: ThColorScheme) => void) 
   }, [onChange, prefersDarkMode]);
 
   return colorScheme;
-}
+};

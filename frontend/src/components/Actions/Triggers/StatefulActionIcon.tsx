@@ -7,14 +7,20 @@ import { ThCollapsibilityVisibility } from "@/core/Components/Actions/hooks/useC
 
 import readerSharedUI from "../../assets/styles/readerSharedUI.module.css";
 
-import { ThActionButton, ThActionButtonProps } from "@/core/Components/Buttons/ThActionButton";
+import {
+  ThActionButton,
+  ThActionButtonProps,
+} from "@/core/Components/Buttons/ThActionButton";
 
 import { usePreferences } from "@/preferences/hooks/usePreferences";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setImmersive } from "@/lib/readerReducer";
 
-import { isActiveElement, isKeyboardTriggered } from "@/core/Helpers/focusUtilities";
+import {
+  isActiveElement,
+  isKeyboardTriggered,
+} from "@/core/Helpers/focusUtilities";
 
 import classNames from "classnames";
 
@@ -25,10 +31,10 @@ export interface StatefulActionIconProps extends ThActionButtonProps {
 }
 
 export const StatefulActionIcon = ({
- visibility,
- placement,
- tooltipLabel,
- children,
+  visibility,
+  placement,
+  tooltipLabel,
+  children,
   ...props
 }: StatefulActionIconProps) => {
   const { preferences } = usePreferences();
@@ -39,8 +45,8 @@ export const StatefulActionIcon = ({
 
   const handleClassNameFromState = () => {
     let className = "";
-    
-    switch(visibility) {
+
+    switch (visibility) {
       case ThCollapsibilityVisibility.always:
         className = readerSharedUI.alwaysVisible;
         break;
@@ -52,7 +58,7 @@ export const StatefulActionIcon = ({
         break;
     }
 
-    return className
+    return className;
   };
 
   const defaultOnPressFunc = () => {
@@ -68,34 +74,48 @@ export const StatefulActionIcon = ({
   };
 
   const blurOnEsc = (event: React.KeyboardEvent) => {
-  // TODO: handle Tooltip cos first time you press esc, it’s the tooltip that is closed.
-    if (triggerRef.current && isActiveElement(triggerRef.current) && event.code === "Escape") {
+    // TODO: handle Tooltip cos first time you press esc, it’s the tooltip that is closed.
+    if (
+      triggerRef.current &&
+      isActiveElement(triggerRef.current) &&
+      event.code === "Escape"
+    ) {
       triggerRef.current.blur();
     }
   };
 
   return (
     <ThActionButton
-      ref={ triggerRef }
-      className={ classNames(readerSharedUI.icon, handleClassNameFromState(), props.className) } 
-      onPress={ props.onPress || defaultOnPressFunc }
-      onKeyDown={ blurOnEsc } 
-      onFocus={ handleImmersive }
-      compounds={ tooltipLabel ? {
-        tooltipTrigger: {
-          delay: preferences.theming.icon.tooltipDelay,
-          closeDelay: preferences.theming.icon.tooltipDelay
-        },
-        tooltip: {
-          className: readerSharedUI.tooltip,
-          placement: placement,
-          offset: preferences.theming.icon.tooltipOffset || 0
-        },
-        label: tooltipLabel
-      } : undefined }
-      { ...Object.fromEntries(Object.entries(props).filter(([key]) => key !== "className")) }
+      ref={triggerRef}
+      className={classNames(
+        readerSharedUI.icon,
+        handleClassNameFromState(),
+        props.className,
+      )}
+      onPress={props.onPress || defaultOnPressFunc}
+      onKeyDown={blurOnEsc}
+      onFocus={handleImmersive}
+      compounds={
+        tooltipLabel
+          ? {
+              tooltipTrigger: {
+                delay: preferences.theming.icon.tooltipDelay,
+                closeDelay: preferences.theming.icon.tooltipDelay,
+              },
+              tooltip: {
+                className: readerSharedUI.tooltip,
+                placement: placement,
+                offset: preferences.theming.icon.tooltipOffset || 0,
+              },
+              label: tooltipLabel,
+            }
+          : undefined
+      }
+      {...Object.fromEntries(
+        Object.entries(props).filter(([key]) => key !== "className"),
+      )}
     >
-      { children }
+      {children}
     </ThActionButton>
-  )
+  );
 };

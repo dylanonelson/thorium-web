@@ -1,6 +1,8 @@
 .dockerWrapper {
   margin-inline-start: auto;
-  margin-inline-end: calc(var(--icon-size, 24px) * (1 / 4) * -1); /* Optical alingment */
+  margin-inline-end: calc(
+    var(--icon-size, 24px) * (1 / 4) * -1
+  ); /* Optical alingment */
   display: flex;
   gap: 2px;
   padding-inline-start: var(--layout-spacing);

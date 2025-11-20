@@ -9,19 +9,19 @@ type ScrollOptions = {
   inline?: ScrollLogicalPosition;
 };
 
-type Action = 
-  | { 
+type Action =
+  | {
       type: "focus";
       options?: {
         preventScroll?: boolean;
         scrollContainerToTop?: boolean;
       };
     }
-  | { 
+  | {
       type: "scrollIntoView";
       options?: ScrollOptions;
     }
-  | { 
+  | {
       type: "none";
     };
 
@@ -34,13 +34,16 @@ export interface UseFirstFocusableProps {
   action?: Action;
 }
 
-const isInViewport = (element: Element, container: Element | null = null): boolean => {
+const isInViewport = (
+  element: Element,
+  container: Element | null = null,
+): boolean => {
   const elementRect = element.getBoundingClientRect();
   const containerRect = container?.getBoundingClientRect() ?? {
     top: 0,
     bottom: window.innerHeight,
     left: 0,
-    right: window.innerWidth
+    right: window.innerWidth,
   };
 
   return (
@@ -51,17 +54,17 @@ const isInViewport = (element: Element, container: Element | null = null): boole
   );
 };
 
-// WARNING: This hook is not a general purpose hook, 
+// WARNING: This hook is not a general purpose hook,
 // it is specifically designed to be used with React Aria Components
 // It is not recommended to use it with other libraries or components
 export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
-  const { 
-    withinRef, 
-    fallbackRef, 
-    scrollerRef, 
-    trackedState, 
+  const {
+    withinRef,
+    fallbackRef,
+    scrollerRef,
+    trackedState,
     updateState,
-    action = { type: "none" } // Default to no action if not provided
+    action = { type: "none" }, // Default to no action if not provided
   } = props || {};
 
   // Store action in a ref to avoid triggering useEffect on action change
@@ -78,18 +81,20 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
 
   useEffect(() => {
     if (!withinRef) return;
-    
+
     // If trackedState is false and updateState hasn't changed, do nothing
     if (!trackedState && updateState === previousUpdateState) return;
-    
+
     // Determine what triggered this effect
-    const isTrackedStateUpdate = trackedState && (previousTrackedState !== trackedState);
+    const isTrackedStateUpdate =
+      trackedState && previousTrackedState !== trackedState;
     const isUpdateStateUpdate = updateState !== previousUpdateState;
 
     attemptsRef.current = 0;
 
     const tryFindAndHandle = () => {
-      const targetElement = withinRef.current?.firstElementChild || withinRef.current;
+      const targetElement =
+        withinRef.current?.firstElementChild || withinRef.current;
       let firstFocusable: HTMLElement | null = null;
 
       if (targetElement?.getAttribute("role") === "radiogroup") {
@@ -97,9 +102,12 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
 
         if (selectedEl === null) {
           const inputs = targetElement?.querySelectorAll("input");
-          const input = inputs && Array.from(inputs).find(
-            (input: HTMLInputElement) => !input.disabled && input.tabIndex >= 0
-        );
+          const input =
+            inputs &&
+            Array.from(inputs).find(
+              (input: HTMLInputElement) =>
+                !input.disabled && input.tabIndex >= 0,
+            );
           firstFocusable = input as HTMLElement | null;
         } else if (selectedEl instanceof HTMLElement) {
           firstFocusable = selectedEl;
@@ -107,13 +115,21 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
       }
 
       if (!firstFocusable) {
-        const focusableElements = withinRef.current?.querySelectorAll("a, button, input, select, [data-selected]");
-        const element = focusableElements && Array.from(focusableElements).find(el => {
-          const htmlEl = el as HTMLAnchorElement | HTMLButtonElement | HTMLInputElement | HTMLSelectElement;
-          if (htmlEl instanceof HTMLAnchorElement) return true;
-          if (htmlEl.getAttribute("data-selected") === "true") return true;
-          return !htmlEl.disabled && htmlEl.tabIndex >= 0;
-        });
+        const focusableElements = withinRef.current?.querySelectorAll(
+          "a, button, input, select, [data-selected]",
+        );
+        const element =
+          focusableElements &&
+          Array.from(focusableElements).find((el) => {
+            const htmlEl = el as
+              | HTMLAnchorElement
+              | HTMLButtonElement
+              | HTMLInputElement
+              | HTMLSelectElement;
+            if (htmlEl instanceof HTMLAnchorElement) return true;
+            if (htmlEl.getAttribute("data-selected") === "true") return true;
+            return !htmlEl.disabled && htmlEl.tabIndex >= 0;
+          });
         firstFocusable = element as HTMLElement | null;
       }
 
@@ -122,9 +138,11 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
 
         switch (actionRef.current.type) {
           case "focus": {
-            const preventScroll = actionRef.current.options?.scrollContainerToTop || actionRef.current.options?.preventScroll;
+            const preventScroll =
+              actionRef.current.options?.scrollContainerToTop ||
+              actionRef.current.options?.preventScroll;
             element.focus({ preventScroll: preventScroll ?? false });
-            
+
             // Handle container scrolling if requested
             if (actionRef.current.options?.scrollContainerToTop) {
               const scrollContainer = scrollerRef?.current || withinRef.current;
@@ -132,7 +150,7 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
             }
             break;
           }
-          
+
           case "scrollIntoView":
             if (!isInViewport(element, scrollerRef?.current || null)) {
               element.scrollIntoView(actionRef.current.options);
@@ -195,7 +213,15 @@ export const useFirstFocusable = (props?: UseFirstFocusableProps) => {
         attemptsRef.current = 0;
       };
     }
-  }, [withinRef, fallbackRef, scrollerRef, trackedState, previousUpdateState, updateState, previousTrackedState]);
+  }, [
+    withinRef,
+    fallbackRef,
+    scrollerRef,
+    trackedState,
+    previousUpdateState,
+    updateState,
+    previousTrackedState,
+  ]);
 
   return focusableElement.current;
 };

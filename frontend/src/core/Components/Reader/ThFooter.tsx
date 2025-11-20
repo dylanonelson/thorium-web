@@ -2,17 +2,14 @@
 
 import { HTMLAttributesWithRef } from "../customTypes";
 
-export const ThFooter = ({ 
+export const ThFooter = ({
   ref,
   children,
-  ...props 
+  ...props
 }: HTMLAttributesWithRef<HTMLDivElement>) => {
   return (
-    <aside 
-      ref={ ref } 
-      { ...props }
-    >
-      { children }
+    <aside ref={ref} {...props}>
+      {children}
     </aside>
-  )
-}
+  );
+};

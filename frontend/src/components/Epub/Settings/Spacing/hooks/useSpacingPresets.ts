@@ -1,13 +1,16 @@
 import { useCallback, useMemo } from "react";
 
-import { 
-  ThSettingsKeys, 
-  ThSpacingSettingsKeys, 
-  ThSpacingPresetKeys, 
-  ThLineHeightOptions, 
+import {
+  ThSettingsKeys,
+  ThSpacingSettingsKeys,
+  ThSpacingPresetKeys,
+  ThLineHeightOptions,
 } from "@/preferences/models/enums";
 
-import { defaultSpacingSettingsMain, defaultSpacingSettingsSubpanel } from "@/preferences/models/const";
+import {
+  defaultSpacingSettingsMain,
+  defaultSpacingSettingsSubpanel,
+} from "@/preferences/models/const";
 
 import { usePlugins } from "@/components/Plugins/PluginProvider";
 import { usePreferences } from "@/preferences/hooks/usePreferences";
@@ -22,7 +25,7 @@ import {
   setParagraphSpacing,
   setPublisherStyles,
   setSpacingPreset,
-  setWordSpacing
+  setWordSpacing,
 } from "@/lib/settingsReducer";
 
 /**
@@ -32,8 +35,12 @@ import {
  * and states for spacing components
  */
 export const useSpacingPresets = () => {
-  const isFXL = useAppSelector(state => state.publication.isFXL);
-  const spacing = useAppSelector(state => state.settings?.spacing) || { preset: ThSpacingPresetKeys.publisher, custom: {}, baseline: {} };
+  const isFXL = useAppSelector((state) => state.publication.isFXL);
+  const spacing = useAppSelector((state) => state.settings?.spacing) || {
+    preset: ThSpacingPresetKeys.publisher,
+    custom: {},
+    baseline: {},
+  };
 
   const { spacingSettingsComponentsMap } = usePlugins();
   const { reflowSpacingPresetKeys, fxlSpacingPresetKeys } = usePreferenceKeys();
@@ -47,26 +54,39 @@ export const useSpacingPresets = () => {
   }, [isFXL, fxlSpacingPresetKeys, reflowSpacingPresetKeys]);
 
   // 1. Check if preset component is registered
-  const isComponentRegistered = !!spacingSettingsComponentsMap?.[ThSettingsKeys.spacingPresets];
+  const isComponentRegistered =
+    !!spacingSettingsComponentsMap?.[ThSettingsKeys.spacingPresets];
 
   // 2. Check if preset component is in display order
-  const mainDisplayOrder = preferences.settings?.spacing?.main || defaultSpacingSettingsMain;
-  const subPanelDisplayOrder = preferences.settings?.spacing?.subPanel || defaultSpacingSettingsSubpanel;
+  const mainDisplayOrder =
+    preferences.settings?.spacing?.main || defaultSpacingSettingsMain;
+  const subPanelDisplayOrder =
+    preferences.settings?.spacing?.subPanel || defaultSpacingSettingsSubpanel;
 
-  const isInMainPanel = mainDisplayOrder.includes(ThSpacingSettingsKeys.spacingPresets);
-  const isInSubPanel = subPanelDisplayOrder.includes(ThSpacingSettingsKeys.spacingPresets);
+  const isInMainPanel = mainDisplayOrder.includes(
+    ThSpacingSettingsKeys.spacingPresets,
+  );
+  const isInSubPanel = subPanelDisplayOrder.includes(
+    ThSpacingSettingsKeys.spacingPresets,
+  );
   const isDisplayed = (isInMainPanel || isInSubPanel) && spacingKeys.length > 0;
 
   // 3. Only apply presets if component is both registered AND displayed
   const shouldApplyPresets = isComponentRegistered && isDisplayed;
 
   // Get current state values at the hook level
-  const letterSpacing = useAppSelector(state => state.settings?.letterSpacing);
-  const lineHeight = useAppSelector(state => state.settings?.lineHeight);
-  const lineLength = useAppSelector(state => state.settings?.lineLength);
-  const paragraphIndent = useAppSelector(state => state.settings?.paragraphIndent);
-  const paragraphSpacing = useAppSelector(state => state.settings?.paragraphSpacing);
-  const wordSpacing = useAppSelector(state => state.settings?.wordSpacing);
+  const letterSpacing = useAppSelector(
+    (state) => state.settings?.letterSpacing,
+  );
+  const lineHeight = useAppSelector((state) => state.settings?.lineHeight);
+  const lineLength = useAppSelector((state) => state.settings?.lineLength);
+  const paragraphIndent = useAppSelector(
+    (state) => state.settings?.paragraphIndent,
+  );
+  const paragraphSpacing = useAppSelector(
+    (state) => state.settings?.paragraphSpacing,
+  );
+  const wordSpacing = useAppSelector((state) => state.settings?.wordSpacing);
 
   // Helper function to get base Redux state value for a setting key
   const getBaseReduxValue = (key: ThSpacingSettingsKeys): any => {
@@ -102,43 +122,85 @@ export const useSpacingPresets = () => {
   };
 
   // Helper function to get preset value for a setting key
-  const getPresetValue = useCallback((presetKey: ThSpacingPresetKeys, settingKey: ThSpacingSettingsKeys): any => {
-    if (presetKey === ThSpacingPresetKeys.custom) {
-      return spacing.custom?.[settingKey as SpacingStateKey];
-    }
+  const getPresetValue = useCallback(
+    (
+      presetKey: ThSpacingPresetKeys,
+      settingKey: ThSpacingSettingsKeys,
+    ): any => {
+      if (presetKey === ThSpacingPresetKeys.custom) {
+        return spacing.custom?.[settingKey as SpacingStateKey];
+      }
 
-    // Only try to get from config for presets that have defined values
-    if (presetKey !== ThSpacingPresetKeys.publisher) {
-      const spacingConfig = preferences.settings.spacing?.presets;
-      if (spacingConfig?.keys) {
-        const presetValues = spacingConfig.keys[presetKey as ThSpacingPresetKeys.tight | ThSpacingPresetKeys.balanced | ThSpacingPresetKeys.loose | ThSpacingPresetKeys.accessible];
-        const presetValue = presetValues?.[settingKey as unknown as keyof typeof presetValues];
-        if (presetValue !== undefined) {
-          return presetValue;
+      // Only try to get from config for presets that have defined values
+      if (presetKey !== ThSpacingPresetKeys.publisher) {
+        const spacingConfig = preferences.settings.spacing?.presets;
+        if (spacingConfig?.keys) {
+          const presetValues =
+            spacingConfig.keys[
+              presetKey as
+                | ThSpacingPresetKeys.tight
+                | ThSpacingPresetKeys.balanced
+                | ThSpacingPresetKeys.loose
+                | ThSpacingPresetKeys.accessible
+            ];
+          const presetValue =
+            presetValues?.[settingKey as unknown as keyof typeof presetValues];
+          if (presetValue !== undefined) {
+            return presetValue;
+          }
         }
       }
-    }
 
-    return getDefaultValue(settingKey);
-  }, [preferences.settings.spacing?.presets, spacing.custom]);
+      return getDefaultValue(settingKey);
+    },
+    [preferences.settings.spacing?.presets, spacing.custom],
+  );
 
-  const getPresetValuesCallback = useCallback((presetKey: ThSpacingPresetKeys) => {
-    return {
-      [ThSpacingSettingsKeys.letterSpacing]: getPresetValue(presetKey, ThSpacingSettingsKeys.letterSpacing),
-      [ThSpacingSettingsKeys.lineHeight]: getPresetValue(presetKey, ThSpacingSettingsKeys.lineHeight),
-      [ThSpacingSettingsKeys.paragraphIndent]: getPresetValue(presetKey, ThSpacingSettingsKeys.paragraphIndent),
-      [ThSpacingSettingsKeys.paragraphSpacing]: getPresetValue(presetKey, ThSpacingSettingsKeys.paragraphSpacing),
-      [ThSpacingSettingsKeys.wordSpacing]: getPresetValue(presetKey, ThSpacingSettingsKeys.wordSpacing),
-    };
-  }, [getPresetValue]);
+  const getPresetValuesCallback = useCallback(
+    (presetKey: ThSpacingPresetKeys) => {
+      return {
+        [ThSpacingSettingsKeys.letterSpacing]: getPresetValue(
+          presetKey,
+          ThSpacingSettingsKeys.letterSpacing,
+        ),
+        [ThSpacingSettingsKeys.lineHeight]: getPresetValue(
+          presetKey,
+          ThSpacingSettingsKeys.lineHeight,
+        ),
+        [ThSpacingSettingsKeys.paragraphIndent]: getPresetValue(
+          presetKey,
+          ThSpacingSettingsKeys.paragraphIndent,
+        ),
+        [ThSpacingSettingsKeys.paragraphSpacing]: getPresetValue(
+          presetKey,
+          ThSpacingSettingsKeys.paragraphSpacing,
+        ),
+        [ThSpacingSettingsKeys.wordSpacing]: getPresetValue(
+          presetKey,
+          ThSpacingSettingsKeys.wordSpacing,
+        ),
+      };
+    },
+    [getPresetValue],
+  );
 
   // Helper function to get effective spacing value with proper return types
   // Function overloads for proper typing
-  function getEffectiveSpacingValue(key: ThSpacingSettingsKeys.letterSpacing): number | null;
-  function getEffectiveSpacingValue(key: ThSpacingSettingsKeys.lineHeight): ThLineHeightOptions | null;
-  function getEffectiveSpacingValue(key: ThSpacingSettingsKeys.paragraphIndent): number | null;
-  function getEffectiveSpacingValue(key: ThSpacingSettingsKeys.paragraphSpacing): number | null;
-  function getEffectiveSpacingValue(key: ThSpacingSettingsKeys.wordSpacing): number | null;
+  function getEffectiveSpacingValue(
+    key: ThSpacingSettingsKeys.letterSpacing,
+  ): number | null;
+  function getEffectiveSpacingValue(
+    key: ThSpacingSettingsKeys.lineHeight,
+  ): ThLineHeightOptions | null;
+  function getEffectiveSpacingValue(
+    key: ThSpacingSettingsKeys.paragraphIndent,
+  ): number | null;
+  function getEffectiveSpacingValue(
+    key: ThSpacingSettingsKeys.paragraphSpacing,
+  ): number | null;
+  function getEffectiveSpacingValue(
+    key: ThSpacingSettingsKeys.wordSpacing,
+  ): number | null;
   function getEffectiveSpacingValue(key: ThSpacingSettingsKeys): any {
     // If preset system is not active, return Redux state directly
     if (!shouldApplyPresets) {
@@ -154,27 +216,47 @@ export const useSpacingPresets = () => {
     }
 
     return getPresetValue(spacing.preset, key);
-  };
+  }
 
   // Helper function to get reset spacing value (pure preset values, ignoring customizations)
   // Function overloads for proper typing
-  function getSpacingResetValue(key: ThSpacingSettingsKeys.letterSpacing): number | null;
-  function getSpacingResetValue(key: ThSpacingSettingsKeys.lineHeight): ThLineHeightOptions | null;
-  function getSpacingResetValue(key: ThSpacingSettingsKeys.paragraphIndent): number | null;
-  function getSpacingResetValue(key: ThSpacingSettingsKeys.paragraphSpacing): number | null;
-  function getSpacingResetValue(key: ThSpacingSettingsKeys.wordSpacing): number | null;
+  function getSpacingResetValue(
+    key: ThSpacingSettingsKeys.letterSpacing,
+  ): number | null;
+  function getSpacingResetValue(
+    key: ThSpacingSettingsKeys.lineHeight,
+  ): ThLineHeightOptions | null;
+  function getSpacingResetValue(
+    key: ThSpacingSettingsKeys.paragraphIndent,
+  ): number | null;
+  function getSpacingResetValue(
+    key: ThSpacingSettingsKeys.paragraphSpacing,
+  ): number | null;
+  function getSpacingResetValue(
+    key: ThSpacingSettingsKeys.wordSpacing,
+  ): number | null;
   function getSpacingResetValue(key: ThSpacingSettingsKeys): any {
     if (!shouldApplyPresets) {
       return getDefaultValue(key);
     }
 
     if (spacing.preset) {
-      if (spacing.preset !== ThSpacingPresetKeys.publisher && 
-          spacing.preset !== ThSpacingPresetKeys.custom) {
+      if (
+        spacing.preset !== ThSpacingPresetKeys.publisher &&
+        spacing.preset !== ThSpacingPresetKeys.custom
+      ) {
         const spacingConfig = preferences.settings?.spacing?.presets;
         if (spacingConfig?.keys) {
-        const presetValues = spacingConfig.keys[spacing.preset as ThSpacingPresetKeys.tight | ThSpacingPresetKeys.balanced | ThSpacingPresetKeys.loose | ThSpacingPresetKeys.accessible];
-          const presetValue = presetValues?.[key as unknown as keyof typeof presetValues];
+          const presetValues =
+            spacingConfig.keys[
+              spacing.preset as
+                | ThSpacingPresetKeys.tight
+                | ThSpacingPresetKeys.balanced
+                | ThSpacingPresetKeys.loose
+                | ThSpacingPresetKeys.accessible
+            ];
+          const presetValue =
+            presetValues?.[key as unknown as keyof typeof presetValues];
           if (presetValue !== undefined) {
             return presetValue;
           }
@@ -186,81 +268,110 @@ export const useSpacingPresets = () => {
     return getDefaultValue(key);
   }
 
-  const getEffectiveSpacingValueCallback = useCallback(getEffectiveSpacingValue, [
+  const getEffectiveSpacingValueCallback = useCallback(
     getEffectiveSpacingValue,
-    shouldApplyPresets,
-    spacing.preset,
-    spacing.custom,
-    spacing.baseline,
-    preferences.settings?.spacing?.presets,
-    letterSpacing,
-    lineHeight,
-    lineLength,
-    paragraphIndent,
-    paragraphSpacing,
-    wordSpacing
-  ]);
+    [
+      getEffectiveSpacingValue,
+      shouldApplyPresets,
+      spacing.preset,
+      spacing.custom,
+      spacing.baseline,
+      preferences.settings?.spacing?.presets,
+      letterSpacing,
+      lineHeight,
+      lineLength,
+      paragraphIndent,
+      paragraphSpacing,
+      wordSpacing,
+    ],
+  );
 
   const getSpacingResetValueCallback = useCallback(getSpacingResetValue, [
     shouldApplyPresets,
     getSpacingResetValue,
     spacing.preset,
-    preferences.settings?.spacing?.presets
+    preferences.settings?.spacing?.presets,
   ]);
 
-  const canBeResetCallback = useCallback((key: ThSpacingSettingsKeys): boolean => {
-    const effectiveValue = getEffectiveSpacingValueCallback(key as any);
-    return effectiveValue !== null && effectiveValue !== undefined;
-  }, [getEffectiveSpacingValueCallback]);
+  const canBeResetCallback = useCallback(
+    (key: ThSpacingSettingsKeys): boolean => {
+      const effectiveValue = getEffectiveSpacingValueCallback(key as any);
+      return effectiveValue !== null && effectiveValue !== undefined;
+    },
+    [getEffectiveSpacingValueCallback],
+  );
 
   // Spacing actions (automatically handle preset logic)
 
-  const setLetterSpacingAction = useCallback((value: number | null) => {
-    const payload: any = { value };
-    if (shouldApplyPresets && spacing.preset) {
-      payload.preset = spacing.preset;
-    }
-    dispatch(setLetterSpacing(payload));
-  }, [dispatch, shouldApplyPresets, spacing.preset]);
+  const setLetterSpacingAction = useCallback(
+    (value: number | null) => {
+      const payload: any = { value };
+      if (shouldApplyPresets && spacing.preset) {
+        payload.preset = spacing.preset;
+      }
+      dispatch(setLetterSpacing(payload));
+    },
+    [dispatch, shouldApplyPresets, spacing.preset],
+  );
 
-  const setLineHeightAction = useCallback((value: ThLineHeightOptions) => {
-    const payload: any = { value };
-    if (shouldApplyPresets && spacing.preset) {
-      payload.preset = spacing.preset;
-    }
-    dispatch(setLineHeight(payload));
-  }, [dispatch, shouldApplyPresets, spacing.preset]);
+  const setLineHeightAction = useCallback(
+    (value: ThLineHeightOptions) => {
+      const payload: any = { value };
+      if (shouldApplyPresets && spacing.preset) {
+        payload.preset = spacing.preset;
+      }
+      dispatch(setLineHeight(payload));
+    },
+    [dispatch, shouldApplyPresets, spacing.preset],
+  );
 
-  const setParagraphIndentAction = useCallback((value: number | null) => {
-    const payload: any = { value };
-    if (shouldApplyPresets && spacing.preset) {
-      payload.preset = spacing.preset;
-    }
-    dispatch(setParagraphIndent(payload));
-  }, [dispatch, shouldApplyPresets, spacing.preset]);
+  const setParagraphIndentAction = useCallback(
+    (value: number | null) => {
+      const payload: any = { value };
+      if (shouldApplyPresets && spacing.preset) {
+        payload.preset = spacing.preset;
+      }
+      dispatch(setParagraphIndent(payload));
+    },
+    [dispatch, shouldApplyPresets, spacing.preset],
+  );
 
-  const setParagraphSpacingAction = useCallback((value: number | null) => {
-    const payload: any = { value };
-    if (shouldApplyPresets && spacing.preset) {
-      payload.preset = spacing.preset;
-    }
-    dispatch(setParagraphSpacing(payload));
-  }, [dispatch, shouldApplyPresets, spacing.preset]);
+  const setParagraphSpacingAction = useCallback(
+    (value: number | null) => {
+      const payload: any = { value };
+      if (shouldApplyPresets && spacing.preset) {
+        payload.preset = spacing.preset;
+      }
+      dispatch(setParagraphSpacing(payload));
+    },
+    [dispatch, shouldApplyPresets, spacing.preset],
+  );
 
-  const setWordSpacingAction = useCallback((value: number | null) => {
-    const payload: any = { value };
-    if (shouldApplyPresets && spacing.preset) {
-      payload.preset = spacing.preset;
-    }
-    dispatch(setWordSpacing(payload));
-  }, [dispatch, shouldApplyPresets, spacing.preset]);
+  const setWordSpacingAction = useCallback(
+    (value: number | null) => {
+      const payload: any = { value };
+      if (shouldApplyPresets && spacing.preset) {
+        payload.preset = spacing.preset;
+      }
+      dispatch(setWordSpacing(payload));
+    },
+    [dispatch, shouldApplyPresets, spacing.preset],
+  );
 
-  const setPublisherStylesAction = useCallback((value: boolean) => {
-    if (shouldApplyPresets && value) {
-      dispatch(setSpacingPreset({ preset: ThSpacingPresetKeys.publisher, values: {} }));
-    }
-    dispatch(setPublisherStyles(value));
-  }, [dispatch, shouldApplyPresets]);
+  const setPublisherStylesAction = useCallback(
+    (value: boolean) => {
+      if (shouldApplyPresets && value) {
+        dispatch(
+          setSpacingPreset({
+            preset: ThSpacingPresetKeys.publisher,
+            values: {},
+          }),
+        );
+      }
+      dispatch(setPublisherStyles(value));
+    },
+    [dispatch, shouldApplyPresets],
+  );
 
   return {
     currentPreset: spacing.preset,
@@ -273,6 +384,6 @@ export const useSpacingPresets = () => {
     setParagraphIndent: setParagraphIndentAction,
     setParagraphSpacing: setParagraphSpacingAction,
     setWordSpacing: setWordSpacingAction,
-    setPublisherStyles: setPublisherStylesAction
+    setPublisherStyles: setPublisherStylesAction,
   };
 };

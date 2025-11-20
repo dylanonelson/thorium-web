@@ -20,12 +20,16 @@ import {
   Label,
   LabelProps,
   NumberField,
-  NumberFieldProps
+  NumberFieldProps,
 } from "react-aria-components";
 
 import { useObjectRef } from "react-aria";
 
-export interface ThNumberFieldProps extends Omit<NumberFieldProps, "minValue" | "maxValue" | "decrementAriaLabel" | "incrementAriaLabel"> {
+export interface ThNumberFieldProps
+  extends Omit<
+    NumberFieldProps,
+    "minValue" | "maxValue" | "decrementAriaLabel" | "incrementAriaLabel"
+  > {
   ref?: React.ForwardedRef<HTMLInputElement>;
   onReset?: () => void;
   label?: string;
@@ -96,55 +100,61 @@ export const ThNumberField = ({
 
   return (
     <>
-      <div { ...compounds?.wrapper }>
+      <div {...compounds?.wrapper}>
         <NumberField
-          ref={ resolvedRef }
+          ref={resolvedRef}
           // This looks super weird but is the only way
           // to unset the value in NumberField as undefined
           // will not update the value
-          value={ value === undefined ? NaN : value }
-          minValue={ Math.min(...range) }
-          maxValue={ Math.max(...range) }
-          decrementAriaLabel={ steppers?.decrementLabel }
-          incrementAriaLabel={ steppers?.incrementLabel }
-          { ...props }
+          value={value === undefined ? NaN : value}
+          minValue={Math.min(...range)}
+          maxValue={Math.max(...range)}
+          decrementAriaLabel={steppers?.decrementLabel}
+          incrementAriaLabel={steppers?.incrementLabel}
+          {...props}
         >
-          { label && <Label { ...compounds?.label }>
-            { label }
-          </Label>
-          }
+          {label && <Label {...compounds?.label}>{label}</Label>}
 
-          <Group { ...compounds?.group }>
-            {steppers &&
-              <Button
-                { ...compounds?.stepper }
-                slot="decrement"
-              >
-                { steppers.decrementIcon
-                  ? <steppers.decrementIcon aria-hidden="true" focusable="false" />
-                  : <RemoveIcon aria-hidden="true" focusable="false" /> }
+          <Group {...compounds?.group}>
+            {steppers && (
+              <Button {...compounds?.stepper} slot="decrement">
+                {steppers.decrementIcon ? (
+                  <steppers.decrementIcon
+                    aria-hidden="true"
+                    focusable="false"
+                  />
+                ) : (
+                  <RemoveIcon aria-hidden="true" focusable="false" />
+                )}
               </Button>
-            }
+            )}
 
             <Input
-              { ...compounds?.input }
-              { ...(isVirtualKeyboardDisabled ? { inputMode: "none" } : {}) }
-              placeholder={ placeholder }
+              {...compounds?.input}
+              {...(isVirtualKeyboardDisabled ? { inputMode: "none" } : {})}
+              placeholder={placeholder}
             />
 
-            { steppers &&
-              <Button
-                { ...compounds?.stepper }
-                slot="increment"
-              >
-                { steppers.incrementIcon
-                  ? <steppers.incrementIcon aria-hidden="true" focusable="false" />
-                  : <AddIcon aria-hidden="true" focusable="false" /> }
+            {steppers && (
+              <Button {...compounds?.stepper} slot="increment">
+                {steppers.incrementIcon ? (
+                  <steppers.incrementIcon
+                    aria-hidden="true"
+                    focusable="false"
+                  />
+                ) : (
+                  <AddIcon aria-hidden="true" focusable="false" />
+                )}
               </Button>
-            }
+            )}
           </Group>
         </NumberField>
-        { onReset && <ThSettingsResetButton { ...compounds?.reset } onClick={ handleResetWithFocus } /> }
+        {onReset && (
+          <ThSettingsResetButton
+            {...compounds?.reset}
+            onClick={handleResetWithFocus}
+          />
+        )}
       </div>
     </>
   );
