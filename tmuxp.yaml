@@ -1,0 +1,41 @@
+session_name: aie
+windows:
+  - window_name: app
+    layout: even-vertical
+    panes:
+      - workdir: frontend
+        shell_command:
+          - pnpm run dev
+      - workdir: reader_api
+        shell_command:
+          - uvicorn app.main:app --reload --log-level info
+  - window_name: publications
+    layout: even-vertical
+    panes:
+      - workdir: publication_api
+        shell_command:
+          - make dev
+      - shell_command:
+          - ./bin/readium_darwin_arm64/readium serve --file-directory static
+  - window_name: infra
+    layout: even-vertical
+    panes:
+      - shell_command:
+          - |
+            docker run --rm --name apparatus-db \
+              -e POSTGRES_USER=postgres \
+              -e POSTGRES_PASSWORD=postgres \
+              -e POSTGRES_DB=apparatus \
+              -p 5432:5432 \
+              postgres:18
+      - shell_command:
+          - |
+            docker run --rm --name jaeger \
+              -p 16686:16686 \
+              -p 4317:4317 \
+              -p 4318:4318 \
+              -p 5778:5778 \
+              -p 9411:9411 \
+              cr.jaegertracing.io/jaegertracing/jaeger:2.11.0
+      - shell_command:
+          - ollama serve
