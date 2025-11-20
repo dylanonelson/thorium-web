@@ -1,25 +1,25 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { 
-  defaultFontFamilyOptions, 
-  ThemeKeyType, 
-  usePreferenceKeys, 
-  useTheming
+import {
+  defaultFontFamilyOptions,
+  ThemeKeyType,
+  usePreferenceKeys,
+  useTheming,
 } from "../../preferences";
 
 import "../assets/styles/reader.css";
 import arrowStyles from "../assets/styles/readerArrowButton.module.css";
 
-import { 
-  ThActionsKeys, 
-  ThBreakpoints, 
-  ThLineHeightOptions, 
-  ThTextAlignOptions, 
+import {
+  ThActionsKeys,
+  ThBreakpoints,
+  ThLineHeightOptions,
+  ThTextAlignOptions,
   ThLayoutUI,
   ThDocumentTitleFormat,
-  ThSpacingSettingsKeys
+  ThSpacingSettingsKeys,
 } from "../../preferences/models/enums";
 import { ThColorScheme } from "@/core/Hooks/useColorScheme";
 
@@ -32,22 +32,22 @@ import {
   BasicTextSelection,
   FrameClickEvent,
 } from "@readium/navigator-html-injectables";
-import { 
-  EpubNavigatorListeners, 
-  FrameManager, 
-  FXLFrameManager, 
-  IEpubDefaults, 
-  IEpubPreferences,  
-  TextAlignment
+import {
+  EpubNavigatorListeners,
+  FrameManager,
+  FXLFrameManager,
+  IEpubDefaults,
+  IEpubPreferences,
+  TextAlignment,
 } from "@readium/navigator";
-import { 
-  Locator, 
-  Manifest, 
-  Publication, 
-  Fetcher, 
-  HttpFetcher, 
-  Layout, 
-  ReadingProgression
+import {
+  Locator,
+  Manifest,
+  Publication,
+  Fetcher,
+  HttpFetcher,
+  Layout,
+  ReadingProgression,
 } from "@readium/shared";
 
 import { StatefulDockingWrapper } from "../Docking/StatefulDockingWrapper";
@@ -69,34 +69,34 @@ import { useLineHeight } from "./Settings";
 import { toggleActionOpen } from "@/lib/actionsReducer";
 import { useAppSelector, useAppDispatch, useAppStore } from "@/lib/hooks";
 import { AppDispatch } from "@/lib/store";
-import { 
-  setBreakpoint, 
-  setColorScheme, 
-  setContrast, 
-  setForcedColors, 
-  setMonochrome, 
-  setReducedMotion, 
-  setReducedTransparency, 
-  setTheme 
+import {
+  setBreakpoint,
+  setColorScheme,
+  setContrast,
+  setForcedColors,
+  setMonochrome,
+  setReducedMotion,
+  setReducedTransparency,
+  setTheme,
 } from "@/lib/themeReducer";
-import { 
-  setImmersive, 
+import {
+  setImmersive,
   setLoading,
-  setHovering, 
-  toggleImmersive, 
-  setPlatformModifier, 
-  setDirection, 
-  setArrows, 
+  setHovering,
+  toggleImmersive,
+  setPlatformModifier,
+  setDirection,
+  setArrows,
   setFullscreen,
-  setScrollAffordance
+  setScrollAffordance,
 } from "@/lib/readerReducer";
-import { 
-  setFXL, 
-  setRTL, 
+import {
+  setFXL,
+  setRTL,
   setPositionsList,
   setTimeline,
   setPublicationStart,
-  setPublicationEnd
+  setPublicationEnd,
 } from "@/lib/publicationReducer";
 import { LineLengthStateObject } from "@/lib/settingsReducer";
 
@@ -108,6 +108,12 @@ import Peripherals from "../../helpers/peripherals";
 import { getPlatformModifier } from "@/core/Helpers/keyboardUtilities";
 import { deserializePositions } from "@/helpers/deserializePositions";
 import { propsToCSSVars } from "@/core/Helpers/propsToCSSVars";
+
+export interface LocalStorageReadingLocation {
+  publicationId: string;
+  locator: Locator;
+  recordedAt?: string;
+}
 
 export interface ReadiumCSSSettings {
   columnCount: string;
@@ -142,8 +148,67 @@ export interface StatelessCache {
 export interface StatefulReaderProps {
   rawManifest: object;
   selfHref: string;
+  publicationId: string;
   plugins?: ThPlugin[];
+  serverInitialReadingLocation?: LocalStorageReadingLocation | null;
 }
+
+const isValidDate = (value?: string | null) => {
+  if (!value) return false;
+  const parsed = new Date(value);
+  return !Number.isNaN(parsed.valueOf());
+};
+
+const normalizeStoredLocation = (
+  value: unknown,
+  publicationIdFromKey?: string
+): LocalStorageReadingLocation | null => {
+  if (!value || typeof value !== "object") return null;
+  const candidate = value as Partial<LocalStorageReadingLocation>;
+  if (
+    !candidate.locator ||
+    typeof candidate.locator !== "object" ||
+    !("href" in candidate.locator)
+  ) {
+    return null;
+  }
+
+  const publicationId =
+    typeof candidate.publicationId === "string"
+      ? candidate.publicationId
+      : publicationIdFromKey;
+  if (!publicationId) return null;
+
+  return {
+    publicationId,
+    locator: candidate.locator as Locator,
+    recordedAt:
+      typeof candidate.recordedAt === "string"
+        ? candidate.recordedAt
+        : undefined,
+  };
+};
+
+const normalizeStoredLocationMap = (
+  value: unknown
+): Record<string, LocalStorageReadingLocation> => {
+  if (!value || typeof value !== "object") return {};
+
+  return Object.entries(value as Record<string, unknown>).reduce<
+    Record<string, LocalStorageReadingLocation>
+  >((acc, [key, entry]) => {
+    const normalized = normalizeStoredLocation(entry, key);
+    if (normalized) {
+      acc[key] = normalized;
+    }
+    return acc;
+  }, {});
+};
+
+const areLocatorsEqual = (a?: Locator | null, b?: Locator | null) => {
+  if (!a || !b) return false;
+  return JSON.stringify(a) === JSON.stringify(b);
+};
 
 // We need to register plugins before hooks run
 // otherwise we can’t access the values of spacing presets
@@ -152,13 +217,15 @@ export interface StatefulReaderProps {
 export const StatefulReader = ({
   rawManifest,
   selfHref,
-  plugins
+  publicationId,
+  plugins,
+  serverInitialReadingLocation,
 }: StatefulReaderProps) => {
   const [pluginsRegistered, setPluginsRegistered] = useState(false);
 
   useEffect(() => {
     if (plugins && plugins.length > 0) {
-      plugins.forEach(plugin => {
+      plugins.forEach((plugin) => {
         ThPluginRegistry.register(plugin);
       });
     } else {
@@ -171,102 +238,150 @@ export const StatefulReader = ({
     return null;
   }
 
+  console.log("StatefulReader");
   return (
     <>
       <ThPluginProvider>
-        <StatefulReaderInner rawManifest={ rawManifest } selfHref={ selfHref } />
+        <StatefulReaderInner
+          rawManifest={rawManifest}
+          selfHref={selfHref}
+          publicationId={publicationId}
+          serverInitialReadingLocation={serverInitialReadingLocation}
+        />
       </ThPluginProvider>
     </>
   );
 };
 
-const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; selfHref: string }) => {
+const StatefulReaderInner = ({
+  rawManifest,
+  selfHref,
+  publicationId,
+  serverInitialReadingLocation,
+}: {
+  rawManifest: object;
+  selfHref: string;
+  publicationId: string;
+  serverInitialReadingLocation?: LocalStorageReadingLocation | null;
+}) => {
   const { fxlThemeKeys, reflowThemeKeys } = usePreferenceKeys();
   const { preferences } = usePreferences();
   const { t } = useI18n();
   const { getEffectiveSpacingValue } = useSpacingPresets();
-  
+
   const [publication, setPublication] = useState<Publication | null>(null);
 
   const container = useRef<HTMLDivElement>(null);
-  const localDataKey = useRef(`${selfHref}-current-location`);
-  const arrowsWidth = useRef(2 * ((preferences.theming.arrow.size || 40) + (preferences.theming.arrow.offset || 0)));
+  const localDataKey = useRef("thorium-reading-locations");
+  const arrowsWidth = useRef(
+    2 *
+      ((preferences.theming.arrow.size || 40) +
+        (preferences.theming.arrow.offset || 0))
+  );
 
-  const isFXL = useAppSelector(state => state.publication.isFXL);
-  const positionsList = useAppSelector(state => state.publication.positionsList);
+  const isFXL = useAppSelector((state) => state.publication.isFXL);
+  const positionsList = useAppSelector(
+    (state) => state.publication.positionsList
+  );
 
-  const textAlign = useAppSelector(state => state.settings.textAlign);
-  const columnCount = useAppSelector(state => state.settings.columnCount);
-  const fontFamily = useAppSelector(state => state.settings.fontFamily);
-  const fontSize = useAppSelector(state => state.settings.fontSize);
-  const fontWeight = useAppSelector(state => state.settings.fontWeight);
-  const hyphens = useAppSelector(state => state.settings.hyphens);
-  const letterSpacing = getEffectiveSpacingValue(ThSpacingSettingsKeys.letterSpacing);
-  const lineLength = useAppSelector(state => state.settings.lineLength);
+  const textAlign = useAppSelector((state) => state.settings.textAlign);
+  const columnCount = useAppSelector((state) => state.settings.columnCount);
+  const fontFamily = useAppSelector((state) => state.settings.fontFamily);
+  const fontSize = useAppSelector((state) => state.settings.fontSize);
+  const fontWeight = useAppSelector((state) => state.settings.fontWeight);
+  const hyphens = useAppSelector((state) => state.settings.hyphens);
+  const letterSpacing = getEffectiveSpacingValue(
+    ThSpacingSettingsKeys.letterSpacing
+  );
+  const lineLength = useAppSelector((state) => state.settings.lineLength);
   const lineHeight = getEffectiveSpacingValue(ThSpacingSettingsKeys.lineHeight);
-  const paragraphIndent = getEffectiveSpacingValue(ThSpacingSettingsKeys.paragraphIndent);
-  const paragraphSpacing = getEffectiveSpacingValue(ThSpacingSettingsKeys.paragraphSpacing);
-  const publisherStyles = useAppSelector(state => state.settings.publisherStyles);
-  const scroll = useAppSelector(state => state.settings.scroll);
+  const paragraphIndent = getEffectiveSpacingValue(
+    ThSpacingSettingsKeys.paragraphIndent
+  );
+  const paragraphSpacing = getEffectiveSpacingValue(
+    ThSpacingSettingsKeys.paragraphSpacing
+  );
+  const publisherStyles = useAppSelector(
+    (state) => state.settings.publisherStyles
+  );
+  const scroll = useAppSelector((state) => state.settings.scroll);
   const isScroll = scroll && !isFXL;
-  const textNormalization = useAppSelector(state => state.settings.textNormalization);
-  const wordSpacing = getEffectiveSpacingValue(ThSpacingSettingsKeys.wordSpacing);
-  const themeObject = useAppSelector(state => state.theming.theme);
+  const textNormalization = useAppSelector(
+    (state) => state.settings.textNormalization
+  );
+  const wordSpacing = getEffectiveSpacingValue(
+    ThSpacingSettingsKeys.wordSpacing
+  );
+  const themeObject = useAppSelector((state) => state.theming.theme);
   const theme = isFXL ? themeObject.fxl : themeObject.reflow;
   const previousTheme = usePrevious(theme);
-  const colorScheme = useAppSelector(state => state.theming.colorScheme);
-  const reducedMotion = useAppSelector(state => state.theming.prefersReducedMotion);
+  const colorScheme = useAppSelector((state) => state.theming.colorScheme);
+  const reducedMotion = useAppSelector(
+    (state) => state.theming.prefersReducedMotion
+  );
 
-  const breakpoint = useAppSelector(state => state.theming.breakpoint);
-  const arrowsOccupySpace = !isScroll && breakpoint &&
+  const breakpoint = useAppSelector((state) => state.theming.breakpoint);
+  const arrowsOccupySpace =
+    !isScroll &&
+    breakpoint &&
     (breakpoint === ThBreakpoints.large || breakpoint === ThBreakpoints.xLarge);
-  
-  const isImmersive = useAppSelector(state => state.reader.isImmersive);
-  const isHovering = useAppSelector(state => state.reader.isHovering);
 
-  const layoutUI = isFXL 
-    ? preferences.theming.layout.ui?.fxl || ThLayoutUI.layered 
-    : isScroll 
-      ? preferences.theming.layout.ui?.reflow || ThLayoutUI.layered
-      : ThLayoutUI.stacked;
+  const isImmersive = useAppSelector((state) => state.reader.isImmersive);
+  const isHovering = useAppSelector((state) => state.reader.isHovering);
+
+  const layoutUI = isFXL
+    ? preferences.theming.layout.ui?.fxl || ThLayoutUI.layered
+    : isScroll
+    ? preferences.theming.layout.ui?.reflow || ThLayoutUI.layered
+    : ThLayoutUI.stacked;
 
   // Init theming (breakpoints, theme, media queries…)
-  useTheming<ThemeKeyType>({ 
+  useTheming<ThemeKeyType>({
     theme: theme,
     themeKeys: preferences.theming.themes.keys,
     systemKeys: preferences.theming.themes.systemThemes,
     breakpointsMap: preferences.theming.breakpoints,
     initProps: {
-      ...propsToCSSVars(preferences.theming.arrow, "arrow"), 
+      ...propsToCSSVars(preferences.theming.arrow, "arrow"),
       ...propsToCSSVars(preferences.theming.icon, "icon"),
-      ...propsToCSSVars(preferences.theming.layout, "layout")
+      ...propsToCSSVars(preferences.theming.layout, "layout"),
     },
     onBreakpointChange: (breakpoint) => dispatch(setBreakpoint(breakpoint)),
     onColorSchemeChange: (colorScheme) => dispatch(setColorScheme(colorScheme)),
     onContrastChange: (contrast) => dispatch(setContrast(contrast)),
-    onForcedColorsChange: (forcedColors) => dispatch(setForcedColors(forcedColors)),
+    onForcedColorsChange: (forcedColors) =>
+      dispatch(setForcedColors(forcedColors)),
     onMonochromeChange: (isMonochrome) => dispatch(setMonochrome(isMonochrome)),
-    onReducedMotionChange: (reducedMotion) => dispatch(setReducedMotion(reducedMotion)),
-    onReducedTransparencyChange: (reducedTransparency) => dispatch(setReducedTransparency(reducedTransparency))
+    onReducedMotionChange: (reducedMotion) =>
+      dispatch(setReducedMotion(reducedMotion)),
+    onReducedTransparencyChange: (reducedTransparency) =>
+      dispatch(setReducedTransparency(reducedTransparency)),
   });
 
-  const atPublicationStart = useAppSelector(state => state.publication.atPublicationStart);
-  const atPublicationEnd = useAppSelector(state => state.publication.atPublicationEnd);
+  const atPublicationStart = useAppSelector(
+    (state) => state.publication.atPublicationStart
+  );
+  const atPublicationEnd = useAppSelector(
+    (state) => state.publication.atPublicationEnd
+  );
 
   const dispatch = useAppDispatch();
 
-  const onFsChange = useCallback((isFullscreen: boolean) => {
+  const onFsChange = useCallback(
+    (isFullscreen: boolean) => {
       dispatch(setFullscreen(isFullscreen));
-    }, [dispatch]);
+    },
+    [dispatch]
+  );
   const fs = useFullscreen(onFsChange);
 
-  const { 
-    EpubNavigatorLoad, 
-    EpubNavigatorDestroy, 
-    goLeft, 
-    goRight, 
-    goBackward, 
-    goForward,  
+  const {
+    EpubNavigatorLoad,
+    EpubNavigatorDestroy,
+    goLeft,
+    goRight,
+    goBackward,
+    goForward,
     navLayout,
     currentLocator,
     currentPositions,
@@ -276,33 +391,163 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
     isScrollEnd,
     getCframes,
     onFXLPositionChange,
-    submitPreferences
+    submitPreferences,
   } = useEpubNavigator();
 
-  const { setLocalData, getLocalData, localData } = useLocalStorage(localDataKey.current);
+  const { setLocalData, getLocalData } = useLocalStorage(localDataKey.current);
+  const appStore = useAppStore();
+  const preferencesRef = useRef(preferences);
+
+  useEffect(() => {
+    preferencesRef.current = preferences;
+  }, [preferences]);
+
+  const initialLocationsRef = useRef<
+    Record<string, LocalStorageReadingLocation>
+  >(normalizeStoredLocationMap(getLocalData()));
+  const lastRecordedLocation = useRef<LocalStorageReadingLocation | null>(
+    serverInitialReadingLocation ?? null
+  );
+
+  const setLocalReadingLocation = useCallback(
+    (locator: Locator, recordedAt?: string) => {
+      const timestamp =
+        recordedAt && isValidDate(recordedAt)
+          ? recordedAt
+          : new Date().toISOString();
+
+      const next: Record<string, LocalStorageReadingLocation> = {
+        ...initialLocationsRef.current,
+        [publicationId]: {
+          publicationId,
+          locator,
+          recordedAt: timestamp,
+        },
+      };
+      setLocalData(next);
+    },
+    [publicationId, setLocalData]
+  );
+
+  const syncReadingLocationToServer = useCallback(
+    async (location: LocalStorageReadingLocation) => {
+      if (!publicationId) return;
+
+      try {
+        const response = await fetch("/api/reading-locations", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            publication_id: publicationId,
+            locator: location.locator,
+            recorded_at:
+              location.recordedAt && isValidDate(location.recordedAt)
+                ? location.recordedAt
+                : new Date().toISOString(),
+          }),
+        });
+        if (!response.ok) {
+          console.error(
+            "Failed to sync reading location",
+            response.status,
+            await response.text()
+          );
+        }
+      } catch (error) {
+        console.error("Failed to sync reading location", error);
+      }
+    },
+    [publicationId]
+  );
+
+  const queueReadingLocationUpdate = useMemo(
+    () =>
+      debounce((locator: Locator, recordedAt?: string) => {
+        const timestamp =
+          recordedAt && isValidDate(recordedAt)
+            ? recordedAt
+            : new Date().toISOString();
+
+        const nextLocation: LocalStorageReadingLocation = {
+          publicationId,
+          locator,
+          recordedAt: timestamp,
+        };
+        lastRecordedLocation.current = nextLocation;
+        setLocalReadingLocation(locator, timestamp);
+        syncReadingLocationToServer(nextLocation);
+      }, 300),
+    [publicationId, setLocalReadingLocation, syncReadingLocationToServer]
+  );
+  useEffect(() => {
+    console.log("queueReadingLocationUpdate", queueReadingLocationUpdate);
+  }, [queueReadingLocationUpdate]);
+
+  const initialLocationResult = useMemo(() => {
+    const localLocation = initialLocationsRef.current[publicationId] ?? null;
+    const serverLocation = serverInitialReadingLocation ?? null;
+
+    const localTime =
+      localLocation?.recordedAt && isValidDate(localLocation.recordedAt)
+        ? new Date(localLocation.recordedAt).valueOf()
+        : null;
+    const serverTime =
+      serverLocation?.recordedAt && isValidDate(serverLocation.recordedAt)
+        ? new Date(serverLocation.recordedAt).valueOf()
+        : null;
+
+    if (localTime !== null || serverTime !== null) {
+      if (
+        localTime !== null &&
+        (serverTime === null || localTime >= serverTime)
+      ) {
+        syncReadingLocationToServer(localLocation);
+        return localLocation;
+      } else if (serverLocation && serverTime !== null) {
+        setLocalReadingLocation(
+          serverLocation.locator,
+          serverLocation.recordedAt
+        );
+        return serverLocation;
+      }
+    }
+
+    return null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [currentLocation, setCurrentLocation] = useState<Locator | undefined>(
+    initialLocationResult?.locator
+  );
 
   const timeline = useTimeline({
     publication: publication,
-    currentLocation: localData,
+    currentLocation,
     currentPositions: currentPositions() || [],
     positionsList: positionsList,
     onChange: (timeline) => {
       dispatch(setTimeline(timeline));
-    }
+    },
   });
 
   const lineHeightOptions = useLineHeight();
 
   const documentTitleFormat = preferences.metadata?.documentTitle?.format;
-  
+
   let documentTitle: string | undefined;
-  
+
   if (documentTitleFormat) {
-    if (typeof documentTitleFormat === "object" && "key" in documentTitleFormat) {
+    if (
+      typeof documentTitleFormat === "object" &&
+      "key" in documentTitleFormat
+    ) {
       const translatedTitle = t(documentTitleFormat.key);
-      documentTitle = translatedTitle !== documentTitleFormat.key 
-        ? translatedTitle 
-        : documentTitleFormat.fallback;
+      documentTitle =
+        translatedTitle !== documentTitleFormat.key
+          ? translatedTitle
+          : documentTitleFormat.fallback;
     } else {
       switch (documentTitleFormat) {
         case ThDocumentTitleFormat.title:
@@ -313,13 +558,13 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
           break;
         case ThDocumentTitleFormat.titleAndChapter:
           if (timeline?.title && timeline?.progression?.currentChapter) {
-            documentTitle = `${ timeline.title } – ${ timeline.progression.currentChapter }`;
+            documentTitle = `${timeline.title} – ${timeline.progression.currentChapter}`;
           }
           break;
         case ThDocumentTitleFormat.none:
           documentTitle = undefined;
           break;
-        default: 
+        default:
           documentTitle = documentTitleFormat;
           break;
       }
@@ -351,11 +596,11 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
       textAlign: textAlign,
       textNormalization: textNormalization,
       theme: theme,
-      wordSpacing: wordSpacing
+      wordSpacing: wordSpacing,
     },
     positionsList: positionsList || [],
     colorScheme: colorScheme,
-    reducedMotion: reducedMotion
+    reducedMotion: reducedMotion,
   });
 
   const activateImmersiveOnAction = useCallback(() => {
@@ -363,7 +608,7 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
   }, [dispatch]);
 
   const toggleIsImmersive = useCallback(() => {
-    // If tap/click in iframe, then header/footer no longer hoovering 
+    // If tap/click in iframe, then header/footer no longer hoovering
     dispatch(setHovering(false));
     dispatch(setArrows(false));
     dispatch(toggleImmersive());
@@ -371,198 +616,247 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
 
   // Warning: this is using navigator’s internal methods that will become private, do not rely on them
   // See https://github.com/edrlab/thorium-web/issues/25
-  const handleTap = (event: FrameClickEvent) => {
-    const _cframes = getCframes();
-    if (_cframes) {
-      if (!cache.current.settings.scroll) {
-        const oneQuarter = ((_cframes.length === 2 ? _cframes[0]!.window.innerWidth + _cframes[1]!.window.innerWidth : _cframes![0]!.window.innerWidth) * window.devicePixelRatio) / 4;
-    
-        if (event.x < oneQuarter) {
-          goLeft(!cache.current.reducedMotion, activateImmersiveOnAction);
-        } 
-        else if (event.x > oneQuarter * 3) {
-          goRight(!cache.current.reducedMotion, activateImmersiveOnAction);
-        } else if (oneQuarter <= event.x && event.x <= oneQuarter * 3) {
-          toggleIsImmersive();
-        }
-      } else {
-        if (preferences.affordances.scroll.toggleOnMiddlePointer.includes("tap")) {
-          toggleIsImmersive();
+  const handleTap = useCallback(
+    (event: FrameClickEvent) => {
+      const _cframes = getCframes();
+      if (_cframes) {
+        const scrollToggleOnTap =
+          preferencesRef.current.affordances.scroll.toggleOnMiddlePointer.includes(
+            "tap"
+          );
+        if (!cache.current.settings.scroll) {
+          const oneQuarter =
+            ((_cframes.length === 2
+              ? _cframes[0]!.window.innerWidth + _cframes[1]!.window.innerWidth
+              : _cframes![0]!.window.innerWidth) *
+              window.devicePixelRatio) /
+            4;
+
+          if (event.x < oneQuarter) {
+            goLeft(!cache.current.reducedMotion, activateImmersiveOnAction);
+          } else if (event.x > oneQuarter * 3) {
+            goRight(!cache.current.reducedMotion, activateImmersiveOnAction);
+          } else if (oneQuarter <= event.x && event.x <= oneQuarter * 3) {
+            toggleIsImmersive();
+          }
+        } else {
+          if (scrollToggleOnTap) {
+            toggleIsImmersive();
+          }
         }
       }
-    }
-  };
+    },
+    [getCframes, goLeft, goRight, toggleIsImmersive, activateImmersiveOnAction]
+  );
 
   // We need this as a workaround due to positionChanged being unreliable
   // in FXL – if the frame is in the pool hidden and is shown again,
   // positionChanged won’t fire.
-  const handleFXLProgression = useCallback((locator: Locator) => {
-    setLocalData(locator);
-  }, [setLocalData]);
+  const handleFXLProgression = useCallback(
+    (locator: Locator) => {
+      queueReadingLocationUpdate(locator);
+    },
+    [queueReadingLocationUpdate]
+  );
 
   onFXLPositionChange(handleFXLProgression);
 
-  const initReadingEnv = async () => {
+  const initReadingEnv = useCallback(async () => {
     if (navLayout() === Layout.fixed) {
       // [TMP] Working around positionChanged not firing consistently for FXL
       // Init’ing so that progression can be populated on first spread loaded
       const cLoc = currentLocator();
       if (cLoc) {
         handleFXLProgression(cLoc);
-      };
-    }
-  };
-
-  const p = new Peripherals(useAppStore(), preferences.actions, {
-    moveTo: (direction) => {
-      switch(direction) {
-        case "right":
-          if (!cache.current.settings.scroll) goRight(!cache.current.reducedMotion, activateImmersiveOnAction);
-          break;
-        case "left":
-          if (!cache.current.settings.scroll) goLeft(!cache.current.reducedMotion, activateImmersiveOnAction);
-          break;
-        case "up":
-        case "home":
-          // Home should probably go to first column/page of chapter in reflow?
-          break;
-        case "down":
-        case "end":
-          // End should probably go to last column/page of chapter in reflow?
-          break;
-        default:
-          break;
-      }
-    },
-    goProgression: (shiftKey) => {
-      if (!cache.current.settings?.scroll) {
-        shiftKey 
-          ? goBackward(!cache.current.reducedMotion, activateImmersiveOnAction) 
-          : goForward(!cache.current.reducedMotion, activateImmersiveOnAction);
-      }
-    },
-    toggleAction: (actionKey) => {
-      switch (actionKey) {
-        case ThActionsKeys.fullscreen:
-          fs.handleFullscreen();
-          break;
-        case ThActionsKeys.settings:
-        case ThActionsKeys.toc:
-          dispatch(toggleActionOpen({
-            key: actionKey
-          }))
-          break;
-      //  case ThActionsKeys.jumpToPosition:
-        default:
-          break
       }
     }
-  });
+  }, [navLayout, currentLocator, handleFXLProgression]);
 
-  const listeners: EpubNavigatorListeners = {
-    frameLoaded: async function (_wnd: Window): Promise<void> {
-      await initReadingEnv();
-      // Warning: this is using navigator’s internal methods that will become private, do not rely on them
-      // See https://github.com/edrlab/thorium-web/issues/25
-      const _cframes = getCframes();
-      _cframes?.forEach(
-        (frameManager: FrameManager | FXLFrameManager | undefined) => {
-          if (frameManager) p.observe(frameManager.window);
+  const peripherals = useMemo(
+    () =>
+      new Peripherals(appStore, preferencesRef.current.actions, {
+        moveTo: (direction) => {
+          switch (direction) {
+            case "right":
+              if (!cache.current.settings.scroll)
+                goRight(
+                  !cache.current.reducedMotion,
+                  activateImmersiveOnAction
+                );
+              break;
+            case "left":
+              if (!cache.current.settings.scroll)
+                goLeft(!cache.current.reducedMotion, activateImmersiveOnAction);
+              break;
+            case "up":
+            case "home":
+              break;
+            case "down":
+            case "end":
+              break;
+            default:
+              break;
+          }
+        },
+        goProgression: (shiftKey) => {
+          if (!cache.current.settings?.scroll) {
+            shiftKey
+              ? goBackward(
+                  !cache.current.reducedMotion,
+                  activateImmersiveOnAction
+                )
+              : goForward(
+                  !cache.current.reducedMotion,
+                  activateImmersiveOnAction
+                );
+          }
+        },
+        toggleAction: (actionKey) => {
+          switch (actionKey) {
+            case ThActionsKeys.fullscreen:
+              fs.handleFullscreen();
+              break;
+            case ThActionsKeys.settings:
+            case ThActionsKeys.toc:
+              dispatch(
+                toggleActionOpen({
+                  key: actionKey,
+                })
+              );
+              break;
+            default:
+              break;
+          }
+        },
+      }),
+    [
+      appStore,
+      goRight,
+      goLeft,
+      goBackward,
+      goForward,
+      activateImmersiveOnAction,
+      fs,
+      dispatch,
+    ]
+  );
+
+  const listeners: EpubNavigatorListeners = useMemo(
+    () => ({
+      frameLoaded: async function (_wnd: Window): Promise<void> {
+        await initReadingEnv();
+        const _cframes = getCframes();
+        _cframes?.forEach(
+          (frameManager: FrameManager | FXLFrameManager | undefined) => {
+            if (frameManager) peripherals.observe(frameManager.window);
+          }
+        );
+        peripherals.observe(window);
+      },
+      positionChanged: async function (locator: Locator): Promise<void> {
+        if (navLayout() !== Layout.fixed) {
+          setCurrentLocation(locator);
+          queueReadingLocationUpdate(locator);
         }
-      );
-      p.observe(window);
-    },
-    positionChanged: async function (locator: Locator): Promise<void> {
-      if (navLayout() !== Layout.fixed) {
-        const debouncedHandleProgression = debounce(
-          async () => {
-            setLocalData(locator);
-          }, 250);
-        debouncedHandleProgression();
-      }
 
-      // We could use canGoBackward() and canGoForward() directly on arrows
-      // but maybe we will need to sync the state for other features in the future
-      if (canGoBackward()) {
-        dispatch(setPublicationStart(false));
-      } else {
-        dispatch(setPublicationStart(true));
-      }
-      
-      if (canGoForward()) {
-        dispatch(setPublicationEnd(false));
-      } else {
-        dispatch(setPublicationEnd(true));
-      }
-    },
-    tap: function (_e: FrameClickEvent): boolean {
-      handleTap(_e);
-      return true;
-    },
-    click: function (_e: FrameClickEvent): boolean {
-      if (cache.current.layoutUI === ThLayoutUI.layered) {
+        // We could use canGoBackward() and canGoForward() directly on arrows
+        // but maybe we will need to sync the state for other features in the future
+        if (canGoBackward()) {
+          dispatch(setPublicationStart(false));
+        } else {
+          dispatch(setPublicationStart(true));
+        }
+
+        if (canGoForward()) {
+          dispatch(setPublicationEnd(false));
+        } else {
+          dispatch(setPublicationEnd(true));
+        }
+      },
+      tap: function (_e: FrameClickEvent): boolean {
+        handleTap(_e);
+        return true;
+      },
+      click: function (_e: FrameClickEvent): boolean {
+        if (cache.current.layoutUI === ThLayoutUI.layered) {
+          if (
+            !cache.current.settings.scroll ||
+            preferencesRef.current.affordances.scroll.toggleOnMiddlePointer.includes(
+              "click"
+            )
+          ) {
+            handleTap(_e);
+          }
+        }
+        return true;
+      },
+      zoom: function (_scale: number): void {},
+      miscPointer: function (_amount: number): void {},
+      scroll: function (_delta: number): void {
+        if (cache.current.settings.scroll && navLayout() !== Layout.fixed) {
+          if (isScrollStart() || isScrollEnd()) {
+            if (
+              // Keep consistent with pagination behavior
+              cache.current.layoutUI === ThLayoutUI.layered
+            ) {
+              dispatch(setScrollAffordance(true));
+            }
+          } else if (!cache.current.isImmersive && _delta > 20) {
+            if (preferencesRef.current.affordances.scroll.hideOnForwardScroll) {
+              dispatch(setImmersive(true));
+            }
+          } else if (cache.current.isImmersive && _delta < -20) {
+            if (
+              // Keep consistent with pagination behavior
+              cache.current.layoutUI === ThLayoutUI.layered &&
+              preferencesRef.current.affordances.scroll.showOnBackwardScroll
+            ) {
+              dispatch(setImmersive(false));
+            }
+          }
+        }
+      },
+      customEvent: function (_key: string, _data: unknown): void {},
+      handleLocator: function (locator: Locator): boolean {
+        const href = locator.href;
+
         if (
-          !cache.current.settings.scroll ||
-          preferences.affordances.scroll.toggleOnMiddlePointer.includes("click")
+          href.startsWith("http://") ||
+          href.startsWith("https://") ||
+          href.startsWith("mailto:") ||
+          href.startsWith("tel:")
         ) {
-          handleTap(_e);
+          if (confirm(`Open "${href}" ?`)) window.open(href, "_blank");
+        } else {
+          console.warn("Unhandled locator", locator);
         }
-      }
-      return true;
-    },
-    zoom: function (_scale: number): void {},
-    miscPointer: function (_amount: number): void {},
-    scroll: function (_delta: number): void {
-      if (
-        cache.current.settings.scroll && 
-        navLayout() !== Layout.fixed
-      ) {        
-        if (isScrollStart() || isScrollEnd()) {
-          if (
-            // Keep consistent with pagination behavior
-            cache.current.layoutUI === ThLayoutUI.layered
-          ) {
-            dispatch(setScrollAffordance(true));
-          }
-        } else if (!cache.current.isImmersive && _delta > 20) {
-          if (preferences.affordances.scroll.hideOnForwardScroll) {
-            dispatch(setImmersive(true));
-          }
-        } else if (cache.current.isImmersive && _delta < -20) {
-          if (
-            // Keep consistent with pagination behavior
-            cache.current.layoutUI === ThLayoutUI.layered && 
-            preferences.affordances.scroll.showOnBackwardScroll
-          ) {
-            dispatch(setImmersive(false));
-          }
-        }
-      }
-    },
-    customEvent: function (_key: string, _data: unknown): void {},
-    handleLocator: function (locator: Locator): boolean {
-      const href = locator.href;
+        return false;
+      },
+      textSelected: function (_selection: BasicTextSelection): void {},
+    }),
+    [
+      initReadingEnv,
+      getCframes,
+      peripherals,
+      navLayout,
+      queueReadingLocationUpdate,
+      canGoBackward,
+      canGoForward,
+      dispatch,
+      handleTap,
+      isScrollStart,
+      isScrollEnd,
+    ]
+  );
 
-      if (
-        href.startsWith("http://") ||
-        href.startsWith("https://") ||
-        href.startsWith("mailto:") ||
-        href.startsWith("tel:")
-      ) {
-        if (confirm(`Open "${href}" ?`)) window.open(href, "_blank");
-      } else {
-        console.warn("Unhandled locator", locator);
-      }
-      return false;
+  const applyConstraint = useCallback(
+    async (value: number) => {
+      await submitPreferences({
+        constraint: value,
+      });
     },
-    textSelected: function (_selection: BasicTextSelection): void {},
-  };
-
-  const applyConstraint = useCallback(async (value: number) => {
-    await submitPreferences({
-      constraint: value
-    })
-  }, [submitPreferences]);
+    [submitPreferences]
+  );
 
   // Handling side effects on Navigator
 
@@ -584,6 +878,21 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
     // Reset top bar visibility and last position
     dispatch(setImmersive(false));
   }, [isScroll, dispatch]);
+
+  useEffect(() => {
+    const handleResize = debounce(() => {
+      const locator = currentLocator();
+      if (locator) {
+        queueReadingLocationUpdate(locator);
+      }
+    }, 300);
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      handleResize.clear();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [currentLocator, queueReadingLocationUpdate]);
 
   useEffect(() => {
     cache.current.settings.columnCount = columnCount;
@@ -649,15 +958,20 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
     cache.current.arrowsOccupySpace = arrowsOccupySpace || false;
 
     const handleConstraint = async () => {
-      await applyConstraint(arrowsOccupySpace ? arrowsWidth.current : 0)
-    }
-    handleConstraint()
-      .catch(console.error);
+      await applyConstraint(arrowsOccupySpace ? arrowsWidth.current : 0);
+    };
+    handleConstraint().catch(console.error);
   }, [arrowsOccupySpace, applyConstraint]);
 
   useEffect(() => {
     cache.current.reducedMotion = reducedMotion;
   }, [reducedMotion]);
+
+  useEffect(() => {
+    return () => {
+      queueReadingLocationUpdate.clear();
+    };
+  }, [queueReadingLocationUpdate]);
 
   // Theme can also change on colorScheme change so
   // we have to handle this side-effect but we can’t
@@ -680,18 +994,29 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
         theme: themeKey,
         themeKeys: preferences.theming.themes.keys,
         systemThemes: preferences.theming.themes.systemThemes,
-        colorScheme
+        colorScheme,
       });
       await submitPreferences(themeProps);
-      dispatch(setTheme({ 
-        key: isFXL ? "fxl" : "reflow", 
-        value: themeKey 
-      }));
+      dispatch(
+        setTheme({
+          key: isFXL ? "fxl" : "reflow",
+          value: themeKey,
+        })
+      );
     };
 
-    applyCurrentTheme()
-      .catch(console.error);
-  }, [themeObject, previousTheme, preferences.theming.themes, fxlThemeKeys, reflowThemeKeys, colorScheme, isFXL, submitPreferences, dispatch]);
+    applyCurrentTheme().catch(console.error);
+  }, [
+    themeObject,
+    previousTheme,
+    preferences.theming.themes,
+    fxlThemeKeys,
+    reflowThemeKeys,
+    colorScheme,
+    isFXL,
+    submitPreferences,
+    dispatch,
+  ]);
 
   useEffect(() => {
     preferences.direction && dispatch(setDirection(preferences.direction));
@@ -703,16 +1028,24 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
     const manifest = Manifest.deserialize(rawManifest)!;
     manifest.setSelfLink(selfHref);
 
-    setPublication(new Publication({
-      manifest: manifest,
-      fetcher: fetcher
-    }));
+    setPublication(
+      new Publication({
+        manifest: manifest,
+        fetcher: fetcher,
+      })
+    );
   }, [rawManifest, selfHref]);
 
   useEffect(() => {
+    console.log("epubnavigatorload");
     if (!publication) return;
 
-    dispatch(setRTL(publication.metadata.effectiveReadingProgression === ReadingProgression.rtl));
+    dispatch(
+      setRTL(
+        publication.metadata.effectiveReadingProgression ===
+          ReadingProgression.rtl
+      )
+    );
     dispatch(setFXL(publication.metadata.effectiveLayout === Layout.fixed));
 
     let positionsList: Locator[] | undefined;
@@ -728,76 +1061,110 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
       .then(() => {
         const isFXL = publication.metadata.effectiveLayout === Layout.fixed;
 
-        const initialPosition: Locator | null = getLocalData();
+        const initialPosition: Locator | undefined =
+          initialLocationResult?.locator;
 
-        const initialConstraint = cache.current.arrowsOccupySpace ? arrowsWidth.current : 0;
-        
+        const initialConstraint = cache.current.arrowsOccupySpace
+          ? arrowsWidth.current
+          : 0;
+
         const themeKeys = isFXL ? fxlThemeKeys : reflowThemeKeys;
-        const theme = themeKeys.includes(cache.current.settings.theme as any) ? cache.current.settings.theme : "auto";
+        const theme = themeKeys.includes(cache.current.settings.theme as any)
+          ? cache.current.settings.theme
+          : "auto";
+        const prefsSnapshot = preferencesRef.current;
         const themeProps = buildThemeObject<ThemeKeyType>({
           theme: theme,
-          themeKeys: preferences.theming.themes.keys,
-          systemThemes: preferences.theming.themes.systemThemes,
-          colorScheme: cache.current.colorScheme
+          themeKeys: prefsSnapshot.theming.themes.keys,
+          systemThemes: prefsSnapshot.theming.themes.systemThemes,
+          colorScheme: cache.current.colorScheme,
         });
 
-        const epubPreferences: IEpubPreferences = isFXL ? {} : {
-          columnCount: cache.current.settings.columnCount === "auto" ? null : Number(cache.current.settings.columnCount),
-          constraint: initialConstraint,
-          fontFamily: cache.current.settings.fontFamily && defaultFontFamilyOptions[cache.current.settings.fontFamily],
-          fontSize: cache.current.settings.fontSize,
-          fontWeight: cache.current.settings.fontWeight,
-          hyphens: cache.current.settings.hyphens,
-          letterSpacing: cache.current.settings.publisherStyles ? undefined : cache.current.settings.letterSpacing,
-          lineHeight: cache.current.settings.publisherStyles 
-            ? undefined 
-            : cache.current.settings.lineHeight === null 
-              ? null 
-              : lineHeightOptions[cache.current.settings.lineHeight],
-          optimalLineLength: cache.current.settings.lineLength?.optimal != null 
-            ? cache.current.settings.lineLength.optimal 
-            : undefined,
-          maximalLineLength: cache.current.settings.lineLength?.max?.isDisabled 
-            ? null 
-            : (cache.current.settings.lineLength?.max?.chars != null) 
-              ? cache.current.settings.lineLength.max.chars 
-              : undefined,
-          minimalLineLength: cache.current.settings.lineLength?.min?.isDisabled 
-            ? null 
-            : (cache.current.settings.lineLength?.min?.chars != null) 
-              ? cache.current.settings.lineLength.min.chars 
-              : undefined,
-          paragraphIndent: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paragraphIndent,
-          paragraphSpacing: cache.current.settings.publisherStyles ? undefined :cache.current.settings.paragraphSpacing,
-          scroll: cache.current.settings.scroll,
-          textAlign: cache.current.settings.textAlign as unknown as TextAlignment | null | undefined,
-          textNormalization: cache.current.settings.textNormalization,
-          wordSpacing: cache.current.settings.publisherStyles ? undefined : cache.current.settings.wordSpacing,
-          ...themeProps
-        };
+        const epubPreferences: IEpubPreferences = isFXL
+          ? {}
+          : {
+              columnCount:
+                cache.current.settings.columnCount === "auto"
+                  ? null
+                  : Number(cache.current.settings.columnCount),
+              constraint: initialConstraint,
+              fontFamily:
+                cache.current.settings.fontFamily &&
+                defaultFontFamilyOptions[cache.current.settings.fontFamily],
+              fontSize: cache.current.settings.fontSize,
+              fontWeight: cache.current.settings.fontWeight,
+              hyphens: cache.current.settings.hyphens,
+              letterSpacing: cache.current.settings.publisherStyles
+                ? undefined
+                : cache.current.settings.letterSpacing,
+              lineHeight: cache.current.settings.publisherStyles
+                ? undefined
+                : cache.current.settings.lineHeight === null
+                ? null
+                : lineHeightOptions[cache.current.settings.lineHeight],
+              optimalLineLength:
+                cache.current.settings.lineLength?.optimal != null
+                  ? cache.current.settings.lineLength.optimal
+                  : undefined,
+              maximalLineLength: cache.current.settings.lineLength?.max
+                ?.isDisabled
+                ? null
+                : cache.current.settings.lineLength?.max?.chars != null
+                ? cache.current.settings.lineLength.max.chars
+                : undefined,
+              minimalLineLength: cache.current.settings.lineLength?.min
+                ?.isDisabled
+                ? null
+                : cache.current.settings.lineLength?.min?.chars != null
+                ? cache.current.settings.lineLength.min.chars
+                : undefined,
+              paragraphIndent: cache.current.settings.publisherStyles
+                ? undefined
+                : cache.current.settings.paragraphIndent,
+              paragraphSpacing: cache.current.settings.publisherStyles
+                ? undefined
+                : cache.current.settings.paragraphSpacing,
+              scroll: cache.current.settings.scroll,
+              textAlign: cache.current.settings.textAlign as unknown as
+                | TextAlignment
+                | null
+                | undefined,
+              textNormalization: cache.current.settings.textNormalization,
+              wordSpacing: cache.current.settings.publisherStyles
+                ? undefined
+                : cache.current.settings.wordSpacing,
+              ...themeProps,
+            };
 
-        const defaults: IEpubDefaults = isFXL ? {} : {
-          maximalLineLength: preferences.typography.maximalLineLength,
-          minimalLineLength: preferences.typography.minimalLineLength,
-          optimalLineLength: preferences.typography.optimalLineLength,
-          pageGutter: preferences.typography.pageGutter,
-          scrollPaddingTop: preferences.theming.layout.ui?.reflow === ThLayoutUI.layered 
-            ? (preferences.theming.icon.size || 24) * 3 
-            : (preferences.theming.icon.size || 24),
-          scrollPaddingBottom: preferences.theming.layout.ui?.reflow === ThLayoutUI.layered 
-            ? (preferences.theming.icon.size || 24) * 5 
-            : (preferences.theming.icon.size || 24)
-        }
-  
-        EpubNavigatorLoad({
-          container: container.current, 
-          publication: publication,
-          listeners: listeners, 
-          positionsList: positionsList,
-          initialPosition: initialPosition ?? undefined,
-          preferences: epubPreferences,
-          defaults: defaults
-        }, () => p.observe(window));
+        const defaults: IEpubDefaults = isFXL
+          ? {}
+          : {
+              maximalLineLength: prefsSnapshot.typography.maximalLineLength,
+              minimalLineLength: prefsSnapshot.typography.minimalLineLength,
+              optimalLineLength: prefsSnapshot.typography.optimalLineLength,
+              pageGutter: prefsSnapshot.typography.pageGutter,
+              scrollPaddingTop:
+                prefsSnapshot.theming.layout.ui?.reflow === ThLayoutUI.layered
+                  ? (prefsSnapshot.theming.icon.size || 24) * 3
+                  : prefsSnapshot.theming.icon.size || 24,
+              scrollPaddingBottom:
+                prefsSnapshot.theming.layout.ui?.reflow === ThLayoutUI.layered
+                  ? (prefsSnapshot.theming.icon.size || 24) * 5
+                  : prefsSnapshot.theming.icon.size || 24,
+            };
+
+        EpubNavigatorLoad(
+          {
+            container: container.current,
+            publication: publication,
+            listeners: listeners,
+            positionsList: positionsList,
+            initialPosition: initialPosition,
+            preferences: epubPreferences,
+            defaults: defaults,
+          },
+          () => peripherals.observe(window)
+        );
       })
       .finally(() => {
         const setLoadingThunk = (dispatch: AppDispatch) => {
@@ -807,8 +1174,9 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
       });
 
     return () => {
-      EpubNavigatorDestroy(() => p.destroy());
+      EpubNavigatorDestroy(() => peripherals.destroy());
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publication, preferences, fxlThemeKeys, reflowThemeKeys]);
 
   // If breakpoint is not defined, we are not ready to render
@@ -816,59 +1184,66 @@ const StatefulReaderInner = ({ rawManifest, selfHref }: { rawManifest: object; s
   // Same for arrows and collapsible actions.
   if (!breakpoint) return null;
 
-  console.log('currentLocator', currentLocator())
-  console.log(JSON.stringify(currentLocator(), null))
-
   return (
     <>
-    <I18nProvider locale={ preferences.locale }>
-      <main id="reader-main">
-        <StatefulDockingWrapper>
-          <div 
-            id="reader-shell" 
-            className={ 
-              classNames(
+      <I18nProvider locale={preferences.locale}>
+        <main id="reader-main">
+          <StatefulDockingWrapper>
+            <div
+              id="reader-shell"
+              className={classNames(
                 isFXL ? "isFXL" : "isReflow",
                 isImmersive ? "isImmersive" : "",
                 isHovering ? "isHovering" : "",
                 isScroll ? "isScroll" : "isPaged",
                 layoutUI,
                 breakpoint
-              )
-            }
-          >
-            <StatefulReaderHeader layout={ layoutUI } />
+              )}
+            >
+              <StatefulReaderHeader layout={layoutUI} />
 
-          { !isScroll 
-            ? <nav className={ arrowStyles.container } id={ arrowStyles.left }>
-                <StatefulReaderArrowButton 
-                  direction="left" 
-                  occupySpace={ arrowsOccupySpace || false }
-                  isDisabled={ atPublicationStart } 
-                  onPress={ () => goLeft(!reducedMotion, activateImmersiveOnAction) }
-                />
-            </nav> 
-            : <></> }
+              {!isScroll ? (
+                <nav className={arrowStyles.container} id={arrowStyles.left}>
+                  <StatefulReaderArrowButton
+                    direction="left"
+                    occupySpace={arrowsOccupySpace || false}
+                    isDisabled={atPublicationStart}
+                    onPress={() =>
+                      goLeft(!reducedMotion, activateImmersiveOnAction)
+                    }
+                  />
+                </nav>
+              ) : (
+                <></>
+              )}
 
-            <article id="wrapper" aria-label={ t("reader.app.publicationWrapper") }>
-              <div id="container" ref={ container }></div>
-            </article>
+              <article
+                id="wrapper"
+                aria-label={t("reader.app.publicationWrapper")}
+              >
+                <div id="container" ref={container}></div>
+              </article>
 
-          { !isScroll 
-            ? <nav className={ arrowStyles.container } id={ arrowStyles.right }>
-                <StatefulReaderArrowButton 
-                  direction="right" 
-                  occupySpace={ arrowsOccupySpace || false }
-                  isDisabled={ atPublicationEnd } 
-                  onPress={ () => goRight(!reducedMotion, activateImmersiveOnAction) }
-                />
-              </nav> 
-            : <></> }
+              {!isScroll ? (
+                <nav className={arrowStyles.container} id={arrowStyles.right}>
+                  <StatefulReaderArrowButton
+                    direction="right"
+                    occupySpace={arrowsOccupySpace || false}
+                    isDisabled={atPublicationEnd}
+                    onPress={() =>
+                      goRight(!reducedMotion, activateImmersiveOnAction)
+                    }
+                  />
+                </nav>
+              ) : (
+                <></>
+              )}
 
-          <StatefulReaderFooter layout={ layoutUI } />
-        </div>
-      </StatefulDockingWrapper>
-    </main>
-  </I18nProvider>
-  </>
-)};
+              <StatefulReaderFooter layout={layoutUI} />
+            </div>
+          </StatefulDockingWrapper>
+        </main>
+      </I18nProvider>
+    </>
+  );
+};

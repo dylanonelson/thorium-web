@@ -1,67 +1,97 @@
-"use client";
+import { AccessTokenError } from "@auth0/nextjs-auth0/errors";
+import { notFound } from "next/navigation";
 
-import { use, useEffect, useState } from "react";
-import { StatefulReader } from "@/components/Epub";
-import { StatefulLoader } from "@/components/StatefulLoader";
 import { PUBLICATION_MANIFESTS } from "@/config/publications";
-import { usePublication } from "@/hooks/usePublication";
-import { useAppSelector } from "@/lib/hooks";
-import { verifyManifestUrl } from "@/app/api/verify-manifest/verifyDomain";
+import { auth0 } from "@/lib/auth0";
+import { type LocalStorageReadingLocation } from "@/components/Epub/StatefulReader";
 
-import "@/app/app.css";
+import ReaderClientPage from "./ReaderClientPage";
+
+export const runtime = "nodejs";
 
 type Params = { identifier: string };
 
 type Props = {
-  params: Promise<Params>;
+  params: Params;
 };
 
-export default function BookPage({ params }: Props) {
-  const [domainError, setDomainError] = useState<string | null>(null);
-  const urlSlug = use(params).identifier;
-  const isLoading = useAppSelector(state => state.reader.isLoading);
-  const manifestUrl = urlSlug
-    ? PUBLICATION_MANIFESTS[urlSlug as keyof typeof PUBLICATION_MANIFESTS]?.manifestUrl ?? ""
-    : "";
+type ReadingLocationResponse = {
+  publication_id: LocalStorageReadingLocation["publicationId"];
+  locator: LocalStorageReadingLocation["locator"];
+  recorded_at?: LocalStorageReadingLocation["recordedAt"];
+};
 
-  useEffect(() => {
-    if (manifestUrl) {
-      verifyManifestUrl(manifestUrl).then(allowed => {
-        if (!allowed) {
-          setDomainError(`Domain not allowed: ${ new URL(manifestUrl).hostname }`);
-        }
-      });
+async function fetchLatestReadingLocation(
+  publicationId: string
+): Promise<LocalStorageReadingLocation | null> {
+  if (!publicationId) return null;
+
+  try {
+    const { token } = await auth0.getAccessToken();
+    if (!token) {
+      return null;
     }
-  }, [manifestUrl]);
 
-  const { error, manifest, selfLink } = usePublication({
-    url: manifestUrl,
-    onError: (error) => {
-      console.error("Publication loading error:", error);
-    }
-  });
-
-  if (domainError) {
-    return (
-      <div className="container">
-        <h1>Access Denied</h1>
-        <p>{ domainError }</p>
-      </div>
+    const response = await fetch(
+      `${
+        process.env.READER_API_ORIGIN
+      }/reading-locations/latest?publication_id=${encodeURIComponent(
+        publicationId
+      )}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
+
+    if (response.status === 404) {
+      return null;
+    }
+
+    if (!response.ok) {
+      console.error(
+        "Failed to fetch latest reading location",
+        response.status,
+        await response.text()
+      );
+      return null;
+    }
+
+    const data = (await response.json()) as ReadingLocationResponse;
+    return {
+      publicationId: data.publication_id || publicationId,
+      locator: data.locator,
+      recordedAt: data.recorded_at,
+    } satisfies LocalStorageReadingLocation;
+  } catch (error) {
+    if (error instanceof AccessTokenError) {
+      console.warn("Auth token unavailable when fetching reading location");
+      return null;
+    }
+    console.error("Unexpected error fetching reading location", error);
+    return null;
+  }
+}
+
+export default async function BookPage({ params }: Props) {
+  const { identifier: urlSlug } = await params;
+  const publicationConfig =
+    PUBLICATION_MANIFESTS[urlSlug as keyof typeof PUBLICATION_MANIFESTS];
+
+  if (!publicationConfig) {
+    notFound();
   }
 
+  const serverInitialReadingLocation = await fetchLatestReadingLocation(
+    publicationConfig.id
+  );
+
   return (
-    <>
-      { error ? (
-        <div className="container">
-          <h1>Error</h1>
-          <p>{ error }</p>
-        </div>
-      ) : (
-        <StatefulLoader isLoading={ isLoading }>
-          { manifest && selfLink && <StatefulReader rawManifest={ manifest } selfHref={ selfLink } /> }
-        </StatefulLoader>
-      )}
-    </>
+    <ReaderClientPage
+      publicationConfig={publicationConfig}
+      serverInitialReadingLocation={serverInitialReadingLocation}
+    />
   );
 }

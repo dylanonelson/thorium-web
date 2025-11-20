@@ -111,7 +111,7 @@ function loadPublicationManifestMap(baseUrl: string): PublicationManifestMap {
         return acc;
       }
       const manifestUrl = `${baseUrl}/${encodeFilename(filename)}/manifest.json`;
-      acc[id] = {
+      const value = {
         id,
         title,
         author,
@@ -119,6 +119,8 @@ function loadPublicationManifestMap(baseUrl: string): PublicationManifestMap {
         manifestUrl,  
         urlSlug,
       };
+      acc[id] = value;
+      acc[urlSlug] = value;
       return acc;
     }, {});
   } catch (error) {

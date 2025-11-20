@@ -1,30 +1,34 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useLocalStorage = (key: string) => {
   const [localData, setLocalData] = useState<any>(null);
   const cachedLocalData = useRef<any>(null);
 
-  const setValue = (newValue: any) => {
-    setLocalData(newValue);
+  const setValue = useCallback((newValue: any, silent = false) => {
+    if (!silent) {
+      setLocalData(newValue);
+    }
+    cachedLocalData.current = newValue;
     localStorage.setItem(key, JSON.stringify(newValue));
-  };
+  }, [key]);
 
-  const getValue = () => {
-    if (localData !== null) return localData;
+  const getValue = useCallback(() => {
+    if (cachedLocalData.current !== null) return cachedLocalData.current;
     const value = localStorage.getItem(key);
-    return value ? JSON.parse(value) : null;
-  };
+    const parsedValue = value ? JSON.parse(value) : null;
+    cachedLocalData.current = parsedValue;
+    return parsedValue;
+  }, [key]);
 
-  const clearValue = () => {
-    setLocalData(null);
+  const clearValue = useCallback((silent = false) => {
+    if (!silent) {
+      setLocalData(null);
+    }
+    cachedLocalData.current = null;
     localStorage.removeItem(key);
-  };
-
-  useEffect(() => {
-    cachedLocalData.current = localData;
-  }, [localData])
+  }, [key]);
 
   return {
     setLocalData: setValue,
