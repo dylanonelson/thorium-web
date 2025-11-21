@@ -100,8 +100,8 @@ export const useEpubNavigator = () => {
           cb();
 
           if (navigatorInstance?.layout === Layout.fixed) {
-            // @ts-ignore
             FXLPositionChanged.observe(
+              // @ts-ignore
               navigatorInstance?.pool.spineElement as HTMLElement,
               {
                 attributeFilter: ["style"],

@@ -238,7 +238,6 @@ export const StatefulReader = ({
     return null;
   }
 
-  console.log("StatefulReader");
   return (
     <>
       <ThPluginProvider>
@@ -402,7 +401,7 @@ const StatefulReaderInner = ({
     preferencesRef.current = preferences;
   }, [preferences]);
 
-  const initialLocationsRef = useRef<
+  const initialLocalStorageLocationsRef = useRef<
     Record<string, LocalStorageReadingLocation>
   >(normalizeStoredLocationMap(getLocalData()));
   const lastRecordedLocation = useRef<LocalStorageReadingLocation | null>(
@@ -417,7 +416,6 @@ const StatefulReaderInner = ({
           : new Date().toISOString();
 
       const next: Record<string, LocalStorageReadingLocation> = {
-        ...initialLocationsRef.current,
         [publicationId]: {
           publicationId,
           locator,
@@ -481,12 +479,27 @@ const StatefulReaderInner = ({
       }, 300),
     [publicationId, setLocalReadingLocation, syncReadingLocationToServer],
   );
-  useEffect(() => {
-    console.log("queueReadingLocationUpdate", queueReadingLocationUpdate);
-  }, [queueReadingLocationUpdate]);
 
-  const initialLocationResult = useMemo(() => {
-    const localLocation = initialLocationsRef.current[publicationId] ?? null;
+  const [currentLocation, _setCurrentLocationState] = useState<
+    Locator | undefined
+  >();
+  const currentLocationRef = useRef<Locator | undefined>(undefined);
+
+  const setCurrentLocation = useCallback(
+    (locator: Locator) => {
+      _setCurrentLocationState(locator);
+      currentLocationRef.current = locator;
+    },
+    [_setCurrentLocationState],
+  );
+
+  const initialLocationResultRef = useRef<
+    LocalStorageReadingLocation | undefined
+  >(undefined);
+
+  useEffect(() => {
+    const localLocation =
+      initialLocalStorageLocationsRef.current[publicationId] ?? null;
     const serverLocation = serverInitialReadingLocation ?? null;
 
     const localTime =
@@ -499,28 +512,34 @@ const StatefulReaderInner = ({
         : null;
 
     if (localTime !== null || serverTime !== null) {
+      if (localTime == serverTime) {
+        initialLocationResultRef.current = localLocation;
+        setCurrentLocation(localLocation.locator);
+        return;
+      }
       if (
         localTime !== null &&
-        (serverTime === null || localTime >= serverTime)
+        (serverTime === null || localTime > serverTime)
       ) {
+        initialLocationResultRef.current = localLocation;
         syncReadingLocationToServer(localLocation);
-        return localLocation;
-      } else if (serverLocation && serverTime !== null) {
+        setCurrentLocation(localLocation.locator);
+        return;
+      }
+      if (serverLocation && serverTime !== null) {
+        initialLocationResultRef.current = serverLocation;
         setLocalReadingLocation(
           serverLocation.locator,
           serverLocation.recordedAt,
         );
-        return serverLocation;
+        setCurrentLocation(serverLocation.locator);
+        return;
       }
     }
-
-    return null;
+    // Should only run once since its sole job is to sync the initial location
+    // with the state
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const [currentLocation, setCurrentLocation] = useState<Locator | undefined>(
-    initialLocationResult?.locator,
-  );
 
   const timeline = useTimeline({
     publication: publication,
@@ -741,6 +760,8 @@ const StatefulReaderInner = ({
     ],
   );
 
+  const initialRenderTimeMs = useRef<number>(Date.now());
+
   const listeners: EpubNavigatorListeners = useMemo(
     () => ({
       frameLoaded: async function (_wnd: Window): Promise<void> {
@@ -754,7 +775,16 @@ const StatefulReaderInner = ({
         peripherals.observe(window);
       },
       positionChanged: async function (locator: Locator): Promise<void> {
-        if (navLayout() !== Layout.fixed) {
+        if (
+          navLayout() !== Layout.fixed &&
+          !areLocatorsEqual(locator, currentLocationRef.current) &&
+          // This is ugly but the positionChanged listener is fired multiple
+          // times when the reader loads. Not only does it get called once on
+          // setup, but it gets called again with the location at the _start_ of
+          // the current resource before finally firing with the current,
+          // correct location.
+          Date.now() - initialRenderTimeMs.current > 500
+        ) {
           setCurrentLocation(locator);
           queueReadingLocationUpdate(locator);
         }
@@ -1037,7 +1067,6 @@ const StatefulReaderInner = ({
   }, [rawManifest, selfHref]);
 
   useEffect(() => {
-    console.log("epubnavigatorload");
     if (!publication) return;
 
     dispatch(
@@ -1062,7 +1091,7 @@ const StatefulReaderInner = ({
         const isFXL = publication.metadata.effectiveLayout === Layout.fixed;
 
         const initialPosition: Locator | undefined =
-          initialLocationResult?.locator;
+          initialLocationResultRef.current?.locator;
 
         const initialConstraint = cache.current.arrowsOccupySpace
           ? arrowsWidth.current

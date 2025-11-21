@@ -4,5 +4,6 @@
     "frontend": true,
     "publication_api": true,
     "reader_api": true
-  }
+  },
+  "editor.formatOnSave": true
 }
